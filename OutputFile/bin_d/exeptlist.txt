@@ -1,0 +1,11 @@
+pch.h
+stdafx.h
+CScriptMgr.h
+targetver.h
+CSceneSaveLoad.h
+CLevelSaveLoadInScript.h
+CState.h
+CIdle.h
+CWalk.h
+CWalkState.h
+PlayerStates.h
