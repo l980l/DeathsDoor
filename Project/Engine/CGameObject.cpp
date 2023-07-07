@@ -112,7 +112,6 @@ void CGameObject::finaltick()
 		}
 	}
 
-
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
 	{
 		if (nullptr != m_arrCom[i])

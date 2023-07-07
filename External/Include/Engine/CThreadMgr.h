@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CSingleton.h"
-#include "Thread.h"
+#include "CThread.h"
 
 class CThreadMgr :
 	public CSingleton<CThreadMgr>
@@ -37,7 +37,12 @@ public:
 
 		if (!Thread->Init())
 		{
-			SAFE_DELETE(Thread);
+			if (Thread)
+			{
+				delete Thread;
+				Thread = nullptr;
+			}
+
 			return nullptr;
 		}
 
