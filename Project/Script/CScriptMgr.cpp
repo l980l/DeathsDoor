@@ -34,6 +34,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMonsterScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
+	if (L"CStateScript" == _strScriptName)
+		return new CStateScript;
 	return nullptr;
 }
 
@@ -97,6 +99,7 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::STATESCRIPT:
 		return L"CStateScript";
 		break;
+
 	}
 	return nullptr;
 }

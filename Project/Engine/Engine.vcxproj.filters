@@ -253,16 +253,16 @@
     <ClCompile Include="CAnimator3D.cpp">
       <Filter>05. GameObject\Component\05. Animator\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Thread.cpp">
-      <Filter>10. Thread</Filter>
-    </ClCompile>
     <ClCompile Include="DataStream.cpp">
       <Filter>10. Thread</Filter>
     </ClCompile>
     <ClCompile Include="CThreadMgr.cpp">
       <Filter>03. Manager\11. ThreadMgr</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadQueue.cpp">
+    <ClCompile Include="CThread.cpp">
+      <Filter>10. Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="CThreadQueue.cpp">
       <Filter>10. Thread</Filter>
     </ClCompile>
   </ItemGroup>
@@ -457,23 +457,23 @@
     <ClInclude Include="CAnimation3DShader.h">
       <Filter>07. ShaderCode\03. Compute\Animation\AnimationUpdate</Filter>
     </ClInclude>
-    <ClInclude Include="Thread.h">
-      <Filter>10. Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="Sync.h">
-      <Filter>10. Thread</Filter>
-    </ClInclude>
     <ClInclude Include="DataStream.h">
       <Filter>10. Thread</Filter>
     </ClInclude>
     <ClInclude Include="CThreadMgr.h">
       <Filter>03. Manager\11. ThreadMgr</Filter>
     </ClInclude>
-    <ClInclude Include="ThreadQueue.h">
-      <Filter>10. Thread</Filter>
-    </ClInclude>
     <ClInclude Include="CAnimator3D.h">
       <Filter>05. GameObject\Component\05. Animator\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CThread.h">
+      <Filter>10. Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="CThreadQueue.h">
+      <Filter>10. Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="CSync.h">
+      <Filter>10. Thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

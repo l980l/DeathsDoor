@@ -1,35 +1,24 @@
 #pragma once
-#include <Engine\CScript.h>
 
-#include <Engine\Thread.h>
-#include <Engine\ThreadQueue.h>
+#include <Engine\CScript.h>
+#include <Engine\CLevel.h>
 
 class CLoadLevelThreadScript :
     public CScript
 {
-protected:
-	wstring			m_LevelPath;
-	bool			m_bLoadComplete;
-	CThreadQueue	m_Queue;
+private:
+    class CLoadingThread*   m_LoadingThread;
+    class CThreadQueue*     m_LoadingQueue;
+    CLevel*                 m_LoadLevel;
 
 public:
-	CThreadQueue* GetQueue()
-	{
-		return &m_Queue;
-	}
-
-	bool IsLoadComplete()	const
-	{
-		return m_bLoadComplete;
-	}
+    void SetLoadLevel(CLevel* _LoadLevel)
+    {
+        m_LoadLevel = _LoadLevel;
+    }
 
 public:
-	void SetLoadingLevelPath(const wstring& LevelPath)
-	{
-		m_LevelPath = LevelPath;
-	}
-
-public:
+	virtual void begin() override;
 	virtual void tick() override;
 
 public:

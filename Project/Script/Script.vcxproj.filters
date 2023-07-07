@@ -66,6 +66,9 @@
     <ClInclude Include="CLoadLevelThreadScript.h">
       <Filter>Script\Thread</Filter>
     </ClInclude>
+    <ClInclude Include="CLoadingThread.h">
+      <Filter>Script\Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -111,6 +114,9 @@
       <Filter>LevelSaveLoad</Filter>
     </ClCompile>
     <ClCompile Include="CLoadLevelThreadScript.cpp">
+      <Filter>Script\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoadingThread.cpp">
       <Filter>Script\Thread</Filter>
     </ClCompile>
   </ItemGroup>
