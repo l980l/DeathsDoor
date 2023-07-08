@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "DataStream.h"
 
 CDataStream::CDataStream()	:

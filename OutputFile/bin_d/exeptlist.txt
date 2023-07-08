@@ -9,3 +9,4 @@ CIdle.h
 CWalk.h
 CWalkState.h
 PlayerStates.h
+CLoadingThread.h
