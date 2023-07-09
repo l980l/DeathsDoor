@@ -47,7 +47,7 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_LightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DirLightMtrl"); 
 
 		m_pLightCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-		m_pLightCam->Camera()->SetWidth(4096.f);
+		m_pLightCam->Camera()->SetWidth(8192);
 		m_pLightCam->Camera()->SetAspectRatio(1.f);
 		m_pLightCam->Camera()->SetFar(100000.f);
 	}
@@ -136,6 +136,10 @@ void CLight3D::render()
 void CLight3D::render_depthmap()
 {
 	m_pLightCam->Camera()->SortShadowObject();
+
+	// 여기서 skinning이 있어야 될거 같음...
+
+
 	m_pLightCam->Camera()->render_depthmap();
 }
 

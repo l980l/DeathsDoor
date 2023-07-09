@@ -20,6 +20,7 @@
 #include "CResMgr.h"
 #include "CKeyMgr.h"
 
+#include "CMeshRender.h"
 
 CCamera::CCamera()
 	: CComponent(COMPONENT_TYPE::CAMERA)
