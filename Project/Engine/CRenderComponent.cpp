@@ -26,6 +26,13 @@ void CRenderComponent::render_depthmap()
 
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DepthMapMtrl");
 		
+	if (Animator3D())
+	{
+		Animator3D()->UpdateData();
+		pMtrl->SetAnim3D(true);
+		pMtrl->SetBoneCount(Animator3D()->GetBoneCount());
+	}
+
 	// 사용할 재질 업데이트
 	pMtrl->UpdateData();
 	
@@ -57,6 +64,9 @@ void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl, UINT _idx)
 
 Ptr<CMaterial> CRenderComponent::GetMaterial(UINT _idx)
 {
+	if (m_vecMtrls.size() <= _idx)
+		return nullptr;
+
 	if (nullptr == m_vecMtrls[_idx].pCurMtrl)
 	{
 		m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pSharedMtrl;

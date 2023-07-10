@@ -253,8 +253,13 @@ float4 PS_LightMerge(VS_OUT _in) : SV_Target0
 struct VS_DEPTH_IN
 {
     float3 vPos : POSITION;
-    //float4 vWeights : BLENDWEIGHT;
-    //float4 vIndices : BLENDINDICES;
+   
+    float3 vTangent : TANGENT;
+    float3 vNormal : NORMAL;
+    float3 vBinormal : BINORMAL;
+
+    float4 vWeights : BLENDWEIGHT;
+    float4 vIndices : BLENDINDICES;
 };
 
 struct VS_DEPTH_OUT
@@ -267,6 +272,11 @@ VS_DEPTH_OUT VS_DepthMap(VS_DEPTH_IN _in)
 {
     VS_DEPTH_OUT output = (VS_DEPTH_OUT) 0.f;
         
+    if (g_iAnim)
+    {
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices, 0);
+    }
+    
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
     output.vProjPos  = output.vPosition;
 
