@@ -141,12 +141,12 @@ void CreateTestLevel()
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\house.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\monster.fbx");
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\monster.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\monster.mdat");
 		pObj = pMeshData->Instantiate();
 		pObj->SetName(L"monster");
