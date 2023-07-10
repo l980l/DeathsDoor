@@ -64,6 +64,9 @@ void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl, UINT _idx)
 
 Ptr<CMaterial> CRenderComponent::GetMaterial(UINT _idx)
 {
+	if (m_vecMtrls.size() <= _idx)
+		return nullptr;
+
 	if (nullptr == m_vecMtrls[_idx].pCurMtrl)
 	{
 		m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pSharedMtrl;
