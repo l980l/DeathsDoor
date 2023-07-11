@@ -15,6 +15,9 @@
 // ThreadMgr
 #include "CThreadMgr.h"
 
+// PhysX
+#include "CPhysXMgr.h"
+
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 {
@@ -62,8 +65,9 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CThreadMgr::GetInst()->init();
 
 	CLevelMgr::GetInst()->init();		
-	
 
+	// PhysX ÃÊ±âÈ­
+	CPhysXMgr::GetInst()->init();
 
 	return S_OK;
 }
@@ -90,6 +94,7 @@ void CEngine::tick()
 
 	// Level Update
 	CLevelMgr::GetInst()->tick();
+
 	CCollisionMgr::GetInst()->tick();
 }
 

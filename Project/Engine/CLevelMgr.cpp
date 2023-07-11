@@ -4,6 +4,9 @@
 #include "CLevel.h"
 #include "CLayer.h"
 
+// PhysX
+#include "CPhysXMgr.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -27,7 +30,9 @@ void CLevelMgr::tick()
 
 	if (LEVEL_STATE::PLAY == m_pCurLevel->GetState())
 	{
-		m_pCurLevel->tick();		
+		m_pCurLevel->tick();
+
+		CPhysXMgr::GetInst()->tick();
 	}
 
 	m_pCurLevel->finaltick();

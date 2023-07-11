@@ -8,7 +8,7 @@ using namespace physx;
 // 변수 선언
 physx::PxDefaultErrorCallback   mDefaultErrorCallback;
 physx::PxDefaultAllocator       mDefaultAllocatorCallback;
-physx::PxDefaultCpuDispatcher* mDispatcher = nullptr;
+physx::PxDefaultCpuDispatcher*  mDispatcher = nullptr;
 physx::PxTolerancesScale        mToleranceScale;
 
 physx::PxFoundation* mFoundation = nullptr;
@@ -38,7 +38,9 @@ CPhysXMgr::~CPhysXMgr()
     if (mPvd)
     {
         physx::PxPvdTransport* transport = mPvd->getTransport();
-        mPvd->release(); mPvd = nullptr;
+        mPvd->release();
+        mPvd = nullptr;
+
         if (transport)
         {
             transport->release();
@@ -86,6 +88,7 @@ void CPhysXMgr::init()
 
     // ============
     // Create actor
+    // ============
 
     //// PxCreatePlane
     //// 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
@@ -123,7 +126,7 @@ PxRigidDynamic* CPhysXMgr::CreateDynamic(const PxTransform& t, const PxGeometry&
     m_vecDynamicObject.push_back(_Object);
 
     PxRigidDynamic* dynamic = PxCreateDynamic(*mPhysics, t, geometry, *mMaterial, 10.0f);
-    dynamic->setAngularDamping(0.5f);   // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
+    dynamic->setAngularDamping(0.5f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
     dynamic->setLinearVelocity(velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
     mScene->addActor(*dynamic);             // 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
