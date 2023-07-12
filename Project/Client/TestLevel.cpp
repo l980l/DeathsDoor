@@ -108,29 +108,17 @@ void CreateTestLevel()
 	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 
-	// Decal Object
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Decal");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CDecal);
+	// LandScape Object
+	CGameObject* pLandScape = new CGameObject;
+	pLandScape->SetName(L"LandScape");
+	pLandScape->AddComponent(new CTransform);
+	pLandScape->AddComponent(new CLandScape);
 
-	//pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	//pObject->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	//pObject->Decal()->SetAsLight(false);
+	pLandScape->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
 
-	//SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
-
-	//// LandScape Object
-	//CGameObject* pLandScape = new CGameObject;
-	//pLandScape->SetName(L"LandScape");
-	//pLandScape->AddComponent(new CTransform);
-	//pLandScape->AddComponent(new CLandScape);
-
-	//pLandScape->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
-
-	//pLandScape->LandScape()->SetFace(32, 32);
-	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	//pLandScape->LandScape()->SetDynamicShadow(true);
+	pLandScape->LandScape()->SetFace(32, 32);
+	pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
+	pLandScape->LandScape()->SetDynamicShadow(true);
 
 	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
@@ -146,10 +134,10 @@ void CreateTestLevel()
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\monster.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\monster.mdat");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"monster");
+		pObj->SetName(L"Bat");
 		pObj->MeshRender()->SetDynamicShadow(true);
 
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
