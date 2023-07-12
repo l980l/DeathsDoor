@@ -1,7 +1,6 @@
 #ifndef _STRUCT
 #define _STRUCT
 
-
 struct tLightColor
 {
     float4 vDiffuse;    // 빛의 색상
@@ -22,7 +21,6 @@ struct tLightInfo
     float       Angle; // 빛의 각도    
     int         Padding;
 };
-
 
 // Particle
 struct tParticle
@@ -45,7 +43,6 @@ struct tParticle
     int     Active;
     int     pad;
 };
-
 
 struct tParticleModule
 {
@@ -81,8 +78,8 @@ struct tParticleModule
     int addvpad;
     
     // Drag 모듈
-    float StartDrag;
-    float EndDrag;
+    float   StartDrag;
+    float   EndDrag;
     
     // RandomForce 모듈
     float fNoiseTerm;
@@ -121,7 +118,6 @@ struct tRaycastOut
     int iDist;
     int success;
 };
-
 
 struct tSkinningInfo
 {
