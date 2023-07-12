@@ -4,6 +4,7 @@
 
 #include "CTimeMgr.h"
 #include "CMeshRender.h"
+#include "CMeshRender.h"
 #include "CStructuredBuffer.h"
 #include "CResMgr.h"
 

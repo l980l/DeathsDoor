@@ -238,9 +238,6 @@
     <ClCompile Include="extern.cpp">
       <Filter>00. Header</Filter>
     </ClCompile>
-    <ClCompile Include="CPhysXMgr.cpp">
-      <Filter>03. Manager\10. PhysXMgr</Filter>
-    </ClCompile>
     <ClCompile Include="CFBXLoader.cpp">
       <Filter>03. Manager\05. ResMgr</Filter>
     </ClCompile>
@@ -444,9 +441,6 @@
     </ClInclude>
     <ClInclude Include="CWeightMapShader.h">
       <Filter>07. ShaderCode\03. Compute\LandScape\WeightMap</Filter>
-    </ClInclude>
-    <ClInclude Include="CPhysXMgr.h">
-      <Filter>03. Manager\10. PhysXMgr</Filter>
     </ClInclude>
     <ClInclude Include="CFBXLoader.h">
       <Filter>03. Manager\05. ResMgr</Filter>
@@ -659,9 +653,6 @@
     </Filter>
     <Filter Include="07. ShaderCode\03. Compute\LandScape\WeightMap">
       <UniqueIdentifier>{68879133-59ad-4d9f-80ce-0835749e65e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Manager\10. PhysXMgr">
-      <UniqueIdentifier>{17a9d9f8-ff9c-4119-b511-b5d9f9f6b7a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="07. ShaderCode\03. Compute\Animation">
       <UniqueIdentifier>{cdcfc36c-500b-48e1-92e1-bbf7cb6ac76c}</UniqueIdentifier>
