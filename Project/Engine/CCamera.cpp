@@ -146,12 +146,8 @@ void CCamera::CalcProjMat()
 	}
 
 	// 투영행렬 역행렬
-	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);
-
-	
+	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);	
 }
-
-
 
 void CCamera::SetLayerMask(int _iLayer, bool _Visible)
 {
@@ -267,7 +263,6 @@ void CCamera::SortShadowObject()
 	}
 }
 
-
 void CCamera::render()
 {
 	// 행렬 업데이트
@@ -329,7 +324,6 @@ void CCamera::render_depthmap()
 		m_vecDynamicShadow[i]->GetRenderComponent()->render_depthmap();
 	}
 }
-
 
 void CCamera::clear()
 {

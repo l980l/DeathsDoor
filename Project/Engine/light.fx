@@ -267,7 +267,7 @@ struct VS_DEPTH_OUT
     float4 vPosition : SV_Position;
     float4 vProjPos : POSITION;
 };
-
+0
 VS_DEPTH_OUT VS_DepthMap(VS_DEPTH_IN _in)
 {
     VS_DEPTH_OUT output = (VS_DEPTH_OUT) 0.f;
@@ -287,6 +287,8 @@ float PS_DepthMap(VS_DEPTH_OUT _in) : SV_Target
 {
     float fOut = 0.f;
     fOut = _in.vProjPos.z / _in.vProjPos.w;
+    
+    if(g_tex_3.Sample(g_sam_0, _in.vProjPos))
 
     return fOut;
 }

@@ -85,40 +85,40 @@ void CreateTestLevel()
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
 
-	//CGameObject* pObject = new CGameObject;
-	//pObject->SetName(L"Player");
-	//pObject->AddComponent(new CTransform);
-	//pObject->AddComponent(new CMeshRender);
+	CGameObject* pObject = new CGameObject;
+	pObject->SetName(L"Player");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
 	//pObject->AddComponent(new CCollider3D);
 	//pObject->AddComponent(new CPlayerScript);
 	//pObject->AddComponent(new CStateScript);
 
-	//pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
 
 	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	//pObject->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
 	//pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 
-	//pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	////pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03"));
-	////pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03_N"));
-	//pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	pObject->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03"));
+	pObject->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03_N"));
+	pObject->MeshRender()->SetDynamicShadow(true);
 
-	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 
 	// Decal Object
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Decal");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CDecal);
-
-	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	pObject->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	pObject->Decal()->SetAsLight(false);
-
-	SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
+	//CGameObject* pObject = new CGameObject;
+	//pObject->SetName(L"Decal");
+	//pObject->AddComponent(new CTransform);
+	//pObject->AddComponent(new CDecal);
+	//
+	//pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+	//pObject->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
+	//pObject->Decal()->SetAsLight(false);
+	//
+	//SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
 	// LandScape Object
 	CGameObject* pLandScape = new CGameObject;
@@ -138,22 +138,22 @@ void CreateTestLevel()
 	// ============
 	// FBX Loading
 	// ============	
-	{
-		Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"House");
-
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\monster.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\monster.mdat");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"monster");
-		pObj->MeshRender()->SetDynamicShadow(true);
-
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
-	}
+	//{
+	//	Ptr<CMeshData> pMeshData = nullptr;
+	//	CGameObject* pObj = nullptr;
+	//	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
+	//	pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
+	//	//pObj = pMeshData->Instantiate();
+	//	//pObj->SetName(L"House");
+	//
+	//	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\monster.fbx");
+	//	//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\monster.mdat");
+	//	pObj = pMeshData->Instantiate();
+	//	pObj->SetName(L"monster");
+	//	pObj->MeshRender()->SetDynamicShadow(true);
+	//
+	//	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+	//}
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");	
