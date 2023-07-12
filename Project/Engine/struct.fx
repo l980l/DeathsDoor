@@ -1,7 +1,6 @@
 #ifndef _STRUCT
 #define _STRUCT
 
-
 struct tLightColor
 {
     float4 vDiffuse;    // 빛의 색상
@@ -22,7 +21,6 @@ struct tLightInfo
     float       Angle; // 빛의 각도    
     int         Padding;
 };
-
 
 // Particle
 struct tParticle
@@ -45,7 +43,6 @@ struct tParticle
     int     Active;
     int     pad;
 };
-
 
 struct tParticleModule
 {
@@ -81,12 +78,12 @@ struct tParticleModule
     int     addvpad;
     
     // Drag 모듈
-    float StartDrag;
-    float EndDrag;
+    float   StartDrag;
+    float   EndDrag;
     
     // NoiseForce 모듈
-    float fNoiseTerm;
-    float fNoiseForce;
+    float   fNoiseTerm;
+    float   fNoiseForce;
         
     // Render 모듈
     int     VelocityAlignment;  // 1 : 속도정렬 사용(이동 방향으로 회전) 0 : 사용 안함
@@ -94,22 +91,25 @@ struct tParticleModule
     float   vMaxSpeed;          // 최대 크기에 도달하는 속력
     float4  vMaxVelocityScale;  // 속력에 따른 크기 변화량 최대치
     int     renderpad;
-
+    
+    // Animation 모듈
+    float2  vLeftTop;
+    float2  vSlice;
+    float2  vOffset;
+    int     iFrmCount;
+    int     iXCount;
     
     // Module Check
-    int Spawn;
-    int ColorChange;
-    int ScaleChange;
-    int AddVelocity;    
+    int     Spawn;
+    int     ColorChange;
+    int     ScaleChange;
+    int     AddVelocity;    
     
-    int Drag;
-    int NoiseForce;
-    int Render;
-    int modulepad;    
+    int     Drag;
+    int     NoiseForce;
+    int     Render;
+    int     modulepad;    
 };
-
-
-
 
 struct tRaycastOut
 {
@@ -117,7 +117,6 @@ struct tRaycastOut
     int iDist;
     int success;
 };
-
 
 struct tSkinningInfo
 {

@@ -44,9 +44,9 @@ VS_OUT VS_ParticleRender(VS_IN _in)
 // 2. 빌보드 처리 (카메라를 바라보는..)
 struct GS_OUT
 {
-    float4  vPosition : SV_Position;
-    float2  vUV : TEXCOORD;
-    uint    iInstID : SV_InstanceID;
+    float4  vPosition   : SV_Position;
+    float2  vUV         : TEXCOORD;
+    uint    iInstID     : SV_InstanceID;
 };
 
 [maxvertexcount(6)]
@@ -124,9 +124,37 @@ void GS_ParticleRender (point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outst
             }
         }        
     }
-    
-    
+        
     GS_OUT output[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
+    
+    if (ModuleData.Animation)
+    {
+        int CurFrm = int(particle.NomalizedAge * ModuleData.FrmCount);
+        float2 LeftTop = ModuleData.LeftTop;
+        float2 Slice = ModuleData.Slice;
+        int YCount = 0;
+        if (CurFrm >= ModuleData.XCount)
+        {
+            YCount = CurFrm / ModuleData.XCount;
+            while (CurFrm < ModuleData.XCount)
+            {
+                CurFrm -= ModuleData.XCount;
+            }
+        }
+        LeftTop = float2(LeftTop.x + (CurFrm * Slice.x), LeftTop.y + (YCount * Slice.y));
+        
+        output[0].vUV = LeftTop - ModuleData.Offset;
+        output[1].vUV = float2(LeftTop.x + Slice.x, LeftTop.y) - ModuleData.Offset;
+        output[2].vUV = LeftTop + Slice - ModuleData.Offset;
+        output[3].vUV = float2(LeftTop.x, LeftTop.y + Slice.y) - ModuleData.Offset;
+    }
+    else
+    {
+        output[0].vUV = float2(0.f, 0.f);
+        output[1].vUV = float2(1.f, 0.f);
+        output[2].vUV = float2(1.f, 1.f);
+        output[3].vUV = float2(0.f, 1.f);
+    }
     
     output[0].vPosition = mul(float4(NewPos[0] + vParticleViewPos, 1.f), g_matProj);
     output[0].vUV = float2(0.f, 0.f);

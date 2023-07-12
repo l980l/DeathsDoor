@@ -100,13 +100,15 @@ void CS_ParticleUpdate(int3 _ID : SV_DispatchThreadID)
                         // To Center
                         else if (ModuleData.AddVelocityType == 1)
                         {
-                            
+                            float3 vVelocity = normalize(particle.vLocalPos.xyz);
+                            particle.vVelocity.xyz = -(vVelocity * ModuleData.Speed);
                         }
                         
                         // Fixed Direction
                         else
                         {
-                            
+                            float3 vVelocity = normalize(ModuleData.vVelocityDir.xyz);
+                            particle.vVelocity.xyz = vVelocity * ModuleData.Speed;
                         }
                     }                    
                     
