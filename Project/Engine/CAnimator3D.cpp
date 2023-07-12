@@ -54,14 +54,17 @@ CAnimator3D::~CAnimator3D()
 void CAnimator3D::finaltick()
 {
 	m_dCurTime = 0.f;
+
 	// 현재 재생중인 Clip 의 시간을 진행한다.
 	m_vecClipUpdateTime[m_iCurClip] += DT;
 
+	// 현재 애니메이션 재생시간이 끝났으면, 다시 시작 부분으로 돌려서 반복 시킴.
 	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
 	{
 		m_vecClipUpdateTime[m_iCurClip] = 0.f;
 	}
 
+	// 클립 내에서 현재 애니메이션 시작 시간 + 현재 애니메이션이 지금까지 재생된 시간 = 현재 클립 내에서의 시간.
 	m_dCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
 
 	// 현재 프레임 인덱스 구하기
@@ -85,11 +88,6 @@ void CAnimator3D::SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip)
 {
 	m_pVecClip = _vecAnimClip;
 	m_vecClipUpdateTime.resize(m_pVecClip->size());
-
-	// 테스트 코드
-	/*static float fTime = 0.f;
-	fTime += 1.f;
-	m_vecClipUpdateTime[0] = fTime;*/
 }
 
 
@@ -139,6 +137,15 @@ void CAnimator3D::ClearData()
 		pMtrl->SetAnim3D(false); // Animation Mesh 알리기
 		pMtrl->SetBoneCount(0);
 	}
+}
+
+void CAnimator3D::SaveMeshAnimationClip()
+{
+	Ptr<CMesh> pMesh = MeshRender()->GetMesh();
+
+	pMesh->ChangeAnimClip(m_pVecClip);	// Mesh의 AnimClip을 현재 Animator3D의 AnimClip으로 변경.
+
+	pMesh->Save(pMesh->GetKey());		// Mesh에는 Key 값으로 경로가 저장되어 있을 것이다. 
 }
 
 void CAnimator3D::check_mesh(Ptr<CMesh> _pMesh)

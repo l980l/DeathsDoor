@@ -43,6 +43,8 @@ public:
 	CStructuredBuffer*		m_pBoneFrameData;   // 전체 본 프레임 정보(크기, 이동, 회전) (프레임 개수만큼)
 	CStructuredBuffer*		m_pBoneOffset;	    // 각 뼈의 offset 행렬(각 뼈의 위치를 되돌리는 행렬) (1행 짜리)
 
+public:
+	void ChangeAnimClip(const vector<tMTAnimClip>* _vecAnimClip) { m_vecAnimClip = *_vecAnimClip; }	// AnimClip을 변경하는 함수.
 
 public:
 	static CMesh* CreateFromContainer(CFBXLoader& _loader);

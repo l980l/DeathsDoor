@@ -114,23 +114,23 @@ void CreateTestLevel()
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CDecal);
 
-	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	pObject->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	pObject->Decal()->SetAsLight(false);
+	//pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+	//pObject->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
+	//pObject->Decal()->SetAsLight(false);
 
-	SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
+	//SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
-	// LandScape Object
-	CGameObject* pLandScape = new CGameObject;
-	pLandScape->SetName(L"LandScape");
-	pLandScape->AddComponent(new CTransform);
-	pLandScape->AddComponent(new CLandScape);
+	//// LandScape Object
+	//CGameObject* pLandScape = new CGameObject;
+	//pLandScape->SetName(L"LandScape");
+	//pLandScape->AddComponent(new CTransform);
+	//pLandScape->AddComponent(new CLandScape);
 
-	pLandScape->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
+	//pLandScape->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
 
-	pLandScape->LandScape()->SetFace(32, 32);
-	pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	pLandScape->LandScape()->SetDynamicShadow(true);
+	//pLandScape->LandScape()->SetFace(32, 32);
+	//pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
+	//pLandScape->LandScape()->SetDynamicShadow(true);
 
 	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 

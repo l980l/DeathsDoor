@@ -134,6 +134,9 @@
     <Filter Include="UI\InspectorUI\ComponentUI\RenderCom">
       <UniqueIdentifier>{5d1e1dc2-4f9d-4538-9f1c-e758cb5c12bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\InspectorUI\ComponentUI\13. Animator3DUI">
+      <UniqueIdentifier>{b929dfe1-33fd-478d-b28c-707ab5a38eb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="RenderComponentUI.h">
       <Filter>UI\InspectorUI\ComponentUI\RenderCom</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator3DUI.h">
+      <Filter>UI\InspectorUI\ComponentUI\13. Animator3DUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -429,6 +435,9 @@
     </ClCompile>
     <ClCompile Include="RenderComponentUI.cpp">
       <Filter>UI\InspectorUI\ComponentUI\RenderCom</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator3DUI.cpp">
+      <Filter>UI\InspectorUI\ComponentUI\13. Animator3DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -171,6 +171,11 @@ void ContentUI::FindFileName(const wstring& _FolderPath)
 				continue;
 			}
 
+			if (!wcscmp(FindData.cFileName, L"FBXTexture"))
+			{
+				continue;
+			}
+
 			FindFileName(_FolderPath + FindData.cFileName + L"\\");
 			continue;
 		}

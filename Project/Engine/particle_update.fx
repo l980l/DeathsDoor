@@ -138,7 +138,7 @@ void CS_ParticleUpdate(int3 _ID : SV_DispatchThreadID)
         }
                 
         // NoiseForce 모듈 (랜덤으로 힘) 적용 모듈
-        if (ModuleData.NoiseForce)
+        if (ModuleData.fNoiseForce)
         {            
             if (particle.PrevAge == 0.f)
             {
