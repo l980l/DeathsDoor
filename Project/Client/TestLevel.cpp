@@ -20,6 +20,7 @@
 
 void CreateTestLevel()
 {
+	//return;	
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -107,28 +108,6 @@ void CreateTestLevel()
 	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 
-	// Decal Object
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Decal");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CDecal);
-
-	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	pObject->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	pObject->Decal()->SetAsLight(false);
-
-	SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
-
-
-	CGameObject* pParticle = new CGameObject;
-	pParticle->SetName(L"Particle");
-	pParticle->AddComponent(new CTransform);
-	pParticle->AddComponent(new CParticleSystem);
-	pParticle->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-
-	SpawnGameObject(pParticle, Vec3(300.f, 300.f, 300.f), (int)LAYER::DEFAULT);
-
-
 	// LandScape Object
 	CGameObject* pLandScape = new CGameObject;
 	pLandScape->SetName(L"LandScape");
@@ -150,15 +129,15 @@ void CreateTestLevel()
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\house.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\monster.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\monster.mdat");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"monster");
+		pObj->SetName(L"Bat");
 		pObj->MeshRender()->SetDynamicShadow(true);
 
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
