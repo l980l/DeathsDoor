@@ -20,7 +20,6 @@
 
 void CreateTestLevel()
 {
-	//return;	
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -119,6 +118,16 @@ void CreateTestLevel()
 	pObject->Decal()->SetAsLight(false);
 
 	SpawnGameObject(pObject, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
+
+
+	CGameObject* pParticle = new CGameObject;
+	pParticle->SetName(L"Particle");
+	pParticle->AddComponent(new CTransform);
+	pParticle->AddComponent(new CParticleSystem);
+	pParticle->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+
+	SpawnGameObject(pParticle, Vec3(300.f, 300.f, 300.f), (int)LAYER::DEFAULT);
+
 
 	// LandScape Object
 	CGameObject* pLandScape = new CGameObject;

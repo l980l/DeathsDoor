@@ -94,7 +94,13 @@ struct tParticleModule
     float   vMaxSpeed;          // 최대 크기에 도달하는 속력
     float4  vMaxVelocityScale;  // 속력에 따른 크기 변화량 최대치
     int     renderpad;
-
+    
+	// Animation 모듈
+    float2 vLeftTop;
+    float2 vSlice;
+    float2 vOffset;
+    int iFrmCount;
+    int iXCount;
     
     // Module Check
     int Spawn;
