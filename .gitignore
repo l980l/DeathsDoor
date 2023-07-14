@@ -361,5 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Project/Engine/unity_APB527251SNVRUJZ.cpp
 *.cpp

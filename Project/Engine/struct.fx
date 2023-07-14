@@ -111,7 +111,7 @@ struct tParticleModule
     int Drag;
     int NoiseForce;
     int Render;
-    int modulepad;    
+    int Animation;    
 };
 
 
