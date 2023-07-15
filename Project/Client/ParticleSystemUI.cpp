@@ -1,9 +1,13 @@
 #include "pch.h"
 #include "ParticleSystemUI.h"
 
+#include <Engine/CPathMgr.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CParticleSystem.h>
+#include <Engine/CResMgr.h>
 #include "TreeUI.h"
+#include "ListUI.h"
+#include "commdlg.h"
 
 ParticleSystemUI::ParticleSystemUI()
 	: ComponentUI("##ParticleSystemUI", COMPONENT_TYPE::PARTICLESYSTEM)
@@ -27,6 +31,10 @@ int ParticleSystemUI::render_update()
 		m_pParticleSystem = GetTarget()->ParticleSystem();
 	}
 	m_tModuleData = m_pParticleSystem->GetModuleData();
+
+	SaveParticle();
+
+	LoadParticle();
 
 	// 각 모듈 OnOff 기능, On 때만 해당 모듈 설정이 켜지도록 함.
 	ModuleOnOff("Spawn Module", "##Spawn_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN]);
@@ -109,6 +117,54 @@ void ParticleSystemUI::ModuleOnOff(string _strName, string _strID, int& _ModuleC
 	}
 }
 
+void ParticleSystemUI::SetTexture()
+{
+	Ptr<CTexture> pTEX = GetTarget()->ParticleSystem()->GetTex();
+
+	ImGui::Spacing();
+	ImGui::Text("Texture ");
+	ImGui::SameLine();
+	if (nullptr == pTEX)
+	{
+		ImGui::Image((ImTextureID)0, ImVec2(75.f, 75.f));
+	}
+	else
+	{
+		ImGui::Image((ImTextureID)pTEX->GetSRV().Get(), ImVec2(75.f, 75.f));
+	}
+
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("##TextureSelectBtn", ImVec2(18.f, 18.f)))
+	{
+		const map<wstring, Ptr<CRes>>& AllTex = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
+
+		ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
+		pListUI->SetModal(false);
+		pListUI->Reset("Texture List", ImVec2(300.f, 500.f));
+		for (const auto& pair : AllTex)
+		{
+			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
+		}
+		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&ParticleSystemUI::SelectTexture);
+	}
+	//========
+	Ptr<CTexture> pTex = GetTarget()->ParticleSystem()->GetTex();
+	char szbuff[50] = {};
+	GetResKey(pTex.Get(), szbuff, 50);
+	ImGui::Text("Texture     ");
+	ImGui::SameLine();
+	ImGui::InputText("##TexName", szbuff, ImGuiInputTextFlags_ReadOnly);
+}
+
+void ParticleSystemUI::SelectTexture(DWORD_PTR _Key)
+{
+	string strKey = (char*)_Key;
+	pTex = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
+	GetTarget()->ParticleSystem()->SetTex(pTex);
+}
+
 void ParticleSystemUI::SpawnModule()
 {
 	ImGui::Text("MaxCount    ");
@@ -161,12 +217,8 @@ void ParticleSystemUI::SpawnModule()
 	ImGui::SameLine();
 	ImGui::DragFloat("##Spawn_MaxTime", &m_tModuleData.MaxLifeTime);
 
-	Ptr<CTexture> pTex = GetTarget()->ParticleSystem()->GetTex();
-	char szbuff[50] = {};
-	GetResKey(pTex.Get(), szbuff, 50);
-	ImGui::Text("Texture     ");
-	ImGui::SameLine();
-	ImGui::InputText("##TexName", szbuff, 50, ImGuiInputTextFlags_ReadOnly);
+	//Texture 사용
+	SetTexture();
 }
 
 void ParticleSystemUI::ScaleModule()
@@ -325,9 +377,9 @@ void ParticleSystemUI::AddVelocityModule()
 	ImGui::Text("VelocityType");
 	ImGui::SameLine();
 	int elem = m_tModuleData.AddVelocityType;
-	const char* elems_names[3] = { "From Center", "To Center", "Fixed Direction" };
-	const char* elem_name = (elem >= 0 && elem < 3) ? elems_names[elem] : "Unknown";
-	ImGui::SliderInt("##Velocity_Type", &m_tModuleData.AddVelocityType, 0, 2, elem_name);
+	const char* elems_names[4] = { "From Center", "To Center", "Fixed Direction", "test" };
+	const char* elem_name = (elem >= 0 && elem < 4) ? elems_names[elem] : "Unknown";
+	ImGui::SliderInt("##Velocity_Type", &m_tModuleData.AddVelocityType, 0, 3, elem_name);
 
 	ImGui::Text("Speed       ");
 	ImGui::SameLine();
@@ -409,4 +461,451 @@ void ParticleSystemUI::AnimationModule()
 	m_tModuleData.vLeftTop = CurLeftTop / TexSize;
 	m_tModuleData.vSlice = CurSlice / TexSize;
 	m_tModuleData.vOffset = CurOffset / TexSize;
+}
+
+void ParticleSystemUI::SaveParticle()
+{
+	//Save Particle
+	if (ImGui::Button("Save##Particle", ImVec2(100, 18)))
+	{
+		OPENFILENAME ofn = {};
+
+		wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+		strFolderpath += L"texture\\particle\\";
+
+		wchar_t szFilePath[256] = {};
+
+		ZeroMemory(&ofn, sizeof(ofn));
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = NULL;
+		ofn.lpstrFile = szFilePath;
+		ofn.lpstrFile[0] = '\0';
+		ofn.nMaxFile = 256;
+		ofn.lpstrFilter = L"Particle\0*.particle\0ALL\0*.*";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+		ofn.lpstrInitialDir = strFolderpath.c_str();
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (false == GetSaveFileName(&ofn))
+			return;
+
+		// 파일 입출력
+		FILE* pFile = nullptr;
+		errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"wb");
+
+		if (nullptr == pFile)
+		{
+			wchar_t szStr[256] = {};
+			wsprintf(szStr, L"Particle Save 실패, Error Number : %d", iErrNum);
+			MessageBox(nullptr, szStr, L"파티클 저장 실패", MB_OK);
+			return;
+		}
+
+		wchar_t szNum[50] = {};
+		size_t iFrmCount = m_tModuleData.AddVelocityType;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[AddVelocityType]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[StartDrag]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.StartDrag);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[EndDrag]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.EndDrag);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[StartScale]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.StartScale);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[EndScale]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.EndScale);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[fNoiseForce]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.fNoiseForce);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[fNoiseTerm]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.fNoiseTerm);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[fSphereShapeRadius]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.fSphereShapeRadius);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.iMaxParticleCount;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[iMaxParticleCount]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[MaxLifeTime]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.MaxLifeTime);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[MinLifeTime]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.MinLifeTime);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=ADDVELOCITY]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::COLOR_CHANGE];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=COLOR_CHANGE]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=DRAG]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=NOISE_FORCE]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=PARTICLE_SPAWN]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=RENDER]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=SCALE_CHANGE]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[OffsetAngle]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.OffsetAngle);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.Space;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[Space]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.SpawnRate;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[SpawnRate]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.SpawnShapeType;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[SpawnShapeType]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[Speed]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.Speed);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[vBoxShapeScale]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f\n", m_tModuleData.vBoxShapeScale.x, m_tModuleData.vBoxShapeScale.y, m_tModuleData.vBoxShapeScale.z);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.VelocityAlignment;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[VelocityAlignment]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.VelocityScale;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[VelocityScale]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[vStartColor]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vStartColor.x, m_tModuleData.vStartColor.y, m_tModuleData.vStartColor.z, m_tModuleData.vStartColor.w);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[vEndColor]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vEndColor.x, m_tModuleData.vEndColor.y, m_tModuleData.vEndColor.z, m_tModuleData.vEndColor.w);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[vMaxSpeed]\n");
+		fwprintf_s(pFile, L"%.2f\n", m_tModuleData.vMaxSpeed);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[vMaxVelocityScale]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vMaxVelocityScale.x, m_tModuleData.vMaxVelocityScale.y, m_tModuleData.vMaxVelocityScale.z, m_tModuleData.vMaxVelocityScale.w);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[vSpawnColor]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vSpawnColor.x, m_tModuleData.vSpawnColor.y, m_tModuleData.vSpawnColor.z, m_tModuleData.vSpawnColor.w);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[vSpawnScaleMax]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vSpawnScaleMax.x, m_tModuleData.vSpawnScaleMax.y, m_tModuleData.vSpawnScaleMax.z, m_tModuleData.vSpawnScaleMax.w);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[vSpawnScaleMin]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vSpawnScaleMin.x, m_tModuleData.vSpawnScaleMin.y, m_tModuleData.vSpawnScaleMin.z, m_tModuleData.vSpawnScaleMin.w);
+		fwprintf_s(pFile, L"\n\n");
+		fwprintf_s(pFile, L"[vVelocityDir]\n");
+		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vVelocityDir.x, m_tModuleData.vVelocityDir.y, m_tModuleData.vVelocityDir.z, m_tModuleData.vVelocityDir.w);
+		fwprintf_s(pFile, L"\n\n");
+
+		//사용할 texture 저장
+		fwprintf_s(pFile, L"[Texture_KEY]\n");
+		fwprintf_s(pFile, pTex->GetKey().c_str());
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[Texture_PATH]\n");
+		fwprintf_s(pFile, pTex->GetRelativePath().c_str());
+		fwprintf_s(pFile, L"\n\n");
+
+		fclose(pFile);
+	}
+}
+
+void ParticleSystemUI::LoadParticle()
+{
+	//Load
+	ImGui::SameLine();
+	if (ImGui::Button("Load##Particle", ImVec2(100, 18)))
+	{
+		OPENFILENAME ofn = {};
+
+		wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+		strFolderpath += L"texture\\particle\\";
+
+		wchar_t szFilePath[256] = {};
+
+		ZeroMemory(&ofn, sizeof(ofn));
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = NULL;
+		ofn.lpstrFile = szFilePath;
+		ofn.lpstrFile[0] = '\0';
+		ofn.nMaxFile = 256;
+		ofn.lpstrFilter = L"Particle\0*.particle\0ALL\0*.*";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+		ofn.lpstrInitialDir = strFolderpath.c_str();
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		if (false == GetOpenFileName(&ofn))
+			return;
+		// 파일 입출력
+		FILE* pFile = nullptr;
+		errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"rb");
+
+		if (nullptr == pFile)
+		{
+			wchar_t szStr[256] = {};
+			wsprintf(szStr, L"Particle Load 실패, Error Number : %d", iErrNum);
+			MessageBox(nullptr, szStr, L"파티클 불러오기 실패", MB_OK);
+			return;
+		}
+		wstring strTextureKey;
+		wstring strTextureRelativePath;
+		while (true)
+		{
+			wchar_t szBuffer[256] = {};
+			fwscanf_s(pFile, L"%s", szBuffer, 256);//문자열 변수를 만들어 문자열을 읽게 할 건데
+
+			if (!wcscmp(szBuffer, L"[AddVelocityType]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.AddVelocityType);
+			}
+
+			else if (!wcscmp(szBuffer, L"[StartDrag]"))
+			{
+				fwscanf_s(pFile, L"%f.2", &m_tModuleData.StartDrag);
+			}
+
+			else if (!wcscmp(szBuffer, L"[EndDrag]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.EndDrag);
+			}
+
+			else if (!wcscmp(szBuffer, L"[StartScale]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.StartScale);
+			}
+
+			else if (!wcscmp(szBuffer, L"[EndScale]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.EndScale);
+			}
+
+			else if (!wcscmp(szBuffer, L"[fNoiseForce]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.fNoiseForce);
+			}
+
+			else if (!wcscmp(szBuffer, L"[fNoiseTerm]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.fNoiseTerm);
+			}
+
+			else if (!wcscmp(szBuffer, L"[fSphereShapeRadius]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.fSphereShapeRadius);
+			}
+
+			else if (!wcscmp(szBuffer, L"[iMaxParticleCount]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.iMaxParticleCount);
+			}
+
+			else if (!wcscmp(szBuffer, L"[MaxLifeTime]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.MaxLifeTime);
+			}
+
+			else if (!wcscmp(szBuffer, L"[MinLifeTime]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.MinLifeTime);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=PARTICLE_SPAWN]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=COLOR_CHANGE]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::COLOR_CHANGE]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=SCALE_CHANGE]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=ADDVELOCITY]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=DRAG]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=NOISE_FORCE]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=RENDER]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER]);
+			}
+
+			else if (!wcscmp(szBuffer, L"[OffsetAngle]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.OffsetAngle);
+			}
+
+			else if (!wcscmp(szBuffer, L"[Space]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.Space);
+			}
+
+			else if (!wcscmp(szBuffer, L"[Space]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.Space);
+			}
+
+			else if (!wcscmp(szBuffer, L"[SpawnRate]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.SpawnRate);
+			}
+
+			else if (!wcscmp(szBuffer, L"[SpawnShapeType]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.SpawnShapeType);
+			}
+
+			else if (!wcscmp(szBuffer, L"[Speed]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.Speed);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vBoxShapeScale]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f", &m_tModuleData.vBoxShapeScale.x, &m_tModuleData.vBoxShapeScale.y, &m_tModuleData.vBoxShapeScale.z);
+			}
+
+			else if (!wcscmp(szBuffer, L"[VelocityAlignment]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.VelocityAlignment);
+			}
+
+			else if (!wcscmp(szBuffer, L"[VelocityScale]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.VelocityScale);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vStartColor]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vStartColor.x, &m_tModuleData.vStartColor.y, &m_tModuleData.vStartColor.z, &m_tModuleData.vStartColor.w);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vEndColor]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vEndColor.x, &m_tModuleData.vEndColor.y, &m_tModuleData.vEndColor.z, &m_tModuleData.vEndColor.w);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vMaxSpeed]"))
+			{
+				fwscanf_s(pFile, L"%f", &m_tModuleData.vMaxSpeed);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vMaxVelocityScale]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vMaxVelocityScale.x, &m_tModuleData.vMaxVelocityScale.y, &m_tModuleData.vMaxVelocityScale.z, &m_tModuleData.vMaxVelocityScale.w);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vSpawnColor]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vSpawnColor.x, &m_tModuleData.vSpawnColor.y, &m_tModuleData.vSpawnColor.z, &m_tModuleData.vSpawnColor.w);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vSpawnScaleMax]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vSpawnScaleMax.x, &m_tModuleData.vSpawnScaleMax.y, &m_tModuleData.vSpawnScaleMax.z, &m_tModuleData.vSpawnScaleMax.w);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vSpawnScaleMin]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vSpawnScaleMin.x, &m_tModuleData.vSpawnScaleMin.y, &m_tModuleData.vSpawnScaleMin.z, &m_tModuleData.vSpawnScaleMin.w);
+			}
+
+			else if (!wcscmp(szBuffer, L"[vVelocityDir]"))
+			{
+				fwscanf_s(pFile, L"%f%f%f%f", &m_tModuleData.vVelocityDir.x, &m_tModuleData.vVelocityDir.y, &m_tModuleData.vVelocityDir.z, &m_tModuleData.vVelocityDir.w);
+			}
+			else if (!wcscmp(szBuffer, L"[Texture_KEY]"))
+			{
+				fwscanf_s(pFile, L"%s", szBuffer, 256);
+				strTextureKey = szBuffer;
+			}
+
+			else if (!wcscmp(szBuffer, L"[Texture_PATH]"))
+			{
+				fwscanf_s(pFile, L"%s", szBuffer, 256);
+				strTextureRelativePath = szBuffer;
+				break;
+			}
+		}
+
+		GetTarget()->ParticleSystem()->SetModuleData(m_tModuleData);
+		pTex = CResMgr::GetInst()->FindRes<CTexture>(strTextureKey).Get();
+		GetTarget()->ParticleSystem()->SetTex(pTex);
+
+		fclose(pFile);
+	}
 }

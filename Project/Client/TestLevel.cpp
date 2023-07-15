@@ -31,6 +31,8 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
 	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
+	pCurLevel->GetLayer(10)->SetName(L"MainCamera");
+	pCurLevel->GetLayer(11)->SetName(L"UICam");
 	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
 
 
@@ -46,7 +48,7 @@ void CreateTestLevel()
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
 
-	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
+	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
 
 	
 	// 광원 추가
@@ -120,19 +122,17 @@ void CreateTestLevel()
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 
-	// LandScape Object
-	CGameObject* pLandScape = new CGameObject;
-	pLandScape->SetName(L"LandScape");
-	pLandScape->AddComponent(new CTransform);
-	pLandScape->AddComponent(new CLandScape);
-
-	pLandScape->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
-
-	pLandScape->LandScape()->SetFace(32, 32);
-	pLandScape->LandScape()->SetHeightMap(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HeightMap_01.jpg"));
-	pLandScape->LandScape()->SetDynamicShadow(true);
-
-	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	{
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Bat");
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+	}
 
 	// ============
 	// FBX Loading
