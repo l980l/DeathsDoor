@@ -33,8 +33,8 @@ public:
 	const vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
 	bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
 
-	CStructuredBuffer* GetBoneFrameDataBuffer() { return m_pBoneFrameData; } // 전체 본 프레임 정보
-	CStructuredBuffer* GetBoneOffsetBuffer() { return  m_pBoneOffset; }	   // 각 뼈의 offset 행렬
+	CStructuredBuffer* GetBoneFrameDataBuffer() { return m_pBoneFrameData; }	// 전체 본 프레임 정보
+	CStructuredBuffer* GetBoneOffsetBuffer() { return  m_pBoneOffset; }			// 각 뼈의 offset 행렬
 
 	// Animation3D 정보
 	vector<tMTAnimClip>		m_vecAnimClip;

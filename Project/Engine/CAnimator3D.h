@@ -16,17 +16,17 @@ private:
     const vector<tMTAnimClip>*  m_pVecClip;
 
     vector<float>				m_vecClipUpdateTime;
-    vector<Matrix>				m_vecFinalBoneMat; // 텍스쳐에 전달할 최종 행렬정보
-    int							m_iFrameCount; // 60
+    vector<Matrix>				m_vecFinalBoneMat;      // 텍스쳐에 전달할 최종 행렬정보
+    int							m_iFrameCount;          // 60
     double						m_dCurTime;
-    int							m_iCurClip; // 클립 인덱스	
+    int							m_iCurClip;             // 클립 인덱스	
 
-    int							m_iFrameIdx; // 클립의 현재 프레임
-    int							m_iNextFrameIdx; // 클립의 다음 프레임
-    float						m_fRatio;	// 프레임 사이 비율
+    int							m_iFrameIdx;            // 클립의 현재 프레임
+    int							m_iNextFrameIdx;        // 클립의 다음 프레임
+    float						m_fRatio;	            // 프레임 사이 비율
 
     CStructuredBuffer*          m_pBoneFinalMatBuffer;  // 특정 프레임의 최종 행렬
-    bool						m_bFinalMatUpdate; // 최종행렬 연산 수행여부
+    bool						m_bFinalMatUpdate;      // 최종행렬 연산 수행여부
 
 public:
     virtual void finaltick() override;
@@ -36,7 +36,7 @@ public:
     void SetBones(const vector<tMTBone>* _vecBones) { m_pVecBones = _vecBones; m_vecFinalBoneMat.resize(m_pVecBones->size()); }
     void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);      // 애니메이션 클립 정보를 세팅하고, 애니메이션 별 재생 시간(현재 얼마나 재생되었는지)을 0으로 초기화 시킴.
     void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }
-    void SetCurClip(int _iClipIdx) { m_iCurClip = _iClipIdx; }  // 현재 Clip을 변경하는 함수.
+    void SetCurClip(int _iClipIdx); // 현재 Clip을 변경하는 함수.
     int GetCurClip() { return m_iCurClip; }                     // 현재 Cilp 인덱스를 반환하는 함수.
     int GetClipSize() { return m_vecClipUpdateTime.size(); }    // 전체 Clip 개수를 반환하는 함수.
 
