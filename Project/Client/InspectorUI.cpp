@@ -103,7 +103,7 @@ InspectorUI::InspectorUI()
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidbodyUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetSize(0.f, 130.f);
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetSize(0.f, 210.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
 
 	// RenderComponentUI
