@@ -41,7 +41,7 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
 
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
@@ -61,7 +61,7 @@ void CreateTestLevel()
 
 	pLightObj->Light3D()->SetRadius(500.f);
 	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
-	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
+	//pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
 
 	SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
@@ -83,12 +83,25 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
+	// Decal Object
+	CGameObject* pDecal = new CGameObject;
+	pDecal->SetName(L"Decal");
+	pDecal->AddComponent(new CTransform);
+	pDecal->AddComponent(new CDecal);
+
+	pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+	pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
+	pDecal->Decal()->SetAsLight(false);
+
+	SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
+
 
 	CGameObject* pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
 	pObject->AddComponent(new CPlayerScript);
 	pObject->AddComponent(new CStateScript);
 
@@ -125,21 +138,22 @@ void CreateTestLevel()
 	// FBX Loading
 	// ============	
 	{
-		//Ptr<CMeshData> pMeshData = nullptr;
-		//CGameObject* pObj = nullptr;
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
 		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Ice_Field.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\_E_BAT_White.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"Hall");
-		//pObj->MeshRender()->SetDynamicShadow(true);
-		//pObj->MeshRender()->SetFrustumCheck(false);
-		//
-		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Bat");
+		pObj->AddComponent(new CMonsterScript);
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
 	}
 
 	// 충돌 시킬 레이어 짝 지정

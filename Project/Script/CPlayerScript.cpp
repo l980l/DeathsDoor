@@ -11,6 +11,7 @@
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
+	, m_pState(nullptr)
 	, m_fSpeed(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Speed");
@@ -24,8 +25,8 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::begin()
 {
 	m_pState = GetOwner()->GetScript<CStateScript>();
-	m_pState->AddState(L"Idle", new CIdle);
-	m_pState->AddState(L"Walk", new CWalk);
+	m_pState->AddState(L"Idle", new CPlyIdle);
+	m_pState->AddState(L"Walk", new CPlyWalk);
 	m_pState->ChangeState(L"Idle");
 	MeshRender()->GetDynamicMaterial(0);
 }

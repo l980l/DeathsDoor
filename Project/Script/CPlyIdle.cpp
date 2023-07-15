@@ -1,37 +1,37 @@
 #include "pch.h"
-#include "CIdle.h"
+#include "CPlyIdle.h"
 
-CIdle::CIdle()
+CPlyIdle::CPlyIdle()
 {
 }
 
-CIdle::~CIdle()
+CPlyIdle::~CPlyIdle()
 {
 }
 
-void CIdle::tick()
+void CPlyIdle::tick()
 {
 	// 이동키를 눌렀다면 Walk 상태로 전환
 	if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::D))
 		ChangeState(L"Walk");
 }
 
-void CIdle::Enter()
+void CPlyIdle::Enter()
 {
 }
 
-void CIdle::Exit()
+void CPlyIdle::Exit()
 {
 }
 
-void CIdle::BeginOverlap(CCollider2D* _Other)
+void CPlyIdle::BeginOverlap(CCollider2D* _Other)
 {
 }
 
-void CIdle::OnOverlap(CCollider2D* _Other)
+void CPlyIdle::OnOverlap(CCollider2D* _Other)
 {
 }
 
-void CIdle::EndOverlap(CCollider2D* _Other)
+void CPlyIdle::EndOverlap(CCollider2D* _Other)
 {
 }

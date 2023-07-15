@@ -43,6 +43,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {
 	m_pBoneFinalMatBuffer = new CStructuredBuffer;
+	m_vecClipUpdateTime.resize(m_pVecClip->size());
 }
 
 CAnimator3D::~CAnimator3D()

@@ -1,17 +1,17 @@
 #include "pch.h"
-#include "CWalk.h"
+#include "CPlyWalk.h"
 
-CWalk::CWalk()
+CPlyWalk::CPlyWalk()
 	: m_fSpeed(150.f)
 	, m_fTimeToIdle()
 {
 }
 
-CWalk::~CWalk()
+CPlyWalk::~CPlyWalk()
 {
 }
 
-void CWalk::tick()
+void CPlyWalk::tick()
 {
 	Move();
 
@@ -24,18 +24,17 @@ void CWalk::tick()
 	// Idle 전환시간이 0.1을 넘었다면 Idle로
 	if (m_fTimeToIdle >= 0.1f)
 		ChangeState(L"Idle");
-
 }
 
-void CWalk::Enter()
+void CPlyWalk::Enter()
 {
 }
 
-void CWalk::Exit()
+void CPlyWalk::Exit()
 {
 }
 
-void CWalk::Move()
+void CPlyWalk::Move()
 {
 	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
 
@@ -66,14 +65,14 @@ void CWalk::Move()
 	GetOwner()->Transform()->SetRelativePos(vPos);
 }
 
-void CWalk::BeginOverlap(CCollider2D* _Other)
+void CPlyWalk::BeginOverlap(CCollider2D* _Other)
 {
 }
 
-void CWalk::OnOverlap(CCollider2D* _Other)
+void CPlyWalk::OnOverlap(CCollider2D* _Other)
 {
 }
 
-void CWalk::EndOverlap(CCollider2D* _Other)
+void CPlyWalk::EndOverlap(CCollider2D* _Other)
 {
 }

@@ -177,8 +177,14 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CPlyAttack.h" />
+    <ClInclude Include="CPlyAttack_Magic.h" />
+    <ClInclude Include="CPlyDead.h" />
+    <ClInclude Include="CPlyDodge.h" />
     <ClInclude Include="CGravityScript.h" />
-    <ClInclude Include="CIdle.h" />
+    <ClInclude Include="CPlyFall.h" />
+    <ClInclude Include="CPlyHit.h" />
+    <ClInclude Include="CPlyIdle.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
     <ClInclude Include="CLoadingThread.h" />
     <ClInclude Include="CLoadLevelThreadScript.h" />
@@ -188,14 +194,20 @@ call CodeGen.exe</Command>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
-    <ClInclude Include="CWalk.h" />
+    <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CPlyAttack.cpp" />
+    <ClCompile Include="CPlyAttack_Magic.cpp" />
+    <ClCompile Include="CPlyDead.cpp" />
+    <ClCompile Include="CPlyDodge.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
-    <ClCompile Include="CIdle.cpp" />
+    <ClCompile Include="CPlyFall.cpp" />
+    <ClCompile Include="CPlyHit.cpp" />
+    <ClCompile Include="CPlyIdle.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />
     <ClCompile Include="CLoadingThread.cpp" />
     <ClCompile Include="CLoadLevelThreadScript.cpp" />
@@ -205,7 +217,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
-    <ClCompile Include="CWalk.cpp" />
+    <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

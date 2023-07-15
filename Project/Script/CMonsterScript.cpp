@@ -13,6 +13,11 @@ CMonsterScript::~CMonsterScript()
 
 void CMonsterScript::tick()
 {
+	if(KEY_TAP(KEY::SPACE))
+	{
+		CGameObject* pObj = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Bat")->Clone();
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+	}
 }
 
 void CMonsterScript::BeginOverlap(CCollider2D* _Other)
