@@ -151,5 +151,11 @@ void CLight3D::SaveToLevelFile(FILE* _File)
 void CLight3D::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
+
 	SetLightType((LIGHT_TYPE)m_LightInfo.LightType);
+	SetRadius(m_LightInfo.Radius);
+	SetAngle(m_LightInfo.Angle);
+	SetLightDiffuse(m_LightInfo.Color.vDiffuse);
+	SetLightSpecular(m_LightInfo.Color.vSpecular);
+	SetLightAmbient(m_LightInfo.Color.vAmbient);
 }

@@ -20,9 +20,9 @@
 
 
 MenuUI::MenuUI()
-	: UI("##Menu")
+    : UI("##Menu")
 {
-	SetName("Menu");
+    SetName("Menu");
 }
 
 MenuUI::~MenuUI()
@@ -43,58 +43,21 @@ int MenuUI::render_update()
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::BeginMenu("Save Level"))
+            if (ImGui::MenuItem("Save Level"))
             {
-                if (ImGui::MenuItem("TestLoadingLevel"))
-                {
-                    // Level 저장
-                    CLevelSaveLoad::SaveLevel(L"Level\\TestLoadingLevel.lv", CLevelMgr::GetInst()->GetCurLevel());
-                }
-
-                if (ImGui::MenuItem("TestLevel"))
-                {
-                    // Level 저장
-                    CLevelSaveLoad::SaveLevel(L"Level\\TestLevel.lv", CLevelMgr::GetInst()->GetCurLevel());
-                }
-
-                ImGui::EndMenu();
+                // Level 저장
+                CLevelSaveLoad::SaveLevel(CLevelMgr::GetInst()->GetCurLevel());
             }
-
-            if (ImGui::BeginMenu("Load Level"))
+            if (ImGui::MenuItem("Load Level"))
             {
-                if (ImGui::MenuItem("TestLoadingLevel"))
-                {
-                    // Level 불러오기
-                    CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"Level\\TestLoadingLevel.lv");
+                // Level 불러오기
+                CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(LEVEL_STATE::STOP);
 
-                    tEvent evn = {};
-                    evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-                    evn.wParam = (DWORD_PTR)pLoadedLevel;
+                tEvent evn = {};
+                evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+                evn.wParam = (DWORD_PTR)pLoadedLevel;
 
-                    CEventMgr::GetInst()->AddEvent(evn);
-
-                    // InspectorUI
-                    InspectorUI* Inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
-                    Inspector->SetTargetObject(nullptr);
-                }
-
-                if (ImGui::MenuItem("TestLevel"))
-                {
-                    // Level 불러오기
-                    CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"Level\\TestLevel.lv");
-
-                    tEvent evn = {};
-                    evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-                    evn.wParam = (DWORD_PTR)pLoadedLevel;
-
-                    CEventMgr::GetInst()->AddEvent(evn);
-
-                    // InspectorUI
-                    InspectorUI* Inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
-                    Inspector->SetTargetObject(nullptr);
-                }
-
-                ImGui::EndMenu();
+                CEventMgr::GetInst()->AddEvent(evn);
             }
 
             ImGui::EndMenu();
@@ -102,13 +65,40 @@ int MenuUI::render_update()
         if (ImGui::BeginMenu("GameObject"))
         {
             // 현재 레벨에 게임오브젝트 생성
-            if (ImGui::MenuItem("Create Empty Object"))
+            if (ImGui::BeginMenu("Create Empty Object"))
             {
-                CreateEmptyObject();
+                //CreateEmptyObject();
+                if (ImGui::MenuItem("DefaultLayer"))
+                    CreateEmptyObject(0);
+                else if (ImGui::MenuItem("Map"))
+                    CreateEmptyObject(1);
+                else if (ImGui::MenuItem("Player"))
+                    CreateEmptyObject(2);
+                else if (ImGui::MenuItem("Monster"))
+                    CreateEmptyObject(3);
+                else if (ImGui::MenuItem("PlayerProjectile"))
+                    CreateEmptyObject(4);
+                else if (ImGui::MenuItem("MonsterProjectile"))
+                    CreateEmptyObject(5);
+                else if (ImGui::MenuItem("NPC"))
+                    CreateEmptyObject(6);
+                else if (ImGui::MenuItem("Door"))
+                    CreateEmptyObject(7);
+                else if (ImGui::MenuItem("HitObject"))
+                    CreateEmptyObject(8);
+                else if (ImGui::MenuItem("Boundary"))
+                    CreateEmptyObject(9);
+                else if (ImGui::MenuItem("MainCam"))
+                    CreateEmptyObject(10);
+                else if (ImGui::MenuItem("UICam"))
+                    CreateEmptyObject(11);
+                else if (ImGui::MenuItem("ViewPortUI"))
+                    CreateEmptyObject(31);
+                ImGui::EndMenu();
             }
             ImGui::Separator();
 
-            
+
             if (ImGui::BeginMenu("Add Component"))
             {
                 for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -127,7 +117,7 @@ int MenuUI::render_update()
             {
                 vector<wstring> vecScripts;
                 CScriptMgr::GetScriptInfo(vecScripts);
-                
+
                 for (size_t i = 0; i < vecScripts.size(); ++i)
                 {
                     string strScriptName = string(vecScripts[i].begin(), vecScripts[i].end());
@@ -136,7 +126,7 @@ int MenuUI::render_update()
                         AddScript(vecScripts[i]);
                     }
                 }
-                
+
                 ImGui::EndMenu();
             }
 
@@ -169,11 +159,9 @@ int MenuUI::render_update()
                 StopEnable = false;
             }
 
-
-
             if (ImGui::MenuItem("Play", nullptr, nullptr, PlayEnable))
-            {                
-                CLevelSaveLoad::SaveLevel(L"Level\\Temp.lv", CurLevel);
+            {
+                CLevelSaveLoad::Play(L"Level\\Temp.lv", CurLevel);
                 CurLevel->ChangeState(LEVEL_STATE::PLAY);
             }
             else if (ImGui::MenuItem("Pause", nullptr, nullptr, PauseEnable))
@@ -183,8 +171,8 @@ int MenuUI::render_update()
             else if (ImGui::MenuItem("Stop", nullptr, nullptr, StopEnable))
             {
                 CurLevel->ChangeState(LEVEL_STATE::STOP);
-                CLevel* pNewLevel = CLevelSaveLoad::LoadLevel(L"Level\\Temp.lv");
-             
+                CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\Temp.lv", LEVEL_STATE::STOP);
+
                 tEvent evn = {};
                 evn.Type = EVENT_TYPE::LEVEL_CHANGE;
                 evn.wParam = DWORD_PTR(pNewLevel);
@@ -204,21 +192,43 @@ int MenuUI::render_update()
         ImGui::EndMainMenuBar();
     }
 
-	return 0;
+    return 0;
 }
 
-void MenuUI::CreateEmptyObject()
+void MenuUI::CreateEmptyObject(int layerindx)
 {
     CGameObject* pNewObject = new CGameObject;
     pNewObject->AddComponent(new CTransform);
-    pNewObject->SetName(L"New Object");
-    SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), L"Default");
+    pNewObject->SetName(L"NewObject");
+
+    if (layerindx == 10)
+    {
+        pNewObject->SetName(L"MainCam");
+        pNewObject->AddComponent(new CCamera);
+        pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // 카메라 오브젝트의 투영 방식 설정(직교)
+        pNewObject->Camera()->SetCameraIndex(0); //MainCamera로 설정
+        pNewObject->Camera()->SetLayerMaskAll(true); // 모든 레이어 체크
+        pNewObject->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+    }
+    else if (layerindx == 11)
+    {
+        pNewObject->SetName(L"SubCam");
+        pNewObject->AddComponent(new CCamera);
+        pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // 카메라 오브젝트의 투영 방식 설정(직교)
+        pNewObject->Camera()->SetCameraIndex(1); //MainCamera로 설정
+        pNewObject->Camera()->SetLayerMask(31, true);
+    }
+    SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), layerindx);
 
     // Outliner 를 가져온다.
     OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
 
     // 새로추가된 오브젝트를 데이터로 하는 노드가 추가되면, 선택상태로 두게 한다.
-    outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));    
+    outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));
+}
+
+void MenuUI::CreatePrefabObject()
+{
 }
 
 void MenuUI::AddComponent(COMPONENT_TYPE _type)
@@ -273,7 +283,7 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;
     case COMPONENT_TYPE::DECAL:
         pSelectedObject->AddComponent(new CDecal);
-        break;            
+        break;
     }
 
     // Inspector 에 새롭게 추가된 컴포넌트를 알리기 위해서 타겟을 다시 알려준다.
