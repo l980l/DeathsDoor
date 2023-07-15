@@ -55,12 +55,12 @@ void CWalk::Move()
 
 	if (KEY_PRESSED(KEY::A))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(fSpeed * DT, 0.f, 0.f));
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(-fSpeed * DT, 0.f, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::D))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(-fSpeed * DT, 0.f, 0.f));
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(fSpeed * DT, 0.f, 0.f));
 	}
 
 	GetOwner()->Transform()->SetRelativePos(vPos);
