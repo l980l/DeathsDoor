@@ -173,8 +173,15 @@ void CAnimator3D::check_mesh(Ptr<CMesh> _pMesh)
 
 void CAnimator3D::SaveToLevelFile(FILE* _pFile)
 {
+	Ptr<CMesh> pMesh = MeshRender()->GetMesh();
+	SaveResRef(pMesh.Get(), _pFile);
 }
 
 void CAnimator3D::LoadFromLevelFile(FILE* _pFile)
 {
+	Ptr<CMesh> pMesh = nullptr;
+	LoadResRef(pMesh, _pFile);
+
+	SetBones(pMesh->GetBones());
+	SetAnimClip(pMesh->GetAnimClip());
 }
