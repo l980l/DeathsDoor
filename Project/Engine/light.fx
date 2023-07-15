@@ -287,7 +287,6 @@ float PS_DepthMap(VS_DEPTH_OUT _in) : SV_Target
 {
     float fOut = 0.f;
     fOut = _in.vProjPos.z / _in.vProjPos.w;
-
     return fOut;
 }
 

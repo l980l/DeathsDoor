@@ -28,16 +28,33 @@ void CRenderComponent::render_depthmap()
 		
 	if (Animator3D())
 	{
-		Animator3D()->UpdateData();
 		pMtrl->SetAnim3D(true);
-		pMtrl->SetBoneCount(Animator3D()->GetBoneCount());
+		Animator3D()->GetFinalBoneMat()->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
+	}
+	else
+	{
+		pMtrl->SetAnim3D(false);
 	}
 
 	// 사용할 재질 업데이트
 	pMtrl->UpdateData();
-	
+
 	// 사용할 메쉬 업데이트 및 렌더링
-	GetMesh()->render(0);	
+	//GetMesh()->render(0);
+	
+	UINT iSubsetCount = GetMesh()->GetSubsetCount();
+
+	for (UINT i = 0; i < iSubsetCount; ++i)
+	{
+		if (nullptr != GetMaterial(i))
+		{
+			// 사용할 재질 업데이트
+			//GetMaterial(i)->UpdateData();
+
+			// 사용할 메쉬 업데이트 및 렌더링
+			GetMesh()->render(i);
+		}
+	}
 }
 
 void CRenderComponent::SetMesh(Ptr<CMesh> _Mesh)

@@ -121,7 +121,8 @@
       <MinFilesInUnityFile>10</MinFilesInUnityFile>
       <MaxFilesInUnityFile>20</MaxFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\include\FBXLoader\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,7 +142,8 @@
       <MinFilesInUnityFile>10</MinFilesInUnityFile>
       <MaxFilesInUnityFile>20</MaxFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\include\FBXLoader\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -190,6 +192,7 @@
     <ClInclude Include="RenderComponentUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResUI.h" />
+    <ClInclude Include="RigidbodyUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="SkyBoxUI.h" />
     <ClInclude Include="SoundUI.h" />
@@ -244,6 +247,7 @@
     <ClCompile Include="PrefabUI.cpp" />
     <ClCompile Include="RenderComponentUI.cpp" />
     <ClCompile Include="ResUI.cpp" />
+    <ClCompile Include="RigidbodyUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="SkyBoxUI.cpp" />
     <ClCompile Include="SoundUI.cpp" />

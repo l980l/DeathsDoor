@@ -259,16 +259,10 @@ void OutlinerUI::MouseRightClick(DWORD_PTR _RClickNode)
 				TreeNode* pRClickNode = (TreeNode*)_RClickNode;
 
 				CGameObject* pRClickObj = (CGameObject*)pRClickNode->GetData();
-
-				// Delete Obj EventMgr·Î Ã³¸®
-				tEvent evn = {};
-				evn.Type = EVENT_TYPE::DELETE_OBJECT;
-				evn.wParam = (DWORD_PTR)pRClickObj;
-				CEventMgr::GetInst()->AddEvent(evn);
+								
+				CurLevel->GetLayer(pRClickObj->GetLayerIndex())->RemoveFromParentList(pRClickObj);
 				
-				//CurLevel->GetLayer(pRClickObj->GetLayerIndex())->RemoveFromParentList(pRClickObj);
-				//
-				//delete(pRClickObj);
+				delete(pRClickObj);
 
 				ResetOutliner();
 

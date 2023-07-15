@@ -20,7 +20,6 @@
 
 void CreateTestLevel()
 {
-	//return;	
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -122,25 +121,25 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLandScape, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-
 	// ============
 	// FBX Loading
 	// ============	
 	{
-		Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\house.fbx");
+		//Ptr<CMeshData> pMeshData = nullptr;
+		//CGameObject* pObj = nullptr;
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\monster.mdat");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Bat");
-		pObj->MeshRender()->SetDynamicShadow(true);
-
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Ice_Field.fbx");
+		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
+		//pObj = pMeshData->Instantiate();
+		//pObj->SetName(L"Hall");
+		//pObj->MeshRender()->SetDynamicShadow(true);
+		//pObj->MeshRender()->SetFrustumCheck(false);
+		//
+		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
 	}
 
 	// 충돌 시킬 레이어 짝 지정

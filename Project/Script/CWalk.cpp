@@ -3,6 +3,7 @@
 
 CWalk::CWalk()
 	: m_fSpeed(150.f)
+	, m_fTimeToIdle()
 {
 }
 
@@ -44,22 +45,22 @@ void CWalk::Move()
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		vPos.y += DT * fSpeed;
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, fSpeed * DT, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::S))
 	{
-		vPos.y -= DT * fSpeed;
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, -fSpeed * DT, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::A))
 	{
-		vPos.x -= DT * fSpeed;
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(-fSpeed * DT, 0.f, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::D))
 	{
-		vPos.x += DT * fSpeed;
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(fSpeed * DT, 0.f, 0.f));
 	}
 
 	GetOwner()->Transform()->SetRelativePos(vPos);
