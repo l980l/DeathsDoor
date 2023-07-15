@@ -20,54 +20,54 @@ CParticleSystem::CParticleSystem()
 	// 의미없는 초기세팅
 	//================
 	m_ModuleData.iMaxParticleCount = 1000;
-	
+
 	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN] = true;
 	m_ModuleData.SpawnRate = 20;
 	m_ModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
 	m_ModuleData.vSpawnScaleMin = Vec3(15.f, 15.f, 1.f);
 	m_ModuleData.vSpawnScaleMax = Vec3(20.f, 20.f, 1.f);
 
-	m_ModuleData.SpawnShapeType = 0;
-	m_ModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);	
-	m_ModuleData.Space = 0; // 시뮬레이션 좌표계
+	//m_ModuleData.SpawnShapeType = 0;
+	//m_ModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);	
+	//m_ModuleData.Space = 0; // 시뮬레이션 좌표계
 
-	m_ModuleData.MinLifeTime = 3.f;
-	m_ModuleData.MaxLifeTime = 5.f;
+	//m_ModuleData.MinLifeTime = 3.f;
+	//m_ModuleData.MaxLifeTime = 5.f;
 
-	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE] = false;
-	m_ModuleData.StartScale = 1.5f;
-	m_ModuleData.EndScale = 0.2f;
+	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE] = false;
+	//m_ModuleData.StartScale = 1.5f;
+	//m_ModuleData.EndScale = 0.2f;
 
-	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::COLOR_CHANGE] = true;
-	m_ModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
-	m_ModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
+	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::COLOR_CHANGE] = true;
+	//m_ModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
+	//m_ModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
 
-	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = true;
-	m_ModuleData.AddVelocityType = 0; // From Center
-	m_ModuleData.Speed = 700.f;
-	m_ModuleData.vVelocityDir;
-	m_ModuleData.OffsetAngle;
+	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = true;
+	//m_ModuleData.AddVelocityType = 0; // From Center
+	//m_ModuleData.Speed = 700.f;
+	//m_ModuleData.vVelocityDir;
+	//m_ModuleData.OffsetAngle;
 
-	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG] = true;
-	m_ModuleData.StartDrag = 500.f;
-	m_ModuleData.EndDrag = -500.f;
+	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG] = true;
+	//m_ModuleData.StartDrag = 500.f;
+	//m_ModuleData.EndDrag = -500.f;
 
-	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE] = false;
-	m_ModuleData.fNoiseTerm = 0.3f;
-	m_ModuleData.fNoiseForce = 50.f;
+	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE] = false;
+	//m_ModuleData.fNoiseTerm = 0.3f;
+	//m_ModuleData.fNoiseForce = 50.f;
 
-	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER] = true;
-	m_ModuleData.VelocityAlignment = true;
-	m_ModuleData.VelocityScale = true;
-	m_ModuleData.vMaxVelocityScale = Vec3(15.f, 1.f, 1.f);
-	m_ModuleData.vMaxSpeed = 500.f;
+	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER] = true;
+	//m_ModuleData.VelocityAlignment = true;
+	//m_ModuleData.VelocityScale = true;
+	//m_ModuleData.vMaxVelocityScale = Vec3(15.f, 1.f, 1.f);
+	//m_ModuleData.vMaxSpeed = 500.f;
 
-	m_Tex = CResMgr::GetInst()->FindRes<CTexture>(L"Sparks");
+	//m_Tex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\flame1.png");
 
 
 	//========================================================
 
-	SetName(L"ParticleSystem");
+	//SetName(L"ParticleSystem");
 	// 입자 메쉬
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
 
@@ -141,7 +141,7 @@ void CParticleSystem::finaltick()
 		m_AccTime = fTimePerCount * (fData - floor(fData));
 
 		// 버퍼에 스폰 카운트 전달
-		tRWParticleBuffer rwbuffer = { (int)fData, };		
+		tRWParticleBuffer rwbuffer = { (int)fData, };
 		m_RWBuffer->SetData(&rwbuffer);
 	}
 
@@ -169,8 +169,8 @@ void CParticleSystem::render()
 	m_ModuleDataBuffer->UpdateData(21, PIPELINE_STAGE::PS_GEOMETRY);
 
 	// Particle Render	
-	Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_0", L"texture\\particle\\AlphaCircle.png");
-	GetMaterial(0)->SetTexParam(TEX_0, pParticleTex);
+	//Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_0", L"texture\\particle\\flame1.png");
+	GetMaterial(0)->SetTexParam(TEX_0, m_Tex);
 
 	GetMaterial(0)->UpdateData();
 	GetMesh()->render_particle(m_ModuleData.iMaxParticleCount);
@@ -183,9 +183,10 @@ void CParticleSystem::render()
 void CParticleSystem::SaveToLevelFile(FILE* _File)
 {
 	CRenderComponent::SaveToLevelFile(_File);
-	
+
 	fwrite(&m_ModuleData, sizeof(tParticleModule), 1, _File);
 	SaveResRef(m_UpdateCS.Get(), _File);
+	SaveResRef(m_Tex.Get(), _File);
 }
 
 void CParticleSystem::LoadFromLevelFile(FILE* _File)
@@ -204,5 +205,8 @@ void CParticleSystem::LoadFromLevelFile(FILE* _File)
 		LoadWString(strRelativePath, _File);
 
 		m_UpdateCS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(strKey).Get();
+
 	}
+	LoadResRef(m_Tex, _File);
+	//m_Tex = CResMgr::GetInst()->FindRes<CTexture>(m_Tex);
 }

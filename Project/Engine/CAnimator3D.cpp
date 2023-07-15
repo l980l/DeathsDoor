@@ -17,7 +17,7 @@ CAnimator3D::CAnimator3D()
 	: m_pVecBones(nullptr)
 	, m_pVecClip(nullptr)
 	, m_iCurClip(0)
-	, m_dCurTime(0.)
+	, m_dCurTime(0.0)
 	, m_iFrameCount(60)
 	, m_pBoneFinalMatBuffer(nullptr)
 	, m_bFinalMatUpdate(false)
@@ -43,6 +43,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {
 	m_pBoneFinalMatBuffer = new CStructuredBuffer;
+	m_vecClipUpdateTime.resize(m_pVecClip->size());
 }
 
 CAnimator3D::~CAnimator3D()
@@ -173,8 +174,15 @@ void CAnimator3D::check_mesh(Ptr<CMesh> _pMesh)
 
 void CAnimator3D::SaveToLevelFile(FILE* _pFile)
 {
+	Ptr<CMesh> pMesh = MeshRender()->GetMesh();
+	SaveResRef(pMesh.Get(), _pFile);
 }
 
 void CAnimator3D::LoadFromLevelFile(FILE* _pFile)
 {
+	Ptr<CMesh> pMesh = nullptr;
+	LoadResRef(pMesh, _pFile);
+
+	SetBones(pMesh->GetBones());
+	SetAnimClip(pMesh->GetAnimClip());
 }

@@ -8,12 +8,11 @@
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
 #include <Engine\CScript.h>
+#include "commdlg.h"
 
 #include <Script\CScriptMgr.h>
 
-
-
-int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
+int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
 {
 	if (_Level->GetState() != LEVEL_STATE::STOP)
 		return E_FAIL;
@@ -25,7 +24,7 @@ int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 
 	_wfopen_s(&pFile, strPath.c_str(), L"wb");
 
-	if (nullptr == pFile)	
+	if (nullptr == pFile)
 		return E_FAIL;
 
 	// 레벨 이름 저장
@@ -46,7 +45,7 @@ int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 		// 오브젝트 개수 저장
 		size_t objCount = vecParent.size();
 		fwrite(&objCount, sizeof(size_t), 1, pFile);
-		
+
 		// 각 게임오브젝트
 		for (size_t i = 0; i < objCount; ++i)
 		{
@@ -60,62 +59,10 @@ int CLevelSaveLoad::SaveLevel(const wstring& _LevelPath, CLevel* _Level)
 	return S_OK;
 }
 
-int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
-{
-	// 이름
-	SaveWString(_Object->GetName(), _File);
-	
-	// 컴포넌트
-	for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
-	{		
-		if (i == (UINT)COMPONENT_TYPE::END)
-		{
-			// 컴포넌트 타입 저장
-			fwrite(&i, sizeof(UINT), 1, _File);
-			break;
-		}
-
-		CComponent* Com = _Object->GetComponent((COMPONENT_TYPE)i);
-		if (nullptr == Com)
-			continue;
-
-		// 컴포넌트 타입 저장
-		fwrite(&i, sizeof(UINT), 1, _File);
-
-		// 컴포넌트 정보 저장
-		Com->SaveToLevelFile(_File);
-	}
-
-	// 스크립트	
-	const vector<CScript*>& vecScript = _Object->GetScripts();
-	size_t ScriptCount = vecScript.size();
-	fwrite(&ScriptCount, sizeof(size_t), 1, _File);
-
-	for (size_t i = 0; i < vecScript.size(); ++i)
-	{
-		wstring ScriptName = CScriptMgr::GetScriptName(vecScript[i]);
-		SaveWString(ScriptName, _File);
-		vecScript[i]->SaveToLevelFile(_File);
-	}
-
-
-	// 자식 오브젝트
-	const vector<CGameObject*>& vecChild = _Object->GetChild();
-	size_t ChildCount = vecChild.size();
-	fwrite(&ChildCount, sizeof(size_t), 1, _File);
-
-	for (size_t i = 0; i < ChildCount; ++i)
-	{
-		SaveGameObject(vecChild[i], _File);		
-	}
-
-	return 0;
-}
-
-CLevel* CLevelSaveLoad::LoadLevel(const wstring& _LevelPath)
+CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
 {
 	wstring strPath = CPathMgr::GetInst()->GetContentPath();
-	strPath += _LevelPath;
+	strPath += _LevelPath;//상대경로
 
 	FILE* pFile = nullptr;
 
@@ -155,7 +102,190 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _LevelPath)
 
 	fclose(pFile);
 
-	NewLevel->ChangeState(LEVEL_STATE::STOP);
+	NewLevel->ChangeState(_state);
+
+	return NewLevel;
+}
+
+int CLevelSaveLoad::SaveLevel(CLevel* _Level)
+{
+	if (_Level->GetState() != LEVEL_STATE::STOP) //stop상태일 때만 저장
+		return E_FAIL;
+
+	OPENFILENAME ofn = {};
+	wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+	strFolderpath += L"Level\\";
+
+	wchar_t szFilePath[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFilePath;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = 256;
+	ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = strFolderpath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (false == GetSaveFileName(&ofn))
+		E_FAIL;
+
+	// 파일 입출력
+	FILE* pFile = nullptr;
+	errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"wb");
+
+	if (nullptr == pFile)
+		return E_FAIL;
+
+	// 레벨 이름 저장
+	SaveWString(_Level->GetName(), pFile);
+
+
+	// 레벨의 레이어들을 저장
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		CLayer* pLayer = _Level->GetLayer(i);
+
+		// 레이어 이름 저장
+		SaveWString(pLayer->GetName(), pFile);
+
+		// 레이어의 부모게임오브젝트들 저장
+		const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
+
+		size_t objCount = vecParent.size();
+		fwrite(&objCount, sizeof(size_t), 1, pFile); // 오브젝트 개수 저장
+
+		for (size_t i = 0; i < objCount; ++i)
+		{
+			SaveGameObject(vecParent[i], pFile); // 각 게임오브젝트 저장
+		}
+	}
+
+	fclose(pFile);
+
+
+	return S_OK;
+}
+
+int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
+{
+	// 이름
+	SaveWString(_Object->GetName(), _File);
+
+	// 컴포넌트
+	for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (i == (UINT)COMPONENT_TYPE::END)
+		{
+			// 컴포넌트 타입 저장
+			fwrite(&i, sizeof(UINT), 1, _File);
+			break;
+		}
+
+		CComponent* Com = _Object->GetComponent((COMPONENT_TYPE)i);
+		if (nullptr == Com)
+			continue;
+
+		// 컴포넌트 타입 저장
+		fwrite(&i, sizeof(UINT), 1, _File);
+
+		// 컴포넌트 정보 저장
+		Com->SaveToLevelFile(_File);
+	}
+
+	// 스크립트	
+	const vector<CScript*>& vecScript = _Object->GetScripts();
+	size_t ScriptCount = vecScript.size();
+	fwrite(&ScriptCount, sizeof(size_t), 1, _File);
+
+	for (size_t i = 0; i < vecScript.size(); ++i)
+	{
+		wstring ScriptName = CScriptMgr::GetScriptName(vecScript[i]);
+		SaveWString(ScriptName, _File);
+		vecScript[i]->SaveToLevelFile(_File);
+	}
+
+
+	// 자식 오브젝트
+	const vector<CGameObject*>& vecChild = _Object->GetChild();
+	size_t ChildCount = vecChild.size();
+	fwrite(&ChildCount, sizeof(size_t), 1, _File);
+
+	for (size_t i = 0; i < ChildCount; ++i)
+	{
+		SaveGameObject(vecChild[i], _File);
+	}
+
+	return 0;
+}
+
+CLevel* CLevelSaveLoad::LoadLevel(LEVEL_STATE _state)
+{
+	OPENFILENAME ofn = {};
+	wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+	strFolderpath += L"Level\\";
+
+	wchar_t szFilePath[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFilePath;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = 256;
+	ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = strFolderpath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (false == GetSaveFileName(&ofn))
+		E_FAIL;
+
+	// 파일 입출력
+	FILE* pFile = nullptr;
+	errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"rb");
+
+	if (nullptr == pFile)
+		return nullptr;
+
+	CLevel* NewLevel = new CLevel;
+
+	// 레벨 이름
+	wstring strLevelName;
+	LoadWString(strLevelName, pFile);
+	NewLevel->SetName(strLevelName);
+
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		CLayer* pLayer = NewLevel->GetLayer(i);
+
+		// 레이어 이름
+		wstring LayerName;
+		LoadWString(LayerName, pFile);
+		pLayer->SetName(LayerName);
+
+		// 게임 오브젝트 개수
+		size_t objCount = 0;
+		fread(&objCount, sizeof(size_t), 1, pFile);
+
+		// 각 게임오브젝트
+		for (size_t j = 0; j < objCount; ++j)
+		{
+			CGameObject* pNewObj = LoadGameObject(pFile);
+			NewLevel->AddGameObject(pNewObj, i, false);
+		}
+	}
+
+	fclose(pFile);
+
+	NewLevel->ChangeState(_state);
 
 	return NewLevel;
 }
@@ -196,6 +326,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 			Component = new CAnimator2D;
 			break;
 		case COMPONENT_TYPE::ANIMATOR3D:
+			Component = new CAnimator3D;
 			break;
 		case COMPONENT_TYPE::LIGHT2D:
 			Component = new CLight2D;
@@ -218,10 +349,10 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 		case COMPONENT_TYPE::SKYBOX:
 			Component = new CSkyBox;
 			break;
-		case COMPONENT_TYPE::LANDSCAPE:		
+		case COMPONENT_TYPE::LANDSCAPE:
 			Component = new CLandScape;
 			break;
-		case COMPONENT_TYPE::DECAL:		
+		case COMPONENT_TYPE::DECAL:
 			Component = new CDecal;
 			break;
 		}

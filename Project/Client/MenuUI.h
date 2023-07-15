@@ -12,9 +12,9 @@ public:
     virtual void finaltick() override;
     virtual int render_update() override;
 
-
 private:
-    void CreateEmptyObject();
+    void CreatePrefabObject();
+    void CreateEmptyObject(int layerindx);
     void AddComponent(COMPONENT_TYPE _type);
     void AddScript(const wstring& _strScriptName);
 

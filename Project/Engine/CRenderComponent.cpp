@@ -156,6 +156,7 @@ void CRenderComponent::LoadFromLevelFile(FILE* _File)
 	{
 		Ptr<CMaterial> pMtrl;
 		LoadResRef(pMtrl, _File);
+		m_vecMtrls.resize(iMtrlCount);
 		SetMaterial(pMtrl, i);
 	}
 
