@@ -18,7 +18,7 @@ CAnimator3D::CAnimator3D()
 	, m_pVecClip(nullptr)
 	, m_iCurClip(0)
 	, m_dCurTime(0.)
-	, m_iFrameCount(30)
+	, m_iFrameCount(60)
 	, m_pBoneFinalMatBuffer(nullptr)
 	, m_bFinalMatUpdate(false)
 	, m_iFrameIdx(0)
@@ -73,7 +73,8 @@ void CAnimator3D::finaltick()
 	m_iFrameIdx = (int)(dFrameIdx);
 
 	// 다음 프레임 인덱스
-	if (m_iFrameIdx >= m_pVecClip->at(0).iFrameLength - 1)
+	// 클립 1개만 쓰니까 0 넣는거고 거기서 맨 뒤 프레임이면. 
+	if (m_iFrameIdx >= m_pVecClip->at(m_iCurClip).iEndFrame)
 		m_iNextFrameIdx = m_iFrameIdx;	// 끝이면 현재 인덱스를 유지
 	else
 		m_iNextFrameIdx = m_iFrameIdx + 1;
@@ -113,6 +114,9 @@ void CAnimator3D::UpdateData()
 		pUpdateShader->SetNextFrameIdx(m_iNextFrameIdx);
 		pUpdateShader->SetFrameRatio(m_fRatio);
 
+		pUpdateShader->SetBlendFrameIdx(m_iNextFrameIdx);
+		pUpdateShader->SetBlendRatio(0.5f);
+
 		// 업데이트 쉐이더 실행
 		pUpdateShader->Execute();
 
@@ -121,6 +125,15 @@ void CAnimator3D::UpdateData()
 
 	// t30 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
 	m_pBoneFinalMatBuffer->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
+}
+
+void CAnimator3D::SetCurClip(int _iClipIdx)
+{
+	if (_iClipIdx >= 0 && _iClipIdx < m_pVecClip->size()) 
+		m_iCurClip = _iClipIdx; 
+
+	// 현재 재생하는 애니메이션 클립을 변경하면 해당 애니메이션의 재생시간을 0으로 초기화.
+	m_vecClipUpdateTime[_iClipIdx] = 0.f;
 }
 
 void CAnimator3D::ClearData()

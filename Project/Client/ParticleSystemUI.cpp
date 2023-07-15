@@ -166,7 +166,7 @@ void ParticleSystemUI::SpawnModule()
 	GetResKey(pTex.Get(), szbuff, 50);
 	ImGui::Text("Texture     ");
 	ImGui::SameLine();
-	ImGui::InputText("##TexName", szbuff, ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputText("##TexName", szbuff, 50, ImGuiInputTextFlags_ReadOnly);
 }
 
 void ParticleSystemUI::ScaleModule()

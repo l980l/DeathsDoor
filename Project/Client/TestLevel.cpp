@@ -89,8 +89,6 @@ void CreateTestLevel()
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-
 	pObject->AddComponent(new CPlayerScript);
 	pObject->AddComponent(new CStateScript);
 

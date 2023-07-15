@@ -4,8 +4,10 @@ class Animator3DUI :
     public ComponentUI
 {
 public:
+    int                     m_iClipCount;
     vector<tMTAnimClip>     m_vecAnimClip;
-    vector<string>          m_vecStrName;
+    bool                    m_bShowAnimInfo;
+    bool                    m_bMakeAnimInfo;
 
 public:
     virtual int render_update() override;
