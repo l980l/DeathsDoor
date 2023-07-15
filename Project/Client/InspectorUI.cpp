@@ -16,6 +16,7 @@
 #include "TileMapUI.h"
 #include "Light2DUI.h"
 #include "Light3DUI.h"
+#include "RigidbodyUI.h"
 
 #include "MeshDataUI.h"
 #include "TextureUI.h"
@@ -100,6 +101,10 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::DECAL] = new DecalUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]->SetSize(0.f, 130.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidbodyUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetSize(0.f, 130.f);
+	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
 
 	// RenderComponentUI
 	m_RenComUI = new RenderComponentUI;

@@ -17,3 +17,4 @@
 #include "CLandscape.h"	// 지형, 테셀레이션
 #include "CAnimator3D.h"  
 #include "CCollider3D.h"
+#include "CRigidbody.h"

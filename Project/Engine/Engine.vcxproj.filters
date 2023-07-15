@@ -262,6 +262,9 @@
     <ClCompile Include="CThreadQueue.cpp">
       <Filter>10. Thread</Filter>
     </ClCompile>
+    <ClCompile Include="CRigidbody.cpp">
+      <Filter>05. GameObject\Component\06. Rigidbody</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEntity.h" />
@@ -469,6 +472,9 @@
     <ClInclude Include="CSync.h">
       <Filter>10. Thread</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidbody.h">
+      <Filter>05. GameObject\Component\06. Rigidbody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Header">
@@ -665,6 +671,9 @@
     </Filter>
     <Filter Include="10. Thread">
       <UniqueIdentifier>{4bd260dd-e6a7-4e1a-9641-f775edea2d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. GameObject\Component\06. Rigidbody">
+      <UniqueIdentifier>{b8674e4a-ea3d-48ab-ba75-49349c85643c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

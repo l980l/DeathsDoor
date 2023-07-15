@@ -12,6 +12,7 @@ class CAnimator3D;
 class CLight2D;
 class CLight3D;
 class CCamera;
+class CRigidbody;
 class CRenderComponent;
 class CTileMap;
 class CParticleSystem;
@@ -71,6 +72,7 @@ public:
     GET_COMPONENT(Animator2D, ANIMATOR2D);
     GET_COMPONENT(Animator3D, ANIMATOR3D);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
+    GET_COMPONENT(Rigidbody, RIGIDBODY);
 
     CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
 
