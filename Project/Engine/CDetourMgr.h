@@ -15,7 +15,7 @@ private:
 public:
     void LoadNavMeshFromBinFile(const char* path);
     
-    Vec3* GetPathtoTarget(Vec3 _vStartPos);
+    Vec3* GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount);
 
     CLONE(CDetourMgr);
 };

@@ -106,17 +106,13 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 	}
 }
 
-int currentPathIndex = 0;
-
-Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos)
+Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 {
 	if (NaviMesh == nullptr)
 		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
 	float actualPath[256] = { 0.f, };
 	for (int i = 0; i < 256 * 3; i++)
 		actualPath[i] = 0.0f;
-
-	actualPathCount = 0;
 
 	// NavMesh와 함께 경로 계획을 수행하는 Query 객체 생성
 	dtNavMeshQuery* navQuery = dtAllocNavMeshQuery();
@@ -164,7 +160,7 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos)
 	navQuery->findPath(startRef, endRef, nearestStartPos, nearestEndPos, &filter, path, &pathCount, 256);
 
 	// 경로를 따라 실제 이동 경로를 생성
-	navQuery->findStraightPath(nearestStartPos, nearestEndPos, path, pathCount, actualPath, 0, 0, &actualPathCount, 256);
+	navQuery->findStraightPath(nearestStartPos, nearestEndPos, path, pathCount, actualPath, 0, 0, ActualPathCount, 256);
 
 
 	Vec3 Path[256] = {};
