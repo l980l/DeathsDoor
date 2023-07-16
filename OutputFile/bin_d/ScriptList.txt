@@ -5,3 +5,4 @@ CMissileScript
 CMonsterScript
 CPlayerScript
 CStateScript
+CTrace

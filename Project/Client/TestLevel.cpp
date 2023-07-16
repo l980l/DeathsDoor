@@ -17,7 +17,6 @@
 #include "CLevelSaveLoad.h"
 
 
-
 void CreateTestLevel()
 {
 
@@ -121,19 +120,6 @@ void CreateTestLevel()
 
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
-
-	{
-		Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Bat");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
-	}
-
 	// ============
 	// FBX Loading
 	// ============	
@@ -145,10 +131,10 @@ void CreateTestLevel()
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\_E_BAT_White.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hall.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Bat");
+		pObj->SetName(L"Hall");
 		pObj->AddComponent(new CMonsterScript);
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);

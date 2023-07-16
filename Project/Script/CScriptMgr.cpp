@@ -8,6 +8,7 @@
 #include "CMonsterScript.h"
 #include "CPlayerScript.h"
 #include "CStateScript.h"
+#include "CTrace.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -18,6 +19,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CStateScript");
+	_vec.push_back(L"CTrace");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -36,6 +38,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
+	if (L"CTrace" == _strScriptName)
+		return new CTrace;
 	return nullptr;
 }
 
@@ -63,6 +67,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TRACE:
+		return new CTrace;
 		break;
 	}
 	return nullptr;
@@ -98,6 +105,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::STATESCRIPT:
 		return L"CStateScript";
+		break;
+
+	case SCRIPT_TYPE::TRACE:
+		return L"CTrace";
 		break;
 
 	}

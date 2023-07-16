@@ -46,6 +46,9 @@
     <Filter Include="Script\State\Player\Dead">
       <UniqueIdentifier>{7950cb2f-c015-4c54-8b40-1df11c5ddf56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\State\Player\Monster">
+      <UniqueIdentifier>{79c87d13-88ed-4ee0-b618-746d8e806560}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -110,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="CPlyWalk.h">
       <Filter>Script\State\Player\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="CTrace.h">
+      <Filter>Script\State\Player\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="CPlyWalk.cpp">
       <Filter>Script\State\Player\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="CTrace.cpp">
+      <Filter>Script\State\Player\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

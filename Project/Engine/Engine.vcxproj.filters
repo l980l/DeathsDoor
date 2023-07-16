@@ -265,6 +265,30 @@
     <ClCompile Include="CRigidbody.cpp">
       <Filter>05. GameObject\Component\06. Rigidbody</Filter>
     </ClCompile>
+    <ClCompile Include="CDetourMgr.cpp">
+      <Filter>03. Manager\12. DetourMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourAlloc.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourAssert.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourCommon.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourNavMesh.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourNavMeshBuilder.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourNavMeshQuery.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour\DetourNode.cpp">
+      <Filter>08. Module\Detour</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEntity.h" />
@@ -475,6 +499,36 @@
     <ClInclude Include="CRigidbody.h">
       <Filter>05. GameObject\Component\06. Rigidbody</Filter>
     </ClInclude>
+    <ClInclude Include="CDetourMgr.h">
+      <Filter>03. Manager\12. DetourMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourAlloc.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourAssert.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourCommon.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourMath.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourNavMesh.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourNavMeshBuilder.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourNavMeshQuery.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourNode.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\Include\Detour\DetourStatus.h">
+      <Filter>08. Module\Detour</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Header">
@@ -674,6 +728,12 @@
     </Filter>
     <Filter Include="05. GameObject\Component\06. Rigidbody">
       <UniqueIdentifier>{b8674e4a-ea3d-48ab-ba75-49349c85643c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\12. DetourMgr">
+      <UniqueIdentifier>{a26163d5-7d48-4825-a025-c154e17ee46e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Module\Detour">
+      <UniqueIdentifier>{6a206414-80a8-48e3-826d-c9370ced1cf5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
