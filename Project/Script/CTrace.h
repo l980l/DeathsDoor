@@ -6,9 +6,9 @@ class CTrace :
 private:
     float m_fLastRenewal;
     float m_fRenewal_Trace; // 추적 경로를 갱신하는 주기
-
+    float m_fSpeed;
     Vec3  m_vActualPath[256];
-    int   m_iactualPathCount;
+    int   m_iActualPathCount;
     int   m_icurrentPathIndex;
 
 public:

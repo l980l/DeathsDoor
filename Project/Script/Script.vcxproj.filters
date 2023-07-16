@@ -46,7 +46,7 @@
     <Filter Include="Script\State\Player\Dead">
       <UniqueIdentifier>{7950cb2f-c015-4c54-8b40-1df11c5ddf56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Player\Monster">
+    <Filter Include="Script\State\Monster">
       <UniqueIdentifier>{79c87d13-88ed-4ee0-b618-746d8e806560}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -115,7 +115,7 @@
       <Filter>Script\State\Player\Walk</Filter>
     </ClInclude>
     <ClInclude Include="CTrace.h">
-      <Filter>Script\State\Player\Monster</Filter>
+      <Filter>Script\State\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +186,7 @@
       <Filter>Script\State\Player\Walk</Filter>
     </ClCompile>
     <ClCompile Include="CTrace.cpp">
-      <Filter>Script\State\Player\Monster</Filter>
+      <Filter>Script\State\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
