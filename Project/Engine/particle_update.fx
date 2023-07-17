@@ -100,17 +100,26 @@ void CS_ParticleUpdate(int3 _ID : SV_DispatchThreadID)
                         // To Center
                         else if (ModuleData.AddVelocityType == 1)
                         {
-                            
+                            float3 vVelocity = normalize(particle.vLocalPos.xyz);
+                            particle.vVelocity.xyz = -(vVelocity * ModuleData.Speed);
                         }
                         
                         // Fixed Direction
-                        else
+                        else if (ModuleData.AddVelocityType == 2)
                         {
-                            
+                            float3 vVelocity = normalize(ModuleData.vVelocityDir.xyz);
+                            particle.vVelocity.xyz = vVelocity * ModuleData.Speed;
                         }
-                    }                    
+                        else if (ModuleData.AddVelocityType == 3)
+                        {
+                            //float3 rotation = 2 * 3.1415926535f * radians(360);
+                            float fRadius = radians(360);
+                            float fAngle = 2 * 3.1415926535f;
+                            particle.vWorldPos.xyz = float3(fRadius, fAngle, 100.f);
+                            particle.vVelocity.xyz = particle.vWorldPos.xyz * ModuleData.Speed;
+                        }
+                    }
                     
-                   
                     
                     particle.vColor = ModuleData.vSpawnColor;                                      
                     particle.Age = 0.f;
@@ -138,7 +147,7 @@ void CS_ParticleUpdate(int3 _ID : SV_DispatchThreadID)
         }
                 
         // NoiseForce 모듈 (랜덤으로 힘) 적용 모듈
-        if (ModuleData.NoiseForce)
+        if (ModuleData.fNoiseForce)
         {            
             if (particle.PrevAge == 0.f)
             {

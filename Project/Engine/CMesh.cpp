@@ -255,7 +255,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	IndexInfo.pIdxSysMem = new UINT[IndexInfo.iIdxCount];
 	memcpy(IndexInfo.pIdxSysMem, _IdxSysMem, sizeof(UINT) * IndexInfo.iIdxCount);
 
-	m_vecIdxInfo.push_back(IndexInfo);
+	m_vecIdxInfo.push_back(IndexInfo);	
 }
 
 

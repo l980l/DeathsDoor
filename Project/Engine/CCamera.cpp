@@ -409,6 +409,7 @@ void CCamera::render_ui()
 
 void CCamera::SaveToLevelFile(FILE* _File)
 {
+	fwrite(&m_fWidth, sizeof(float), 1, _File);
 	fwrite(&m_fAspectRatio, sizeof(float), 1, _File);
 	fwrite(&m_fScale, sizeof(float), 1, _File);
 	fwrite(&m_fFar, sizeof(float), 1, _File);
@@ -419,6 +420,7 @@ void CCamera::SaveToLevelFile(FILE* _File)
 
 void CCamera::LoadFromLevelFile(FILE* _File)
 {
+	fread(&m_fWidth, sizeof(float), 1, _File);
 	fread(&m_fAspectRatio, sizeof(float), 1, _File);
 	fread(&m_fScale, sizeof(float), 1, _File);
 	fread(&m_fFar, sizeof(float), 1, _File);

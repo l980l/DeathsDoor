@@ -40,5 +40,6 @@ public:
     friend class CLevel;
     friend class CGameObject;
     friend class CEventMgr;
+    friend class OutlinerUI;
 };
 

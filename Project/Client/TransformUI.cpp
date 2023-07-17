@@ -25,7 +25,7 @@ int TransformUI::render_update()
 	vRotation = (vRotation / XM_PI) * 180.f;
 
 	// Position
-	ImGui::Text("Position");
+	ImGui::Text("Position ");
 	ImGui::SameLine();
 	if (ImGui::DragFloat3("##Relative Position", vPos))
 	{
@@ -33,15 +33,25 @@ int TransformUI::render_update()
 	}
 
 	// Scale
-	ImGui::Text("Scale   ");
+	ImGui::Text("Scale");
+	ImGui::SameLine();
+	static bool bSameRatio = false;
+	ImGui::Checkbox("##SameRatio", &bSameRatio);
 	ImGui::SameLine();
 	if (ImGui::DragFloat3("##Relative Scale", vScale))
 	{
+		// 비율 유지 기능.
+		if (bSameRatio)
+		{
+			vScale.y = vScale.x;
+			vScale.z = vScale.x;
+		}
+
 		GetTarget()->Transform()->SetRelativeScale(vScale);
 	}
 
 	// Rotation
-	ImGui::Text("Rotation");
+	ImGui::Text("Rotation ");
 	ImGui::SameLine();
 	if (ImGui::DragFloat3("##Relative Rotation", vRotation))
 	{

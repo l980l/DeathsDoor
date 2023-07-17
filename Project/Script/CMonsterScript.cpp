@@ -13,15 +13,12 @@ CMonsterScript::~CMonsterScript()
 
 void CMonsterScript::tick()
 {
+	if(KEY_TAP(KEY::SPACE))
+	{
+	}
 }
 
 void CMonsterScript::BeginOverlap(CCollider2D* _Other)
 {
-	if (L"Parent Object" == _Other->GetOwner()->GetName())
-	{
-		//Destroy();	
-
-		SetLifeSpan(2.f);
-	}
 }
 

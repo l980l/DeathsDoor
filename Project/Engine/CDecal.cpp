@@ -24,7 +24,7 @@ CDecal::~CDecal()
 
 void CDecal::finaltick()
 {
-	if(m_bShowDebug)
+	if (m_bShowDebug)
 	{
 		const Matrix& matWorld = Transform()->GetWorldMat();
 		DrawDebugCube(matWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f);
@@ -48,6 +48,7 @@ void CDecal::SaveToLevelFile(FILE* _File)
 {
 	CRenderComponent::SaveToLevelFile(_File);
 
+	fwrite(&m_bShowDebug, sizeof(bool), 1, _File);
 	fwrite(&m_Light, sizeof(bool), 1, _File);
 	fwrite(&m_LightAlpha, sizeof(float), 1, _File);
 	SaveResRef(m_DecalTex.Get(), _File);
@@ -57,6 +58,7 @@ void CDecal::LoadFromLevelFile(FILE* _File)
 {
 	CRenderComponent::LoadFromLevelFile(_File);
 
+	fread(&m_bShowDebug, sizeof(bool), 1, _File);
 	fread(&m_Light, sizeof(bool), 1, _File);
 	fread(&m_LightAlpha, sizeof(float), 1, _File);
 	LoadResRef(m_DecalTex, _File);

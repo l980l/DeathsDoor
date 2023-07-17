@@ -4,6 +4,7 @@
 
 #include "CTimeMgr.h"
 #include "CMeshRender.h"
+#include "CMeshRender.h"
 #include "CStructuredBuffer.h"
 #include "CResMgr.h"
 
@@ -16,8 +17,8 @@ CAnimator3D::CAnimator3D()
 	: m_pVecBones(nullptr)
 	, m_pVecClip(nullptr)
 	, m_iCurClip(0)
-	, m_dCurTime(0.)
-	, m_iFrameCount(30)
+	, m_dCurTime(0.0)
+	, m_iFrameCount(60)
 	, m_pBoneFinalMatBuffer(nullptr)
 	, m_bFinalMatUpdate(false)
 	, m_iFrameIdx(0)
@@ -42,6 +43,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {
 	m_pBoneFinalMatBuffer = new CStructuredBuffer;
+	m_vecClipUpdateTime.resize(m_pVecClip->size());
 }
 
 CAnimator3D::~CAnimator3D()
@@ -54,14 +56,17 @@ CAnimator3D::~CAnimator3D()
 void CAnimator3D::finaltick()
 {
 	m_dCurTime = 0.f;
+
 	// 현재 재생중인 Clip 의 시간을 진행한다.
 	m_vecClipUpdateTime[m_iCurClip] += DT;
 
+	// 현재 애니메이션 재생시간이 끝났으면, 다시 시작 부분으로 돌려서 반복 시킴.
 	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
 	{
 		m_vecClipUpdateTime[m_iCurClip] = 0.f;
 	}
 
+	// 클립 내에서 현재 애니메이션 시작 시간 + 현재 애니메이션이 지금까지 재생된 시간 = 현재 클립 내에서의 시간.
 	m_dCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
 
 	// 현재 프레임 인덱스 구하기
@@ -69,7 +74,8 @@ void CAnimator3D::finaltick()
 	m_iFrameIdx = (int)(dFrameIdx);
 
 	// 다음 프레임 인덱스
-	if (m_iFrameIdx >= m_pVecClip->at(0).iFrameLength - 1)
+	// 클립 1개만 쓰니까 0 넣는거고 거기서 맨 뒤 프레임이면. 
+	if (m_iFrameIdx >= m_pVecClip->at(m_iCurClip).iEndFrame)
 		m_iNextFrameIdx = m_iFrameIdx;	// 끝이면 현재 인덱스를 유지
 	else
 		m_iNextFrameIdx = m_iFrameIdx + 1;
@@ -109,6 +115,9 @@ void CAnimator3D::UpdateData()
 		pUpdateShader->SetNextFrameIdx(m_iNextFrameIdx);
 		pUpdateShader->SetFrameRatio(m_fRatio);
 
+		pUpdateShader->SetBlendFrameIdx(m_iNextFrameIdx);
+		pUpdateShader->SetBlendRatio(0.5f);
+
 		// 업데이트 쉐이더 실행
 		pUpdateShader->Execute();
 
@@ -117,6 +126,15 @@ void CAnimator3D::UpdateData()
 
 	// t30 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
 	m_pBoneFinalMatBuffer->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
+}
+
+void CAnimator3D::SetCurClip(int _iClipIdx)
+{
+	if (_iClipIdx >= 0 && _iClipIdx < m_pVecClip->size()) 
+		m_iCurClip = _iClipIdx; 
+
+	// 현재 재생하는 애니메이션 클립을 변경하면 해당 애니메이션의 재생시간을 0으로 초기화.
+	m_vecClipUpdateTime[_iClipIdx] = 0.f;
 }
 
 void CAnimator3D::ClearData()
@@ -136,6 +154,15 @@ void CAnimator3D::ClearData()
 	}
 }
 
+void CAnimator3D::SaveMeshAnimationClip()
+{
+	Ptr<CMesh> pMesh = MeshRender()->GetMesh();
+
+	pMesh->ChangeAnimClip(m_pVecClip);	// Mesh의 AnimClip을 현재 Animator3D의 AnimClip으로 변경.
+
+	pMesh->Save(pMesh->GetKey());		// Mesh에는 Key 값으로 경로가 저장되어 있을 것이다. 
+}
+
 void CAnimator3D::check_mesh(Ptr<CMesh> _pMesh)
 {
 	UINT iBoneCount = _pMesh->GetBoneCount();
@@ -147,8 +174,15 @@ void CAnimator3D::check_mesh(Ptr<CMesh> _pMesh)
 
 void CAnimator3D::SaveToLevelFile(FILE* _pFile)
 {
+	Ptr<CMesh> pMesh = MeshRender()->GetMesh();
+	SaveResRef(pMesh.Get(), _pFile);
 }
 
 void CAnimator3D::LoadFromLevelFile(FILE* _pFile)
 {
+	Ptr<CMesh> pMesh = nullptr;
+	LoadResRef(pMesh, _pFile);
+
+	SetBones(pMesh->GetBones());
+	SetAnimClip(pMesh->GetAnimClip());
 }
