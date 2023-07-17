@@ -142,10 +142,10 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 {
+	if (nullptr == m_pNaviMesh)
+		assert(nullptr);
 	if (nullptr == m_pPlayer)
 		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	if (nullptr == m_pNaviMesh)
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
 	float actualPath[256 * 3] = { 0.f, };
 	for (int i = 0; i < 256 * 3; i++)
 		actualPath[i] = 0.0f;
@@ -185,7 +185,7 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	navQuery->findNearestPoly(startpos, polyPickExt, &filter, &startRef, 0);
 	navQuery->findNearestPoly(endpos, polyPickExt, &filter, &endRef, 0);
 
-	// 시작과 끝 위치를 탐색
+	// 시작과 도착 위치까지 경로 탐색
 	float nearestStartPos[3], nearestEndPos[3];
 	navQuery->closestPointOnPoly(startRef, startpos, nearestStartPos, 0);
 	navQuery->closestPointOnPoly(endRef, endpos, nearestEndPos, 0);
@@ -198,12 +198,15 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	// 경로를 따라 실제 이동 경로를 생성
 	navQuery->findStraightPath(nearestStartPos, nearestEndPos, path, pathCount, actualPath, 0, 0, ActualPathCount, 256);
 
+	// Query 객체 할당 해제
 	dtFreeNavMeshQuery(navQuery);
 
 	Vec3 Path[256] = {};
 	for (int i = 0; i < 256; ++i)
 	{
 		Path[i] = Vec3(actualPath[i * 3], actualPath[i * 3 + 1], actualPath[i * 3 + 2]);
+		if (Vec3(0.f, 0.f, 0.f) == Path[i])
+			break;
 	}
 
 	return Path;
