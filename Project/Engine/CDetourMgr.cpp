@@ -8,10 +8,12 @@
 #include "CCamera.h"
 #include "CTransform.h"
 #include "CRenderMgr.h"
+#include "CLevelMgr.h"
+#include "CLevel.h"
 
 #include <Detour\DetourNavMesh.h>
 #include <Detour\DetourNavMeshBuilder.h>
-#include <Detour\\DetourNavMeshQuery.h>
+#include <Detour\DetourNavMeshQuery.h>
 
 #include <fstream>
 
@@ -28,16 +30,54 @@ struct NavMeshTileHeader
 	dtTileRef tileRef;
 	int dataSize;
 };
-static const int NAVMESHSET_MAGIC = 'M' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'MSET';
-static const int NAVMESHSET_VERSION = 1;
+
 
 CDetourMgr::CDetourMgr()
+	: m_pPlayer(nullptr)
+	, m_pNaviMesh(nullptr)
 {
-
 }
 CDetourMgr::~CDetourMgr()
 {
+	if (nullptr != m_pNaviMesh)
+	{
+		delete m_pNaviMesh;
+	}
+}
 
+void CDetourMgr::init()
+{
+	ChangeLevel(LEVEL_TYPE::HALL);
+}
+
+void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
+{
+	if(nullptr != m_pNaviMesh)
+		delete m_pNaviMesh;
+	m_pNaviMesh = nullptr;
+	m_pPlayer = nullptr;
+
+	switch (_LevelType)
+	{
+	case LEVEL_TYPE::CASTLE_FIELD:
+		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		break;
+	case LEVEL_TYPE::CASTLE_BOSS:
+		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		break;
+	case LEVEL_TYPE::FOREST_FIELD:
+		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		break;
+	case LEVEL_TYPE::ICE_FIELD:
+		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		break;
+	case LEVEL_TYPE::ICE_BOSS:
+		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		break;
+	case LEVEL_TYPE::HALL:
+		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		break;
+	}
 }
 
 void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
@@ -67,14 +107,14 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 		return;
 	}
 
-	NaviMesh = dtAllocNavMesh();
-	if (!NaviMesh)
+	m_pNaviMesh = dtAllocNavMesh();
+	if (!m_pNaviMesh)
 	{
 		fclose(fp);
 		return;
 	}
 
-	dtStatus status = NaviMesh->init(&header.params);
+	dtStatus status = m_pNaviMesh->init(&header.params);
 	if (dtStatusFailed(status))
 	{
 		fclose(fp);
@@ -94,31 +134,27 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 		memset(data, 0, tileHeader.dataSize);
 		fread(data, tileHeader.dataSize, 1, fp);
 
-		NaviMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef, 0);
+		m_pNaviMesh->addTile(data, tileHeader.dataSize, DT_TILE_FREE_DATA, tileHeader.tileRef, 0);
 	}
 
 	fclose(fp);
-
-	if(!NaviMesh)
-	{
-		printf("NaviMesh Load Error!!!");
-		return;
-	}
 }
 
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 {
-	if (NaviMesh == nullptr)
+	if (nullptr == m_pPlayer)
+		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	if (nullptr == m_pNaviMesh)
 		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
-	float actualPath[256] = { 0.f, };
+	float actualPath[256 * 3] = { 0.f, };
 	for (int i = 0; i < 256 * 3; i++)
 		actualPath[i] = 0.0f;
 
 	// NavMesh와 함께 경로 계획을 수행하는 Query 객체 생성
 	dtNavMeshQuery* navQuery = dtAllocNavMeshQuery();
-	navQuery->init(NaviMesh, 4866);
+	navQuery->init(m_pNaviMesh, 4866);
 
-	// 시작, 끝 위치 설정
+	// 시작, 도착 위치 설정
 	float startpos[3] = {};
 	startpos[0] = _vStartPos.x;
 	startpos[1] = _vStartPos.y;
@@ -162,6 +198,7 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	// 경로를 따라 실제 이동 경로를 생성
 	navQuery->findStraightPath(nearestStartPos, nearestEndPos, path, pathCount, actualPath, 0, 0, ActualPathCount, 256);
 
+	dtFreeNavMeshQuery(navQuery);
 
 	Vec3 Path[256] = {};
 	for (int i = 0; i < 256; ++i)

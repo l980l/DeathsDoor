@@ -9,7 +9,7 @@ private:
     float m_fSpeed;
     Vec3  m_vActualPath[256];
     int   m_iActualPathCount;
-    int   m_icurrentPathIndex;
+    int   m_iCurrentPathIndex;
 
 public:
     virtual void tick() override;

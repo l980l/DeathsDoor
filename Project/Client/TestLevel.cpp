@@ -13,6 +13,7 @@
 #include <Script\CPlayerScript.h>
 #include <Script/CStateScript.h>
 #include <Script\CMonsterScript.h>
+#include <Script/CCameraMoveScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -41,8 +42,9 @@ void CreateTestLevel()
 
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
+	pMainCam->AddComponent(new CCameraMoveScript);
 
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
@@ -120,25 +122,42 @@ void CreateTestLevel()
 
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
+
+	pObject = new CGameObject;
+	pObject->SetName(L"Monster");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CMonsterScript);
+	pObject->AddComponent(new CStateScript);
+
+	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+
+	SpawnGameObject(pObject, Vec3(500.f, 0.f, 300.f), (int)LAYER::MONSTER);
+
 	// ============
 	// FBX Loading
 	// ============	
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"House");
-
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hall.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\TestCastle.fbx");
+		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\TestCastle1.mdat");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Hall");
-		pObj->AddComponent(new CMonsterScript);
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		
+		pObj->SetName(L"House");
+		//pObj->Transform()->SetRelativeScale(Vec3(10.f, 10.f, 10.f));
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hall.fbx");
+		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
+		//pObj = pMeshData->Instantiate();
+		//pObj->SetName(L"Hall");
+		//pObj->AddComponent(new CMonsterScript);
+		//pObj->MeshRender()->SetDynamicShadow(true);
+		//pObj->MeshRender()->SetFrustumCheck(false);
+		//
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
 	}
 
