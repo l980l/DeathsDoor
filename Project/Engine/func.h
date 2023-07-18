@@ -47,8 +47,6 @@ wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 // FbxMatrix -> Matrix
 Matrix GetMatrixFromFbxMatrix(FbxAMatrix& _mat);
 
-
-
 // Save / Load
 void SaveWString(const wstring& _str, FILE* _File);
 void LoadWString(wstring& _str, FILE* _File);
@@ -70,6 +68,7 @@ void LoadResRef(Ptr<T>& _Res, FILE* _File)
 	{
 		wstring strKey, strRelativePath;
 		LoadWString(strKey, _File);
+		
 		LoadWString(strRelativePath, _File);
 
 		_Res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);

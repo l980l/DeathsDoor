@@ -26,7 +26,7 @@ ImGuiMgr::~ImGuiMgr()
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 
-    // UI »èÁ¦
+    // UI ì‚­ì œ
     Safe_Del_Map(m_mapUI);
 }
 
@@ -35,7 +35,7 @@ void ImGuiMgr::init(HWND _hWnd)
 {
     m_hMainHwnd = _hWnd;
 
-    // ImGui ÃÊ±âÈ­
+    // ImGui ì´ˆê¸°í™”
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -68,10 +68,10 @@ void ImGuiMgr::init(HWND _hWnd)
     ImGui_ImplWin32_Init(m_hMainHwnd);
     ImGui_ImplDX11_Init(DEVICE, CONTEXT);
 
-    // Tool ¿ë UI »ý¼º
+    // Tool ìš© UI ìƒì„±
     CreateUI();
 
-    // Content Æú´õ °¨½Ã
+    // Content í´ë” ê°ì‹œ
     wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
     m_hObserver = FindFirstChangeNotification(strContentPath.c_str(), true
         , FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME
@@ -88,7 +88,7 @@ void ImGuiMgr::progress()
 
     render();
 
-    // Content Æú´õ º¯°æ °¨½Ã
+    // Content í´ë” ë³€ê²½ ê°ì‹œ
     ObserveContent();
 }
 
@@ -113,8 +113,10 @@ void ImGuiMgr::tick()
 
 void ImGuiMgr::finaltick()
 {
-    // Demo UI
-    ImGui::ShowDemoWindow();
+    //// Demo UI
+    //ImGui::ShowDemoWindow();
+
+    LayoutDesign();
 
     // InspectorUI
     for (const auto& pair : m_mapUI)
@@ -196,12 +198,55 @@ void ImGuiMgr::ObserveContent()
 
     if (dwWaitStatus == WAIT_OBJECT_0)
     {
-        // content Æú´õ¿¡ º¯°æÁ¡ÀÌ »ý°å´Ù.
+        // content í´ë”ì— ë³€ê²½ì ì´ ìƒê²¼ë‹¤.
         ContentUI* UI = (ContentUI*)FindUI("##Content");
         UI->Reload();
 
         FindNextChangeNotification(m_hObserver);        
     }
+}
+
+void ImGuiMgr::LayoutDesign()
+{
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.FrameRounding = 10.f;
+    style.GrabRounding = style.FrameRounding;
+    style.ScrollbarSize = 20;
+    style.GrabMinSize = 20;
+    style.WindowPadding = ImVec2(6, 5);
+
+    //style.ItemSpacing = ImVec2(20, 4);
+
+    style.Colors[ImGuiCol_TitleBg] = ImVec4(0.639, 0.878, 0.39, 0.39);
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0, 0.56,0.45,1);
+    style.Colors[ImGuiCol_Border] = ImVec4(0.94,0,1,0.5);
+    style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07,0.69,0.57,1);
+    style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.07, 0.69, 0.57, 1);
+
+    style.Colors[ImGuiCol_CheckMark] = ImVec4(0.64,0.88,0.39,1);
+    style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.36,0.78,0.44,1);
+    style.Colors[ImGuiCol_FrameBg] = ImVec4(0.43,0.8,0.49,0.36);
+    style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.43, 0.8, 0.49, 0.78);
+    style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.43, 0.8, 0.49, 1);
+
+    style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.42,0.93,0.51,1);
+    style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.42,0.93,0.51,1);
+    style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(1,1,1,0.09);
+    style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.64,0.88,0.39,1);
+    style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.49,1,0.32,1);
+
+    style.Colors[ImGuiCol_Button] = ImVec4(0.2,0.73,0.6,0.71);
+    style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.2,0.73,0.6,0.78);
+    style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.2,0.73,0.6,1);
+    style.Colors[ImGuiCol_Header] = ImVec4(0.53,0.73,0.38,0.71);
+    style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.53,0.73,0.38,1);
+
+    style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.53,0.73,0.38,1);
+    style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.53, 0.73, 0.38, 1);
+    style.Colors[ImGuiCol_Tab] = ImVec4(0.53,0.73,0.38,0.71);
+    style.Colors[ImGuiCol_TabHovered] = ImVec4(0.53,0.73,0.38,1);
+    style.Colors[ImGuiCol_TabActive] = ImVec4(0.53,0.73,0.38,1);
+    style.Colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0, 0.56, 0.45, 1);
 }
 
 

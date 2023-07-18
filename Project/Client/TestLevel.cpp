@@ -145,20 +145,20 @@ void CreateTestLevel()
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Test.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\TestCastle1.mdat");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"House");
-		//pObj->Transform()->SetRelativeScale(Vec3(10.f, 10.f, 10.f));
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hall.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"Hall");
-		//pObj->AddComponent(new CMonsterScript);
-		//pObj->MeshRender()->SetDynamicShadow(true);
-		//pObj->MeshRender()->SetFrustumCheck(false);
+		pObj->SetName(L"Lurker");
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"GrimKnight");
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
 		//
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 	}
 
 	// 충돌 시킬 레이어 짝 지정

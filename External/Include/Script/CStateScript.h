@@ -9,10 +9,15 @@ class CStateScript :
 private:
     map<wstring, CState*>   m_mapState;     // 전체 State 
     CState*                 m_pCurState;    // 현재 State
+    Stat                    m_tStat;
+
 
 public:
     virtual void begin() override;
     virtual void tick() override;
+
+    Stat GetStat() { return m_tStat; }
+    void SetStat(Stat _tStat) { m_tStat = _tStat; }
 
     void AddState(const wstring& _strKey, CState* _pState);
     CState* GetCurState() { return m_pCurState; }
@@ -28,6 +33,9 @@ public:
     virtual void BeginOverlap(CCollider2D* _Other);
     virtual void OnOverlap(CCollider2D* _Other);
     virtual void EndOverlap(CCollider2D* _Other);
+
+    virtual void SaveToLevelFile(FILE* _File) override;
+    virtual void LoadFromLevelFile(FILE* _FILE) override;
 
     CLONE(CStateScript);
 

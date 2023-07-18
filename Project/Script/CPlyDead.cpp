@@ -15,6 +15,8 @@ void CPlyDead::tick()
 
 void CPlyDead::Enter()
 {
+	//GetOwner()->Animator3D()->Play(, false);
+	//GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
 }
 
 void CPlyDead::Exit()

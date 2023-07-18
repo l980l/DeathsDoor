@@ -76,10 +76,10 @@ void ContentUI::Reload()
 			CResMgr::GetInst()->Load<CMaterial>(m_vecResPath[i], m_vecResPath[i]);
 			break;
 		case RES_TYPE::PREFAB:
-
+			CResMgr::GetInst()->Load<CPrefab>(m_vecResPath[i], m_vecResPath[i]);
 			break;
 		case RES_TYPE::MESH:
-
+			//CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
 			break;
 		case RES_TYPE::TEXTURE:
 			CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
@@ -198,7 +198,7 @@ RES_TYPE ContentUI::GetResTypeByExt(const wstring& _relativepath)
 		
 	if (L".mdat" == strExt)
 		return RES_TYPE::MESHDATA;
-	else if (L".pref" == strExt)
+	else if (L".prefab" == strExt)
 		return RES_TYPE::PREFAB;
 	else if (L".mesh" == strExt)
 		return RES_TYPE::MESH;
