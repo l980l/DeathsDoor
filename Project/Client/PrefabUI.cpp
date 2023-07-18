@@ -66,7 +66,6 @@ int PrefabUI::render_update()
     {
         CGameObject* proto = CLevelSaveLoad::LoadPrefab(GetTargetRes()->GetRelativePath());
         pPrefab->RegisterProtoObject(proto);
-
         SpawnGameObject(pPrefab->Instantiate(), Vec3(SpawnPos[0], SpawnPos[1], SpawnPos[2]), iSpawnLayer);
     }
 

@@ -113,8 +113,8 @@ void ImGuiMgr::tick()
 
 void ImGuiMgr::finaltick()
 {
-    // Demo UI
-    ImGui::ShowDemoWindow();
+    //// Demo UI
+    //ImGui::ShowDemoWindow();
 
     LayoutDesign();
 

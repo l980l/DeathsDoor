@@ -16,449 +16,450 @@
 
 int CLevelSaveLoadInScript::Play(const wstring& _LevelPath, CLevel* _Level)
 {
-	if (_Level->GetState() != LEVEL_STATE::STOP)
-		return E_FAIL;
+    if (_Level->GetState() != LEVEL_STATE::STOP)
+        return E_FAIL;
 
-	wstring strPath = CPathMgr::GetInst()->GetContentPath();
-	strPath += _LevelPath;
+    wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    strPath += _LevelPath;
 
-	FILE* pFile = nullptr;
+    FILE* pFile = nullptr;
 
-	_wfopen_s(&pFile, strPath.c_str(), L"wb");
+    _wfopen_s(&pFile, strPath.c_str(), L"wb");
 
-	if (nullptr == pFile)
-		return E_FAIL;
+    if (nullptr == pFile)
+        return E_FAIL;
 
-	// 레벨 이름 저장
-	SaveWString(_Level->GetName(), pFile);
-
-
-	// 레벨의 레이어들을 저장
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		CLayer* pLayer = _Level->GetLayer(i);
-
-		// 레이어 이름 저장
-		SaveWString(pLayer->GetName(), pFile);
-
-		// 레이어의 게임오브젝트들 저장
-		const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
-
-		// 오브젝트 개수 저장
-		size_t objCount = vecParent.size();
-		fwrite(&objCount, sizeof(size_t), 1, pFile);
-
-		// 각 게임오브젝트
-		for (size_t i = 0; i < objCount; ++i)
-		{
-			SaveGameObject(vecParent[i], pFile);
-		}
-	}
-
-	fclose(pFile);
+    // 레벨 이름 저장
+    SaveWString(_Level->GetName(), pFile);
 
 
-	return S_OK;
+    // 레벨의 레이어들을 저장
+    for (UINT i = 0; i < MAX_LAYER; ++i)
+    {
+        CLayer* pLayer = _Level->GetLayer(i);
+
+        // 레이어 이름 저장
+        SaveWString(pLayer->GetName(), pFile);
+
+        // 레이어의 게임오브젝트들 저장
+        const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
+
+        // 오브젝트 개수 저장
+        size_t objCount = vecParent.size();
+        fwrite(&objCount, sizeof(size_t), 1, pFile);
+
+        // 각 게임오브젝트
+        for (size_t i = 0; i < objCount; ++i)
+        {
+            SaveGameObject(vecParent[i], pFile);
+        }
+    }
+
+    fclose(pFile);
+
+
+    return S_OK;
 }
 
 CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
 {
-	wstring strPath = CPathMgr::GetInst()->GetContentPath();
-	strPath += _LevelPath;//상대경로
+    wstring strPath = CPathMgr::GetInst()->GetContentPath();
+    strPath += _LevelPath;//상대경로
 
-	FILE* pFile = nullptr;
+    FILE* pFile = nullptr;
 
-	_wfopen_s(&pFile, strPath.c_str(), L"rb");
+    _wfopen_s(&pFile, strPath.c_str(), L"rb");
 
-	if (nullptr == pFile)
-		return nullptr;
+    if (nullptr == pFile)
+        return nullptr;
 
-	CLevel* NewLevel = new CLevel;
+    CLevel* NewLevel = new CLevel;
 
-	// 레벨 이름
-	wstring strLevelName;
-	LoadWString(strLevelName, pFile);
-	NewLevel->SetName(strLevelName);
+    // 레벨 이름
+    wstring strLevelName;
+    LoadWString(strLevelName, pFile);
+    NewLevel->SetName(strLevelName);
 
 
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		CLayer* pLayer = NewLevel->GetLayer(i);
+    for (UINT i = 0; i < MAX_LAYER; ++i)
+    {
+        CLayer* pLayer = NewLevel->GetLayer(i);
 
-		// 레이어 이름
-		wstring LayerName;
-		LoadWString(LayerName, pFile);
-		pLayer->SetName(LayerName);
+        // 레이어 이름
+        wstring LayerName;
+        LoadWString(LayerName, pFile);
+        pLayer->SetName(LayerName);
 
-		// 게임 오브젝트 개수
-		size_t objCount = 0;
-		fread(&objCount, sizeof(size_t), 1, pFile);
+        // 게임 오브젝트 개수
+        size_t objCount = 0;
+        fread(&objCount, sizeof(size_t), 1, pFile);
 
-		// 각 게임오브젝트
-		for (size_t j = 0; j < objCount; ++j)
-		{
-			CGameObject* pNewObj = LoadGameObject(pFile);
-			NewLevel->AddGameObject(pNewObj, i, false);
-		}
-	}
+        // 각 게임오브젝트
+        for (size_t j = 0; j < objCount; ++j)
+        {
+            CGameObject* pNewObj = LoadGameObject(pFile);
+            NewLevel->AddGameObject(pNewObj, i, false);
+        }
+    }
 
-	fclose(pFile);
+    fclose(pFile);
 
-	NewLevel->ChangeState(_state);
+    NewLevel->ChangeState(_state);
 
-	return NewLevel;
+    return NewLevel;
 }
 
 int CLevelSaveLoadInScript::SaveLevel(CLevel* _Level)
 {
-	if (_Level->GetState() != LEVEL_STATE::STOP) //stop상태일 때만 저장
-		return E_FAIL;
+    if (_Level->GetState() != LEVEL_STATE::STOP) //stop상태일 때만 저장
+        return E_FAIL;
 
-	OPENFILENAME ofn = {};
-	wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-	strFolderpath += L"Level\\";
+    OPENFILENAME ofn = {};
+    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    strFolderpath += L"Level\\";
 
-	wchar_t szFilePath[256] = {};
+    wchar_t szFilePath[256] = {};
 
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = szFilePath;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = 256;
-	ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = strFolderpath.c_str();
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = NULL;
+    ofn.lpstrFile = szFilePath;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = 256;
+    ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = strFolderpath.c_str();
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-	if (false == GetSaveFileName(&ofn))
-		E_FAIL;
+    if (false == GetSaveFileName(&ofn))
+        E_FAIL;
 
-	// 파일 입출력
-	FILE* pFile = nullptr;
-	errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"wb");
+    // 파일 입출력
+    FILE* pFile = nullptr;
+    errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"wb");
 
-	if (nullptr == pFile)
-		return E_FAIL;
+    if (nullptr == pFile)
+        return E_FAIL;
 
-	// 레벨 이름 저장
-	SaveWString(_Level->GetName(), pFile);
-
-
-	// 레벨의 레이어들을 저장
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		CLayer* pLayer = _Level->GetLayer(i);
-
-		// 레이어 이름 저장
-		SaveWString(pLayer->GetName(), pFile);
-
-		// 레이어의 부모게임오브젝트들 저장
-		const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
-
-		size_t objCount = vecParent.size();
-		fwrite(&objCount, sizeof(size_t), 1, pFile); // 오브젝트 개수 저장
-
-		for (size_t i = 0; i < objCount; ++i)
-		{
-			SaveGameObject(vecParent[i], pFile); // 각 게임오브젝트 저장
-		}
-	}
-
-	fclose(pFile);
+    // 레벨 이름 저장
+    SaveWString(_Level->GetName(), pFile);
 
 
-	return S_OK;
+    // 레벨의 레이어들을 저장
+    for (UINT i = 0; i < MAX_LAYER; ++i)
+    {
+        CLayer* pLayer = _Level->GetLayer(i);
+
+        // 레이어 이름 저장
+        SaveWString(pLayer->GetName(), pFile);
+
+        // 레이어의 부모게임오브젝트들 저장
+        const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
+
+        size_t objCount = vecParent.size();
+        fwrite(&objCount, sizeof(size_t), 1, pFile); // 오브젝트 개수 저장
+
+        for (size_t i = 0; i < objCount; ++i)
+        {
+            SaveGameObject(vecParent[i], pFile); // 각 게임오브젝트 저장
+        }
+    }
+
+    fclose(pFile);
+
+
+    return S_OK;
 }
 
 int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
 {
-	// 이름
-	SaveWString(_Object->GetName(), _File);
+    // 이름
+    SaveWString(_Object->GetName(), _File);
 
-	// 컴포넌트
-	for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
-	{
-		if (i == (UINT)COMPONENT_TYPE::END)
-		{
-			// 컴포넌트 타입 저장
-			fwrite(&i, sizeof(UINT), 1, _File);
-			break;
-		}
+    // 컴포넌트
+    for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
+    {
+        if (i == (UINT)COMPONENT_TYPE::END)
+        {
+            // 컴포넌트 타입 저장
+            fwrite(&i, sizeof(UINT), 1, _File);
+            break;
+        }
 
-		CComponent* Com = _Object->GetComponent((COMPONENT_TYPE)i);
-		if (nullptr == Com)
-			continue;
+        CComponent* Com = _Object->GetComponent((COMPONENT_TYPE)i);
+        if (nullptr == Com)
+            continue;
 
-		// 컴포넌트 타입 저장
-		fwrite(&i, sizeof(UINT), 1, _File);
+        // 컴포넌트 타입 저장
+        fwrite(&i, sizeof(UINT), 1, _File);
 
-		// 컴포넌트 정보 저장
-		Com->SaveToLevelFile(_File);
-	}
+        // 컴포넌트 정보 저장
+        Com->SaveToLevelFile(_File);
+    }
 
-	// 스크립트	
-	const vector<CScript*>& vecScript = _Object->GetScripts();
-	size_t ScriptCount = vecScript.size();
-	fwrite(&ScriptCount, sizeof(size_t), 1, _File);
+    // 스크립트   
+    const vector<CScript*>& vecScript = _Object->GetScripts();
+    size_t ScriptCount = vecScript.size();
+    fwrite(&ScriptCount, sizeof(size_t), 1, _File);
 
-	for (size_t i = 0; i < vecScript.size(); ++i)
-	{
-		wstring ScriptName = CScriptMgr::GetScriptName(vecScript[i]);
-		SaveWString(ScriptName, _File);
-		vecScript[i]->SaveToLevelFile(_File);
-	}
+    for (size_t i = 0; i < vecScript.size(); ++i)
+    {
+        wstring ScriptName = CScriptMgr::GetScriptName(vecScript[i]);
+        SaveWString(ScriptName, _File);
+        vecScript[i]->SaveToLevelFile(_File);
+    }
 
 
-	// 자식 오브젝트
-	const vector<CGameObject*>& vecChild = _Object->GetChild();
-	size_t ChildCount = vecChild.size();
-	fwrite(&ChildCount, sizeof(size_t), 1, _File);
+    // 자식 오브젝트
+    const vector<CGameObject*>& vecChild = _Object->GetChild();
+    size_t ChildCount = vecChild.size();
+    fwrite(&ChildCount, sizeof(size_t), 1, _File);
 
-	for (size_t i = 0; i < ChildCount; ++i)
-	{
-		SaveGameObject(vecChild[i], _File);
-	}
+    for (size_t i = 0; i < ChildCount; ++i)
+    {
+        SaveGameObject(vecChild[i], _File);
+    }
 
-	return 0;
-}
-
-int CLevelSaveLoadInScript::SavePrefab(const wstring& _strRelativePath, CPrefab* _Prefab)
-{
-	return 0;
+    return 0;
 }
 
 CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _state)
 {
-	OPENFILENAME ofn = {};
-	wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-	strFolderpath += L"Level\\";
+    OPENFILENAME ofn = {};
+    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    strFolderpath += L"Level\\";
 
-	wchar_t szFilePath[256] = {};
+    wchar_t szFilePath[256] = {};
 
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = szFilePath;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = 256;
-	ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = strFolderpath.c_str();
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = NULL;
+    ofn.lpstrFile = szFilePath;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = 256;
+    ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = strFolderpath.c_str();
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-	if (false == GetSaveFileName(&ofn))
-		E_FAIL;
+    if (false == GetSaveFileName(&ofn))
+        E_FAIL;
 
-	// 파일 입출력
-	FILE* pFile = nullptr;
-	errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"rb");
+    // 파일 입출력
+    FILE* pFile = nullptr;
+    errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"rb");
 
-	if (nullptr == pFile)
-		return nullptr;
+    if (nullptr == pFile)
+        return nullptr;
 
-	CLevel* NewLevel = new CLevel;
+    CLevel* NewLevel = new CLevel;
 
-	// 레벨 이름
-	wstring strLevelName;
-	LoadWString(strLevelName, pFile);
-	NewLevel->SetName(strLevelName);
+    // 레벨 이름
+    wstring strLevelName;
+    LoadWString(strLevelName, pFile);
+    NewLevel->SetName(strLevelName);
 
 
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		CLayer* pLayer = NewLevel->GetLayer(i);
+    for (UINT i = 0; i < MAX_LAYER; ++i)
+    {
+        CLayer* pLayer = NewLevel->GetLayer(i);
 
-		// 레이어 이름
-		wstring LayerName;
-		LoadWString(LayerName, pFile);
-		pLayer->SetName(LayerName);
+        // 레이어 이름
+        wstring LayerName;
+        LoadWString(LayerName, pFile);
+        pLayer->SetName(LayerName);
 
-		// 게임 오브젝트 개수
-		size_t objCount = 0;
-		fread(&objCount, sizeof(size_t), 1, pFile);
+        // 게임 오브젝트 개수
+        size_t objCount = 0;
+        fread(&objCount, sizeof(size_t), 1, pFile);
 
-		// 각 게임오브젝트
-		for (size_t j = 0; j < objCount; ++j)
-		{
-			CGameObject* pNewObj = LoadGameObject(pFile);
-			NewLevel->AddGameObject(pNewObj, i, false);
-		}
-	}
+        // 각 게임오브젝트
+        for (size_t j = 0; j < objCount; ++j)
+        {
+            CGameObject* pNewObj = LoadGameObject(pFile);
+            NewLevel->AddGameObject(pNewObj, i, false);
+        }
+    }
 
-	fclose(pFile);
+    fclose(pFile);
 
-	NewLevel->ChangeState(_state);
+    NewLevel->ChangeState(_state);
 
-	return NewLevel;
+    return NewLevel;
 }
 
 CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
 {
-	CGameObject* pObject = new CGameObject;
+    CGameObject* pObject = new CGameObject;
 
-	// 이름
-	wstring Name;
-	LoadWString(Name, _File);
-	pObject->SetName(Name);
+    // 이름
+    wstring Name;
+    LoadWString(Name, _File);
+    pObject->SetName(Name);
 
-	// 컴포넌트
-	while (true)
-	{
-		UINT ComponentType = 0;
-		fread(&ComponentType, sizeof(UINT), 1, _File);
+    // 컴포넌트
+    while (true)
+    {
+        UINT ComponentType = 0;
+        fread(&ComponentType, sizeof(UINT), 1, _File);
 
-		// 컴포넌트 정보의 끝을 확인
-		if ((UINT)COMPONENT_TYPE::END == ComponentType)
-			break;
+        // 컴포넌트 정보의 끝을 확인
+        if ((UINT)COMPONENT_TYPE::END == ComponentType)
+            break;
 
-		CComponent* Component = nullptr;
+        CComponent* Component = nullptr;
 
-		switch ((COMPONENT_TYPE)ComponentType)
-		{
-		case COMPONENT_TYPE::TRANSFORM:
-			Component = new CTransform;
-			break;
-		case COMPONENT_TYPE::COLLIDER2D:
-			Component = new CCollider2D;
-			break;
-		case COMPONENT_TYPE::COLLIDER3D:
-			Component = new CCollider3D;
-			break;
-		case COMPONENT_TYPE::ANIMATOR2D:
-			Component = new CAnimator2D;
-			break;
-		case COMPONENT_TYPE::ANIMATOR3D:
-			Component = new CAnimator3D;
-			break;
-		case COMPONENT_TYPE::LIGHT2D:
-			Component = new CLight2D;
-			break;
-		case COMPONENT_TYPE::LIGHT3D:
-			Component = new CLight3D;
-			break;
-		case COMPONENT_TYPE::CAMERA:
-			Component = new CCamera;
-			break;
-		case COMPONENT_TYPE::MESHRENDER:
-			Component = new CMeshRender;
-			break;
-		case COMPONENT_TYPE::PARTICLESYSTEM:
-			Component = new CParticleSystem;
-			break;
-		case COMPONENT_TYPE::TILEMAP:
-			Component = new CTileMap;
-			break;
-		case COMPONENT_TYPE::SKYBOX:
-			Component = new CSkyBox;
-			break;
-		case COMPONENT_TYPE::LANDSCAPE:
-			Component = new CLandScape;
-			break;
-		case COMPONENT_TYPE::DECAL:
-			Component = new CDecal;
-			break;
-		}
+        switch ((COMPONENT_TYPE)ComponentType)
+        {
+        case COMPONENT_TYPE::TRANSFORM:
+            Component = new CTransform;
+            break;
+        case COMPONENT_TYPE::COLLIDER2D:
+            Component = new CCollider2D;
+            break;
+        case COMPONENT_TYPE::COLLIDER3D:
+            Component = new CCollider3D;
+            break;
+        case COMPONENT_TYPE::ANIMATOR2D:
+            Component = new CAnimator2D;
+            break;
+        case COMPONENT_TYPE::ANIMATOR3D:
+            Component = new CAnimator3D;
+            break;
+        case COMPONENT_TYPE::LIGHT2D:
+            Component = new CLight2D;
+            break;
+        case COMPONENT_TYPE::LIGHT3D:
+            Component = new CLight3D;
+            break;
+        case COMPONENT_TYPE::CAMERA:
+            Component = new CCamera;
+            break;
+        case COMPONENT_TYPE::MESHRENDER:
+            Component = new CMeshRender;
+            break;
+        case COMPONENT_TYPE::PARTICLESYSTEM:
+            Component = new CParticleSystem;
+            break;
+        case COMPONENT_TYPE::TILEMAP:
+            Component = new CTileMap;
+            break;
+        case COMPONENT_TYPE::SKYBOX:
+            Component = new CSkyBox;
+            break;
+        case COMPONENT_TYPE::LANDSCAPE:
+            Component = new CLandScape;
+            break;
+        case COMPONENT_TYPE::DECAL:
+            Component = new CDecal;
+            break;
+        }
 
-		Component->LoadFromLevelFile(_File);
-		pObject->AddComponent(Component);
-	}
+        Component->LoadFromLevelFile(_File);
+        pObject->AddComponent(Component);
+    }
 
 
-	// 스크립트	
-	size_t ScriptCount = 0;
-	fread(&ScriptCount, sizeof(size_t), 1, _File);
+    // 스크립트   
+    size_t ScriptCount = 0;
+    fread(&ScriptCount, sizeof(size_t), 1, _File);
 
-	for (size_t i = 0; i < ScriptCount; ++i)
-	{
-		wstring ScriptName;
-		LoadWString(ScriptName, _File);
-		CScript* pScript = CScriptMgr::GetScript(ScriptName);
-		pObject->AddComponent(pScript);
-		pScript->LoadFromLevelFile(_File);
-	}
+    for (size_t i = 0; i < ScriptCount; ++i)
+    {
+        wstring ScriptName;
+        LoadWString(ScriptName, _File);
+        CScript* pScript = CScriptMgr::GetScript(ScriptName);
+        pObject->AddComponent(pScript);
+        pScript->LoadFromLevelFile(_File);
+    }
 
-	// 자식 오브젝트		
-	size_t ChildCount = 0;
-	fread(&ChildCount, sizeof(size_t), 1, _File);
+    // 자식 오브젝트      
+    size_t ChildCount = 0;
+    fread(&ChildCount, sizeof(size_t), 1, _File);
 
-	for (size_t i = 0; i < ChildCount; ++i)
-	{
-		CGameObject* ChildObject = LoadGameObject(_File);
-		pObject->AddChild(ChildObject);
-	}
+    for (size_t i = 0; i < ChildCount; ++i)
+    {
+        CGameObject* ChildObject = LoadGameObject(_File);
+        pObject->AddChild(ChildObject);
+    }
 
-	return pObject;
+    return pObject;
+}
+
+int CLevelSaveLoadInScript::SavePrefab(const wstring& _strRelativePath, CPrefab* _Prefab)
+{
+    if (_Prefab->IsEngineRes())
+        return E_FAIL;
+
+    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    strFilePath += _strRelativePath;
+
+    FILE* pFile = nullptr;
+    _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+    SaveGameObject(_Prefab->GetProtoObj(), pFile);
+
+    fclose(pFile);
+
+    return S_OK;
 }
 
 CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
 {
-	Ptr<CPrefab> pPrefab = new CPrefab;
+    Ptr<CPrefab> pPrefab = new CPrefab;
 
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strRelativePath;
+    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    strFilePath += _strRelativePath;
 
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+    FILE* pFile = nullptr;
+    _wfopen_s(&pFile, strFilePath.c_str(), L"rb");
 
-	CGameObject* pNewObj = LoadGameObject(pFile);
-	fclose(pFile);
+    CGameObject* pNewObj = CLevelSaveLoadInScript::LoadGameObject(pFile);
+    fclose(pFile);
 
-	return pNewObj;
+    //pPrefab->RegisterProtoObject(pNewObj);//*
+
+    //CResMgr::GetInst()->AddRes<CPrefab>(_strRelativePath, pPrefab);
+
+
+
+    return pNewObj;
 }
 
-void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int _LayerInd, Vec3 _vWorldPos, float time)
+void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time)
 {
-	Ptr<CPrefab> pPrefab = new CPrefab;
+    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    wstring relativepath = _relativepath;
+    strFolderpath += relativepath;
+    FILE* pFile = nullptr;
+    errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
+    int ind = 0;
+    fread(&ind, sizeof(int), 1, pFile);
+    CGameObject* newPrefab = LoadGameObject(pFile);
+    Vec3 prefpos = _vWorldPos;
 
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _relativepath;
-
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
-
-	CGameObject* pNewObj = LoadGameObject(pFile);
-	fclose(pFile);
-	
-	pPrefab->RegisterProtoObject(pNewObj);
-	CGameObject* PrefabObj = pPrefab->Instantiate();
-	SpawnGameObject(PrefabObj, Vec3(_vWorldPos.x, _vWorldPos.y, _vWorldPos.z), _LayerInd);
-	
-	if (time != 0)
-		PrefabObj->SetLifeSpan(time);
-
-	fclose(pFile);
+    SpawnGameObject(newPrefab, _vWorldPos, ind);
+    if (time != 0)
+        newPrefab->SetLifeSpan(time);
+    fclose(pFile);
 }
-CGameObject* CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int _ind, Vec3 _vWorldPos)
+CGameObject* CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos)
 {
-	wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-	wstring relativepath = _relativepath;
-	strFolderpath += relativepath;
-	FILE* pFile = nullptr;
-	errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-	int ind = 0;
-	fread(&ind, sizeof(int), 1, pFile);
-	CGameObject* newPrefab = LoadGameObject(pFile);
-	Vec3 prefpos = _vWorldPos;
+    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    wstring relativepath = _relativepath;
+    strFolderpath += relativepath;
+    FILE* pFile = nullptr;
+    errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
+    int ind = 0;
+    fread(&ind, sizeof(int), 1, pFile);
+    CGameObject* newPrefab = LoadGameObject(pFile);
+    Vec3 prefpos = _vWorldPos;
 
-	SpawnGameObject(newPrefab, _vWorldPos, ind);
-	fclose(pFile);
-	return newPrefab;
-}
-
-void CLevelSaveLoadInScript::SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
-{
-	_NewObject->Transform()->SetRelativePos(_vWorldPos);
-
-	tEvent evn = {};
-
-	evn.Type = EVENT_TYPE::CREATE_OBJECT;
-	evn.wParam = (DWORD_PTR)_NewObject;
-	evn.lParam = _LayerIdx;
-
-	CEventMgr::GetInst()->AddEvent(evn);
+    SpawnGameObject(newPrefab, _vWorldPos, ind);
+    fclose(pFile);
+    return newPrefab;
 }

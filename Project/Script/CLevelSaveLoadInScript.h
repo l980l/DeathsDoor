@@ -5,7 +5,6 @@ class CLayer;
 class CGameObject;
 class CPrefab;
 
-
 class CLevelSaveLoadInScript
 {
 public:
@@ -19,8 +18,9 @@ public:
 	static CGameObject* LoadGameObject(FILE* _File);
 	static CGameObject* LoadPrefab(const wstring& _strRelativePath);
 
-	void SpawnPrefab(wstring _relativepath, int _ind, Vec3 _vWorldPos, float time);
-	CGameObject* SpawnPrefab(wstring _relativepath, int _ind, Vec3 _vWorldPos);
-	void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx);
+
+	//Prefab »ý¼º
+	void SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time);
+	CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
 };
 

@@ -8,8 +8,6 @@ class CPrefab;
 class CLevelSaveLoad
 {
 public:
-	
-
 	static int SaveLevel(CLevel* _Level);
 	static int Play(const wstring& _LevelPath, CLevel* _Level);
 	static int SaveGameObject(CGameObject* _Object, FILE* _File);
@@ -18,15 +16,10 @@ public:
 	static CLevel* LoadLevel(LEVEL_STATE _state);
 	static CLevel* Stop(const wstring& _LevelPath, LEVEL_STATE _state);
 	static CGameObject* LoadGameObject(FILE* _File);
-
 	static CGameObject* LoadPrefab(const wstring& _strRelativePath);
 
 
-	//Prefab ����
+	//Prefab 생성
 	void SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time);
 	CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
-	
-
-	static int LoadPrefab(const wstring& _strRelativePath);
 };
-
