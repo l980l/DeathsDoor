@@ -94,7 +94,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             // 현재 사용 중인 리소스가 OpenGL에서 사용되는 리소스임
             // OpenGL은 DirextX와 바이노말의 방향이 반대이므로 바이노말을 뒤집어줌.
             _in.vViewTangent,
-            -_in.vViewBinormal,
+            _in.vViewBinormal,
             _in.vViewNormal,
         };
 

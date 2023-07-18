@@ -108,7 +108,10 @@ public:
 	
 private:
 	void LoadMeshDataFromNode(FbxNode* _pRoot);
-	void LoadMesh(FbxMesh* _pFbxMesh);
+	//애니메이션 로드용 전용 함수 
+	void LoadMesh(FbxMesh* _pFbxMesh, FbxString _MeshName);
+	//맵 로드용 전용 함수 
+	void LoadMesh(FbxMesh* _pFbxMesh, FbxAMatrix _Mat, FbxString _MeshName);
 	void LoadMaterial(FbxSurfaceMaterial* _pMtrlSur);
 
 	void GetTangent(FbxMesh* _pMesh, tContainer* _pContainer, int _iIdx, int _iVtxOrder);

@@ -19,7 +19,7 @@ CTrace::~CTrace()
 
 void CTrace::tick()
 {
-	float fSpeed = GetOwnerScript()->GetStat().Speed;
+	float fSpeed = 300.f;
 
 	m_fLastRenewal += DT;
 	if (m_fLastRenewal >= m_fRenewal_Trace)

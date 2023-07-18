@@ -79,30 +79,45 @@ Ptr<CTexture> CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRe
 	return pRes;
 }
 
-
-
 Ptr<CMeshData> CResMgr::LoadFBX(const wstring& _strPath)
 {
 	wstring strFileName = path(_strPath).stem();
 
 	wstring strName = L"meshdata\\";
-	strName += strFileName + L".mdat";
+	strName += strFileName;
 
-	Ptr<CMeshData> pMeshData = FindRes<CMeshData>(strName);
+	vector<CMeshData*>& pMeshDatavec = GetMeshDatas();
+	vector<CMesh*>& pMeshvec = GetMeshs();
 
-	if (nullptr != pMeshData)
-		return pMeshData;
+	if (pMeshDatavec.size() > 0)
+	{
+		pMeshDatavec.clear();
+	}
 
-	pMeshData = CMeshData::LoadFromFBX(_strPath);
-	pMeshData->SetKey(strName);
-	pMeshData->SetRelativePath(strName);
-	
-	m_arrRes[(UINT)RES_TYPE::MESHDATA].insert(make_pair(strName, pMeshData.Get()));
+	if (pMeshvec.size() > 0)
+	{
+		pMeshvec.clear();
+	}
 
-	// meshdata 를 실제파일로 저장
-	pMeshData->Save(strName);
 
-	return pMeshData;
+	CMeshData::LoadFromFBX(_strPath);
+
+	// 메쉬데이터는 FBX파일 이름 + 인덱스 순서로 이름붙인다 
+	for (UINT i = 0; i < m_vecMeshData.size(); ++i)
+	{
+		wstring Name = strName;
+
+		Name += std::to_wstring(i);
+
+		Name += L".mdat";
+
+		m_vecMeshData[i]->SetKey(Name);
+		m_vecMeshData[i]->SetRelativePath(Name);
+		m_arrRes[(UINT)RES_TYPE::MESHDATA].insert(make_pair(Name, m_vecMeshData[i]));
+
+		m_vecMeshData[i]->Save(m_vecMeshData[i]->GetRelativePath());
+	}
+	return FindRes<CMeshData>(_strPath).Get();
 }
 
 void CResMgr::DeleteRes(RES_TYPE _type, const wstring& _strKey)

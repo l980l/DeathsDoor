@@ -44,7 +44,7 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CCamera);
 	pMainCam->AddComponent(new CCameraMoveScript);
 
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
@@ -108,7 +108,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CPlayerScript);
 	pObject->AddComponent(new CStateScript);
 
-	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+	pObject->Transform()->SetRelativeScale(Vec3(30.f, 30.f, 30.f));
 
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pObject->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
@@ -130,7 +130,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CMonsterScript);
 	pObject->AddComponent(new CStateScript);
 
-	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+	pObject->Transform()->SetRelativeScale(Vec3(30.f, 30.f, 30.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
@@ -145,20 +145,20 @@ void CreateTestLevel()
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\_E_LURKER.fbx");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Lurker");
+		pObj->SetName(L"Monster");
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"GrimKnight");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		//
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
+		//pObj = pMeshData->Instantiate();
+		//pObj->SetName(L"GrimKnight");
+		//pObj->MeshRender()->SetDynamicShadow(true);
+		//pObj->MeshRender()->SetFrustumCheck(false);
+		////
+		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 	}
 
 	// 충돌 시킬 레이어 짝 지정

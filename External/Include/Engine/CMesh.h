@@ -47,7 +47,7 @@ public:
 	void ChangeAnimClip(const vector<tMTAnimClip>* _vecAnimClip) { m_vecAnimClip = *_vecAnimClip; }	// AnimClip을 변경하는 함수.
 
 public:
-	static CMesh* CreateFromContainer(CFBXLoader& _loader);
+	static void CreateFromContainer(CFBXLoader& _loader, int _iContainerCount);
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 
 private:

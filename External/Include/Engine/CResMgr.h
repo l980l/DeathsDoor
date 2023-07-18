@@ -22,9 +22,16 @@ private:
     map<wstring, Ptr<CRes>> m_arrRes[(UINT)RES_TYPE::END];
     bool                    m_Changed;
 
+    vector<CMeshData*>      m_vecMeshData; // 메쉬데이터 생성을 위한 벡터
+    vector<CMesh*>          m_vecMesh;
+
 public:
     void init();
     void tick();
+
+public:
+    vector<CMeshData*>& GetMeshDatas() { return m_vecMeshData; }
+    vector<CMesh*>& GetMeshs() { return m_vecMesh; }
 
 private:
     void InitSound();

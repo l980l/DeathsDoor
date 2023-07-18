@@ -69,12 +69,6 @@ void CFBXLoader::LoadFbx(const wstring & _strPath)
 
 	m_pImporter->Import(m_pScene);
 
-	/*FbxAxisSystem originAxis = FbxAxisSystem::eMax;
-	originAxis = m_pScene->GetGlobalSettings().GetAxisSystem();
-	FbxAxisSystem DesireAxis = FbxAxisSystem::DirectX;
-	DesireAxis.ConvertScene(m_pScene);
-	originAxis = m_pScene->GetGlobalSettings().GetAxisSystem();*/
-
 	m_pScene->GetGlobalSettings().SetAxisSystem(FbxAxisSystem::Max);
 
 	// Bone 정보 읽기
@@ -105,16 +99,54 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode * _pNode)
 {
 	// 노드의 메쉬정보 읽기
 	FbxNodeAttribute* pAttr = _pNode->GetNodeAttribute();
+	FbxMesh* pMesh = _pNode->GetMesh();
+	FbxAMatrix matGlobal = _pNode->EvaluateGlobalTransform();
+	FbxString MeshName = {};
 	
-
 	if (pAttr && FbxNodeAttribute::eMesh == pAttr->GetAttributeType())
 	{
-		FbxAMatrix matGlobal = _pNode->EvaluateGlobalTransform();
-		matGlobal.GetR();
+		MeshName = _pNode->GetName();
 
-		FbxMesh* pMesh = _pNode->GetMesh();
-		if(NULL != pMesh)
-			LoadMesh(pMesh);
+		//matGlobal.GetR();
+
+		FbxAMatrix matrixGeo;
+		matrixGeo.SetIdentity();
+
+		const FbxVector4 lT = _pNode->GetGeometricTranslation(FbxNode::eSourcePivot);
+		const FbxVector4 lR = _pNode->GetGeometricRotation(FbxNode::eSourcePivot);
+		const FbxVector4 lS = _pNode->GetGeometricScaling(FbxNode::eSourcePivot);
+		matrixGeo.SetT(lT);
+		matrixGeo.SetR(lR);
+		matrixGeo.SetS(lS);
+
+
+		//본인 메쉬의 로컬 행렬 계산 
+		FbxAMatrix localMatrix = _pNode->EvaluateLocalTransform();
+
+		//부모 메쉬를 얻어옴 (최상위 부모는(메쉬가 아님) 아예 이 스코프에 들어올수조차 없어서 pParentNode는 nullptr이  아님이 보장됨 )				 
+		FbxNode* pParentNode = _pNode->GetParent();
+
+		//부모의 로컬 행렬을 계산함 
+		FbxAMatrix parentMatrix = pParentNode->EvaluateLocalTransform();
+
+		//더이상 부모가 없을때까지 타고 올라감 
+		while ((pParentNode = pParentNode->GetParent()) != NULL)
+		{
+			//부모들의 매트릭스를 계산해서 총 부모 매트릭스를 계산함 
+			parentMatrix = pParentNode->EvaluateLocalTransform() * parentMatrix;
+		}
+
+		//부모 * 자신 * 지오메트릭 행렬을 곱해 최종 행렬을 산출해냄 
+		matGlobal = parentMatrix * localMatrix * matrixGeo;
+
+		
+	}
+	if (NULL != pMesh)
+	{
+		if (m_arrAnimName.Size() > 0)
+			LoadMesh(pMesh, MeshName);
+		else
+			LoadMesh(pMesh, matGlobal, MeshName);
 	}
 
 	// 해당 노드의 재질정보 읽기
@@ -136,8 +168,10 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode * _pNode)
 	}
 }
 
-void CFBXLoader::LoadMesh(FbxMesh * _pFbxMesh)
+void CFBXLoader::LoadMesh(FbxMesh * _pFbxMesh, FbxString _MeshName)
 {
+	const char* cName = _MeshName;
+
 	m_vecContainer.push_back(tContainer{});
 	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
 
@@ -161,7 +195,7 @@ void CFBXLoader::LoadMesh(FbxMesh * _pFbxMesh)
 
 	// 재질의 개수 ( ==> SubSet 개수 ==> Index Buffer Count)
 	int iMtrlCnt = _pFbxMesh->GetNode()->GetMaterialCount();
-	Container.vecIdx.resize(iMtrlCnt);	
+	Container.vecIdx.resize(iMtrlCnt);
 
 	// 정점 정보가 속한 subset 을 알기위해서...
 	FbxGeometryElementMaterial* pMtrl = _pFbxMesh->GetElementMaterial();
@@ -182,11 +216,84 @@ void CFBXLoader::LoadMesh(FbxMesh * _pFbxMesh)
 			int iIdx = _pFbxMesh->GetPolygonVertex(i, j);
 			arrIdx[j] = iIdx;
 
-			GetTangent(_pFbxMesh, &Container, iIdx, iVtxOrder );
+			GetTangent(_pFbxMesh, &Container, iIdx, iVtxOrder);
 			GetBinormal(_pFbxMesh, &Container, iIdx, iVtxOrder);
 			GetNormal(_pFbxMesh, &Container, iIdx, iVtxOrder);
 			GetUV(_pFbxMesh, &Container, iIdx, _pFbxMesh->GetTextureUVIndex(i, j));
-			
+
+			++iVtxOrder;
+		}
+		UINT iSubsetIdx = pMtrl->GetIndexArray().GetAt(i);
+		Container.vecIdx[iSubsetIdx].push_back(arrIdx[0]);
+		Container.vecIdx[iSubsetIdx].push_back(arrIdx[2]);
+		Container.vecIdx[iSubsetIdx].push_back(arrIdx[1]);
+	}
+
+	LoadAnimationData(_pFbxMesh, &Container);
+}
+
+void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh, FbxAMatrix _mat, FbxString _MeshName)
+{
+	const char* cName = _MeshName;
+
+	//컨테이너를 하나 생성해서 넣어준다 
+	m_vecContainer.push_back(tContainer{});
+
+	//현재 컨테이너는 가장 최근에 추가된 컨테이너다 
+	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
+
+	//메쉬의 이름 셋팅 
+	string strName = _pFbxMesh->GetName();
+	Container.strName = wstring(strName.begin(), strName.end());
+
+	//컨트롤 포인트 (정점) 갯수 를 가져온다 
+	int iVtxCnt = _pFbxMesh->GetControlPointsCount();
+	Container.Resize(iVtxCnt);
+
+	//정점의 위치를 가져온다 ( 로컬에서 )
+	FbxVector4* pFbxPos = _pFbxMesh->GetControlPoints();
+
+
+	for (int i = 0; i < iVtxCnt; ++i)
+	{
+		FbxVector4 vec = _mat.MultT(pFbxPos[i].mData);
+
+		Container.vecPos[i].x = -vec[0];
+		Container.vecPos[i].y = vec[1];
+		Container.vecPos[i].z = vec[2];
+	}
+
+	// 폴리곤 개수
+	int iPolyCnt = _pFbxMesh->GetPolygonCount();
+
+	// 재질의 개수 ( ==> SubSet 개수 ==> Index Buffer Count)
+	int iMtrlCnt = _pFbxMesh->GetNode()->GetMaterialCount();
+	Container.vecIdx.resize(iMtrlCnt);
+
+	// 정점 정보가 속한 subset 을 알기위해서...
+	FbxGeometryElementMaterial* pMtrl = _pFbxMesh->GetElementMaterial();
+
+	// 폴리곤을 구성하는 정점 개수
+	int iPolySize = _pFbxMesh->GetPolygonSize(0);
+	if (3 != iPolySize)
+		assert(NULL); // Polygon 구성 정점이 3개가 아닌 경우
+
+	UINT arrIdx[3] = {};
+	UINT iVtxOrder = 0; // 폴리곤 순서로 접근하는 순번
+
+	for (int i = 0; i < iPolyCnt; ++i)
+	{
+		for (int j = 0; j < iPolySize; ++j)
+		{
+			// i 번째 폴리곤에, j 번째 정점
+			int iIdx = _pFbxMesh->GetPolygonVertex(i, j);
+			arrIdx[j] = iIdx;
+
+			GetTangent(_pFbxMesh, &Container, iIdx, iVtxOrder);
+			GetBinormal(_pFbxMesh, &Container, iIdx, iVtxOrder);
+			GetNormal(_pFbxMesh, &Container, iIdx, iVtxOrder);
+			GetUV(_pFbxMesh, &Container, iIdx, _pFbxMesh->GetTextureUVIndex(i, j));
+
 			++iVtxOrder;
 		}
 		UINT iSubsetIdx = pMtrl->GetIndexArray().GetAt(i);
@@ -550,11 +657,6 @@ void CFBXLoader::LoadAnimationClip()
 	{
 		FbxAnimStack* pAnimStack = m_pScene->FindMember<FbxAnimStack>(m_arrAnimName[i]->Buffer());
 
-		
-		//FbxAnimEvaluator* pevaluator = m_pScene->GetAnimationEvaluator();
-		//m_pScene->SetCurrentAnimationStack();
-		
-
 		if (!pAnimStack)
 			continue;
 
@@ -569,9 +671,7 @@ void CFBXLoader::LoadAnimationClip()
 
 		pAnimClip->eMode = m_pScene->GetGlobalSettings().GetTimeMode();
 		pAnimClip->llTimeLength = pAnimClip->tEndTime.GetFrameCount(pAnimClip->eMode) - pAnimClip->tStartTime.GetFrameCount(pAnimClip->eMode);
-
-		
-
+			
 		m_vecAnimClip.push_back(pAnimClip);
 	}
 }
