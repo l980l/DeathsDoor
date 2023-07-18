@@ -48,23 +48,28 @@ int CPrefab::Save(const wstring& _strRelativePath)
 	return S_OK;
 }
 
+CGameObject* CPrefab::GetProtoObj()
+{
+	return m_ProtoObj;
+}
+
 int CPrefab::Load(const wstring& _strFilePath)
 {
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
+	//FILE* pFile = nullptr;
+	//_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
-	// Entity
-	wstring strName;
-	LoadWString(strName, pFile);
-	SetName(strName);
+	//// Entity
+	//wstring strName;
+	//LoadWString(strName, pFile);
+	//SetName(strName);
 
-	// Res
-	wstring strKey;
-	LoadWString(strKey, pFile);
-	// obj
-	m_ProtoObj = LoadProtoObj(pFile);
+	//// Res
+	//wstring strKey;
+	//LoadWString(strKey, pFile);
+	//// obj
+	//m_ProtoObj = LoadProtoObj(pFile);
 
-	fclose(pFile);
+	//fclose(pFile);
 
 	return S_OK;
 }
@@ -147,13 +152,13 @@ CGameObject* CPrefab::LoadProtoObj(FILE* _File)
 			Component = new CCollider2D();
 			break;
 		case COMPONENT_TYPE::COLLIDER3D:
-			//Component = new Collider3D();
+			Component = new CCollider3D();
 			break;
 		case COMPONENT_TYPE::ANIMATOR2D:
 			Component = new CAnimator2D();
 			break;
 		case COMPONENT_TYPE::ANIMATOR3D:
-			//Component = new CAnimator3D();
+			Component = new CAnimator3D();
 			break;
 		case COMPONENT_TYPE::LIGHT2D:
 			Component = new CLight2D();
