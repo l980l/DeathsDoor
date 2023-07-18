@@ -60,22 +60,22 @@ void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 	switch (_LevelType)
 	{
 	case LEVEL_TYPE::CASTLE_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\solo_navmesh.bin");
 		break;
 	case LEVEL_TYPE::CASTLE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\solo_navmesh.bin");
 		break;
 	case LEVEL_TYPE::FOREST_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\solo_navmesh.bin");
 		break;
 	case LEVEL_TYPE::ICE_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\solo_navmesh.bin");
 		break;
 	case LEVEL_TYPE::ICE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\solo_navmesh.bin");
 		break;
 	case LEVEL_TYPE::HALL:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\solo_navmesh.bin");
 		break;
 	}
 }
