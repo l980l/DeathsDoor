@@ -20,6 +20,9 @@ public:
 
 	CGameObject* Instantiate();
 
+	Ptr<CMesh>GetMesh() { return m_pMesh; }
+	vector<Ptr<CMaterial>>GetMaterials() { return m_vecMtrl; }
+
 	CLONE_DISABLE(CMeshData)
 public:
 	CMeshData(bool _bEngine = false);
