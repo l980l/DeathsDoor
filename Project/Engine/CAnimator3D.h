@@ -42,10 +42,6 @@ public:
     int GetCurClip() { return m_iCurClip; }                     // 현재 Cilp 인덱스를 반환하는 함수.
     int GetClipSize() { return m_vecClipUpdateTime.size(); }    // 전체 Clip 개수를 반환하는 함수.
 
-    void SetFrameCount(int _fcount) { m_iFrameCount = _fcount; }
-    int GetFrameCount() { return m_iFrameCount; }
-
-
     CStructuredBuffer* GetFinalBoneMat() { return m_pBoneFinalMatBuffer; }
     UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
     void ClearData();
