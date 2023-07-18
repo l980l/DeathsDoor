@@ -86,27 +86,27 @@ void CreateTestLevel()
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
 
-	//CGameObject* pObject = new CGameObject;
-	//pObject->SetName(L"Player");
-	//pObject->AddComponent(new CTransform);
-	//pObject->AddComponent(new CMeshRender);
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CPlayerScript);
-	//pObject->AddComponent(new CStateScript);
+	CGameObject* pObject = new CGameObject;
+	pObject->SetName(L"Player");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CPlayerScript);
+	pObject->AddComponent(new CStateScript);
 
-	//pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
 
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//pObject->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
-	//pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 
-	//pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	////pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03"));
-	////pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03_N"));
-	//pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	//pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03"));
+	//pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03_N"));
+	pObject->MeshRender()->SetDynamicShadow(true);
 
-	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 	{
 		Ptr<CMeshData> pMeshData = nullptr;

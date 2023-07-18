@@ -8,8 +8,6 @@ class CPrefab;
 class CLevelSaveLoad
 {
 public:
-	
-
 	static int SaveLevel(CLevel* _Level);
 	static int Play(const wstring& _LevelPath, CLevel* _Level);
 	static int SaveGameObject(CGameObject* _Object, FILE* _File);

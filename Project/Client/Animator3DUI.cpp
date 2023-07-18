@@ -28,7 +28,7 @@ int Animator3DUI::render_update()
     int ClipSize = GetTarget()->Animator3D()->GetClipSize();
 
     if(ImGui::SliderInt("##AnimClip", &CurClip, 0, ClipSize - 1))
-        GetTarget()->Animator3D()->SetCurClip(CurClip);
+        GetTarget()->Animator3D()->Play(CurClip, true);
 
     // AnimClip 정보 출력 여부.
     /*ImGui::Text("ShowAnimInfo  ");
@@ -74,6 +74,13 @@ int Animator3DUI::render_update()
             ImGui::SetNextItemWidth(32.f);
             TempUIName = string("##FrameLength") + std::to_string(i);
             ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iFrameLength), 0, 0, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+            
+            ImGui::SameLine();
+            TempUIName = string("##Button") + std::to_string(i);
+            if (ImGui::Button(TempUIName.c_str(), ImVec2(18.f, 18.f)))
+            {
+                GetTarget()->Animator3D()->Play(i, true);
+            }
         }
     }
 
@@ -141,6 +148,14 @@ int Animator3DUI::render_update()
             m_vecAnimClip[i].dEndTime = m_vecAnimClip[i].iEndFrame / 60.f;
             m_vecAnimClip[i].dTimeLength = m_vecAnimClip[i].iFrameLength / 60.f;
         }
+
+        // AnimClip Mesh 파일에 저장.
+        ImGui::Text("Save AnimClip ");
+        ImGui::SameLine();
+        if (ImGui::Button("##Save AnimClip", ImVec2(18.f, 18.f)))
+        {
+            GetTarget()->Animator3D()->SaveMeshAnimationClip();
+        }
     }
 
     // Animator3D에 AnimClip 적용.
@@ -149,14 +164,6 @@ int Animator3DUI::render_update()
     if (ImGui::Button("##Apply AnimClip", ImVec2(18.f, 18.f)))
     {
         GetTarget()->Animator3D()->SetAnimClip(&m_vecAnimClip);
-    }
-
-    // AnimClip Mesh 파일에 저장.
-    ImGui::Text("Save AnimClip ");
-    ImGui::SameLine();
-    if (ImGui::Button("##Save AnimClip", ImVec2(18.f, 18.f)))
-    {
-        GetTarget()->Animator3D()->SaveMeshAnimationClip();
     }
 
     // 임시. FrameCount 조절

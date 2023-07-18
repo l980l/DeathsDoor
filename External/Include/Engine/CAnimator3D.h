@@ -27,6 +27,8 @@ private:
 
     CStructuredBuffer*          m_pBoneFinalMatBuffer;  // 특정 프레임의 최종 행렬
     bool						m_bFinalMatUpdate;      // 최종행렬 연산 수행여부
+    bool                        m_bRepeat;              // 반복 여부. 반복인 경우에는 m_bCurClipFinish를 true로 바꾸지 않는다.
+    bool                        m_bCurClipFinish;       // 현재 애니메이션이 끝났는지에 대한 여부.
 
 public:
     virtual void finaltick() override;
@@ -36,7 +38,7 @@ public:
     void SetBones(const vector<tMTBone>* _vecBones) { m_pVecBones = _vecBones; m_vecFinalBoneMat.resize(m_pVecBones->size()); }
     void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);      // 애니메이션 클립 정보를 세팅하고, 애니메이션 별 재생 시간(현재 얼마나 재생되었는지)을 0으로 초기화 시킴.
     void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }
-    void SetCurClip(int _iClipIdx); // 현재 Clip을 변경하는 함수.
+    void Play(int _iClipIdx, bool _bRepeat);                    // 현재 Clip을 변경하는 함수.
     int GetCurClip() { return m_iCurClip; }                     // 현재 Cilp 인덱스를 반환하는 함수.
     int GetClipSize() { return m_vecClipUpdateTime.size(); }    // 전체 Clip 개수를 반환하는 함수.
 
@@ -50,6 +52,7 @@ public:
     // 임시
     int GetFrameCount() { return m_iFrameCount; }
     void SetFrameCount(int _FrameCount) { m_iFrameCount = _FrameCount; }
+    bool IsFinish() { return m_bCurClipFinish; }
 
 private:
     void check_mesh(Ptr<CMesh> _pMesh);
