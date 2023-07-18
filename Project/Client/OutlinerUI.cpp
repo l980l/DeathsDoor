@@ -26,7 +26,7 @@ OutlinerUI::OutlinerUI()
 {
     SetName("Outliner");
 
-	// OutlinerUI ¾È¿¡ ÀÚ½ÄÀ¸·Î Tree ¸¦ Ãß°¡ÇÑ´Ù.
+	// OutlinerUI ì•ˆì— ìžì‹ìœ¼ë¡œ Tree ë¥¼ ì¶”ê°€í•œë‹¤.
 	m_Tree = new TreeUI;
 	m_Tree->SetName("OutlinerTree");
 	m_Tree->SetActive(true);
@@ -36,7 +36,7 @@ OutlinerUI::OutlinerUI()
 	m_Tree->AddDynamic_DragDrop(this, (UI_DELEGATE_2)&OutlinerUI::DragDrop);
 	m_Tree->SetDragDropID("GameObject");
 
-	// ¿ìÅ¬¸¯¿ë Tree Ãß°¡
+	// ìš°í´ë¦­ìš© Tree ì¶”ê°€
 	m_Tree->AddDynamic_RightMouseButton(this, (UI_DELEGATE_1)&OutlinerUI::MouseRightClick);
 
 	AddChildUI(m_Tree);
@@ -52,7 +52,7 @@ void OutlinerUI::tick()
 	{
 		ResetOutliner();
 
-		// Æ®¸® ¸®¼Â ÈÄ, ´ÙÀ½ ¼±ÅÃ³ëµå·Î ÁöÁ¤µÈ DATA °¡ ÀÖÀ¸¸é, Ã£¾Æ¼­ ¼±ÅÃ³ëµå·Î º¯°æ
+		// íŠ¸ë¦¬ ë¦¬ì…‹ í›„, ë‹¤ìŒ ì„ íƒë…¸ë“œë¡œ ì§€ì •ëœ DATA ê°€ ìžˆìœ¼ë©´, ì°¾ì•„ì„œ ì„ íƒë…¸ë“œë¡œ ë³€ê²½
 		if (0 != m_dwSelectedData)
 		{
 			m_Tree->GetSelectedNode(m_dwSelectedData);
@@ -72,7 +72,7 @@ void OutlinerUI::ResetOutliner()
 	m_Tree->Clear();
 	m_Tree->AddItem("Root", 0);
 
-	// ¸®¼Ò½º ¸Å´ÏÀú¿¡¼­ ÇöÀç ¸ðµç ¸®¼Ò½º ¸ñ·Ï ¹Þ¾Æ¿È
+	// ë¦¬ì†ŒìŠ¤ ë§¤ë‹ˆì €ì—ì„œ í˜„ìž¬ ëª¨ë“  ë¦¬ì†ŒìŠ¤ ëª©ë¡ ë°›ì•„ì˜´
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 
 	for (UINT i = 0; i < (UINT)MAX_LAYER; ++i)
@@ -93,7 +93,7 @@ void OutlinerUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 	TreeNode* pSelectedNode = (TreeNode*)_SelectedNode;
 	CGameObject* pSelectObject = (CGameObject*)pSelectedNode->GetData();
 
-	// Inspector ¿¡ ¼±ÅÃµÈ GameObject ¸¦ ¾Ë·ÁÁØ´Ù.	
+	// Inspector ì— ì„ íƒëœ GameObject ë¥¼ ì•Œë ¤ì¤€ë‹¤.	
 	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 	pInspector->SetTargetObject(pSelectObject);
 }
@@ -101,12 +101,12 @@ void OutlinerUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
 
 void OutlinerUI::AddGameObject(CGameObject* _Obj, TreeNode* _ParentNode)
 {
-	// ¿ÀºêÁ§Æ®¸¦ Æ®¸®¿¡ ³Ö°í, »ý¼ºµÈ ³ëµå ÁÖ¼Ò¸¦ ¹Þ¾ÆµÐ´Ù.
+	// ì˜¤ë¸Œì íŠ¸ë¥¼ íŠ¸ë¦¬ì— ë„£ê³ , ìƒì„±ëœ ë…¸ë“œ ì£¼ì†Œë¥¼ ë°›ì•„ë‘”ë‹¤.
 	TreeNode* pNode = m_Tree->AddItem(string(_Obj->GetName().begin(), _Obj->GetName().end())
 									, (DWORD_PTR)_Obj
 									, _ParentNode);
 
-	// ¿ÀºêÁ§Æ®ÀÇ ÀÚ½Ä¿ÀºêÁ§Æ® µéÀ» ¿ÀºêÁ§Æ® ³ëµå¸¦ ºÎ¸ð·Î ÇØ¼­ ±× ¹ØÀ¸·Î ´Ù½Ã ³Ö¾îÁØ´Ù.
+	// ì˜¤ë¸Œì íŠ¸ì˜ ìžì‹ì˜¤ë¸Œì íŠ¸ ë“¤ì„ ì˜¤ë¸Œì íŠ¸ ë…¸ë“œë¥¼ ë¶€ëª¨ë¡œ í•´ì„œ ê·¸ ë°‘ìœ¼ë¡œ ë‹¤ì‹œ ë„£ì–´ì¤€ë‹¤.
 	const vector<CGameObject*>& vecChild = _Obj->GetChild();
 	for (size_t i = 0; i < vecChild.size(); ++i)
 	{
@@ -142,15 +142,15 @@ void OutlinerUI::DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode)
 		pDropObj = (CGameObject*)pDropNode->GetData();
 	}
 
-	// ÀÚ½ÄÀ¸·Î µé¾î°¥ ¿ÀºêÁ§Æ®°¡ ¸ñÀûÁö ¿ÀºêÁ§Æ®ÀÇ Á¶»ó(ºÎ¸ð°èÃþ) Áß ÇÏ³ª¶ó¸é, 
-	// AddChild Ã³¸®ÇÏÁö ¾Ê´Â´Ù.
+	// ìžì‹ìœ¼ë¡œ ë“¤ì–´ê°ˆ ì˜¤ë¸Œì íŠ¸ê°€ ëª©ì ì§€ ì˜¤ë¸Œì íŠ¸ì˜ ì¡°ìƒ(ë¶€ëª¨ê³„ì¸µ) ì¤‘ í•˜ë‚˜ë¼ë©´, 
+	// AddChild ì²˜ë¦¬í•˜ì§€ ì•ŠëŠ”ë‹¤.
 	if (nullptr != pDropObj)
 	{
 		if (pDropObj->IsAncestor(pDragObj))
 			return;
 	}
 
-	// ÀÌº¥Æ® ¸Å´ÏÀú¸¦ ÅëÇØ¼­ Ã³¸®ÇÑ´Ù.
+	// ì´ë²¤íŠ¸ ë§¤ë‹ˆì €ë¥¼ í†µí•´ì„œ ì²˜ë¦¬í•œë‹¤.
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::ADD_CHILD;
 	evn.wParam = (DWORD_PTR)pDropObj;
@@ -270,8 +270,11 @@ void OutlinerUI::MouseRightClick(DWORD_PTR _RClickNode)
 
 				ResetOutliner();
 
+
 				InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
 				inspector->SetTargetObject(nullptr);
+
+				SetTargetToInspector((DWORD_PTR)nullptr);
 
 				m_Tree->SetRbtDownNode(nullptr);
 				memset(&Menu, 0, sizeof(int));

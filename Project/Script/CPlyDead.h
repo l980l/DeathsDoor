@@ -1,6 +1,6 @@
 #pragma once
 #include "CState.h"
-class CIdle :
+class CPlyDead :
     public CState
 {
 public:
@@ -12,10 +12,10 @@ public:
     virtual void OnOverlap(CCollider2D* _Other);
     virtual void EndOverlap(CCollider2D* _Other);
 
-    CLONE(CIdle);
+    CLONE(CPlyDead);
 
 public:
-    CIdle();
-    ~CIdle();
+    CPlyDead();
+    ~CPlyDead();
 };
 

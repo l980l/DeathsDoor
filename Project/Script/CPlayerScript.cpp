@@ -8,9 +8,11 @@
 #include "CStateScript.h"
 #include "PlayerStates.h"
 
+#include <Engine\CRenderMgr.h>
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
+	, m_pState(nullptr)
 	, m_fSpeed(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Speed");
@@ -18,33 +20,22 @@ CPlayerScript::CPlayerScript()
 
 CPlayerScript::~CPlayerScript()
 {
-
+	if (nullptr == m_pState)
+		delete m_pState;
 }
 
 void CPlayerScript::begin()
 {
 	m_pState = GetOwner()->GetScript<CStateScript>();
-	m_pState->AddState(L"Idle", new CIdle);
-	m_pState->AddState(L"Walk", new CWalk);
+	m_pState->AddState(L"Idle", new CPlyIdle);
+	m_pState->AddState(L"Walk", new CPlyWalk);
 	m_pState->ChangeState(L"Idle");
 	MeshRender()->GetDynamicMaterial(0);
 }
 
 void CPlayerScript::tick()
 {
-	if (KEY_PRESSED(KEY::Z))
-	{
-		Vec3 vRot = Transform()->GetRelativeRot();
-		vRot.z += DT * XM_PI;
-		Transform()->SetRelativeRot(vRot);
-	}
 	
-	if (KEY_TAP(KEY::SPACE))
-	{
-		DrawDebugCircle(Transform()->GetWorldPos(), 500.f, Vec4(0.f, 0.f, 1.f, 1.f), Vec3(0.f, 0.f, 0.f), 2.f);
-
-		Shoot();
-	}	
 }
 
 void CPlayerScript::Shoot()

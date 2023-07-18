@@ -25,8 +25,8 @@ PrefabUI::~PrefabUI()
 int PrefabUI::render_update()
 {
     ResUI::render_update();
-   
-    // Prefab ÀÌ¸§
+
+    // Prefab ì´ë¦„
     ImGui::Text("Prefab          ");
     ImGui::SameLine();
 
@@ -34,7 +34,7 @@ int PrefabUI::render_update()
     string strKey = string(pPrefab->GetKey().begin(), pPrefab->GetKey().end());
     ImGui::InputText("##PrefabUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
 
-    // Save ¹öÆ°
+    // Save ë²„íŠ¼
     ImGui::Text("Save            ");
     ImGui::SameLine();
     static char szEmtpy[30] = {};
@@ -51,7 +51,7 @@ int PrefabUI::render_update()
 
     // Spawn
     static int iSpawnLayer = 0;
-    
+
     ImGui::Text("SpawnLayerIndex ");
     ImGui::SameLine();
     ImGui::SliderInt("##SpawnLayerIndex", &iSpawnLayer, 0, MAX_LAYER);
@@ -66,6 +66,7 @@ int PrefabUI::render_update()
     {
         CGameObject* proto = CLevelSaveLoad::LoadPrefab(GetTargetRes()->GetRelativePath());
         pPrefab->RegisterProtoObject(proto);
+
         SpawnGameObject(pPrefab->Instantiate(), Vec3(SpawnPos[0], SpawnPos[1], SpawnPos[2]), iSpawnLayer);
     }
 

@@ -1,3 +1,9 @@
 #pragma once
-#include "CIdle.h"
-#include "CWalk.h"
+#include "CPlyIdle.h"
+#include "CPlyWalk.h"
+#include "CPlyDodge.h"
+#include "CPlyAttack.h"
+#include "CPlyAttack_Magic.h"
+#include "CPlyHit.h"
+#include "CPlyFall.h"
+#include "CPlyDead.h"

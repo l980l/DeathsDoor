@@ -2,6 +2,7 @@
 #include <Engine\CScript.h>
 
 class CStateScript;
+class dtNavMesh;
 
 class CPlayerScript :
     public CScript
@@ -22,6 +23,8 @@ private:
 public:
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _FILE) override;
+
+
     CLONE(CPlayerScript);
 public:
     CPlayerScript();

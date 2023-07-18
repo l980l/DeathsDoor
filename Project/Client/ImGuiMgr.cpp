@@ -26,7 +26,7 @@ ImGuiMgr::~ImGuiMgr()
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 
-    // UI »èÁ¦
+    // UI ì‚­ì œ
     Safe_Del_Map(m_mapUI);
 }
 
@@ -35,7 +35,7 @@ void ImGuiMgr::init(HWND _hWnd)
 {
     m_hMainHwnd = _hWnd;
 
-    // ImGui ÃÊ±âÈ­
+    // ImGui ì´ˆê¸°í™”
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -68,10 +68,10 @@ void ImGuiMgr::init(HWND _hWnd)
     ImGui_ImplWin32_Init(m_hMainHwnd);
     ImGui_ImplDX11_Init(DEVICE, CONTEXT);
 
-    // Tool ¿ë UI »ý¼º
+    // Tool ìš© UI ìƒì„±
     CreateUI();
 
-    // Content Æú´õ °¨½Ã
+    // Content í´ë” ê°ì‹œ
     wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
     m_hObserver = FindFirstChangeNotification(strContentPath.c_str(), true
         , FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME
@@ -88,7 +88,7 @@ void ImGuiMgr::progress()
 
     render();
 
-    // Content Æú´õ º¯°æ °¨½Ã
+    // Content í´ë” ë³€ê²½ ê°ì‹œ
     ObserveContent();
 }
 
@@ -198,7 +198,7 @@ void ImGuiMgr::ObserveContent()
 
     if (dwWaitStatus == WAIT_OBJECT_0)
     {
-        // content Æú´õ¿¡ º¯°æÁ¡ÀÌ »ý°å´Ù.
+        // content í´ë”ì— ë³€ê²½ì ì´ ìƒê²¼ë‹¤.
         ContentUI* UI = (ContentUI*)FindUI("##Content");
         UI->Reload();
 
@@ -214,6 +214,8 @@ void ImGuiMgr::LayoutDesign()
     style.ScrollbarSize = 20;
     style.GrabMinSize = 20;
     style.WindowPadding = ImVec2(6, 5);
+
+    //style.ItemSpacing = ImVec2(20, 4);
 
     style.Colors[ImGuiCol_TitleBg] = ImVec4(0.639, 0.878, 0.39, 0.39);
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0, 0.56,0.45,1);

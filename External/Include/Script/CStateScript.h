@@ -7,8 +7,8 @@ class CStateScript :
     public CScript
 {
 private:
-    map<wstring, CState*>   m_mapState;
-    CState*                 m_pCurState;
+    map<wstring, CState*>   m_mapState;     // 전체 State 
+    CState*                 m_pCurState;    // 현재 State
 
 public:
     virtual void begin() override;
