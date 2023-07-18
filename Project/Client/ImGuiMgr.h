@@ -37,7 +37,7 @@ public:
 private:
     void CreateUI();
     void ObserveContent();
-
+    void LayoutDesign();
     void begin();
     void tick();
     void finaltick();

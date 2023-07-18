@@ -8,6 +8,7 @@
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
 #include <Engine\CScript.h>
+#include <Engine/CPrefab.h>
 #include "commdlg.h"
 
 #include <Script\CScriptMgr.h>
@@ -386,4 +387,44 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 	}
 
 	return pObject;
+}
+
+int CLevelSaveLoad::SavePrefab(const wstring& _strRelativePath, CPrefab* _Prefab)
+{
+	if (_Prefab->IsEngineRes())
+		return E_FAIL;
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	int ind = _Prefab->GetProtoObj()->GetLayerIndex();
+	fwrite(&ind, sizeof(int), 1, pFile);
+	SaveGameObject(_Prefab->GetProtoObj(), pFile);
+
+	fclose(pFile);
+
+	return S_OK;
+}
+
+int CLevelSaveLoad::LoadPrefab(const wstring& _strRelativePath)
+{
+	Ptr<CPrefab> pPrefab = new CPrefab;
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+
+	CGameObject* pNewObj = LoadGameObject(pFile);
+
+	pPrefab->RegisterProtoObject(pNewObj);
+
+	CResMgr::GetInst()->AddRes<CPrefab>(_strRelativePath, pPrefab);
+
+	fclose(pFile);
+
+	return S_OK;
 }
