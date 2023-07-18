@@ -13,9 +13,9 @@
 #include <Script\CPlayerScript.h>
 #include <Script/CStateScript.h>
 #include <Script\CMonsterScript.h>
+#include <Script/CCameraMoveScript.h>
 
 #include "CLevelSaveLoad.h"
-
 
 
 void CreateTestLevel()
@@ -42,6 +42,7 @@ void CreateTestLevel()
 
 	pMainCam->AddComponent(new CTransform);
 	pMainCam->AddComponent(new CCamera);
+	pMainCam->AddComponent(new CCameraMoveScript);
 
 	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
@@ -63,7 +64,7 @@ void CreateTestLevel()
 
 	pLightObj->Light3D()->SetRadius(500.f);
 	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
-	pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
+	//pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
 	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
 
 	SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
@@ -85,12 +86,25 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
+	// Decal Object
+	CGameObject* pDecal = new CGameObject;
+	pDecal->SetName(L"Decal");
+	pDecal->AddComponent(new CTransform);
+	pDecal->AddComponent(new CDecal);
+
+	pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+	pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
+	pDecal->Decal()->SetAsLight(false);
+
+	SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
+
 
 	CGameObject* pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
 	pObject->AddComponent(new CPlayerScript);
 	pObject->AddComponent(new CStateScript);
 
@@ -109,37 +123,42 @@ void CreateTestLevel()
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 
-	{
-		Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Bat");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
-	}
+	pObject = new CGameObject;
+	pObject->SetName(L"Monster");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CMonsterScript);
+	pObject->AddComponent(new CStateScript);
+
+	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+
+	SpawnGameObject(pObject, Vec3(500.f, 0.f, 300.f), (int)LAYER::MONSTER);
 
 	// ============
 	// FBX Loading
 	// ============	
 	{
-		//Ptr<CMeshData> pMeshData = nullptr;
-		//CGameObject* pObj = nullptr;
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\map\\castle\\Rock.fbx");
-		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\house.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"House");
-
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Ice_Field.fbx");
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\TestCastle.fbx");
+		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\TestCastle1.mdat");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"House");
+		//pObj->Transform()->SetRelativeScale(Vec3(10.f, 10.f, 10.f));
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hall.fbx");
 		//pMeshData = CResMgr::GetInst()->FindRes<CMeshData>(L"meshdata\\Castle_Field.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"Hall");
+		//pObj->AddComponent(new CMonsterScript);
 		//pObj->MeshRender()->SetDynamicShadow(true);
 		//pObj->MeshRender()->SetFrustumCheck(false);
 		//
-		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
 	}
 
 	// 충돌 시킬 레이어 짝 지정

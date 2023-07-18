@@ -1,10 +1,15 @@
 #pragma once
 #include "CState.h"
-class CWalkState :
+class CTrace :
     public CState
 {
 private:
-    float   m_fSpeed;
+    float m_fLastRenewal;
+    float m_fRenewal_Trace; // 추적 경로를 갱신하는 주기
+    float m_fSpeed;
+    Vec3  m_vActualPath[256];
+    int   m_iActualPathCount;
+    int   m_iCurrentPathIndex;
 
 public:
     virtual void tick() override;
@@ -15,10 +20,10 @@ public:
     virtual void OnOverlap(CCollider2D* _Other);
     virtual void EndOverlap(CCollider2D* _Other);
 
-    CLONE(CWalkState);
+    CLONE(CTrace);
 
 public:
-    CWalkState();
-    ~CWalkState();
+    CTrace();
+    ~CTrace();
 };
 
