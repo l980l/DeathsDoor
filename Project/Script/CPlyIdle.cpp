@@ -18,6 +18,8 @@ void CPlyIdle::tick()
 
 void CPlyIdle::Enter()
 {
+	// Idle 진입 시 Idle Anim 반복재생
+	//GetOwner()->Animator3D()->Play( , true);
 }
 
 void CPlyIdle::Exit()

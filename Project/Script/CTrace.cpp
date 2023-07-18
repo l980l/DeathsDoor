@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "CTrace.h"
+#include "CMonsterScript.h"
 
 #include <Engine/CDetourMgr.h>
 
 CTrace::CTrace()
 	: m_fLastRenewal(0.f)
 	, m_fRenewal_Trace(2.f)
-	, m_fSpeed(300.f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)
@@ -19,6 +19,8 @@ CTrace::~CTrace()
 
 void CTrace::tick()
 {
+	float fSpeed = GetOwnerScript()->GetStat().Speed;
+
 	m_fLastRenewal += DT;
 	if (m_fLastRenewal >= m_fRenewal_Trace)
 	{
@@ -50,13 +52,13 @@ void CTrace::tick()
 		direction = direction.Normalize();
 
 		// 새로운 위치 계산
-		Vec3 newPos = currentPos + m_fSpeed * direction * DT;
+		Vec3 newPos = currentPos + fSpeed * direction * DT;
 
 		GetOwner()->Transform()->SetRelativePos(newPos);
 
 		// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
 		float distanceToTarget = (targetPos - newPos).Length();
-		if (distanceToTarget < m_fSpeed * DT)
+		if (distanceToTarget < fSpeed * DT)
 		{
 			++m_iCurrentPathIndex;
 		}

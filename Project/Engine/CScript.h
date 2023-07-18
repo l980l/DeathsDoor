@@ -11,7 +11,13 @@
 
 #include "CGameObject.h"
 #include "components.h"
-
+struct Stat
+{
+    int     HP;
+    float   Speed;
+    int     Attack;
+    float   Attack_Speed;
+};
 
 enum class SCRIPT_PARAM
 {
