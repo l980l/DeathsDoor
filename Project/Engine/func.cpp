@@ -46,6 +46,9 @@ CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos)
 }
 
 
+
+
+
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
 	_NewObject->Transform()->SetRelativePos(_vWorldPos);
