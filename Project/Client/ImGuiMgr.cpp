@@ -214,7 +214,6 @@ void ImGuiMgr::LayoutDesign()
     style.ScrollbarSize = 20;
     style.GrabMinSize = 20;
     style.WindowPadding = ImVec2(6, 5);
-    //style.ItemSpacing = ImVec2(20, 4);
 
     style.Colors[ImGuiCol_TitleBg] = ImVec4(0.639, 0.878, 0.39, 0.39);
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0, 0.56,0.45,1);

@@ -18,6 +18,12 @@ public:
 	static CLevel* LoadLevel(LEVEL_STATE _state);
 	static CLevel* Stop(const wstring& _LevelPath, LEVEL_STATE _state);
 	static CGameObject* LoadGameObject(FILE* _File);
-	static int LoadPrefab(const wstring& _strRelativePath);
+	static CGameObject* LoadPrefab(const wstring& _strRelativePath);
+
+
+	//Prefab »ý¼º
+	void SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time);
+	CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
+	
 };
 

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "OutlinerUI.h"
+#include "commdlg.h"
 
 #include "ImGuiMgr.h"
 #include "InspectorUI.h"
@@ -15,6 +16,7 @@
 #include <Engine/CPrefab.h>
 #include <Engine/CEventMgr.h>
 
+#include "CLevelSaveLoad.h"
 #include "TreeUI.h"
 
 OutlinerUI::OutlinerUI()
@@ -246,6 +248,8 @@ void OutlinerUI::MouseRightClick(DWORD_PTR _RClickNode)
 			ContentUI* pContent = (ContentUI*)ImGuiMgr::GetInst()->FindUI("##Content");
 			pContent->ResetContent();
 
+			
+
 			m_Tree->SetRbtDownNode(nullptr);
 			memset(&Menu, 0, sizeof(int));
 		}
@@ -265,6 +269,9 @@ void OutlinerUI::MouseRightClick(DWORD_PTR _RClickNode)
 				delete(pRClickObj);
 
 				ResetOutliner();
+
+				InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
+				inspector->SetTargetObject(nullptr);
 
 				m_Tree->SetRbtDownNode(nullptr);
 				memset(&Menu, 0, sizeof(int));
