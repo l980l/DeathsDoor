@@ -25,42 +25,8 @@ PrefabUI::~PrefabUI()
 int PrefabUI::render_update()
 {
     ResUI::render_update();
-    //if (ImGui::Button("Add", ImVec2(100, 18)))
-    //{
-    //    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    //    wstring relativepath = GetTargetRes()->GetRelativePath();
-    //    strFolderpath += relativepath;
-    //    FILE* pFile = nullptr;
-    //    errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    //    int ind = 0;
-    //    fread(&ind, sizeof(int), 1, pFile);
-    //    CGameObject* newPrefab = CLevelSaveLoad::LoadGameObject(pFile);
-    //    int num = 0;
-    //    wstring prefname = newPrefab->GetName();
-    //    wstring orgprefname = prefname;
-    //    CLevel* curlevel = CLevelMgr::GetInst()->GetCurLevel();
-    //    CLayer* curlayer = curlevel->GetLayer(ind);
-    //    Vec3 prefpos = newPrefab->Transform()->GetWorldPos();
-    //    vector<CGameObject*> vecObj = curlayer->GetParentObject();
-    //    for (size_t i = 0; i < vecObj.size(); i++)
-    //    {
-    //        //if (vecObj[i]->GetName() == prefname)//°°Àº ÀÌ¸§ÀÌ ÀÖ´Ù¸é ¼ýÀÚ Ä«¿îÆ®
-    //        //{
-    //        //    num++;//1
-    //        //    wstring idx = std::to_wstring(num);
-    //        //    prefname = orgprefname;
-    //        //    prefname += idx;
-    //        //    if (vecObj[i]->GetName() != prefname)
-    //        //    {
-    //        //        
-    //        //        newPrefab->SetName(prefname);
-    //        //    }
-    //        //}
-    //    }
-    //    SpawnGameObject(newPrefab, prefpos, ind);
-    //    fclose(pFile);
-    //}
-    // Prefab ÀÌ¸§
+
+    // Prefab ì´ë¦„
     ImGui::Text("Prefab          ");
     ImGui::SameLine();
 
@@ -68,7 +34,7 @@ int PrefabUI::render_update()
     string strKey = string(pPrefab->GetKey().begin(), pPrefab->GetKey().end());
     ImGui::InputText("##PrefabUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
 
-    // Save ¹öÆ°
+    // Save ë²„íŠ¼
     ImGui::Text("Save            ");
     ImGui::SameLine();
     static char szEmtpy[30] = {};
@@ -85,6 +51,7 @@ int PrefabUI::render_update()
 
     // Spawn
     static int iSpawnLayer = 0;
+
     ImGui::Text("SpawnLayerIndex ");
     ImGui::SameLine();
     ImGui::SliderInt("##SpawnLayerIndex", &iSpawnLayer, 0, MAX_LAYER);
@@ -97,8 +64,25 @@ int PrefabUI::render_update()
 
     if (ImGui::Button("##SpawnGameObjectButton", ImVec2(18.f, 18.f)))
     {
+        CGameObject* proto = CLevelSaveLoad::LoadPrefab(GetTargetRes()->GetRelativePath());
+        pPrefab->RegisterProtoObject(proto);
+
         SpawnGameObject(pPrefab->Instantiate(), Vec3(SpawnPos[0], SpawnPos[1], SpawnPos[2]), iSpawnLayer);
     }
 
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "Layer Type Infos");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "0  : Default");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "1  : Map");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "2  : Player  ");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "3  : Monster");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "4  : PlayerProjectile");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "5  : MonsterProjectile");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "6  : NPC");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "7  : Door");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "8  : HitObject");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "9  : Boundary");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "10 : MainCam");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "11 : UICam");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "31 : ViewPortUI");
     return 0;
 }

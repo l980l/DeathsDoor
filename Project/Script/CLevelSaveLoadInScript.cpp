@@ -8,6 +8,7 @@
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
 #include <Engine\CScript.h>
+#include <Engine/CEventMgr.h>
 #include "commdlg.h"
 
 #include "CScriptMgr.h"
@@ -224,6 +225,11 @@ int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
 	return 0;
 }
 
+int CLevelSaveLoadInScript::SavePrefab(const wstring& _strRelativePath, CPrefab* _Prefab)
+{
+	return 0;
+}
+
 CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _state)
 {
 	OPENFILENAME ofn = {};
@@ -387,4 +393,72 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
 	}
 
 	return pObject;
+}
+
+CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
+{
+	Ptr<CPrefab> pPrefab = new CPrefab;
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+
+	CGameObject* pNewObj = LoadGameObject(pFile);
+	fclose(pFile);
+
+	return pNewObj;
+}
+
+void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int _LayerInd, Vec3 _vWorldPos, float time)
+{
+	Ptr<CPrefab> pPrefab = new CPrefab;
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _relativepath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+
+	CGameObject* pNewObj = LoadGameObject(pFile);
+	fclose(pFile);
+	
+	pPrefab->RegisterProtoObject(pNewObj);
+	CGameObject* PrefabObj = pPrefab->Instantiate();
+	SpawnGameObject(PrefabObj, Vec3(_vWorldPos.x, _vWorldPos.y, _vWorldPos.z), _LayerInd);
+	
+	if (time != 0)
+		PrefabObj->SetLifeSpan(time);
+
+	fclose(pFile);
+}
+CGameObject* CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int _ind, Vec3 _vWorldPos)
+{
+	wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
+	wstring relativepath = _relativepath;
+	strFolderpath += relativepath;
+	FILE* pFile = nullptr;
+	errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
+	int ind = 0;
+	fread(&ind, sizeof(int), 1, pFile);
+	CGameObject* newPrefab = LoadGameObject(pFile);
+	Vec3 prefpos = _vWorldPos;
+
+	SpawnGameObject(newPrefab, _vWorldPos, ind);
+	fclose(pFile);
+	return newPrefab;
+}
+
+void CLevelSaveLoadInScript::SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
+{
+	_NewObject->Transform()->SetRelativePos(_vWorldPos);
+
+	tEvent evn = {};
+
+	evn.Type = EVENT_TYPE::CREATE_OBJECT;
+	evn.wParam = (DWORD_PTR)_NewObject;
+	evn.lParam = _LayerIdx;
+
+	CEventMgr::GetInst()->AddEvent(evn);
 }

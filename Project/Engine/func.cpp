@@ -11,6 +11,9 @@
 #include "CResMgr.h"
 
 
+
+
+
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
 	_NewObject->Transform()->SetRelativePos(_vWorldPos);
