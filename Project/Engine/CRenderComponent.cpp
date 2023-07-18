@@ -147,6 +147,7 @@ void CRenderComponent::SaveToLevelFile(FILE* _File)
 
 void CRenderComponent::LoadFromLevelFile(FILE* _File)
 {
+	
 	LoadResRef(m_pMesh, _File);
 
 	UINT iMtrlCount = GetMtrlCount();
