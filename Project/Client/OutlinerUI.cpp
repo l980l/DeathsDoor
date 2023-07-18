@@ -266,6 +266,9 @@ void OutlinerUI::MouseRightClick(DWORD_PTR _RClickNode)
 
 				ResetOutliner();
 
+				InspectorUI* Inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
+				Inspector->SetTargetObject(nullptr);
+
 				m_Tree->SetRbtDownNode(nullptr);
 				memset(&Menu, 0, sizeof(int));
 			}

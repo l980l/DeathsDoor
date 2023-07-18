@@ -159,5 +159,10 @@ int Animator3DUI::render_update()
         GetTarget()->Animator3D()->SaveMeshAnimationClip();
     }
 
+    // 임시. FrameCount 조절
+    int FrameCount = GetTarget()->Animator3D()->GetFrameCount();
+    ImGui::DragInt("FrameCount", &FrameCount);
+    GetTarget()->Animator3D()->SetFrameCount(FrameCount);
+
     return TRUE;
 }

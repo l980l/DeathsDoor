@@ -47,6 +47,10 @@ public:
     const vector<tMTAnimClip>* GetAnimClip() { return m_pVecClip; } // 현재 애니메이션 클립 정보 Vecotr를 반환하는 함수.
     void SaveMeshAnimationClip();                                   // 현재 Animator3D가 갖고 있는 m_pVecClip를 Mesh에 세팅하고, Mesh->Save()를 호출해서 클립 정보를 저장하는 함수. 애니메이션 클립은 Mesh에서 Save 및 Load를 한다. 
 
+    // 임시
+    int GetFrameCount() { return m_iFrameCount; }
+    void SetFrameCount(int _FrameCount) { m_iFrameCount = _FrameCount; }
+
 private:
     void check_mesh(Ptr<CMesh> _pMesh);
 
