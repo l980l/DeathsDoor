@@ -13,9 +13,7 @@
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 	, m_pState(nullptr)
-	, m_fSpeed(0.f)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fSpeed, "Speed");
 }
 
 CPlayerScript::~CPlayerScript()
@@ -26,36 +24,59 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-	m_pState = GetOwner()->GetScript<CStateScript>();
+	if(nullptr == m_pState)
+	{
+		m_pState = GetOwner()->GetScript<CStateScript>();
+	}
 	m_pState->AddState(L"Idle", new CPlyIdle);
 	m_pState->AddState(L"Walk", new CPlyWalk);
+	m_pState->AddState(L"Dodge", new CPlyDodge);
+	m_pState->AddState(L"Fall", new CPlyFall);
+	m_pState->AddState(L"Hit", new CPlyHit);
+	m_pState->AddState(L"Dead", new CPlyDead);
+	m_pState->AddState(L"Attack", new CPlyAttack);
+	m_pState->AddState(L"Magic", new CPlyAttack_Magic);
 	m_pState->ChangeState(L"Idle");
 	MeshRender()->GetDynamicMaterial(0);
 }
 
 void CPlayerScript::tick()
 {
-	
-}
 
-void CPlayerScript::Shoot()
-{
-}
 
+}
 
 
 void CPlayerScript::BeginOverlap(CCollider2D* _Other)
 {
-	
+	// 벽에 부딪힌다면 밀어내기
+	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
+	{
+
+	}
+
+	// 아래는 공격 관련으로 무적이라면 return;
+	if (m_bInvincible)
+		return;
+
+	if ((int)LAYER::MONSTERPROJECTILE == _Other->GetOwner()->GetLayerIndex())
+	{
+		m_pState->ChangeState(L"Hit");
+		Stat CurStat = m_pState->GetStat();
+		CurStat.HP -= 1;
+		m_pState->SetStat(CurStat);
+		if (CurStat.HP <= 0)
+			m_pState->ChangeState(L"Dead");
+		else
+			m_pState->ChangeState(L"Hit");
+	}
 }
 
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_fSpeed, sizeof(float), 1, _File);
 }
 
 void CPlayerScript::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_fSpeed, sizeof(float), 1, _File);
 }

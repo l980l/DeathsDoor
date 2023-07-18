@@ -26,7 +26,7 @@ private:
     float						m_fRatio;	            // 프레임 사이 비율
 
     CStructuredBuffer*          m_pBoneFinalMatBuffer;  // 특정 프레임의 최종 행렬
-    bool						m_bFinalMatUpdate; // 최종행렬 연산 수행여부
+    bool						m_bFinalMatUpdate;      // 최종행렬 연산 수행여부
 
 public:
     virtual void finaltick() override;

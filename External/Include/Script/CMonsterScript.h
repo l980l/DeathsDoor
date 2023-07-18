@@ -7,7 +7,7 @@ class CMonsterScript :
     public CScript
 {
 private:
-    CStateScript* m_pState;
+    CStateScript*   m_pState;
 
 public:
     virtual void begin() override;

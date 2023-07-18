@@ -48,8 +48,8 @@ wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 Matrix GetMatrixFromFbxMatrix(FbxAMatrix& _mat);
 
 //Prefab »ý¼º
-void SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time);
-CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
+//void SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time);
+//CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
 
 // Save / Load
 void SaveWString(const wstring& _str, FILE* _File);
