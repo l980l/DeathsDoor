@@ -4,8 +4,8 @@ class CPlyAttack_Magic :
     public CState
 {
 public:
-    virtual void tick() override;
     virtual void Enter() override;
+    virtual void tick() override;
     virtual void Exit() override;
 
     virtual void BeginOverlap(CCollider2D* _Other);

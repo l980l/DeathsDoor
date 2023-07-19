@@ -9,12 +9,15 @@ CPlyFall::~CPlyFall()
 {
 }
 
-void CPlyFall::tick()
-{
-}
-
 void CPlyFall::Enter()
 {
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::FALL, true);
+}
+
+void CPlyFall::tick()
+{
+	if (GetOwner()->Rigidbody()->IsGround())
+		ChangeState(L"Idle");
 }
 
 void CPlyFall::Exit()
