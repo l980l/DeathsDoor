@@ -1,3 +1,4 @@
+CBazookaScript
 CCameraMoveScript
 CGravityScript
 CLoadLevelThreadScript

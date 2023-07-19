@@ -16,3 +16,12 @@ CSceneSaveLoad.h
 CLevelSaveLoadInScript.h
 CLoadingThread.h
 CTrace.h
+LurkerStates.h
+GruntStates.h
+CrowBossStates.h
+BazookaStates.h
+CBazookaAim.h
+CBazzokaLongDistance.h
+CBazzokaIdle.h
+CBazzokaMelee.h
+CBazzokaMove.h

@@ -145,9 +145,9 @@ void CreateTestLevel()
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Lurker");
+		pObj->SetName(L"Bat");
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
