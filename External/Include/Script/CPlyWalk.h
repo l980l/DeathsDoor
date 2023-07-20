@@ -6,6 +6,7 @@ class CPlyWalk :
 private:
     float   m_fSpeed;
     float   m_fTimeToIdle;
+    bool    m_bIce;
 
 public:
     virtual void tick() override;

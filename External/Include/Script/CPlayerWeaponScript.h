@@ -19,6 +19,7 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
     void SetInvincible(bool _bInvincible) { m_bInvincible = _bInvincible; }
 
+    void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_tCurMagic; }
 
 private:

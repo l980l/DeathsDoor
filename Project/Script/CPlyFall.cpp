@@ -27,7 +27,7 @@ void CPlyFall::Exit()
 
 void CPlyFall::BeginOverlap(CCollider2D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == LAYER::FALLAREA)
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::FALLAREA)
 	{
 		Stat CurStat = GetOwnerScript()->GetStat();
 		CurStat.HP -= 1;

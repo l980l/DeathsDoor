@@ -13,7 +13,6 @@ CPlyCharge::~CPlyCharge()
 
 void CPlyCharge::Enter()
 {
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::CHARGE_ATTACK_L)
 }
 
 void CPlyCharge::tick()

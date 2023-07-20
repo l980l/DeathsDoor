@@ -25,10 +25,6 @@ void CPlyChargeAttack::EndOverlap(CCollider2D* _Other)
 {
 }
 
-CPlyChargeAttack::CLONE(CPlyChargeAttack)
-{
-}
-
 CPlyChargeAttack::CPlyChargeAttack()
 {
 }

@@ -8,11 +8,11 @@ class CPlayerScript :
     public CScript
 {
 private:
-    CStateScript*           m_pStateScript;
-    UINT                    m_tCurMagic;
-    float                   m_bInvincible;
-    CPlayerWeaponScript*    m_pSword;
-    CGameObject*            m_pDustEffect;
+    CStateScript*        m_pStateScript;
+    CPlayerWeaponScript* m_pSword;
+    CGameObject*         m_pDustEffect;
+    UINT                 m_tCurMagic;
+    bool                 m_bInvincible;
 
 public:
     virtual void begin() override;
