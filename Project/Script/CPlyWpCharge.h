@@ -3,5 +3,15 @@
 class CPlyWpCharge :
     public CState
 {
+public:
+    virtual void tick() override;
+    virtual void Enter() override;
+    virtual void Exit() override;
+
+    CLONE(CPlyWpCharge);
+
+public:
+    CPlyWpCharge();
+    ~CPlyWpCharge();
 };
 

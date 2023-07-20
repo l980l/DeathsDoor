@@ -32,3 +32,4 @@ CPlyWpIdle.h
 CPlyWpLadder.h
 CPlyWpMagic.h
 CPlyWpWalk.h
+PlayerWeaponStates.h

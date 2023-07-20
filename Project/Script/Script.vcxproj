@@ -215,6 +215,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerWeaponStates.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp" />
