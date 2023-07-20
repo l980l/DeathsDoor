@@ -1,8 +1,8 @@
-CBatScript
+CBazookaScript
 CCameraMoveScript
 CGravityScript
 CLoadLevelThreadScript
 CMissileScript
-CMonsterScript
+CMonsterDetectRangeScript
 CPlayerScript
 CStateScript

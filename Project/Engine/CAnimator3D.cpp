@@ -129,7 +129,7 @@ void CAnimator3D::UpdateData()
 		pUpdateShader->SetNextFrameIdx(m_iNextFrameIdx);
 		pUpdateShader->SetFrameRatio(m_fRatio);
 
-		pUpdateShader->SetBlendFrameIdx(m_iNextFrameIdx);
+		pUpdateShader->SetBlendFrameIdx(m_iFrameIdx);
 		pUpdateShader->SetBlendRatio(0.5f);
 
 		// 업데이트 쉐이더 실행
