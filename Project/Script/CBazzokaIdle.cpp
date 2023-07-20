@@ -12,8 +12,12 @@ void CBazzokaIdle::Enter()
 void CBazzokaIdle::tick()
 {
 	CGameObject* pPlayer = GetOwner()->GetScript<CBazookaScript>()->GetPlayer();
-
-
+	
+	// Detect 상태라면 Move 상태로 전환.
+	if (GetOwner()->GetScript<CBazookaScript>()->GetDetect())
+	{
+		ChangeState(L"Move");
+	}
 }
 
 void CBazzokaIdle::Exit()

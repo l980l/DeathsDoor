@@ -7,6 +7,8 @@
 #include "CBazzokaIdle.h"
 #include "CBazzokaMelee.h"
 #include "CBazzokaMove.h"
+#include "CBazookaDeath.h"
+#include "CTrace.h"
 
 CBazookaScript::CBazookaScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
@@ -41,6 +43,8 @@ void CBazookaScript::begin()
 		m_pStateScript->AddState(L"Idle", new CBazzokaIdle);
 		m_pStateScript->AddState(L"Melee", new CBazzokaMelee);
 		m_pStateScript->AddState(L"Move", new CBazzokaMove);
+		m_pStateScript->AddState(L"Death", new CBazookaDeath);
+		m_pStateScript->AddState(L"Trace", new CTrace);
 		m_pStateScript->ChangeState(L"Idle");
 
 		// 초기 스탯 설정.
@@ -48,21 +52,35 @@ void CBazookaScript::begin()
 		NewStat.HP = 300;
 		m_pStateScript->SetStat(NewStat);
 	}
-
-	
 }
 
 void CBazookaScript::tick()
 {
-	if (m_pStateScript->GetStat().HP <= 0)
+	// Death 상태라면 상태 교체 안함.
+	if (m_pStateScript->GetCurState() == m_pStateScript->FindState(L"Death"))
+		return;
+
+	// 탐지 상태. 거리에 따라 Move, Melee, Aim(일정 시간 이후 LongD),  
+	else 
 	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"Death");
+		m_pStateScript->ChangeState(L"Idle");
 	}
 }
 
 void CBazookaScript::BeginOverlap(CCollider3D* _Other)
 {
+	// PlayerProjectile Layer의 물체와 충돌한 경우.
+	if (_Other->GetOwner()->GetLayerIndex() == 4)
+	{
+
+	}
+
+	// HP가 0 이하면 사망.
+	if (m_pStateScript->GetStat().HP <= 0)
+	{
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+			m_pStateScript->ChangeState(L"Death");
+	}
 }
 
 void CBazookaScript::SaveToLevelFile(FILE* _File)

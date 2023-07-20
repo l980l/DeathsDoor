@@ -165,6 +165,9 @@
     <ClInclude Include="CBazookaScript.h">
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClInclude>
+    <ClInclude Include="CMonsterDetectRangeScript.h">
+      <Filter>Script\01. State\01. Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -236,9 +239,6 @@
     <ClCompile Include="CTrace.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClCompile>
     <ClCompile Include="CBazookaAim.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
@@ -256,6 +256,12 @@
     </ClCompile>
     <ClCompile Include="CBazookaDeath.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterDetectRangeScript.cpp">
+      <Filter>Script\01. State\01. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaScript.cpp">
+      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -315,3 +315,13 @@ Vec3 DecomposeRotMat(const Matrix& _matRot)
 	}
 	return vNewRot;
 }
+
+float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
+{
+	float a, b, c;
+	a = _Vec1.x - _Vec2.x;
+	b = _Vec1.y - _Vec2.y;
+	c = _Vec1.z - _Vec2.z;
+
+	return sqrt(a*a + b*b + c*c);
+}

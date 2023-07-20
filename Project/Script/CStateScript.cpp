@@ -46,6 +46,10 @@ void CStateScript::ChangeState(const wstring& _strStateName)
 	CState* pNextState = FindState(_strStateName);
 	assert(pNextState);
 
+	// 이미 현재 State인 것으로 교체하려고 하면 아무일도 안일어나게 함.
+	if (pNextState == m_pCurState)
+		return;
+
 	if (nullptr != m_pCurState)
 		m_pCurState->Exit();
 

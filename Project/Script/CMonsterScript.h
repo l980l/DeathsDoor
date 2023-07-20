@@ -13,6 +13,7 @@ private:
 
 public:
     CGameObject*    GetPlayer() { return m_pPlayer; }
+    bool            GetDetect() { return m_bDetect; }
     void            SetDetect(bool _bDetect) { m_bDetect = _bDetect; }
 
 public:
