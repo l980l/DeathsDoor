@@ -1,20 +1,18 @@
 #pragma once
 #include <Engine\CScript.h>
 
-class CStateScript;
+class CStateScript; 
 
 class CBazookaScript :
     public CScript
 {
 private:
-    CStateScript* m_pState;
-    CGameObject*  m_pPlayer;
+    CStateScript*   m_pStateScript;
+    CGameObject*    m_pPlayer;
 
 public:
     virtual void begin() override;
     virtual void tick() override;
-    void CheckDir();
-    void SetState();
 
 
 public:

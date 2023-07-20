@@ -1,6 +1,6 @@
 #pragma once
 #include "CState.h"
-class CBazzokaLongDistance :
+class CBazookaDeath :
     public CState
 {
 public:
@@ -8,10 +8,10 @@ public:
     virtual void tick() override;
     virtual void Exit() override;
 
-    CLONE(CBazzokaLongDistance);
+    CLONE(CBazookaDeath);
 
 public:
-    CBazzokaLongDistance();
-    ~CBazzokaLongDistance();
+    CBazookaDeath();
+    ~CBazookaDeath();
 };
 

@@ -25,3 +25,4 @@ CBazzokaLongDistance.h
 CBazzokaIdle.h
 CBazzokaMelee.h
 CBazzokaMove.h
+CBazookaDeath.h

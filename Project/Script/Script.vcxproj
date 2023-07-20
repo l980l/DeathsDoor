@@ -178,6 +178,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="BazookaStates.h" />
     <ClInclude Include="CBazookaAim.h" />
+    <ClInclude Include="CBazookaDeath.h" />
     <ClInclude Include="CBazookaScript.h" />
     <ClInclude Include="CBazzokaIdle.h" />
     <ClInclude Include="CBazzokaLongDistance.h" />
@@ -211,6 +212,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBazookaAim.cpp" />
+    <ClCompile Include="CBazookaDeath.cpp" />
     <ClCompile Include="CBazookaScript.cpp" />
     <ClCompile Include="CBazzokaIdle.cpp" />
     <ClCompile Include="CBazzokaLongDistance.cpp" />

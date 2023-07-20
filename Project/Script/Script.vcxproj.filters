@@ -25,143 +25,14 @@
     <Filter Include="Script\01. State\01. Monster\Lurker">
       <UniqueIdentifier>{9232b75d-21e7-4a2a-8898-616e98ff1554}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\Idle">
-      <UniqueIdentifier>{a1b657d4-54b9-49ef-93c8-0dff402a0e78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\ReadyAction">
-      <UniqueIdentifier>{4570c997-e979-4c73-b582-95d76d8662b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\FrontMove">
-      <UniqueIdentifier>{29c0cb61-e8e5-4057-84b1-4d4247aa3c46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\BackMove">
-      <UniqueIdentifier>{344a5633-8673-4c70-b7bd-42771c6de210}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\BackStep">
-      <UniqueIdentifier>{61182a68-46d9-4c6f-ac47-4c7c2f36b151}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\Attack">
-      <UniqueIdentifier>{49774a92-631b-4c21-a7d7-297fd63ac0d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\Death">
-      <UniqueIdentifier>{edb4e04c-ca55-4f5c-86c0-9a46f53a22f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\LeftMove">
-      <UniqueIdentifier>{2afd3e46-dcd5-4ca0-be88-b51cec5ede8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\RightMove">
-      <UniqueIdentifier>{55ab1b8d-913f-4254-9a77-7c8922a8ae46}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\01. State\01. Monster\Grunt">
       <UniqueIdentifier>{f993a883-5562-4a2d-80a5-853189d5179c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Idle">
-      <UniqueIdentifier>{caa29862-89ba-429b-a1ad-32ba7cae9003}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\BackStep">
-      <UniqueIdentifier>{62def252-70ef-4fb2-9543-b88d783bfb46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\NailAttackReady">
-      <UniqueIdentifier>{57637204-1dc8-4302-9d66-da89521f26ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\NailAttack">
-      <UniqueIdentifier>{fa98db2a-22af-47e5-a308-868595e9bab1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\NailAttack2">
-      <UniqueIdentifier>{4f3aac5f-bd35-4f0c-b6b0-a82395d76bc2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Chase">
-      <UniqueIdentifier>{2b23fe3f-7c91-4cb2-ba93-b73fe7856bdc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Move">
-      <UniqueIdentifier>{d197d299-7716-4b36-aac1-830467b08cf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Run">
-      <UniqueIdentifier>{00fbf041-531b-4cd5-8b31-d92439ceb327}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Run2">
-      <UniqueIdentifier>{e94d51b5-1f6d-4a56-b19d-79febeac28bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Walk">
-      <UniqueIdentifier>{3e20ae43-bded-42e9-8392-fabd882c053b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\LeftMove">
-      <UniqueIdentifier>{59aa1bc9-72eb-4ee0-88c8-d620991b482a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\RightMove">
-      <UniqueIdentifier>{6e266c01-1060-4180-bf8f-3036f20f1c1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\JumpAttackReady">
-      <UniqueIdentifier>{2bd01cb9-4f60-429d-b452-ccf8b25269b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\JumpAttack">
-      <UniqueIdentifier>{71d0aec7-da19-4487-b2ec-212dad269f6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\Death">
-      <UniqueIdentifier>{3863404d-fc3e-45b3-9c09-d4cc5205e49d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\01. State\01. Monster\CrowBoss">
       <UniqueIdentifier>{ab108cdd-8676-4992-91a4-91ab024f35e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\Idle">
-      <UniqueIdentifier>{3c0de9c8-4441-4631-ae1a-afa65d83a517}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\CutScene">
-      <UniqueIdentifier>{11167614-cdaa-4ca5-943b-fa152d877262}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\Spitting">
-      <UniqueIdentifier>{8a20f65f-49ce-4110-ac3a-089b0b65dbe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\Sliding">
-      <UniqueIdentifier>{fda089d1-4459-4526-a76f-8705923c2db7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\SlidingReady">
-      <UniqueIdentifier>{67ed669c-6645-4b4e-b46e-96c5dae4d411}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\GuidedBullet">
-      <UniqueIdentifier>{db59d895-9637-493c-b024-58f53c81e1e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\BatBullet">
-      <UniqueIdentifier>{59295476-0f5a-476c-b45f-d08200375d7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\Death">
-      <UniqueIdentifier>{5820b991-3207-4307-a69b-62e060f06fa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\LeftSpin">
-      <UniqueIdentifier>{d62391de-640b-4518-807d-1cfc8d0f5939}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\RightSpin">
-      <UniqueIdentifier>{6c36bd48-bea4-4d4e-a6fa-7cfbf6a02585}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\JumpStomp">
-      <UniqueIdentifier>{0b584b94-91a7-4123-a798-371171c19ceb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\Walk">
-      <UniqueIdentifier>{e3e5bdf4-a54e-406d-954d-3d1c14578ec4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\StandingDeath">
-      <UniqueIdentifier>{2b952834-0e3a-4713-9939-ce9d15d7f250}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\Run">
-      <UniqueIdentifier>{e1cbe76c-50bc-43b4-8818-2dabc0b4f06f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\01. State\01. Monster\Bazooka">
       <UniqueIdentifier>{126b6388-1810-4017-886a-49e7928eeb8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Bazooka\Aim">
-      <UniqueIdentifier>{0fbc1fce-febf-42c7-a583-15d129ec1edf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Bazooka\LongDistance">
-      <UniqueIdentifier>{4ad675b2-d5b6-4c24-aa75-7599c087082f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Bazooka\Idle">
-      <UniqueIdentifier>{5b1fd845-6606-4ec5-b57c-28a0caf01eda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Bazooka\Melee">
-      <UniqueIdentifier>{04f35ca9-fefa-41b2-9302-866535399758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\01. Monster\Bazooka\Move">
-      <UniqueIdentifier>{37a7cb16-51b7-499f-9bea-adfd2a61d9c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\01. State\02. Player">
       <UniqueIdentifier>{25b4f089-9fe0-43c7-a30e-3a9bdebd8c33}</UniqueIdentifier>
@@ -189,6 +60,9 @@
     </Filter>
     <Filter Include="Script\01. State\02. Player\Dead">
       <UniqueIdentifier>{7950cb2f-c015-4c54-8b40-1df11c5ddf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\Bazooka\State">
+      <UniqueIdentifier>{fa63c74d-a161-46a1-ba1b-fb90d439596e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -267,26 +141,29 @@
     <ClInclude Include="CrowBossStates.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClInclude>
+    <ClInclude Include="CBazookaAim.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazzokaIdle.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazzokaLongDistance.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazzokaMelee.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazzokaMove.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
     <ClInclude Include="BazookaStates.h">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaDeath.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
     <ClInclude Include="CBazookaScript.h">
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaAim.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\Aim</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaIdle.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaLongDistance.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\LongDistance</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaMelee.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\Melee</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaMove.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\Move</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,19 +240,22 @@
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClCompile>
     <ClCompile Include="CBazookaAim.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\Aim</Filter>
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
     <ClCompile Include="CBazzokaIdle.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\Idle</Filter>
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
     <ClCompile Include="CBazzokaLongDistance.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\LongDistance</Filter>
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
     <ClCompile Include="CBazzokaMelee.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\Melee</Filter>
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
     <ClCompile Include="CBazzokaMove.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\Move</Filter>
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
