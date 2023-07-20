@@ -14,7 +14,7 @@
 #include <Script/CStateScript.h>
 #include <Script\CMonsterScript.h>
 #include <Script/CCameraMoveScript.h>
-//#include <Script/CPlayerWeaponScript.h>
+#include <Script/CPlayerWeaponScript.h>
 
 #include "CLevelSaveLoad.h"
 
