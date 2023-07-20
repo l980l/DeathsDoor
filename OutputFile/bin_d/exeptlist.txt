@@ -26,3 +26,4 @@ CBazzokaIdle.h
 CBazzokaMelee.h
 CBazzokaMove.h
 CBazookaDeath.h
+CMonsterScript.h

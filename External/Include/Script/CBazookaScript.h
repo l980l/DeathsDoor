@@ -1,22 +1,16 @@
 #pragma once
 #include <Engine\CScript.h>
-
-class CStateScript; 
+#include "CMonsterScript.h"
 
 class CBazookaScript :
-    public CScript
+    public CMonsterScript
 {
-private:
-    CStateScript*   m_pStateScript;
-    CGameObject*    m_pPlayer;
-
 public:
     virtual void begin() override;
     virtual void tick() override;
 
-
 public:
-    virtual void BeginOverlap(CCollider2D* _Other) override;
+    virtual void BeginOverlap(CCollider3D* _Other) override;
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;

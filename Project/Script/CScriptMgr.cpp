@@ -6,7 +6,7 @@
 #include "CGravityScript.h"
 #include "CLoadLevelThreadScript.h"
 #include "CMissileScript.h"
-#include "CMonsterScript.h"
+#include "CMonsterDetectRangeScript.h"
 #include "CPlayerScript.h"
 #include "CStateScript.h"
 
@@ -17,7 +17,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CMissileScript");
-	_vec.push_back(L"CMonsterScript");
+	_vec.push_back(L"CMonsterDetectRangeScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CStateScript");
 }
@@ -34,8 +34,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLoadLevelThreadScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
-	if (L"CMonsterScript" == _strScriptName)
-		return new CMonsterScript;
+	if (L"CMonsterDetectRangeScript" == _strScriptName)
+		return new CMonsterDetectRangeScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CStateScript" == _strScriptName)
@@ -62,8 +62,8 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
 		break;
-	case (UINT)SCRIPT_TYPE::MONSTERSCRIPT:
-		return new CMonsterScript;
+	case (UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
+		return new CMonsterDetectRangeScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -99,8 +99,8 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CMissileScript";
 		break;
 
-	case SCRIPT_TYPE::MONSTERSCRIPT:
-		return L"CMonsterScript";
+	case SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
+		return L"CMonsterDetectRangeScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

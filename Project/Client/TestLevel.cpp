@@ -123,22 +123,6 @@ void CreateTestLevel()
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
 
 
-	pObject = new CGameObject;
-	pObject->SetName(L"Monster");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CMonsterScript);
-	pObject->AddComponent(new CStateScript);
-
-	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
-
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-
-	pObject->MeshRender()->SetDynamicShadow(true);
-
-	SpawnGameObject(pObject, Vec3(500.f, 0.f, 300.f), (int)LAYER::MONSTER);
-
 	// ============
 	// FBX Loading
 	// ============	

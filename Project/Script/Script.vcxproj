@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -185,6 +185,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazzokaMelee.h" />
     <ClInclude Include="CBazzokaMove.h" />
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CPlyAttack.h" />
     <ClInclude Include="CPlyAttack_Magic.h" />
     <ClInclude Include="CPlyDead.h" />
@@ -219,6 +220,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazzokaMelee.cpp" />
     <ClCompile Include="CBazzokaMove.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
     <ClCompile Include="CPlyAttack_Magic.cpp" />
     <ClCompile Include="CPlyDead.cpp" />
