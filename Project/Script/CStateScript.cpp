@@ -28,7 +28,7 @@ void CStateScript::tick()
 	if (nullptr == m_pCurState)
 		return;
 
-	m_pCurState->tick();
+	m_pCurState->tick(); // 오브젝트의 현재 state tick을 돌려준다.
 }
 
 void CStateScript::AddState(const wstring& _strKey, CState* _pState)

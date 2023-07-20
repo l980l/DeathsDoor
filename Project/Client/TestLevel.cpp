@@ -6,14 +6,16 @@
 #include <Engine\CLayer.h>
 #include <Engine\CGameObject.h>
 #include <Engine\components.h>
-
+#include <Engine/CMeshData.h>
 #include <Engine\CResMgr.h>
 #include <Engine\CCollisionMgr.h>
+#include <Engine\CEventMgr.h>
 
 #include <Script\CPlayerScript.h>
 #include <Script/CStateScript.h>
 #include <Script\CMonsterScript.h>
 #include <Script/CCameraMoveScript.h>
+
 
 #include "CLevelSaveLoad.h"
 
@@ -25,7 +27,7 @@ void CreateTestLevel()
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 
 	// Layer 이름설정
-	pCurLevel->GetLayer(0)->SetName(L"Default");
+	pCurLevel->GetLayer(0)->SetName(L"No Collision");
 	pCurLevel->GetLayer(1)->SetName(L"Tile");
 	pCurLevel->GetLayer(2)->SetName(L"Player");
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
@@ -35,6 +37,21 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(11)->SetName(L"UICam");
 	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
 
+
+	{
+		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\TestLevel.lv", LEVEL_STATE::STOP);
+		pNewLevel->SetName(L"Start");
+		tEvent evn = {};
+		evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+		evn.wParam = (DWORD_PTR)pNewLevel;
+		CEventMgr::GetInst()->AddEvent(evn);
+
+		/*CLevelMgr::GetInst()->SavePlayerInfo(1, 1000, 1000, 500, 500, 0, 100, 2, 1, 10);
+		Ptr<CSound> pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\203680770.wem");
+		pSound->Play(1, 0.5f, false);*/
+	}
+
+	return;
 
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
@@ -81,63 +98,64 @@ void CreateTestLevel()
 
 	pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::CUBE);
 	pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
-	//pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::SPHERE);
-	//pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"Sky02"));
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
-	// Decal Object
-	CGameObject* pDecal = new CGameObject;
-	pDecal->SetName(L"Decal");
-	pDecal->AddComponent(new CTransform);
-	pDecal->AddComponent(new CDecal);
+	{
+		//// Decal Object
+	//CGameObject* pDecal = new CGameObject;
+	//pDecal->SetName(L"Decal");
+	//pDecal->AddComponent(new CTransform);
+	//pDecal->AddComponent(new CDecal);
 
-	pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	pDecal->Decal()->SetAsLight(false);
+	//pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+	//pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
+	//pDecal->Decal()->SetAsLight(false);
 
-	SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
-
-
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CPlayerScript);
-	pObject->AddComponent(new CStateScript);
-
-	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
-
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
-	pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
-
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	//pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03"));
-	//pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03_N"));
-	pObject->MeshRender()->SetDynamicShadow(true);
-
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
+	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
 
-	pObject = new CGameObject;
-	pObject->SetName(L"Monster");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CMonsterScript);
-	pObject->AddComponent(new CStateScript);
+	//CGameObject* pObject = new CGameObject;
+	//pObject->SetName(L"Player");
+	//pObject->AddComponent(new CTransform);
+	//pObject->AddComponent(new CMeshRender);
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CPlayerScript);
+	//pObject->AddComponent(new CStateScript);
 
-	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+	//pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
 
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	//pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 
-	pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	////pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03"));
+	////pObject->MeshRender()->GetMaterial()->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"TILE_03_N"));
+	//pObject->MeshRender()->SetDynamicShadow(true);
 
-	SpawnGameObject(pObject, Vec3(500.f, 0.f, 300.f), (int)LAYER::MONSTER);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYER);
+
+
+	//pObject = new CGameObject;
+	//pObject->SetName(L"Monster");
+	//pObject->AddComponent(new CTransform);
+	//pObject->AddComponent(new CMeshRender);
+	//pObject->AddComponent(new CMonsterScript);
+	//pObject->AddComponent(new CStateScript);
+
+	//pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
+
+	//pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+
+	//pObject->MeshRender()->SetDynamicShadow(true);
+
+	//SpawnGameObject(pObject, Vec3(500.f, 0.f, 300.f), (int)LAYER::MONSTER);
+	}
+	
 
 	// ============
 	// FBX Loading
@@ -145,21 +163,15 @@ void CreateTestLevel()
 	{
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+		
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle_broken.fbx");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Lurker");
+		pObj->SetName(L"castle_broken");
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
-
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"GrimKnight");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		//
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 	}
+
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");	

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMonsterScript.h"
 #include "CStateScript.h"
+#include "CBatScript.h"
 #include "CTrace.h"
 
 
@@ -17,9 +18,11 @@ CMonsterScript::~CMonsterScript()
 void CMonsterScript::begin()
 {
 
-	m_pState = GetOwner()->GetScript<CStateScript>();
-	m_pState->AddState(L"Trace", new CTrace);
-	m_pState->ChangeState(L"Trace");
+	CBatScript* pBatScript = GetOwner()->GetScript<CBatScript>();
+
+	m_pStateScript = GetOwner()->GetScript<CStateScript>();
+	m_pStateScript->AddState(L"Trace", new CTrace);
+	m_pStateScript->ChangeState(L"Trace");
 }
 
 void CMonsterScript::tick()

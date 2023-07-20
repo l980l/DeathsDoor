@@ -1,3 +1,4 @@
+CBatScript
 CCameraMoveScript
 CGravityScript
 CLoadLevelThreadScript
