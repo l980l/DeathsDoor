@@ -1,23 +1,24 @@
 #pragma once
 #include "CState.h"
-class CPlyAttack_Magic :
+class CPlyChargeAttack :
     public CState
 {
 private:
-    float   m_fMagicChargeTime;
+          
+
 public:
-    virtual void Enter() override;
     virtual void tick() override;
+    virtual void Enter() override;
     virtual void Exit() override;
 
     virtual void BeginOverlap(CCollider2D* _Other);
     virtual void OnOverlap(CCollider2D* _Other);
     virtual void EndOverlap(CCollider2D* _Other);
 
-    CLONE(CPlyAttack_Magic);
+    CLONE(CPlyChargeAttack);
 
 public:
-    CPlyAttack_Magic();
-    ~CPlyAttack_Magic();
+    CPlyChargeAttack();
+    ~CPlyChargeAttack();
 };
 

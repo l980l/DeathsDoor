@@ -38,31 +38,25 @@ void CPlyWalk::Move()
 {
 	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
 
-	float fSpeed = m_fSpeed;
-	if (KEY_PRESSED(KEY::LSHIFT))
-		fSpeed *= 5.f;
-
 	if (KEY_PRESSED(KEY::W))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, fSpeed * DT, 0.f));
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, m_fSpeed * DT, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::S))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, -fSpeed * DT, 0.f));
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, -m_fSpeed * DT, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::A))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(-fSpeed * DT, 0.f, 0.f));
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_fSpeed * DT, 0.f, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::D))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(fSpeed * DT, 0.f, 0.f));
+		GetOwner()->Rigidbody()->AddVelocity(Vec3(m_fSpeed * DT, 0.f, 0.f));
 	}
-
-	GetOwner()->Transform()->SetRelativePos(vPos);
 }
 
 void CPlyWalk::BeginOverlap(CCollider2D* _Other)

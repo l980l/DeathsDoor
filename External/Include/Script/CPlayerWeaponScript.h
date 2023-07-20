@@ -1,17 +1,15 @@
 #pragma once
-#include <Engine\CScript.h>
+#include <Engine/CScript.h>
 
 class CStateScript;
 
-class CPlayerScript :
+class CPlayerWeaponScript :
     public CScript
 {
 private:
     CStateScript*   m_pStateScript;
     UINT            m_tCurMagic;
     float           m_bInvincible;
-    CGameObject*    m_pSword;
-    CGameObject*    m_pDustEffect;
 
 public:
     virtual void begin() override;
@@ -20,7 +18,6 @@ public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
     void SetInvincible(bool _bInvincible) { m_bInvincible = _bInvincible; }
-    void SetSwordState(wstring _strStateName);
 
     UINT GetUseMagic() { return m_tCurMagic; }
 
@@ -30,10 +27,10 @@ public:
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _FILE) override;
 
-    CLONE(CPlayerScript);
+    CLONE(CPlayerWeaponScript);
 
 public:
-    CPlayerScript();
-    ~CPlayerScript();
+    CPlayerWeaponScript();
+    ~CPlayerWeaponScript();
 };
 

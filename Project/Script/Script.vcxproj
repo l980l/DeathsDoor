@@ -177,8 +177,12 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CPlyAttack.h" />
     <ClInclude Include="CPlyAttack_Magic.h" />
+    <ClInclude Include="CPlyCharge.h" />
+    <ClInclude Include="CPlyChargeAttack.h" />
+    <ClInclude Include="CPlyDance.h" />
     <ClInclude Include="CPlyDead.h" />
     <ClInclude Include="CPlyDodge.h" />
     <ClInclude Include="CGravityScript.h" />
@@ -191,6 +195,19 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
+    <ClInclude Include="CPlyLadder.h" />
+    <ClInclude Include="CPlyWpAttack.h" />
+    <ClInclude Include="CPlyWpCharge.h" />
+    <ClInclude Include="CPlyWpChargeAttack.h" />
+    <ClInclude Include="CPlyWpDance.h" />
+    <ClInclude Include="CPlyWpDead.h" />
+    <ClInclude Include="CPlyWpDodge.h" />
+    <ClInclude Include="CPlyWpFall.h" />
+    <ClInclude Include="CPlyWpHit.h" />
+    <ClInclude Include="CPlyWpIdle.h" />
+    <ClInclude Include="CPlyWpLadder.h" />
+    <ClInclude Include="CPlyWpMagic.h" />
+    <ClInclude Include="CPlyWpWalk.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
@@ -201,8 +218,12 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
     <ClCompile Include="CPlyAttack_Magic.cpp" />
+    <ClCompile Include="CPlyCharge.cpp" />
+    <ClCompile Include="CPlyChargeAttack.cpp" />
+    <ClCompile Include="CPlyDance.cpp" />
     <ClCompile Include="CPlyDead.cpp" />
     <ClCompile Include="CPlyDodge.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
@@ -215,6 +236,19 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPlyLadder.cpp" />
+    <ClCompile Include="CPlyWpAttack.cpp" />
+    <ClCompile Include="CPlyWpCharge.cpp" />
+    <ClCompile Include="CPlyWpChargeAttack.cpp" />
+    <ClCompile Include="CPlyWpDance.cpp" />
+    <ClCompile Include="CPlyWpDead.cpp" />
+    <ClCompile Include="CPlyWpDodge.cpp" />
+    <ClCompile Include="CPlyWpFall.cpp" />
+    <ClCompile Include="CPlyWpHit.cpp" />
+    <ClCompile Include="CPlyWpIdle.cpp" />
+    <ClCompile Include="CPlyWpLadder.cpp" />
+    <ClCompile Include="CPlyWpMagic.cpp" />
+    <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />

@@ -13,7 +13,7 @@ void CPlyIdle::tick()
 {
 	if (KEY_TAP(KEY::LBTN))
 	{
-		ChangeState(L"Attack");
+		ChangeState(L"Charge");
 	}
 	else if (KEY_TAP(KEY::RBTN))
 	{

@@ -305,6 +305,7 @@ enum class LAYER
 	WALL,
 	ITEM,
 	BLANK,
+	FALLAREA,
 
 	UI = 31,
 };

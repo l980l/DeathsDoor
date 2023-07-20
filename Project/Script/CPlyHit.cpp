@@ -20,8 +20,17 @@ void CPlyHit::Enter()
 
 void CPlyHit::tick()
 {
-	if(GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::HIT)
-	{ }
+	if(GetOwner()->Animator3D()->IsFinish())
+	{
+		if (GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::HIT)
+		{
+			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT_RECOVER, false);
+		}
+		else
+		{
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+		}
+	}
 }
 
 void CPlyHit::Exit()

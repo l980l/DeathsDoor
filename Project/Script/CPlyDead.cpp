@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CPlyDead.h"
+#include "CPlayerScript.h"
 
 CPlyDead::CPlyDead()
 {

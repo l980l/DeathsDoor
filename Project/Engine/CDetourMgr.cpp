@@ -60,22 +60,22 @@ void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 	switch (_LevelType)
 	{
 	case LEVEL_TYPE::CASTLE_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::CASTLE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::FOREST_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::ICE_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::ICE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::HALL:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	}
 }
@@ -142,6 +142,11 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 {
+	return GetPathtoTarget(_vStartPos, m_pPlayer->Transform()->GetWorldPos(), ActualPathCount);
+}
+
+Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* ActualPathCount)
+{
 	if (nullptr == m_pNaviMesh)
 		assert(nullptr);
 	if (nullptr == m_pPlayer)
@@ -161,7 +166,7 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	startpos[2] = -_vStartPos.z;
 
 	float endpos[3] = {};
-	Vec3 vEndPos = m_pPlayer->Transform()->GetWorldPos();
+	Vec3 vEndPos = _vTargetPos;
 	endpos[0] = vEndPos.x;
 	endpos[1] = vEndPos.y;
 	endpos[2] = -vEndPos.z;
@@ -172,15 +177,6 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	dtQueryFilter filter;
 	filter.setIncludeFlags(0xFFFF); // Include all polygons in pathfinding.
 	filter.setExcludeFlags(0); // Exclude none of the polygons.
-
-
-	// 땅, 벽, 물 같은 Mesh 종류에 따라 넘을 수 있는 정도를 설정하는 필터값
-	// 현재 사용 불가능
-	//// Set cost for area. Area values are usually defined in the Recast/Detour code.
-	//// Let's assume that 1 is ground, 2 is water, and 3 is a wall.
-	//filter.setAreaCost(1, 1.0f); // Set cost for ground area.
-	//filter.setAreaCost(2, 10.0f); // Set high cost for water area.
-	//filter.setAreaCost(3, FLT_MAX); // Set infinite cost for wall area.
 
 	navQuery->findNearestPoly(startpos, polyPickExt, &filter, &startRef, 0);
 	navQuery->findNearestPoly(endpos, polyPickExt, &filter, &endRef, 0);

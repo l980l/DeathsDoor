@@ -4,6 +4,7 @@ class CPlyAttack_Magic :
     public CState
 {
 private:
+    UINT    m_MagicType;
     float   m_fMagicChargeTime;
 public:
     virtual void Enter() override;

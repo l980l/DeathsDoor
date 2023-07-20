@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CPlyFall.h"
+#include "CPlayerScript.h"
 
 CPlyFall::CPlyFall()
 {
@@ -17,7 +18,7 @@ void CPlyFall::Enter()
 void CPlyFall::tick()
 {
 	if (GetOwner()->Rigidbody()->IsGround())
-		ChangeState(L"Idle");
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 }
 
 void CPlyFall::Exit()
@@ -26,6 +27,13 @@ void CPlyFall::Exit()
 
 void CPlyFall::BeginOverlap(CCollider2D* _Other)
 {
+	if (_Other->GetOwner()->GetLayerIndex() == LAYER::FALLAREA)
+	{
+		Stat CurStat = GetOwnerScript()->GetStat();
+		CurStat.HP -= 1;
+		GetOwnerScript()->SetStat(CurStat);
+	}
+
 }
 
 void CPlyFall::OnOverlap(CCollider2D* _Other)
