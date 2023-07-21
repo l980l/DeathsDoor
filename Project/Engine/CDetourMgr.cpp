@@ -142,6 +142,12 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 {
+	
+	if (nullptr == m_pPlayer)
+	{
+		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	}
+
 	return GetPathtoTarget(_vStartPos, m_pPlayer->Transform()->GetWorldPos(), ActualPathCount);
 }
 
@@ -149,8 +155,6 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* Actual
 {
 	if (nullptr == m_pNaviMesh)
 		assert(nullptr);
-	if (nullptr == m_pPlayer)
-		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	float actualPath[256 * 3] = { 0.f, };
 	for (int i = 0; i < 256 * 3; i++)
 		actualPath[i] = 0.0f;

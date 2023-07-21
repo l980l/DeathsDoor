@@ -115,11 +115,11 @@ void CreateTestLevel()
 	CGameObject* pPlayer = nullptr;
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
 	pPlayer = pMeshData->Instantiate();
+	pPlayer->SetName(L"Player");
 	pPlayer->AddComponent(new CPlayerScript);
 	pPlayer->AddComponent(new CStateScript);
 	pPlayer->AddComponent(new CCollider3D);
 	pPlayer->AddComponent(new CRigidbody);
-	pPlayer->SetName(L"Player");
 
 	pPlayer->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
 	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);

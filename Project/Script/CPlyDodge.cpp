@@ -19,6 +19,7 @@ void CPlyDodge::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+
 }
 
 void CPlyDodge::Exit()
