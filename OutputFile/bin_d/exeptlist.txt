@@ -33,3 +33,15 @@ CPlyWpLadder.h
 CPlyWpMagic.h
 CPlyWpWalk.h
 PlayerWeaponStates.h
+BazookaStates.h
+CBazookaAim.h
+CBazookaDeath.h
+CBazzokaIdle.h
+CBazzokaLongDistance.h
+CBazzokaMelee.h
+CBazzokaMove.h
+CMonsterScript.h
+CrowBossStates.h
+LurkerStates.h
+GruntStates.h
+CrowBossStates.h

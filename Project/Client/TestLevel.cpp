@@ -149,8 +149,8 @@ void CreateTestLevel()
 	pObject->SetName(L"Monster");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CMonsterScript);
-	pObject->AddComponent(new CStateScript);
+	//pObject->AddComponent(new CMonsterScript);
+	//pObject->AddComponent(new CStateScript);
 	
 	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
 	

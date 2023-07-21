@@ -67,9 +67,6 @@
     <Filter Include="Script\Player">
       <UniqueIdentifier>{495c3e54-d83e-4eba-98ad-446988e1bf27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\PlayerWeapon">
-      <UniqueIdentifier>{5113b45d-bd13-42ae-898b-3a8e069eee48}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\State\PlayerWeapon\Attack">
       <UniqueIdentifier>{4aa2d934-2fd7-47c8-8e44-401fc154bc52}</UniqueIdentifier>
     </Filter>
@@ -94,14 +91,8 @@
     <Filter Include="Script\State\PlayerWeapon\Walk">
       <UniqueIdentifier>{2109332c-ed9e-409a-a5df-3f035ab88539}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Player\Ladder">
-      <UniqueIdentifier>{3871edd1-ca2d-470d-8997-502106adeae2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\State\PlayerWeapon\Ladder">
       <UniqueIdentifier>{68630229-b765-4b34-a76e-185f0b67c332}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\State\Player\Dance">
-      <UniqueIdentifier>{70890e63-37c2-4598-ad59-1b57c834ca72}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\State\PlayerWeapon\Dance">
       <UniqueIdentifier>{de0a2175-6892-4f2c-8136-1dc08e40c562}</UniqueIdentifier>
@@ -109,14 +100,17 @@
     <Filter Include="Script\State\PlayerWeapon\Charge">
       <UniqueIdentifier>{cf215908-253e-4da8-859c-50f69a1998fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Player\Charge">
-      <UniqueIdentifier>{62c976a9-4b00-4ef3-b3b2-708ffa149b3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\State\Player\ChargeAttack">
-      <UniqueIdentifier>{874cd4eb-86bf-4404-b6f9-055170e2d90c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\State\PlayerWeapon\ChargeAttack">
       <UniqueIdentifier>{896bd426-570e-4035-9390-9dff0671c5d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\01.Weapon">
+      <UniqueIdentifier>{4974b412-f2ed-49e8-bbb4-6bbb694f77c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Dance">
+      <UniqueIdentifier>{aa760ef8-6d77-42e0-b659-969c8bc9a096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Ladder">
+      <UniqueIdentifier>{264329ef-f1f9-4d08-a4c4-16d46da89ffb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,39 +177,6 @@
     <ClInclude Include="CTrace.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="LurkerStates.h">
-      <Filter>Script\01. State\01. Monster\Lurker</Filter>
-    </ClInclude>
-    <ClInclude Include="GruntStates.h">
-      <Filter>Script\01. State\01. Monster\Grunt</Filter>
-    </ClInclude>
-    <ClInclude Include="CrowBossStates.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaAim.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaIdle.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaLongDistance.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaMelee.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaMove.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="BazookaStates.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaDeath.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script\Player</Filter>
     </ClInclude>
@@ -224,15 +185,6 @@
     </ClInclude>
     <ClInclude Include="CPlyWpIdle.h">
       <Filter>Script\State\PlayerWeapon\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyLadder.h">
-      <Filter>Script\State\Player\Ladder</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyDance.h">
-      <Filter>Script\State\Player\Dance</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyCharge.h">
-      <Filter>Script\State\Player\Charge</Filter>
     </ClInclude>
     <ClInclude Include="CPlyWpAttack.h">
       <Filter>Script\State\PlayerWeapon\Attack</Filter>
@@ -267,11 +219,14 @@
     <ClInclude Include="CPlyWpChargeAttack.h">
       <Filter>Script\State\PlayerWeapon\ChargeAttack</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyChargeAttack.h">
-      <Filter>Script\State\Player\ChargeAttack</Filter>
+    <ClInclude Include="CPlyCharge.h" />
+    <ClInclude Include="CPlyChargeAttack.h" />
+    <ClInclude Include="PlayerWeaponStates.h" />
+    <ClInclude Include="CPlyDance.h">
+      <Filter>Script\01. State\02. Player\Dance</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerWeaponStates.h">
-      <Filter>Script\State\PlayerWeapon</Filter>
+    <ClInclude Include="CPlyLadder.h">
+      <Filter>Script\01. State\02. Player\Ladder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,27 +296,6 @@
     <ClCompile Include="CTrace.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazookaAim.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaIdle.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaLongDistance.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaMelee.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaMove.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazookaDeath.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script\Player</Filter>
     </ClCompile>
@@ -370,15 +304,6 @@
     </ClCompile>
     <ClCompile Include="CPlyWpIdle.cpp">
       <Filter>Script\State\PlayerWeapon\Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyLadder.cpp">
-      <Filter>Script\State\Player\Ladder</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyDance.cpp">
-      <Filter>Script\State\Player\Dance</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyCharge.cpp">
-      <Filter>Script\State\Player\Charge</Filter>
     </ClCompile>
     <ClCompile Include="CPlyWpAttack.cpp">
       <Filter>Script\State\PlayerWeapon\Attack</Filter>
@@ -413,8 +338,13 @@
     <ClCompile Include="CPlyWpChargeAttack.cpp">
       <Filter>Script\State\PlayerWeapon\ChargeAttack</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyChargeAttack.cpp">
-      <Filter>Script\State\Player\ChargeAttack</Filter>
+    <ClCompile Include="CPlyCharge.cpp" />
+    <ClCompile Include="CPlyChargeAttack.cpp" />
+    <ClCompile Include="CPlyDance.cpp">
+      <Filter>Script\01. State\02. Player\Dance</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyLadder.cpp">
+      <Filter>Script\01. State\02. Player\Ladder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
