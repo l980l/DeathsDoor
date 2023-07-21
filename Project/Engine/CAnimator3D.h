@@ -29,12 +29,16 @@ private:
     bool						m_bFinalMatUpdate;      // 최종행렬 연산 수행여부
     bool                        m_bRepeat;              // 반복 여부. 반복인 경우에는 m_bCurClipFinish를 true로 바꾸지 않는다.
     bool                        m_bCurClipFinish;       // 현재 애니메이션이 끝났는지에 대한 여부.
+    bool                        m_bStop;
 
 public:
     virtual void finaltick() override;
     void UpdateData();
 
 public:
+    bool IsStop() { return m_bStop; }
+    void SetStop(bool _bStop) { m_bStop = _bStop; }
+
     void SetBones(const vector<tMTBone>* _vecBones) { m_pVecBones = _vecBones; m_vecFinalBoneMat.resize(m_pVecBones->size()); }
     void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);      // 애니메이션 클립 정보를 세팅하고, 애니메이션 별 재생 시간(현재 얼마나 재생되었는지)을 0으로 초기화 시킴.
     void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }

@@ -26,6 +26,7 @@ CAnimator3D::CAnimator3D()
 	, m_fRatio(0.f)
 	, m_bRepeat(false)
 	, m_bCurClipFinish(false)
+	, m_bStop(false)
 	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
 {
 	m_pBoneFinalMatBuffer = new CStructuredBuffer;
@@ -59,6 +60,9 @@ CAnimator3D::~CAnimator3D()
 
 void CAnimator3D::finaltick()
 {
+	if (m_bStop)
+		return;
+
 	m_dCurTime = 0.f;
 
 	// 현재 재생중인 Clip 의 시간을 진행한다.

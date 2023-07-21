@@ -11,12 +11,14 @@ private:
     Matrix          m_matCollider3D;    // Collider 의 월드행렬
 
     int             m_iCollisionCount;  // 충돌 횟수
-
+    bool            m_bDebugShape;
 
 public:
     virtual void finaltick() override;
 
 public:
+    bool IsDebugShape() { return m_bDebugShape; }
+    void SetDebugShape(bool _bDebugShape) { m_bDebugShape = _bDebugShape; }
     void SetOffsetPos(Vec3 _vOffsetPos) { m_vOffsetPos = _vOffsetPos; }
     void SetOffsetScale(Vec3 _vOffsetScale) { m_vOffsetScale = _vOffsetScale; }
     void SetAbsolute(bool _bSet) { m_bAbsolute = _bSet; }

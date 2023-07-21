@@ -26,8 +26,9 @@ void DrawDebugSphere(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f);
 
 void DrawDebugFrustum(const Matrix& _matWorld, Vec4 _vColor, float _fTime = 0.f);
 
-
 Vec3 DecomposeRotMat(const Matrix& _matRot);
+
+float GetDistance(Vec3 _Vec1, Vec3 _Vec2);
 
  
 

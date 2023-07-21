@@ -32,3 +32,11 @@ void CMonsterScript::BeginOverlap(CCollider3D* _Other)
 {
 }
 
+void CMonsterScript::OnOverlap(CCollider3D* _Other)
+{
+}
+
+void CMonsterScript::EndOverlap(CCollider3D* _Other)
+{
+}
+

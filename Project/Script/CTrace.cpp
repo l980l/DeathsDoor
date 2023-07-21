@@ -73,14 +73,14 @@ void CTrace::Exit()
 {
 }
 
-void CTrace::BeginOverlap(CCollider2D* _Other)
+void CTrace::BeginOverlap(CCollider3D* _Other)
 {
 }
 
-void CTrace::OnOverlap(CCollider2D* _Other)
+void CTrace::OnOverlap(CCollider3D* _Other)
 {
 }
 
-void CTrace::EndOverlap(CCollider2D* _Other)
+void CTrace::EndOverlap(CCollider3D* _Other)
 {
 }
