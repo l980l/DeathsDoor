@@ -129,45 +129,36 @@
     <ClInclude Include="CTrace.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="LurkerStates.h">
-      <Filter>Script\01. State\01. Monster\Lurker</Filter>
-    </ClInclude>
-    <ClInclude Include="GruntStates.h">
-      <Filter>Script\01. State\01. Monster\Grunt</Filter>
-    </ClInclude>
-    <ClInclude Include="CrowBossStates.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaAim.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaIdle.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaLongDistance.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaMelee.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazzokaMove.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="BazookaStates.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaDeath.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterDetectRangeScript.h">
-      <Filter>Script\01. State\01. Monster</Filter>
-    </ClInclude>
     <ClInclude Include="CMonsterScript.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerWeaponScript.h" />
+    <ClInclude Include="CPlyCharge.h" />
+    <ClInclude Include="CPlyChargeAttack.h" />
+    <ClInclude Include="CPlyDance.h" />
+    <ClInclude Include="CPlyLadder.h" />
+    <ClInclude Include="CPlyWpAttack.h" />
+    <ClInclude Include="CPlyWpCharge.h" />
+    <ClInclude Include="CPlyWpChargeAttack.h" />
+    <ClInclude Include="CPlyWpDance.h" />
+    <ClInclude Include="CPlyWpDead.h" />
+    <ClInclude Include="CPlyWpDodge.h" />
+    <ClInclude Include="CPlyWpFall.h" />
+    <ClInclude Include="CPlyWpHit.h" />
+    <ClInclude Include="CPlyWpIdle.h" />
+    <ClInclude Include="CPlyWpLadder.h" />
+    <ClInclude Include="CPlyWpMagic.h" />
+    <ClInclude Include="CPlyWpWalk.h" />
+    <ClInclude Include="PlayerWeaponStates.h" />
+    <ClInclude Include="CBazookaScript.h" />
+    <ClInclude Include="CMonsterDetectRangeScript.h" />
+    <ClInclude Include="BazookaStates.h" />
+    <ClInclude Include="CBazookaAim.h" />
+    <ClInclude Include="CBazookaDeath.h" />
+    <ClInclude Include="CBazzokaIdle.h" />
+    <ClInclude Include="CBazzokaLongDistance.h" />
+    <ClInclude Include="CBazzokaMelee.h" />
+    <ClInclude Include="CBazzokaMove.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -236,32 +227,33 @@
     <ClCompile Include="CTrace.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaAim.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaIdle.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaLongDistance.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaMelee.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazzokaMove.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazookaDeath.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterDetectRangeScript.cpp">
-      <Filter>Script\01. State\01. Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClCompile>
     <ClCompile Include="CMonsterScript.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayerWeaponScript.cpp" />
+    <ClCompile Include="CPlyCharge.cpp" />
+    <ClCompile Include="CPlyChargeAttack.cpp" />
+    <ClCompile Include="CPlyDance.cpp" />
+    <ClCompile Include="CPlyLadder.cpp" />
+    <ClCompile Include="CPlyWpAttack.cpp" />
+    <ClCompile Include="CPlyWpCharge.cpp" />
+    <ClCompile Include="CPlyWpChargeAttack.cpp" />
+    <ClCompile Include="CPlyWpDance.cpp" />
+    <ClCompile Include="CPlyWpDead.cpp" />
+    <ClCompile Include="CPlyWpDodge.cpp" />
+    <ClCompile Include="CPlyWpFall.cpp" />
+    <ClCompile Include="CPlyWpHit.cpp" />
+    <ClCompile Include="CPlyWpIdle.cpp" />
+    <ClCompile Include="CPlyWpLadder.cpp" />
+    <ClCompile Include="CPlyWpMagic.cpp" />
+    <ClCompile Include="CPlyWpWalk.cpp" />
+    <ClCompile Include="CBazookaScript.cpp" />
+    <ClCompile Include="CMonsterDetectRangeScript.cpp" />
+    <ClCompile Include="CBazookaAim.cpp" />
+    <ClCompile Include="CBazookaDeath.cpp" />
+    <ClCompile Include="CBazzokaIdle.cpp" />
+    <ClCompile Include="CBazzokaLongDistance.cpp" />
+    <ClCompile Include="CBazzokaMelee.cpp" />
+    <ClCompile Include="CBazzokaMove.cpp" />
   </ItemGroup>
 </Project>
