@@ -306,6 +306,7 @@ enum class LAYER
 	ITEM,
 	BLANK,
 	FALLAREA,
+	LADDER,
 
 	UI = 31,
 };

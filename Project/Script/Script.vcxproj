@@ -185,6 +185,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazzokaMelee.h" />
     <ClInclude Include="CBazzokaMove.h" />
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CPlyAttack.h" />
@@ -233,6 +234,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazzokaMelee.cpp" />
     <ClCompile Include="CBazzokaMove.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />

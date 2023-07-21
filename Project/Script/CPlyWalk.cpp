@@ -2,7 +2,7 @@
 #include "CPlyWalk.h"
 
 CPlyWalk::CPlyWalk()
-	: m_fSpeed(150.f)
+	: m_fSpeed(500.f)
 	, m_fTimeToIdle()
 {
 }
@@ -28,6 +28,7 @@ void CPlyWalk::tick()
 
 void CPlyWalk::Enter()
 {
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::WALK, true);
 }
 
 void CPlyWalk::Exit()
@@ -36,27 +37,32 @@ void CPlyWalk::Exit()
 
 void CPlyWalk::Move()
 {
-	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
-
+	Vec3 Velocity = {};
 	if (KEY_PRESSED(KEY::W))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, m_fSpeed * DT));
+		//GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, m_fSpeed));
+		Velocity.z = m_fSpeed;
 	}
 
 	if (KEY_PRESSED(KEY::S))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, -m_fSpeed * DT));
+		//GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, -m_fSpeed));
+		Velocity.z = -m_fSpeed;
 	}
 
 	if (KEY_PRESSED(KEY::A))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_fSpeed * DT, 0.f, 0.f));
+		//GetOwner()->Rigidbody()->SetVelocity(Vec3(-m_fSpeed, 0.f, 0.f));
+		Velocity.x = -m_fSpeed;
 	}
 
 	if (KEY_PRESSED(KEY::D))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(m_fSpeed * DT, 0.f, 0.f));
+		//GetOwner()->Rigidbody()->SetVelocity(Vec3(m_fSpeed , 0.f, 0.f));
+		Velocity.x = m_fSpeed;
 	}
+
+	GetOwner()->Rigidbody()->SetVelocity(Velocity);
 }
 
 void CPlyWalk::BeginOverlap(CCollider2D* _Other)

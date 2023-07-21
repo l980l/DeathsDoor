@@ -7,6 +7,7 @@ void CPlyWpWalk::tick()
 
 void CPlyWpWalk::Enter()
 {
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::WALK, true);
 }
 
 void CPlyWpWalk::Exit()

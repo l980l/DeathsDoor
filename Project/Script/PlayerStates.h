@@ -8,5 +8,4 @@
 #include "CPlyFall.h"
 #include "CPlyDead.h"
 #include "CPlyDance.h"
-#include "CPlyCharge.h"
 #include "CPlyLadder.h"

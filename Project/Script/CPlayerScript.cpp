@@ -55,8 +55,7 @@ void CPlayerScript::begin()
 
 void CPlayerScript::tick()
 {
-
-
+	m_pStateScript->tick();
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)

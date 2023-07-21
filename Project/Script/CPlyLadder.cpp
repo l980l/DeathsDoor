@@ -22,6 +22,11 @@ void CPlyLadder::tick()
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, false);
 	}
+	if (KEY_TAP(KEY::SPACE))
+	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+	}
+
 }
 
 void CPlyLadder::Exit()
@@ -39,11 +44,14 @@ void CPlyLadder::Move()
 	{
 		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, -m_fSpeed, 0.f));
 	}
-
 }
 
 void CPlyLadder::BeginOverlap(CCollider2D* _Other)
 {
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER)
+	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+	}
 }
 
 void CPlyLadder::OnOverlap(CCollider2D* _Other)
