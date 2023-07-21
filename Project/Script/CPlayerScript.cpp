@@ -47,7 +47,7 @@ void CPlayerScript::tick()
 }
 
 
-void CPlayerScript::BeginOverlap(CCollider2D* _Other)
+void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
 	// 벽에 부딪힌다면 밀어내기
 	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())

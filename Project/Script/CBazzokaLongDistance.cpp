@@ -5,6 +5,8 @@
 void CBazzokaLongDistance::Enter()
 {
 	GetOwner()->Animator3D()->Play(1, false);
+
+	// °¡½ºÅº ¹ß»ç.
 }
 
 void CBazzokaLongDistance::tick()

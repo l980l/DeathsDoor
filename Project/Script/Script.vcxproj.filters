@@ -72,9 +72,6 @@
     <ClInclude Include="CMissileScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="CMonsterScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script</Filter>
     </ClInclude>
@@ -168,15 +165,15 @@
     <ClInclude Include="CMonsterDetectRangeScript.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
+    <ClInclude Include="CMonsterScript.h">
+      <Filter>Script\01. State\01. Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CMissileScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
@@ -262,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="CBazookaScript.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterScript.cpp">
+      <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
