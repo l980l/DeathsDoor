@@ -13,6 +13,7 @@ private:
 
 public:
     CGameObject*    GetPlayer() { return m_pPlayer; }
+    bool            GetDetect() { return m_bDetect; }
     void            SetDetect(bool _bDetect) { m_bDetect = _bDetect; }
 
 public:
@@ -20,6 +21,8 @@ public:
     virtual void tick() override;
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
+    virtual void OnOverlap(CCollider3D* _Other) override;
+    virtual void EndOverlap(CCollider3D* _Other) override;
 
     CLONE(CMonsterScript);
 public:

@@ -22,6 +22,13 @@ int Animator3DUI::render_update()
     if (FALSE == ComponentUI::render_update())
         return FALSE;
 
+    // 애니메이션 Stop 기능 확인
+    ImGui::Text("Animation Stop");
+    ImGui::SameLine();
+    bool AnimStop = GetTarget()->Animator3D()->IsStop();
+    ImGui::Checkbox("##AnimStop", &AnimStop);
+    GetTarget()->Animator3D()->SetStop(AnimStop);
+
     ImGui::Text("CurClip       ");
     ImGui::SameLine();
     int CurClip = GetTarget()->Animator3D()->GetCurClip();

@@ -10,6 +10,7 @@ CCollider3D::CCollider3D()
 	, m_Shape(COLLIDER3D_TYPE::CUBE)
 	, m_bAbsolute(false)
 	, m_iCollisionCount(0)
+	, m_bDebugShape(false)
 {
 	SetName(L"Collider3D");
 }
@@ -41,14 +42,17 @@ void CCollider3D::finaltick()
 	}
 
 	// DebugShape ฟไรป
-	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	if (0 < m_iCollisionCount)
-		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	if (m_bDebugShape)
+	{
+		Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+		if (0 < m_iCollisionCount)
+			vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 
-	if (COLLIDER3D_TYPE::SPHERE == m_Shape)
-		DrawDebugSphere(m_matCollider3D, vColor, 0.f);
-	else 
-		DrawDebugCube(m_matCollider3D, vColor, 0.f);
+		if (COLLIDER3D_TYPE::SPHERE == m_Shape)
+			DrawDebugSphere(m_matCollider3D, vColor, 0.f);
+		else
+			DrawDebugCube(m_matCollider3D, vColor, 0.f);
+	}
 }
 
 

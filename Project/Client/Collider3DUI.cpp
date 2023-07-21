@@ -21,6 +21,7 @@ int Collider3DUI::render_update()
 	Vec3 vScale = GetTarget()->Collider3D()->GetOffsetScale();
 	Vec3 vPos = GetTarget()->Collider3D()->GetOffsetPos();
 	bool bAbs = GetTarget()->Collider3D()->IsAbsolute();
+	bool bDebugShape = GetTarget()->Collider3D()->IsDebugShape();
 	COLLIDER3D_TYPE tShape = GetTarget()->Collider3D()->GetCollider3DType();
 
 	// Position
@@ -45,6 +46,14 @@ int Collider3DUI::render_update()
 	if (ImGui::Checkbox("##Absolute", &bAbs))
 	{
 		GetTarget()->Collider3D()->SetAbsolute(bAbs);
+	}
+
+	// DebugShape
+	ImGui::Text("DebugShape");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##DebugShape", &bDebugShape))
+	{
+		GetTarget()->Collider3D()->SetDebugShape(bDebugShape);
 	}
 
 	// Type
