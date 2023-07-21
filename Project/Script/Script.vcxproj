@@ -189,8 +189,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CPlyAttack.h" />
     <ClInclude Include="CPlyAttack_Magic.h" />
-    <ClInclude Include="CPlyCharge.h" />
-    <ClInclude Include="CPlyChargeAttack.h" />
     <ClInclude Include="CPlyDance.h" />
     <ClInclude Include="CPlyDead.h" />
     <ClInclude Include="CPlyDodge.h" />
@@ -239,8 +237,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
     <ClCompile Include="CPlyAttack_Magic.cpp" />
-    <ClCompile Include="CPlyCharge.cpp" />
-    <ClCompile Include="CPlyChargeAttack.cpp" />
     <ClCompile Include="CPlyDance.cpp" />
     <ClCompile Include="CPlyDead.cpp" />
     <ClCompile Include="CPlyDodge.cpp" />

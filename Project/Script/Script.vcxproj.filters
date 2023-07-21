@@ -64,6 +64,51 @@
     <Filter Include="Script\01. State\01. Monster\Bazooka\State">
       <UniqueIdentifier>{fa63c74d-a161-46a1-ba1b-fb90d439596e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State">
+      <UniqueIdentifier>{1a5e12ac-346c-4355-8e43-449d786a9256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{056f8aef-ca62-4977-b048-0f6f5cd475d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\02. Monster">
+      <UniqueIdentifier>{aca7f953-12b8-4251-9261-515cf8c0a765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player">
+      <UniqueIdentifier>{c88ef08c-16ff-4397-a895-b8ce3eab9773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon">
+      <UniqueIdentifier>{a8f01c7b-9661-436b-9248-e38fdd5be493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Attack">
+      <UniqueIdentifier>{c2716c2c-d705-46cc-8f93-446c52a452a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Dead">
+      <UniqueIdentifier>{edfa77d0-6ad0-4dca-9057-344a3104f5e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Dodge">
+      <UniqueIdentifier>{160f2c63-5ff8-435e-a32b-5bad3e878449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Fall">
+      <UniqueIdentifier>{d6939d28-50f3-4030-8aad-a46aff9d5cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Hit">
+      <UniqueIdentifier>{cf27a89f-0359-47b8-9c8b-8a98e9fa4d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Idle">
+      <UniqueIdentifier>{d609b813-ec2d-44fd-ad74-d963173eb338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Ladder">
+      <UniqueIdentifier>{4a7579e9-8513-4b65-8e9b-563d1ae401b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Weapon\Dance">
+      <UniqueIdentifier>{a4fe461b-36bd-4b78-98f4-a44f2a657acb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Walk">
+      <UniqueIdentifier>{43ab87c1-cc52-45a6-a10f-11639d0432bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\01. Player\Magic">
+      <UniqueIdentifier>{2c16b37f-ab88-431f-960c-47e2ec9a4c01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -132,24 +177,10 @@
     <ClInclude Include="CMonsterScript.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CPlyCharge.h" />
     <ClInclude Include="CPlyChargeAttack.h" />
     <ClInclude Include="CPlyDance.h" />
     <ClInclude Include="CPlyLadder.h" />
-    <ClInclude Include="CPlyWpAttack.h" />
-    <ClInclude Include="CPlyWpCharge.h" />
-    <ClInclude Include="CPlyWpChargeAttack.h" />
-    <ClInclude Include="CPlyWpDance.h" />
-    <ClInclude Include="CPlyWpDead.h" />
-    <ClInclude Include="CPlyWpDodge.h" />
-    <ClInclude Include="CPlyWpFall.h" />
-    <ClInclude Include="CPlyWpHit.h" />
-    <ClInclude Include="CPlyWpIdle.h" />
-    <ClInclude Include="CPlyWpLadder.h" />
-    <ClInclude Include="CPlyWpMagic.h" />
-    <ClInclude Include="CPlyWpWalk.h" />
-    <ClInclude Include="PlayerWeaponStates.h" />
     <ClInclude Include="CBazookaScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="BazookaStates.h" />
@@ -159,6 +190,48 @@
     <ClInclude Include="CBazzokaLongDistance.h" />
     <ClInclude Include="CBazzokaMelee.h" />
     <ClInclude Include="CBazzokaMove.h" />
+    <ClInclude Include="CPlyWpCharge.h">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpChargeAttack.h">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWeaponStates.h">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerWeaponScript.h">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpAttack.h">
+      <Filter>Scripts\01. Player\Weapon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpDance.h">
+      <Filter>Scripts\01. Player\Weapon\Dance</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpDead.h">
+      <Filter>Scripts\01. Player\Weapon\Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpDodge.h">
+      <Filter>Scripts\01. Player\Weapon\Dodge</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpFall.h">
+      <Filter>Scripts\01. Player\Weapon\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpHit.h">
+      <Filter>Scripts\01. Player\Weapon\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpIdle.h">
+      <Filter>Scripts\01. Player\Weapon\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpLadder.h">
+      <Filter>Scripts\01. Player\Weapon\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpWalk.h">
+      <Filter>Scripts\01. Player\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic.h">
+      <Filter>Scripts\01. Player\Magic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -230,23 +303,10 @@
     <ClCompile Include="CMonsterScript.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CPlyCharge.cpp" />
     <ClCompile Include="CPlyChargeAttack.cpp" />
     <ClCompile Include="CPlyDance.cpp" />
     <ClCompile Include="CPlyLadder.cpp" />
-    <ClCompile Include="CPlyWpAttack.cpp" />
-    <ClCompile Include="CPlyWpCharge.cpp" />
-    <ClCompile Include="CPlyWpChargeAttack.cpp" />
-    <ClCompile Include="CPlyWpDance.cpp" />
-    <ClCompile Include="CPlyWpDead.cpp" />
-    <ClCompile Include="CPlyWpDodge.cpp" />
-    <ClCompile Include="CPlyWpFall.cpp" />
-    <ClCompile Include="CPlyWpHit.cpp" />
-    <ClCompile Include="CPlyWpIdle.cpp" />
-    <ClCompile Include="CPlyWpLadder.cpp" />
-    <ClCompile Include="CPlyWpMagic.cpp" />
-    <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CBazookaScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CBazookaAim.cpp" />
@@ -255,5 +315,44 @@
     <ClCompile Include="CBazzokaLongDistance.cpp" />
     <ClCompile Include="CBazzokaMelee.cpp" />
     <ClCompile Include="CBazzokaMove.cpp" />
+    <ClCompile Include="CPlyWpCharge.cpp">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpChargeAttack.cpp">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerWeaponScript.cpp">
+      <Filter>Scripts\01. Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpAttack.cpp">
+      <Filter>Scripts\01. Player\Weapon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpDance.cpp">
+      <Filter>Scripts\01. Player\Weapon\Dance</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpDead.cpp">
+      <Filter>Scripts\01. Player\Weapon\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpDodge.cpp">
+      <Filter>Scripts\01. Player\Weapon\Dodge</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpFall.cpp">
+      <Filter>Scripts\01. Player\Weapon\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpHit.cpp">
+      <Filter>Scripts\01. Player\Weapon\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpIdle.cpp">
+      <Filter>Scripts\01. Player\Weapon\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpLadder.cpp">
+      <Filter>Scripts\01. Player\Weapon\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpWalk.cpp">
+      <Filter>Scripts\01. Player\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic.cpp">
+      <Filter>Scripts\01. Player\Magic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
