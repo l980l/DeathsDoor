@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "CMonsterScript.h"
 #include "CStateScript.h"
-#include "CTrace.h"
 
 
-
-CMonsterScript::CMonsterScript()
-	: CScript((UINT)SCRIPT_TYPE::MONSTERSCRIPT)
+CMonsterScript::CMonsterScript(UINT SCRIPT_TYPE) :
+	CScript(SCRIPT_TYPE)
+	, m_pStateScript(nullptr)
+	, m_pPlayer(nullptr)
+	, m_bDetect(false)
 {
 }
 
@@ -16,20 +17,18 @@ CMonsterScript::~CMonsterScript()
 
 void CMonsterScript::begin()
 {
-
-	m_pState = GetOwner()->GetScript<CStateScript>();
-	m_pState->AddState(L"Trace", new CTrace);
-	m_pState->ChangeState(L"Trace");
+	// 플레이어 설정.
+	if (nullptr == m_pPlayer)
+	{
+		m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	}
 }
 
 void CMonsterScript::tick()
 {
-	if(KEY_TAP(KEY::SPACE))
-	{
-	}
 }
 
-void CMonsterScript::BeginOverlap(CCollider2D* _Other)
+void CMonsterScript::BeginOverlap(CCollider3D* _Other)
 {
 }
 
