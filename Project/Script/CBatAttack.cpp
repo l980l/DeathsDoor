@@ -16,11 +16,12 @@ void CBatAttack::tick()
 void CBatAttack::Enter()
 {
 	Stat status = GetOwnerScript()->GetStat();
-	GetOwner()->Animator3D()->Play(2, false);
+	GetOwner()->Animator3D()->Play(2, true);
 }
 
 void CBatAttack::Exit()
 {
+
 }
 
 void CBatAttack::BeginOverlap(CCollider2D* _Other)

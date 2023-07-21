@@ -7,6 +7,8 @@ void CKnightWalk::tick()
 
 void CKnightWalk::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(1, true);
 }
 
 void CKnightWalk::Exit()

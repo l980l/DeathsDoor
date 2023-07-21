@@ -7,6 +7,8 @@ void CKnightJumpFinish::tick()
 
 void CKnightJumpFinish::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(6, false);
 }
 
 void CKnightJumpFinish::Exit()

@@ -7,6 +7,8 @@ void CGrimKnightLeftSpin::tick()
 
 void CGrimKnightLeftSpin::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(4, false);
 }
 
 void CGrimKnightLeftSpin::Exit()

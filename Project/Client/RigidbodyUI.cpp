@@ -1,4 +1,6 @@
+#include "pch.h"
 #include "RigidbodyUI.h"
+
 #include <Engine\CRigidbody.h>
 
 RigidbodyUI::RigidbodyUI()

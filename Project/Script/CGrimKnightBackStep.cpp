@@ -7,6 +7,8 @@ void CGrimKnightBackStep::tick()
 
 void CGrimKnightBackStep::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(9, false);
 }
 
 void CGrimKnightBackStep::Exit()

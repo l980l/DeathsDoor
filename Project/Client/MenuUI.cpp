@@ -280,6 +280,9 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
     case COMPONENT_TYPE::DECAL:
         pSelectedObject->AddComponent(new CDecal);
         break;
+    case COMPONENT_TYPE::RIGIDBODY:
+        pSelectedObject->AddComponent(new CRigidbody);
+        break;
     }
 
     // Inspector 에 새롭게 추가된 컴포넌트를 알리기 위해서 타겟을 다시 알려준다.

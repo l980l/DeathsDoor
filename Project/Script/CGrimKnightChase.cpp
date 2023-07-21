@@ -7,6 +7,8 @@ void CGrimKnightChase::tick()
 
 void CGrimKnightChase::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(6, true);
 }
 
 void CGrimKnightChase::Exit()

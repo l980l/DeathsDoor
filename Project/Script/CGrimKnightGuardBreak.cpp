@@ -7,6 +7,8 @@ void CGrimKnightGuardBreak::tick()
 
 void CGrimKnightGuardBreak::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(3, false);
 }
 
 void CGrimKnightGuardBreak::Exit()

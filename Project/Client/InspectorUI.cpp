@@ -209,9 +209,10 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 			m_vecScriptUI.push_back(UI);
 			AddChildUI(UI);
 			UI->SetActive(true);			
+			UI->SetSize(0.f, 350.f);
 		}
 	}
-
+	
 	// ScriptUI 반복문 돌면서 오브젝트의 스크립트수 만큼만 활성화 시킨다.
 	for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
 	{

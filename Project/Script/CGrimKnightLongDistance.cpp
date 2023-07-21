@@ -7,6 +7,8 @@ void CGrimKnightLongDistance::tick()
 
 void CGrimKnightLongDistance::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(7, false);
 }
 
 void CGrimKnightLongDistance::Exit()

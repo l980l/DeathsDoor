@@ -1,10 +1,8 @@
 #pragma once
 #include "CState.h"
-class CBatIdle :
+class CKnightHit :
     public CState
 {
-private:
-    float m_fTime;
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -14,10 +12,10 @@ public:
     virtual void OnOverlap(CCollider2D* _Other);
     virtual void EndOverlap(CCollider2D* _Other);
 
-    CLONE(CBatIdle);
+    CLONE(CKnightHit);
 
 public:
-    CBatIdle();
-    ~CBatIdle();
+    CKnightHit();
+    ~CKnightHit();
 };
 

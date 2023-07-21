@@ -12,3 +12,5 @@
 #include "CGrimKnightMelee.h"
 #include "CGrimKnightSpinDown.h"
 #include "CGrimKnightSpinUp.h"
+#include "CGrimKnightHit.h"
+#include "CGrimKnightDeath.h"

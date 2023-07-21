@@ -7,6 +7,8 @@ void CKnightIdle::tick()
 
 void CKnightIdle::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(0, false);
 }
 
 void CKnightIdle::Exit()

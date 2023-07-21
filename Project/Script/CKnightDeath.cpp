@@ -7,6 +7,9 @@ void CKnightDeath::tick()
 
 void CKnightDeath::Enter()
 {
+	//anim + paper burn
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(3, false);
 }
 
 void CKnightDeath::Exit()

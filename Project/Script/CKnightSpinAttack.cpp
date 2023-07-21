@@ -7,6 +7,8 @@ void CKnightSpinAttack::tick()
 
 void CKnightSpinAttack::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(12, false);
 }
 
 void CKnightSpinAttack::Exit()

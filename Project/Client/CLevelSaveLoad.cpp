@@ -356,6 +356,9 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
         case COMPONENT_TYPE::DECAL:
             Component = new CDecal;
             break;
+        case COMPONENT_TYPE::RIGIDBODY:
+            Component = new CRigidbody;
+            break;
         }
 
         Component->LoadFromLevelFile(_File);

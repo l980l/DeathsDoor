@@ -7,6 +7,8 @@ void CKnightCutScene::tick()
 
 void CKnightCutScene::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(4, false);
 }
 
 void CKnightCutScene::Exit()

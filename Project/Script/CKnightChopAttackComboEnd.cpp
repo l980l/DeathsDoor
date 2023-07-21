@@ -7,6 +7,8 @@ void CKnightChopAttackComboEnd::tick()
 
 void CKnightChopAttackComboEnd::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(11, false);
 }
 
 void CKnightChopAttackComboEnd::Exit()

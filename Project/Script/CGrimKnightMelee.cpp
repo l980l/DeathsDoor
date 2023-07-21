@@ -7,6 +7,8 @@ void CGrimKnightMelee::tick()
 
 void CGrimKnightMelee::Enter()
 {
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(8, false);
 }
 
 void CGrimKnightMelee::Exit()

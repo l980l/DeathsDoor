@@ -4,6 +4,7 @@
 #include "CKnightChopAttackCombo.h"
 #include "CKnightChopAttackComboEnd.h"
 #include "CKnightCutScene.h"
+#include "CKnightHit.h"
 #include "CKnightDeath.h"
 #include "CKnightIdle.h"
 #include "CKnightJumpAttack.h"
