@@ -43,6 +43,7 @@ void CPlayerScript::begin()
 	}
 	m_pStateScript->AddState(L"Idle", new CPlyIdle);
 	m_pStateScript->AddState(L"Walk", new CPlyWalk);
+	m_pStateScript->AddState(L"Run", new CPlyRun);
 	m_pStateScript->AddState(L"Dodge", new CPlyDodge);
 	m_pStateScript->AddState(L"Fall", new CPlyFall);
 	m_pStateScript->AddState(L"Hit", new CPlyHit);
@@ -51,11 +52,13 @@ void CPlayerScript::begin()
 	m_pStateScript->AddState(L"Magic", new CPlyAttack_Magic);
 	m_pStateScript->ChangeState(L"Idle");
 	MeshRender()->GetDynamicMaterial(0);
+
+	
 }
 
 void CPlayerScript::tick()
 {
-	m_pStateScript->tick();
+	
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)

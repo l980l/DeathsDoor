@@ -1,6 +1,6 @@
 #pragma once
 #include "CState.h"
-class CPlyWpCharge :
+class CPlyWpRun :
     public CState
 {
 public:
@@ -8,10 +8,10 @@ public:
     virtual void Enter() override;
     virtual void Exit() override;
 
-    CLONE(CPlyWpCharge);
+    CLONE(CPlyWpRun);
 
 public:
-    CPlyWpCharge();
-    ~CPlyWpCharge();
+    CPlyWpRun();
+    ~CPlyWpRun();
 };
 

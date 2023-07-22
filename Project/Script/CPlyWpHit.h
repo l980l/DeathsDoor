@@ -3,6 +3,8 @@
 class CPlyWpHit :
     public CState
 {
+private:
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

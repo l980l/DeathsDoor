@@ -109,6 +109,7 @@ void CreateTestLevel()
 	pWall->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 	pWall->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
 	pWall->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
+	pWall->Collider3D()->SetDebugShape(true);
 
 	SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::WALL);
 
@@ -125,14 +126,21 @@ void CreateTestLevel()
 	pPlayer->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
 	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 
+	pPlayer->MeshRender()->SetDynamicShadow(true);
+	pPlayer->MeshRender()->SetFrustumCheck(false);
+
 	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
 	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
 
 	pPlayer->Rigidbody()->SetGravity(true);
+	Stat PlayerStat;
+	PlayerStat.Attack = 50.f;
+	PlayerStat.Attack_Speed = 1.f;
+	PlayerStat.HP = 4;
+	PlayerStat.Speed = 1000.f;
+	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
 
-	pPlayer->MeshRender()->SetDynamicShadow(true);
-	pPlayer->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -146,21 +154,15 @@ void CreateTestLevel()
 	pPlayer->AddChild(pSword);
 
 	
-	CGameObject* pObject = new CGameObject;
-	pObject->SetName(L"Monster");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
+	//CGameObject* pMonster = pMeshData->Instantiate();
+	//pMonster->SetName(L"Monster");
 	//pObject->AddComponent(new CMonsterScript);
-	//pObject->AddComponent(new CStateScript);
+	//pObject->AddComponent(new CStateScript);	
+	//pMonster->MeshRender()->SetDynamicShadow(true);
+	//pMonster->MeshRender()->SetFrustumCheck(false);
 	
-	pObject->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 500.f));
-	
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	
-	pObject->MeshRender()->SetDynamicShadow(true);
-	
-	SpawnGameObject(pObject, Vec3(500.f, 0.f, 300.f), (int)LAYER::MONSTER);
+	//SpawnGameObject(pMonster, Vec3(50.f, 300.f, 0.f), (int)LAYER::MONSTER);
 
 	// ============
 	// FBX Loading

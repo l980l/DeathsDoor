@@ -1,6 +1,7 @@
 #pragma once
 #include "CPlyIdle.h"
 #include "CPlyWalk.h"
+#include "CPlyRun.h"
 #include "CPlyDodge.h"
 #include "CPlyAttack.h"
 #include "CPlyAttack_Magic.h"

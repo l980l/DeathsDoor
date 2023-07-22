@@ -325,3 +325,22 @@ float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
 
 	return sqrt(a*a + b*b + c*c);
 }
+
+float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
+{
+	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
+	Vec3 CurPos = _vStart;
+	Vec2 vDefault = Vec2(0.f, -1.f);
+	Vec3 TargetPos = _vTarget;
+	Vec2 vDir = Vec2(TargetPos.x - CurPos.x, TargetPos.z - CurPos.z);
+	vDir.Normalize();
+	float angle = (float)acos(vDir.Dot(vDefault));
+
+	if (vDir.x > 0.f)
+		angle = (360.f / 180.f * XM_PI) - angle;
+
+	if(_degree)
+		angle *= (180.f / XM_PI);
+
+	return angle;
+}

@@ -13,7 +13,7 @@ CPlyHit::~CPlyHit()
 void CPlyHit::Enter()
 {
 	// Hit Anim 재생 끝나면 바로 Idle로 돌아가야 하므로 반복재생 false;
-	GetOwner()->Animator3D()->Play(22, false);
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT, false);
 	// 이미 Hit이므로 무적 활성화
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
 }

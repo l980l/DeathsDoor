@@ -20,9 +20,8 @@ CPlyCharge.h
 CPlyChargeAttack.h
 CPlyDance.h
 CPlyLadder.h
+CPlyRun.h
 CPlyWpAttack.h
-CPlyWpCharge.h
-CPlyWpChargeAttack.h
 CPlyWpDance.h
 CPlyWpDead.h
 CPlyWpDodge.h
@@ -32,6 +31,7 @@ CPlyWpIdle.h
 CPlyWpLadder.h
 CPlyWpMagic.h
 CPlyWpWalk.h
+CPlyWpRun.h
 PlayerWeaponStates.h
 BazookaStates.h
 CBazookaAim.h

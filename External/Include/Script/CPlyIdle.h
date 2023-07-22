@@ -3,6 +3,9 @@
 class CPlyIdle :
     public CState
 {
+private:
+    bool    m_bWalk;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

@@ -37,6 +37,21 @@ void CPlyAttack_Magic::Enter()
 
 void CPlyAttack_Magic::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+
+	}
+	else
+	{
+		if (KEY_TAP(KEY::LBTN))
+		{
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
+		}
+		else if (KEY_RELEASE(KEY::RBTN))
+		{
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle")
+		}
+	}
 }
 
 void CPlyAttack_Magic::Exit()

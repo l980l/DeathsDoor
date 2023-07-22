@@ -64,9 +64,6 @@
     <Filter Include="Script\01. State\01. Monster\Bazooka\State">
       <UniqueIdentifier>{fa63c74d-a161-46a1-ba1b-fb90d439596e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="State">
-      <UniqueIdentifier>{1a5e12ac-346c-4355-8e43-449d786a9256}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\01. State\02. Player\Dance">
       <UniqueIdentifier>{786b9d53-16b4-4596-a3ef-84d667336e81}</UniqueIdentifier>
     </Filter>
@@ -108,6 +105,12 @@
     </Filter>
     <Filter Include="Script\01. State\02. Script">
       <UniqueIdentifier>{c0d4cd92-3234-4c04-8869-42723f7c3784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Run">
+      <UniqueIdentifier>{9b35469a-2620-4fe6-befc-01a0394b0ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\00. Weapon\Run">
+      <UniqueIdentifier>{03b56cce-1c5b-47a7-8cf1-476f485a8556}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,16 +174,7 @@
     <ClInclude Include="CMonsterScript.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyWpCharge.h">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpChargeAttack.h">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerWeaponStates.h">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerWeaponScript.h">
       <Filter>Script\01. State\02. Player\00. Weapon</Filter>
     </ClInclude>
     <ClInclude Include="CPlyWpAttack.h">
@@ -255,6 +249,15 @@
     <ClInclude Include="CGameCameraScript.h">
       <Filter>Script\01. State\02. Script</Filter>
     </ClInclude>
+    <ClInclude Include="CPlyRun.h">
+      <Filter>Script\01. State\02. Player\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpRun.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerWeaponScript.h">
+      <Filter>Script\01. State\02. Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -320,15 +323,6 @@
     <ClCompile Include="CMonsterScript.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyWpCharge.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpChargeAttack.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerWeaponScript.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="CPlyWpAttack.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Attack</Filter>
     </ClCompile>
@@ -340,12 +334,6 @@
     </ClCompile>
     <ClCompile Include="CPlyWpDodge.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Dodge</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpFall.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Hit</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpHit.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Idle</Filter>
     </ClCompile>
     <ClCompile Include="CPlyWpIdle.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Idle</Filter>
@@ -397,6 +385,21 @@
     </ClCompile>
     <ClCompile Include="CGameCameraScript.cpp">
       <Filter>Script\01. State\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyRun.cpp">
+      <Filter>Script\01. State\02. Player\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpRun.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerWeaponScript.cpp">
+      <Filter>Script\01. State\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpHit.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpFall.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Fall</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,20 +1,25 @@
 #pragma once
 #include "CState.h"
-class CPlyCharge :
+class CPlyRun :
     public CState
 {
 private:
-    float m_fMaxChargeTime;
+    float   m_fSpeed; 
+    float   m_fTimeToIdle;
+    bool    m_bIce;
 
 public:
     virtual void tick() override;
     virtual void Enter() override;
     virtual void Exit() override;
 
-    CLONE(CPlyCharge);
+    void Move();
+    void CalcDir();
+
+    CLONE(CPlyRun);
 
 public:
-    CPlyCharge();
-    ~CPlyCharge();
+    CPlyRun();
+    ~CPlyRun();
 };
 

@@ -14,6 +14,7 @@ public:
     virtual void Exit() override;
 
     void Move();
+    void CalcDir();
 
     virtual void BeginOverlap(CCollider2D* _Other);
     virtual void OnOverlap(CCollider2D* _Other);

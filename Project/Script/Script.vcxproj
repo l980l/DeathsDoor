@@ -204,9 +204,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CPlyLadder.h" />
+    <ClInclude Include="CPlyRun.h" />
     <ClInclude Include="CPlyWpAttack.h" />
-    <ClInclude Include="CPlyWpCharge.h" />
-    <ClInclude Include="CPlyWpChargeAttack.h" />
     <ClInclude Include="CPlyWpDance.h" />
     <ClInclude Include="CPlyWpDead.h" />
     <ClInclude Include="CPlyWpDodge.h" />
@@ -215,6 +214,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlyWpIdle.h" />
     <ClInclude Include="CPlyWpLadder.h" />
     <ClInclude Include="CPlyWpMagic.h" />
+    <ClInclude Include="CPlyWpRun.h" />
     <ClInclude Include="CPlyWpWalk.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CState.h" />
@@ -253,9 +253,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CPlyLadder.cpp" />
+    <ClCompile Include="CPlyRun.cpp" />
     <ClCompile Include="CPlyWpAttack.cpp" />
-    <ClCompile Include="CPlyWpCharge.cpp" />
-    <ClCompile Include="CPlyWpChargeAttack.cpp" />
     <ClCompile Include="CPlyWpDance.cpp" />
     <ClCompile Include="CPlyWpDead.cpp" />
     <ClCompile Include="CPlyWpDodge.cpp" />
@@ -264,6 +263,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyWpIdle.cpp" />
     <ClCompile Include="CPlyWpLadder.cpp" />
     <ClCompile Include="CPlyWpMagic.cpp" />
+    <ClCompile Include="CPlyWpRun.cpp" />
     <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CState.cpp" />

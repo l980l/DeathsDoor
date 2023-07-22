@@ -1,7 +1,6 @@
 #pragma once
 #include "CPlyWpAttack.h"
-#include "CPlyWpCharge.h"
-#include "CPlyWpChargeAttack.h"
+#include "CPlyWpRun.h"
 #include "CPlyWpDance.h"
 #include "CPlyWpDead.h"
 #include "CPlyWpDodge.h"
