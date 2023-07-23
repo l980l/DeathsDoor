@@ -8,4 +8,4 @@
 #include "CLurkerLeftMove.h"
 #include "CLurkerNotify.h"
 #include "CLurkerRightMove.h"
-#include "CTrace.h"
+#include "CLurkerTrace.h"

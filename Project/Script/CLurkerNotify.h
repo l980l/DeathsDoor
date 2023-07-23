@@ -4,7 +4,7 @@ class CLurkerNotify :
     public CState
 {
 private:
-    bool    m_bNotify;
+    bool    m_bNotifyAnimEnd;
 
 public:
     virtual void Enter() override;

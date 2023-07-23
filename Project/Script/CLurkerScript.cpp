@@ -11,7 +11,7 @@
 #include "CLurkerLeftMove.h"
 #include "CLurkerNotify.h"
 #include "CLurkerRightMove.h"
-#include "CTrace.h"
+#include "CLurkerTrace.h"
 
 void CLurkerScript::begin()
 {
@@ -36,7 +36,7 @@ void CLurkerScript::begin()
 		m_pStateScript->AddState(L"LeftMove", new CLurkerLeftMove);
 		m_pStateScript->AddState(L"Notify", new CLurkerNotify);
 		m_pStateScript->AddState(L"RightMove", new CLurkerRightMove);
-		m_pStateScript->AddState(L"Trace", new CTrace);
+		m_pStateScript->AddState(L"Trace", new CLurkerTrace);
 		m_pStateScript->ChangeState(L"Idle");
 
 		// 초기 스탯 설정.
@@ -48,18 +48,29 @@ void CLurkerScript::begin()
 
 void CLurkerScript::tick()
 {
-	// Death 상태라면 상태 교체 안함.
-	if (m_pStateScript->GetCurState() == m_pStateScript->FindState(L"Death"))
-		return;
+	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
+	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
 
-	else
-	{
-		m_pStateScript->ChangeState(L"Idle");
-	}
+	m_MonsterToPlayerDir = m_PlayerPos - Transform()->GetWorldPos();
+	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
+	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
+	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
 }
 
 void CLurkerScript::BeginOverlap(CCollider3D* _Other)
 {
+	// PlayerProjectile Layer의 물체와 충돌한 경우.
+	if (_Other->GetOwner()->GetLayerIndex() == 4)
+	{
+
+	}
+
+	// HP가 0 이하면 사망.
+	if (m_pStateScript->GetStat().HP <= 0)
+	{
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+			m_pStateScript->ChangeState(L"Death");
+	}
 }
 
 void CLurkerScript::SaveToLevelFile(FILE* _File)
@@ -72,11 +83,15 @@ void CLurkerScript::LoadFromLevelFile(FILE* _File)
 
 CLurkerScript::CLurkerScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
+	, m_fPlayerDistance(0.f)
+	, m_fAttackRange(500.f)
 {
 }
 
 CLurkerScript::CLurkerScript(const CLurkerScript& _Other) :
 	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
+	, m_fPlayerDistance(_Other.m_fPlayerDistance)
+	, m_fAttackRange(_Other.m_fAttackRange)
 {
 }
 

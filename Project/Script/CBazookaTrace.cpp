@@ -1,27 +1,22 @@
 #include "pch.h"
-#include "CBazzokaMove.h"
+#include "CBazookaTrace.h"
 #include "CBazookaScript.h"
 #include <Engine/CDetourMgr.h>
 
-void CBazzokaMove::Enter()
-{
-	GetOwner()->Animator3D()->Play(3, true);
-}
-
-void CBazzokaMove::tick()
+void CBazookaTrace::tick()
 {
 	Vec3 PlayerPos = GetOwner()->GetScript<CBazookaScript>()->GetPlayerPos();
 
 	float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
 
-	// 근접 공격 범위면 Melee
-	if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetMeleeRange())
+	// 공격범위 이내면 Move 상태로.
+	if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
 	{
-		ChangeState(L"Melee");
+		ChangeState(L"Move");
 	}
 
-	// 도망. 여기서는 달리는 곳을 바라보도록 회전시켜줘야 한다. 
-	else if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
+	// 이상이면 Trace
+	else
 	{
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
 
@@ -35,12 +30,8 @@ void CBazzokaMove::tick()
 			m_iCurrentPathIndex = 0;
 			m_iActualPathCount = 0;
 			m_fLastRenewal -= m_fRenewal_Trace;
-
-			// 현재 위치에서 플레이어와의 차이만큼 더해준 곳으로 이동시키자.
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
-			Vec3 TargetPos = CurPos + CurPos - PlayerPos;
-
-			memcpy(m_vActualPath, CDetourMgr::GetInst()->GetPathtoTarget(CurPos, TargetPos, &m_iActualPathCount), sizeof(Vec3) * 256);
+			memcpy(m_vActualPath, CDetourMgr::GetInst()->GetPathtoTarget(CurPos, &m_iActualPathCount), sizeof(Vec3) * 256);
 		}
 
 		if (m_iCurrentPathIndex < m_iActualPathCount)
@@ -72,33 +63,33 @@ void CBazzokaMove::tick()
 			}
 		}
 	}
-
-	// 공격범위
-	else if (fDistance< GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
-	{
-		ChangeState(L"Aim");
-	}
-
-	// 범위 이상이면 Trace.
-	else
-	{
-		ChangeState(L"Trace");
-	}
 }
 
-void CBazzokaMove::Exit()
+void CBazookaTrace::Enter()
+{
+	GetOwner()->Animator3D()->Play(3, true);
+}
+
+void CBazookaTrace::Exit()
 {
 }
 
-CBazzokaMove::CBazzokaMove()
-	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(2.f)
-	, m_vActualPath{}
-	, m_iActualPathCount(0)
-	, m_iCurrentPathIndex(0)
+void CBazookaTrace::BeginOverlap(CCollider3D* _Other)
 {
 }
 
-CBazzokaMove::~CBazzokaMove()
+void CBazookaTrace::OnOverlap(CCollider3D* _Other)
+{
+}
+
+void CBazookaTrace::EndOverlap(CCollider3D* _Other)
+{
+}
+
+CBazookaTrace::CBazookaTrace()
+{
+}
+
+CBazookaTrace::~CBazookaTrace()
 {
 }

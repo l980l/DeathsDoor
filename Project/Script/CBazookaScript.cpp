@@ -8,15 +8,23 @@
 #include "CBazzokaMelee.h"
 #include "CBazzokaMove.h"
 #include "CBazookaDeath.h"
-#include "CTrace.h"
+#include "CBazookaTrace.h"
 
 CBazookaScript::CBazookaScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
+	, m_fPlayerDistance(0.f)
+	, m_fMeleeRange(300.f)
+	, m_fRunAwayRange(1000.f)
+	, m_fAttackRange(1500.f)
 {
 }
 
 CBazookaScript::CBazookaScript(const CBazookaScript& _Other)
 	: CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
+	, m_fPlayerDistance(_Other.m_fPlayerDistance)
+	, m_fMeleeRange(_Other.m_fMeleeRange)
+	, m_fRunAwayRange(_Other.m_fRunAwayRange)
+	, m_fAttackRange(_Other.m_fAttackRange)
 {
 }
 
@@ -44,7 +52,7 @@ void CBazookaScript::begin()
 		m_pStateScript->AddState(L"Melee", new CBazzokaMelee);
 		m_pStateScript->AddState(L"Move", new CBazzokaMove);
 		m_pStateScript->AddState(L"Death", new CBazookaDeath);
-		m_pStateScript->AddState(L"Trace", new CTrace);
+		m_pStateScript->AddState(L"Trace", new CBazookaTrace);
 		m_pStateScript->ChangeState(L"Idle");
 
 		// 초기 스탯 설정.
@@ -56,14 +64,13 @@ void CBazookaScript::begin()
 
 void CBazookaScript::tick()
 {
-	// Death 상태라면 상태 교체 안함.
-	if (m_pStateScript->GetCurState() == m_pStateScript->FindState(L"Death"))
-		return;
+	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
+	m_fPlayerDistance = GetDistance(m_PlayerPos, Transform()->GetWorldPos());
 
-	else 
-	{
-		m_pStateScript->ChangeState(L"Idle");
-	}
+	m_MonsterToPlayerDir = m_PlayerPos - Transform()->GetWorldPos();
+	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
+	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
+	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
 }
 
 void CBazookaScript::BeginOverlap(CCollider3D* _Other)

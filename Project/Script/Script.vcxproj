@@ -180,6 +180,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazookaAim.h" />
     <ClInclude Include="CBazookaDeath.h" />
     <ClInclude Include="CBazookaScript.h" />
+    <ClInclude Include="CBazookaTrace.h" />
     <ClInclude Include="CBazzokaIdle.h" />
     <ClInclude Include="CBazzokaLongDistance.h" />
     <ClInclude Include="CBazzokaMelee.h" />
@@ -195,6 +196,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CLurkerNotify.h" />
     <ClInclude Include="CLurkerRightMove.h" />
     <ClInclude Include="CLurkerScript.h" />
+    <ClInclude Include="CLurkerTrace.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CPlyAttack.h" />
     <ClInclude Include="CPlyAttack_Magic.h" />
@@ -225,6 +227,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazookaAim.cpp" />
     <ClCompile Include="CBazookaDeath.cpp" />
     <ClCompile Include="CBazookaScript.cpp" />
+    <ClCompile Include="CBazookaTrace.cpp" />
     <ClCompile Include="CBazzokaIdle.cpp" />
     <ClCompile Include="CBazzokaLongDistance.cpp" />
     <ClCompile Include="CBazzokaMelee.cpp" />
@@ -240,6 +243,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CLurkerNotify.cpp" />
     <ClCompile Include="CLurkerRightMove.cpp" />
     <ClCompile Include="CLurkerScript.cpp" />
+    <ClCompile Include="CLurkerTrace.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
     <ClCompile Include="CPlyAttack_Magic.cpp" />

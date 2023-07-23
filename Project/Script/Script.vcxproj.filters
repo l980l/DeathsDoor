@@ -201,6 +201,12 @@
     <ClInclude Include="CLurkerRightMove.h">
       <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
     </ClInclude>
+    <ClInclude Include="CLurkerTrace.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaTrace.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -325,6 +331,12 @@
     </ClCompile>
     <ClCompile Include="CLurkerRightMove.cpp">
       <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerTrace.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaTrace.cpp">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
