@@ -1,22 +1,23 @@
 #include "pch.h"
 #include "CPlyWpDance.h"
 
-void CPlyWpDance::tick()
-{
-}
-
-void CPlyWpDance::Enter()
-{
-}
-
-void CPlyWpDance::Exit()
-{
-}
-
 CPlyWpDance::CPlyWpDance()
 {
 }
 
 CPlyWpDance::~CPlyWpDance()
+{
+}
+
+void CPlyWpDance::Enter()
+{
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::DANCE, false);
+}
+
+void CPlyWpDance::tick()
+{
+}
+
+void CPlyWpDance::Exit()
 {
 }

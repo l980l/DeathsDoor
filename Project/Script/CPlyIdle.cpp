@@ -19,7 +19,7 @@ void CPlyIdle::tick()
 	}
 	else if (KEY_TAP(KEY::RBTN))
 	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Magic");
+		GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
 	}
 	// 이동키를 눌렀다면 Walk 상태로 전환
 	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::D))
@@ -43,4 +43,10 @@ void CPlyIdle::Enter()
 
 void CPlyIdle::Exit()
 {
+}
+
+void CPlyIdle::BeginOverlap(CCollider2D* _Other)
+{
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER)
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
 }

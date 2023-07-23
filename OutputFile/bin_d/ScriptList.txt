@@ -1,8 +1,15 @@
+CAnchorScript
 CBazookaScript
+CBrazierScript
+CBreakablewallScript
 CCameraMoveScript
 CGameCameraScript
 CGravityScript
 CLoadLevelThreadScript
+CMagic_ArrowScript
+CMagic_BombScript
+CMagic_FireScript
+CMagic_HookScript
 CMissileScript
 CMonsterDetectRangeScript
 CPlayerScript

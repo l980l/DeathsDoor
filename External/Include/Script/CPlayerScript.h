@@ -11,7 +11,7 @@ private:
     CStateScript*        m_pStateScript;
     CPlayerWeaponScript* m_pSword;
     CGameObject*         m_pDustEffect;
-    UINT                 m_tCurMagic;
+    UINT                 m_iCurMagic;
     bool                 m_bInvincible;
 
 public:
@@ -22,9 +22,11 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
     void SetInvincible(bool _bInvincible) { m_bInvincible = _bInvincible; }
     void ChangeState(wstring _strStateName);
-    UINT GetUseMagic() { return m_tCurMagic; }
+    UINT GetUseMagic() { return m_iCurMagic; }
+    void ChangeMagicState();
 
 private:
+    void SetMagicType();
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override;

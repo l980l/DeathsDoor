@@ -306,7 +306,8 @@ enum class LAYER
 	ITEM,
 	BLANK,
 	FALLAREA,
-	LADDER,
+	LADDER, 
+	ANCHOR,
 
 	UI = 31,
 };
@@ -369,4 +370,5 @@ enum class PLAYER_MAGIC
 	FIRE,
 	BOMB,
 	HOOK,
+	END,
 };

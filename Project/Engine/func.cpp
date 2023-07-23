@@ -9,6 +9,9 @@
 #include "CRenderMgr.h"
 #include "ptr.h"
 #include "CResMgr.h"
+#include "CKeyMgr.h"
+#include "CDevice.h"
+#include "CRigidbody.h"
 
 
 
@@ -343,4 +346,20 @@ float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 		angle *= (180.f / XM_PI);
 
 	return angle;
+}
+
+void AddForceCentertoMouseDir(CGameObject* _pProjectile)
+{
+	Vec2 vCursorPos = CKeyMgr::GetInst()->GetMousePos();
+	vCursorPos -= CDevice::GetInst()->GetRenderResolution() / 2.f;
+	Vec3 vMousePos = Vec3(vCursorPos.x, 0.f, -vCursorPos.y);
+	float fRot = GetDir(Vec3(0.f, 0.f, 0.f), vMousePos);
+	_pProjectile->Transform()->SetRelativeRot(XM_PI * 1.5f, fRot, 0.f);
+
+	Vec3 AttackDir = Vec3(0.f, 0.f, 0.f);
+	AttackDir = Vec3(0.f, 0.f, 0.f) - vMousePos;
+	AttackDir.Normalize();
+	AttackDir *= 500.f;
+	AttackDir.y = 0.f;
+	_pProjectile->Rigidbody()->AddVelocity(-AttackDir);
 }

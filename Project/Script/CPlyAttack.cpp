@@ -8,6 +8,7 @@
 CPlyAttack::CPlyAttack()
 	: m_iAttackCount(0)
 	, m_fAfterAttack(0.f)
+	, m_fAttackDelay(0.f)
 	, m_fLimitTimeNextAttack(0.15f)
 {
 }
@@ -25,11 +26,12 @@ void CPlyAttack::Enter()
 void CPlyAttack::tick()
 {
 	// 공격모션이 끝났다면 이후 제한시간 안에 공격하면 다음공격 아니라면 Idle로 전환
-	if (GetOwner()->Animator3D()->IsFinish())
+	m_fAttackDelay += DT;
+	if (GetOwner()->Animator3D()->IsFinish() || m_fAttackDelay >= 0.35f)
 	{
-		// 공격 모션이 끝나고 첫 번째 tick에만 현재 공격횟수가 증가하게 함
-		if(0.f == m_fAfterAttack)
+		if (0.f == m_fAfterAttack)
 			++m_iAttackCount;
+		// 공격 모션이 끝나고 첫 번째 tick에만 현재 공격횟수가 증가하게 함
 		// Idle까지의 시간 증가
 		m_fAfterAttack += DT;
 
@@ -40,7 +42,6 @@ void CPlyAttack::tick()
 		}
 		else if(KEY_PRESSED(KEY::LBTN))
 		{
-			m_fAfterAttack = 0.f;
 			CalcDir();
 
 			// 무기에도 공격횟수를 알려줌.
@@ -52,14 +53,18 @@ void CPlyAttack::tick()
 				GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_L, false);
 			else
 				GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
+
+			m_fAfterAttack = 0.f;
+			m_fAttackDelay = 0.f;
 		}
 	}
 }
 
 void CPlyAttack::Exit()
 {
-	m_fAfterAttack = 0.f;
 	m_iAttackCount = 0;
+	m_fAttackDelay = 0.f;
+	m_fAfterAttack = 0.f;
 }
 
 void CPlyAttack::CalcDir()

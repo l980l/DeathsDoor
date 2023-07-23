@@ -16,6 +16,8 @@ public:
     void Move();
     void CalcDir();
 
+    virtual void BeginOverlap(CCollider2D* _Other);
+
     CLONE(CPlyRun);
 
 public:

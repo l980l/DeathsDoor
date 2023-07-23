@@ -8,7 +8,10 @@ CPlyWalk.h
 CPlyDodge.h
 CPlyDead.h
 CPlyAttack.h
-CPlyAttack_Magic.h
+CPlyMagic_Arrow.h
+CPlyMagic_Bomb.h
+CPlyMagic_Fire.h
+CPlyMagic_Hook.h
 CPlyFall.h
 CPlyHit.h
 PlayerStates.h
@@ -32,6 +35,10 @@ CPlyWpLadder.h
 CPlyWpMagic.h
 CPlyWpWalk.h
 CPlyWpRun.h
+CPlyWpMagic_Arrow.h
+CPlyWpMagic_Fire.h
+CPlyWpMagic_Bomb.h
+CPlyWpMagic_Hook.h
 PlayerWeaponStates.h
 BazookaStates.h
 CBazookaAim.h
@@ -45,3 +52,5 @@ CrowBossStates.h
 LurkerStates.h
 GruntStates.h
 CrowBossStates.h
+MagicFunc.h
+

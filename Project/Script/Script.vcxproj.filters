@@ -103,14 +103,56 @@
     <Filter Include="Script\01. State\02. Player\00. Weapon\Magic">
       <UniqueIdentifier>{2c16b37f-ab88-431f-960c-47e2ec9a4c01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\02. Script">
-      <UniqueIdentifier>{c0d4cd92-3234-4c04-8869-42723f7c3784}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\01. State\02. Player\Run">
       <UniqueIdentifier>{9b35469a-2620-4fe6-befc-01a0394b0ca6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\01. State\02. Player\00. Weapon\Run">
       <UniqueIdentifier>{03b56cce-1c5b-47a7-8cf1-476f485a8556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Magic\Arrow">
+      <UniqueIdentifier>{5181f972-d482-4b32-9ab1-3c17c9b3a1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Magic\Fire">
+      <UniqueIdentifier>{6007a138-67b8-4857-a6dd-ac5a0d04ff10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Magic\Bomb">
+      <UniqueIdentifier>{eb1f70f9-5ae0-4f5d-b8b8-984e1c6a031f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\Magic\Hook">
+      <UniqueIdentifier>{f2afb77a-1bde-41ae-8ac9-ef9a829c8d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script">
+      <UniqueIdentifier>{c0d4cd92-3234-4c04-8869-42723f7c3784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Player">
+      <UniqueIdentifier>{f68755f0-cb45-437e-a7b2-4a920c35e4fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Player\Magic">
+      <UniqueIdentifier>{407e463d-3004-44d4-8751-84964ee512a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\00. Weapon\Magic\Arrow">
+      <UniqueIdentifier>{a4bf99bc-1db7-41ff-bc18-cc946d504a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\00. Weapon\Magic\Fire">
+      <UniqueIdentifier>{59dbb555-549d-4fa6-8642-ba0b86b58083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\00. Weapon\Magic\Bomb">
+      <UniqueIdentifier>{f6eedd2c-efad-4493-b614-419294cfc97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\02. Player\00. Weapon\Magic\Hook">
+      <UniqueIdentifier>{730c5514-e5d2-418a-9b46-66571a0ad07e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj">
+      <UniqueIdentifier>{285aa943-5962-4dd4-a33a-036fc04212c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\Brazier">
+      <UniqueIdentifier>{3760826e-c18f-42c4-860e-934cc9647c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\WeakWall">
+      <UniqueIdentifier>{45d64b82-b3d5-491e-a7c3-09c7c8b769c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\Anchor">
+      <UniqueIdentifier>{86f05edf-4b98-48bd-8120-711bab6cc757}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +188,6 @@
     </ClInclude>
     <ClInclude Include="CPlyAttack.h">
       <Filter>Script\01. State\02. Player\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyAttack_Magic.h">
-      <Filter>Script\01. State\02. Player\Magic</Filter>
     </ClInclude>
     <ClInclude Include="CPlyDead.h">
       <Filter>Script\01. State\02. Player\Dead</Filter>
@@ -204,9 +243,6 @@
     <ClInclude Include="CPlyWpWalk.h">
       <Filter>Script\01. State\02. Player\00. Weapon\Walk</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyWpMagic.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic</Filter>
-    </ClInclude>
     <ClInclude Include="CPlyDance.h">
       <Filter>Script\01. State\02. Player\Dance</Filter>
     </ClInclude>
@@ -241,13 +277,10 @@
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
     <ClInclude Include="CStateScript.h">
-      <Filter>Script\01. State\02. Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Script\01. State\02. Script</Filter>
+      <Filter>Script\02. Script</Filter>
     </ClInclude>
     <ClInclude Include="CGameCameraScript.h">
-      <Filter>Script\01. State\02. Script</Filter>
+      <Filter>Script\02. Script</Filter>
     </ClInclude>
     <ClInclude Include="CPlyRun.h">
       <Filter>Script\01. State\02. Player\Run</Filter>
@@ -255,8 +288,59 @@
     <ClInclude Include="CPlyWpRun.h">
       <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
     </ClInclude>
+    <ClInclude Include="CPlyMagic_Hook.h">
+      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyMagic_Fire.h">
+      <Filter>Script\01. State\02. Player\Magic\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyMagic_Bomb.h">
+      <Filter>Script\01. State\02. Player\Magic\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyMagic_Arrow.h">
+      <Filter>Script\01. State\02. Player\Magic\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Script\02. Script\Player</Filter>
+    </ClInclude>
     <ClInclude Include="CPlayerWeaponScript.h">
-      <Filter>Script\01. State\02. Script</Filter>
+      <Filter>Script\02. Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic_HookScript.h">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic_ArrowScript.h">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic_BombScript.h">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic_FireScript.h">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Arrow.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Bomb.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Hook.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Fire.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicFunc.h">
+      <Filter>Script\01. State\02. Player\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnchorScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
+    </ClInclude>
+    <ClInclude Include="CBrazierScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
+    </ClInclude>
+    <ClInclude Include="CBreakablewallScript.h">
+      <Filter>Script\02. Script\Interection_Obj\WeakWall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,9 +379,6 @@
     </ClCompile>
     <ClCompile Include="CPlyAttack.cpp">
       <Filter>Script\01. State\02. Player\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyAttack_Magic.cpp">
-      <Filter>Script\01. State\02. Player\Magic</Filter>
     </ClCompile>
     <ClCompile Include="CPlyDead.cpp">
       <Filter>Script\01. State\02. Player\Dead</Filter>
@@ -344,9 +425,6 @@
     <ClCompile Include="CPlyWpWalk.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Walk</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyWpMagic.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic</Filter>
-    </ClCompile>
     <ClCompile Include="CPlyDance.cpp">
       <Filter>Script\01. State\02. Player\Dance</Filter>
     </ClCompile>
@@ -378,13 +456,10 @@
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
     <ClCompile Include="CStateScript.cpp">
-      <Filter>Script\01. State\02. Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Script\01. State\02. Script</Filter>
+      <Filter>Script\02. Script</Filter>
     </ClCompile>
     <ClCompile Include="CGameCameraScript.cpp">
-      <Filter>Script\01. State\02. Script</Filter>
+      <Filter>Script\02. Script</Filter>
     </ClCompile>
     <ClCompile Include="CPlyRun.cpp">
       <Filter>Script\01. State\02. Player\Run</Filter>
@@ -392,14 +467,65 @@
     <ClCompile Include="CPlyWpRun.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerWeaponScript.cpp">
-      <Filter>Script\01. State\02. Script</Filter>
-    </ClCompile>
     <ClCompile Include="CPlyWpHit.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Hit</Filter>
     </ClCompile>
     <ClCompile Include="CPlyWpFall.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Fall</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Hook.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Fire.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Bomb.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Arrow.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Script\02. Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerWeaponScript.cpp">
+      <Filter>Script\02. Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic_ArrowScript.cpp">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic_BombScript.cpp">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic_FireScript.cpp">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic_HookScript.cpp">
+      <Filter>Script\02. Script\Player\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Arrow.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Bomb.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Hook.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Fire.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicFunc.cpp">
+      <Filter>Script\01. State\02. Player\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnchorScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
+    </ClCompile>
+    <ClCompile Include="CBrazierScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
+    </ClCompile>
+    <ClCompile Include="CBreakablewallScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\WeakWall</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

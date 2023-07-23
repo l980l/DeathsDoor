@@ -39,7 +39,10 @@ void CPlyRun::tick()
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
 	}
-
+	else if (KEY_TAP(KEY::RBTN))
+	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
+	}
 	// Idle 전환시간이 0.1을 넘었다면 Idle로
 	else if (m_fTimeToIdle >= 0.02f)
 	{
@@ -90,4 +93,10 @@ void CPlyRun::CalcDir()
 	float Dir = GetDir(vPrevPos, vCurPos, false);
 
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
+}
+
+void CPlyRun::BeginOverlap(CCollider2D* _Other)
+{
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER)
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
 }

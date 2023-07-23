@@ -1,19 +1,6 @@
 #include "pch.h"
 #include "CPlyWpDodge.h"
 
-void CPlyWpDodge::tick()
-{
-}
-
-void CPlyWpDodge::Enter()
-{
-}
-
-void CPlyWpDodge::Exit()
-{
-}
-
-
 CPlyWpDodge::CPlyWpDodge()
 {
 }
@@ -21,3 +8,17 @@ CPlyWpDodge::CPlyWpDodge()
 CPlyWpDodge::~CPlyWpDodge()
 {
 }
+
+void CPlyWpDodge::Enter()
+{
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::DODGE, false);
+}
+
+void CPlyWpDodge::tick()
+{
+}
+
+void CPlyWpDodge::Exit()
+{
+}
+

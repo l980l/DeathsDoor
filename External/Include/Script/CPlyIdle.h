@@ -11,6 +11,8 @@ public:
     virtual void Enter() override;
     virtual void Exit() override;
 
+    virtual void BeginOverlap(CCollider2D* _Other);
+
     CLONE(CPlyIdle);
 
 public:

@@ -1,22 +1,23 @@
 #include "pch.h"
 #include "CPlyWpDead.h"
 
-void CPlyWpDead::tick()
-{
-}
-
-void CPlyWpDead::Enter()
-{
-}
-
-void CPlyWpDead::Exit()
-{
-}
-
 CPlyWpDead::CPlyWpDead()
 {
 }
 
 CPlyWpDead::~CPlyWpDead()
+{
+}
+
+void CPlyWpDead::Enter()
+{
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT_IDLE, false);
+}
+
+void CPlyWpDead::tick()
+{
+}
+
+void CPlyWpDead::Exit()
 {
 }

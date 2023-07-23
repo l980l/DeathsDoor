@@ -14,7 +14,7 @@
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
 	, m_pStateScript(nullptr)
-	, m_tCurMagic(0)
+	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
 	, m_pDustEffect(nullptr)
@@ -39,26 +39,26 @@ void CPlayerScript::begin()
 	}
 	if(nullptr == m_pStateScript)
 	{
-		m_pStateScript = GetOwner()->GetScript<CStateScript>();
-	}
-	m_pStateScript->AddState(L"Idle", new CPlyIdle);
-	m_pStateScript->AddState(L"Walk", new CPlyWalk);
-	m_pStateScript->AddState(L"Run", new CPlyRun);
-	m_pStateScript->AddState(L"Dodge", new CPlyDodge);
-	m_pStateScript->AddState(L"Fall", new CPlyFall);
-	m_pStateScript->AddState(L"Hit", new CPlyHit);
-	m_pStateScript->AddState(L"Dead", new CPlyDead);
-	m_pStateScript->AddState(L"Attack", new CPlyAttack);
-	m_pStateScript->AddState(L"Magic", new CPlyAttack_Magic);
-	m_pStateScript->ChangeState(L"Idle");
-	MeshRender()->GetDynamicMaterial(0);
-
-	
+		m_pStateScript = GetOwner()->GetScript<CStateScript>(); m_pStateScript->AddState(L"Idle", new CPlyIdle);
+		m_pStateScript->AddState(L"Walk", new CPlyWalk);
+		m_pStateScript->AddState(L"Run", new CPlyRun);
+		m_pStateScript->AddState(L"Dodge", new CPlyDodge);
+		m_pStateScript->AddState(L"Fall", new CPlyFall);
+		m_pStateScript->AddState(L"Hit", new CPlyHit);
+		m_pStateScript->AddState(L"Dead", new CPlyDead);
+		m_pStateScript->AddState(L"Attack", new CPlyAttack);
+		m_pStateScript->AddState(L"Arrow", new CPlyMagic_Arrow);
+		m_pStateScript->AddState(L"Fire", new CPlyMagic_Fire);
+		m_pStateScript->AddState(L"Bomb", new CPlyMagic_Bomb);
+		m_pStateScript->AddState(L"Hook", new CPlyMagic_Hook);
+		m_pStateScript->ChangeState(L"Idle");
+		MeshRender()->GetDynamicMaterial(0);
+	}	
 }
 
 void CPlayerScript::tick()
 {
-	
+	SetMagicType();
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
@@ -102,6 +102,37 @@ void CPlayerScript::ChangeState(wstring _strStateName)
 {
 	m_pStateScript->ChangeState(_strStateName);
 	m_pSword->ChangeState(_strStateName);
+}
+
+void CPlayerScript::SetMagicType()
+{
+	if (KEY_TAP(KEY::_1))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::ARROW;
+	if (KEY_TAP(KEY::_2))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::FIRE;
+	if (KEY_TAP(KEY::_3))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::BOMB;
+	if (KEY_TAP(KEY::_4))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::HOOK;
+}
+
+void CPlayerScript::ChangeMagicState()
+{
+	switch (PLAYER_MAGIC(m_iCurMagic))
+	{
+	case PLAYER_MAGIC::ARROW:
+		ChangeState(L"Arrow");
+		break;
+	case PLAYER_MAGIC::FIRE:
+		ChangeState(L"Fire");
+		break;
+	case PLAYER_MAGIC::BOMB:
+		ChangeState(L"Bomb");
+		break;
+	case PLAYER_MAGIC::HOOK:
+		ChangeState(L"Hook");
+		break;
+	}
 }
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)

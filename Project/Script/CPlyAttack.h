@@ -5,6 +5,7 @@ class CPlyAttack :
 {
 private:
     UINT    m_iAttackCount;         // 현재 공격횟수(총 3회까지)
+    float   m_fAttackDelay;
     float   m_fAfterAttack;         // 공격모션이 끝난 후 시간
     float   m_fLimitTimeNextAttack; // 공격모션이 끝난 후 Idle로 되돌아가는 시간
     

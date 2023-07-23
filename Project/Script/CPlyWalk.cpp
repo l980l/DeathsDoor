@@ -39,6 +39,10 @@ void CPlyWalk::tick()
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
 	}
+	else if (KEY_TAP(KEY::RBTN))
+	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
+	}
 	// Idle 전환시간이 0.1을 넘었다면 Idle로
 	else if (m_fTimeToIdle >= 0.03f)
 	{
