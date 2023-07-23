@@ -64,6 +64,9 @@
     <Filter Include="Script\01. State\01. Monster\Bazooka\State">
       <UniqueIdentifier>{fa63c74d-a161-46a1-ba1b-fb90d439596e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\01. State\01. Monster\Lurker\State">
+      <UniqueIdentifier>{6277ee95-c39b-45ea-8255-3ddb46dcadb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -129,9 +132,6 @@
     <ClInclude Include="CTrace.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="LurkerStates.h">
-      <Filter>Script\01. State\01. Monster\Lurker</Filter>
-    </ClInclude>
     <ClInclude Include="GruntStates.h">
       <Filter>Script\01. State\01. Monster\Grunt</Filter>
     </ClInclude>
@@ -167,6 +167,39 @@
     </ClInclude>
     <ClInclude Include="CMonsterScript.h">
       <Filter>Script\01. State\01. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerScript.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="LurkerStates.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerIdle.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerAttack.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerBackMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerBackStep.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerDeath.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerFrontMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerLeftMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerNotify.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerRightMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +295,36 @@
     </ClCompile>
     <ClCompile Include="CMonsterScript.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerScript.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerBackMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerBackStep.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerFrontMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerLeftMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerNotify.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerRightMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

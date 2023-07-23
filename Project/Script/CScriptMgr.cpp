@@ -5,6 +5,7 @@
 #include "CCameraMoveScript.h"
 #include "CGravityScript.h"
 #include "CLoadLevelThreadScript.h"
+#include "CLurkerScript.h"
 #include "CMissileScript.h"
 #include "CMonsterDetectRangeScript.h"
 #include "CPlayerScript.h"
@@ -16,6 +17,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
+	_vec.push_back(L"CLurkerScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
 	_vec.push_back(L"CPlayerScript");
@@ -32,6 +34,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGravityScript;
 	if (L"CLoadLevelThreadScript" == _strScriptName)
 		return new CLoadLevelThreadScript;
+	if (L"CLurkerScript" == _strScriptName)
+		return new CLurkerScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterDetectRangeScript" == _strScriptName)
@@ -58,6 +62,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return new CLoadLevelThreadScript;
+		break;
+	case (UINT)SCRIPT_TYPE::LURKERSCRIPT:
+		return new CLurkerScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
@@ -93,6 +100,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return L"CLoadLevelThreadScript";
+		break;
+
+	case SCRIPT_TYPE::LURKERSCRIPT:
+		return L"CLurkerScript";
 		break;
 
 	case SCRIPT_TYPE::MISSILESCRIPT:

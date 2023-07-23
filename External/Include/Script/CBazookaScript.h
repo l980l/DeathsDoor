@@ -1,5 +1,4 @@
 #pragma once
-#include <Engine\CScript.h>
 #include "CMonsterScript.h"
 
 class CBazookaScript :

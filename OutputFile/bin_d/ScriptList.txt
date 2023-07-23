@@ -2,6 +2,7 @@ CBazookaScript
 CCameraMoveScript
 CGravityScript
 CLoadLevelThreadScript
+CLurkerScript
 CMissileScript
 CMonsterDetectRangeScript
 CPlayerScript

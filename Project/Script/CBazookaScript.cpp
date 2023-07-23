@@ -60,7 +60,6 @@ void CBazookaScript::tick()
 	if (m_pStateScript->GetCurState() == m_pStateScript->FindState(L"Death"))
 		return;
 
-	// 탐지 상태. 거리에 따라 Move, Melee, Aim(일정 시간 이후 LongD),  
 	else 
 	{
 		m_pStateScript->ChangeState(L"Idle");

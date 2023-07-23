@@ -1,7 +1,7 @@
 #pragma once
 #include "CMonsterScript.h"
 
-class CBazookaScript :
+class CLurkerScript :
     public CMonsterScript
 {
 public:
@@ -14,11 +14,10 @@ public:
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;
 
-    CLONE(CBazookaScript);
+    CLONE(CLurkerScript);
 
 public:
-    CBazookaScript();
-    CBazookaScript(const CBazookaScript& _Other);
-    ~CBazookaScript();
+    CLurkerScript();
+    CLurkerScript(const CLurkerScript& _Other);
+    ~CLurkerScript();
 };
-

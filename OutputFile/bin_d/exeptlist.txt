@@ -27,3 +27,12 @@ CBazzokaMelee.h
 CBazzokaMove.h
 CBazookaDeath.h
 CMonsterScript.h
+CLurkerIdle.h
+CLurkerNotify.h
+CLurkerFrontMove.h
+CLurkerBackMove.h
+CLurkerBackStep.h
+CLurkerDeath.h
+CLurkerAttack.h
+CLurkerLeftMove.h
+CLurkerRightMove.h

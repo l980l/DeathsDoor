@@ -208,7 +208,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 
 			m_vecScriptUI.push_back(UI);
 			AddChildUI(UI);
-			UI->SetActive(true);			
+			UI->SetActive(true);
 		}
 	}
 
