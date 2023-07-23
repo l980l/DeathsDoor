@@ -1,17 +1,25 @@
 #include "pch.h"
 #include "CLurkerScript.h"
 #include "CStateScript.h"
+#include "LurkerStates.h"
 
-#include "CLurkerAttack.h"
-#include "CLurkerBackMove.h"
-#include "CLurkerBackStep.h"
-#include "CLurkerDeath.h"
-#include "CLurkerFrontMove.h"
-#include "CLurkerIdle.h"
-#include "CLurkerLeftMove.h"
-#include "CLurkerNotify.h"
-#include "CLurkerRightMove.h"
-#include "CLurkerTrace.h"
+CLurkerScript::CLurkerScript() :
+	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
+	, m_fPlayerDistance(0.f)
+	, m_fAttackRange(500.f)
+{
+}
+
+CLurkerScript::CLurkerScript(const CLurkerScript& _Other) :
+	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
+	, m_fPlayerDistance(_Other.m_fPlayerDistance)
+	, m_fAttackRange(_Other.m_fAttackRange)
+{
+}
+
+CLurkerScript::~CLurkerScript()
+{
+}
 
 void CLurkerScript::begin()
 {
@@ -78,23 +86,5 @@ void CLurkerScript::SaveToLevelFile(FILE* _File)
 }
 
 void CLurkerScript::LoadFromLevelFile(FILE* _File)
-{
-}
-
-CLurkerScript::CLurkerScript() :
-	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
-	, m_fPlayerDistance(0.f)
-	, m_fAttackRange(500.f)
-{
-}
-
-CLurkerScript::CLurkerScript(const CLurkerScript& _Other) :
-	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
-	, m_fPlayerDistance(_Other.m_fPlayerDistance)
-	, m_fAttackRange(_Other.m_fAttackRange)
-{
-}
-
-CLurkerScript::~CLurkerScript()
 {
 }

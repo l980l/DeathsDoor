@@ -1,14 +1,7 @@
 #include "pch.h"
 #include "CBazookaScript.h"
-
 #include "CStateScript.h"
-#include "CBazookaAim.h"
-#include "CBazzokaLongDistance.h"
-#include "CBazzokaIdle.h"
-#include "CBazzokaMelee.h"
-#include "CBazzokaMove.h"
-#include "CBazookaDeath.h"
-#include "CBazookaTrace.h"
+#include "BazookaStates.h"
 
 CBazookaScript::CBazookaScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
