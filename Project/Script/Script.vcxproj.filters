@@ -67,6 +67,9 @@
     <Filter Include="Script\01. State\01. Monster\Lurker\State">
       <UniqueIdentifier>{6277ee95-c39b-45ea-8255-3ddb46dcadb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\01. State\01. Monster\Grunt\State">
+      <UniqueIdentifier>{1552e4b6-c05b-4bce-a41d-a905bc5155b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -131,9 +134,6 @@
     </ClInclude>
     <ClInclude Include="CTrace.h">
       <Filter>Script\01. State\01. Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="GruntStates.h">
-      <Filter>Script\01. State\01. Monster\Grunt</Filter>
     </ClInclude>
     <ClInclude Include="CrowBossStates.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
@@ -206,6 +206,54 @@
     </ClInclude>
     <ClInclude Include="CBazookaTrace.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GruntStates.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntScript.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntBackStep.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntDeath.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntIdle.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntJumpAttack.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntJumpAttackReady.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntLeftMove.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntMove.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntNailAttack.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntNailAttackReady.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntRightMove.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntRun.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntRun2.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntTrace.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntWalk.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +385,51 @@
     </ClCompile>
     <ClCompile Include="CBazookaTrace.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntScript.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntBackStep.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntJumpAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntJumpAttackReady.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntLeftMove.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntMove.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntNailAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntNailAttackReady.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntRightMove.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntRun.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntRun2.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntTrace.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntWalk.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

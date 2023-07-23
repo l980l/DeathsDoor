@@ -1,6 +1,7 @@
 CBazookaScript
 CCameraMoveScript
 CGravityScript
+CGruntScript
 CLoadLevelThreadScript
 CLurkerScript
 CMissileScript
