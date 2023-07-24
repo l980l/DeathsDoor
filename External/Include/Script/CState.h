@@ -10,8 +10,8 @@ private:
 
 public:
     virtual void tick() = 0;
-    virtual void Enter() = 0;
-    virtual void Exit() = 0;
+    virtual void Enter() = 0; // 새로운 state로 변경될때 호출 됨.
+    virtual void Exit() = 0;// 다른 state로 변경되기 직전에 호출 됨.
 
 public:
     void ChangeState(wstring _strStateName);

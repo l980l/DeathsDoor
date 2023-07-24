@@ -64,7 +64,7 @@ int MenuUI::render_update()
             if (ImGui::BeginMenu("Create Empty Object"))
             {
                 //CreateEmptyObject();
-                if (ImGui::MenuItem("DefaultLayer"))
+                if (ImGui::MenuItem("NoCollision"))
                     CreateEmptyObject(0);
                 else if (ImGui::MenuItem("Map"))
                     CreateEmptyObject(1);
@@ -279,6 +279,9 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;
     case COMPONENT_TYPE::DECAL:
         pSelectedObject->AddComponent(new CDecal);
+        break;
+    case COMPONENT_TYPE::RIGIDBODY:
+        pSelectedObject->AddComponent(new CRigidbody);
         break;
     }
 

@@ -67,6 +67,21 @@ void CTrace::tick()
 
 void CTrace::Enter()
 {
+	if (L"Bat" == GetOwner()->GetName())
+	{
+		Stat status = GetOwnerScript()->GetStat();
+		GetOwner()->Animator3D()->Play(3, true);
+	}
+	else if (L"GrimKnight" == GetOwner()->GetName())
+	{
+		Stat status = GetOwnerScript()->GetStat();
+		GetOwner()->Animator3D()->Play(6, true);
+	}
+	else if (L"Knight" == GetOwner()->GetName())
+	{
+		Stat status = GetOwnerScript()->GetStat();
+		GetOwner()->Animator3D()->Play(1, true);
+	}
 }
 
 void CTrace::Exit()

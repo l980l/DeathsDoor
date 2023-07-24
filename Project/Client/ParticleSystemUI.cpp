@@ -79,14 +79,9 @@ int ParticleSystemUI::render_update()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	ModuleOnOff("VelocityAlignment", "##Velocity_Alignment", m_tModuleData.VelocityAlignment);
-
-	ImGui::NewLine();
-	ImGui::Separator();
-
-	ModuleOnOff("VelocityScale", "##Velocity_Scale", m_tModuleData.VelocityScale);
-	if (1 == m_tModuleData.VelocityScale)
-		VelocityScaleModule();
+	ModuleOnOff("Render", "##Render_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER]);
+	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER])
+		RenderModule();
 
 	ImGui::NewLine();
 	ImGui::Separator();
@@ -416,8 +411,16 @@ void ParticleSystemUI::RandomForceModule()
 	ImGui::DragFloat("##Noise_Force", &m_tModuleData.fNoiseForce);
 }
 
-void ParticleSystemUI::VelocityScaleModule()
+void ParticleSystemUI::RenderModule()
 {
+	ImGui::Text("Velocity Alignment    ");
+	ImGui::SameLine();
+	ImGui::DragInt("##Velocity_Alignment", &m_tModuleData.VelocityAlignment);
+
+	ImGui::Text("Velocity Scale    ");
+	ImGui::SameLine();
+	ImGui::DragInt("##Velocity_Scale", &m_tModuleData.VelocityScale);
+
 	ImGui::Text("MaxScale    ");
 	ImGui::SameLine();
 	ImGui::DragFloat3("##MaxVelocityScale", &m_tModuleData.vMaxVelocityScale.x);
@@ -425,6 +428,11 @@ void ParticleSystemUI::VelocityScaleModule()
 	ImGui::Text("MaxSpeed    ");
 	ImGui::SameLine();
 	ImGui::DragFloat("##MaxSpeed", &m_tModuleData.vMaxSpeed);
+}
+
+void ParticleSystemUI::VelocityScaleModule()
+{
+
 }
 
 void ParticleSystemUI::AnimationModule()

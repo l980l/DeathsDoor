@@ -421,24 +421,18 @@ CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
     CGameObject* pNewObj = CLevelSaveLoadInScript::LoadGameObject(pFile);
     fclose(pFile);
 
-    //pPrefab->RegisterProtoObject(pNewObj);//*
-
-    //CResMgr::GetInst()->AddRes<CPrefab>(_strRelativePath, pPrefab);
-
-
-
     return pNewObj;
 }
 
-void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time)
+void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
+
     CGameObject* newPrefab = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
