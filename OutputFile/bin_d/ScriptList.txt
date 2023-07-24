@@ -1,10 +1,14 @@
 CAnchorScript
+CBatScript
 CBazookaScript
 CBrazierScript
 CBreakablewallScript
 CCameraMoveScript
 CGameCameraScript
+CGhostScript
 CGravityScript
+CGrimKnightScript
+CKnightScript
 CLoadLevelThreadScript
 CMagic_ArrowScript
 CMagic_BombScript

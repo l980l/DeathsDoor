@@ -31,7 +31,7 @@ void CPlyMagic_Arrow::tick()
 	{
 		if (KEY_RELEASE(KEY::RBTN))
 		{
-			Ptr<CPrefab> pArrowPref = CResMgr::GetInst()->FindRes<CPrefab>(L"prefab\\Arrow.prefab");
+			Ptr<CPrefab> pArrowPref = CResMgr::GetInst()->FindRes<CPrefab>(L"prefab\Arrow.prefab");
 			CGameObject* pArrow = pArrowPref->Instantiate();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			pArrow->Rigidbody()->AddVelocity(vDir * 800.f);

@@ -15,7 +15,6 @@ CPlyMagic_Hook.h
 CPlyFall.h
 CPlyHit.h
 PlayerStates.h
-
 CBatAttack.h
 CBatChase.h
 CBatIdle.h
@@ -23,7 +22,6 @@ CBatRecognize.h
 CBatDeath.h
 CBatHit.h
 BatStates.h
-
 CKnightChopAttack.h
 CKnightChopAttackEnd.h
 CKnightChopAttackCombo.h
@@ -41,7 +39,6 @@ CKnightSpinAttack.h
 CKnightSpinAttackCombo.h
 CKnightWalk.h
 KnightStates.h
-
 CGrimKnightBackStep.h
 CGrimKnightBackStep2.h
 CGrimKnightChase.h
@@ -58,7 +55,6 @@ CGrimKnightSpinUp.h
 CGrimKnightHit.h
 CGrimKnightDeath.h
 GrimKnightStates.h
-
 CSceneSaveLoad.h
 CLevelSaveLoadInScript.h
 CLoadingThread.h
@@ -96,5 +92,5 @@ CrowBossStates.h
 LurkerStates.h
 GruntStates.h
 CrowBossStates.h
-MagicFunc.h
+
 
