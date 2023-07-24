@@ -17,6 +17,9 @@
 #include <Script\CPlayerWeaponScript.h>
 #include <Script\CGameCameraScript.h>
 #include <Script\CMagic_ArrowScript.h>
+#include <Script\CMagic_BombScript.h>
+#include <Script\CMagic_FireScript.h>
+#include <Script\CMagic_HookScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -163,12 +166,38 @@ void CreateTestLevel()
 	
 	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
-	CGameObject* pObject = pMeshData->Instantiate();
-	pObject->SetName(L"arrow");
-	pObject->AddComponent(new CMagic_ArrowScript);
-	pObject->AddComponent(new CCollider3D);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
+	//CGameObject* pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"arrow");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CMagic_ArrowScript);
+	//
+	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+	//
+	//pObject->Rigidbody()->SetFriction(1.f);
+	//pObject->Rigidbody()->SetMass(1.f);
+	//pObject->Rigidbody()->SetVelocityLimit(2000.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
 
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
+	CGameObject* pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Bomb");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CMagic_BombScript);
+
+	pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+
+	pObject->Rigidbody()->SetFriction(1.f);
+	pObject->Rigidbody()->SetMass(1.f);
+	pObject->Rigidbody()->SetVelocityLimit(2000.f);
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
 
@@ -176,6 +205,26 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Fire.fbx");
+	//CGameObject* pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"arrow");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CMagic_ArrowScript);
+	//
+	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+	//
+	//pObject->Rigidbody()->SetFriction(1.f);
+	//pObject->Rigidbody()->SetMass(1.f);
+	//pObject->Rigidbody()->SetVelocityLimit(2000.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//CGameObject* pMonster = pMeshData->Instantiate();
@@ -198,7 +247,7 @@ void CreateTestLevel()
 		pObj->SetName(L"Bow");
 		pObj->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		pObj->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
-		pObj->Transform()->SetRelativePos(-0.3f, 0.f, 1.5f);
+		pObj->Transform()->SetRelativePos(-0.3f, 1.f, 1.5f);
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
 		pPlayer->AddChild(pObj);

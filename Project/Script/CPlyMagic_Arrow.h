@@ -3,9 +3,9 @@
 class CPlyMagic_Arrow :
     public CState
 {
-    float           m_fMagicChargeTime;
-    CGameObject*    m_pBow;
-    CGameObject*    m_pArrow;
+    float m_fMagicChargeTime;
+    Vec3  m_vAttackDir;
+
 public:
     virtual void Enter() override;
     virtual void tick() override;

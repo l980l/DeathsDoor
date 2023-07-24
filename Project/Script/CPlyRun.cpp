@@ -95,7 +95,7 @@ void CPlyRun::CalcDir()
 	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
 	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
 
-	float Dir = GetDir(vPrevPos, vCurPos, false);
+	float Dir = GetDir(vPrevPos, vCurPos);
 
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
 }

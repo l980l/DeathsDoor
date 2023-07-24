@@ -1,7 +1,9 @@
+CAnchorScript
+CBankerFrameScript
+CBankerScript
 CBatScript
 CBazookaScript
 CBrazierScript
-CBreakablewallScript
 CCameraMoveScript
 CGameCameraScript
 CGhostScript

@@ -2,10 +2,11 @@
 #include "CScriptMgr.h"
 
 #include "CAnchorScript.h"
+#include "CBankerFrameScript.h"
+#include "CBankerScript.h"
 #include "CBatScript.h"
 #include "CBazookaScript.h"
 #include "CBrazierScript.h"
-#include "CBreakablewallScript.h"
 #include "CCameraMoveScript.h"
 #include "CGameCameraScript.h"
 #include "CGhostScript.h"
@@ -26,10 +27,11 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnchorScript");
+	_vec.push_back(L"CBankerFrameScript");
+	_vec.push_back(L"CBankerScript");
 	_vec.push_back(L"CBatScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBrazierScript");
-	_vec.push_back(L"CBreakablewallScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGhostScript");
@@ -52,14 +54,16 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnchorScript" == _strScriptName)
 		return new CAnchorScript;
+	if (L"CBankerFrameScript" == _strScriptName)
+		return new CBankerFrameScript;
+	if (L"CBankerScript" == _strScriptName)
+		return new CBankerScript;
 	if (L"CBatScript" == _strScriptName)
 		return new CBatScript;
 	if (L"CBazookaScript" == _strScriptName)
 		return new CBazookaScript;
 	if (L"CBrazierScript" == _strScriptName)
 		return new CBrazierScript;
-	if (L"CBreakablewallScript" == _strScriptName)
-		return new CBreakablewallScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CGameCameraScript" == _strScriptName)
@@ -102,6 +106,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ANCHORSCRIPT:
 		return new CAnchorScript;
 		break;
+	case (UINT)SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return new CBankerFrameScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BANKERSCRIPT:
+		return new CBankerScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BATSCRIPT:
 		return new CBatScript;
 		break;
@@ -110,9 +120,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BRAZIERSCRIPT:
 		return new CBrazierScript;
-		break;
-	case (UINT)SCRIPT_TYPE::BREAKABLEWALLSCRIPT:
-		return new CBreakablewallScript;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -174,6 +181,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAnchorScript";
 		break;
 
+	case SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return L"CBankerFrameScript";
+		break;
+
+	case SCRIPT_TYPE::BANKERSCRIPT:
+		return L"CBankerScript";
+		break;
+
 	case SCRIPT_TYPE::BATSCRIPT:
 		return L"CBatScript";
 		break;
@@ -184,10 +199,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BRAZIERSCRIPT:
 		return L"CBrazierScript";
-		break;
-
-	case SCRIPT_TYPE::BREAKABLEWALLSCRIPT:
-		return L"CBreakablewallScript";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:
