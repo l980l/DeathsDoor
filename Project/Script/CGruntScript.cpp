@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "pch.h"
 #include "CStateScript.h"
 #include "CGruntScript.h"
 #include "GruntStates.h"

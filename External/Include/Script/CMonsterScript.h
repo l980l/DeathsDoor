@@ -32,6 +32,7 @@ public:
     friend class CBazookaScript;
     friend class CLurkerScript;
     friend class CGruntScript;
+    friend class CCrowBossScript;
 };
 
 
