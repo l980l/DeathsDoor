@@ -40,13 +40,11 @@ void CBatIdle::tick()
 
 void CBatIdle::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(0, true);
 }
 
 void CBatIdle::Exit()
 {
-	//GetOwnerScript()->ChangeState(L"BatRecognize");
 }
 
 void CBatIdle::BeginOverlap(CCollider2D* _Other)

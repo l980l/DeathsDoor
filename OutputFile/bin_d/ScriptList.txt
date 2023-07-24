@@ -1,6 +1,10 @@
+CBatScript
 CBazookaScript
 CCameraMoveScript
+CGhostScript
 CGravityScript
+CGrimKnightScript
+CKnightScript
 CLoadLevelThreadScript
 CMissileScript
 CMonsterDetectRangeScript

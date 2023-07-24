@@ -60,39 +60,29 @@ void CBatScript::begin()
 	m_stat.HP = 300;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
-	m_stat.Speed = 100;
+	m_stat.Speed = 120;
 	m_pStateScript->SetStat(m_stat);
-	
+	recognizeCheck = false;
+	onCollision = false;
 }
 
 void CBatScript::tick()
-{
-	//이동 테스트 + rigidbody
-	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
-	if (KEY_PRESSED(KEY::RIGHT))
-	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT , 0.f, 0.f));
-	}
-	if (KEY_PRESSED(KEY::LEFT))
-	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, 0.f));
-	}
-	if (KEY_PRESSED(KEY::UP))
-	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, m_stat.Speed * DT));
-	}
-	if (KEY_PRESSED(KEY::DOWN))
-	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, -m_stat.Speed * DT));
-	}
-
-	//상황별 상태 전환(기본 Idle)
-	
+{	
 	//1.Player를 탐지했다면 Idle->exit()에서 Recognize --->Trace
-	if (IsDectected())
+	if (GetDetect()&& m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState()&&
+		recognizeCheck == false)
+	{
+		if (m_pStateScript->FindState(L"BatRecognize") != m_pStateScript->GetCurState())
+		{
+			m_pStateScript->ChangeState(L"BatRecognize");
+			recognizeCheck = true;
+		}
+	}
+	if (GetDetect()&& onCollision == false)
 	{
 		if (m_pStateScript->FindState(L"BatTrace") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"BatTrace");
+		SetLifeSpan(0.5f);
 	}
 	 
 	
@@ -102,17 +92,41 @@ void CBatScript::tick()
 		if (m_pStateScript->FindState(L"BatDeath") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"BatDeath");
 	}
-
-	GetOwner()->Transform()->SetRelativePos(vPos);
-
 }
 
 void CBatScript::BeginOverlap(CCollider3D* _Other)
 {
+	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면 Hit
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
-		if (m_pStateScript->FindState(L"BatRecognize") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"BatRecognize");
+		m_pStateScript->ChangeState(L"BatIdle");
+		onCollision = true;
+	}
+
+	if (L"Sword" == _Other->GetName())
+	{
+		//체력--
+		//m_stat.HP -= SwordDamage
+	}
+	else if (L"Arrow" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Fire" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Bomb" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Hook" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Ghost" == _Other->GetName())
+	{
+		//체력--
 	}
 }
 
@@ -121,19 +135,15 @@ void CBatScript::OnOverlap(CCollider3D* _Other)
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
 		//3.Player와 충돌했다면 Attack
-		if (m_pStateScript->FindState(L"BatAttack") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"BatAttack");
+		if (m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState())
+				m_pStateScript->ChangeState(L"BatAttack");
 	}
-	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면 Hit
-	if (L"Sword" || L"Arrow" || L"FireBall" || L"Bomb" || L"Hook" == _Other->GetName())
-	{
-		if (m_pStateScript->FindState(L"BatHit") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"BatHit");
-	}
+	
 }
 
 void CBatScript::EndOverlap(CCollider3D* _Other)
 {
+	onCollision = false;
 }
 
 void CBatScript::SaveToLevelFile(FILE* _File)

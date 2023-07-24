@@ -4,8 +4,7 @@ class CBatAttack    :
     public CState
     {
     private:
-        bool            m_bAttack;
-
+        int m_time;
     public:
         virtual void tick() override;
         virtual void Enter() override;

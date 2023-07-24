@@ -1,8 +1,15 @@
 #include "pch.h"
 #include "CKnightJumpAttack2.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CKnightJumpAttack2::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"JumpFinish");
+	}
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"JumpAttack", 5, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CKnightJumpAttack2::Enter()

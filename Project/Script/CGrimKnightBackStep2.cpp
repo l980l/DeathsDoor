@@ -3,6 +3,10 @@
 
 void CGrimKnightBackStep2::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"LongDistance");
+	}
 }
 
 void CGrimKnightBackStep2::Enter()

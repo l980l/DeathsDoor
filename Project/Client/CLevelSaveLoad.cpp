@@ -423,12 +423,6 @@ CGameObject* CLevelSaveLoad::LoadPrefab(const wstring& _strRelativePath)
     CGameObject* pNewObj = CLevelSaveLoad::LoadGameObject(pFile);
     fclose(pFile);
 
-    //pPrefab->RegisterProtoObject(pNewObj);//*
-
-    //CResMgr::GetInst()->AddRes<CPrefab>(_strRelativePath, pPrefab);
-
-
-
     return pNewObj;
 }
 

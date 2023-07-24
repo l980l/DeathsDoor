@@ -3,6 +3,10 @@
 
 void CKnightRunAttack::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"JumpReady");
+	}
 }
 
 void CKnightRunAttack::Enter()

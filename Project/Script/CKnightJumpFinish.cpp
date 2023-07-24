@@ -3,6 +3,10 @@
 
 void CKnightJumpFinish::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"SpinAttack");
+	}
 }
 
 void CKnightJumpFinish::Enter()

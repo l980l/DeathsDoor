@@ -38,13 +38,13 @@ void CKnightScript::begin()
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
 		m_pStateScript->AddState(L"Idle", new CKnightIdle);
-		//m_pStateScript->AddState(L"Trace", newCKnightWalk);
 		m_pStateScript->AddState(L"Trace", new CTrace);
 		m_pStateScript->AddState(L"RunAttack", new CKnightRunAttack);
 		m_pStateScript->AddState(L"CutScene", new CKnightCutScene);
 		m_pStateScript->AddState(L"JumpReady", new CKnightJumpReady);
 		m_pStateScript->AddState(L"JumpAttack1", new CKnightJumpAttack);
 		m_pStateScript->AddState(L"JumpAttack2", new CKnightJumpAttack2);
+		m_pStateScript->AddState(L"JumpFinish", new CKnightJumpFinish);
 		m_pStateScript->AddState(L"ChopAttack", new CKnightChopAttack);
 		m_pStateScript->AddState(L"ChopAttackEnd", new CKnightChopAttackEnd);
 		m_pStateScript->AddState(L"ChopCombo", new CKnightChopAttackCombo);
@@ -70,24 +70,67 @@ void CKnightScript::begin()
 	m_stat.Speed = 100;
 	m_pStateScript->SetStat(m_stat);
 
+
+	recognizeCheck = false;
+	onCollision = false;
 }
 
 void CKnightScript::tick()
 {
-	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
+	//Player방향을 바라보기
+	//Vec3 forward = GetOwner()->Transform()->GetWorldRotation().Forward();//몬스터의 앞방향
+
+	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
+		recognizeCheck == false)
+	{
+		m_pStateScript->ChangeState(L"Trace");
+		recognizeCheck = true;
+	}
+	else if (GetDetect() && m_pStateScript->FindState(L"SpinAttackCombo") == m_pStateScript->GetCurState())
+	{
+		m_pStateScript->ChangeState(L"Trace");
+	}
 
 	//HP가 0 이면 사망 처리
 	if (m_pStateScript->GetStat().HP <= 0)
 	{
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
+		SetLifeSpan(0.5f);
 	}
-
-	GetOwner()->Transform()->SetRelativePos(vPos);
 }
 
 void CKnightScript::BeginOverlap(CCollider2D* _Other)
 {
+	if (L"Player" == _Other->GetOwner()->GetName())
+	{
+		m_pStateScript->ChangeState(L"RunAttack");
+	}
+	if (L"Sword" == _Other->GetName())
+	{
+		//체력--
+		//m_stat.HP -= SwordDamage
+	}
+	else if (L"Arrow" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Fire" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Bomb" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Hook" == _Other->GetName())
+	{
+		//체력--
+	}
+	else if (L"Ghost" == _Other->GetName())
+	{
+		//체력--
+	}
 }
 
 void CKnightScript::SaveToLevelFile(FILE* _File)

@@ -7,10 +7,12 @@ class CBatScript    :
 {
 private:
     Stat m_stat;
-
+    bool recognizeCheck;
+    bool onCollision;
 public:
     virtual void begin() override;
     virtual void tick() override;
+
 
 public:
     virtual void BeginOverlap(CCollider3D* _Other) override;

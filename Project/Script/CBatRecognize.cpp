@@ -15,8 +15,7 @@ void CBatRecognize::tick()
 
 void CBatRecognize::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
-	GetOwner()->Animator3D()->Play(1, true);
+	GetOwner()->Animator3D()->Play(1, false);
 }
 
 void CBatRecognize::Exit()

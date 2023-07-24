@@ -1,7 +1,6 @@
 #pragma once
-#include<Engine/CScript.h>
 #include "CMonsterScript.h"
-class CGrimKnightScript :
+class CGhostScript :
     public CMonsterScript
 {
 private:
@@ -20,11 +19,11 @@ public:
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;
 
-    CLONE(CGrimKnightScript);
+    CLONE(CGhostScript);
 
 public:
-    CGrimKnightScript();
-    CGrimKnightScript(const CGrimKnightScript& _Other);
-    ~CGrimKnightScript();
+    CGhostScript();
+    CGhostScript(const CGhostScript& _Other);
+    ~CGhostScript();
 };
 

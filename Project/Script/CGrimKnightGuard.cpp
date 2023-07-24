@@ -3,6 +3,10 @@
 
 void CGrimKnightGuard::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"GuardStay");
+	}
 }
 
 void CGrimKnightGuard::Enter()

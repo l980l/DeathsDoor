@@ -1,8 +1,16 @@
 #include "pch.h"
 #include "CKnightSpinAttack.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CKnightSpinAttack::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"Trace");
+	}
+
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"SpinAttack", 5, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CKnightSpinAttack::Enter()

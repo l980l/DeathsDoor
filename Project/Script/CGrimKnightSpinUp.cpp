@@ -3,6 +3,10 @@
 
 void CGrimKnightSpinUp::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"Guard");
+	}
 }
 
 void CGrimKnightSpinUp::Enter()

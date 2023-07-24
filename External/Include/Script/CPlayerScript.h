@@ -8,7 +8,7 @@ class CPlayerScript :
     public CScript
 {
 private:
-    CStateScript*   m_pState;
+    CStateScript* m_pState;
     float           m_bInvincible;
 
 public:

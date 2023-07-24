@@ -51,6 +51,21 @@ void CreateTestLevel()
 		pSound->Play(1, 0.5f, false);*/
 	}
 
+	{
+		/*Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Sword");
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);*/
+	}
+
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"MonsterProjectile");
+	CCollisionMgr::GetInst()->LayerCheck(L"Monster", L"PlayerProjectile");
 	return;
 
 	// Main Camera Object 생성
@@ -164,15 +179,25 @@ void CreateTestLevel()
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
 		
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle_broken.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"castle_broken");
+		pObj->SetName(L"Knight");
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 	}
+	/*
+	{
+	Ptr<CMeshData> pMeshData = nullptr;
+	CGameObject* pObj = nullptr;
 
-
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
+	pObj = pMeshData->Instantiate();
+	pObj->SetName(L"Knight");
+	pObj->MeshRender()->SetDynamicShadow(true);
+	pObj->MeshRender()->SetFrustumCheck(false);
+	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+	}*/
 	// 충돌 시킬 레이어 짝 지정
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");	
+	
 }

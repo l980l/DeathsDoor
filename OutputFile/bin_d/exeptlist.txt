@@ -17,6 +17,8 @@ CBatAttack.h
 CBatChase.h
 CBatIdle.h
 CBatRecognize.h
+CBatDeath.h
+CBatHit.h
 BatStates.h
 
 CKnightChopAttack.h
@@ -24,6 +26,7 @@ CKnightChopAttackEnd.h
 CKnightChopAttackCombo.h
 CKnightChopAttackComboEnd.h
 CKnightCutScene.h
+CKnightHit.h
 CKnightDeath.h
 CKnightIdle.h
 CKnightJumpAttack.h
@@ -49,6 +52,8 @@ CGrimKnightLongDistance.h
 CGrimKnightMelee.h
 CGrimKnightSpinDown.h
 CGrimKnightSpinUp.h
+CGrimKnightHit.h
+CGrimKnightDeath.h
 GrimKnightStates.h
 
 CSceneSaveLoad.h

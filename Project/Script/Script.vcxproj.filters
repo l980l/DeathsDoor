@@ -64,17 +64,20 @@
     <Filter Include="Script\01. State\01. Monster\Bazooka\State">
       <UniqueIdentifier>{fa63c74d-a161-46a1-ba1b-fb90d439596e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Monster\Bat">
-      <UniqueIdentifier>{8b246a6b-2257-4744-9ddb-938d3c1254eb}</UniqueIdentifier>
+    <Filter Include="Script\01. State\01. Monster\Bat">
+      <UniqueIdentifier>{7a376258-d214-4c7d-a5fc-80b312219c7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Monster\Knight">
-      <UniqueIdentifier>{b3c3ffe7-f0ba-4d7e-b03e-0526a7e0070b}</UniqueIdentifier>
+    <Filter Include="Script\01. State\01. Monster\GKnight">
+      <UniqueIdentifier>{05c4fe77-5309-4f76-87d6-22b120c5c161}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Monster\GrimKnight">
-      <UniqueIdentifier>{ea119d53-d99d-421b-873a-7c9371da4451}</UniqueIdentifier>
+    <Filter Include="Script\01. State\01. Monster\Knight">
+      <UniqueIdentifier>{1df80845-7b54-43a4-845a-07b4f1089d62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\State\Monster\Bat\States">
-      <UniqueIdentifier>{838a6e42-54d1-4986-a490-f39fc25cf05f}</UniqueIdentifier>
+    <Filter Include="Script\01. State\01. Monster\GKnight\status">
+      <UniqueIdentifier>{53a94147-75e3-42e3-9872-ea08489a6f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\Knight\State">
+      <UniqueIdentifier>{ea03e652-f3b5-43a2-8d66-706597184f25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -177,113 +180,130 @@
     <ClInclude Include="CBazookaScript.h">
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClInclude>
-    <ClInclude Include="CKnightChopAttack.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightChopAttackCombo.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightChopAttackComboEnd.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightChopAttackEnd.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightCutScene.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightDeath.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightIdle.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpAttack.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpAttack2.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpFinish.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpReady.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightRunAttack.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightSpinAttack.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightSpinAttackCombo.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightWalk.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="KnightStates.h">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightSpinUp.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightBackStep.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightBackStep2.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightChase.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightGuard.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightGuardBreak.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightGuardStay.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightIdle.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightLeftSpin.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightLongDistance.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightMelee.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightRightSpin.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightSpinDown.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="GrimKnightStates.h">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
+    <ClInclude Include="CMonsterDetectRangeScript.h" />
+    <ClInclude Include="BatStates.h">
+      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClInclude>
     <ClInclude Include="CBatScript.h">
-      <Filter>Script\State\Monster\Bat</Filter>
-    </ClInclude>
-    <ClInclude Include="BatStates.h">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="CBatAttack.h">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="CBatChase.h">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatDeath.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatHit.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="CBatIdle.h">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="CBatRecognize.h">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightScript.h">
+      <Filter>Script\01. State\01. Monster\GKnight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightBackStep.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightBackStep2.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightChase.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightDeath.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightGuard.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightGuardBreak.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightGuardStay.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightHit.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightIdle.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightLeftSpin.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightLongDistance.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightMelee.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightRightSpin.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightSpinDown.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightSpinUp.h">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClInclude>
+    <ClInclude Include="CGhostScript.h" />
+    <ClInclude Include="CKnightChopAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttackCombo.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttackComboEnd.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttackEnd.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightCutScene.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightDeath.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightHit.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightIdle.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpAttack2.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpFinish.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpReady.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightRunAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightSpinAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightSpinAttackCombo.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightWalk.h">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightScript.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,104 +397,127 @@
     <ClCompile Include="CBazookaDeath.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
-    <ClCompile Include="CKnightChopAttack.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightChopAttackCombo.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightChopAttackComboEnd.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightChopAttackEnd.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightCutScene.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightDeath.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightIdle.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightJumpAttack.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightJumpAttack2.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightJumpFinish.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightJumpReady.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightRunAttack.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightSpinAttack.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightSpinAttackCombo.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightWalk.cpp">
-      <Filter>Script\State\Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightBackStep.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightBackStep2.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightChase.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightGuard.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightGuardBreak.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightGuardStay.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightIdle.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightLeftSpin.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightLongDistance.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightMelee.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightRightSpin.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightSpinDown.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CGrimKnightSpinUp.cpp">
-      <Filter>Script\State\Monster\GrimKnight</Filter>
-    </ClCompile>
-    <ClCompile Include="CBatScript.cpp">
-      <Filter>Script\State\Monster\Bat</Filter>
-    </ClCompile>
+    <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CBatAttack.cpp">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClCompile>
     <ClCompile Include="CBatChase.cpp">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatHit.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClCompile>
     <ClCompile Include="CBatIdle.cpp">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClCompile>
     <ClCompile Include="CBatRecognize.cpp">
-      <Filter>Script\State\Monster\Bat\States</Filter>
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatScript.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightScript.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightBackStep.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightBackStep2.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightChase.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightDeath.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightGuard.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightGuardBreak.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightGuardStay.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightHit.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightIdle.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightLeftSpin.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightLongDistance.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightMelee.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightRightSpin.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightSpinDown.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightSpinUp.cpp">
+      <Filter>Script\01. State\01. Monster\GKnight\status</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostScript.cpp" />
+    <ClCompile Include="CKnightChopAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttackCombo.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttackComboEnd.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttackEnd.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightCutScene.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightHit.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpAttack2.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpFinish.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpReady.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightRunAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightSpinAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightSpinAttackCombo.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightWalk.cpp">
+      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightScript.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

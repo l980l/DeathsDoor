@@ -3,6 +3,10 @@
 
 void CGrimKnightGuardBreak::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"BackStep");
+	}
 }
 
 void CGrimKnightGuardBreak::Enter()
