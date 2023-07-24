@@ -32,11 +32,11 @@ void CPlyDodge::Exit()
 
 void CPlyDodge::Dodge(float _fSpeed)
 {
-	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
-	vCurDir.Normalize();
+	Vec3 vCurDir = GetOwner()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
 	vCurDir.y = 0.f;
-	GetOwner()->Rigidbody()->SetVelocityLimit(_fSpeed * 1.5f);
-	GetOwner()->Rigidbody()->SetVelocity(-vCurDir * _fSpeed * 1.5f);
+	vCurDir.Normalize();
+	GetOwner()->Rigidbody()->SetVelocityLimit(_fSpeed * 2.f);
+	GetOwner()->Rigidbody()->SetVelocity(vCurDir * _fSpeed * 1000.f);
 }
 
 void CPlyDodge::CalcDir()

@@ -11,7 +11,7 @@ public:
     virtual void tick() override;
     virtual void Exit() override;
 
-    void CalcDir(CGameObject* _pArrow);
+    void CalcDir();
 
     CLONE(CPlyMagic_Arrow);
 
