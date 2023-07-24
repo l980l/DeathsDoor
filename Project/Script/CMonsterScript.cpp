@@ -26,7 +26,6 @@ void CMonsterScript::begin()
 
 void CMonsterScript::tick()
 {
-	int a = 0;
 }
 
 void CMonsterScript::BeginOverlap(CCollider3D* _Other)

@@ -52,15 +52,15 @@ void CreateTestLevel()
 	}
 
 	{
-		/*Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
+		//Ptr<CMeshData> pMeshData = nullptr;
+		//CGameObject* pObj = nullptr;
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Sword");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);*/
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\P_CHAIN.fbx");
+		//pObj = pMeshData->Instantiate();
+		//pObj->SetName(L"CHAIN");
+		//pObj->MeshRender()->SetDynamicShadow(true);
+		//pObj->MeshRender()->SetFrustumCheck(false);
+		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	}
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");

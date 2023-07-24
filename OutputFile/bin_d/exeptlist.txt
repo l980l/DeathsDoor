@@ -71,3 +71,8 @@ CBazzokaMelee.h
 CBazzokaMove.h
 CBazookaDeath.h
 CMonsterScript.h
+
+CPower.h
+CAttackSpeed.h
+CSpeed.h
+CMagic.h

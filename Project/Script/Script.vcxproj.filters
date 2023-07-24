@@ -79,6 +79,12 @@
     <Filter Include="Script\01. State\01. Monster\Knight\State">
       <UniqueIdentifier>{ea03e652-f3b5-43a2-8d66-706597184f25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\01. State\03. Banker">
+      <UniqueIdentifier>{e4224d73-57e8-4560-a0e7-47599c28af05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\03. Banker\State">
+      <UniqueIdentifier>{a24e276b-57d6-47de-8c2a-3e46ec21f199}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -305,6 +311,22 @@
     <ClInclude Include="CKnightScript.h">
       <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClInclude>
+    <ClInclude Include="CBankerScript.h">
+      <Filter>Script\01. State\03. Banker</Filter>
+    </ClInclude>
+    <ClInclude Include="CPower.h">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackSpeed.h">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpeed.h">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic.h">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBankerFrameScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -519,5 +541,21 @@
     <ClCompile Include="CKnightScript.cpp">
       <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClCompile>
+    <ClCompile Include="CBankerScript.cpp">
+      <Filter>Script\01. State\03. Banker</Filter>
+    </ClCompile>
+    <ClCompile Include="CPower.cpp">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackSpeed.cpp">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpeed.cpp">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic.cpp">
+      <Filter>Script\01. State\03. Banker\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBankerFrameScript.cpp" />
   </ItemGroup>
 </Project>

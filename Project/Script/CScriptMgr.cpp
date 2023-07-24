@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
+#include "CBankerFrameScript.h"
+#include "CBankerScript.h"
 #include "CBatScript.h"
 #include "CBazookaScript.h"
 #include "CCameraMoveScript.h"
@@ -16,6 +18,8 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CBankerFrameScript");
+	_vec.push_back(L"CBankerScript");
 	_vec.push_back(L"CBatScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CCameraMoveScript");
@@ -32,6 +36,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CBankerFrameScript" == _strScriptName)
+		return new CBankerFrameScript;
+	if (L"CBankerScript" == _strScriptName)
+		return new CBankerScript;
 	if (L"CBatScript" == _strScriptName)
 		return new CBatScript;
 	if (L"CBazookaScript" == _strScriptName)
@@ -63,6 +71,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return new CBankerFrameScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BANKERSCRIPT:
+		return new CBankerScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BATSCRIPT:
 		return new CBatScript;
 		break;
@@ -107,6 +121,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return L"CBankerFrameScript";
+		break;
+
+	case SCRIPT_TYPE::BANKERSCRIPT:
+		return L"CBankerScript";
+		break;
+
 	case SCRIPT_TYPE::BATSCRIPT:
 		return L"CBatScript";
 		break;

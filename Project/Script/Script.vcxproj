@@ -178,6 +178,9 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="BatStates.h" />
     <ClInclude Include="BazookaStates.h" />
+    <ClInclude Include="CAttackSpeed.h" />
+    <ClInclude Include="CBankerFrameScript.h" />
+    <ClInclude Include="CBankerScript.h" />
     <ClInclude Include="CBatAttack.h" />
     <ClInclude Include="CBatChase.h" />
     <ClInclude Include="CBatDeath.h" />
@@ -227,6 +230,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CKnightSpinAttack.h" />
     <ClInclude Include="CKnightSpinAttackCombo.h" />
     <ClInclude Include="CKnightWalk.h" />
+    <ClInclude Include="CMagic.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CPlyAttack.h" />
     <ClInclude Include="CPlyAttack_Magic.h" />
@@ -242,8 +246,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
+    <ClInclude Include="CPower.h" />
     <ClInclude Include="CrowBossStates.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSpeed.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CPlyWalk.h" />
@@ -254,6 +260,9 @@ call CodeGen.exe</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAttackSpeed.cpp" />
+    <ClCompile Include="CBankerFrameScript.cpp" />
+    <ClCompile Include="CBankerScript.cpp" />
     <ClCompile Include="CBatAttack.cpp" />
     <ClCompile Include="CBatChase.cpp" />
     <ClCompile Include="CBatDeath.cpp" />
@@ -303,6 +312,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CKnightSpinAttack.cpp" />
     <ClCompile Include="CKnightSpinAttackCombo.cpp" />
     <ClCompile Include="CKnightWalk.cpp" />
+    <ClCompile Include="CMagic.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
     <ClCompile Include="CPlyAttack_Magic.cpp" />
@@ -318,7 +328,9 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPower.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSpeed.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CPlyWalk.cpp" />

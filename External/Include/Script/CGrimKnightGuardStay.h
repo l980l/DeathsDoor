@@ -22,6 +22,8 @@ private:
             a.x * b.y - a.y * b.x);
     }
 
+    float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree = false);
+
     CLONE(CGrimKnightGuardStay);
 
 public:
