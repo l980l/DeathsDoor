@@ -2,12 +2,12 @@
 #include "CCrowBossGuidedBullet.h"
 #include "CCrowBossScript.h"
 
-void CCrowBossGuidedBullet::tick()
+void CCrowBossGuidedBullet::Enter()
 {
 	GetOwner()->Animator3D()->Play(5, true);
 }
 
-void CCrowBossGuidedBullet::Enter()
+void CCrowBossGuidedBullet::tick()
 {
 }
 

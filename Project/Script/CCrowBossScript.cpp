@@ -59,10 +59,29 @@ void CCrowBossScript::begin()
 
 void CCrowBossScript::tick()
 {
+	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
+	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
+
+	m_MonsterToPlayerDir = m_PlayerPos - Transform()->GetWorldPos();
+	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
+	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
+	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
 }
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)
 {
+	// PlayerProjectile Layer의 물체와 충돌한 경우.
+	if (_Other->GetOwner()->GetLayerIndex() == 4)
+	{
+		// 
+	}
+
+	// HP가 0 이하면 사망.
+	if (m_pStateScript->GetStat().HP <= 0)
+	{
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+			m_pStateScript->ChangeState(L"Death");
+	}
 }
 
 void CCrowBossScript::SaveToLevelFile(FILE* _File)

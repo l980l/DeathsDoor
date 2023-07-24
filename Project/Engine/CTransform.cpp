@@ -31,10 +31,9 @@ void CTransform::finaltick()
 	m_matRelativeRot *= XMMatrixRotationY(m_vRelativeRot.y);
 	m_matRelativeRot *= XMMatrixRotationZ(m_vRelativeRot.z);
 
-
 	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
-
 	
+
 	m_matWorld = m_matWorldScale * m_matRelativeRot	 * matTranslation;
 
 	Vec3 vDefaultDir[3] = {

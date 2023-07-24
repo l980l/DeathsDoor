@@ -2,13 +2,17 @@
 #include "CCrowBossCutScene.h"
 #include "CCrowBossScript.h"
 
-void CCrowBossCutScene::tick()
+void CCrowBossCutScene::Enter()
 {
 	GetOwner()->Animator3D()->Play(1, false);
 }
 
-void CCrowBossCutScene::Enter()
+void CCrowBossCutScene::tick()
 {
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"RightSpin");
+	}
 }
 
 void CCrowBossCutScene::Exit()

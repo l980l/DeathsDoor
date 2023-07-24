@@ -73,7 +73,7 @@ void CGruntScript::tick()
 {
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
-
+	
 	m_MonsterToPlayerDir = m_PlayerPos - Transform()->GetWorldPos();
 	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
 	m_MonsterToPlayerDir.y /= m_fPlayerDistance;

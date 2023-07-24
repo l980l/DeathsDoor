@@ -2,12 +2,12 @@
 #include "CCrowBossStandingDeath.h"
 #include "CCrowBossScript.h"
 
-void CCrowBossStandingDeath::tick()
+void CCrowBossStandingDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(13, true);
 }
 
-void CCrowBossStandingDeath::Enter()
+void CCrowBossStandingDeath::tick()
 {
 }
 

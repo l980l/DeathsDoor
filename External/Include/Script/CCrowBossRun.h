@@ -3,6 +3,9 @@
 class CCrowBossRun :
     public CState
 {
+private:
+    int     m_iTime;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

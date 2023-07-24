@@ -2,12 +2,12 @@
 #include "CCrowBossBatBullet.h"
 #include "CCrowBossScript.h"
 
-void CCrowBossBatBullet::tick()
+void CCrowBossBatBullet::Enter()
 {
 	GetOwner()->Animator3D()->Play(6, true);
 }
 
-void CCrowBossBatBullet::Enter()
+void CCrowBossBatBullet::tick()
 {
 }
 

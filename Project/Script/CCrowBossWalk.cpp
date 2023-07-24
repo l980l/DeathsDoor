@@ -2,12 +2,12 @@
 #include "CCrowBossWalk.h"
 #include "CCrowBossScript.h"
 
-void CCrowBossWalk::tick()
+void CCrowBossWalk::Enter()
 {
 	GetOwner()->Animator3D()->Play(11, true);
 }
 
-void CCrowBossWalk::Enter()
+void CCrowBossWalk::tick()
 {
 }
 

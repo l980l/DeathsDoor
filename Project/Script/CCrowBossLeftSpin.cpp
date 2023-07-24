@@ -2,12 +2,12 @@
 #include "CCrowBossLeftSpin.h"
 #include "CCrowBossScript.h"
 
-void CCrowBossLeftSpin::tick()
+void CCrowBossLeftSpin::Enter()
 {
 	GetOwner()->Animator3D()->Play(8, true);
 }
 
-void CCrowBossLeftSpin::Enter()
+void CCrowBossLeftSpin::tick()
 {
 }
 
