@@ -426,36 +426,38 @@ CGameObject* CLevelSaveLoad::LoadPrefab(const wstring& _strRelativePath)
     return pNewObj;
 }
 
-void CLevelSaveLoad::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time)
+void CLevelSaveLoad::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
+
     CGameObject* newPrefab = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time != 0)
+    if (time != -1)
         newPrefab->SetLifeSpan(time);
     fclose(pFile);
 }
-CGameObject* CLevelSaveLoad::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos)
+CGameObject* CLevelSaveLoad::SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
+
     CGameObject* newPrefab = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
+    if (time != -1)
+        newPrefab->SetLifeSpan(time);
     fclose(pFile);
     return newPrefab;
 }

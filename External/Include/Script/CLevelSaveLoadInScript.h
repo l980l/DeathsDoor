@@ -20,7 +20,7 @@ public:
 
 
 	//Prefab »ý¼º
-	void SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time);
-	CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
+	void SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
+	CGameObject* SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
 };
 
