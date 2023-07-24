@@ -6,6 +6,8 @@ class CPlyRun :
 private:
     float   m_fSpeed; 
     float   m_fTimeToIdle;
+    float   m_fRotDelay;
+    float   m_fRot;
     bool    m_bIce;
 
 public:

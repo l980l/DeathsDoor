@@ -357,6 +357,9 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
         case COMPONENT_TYPE::DECAL:
             Component = new CDecal;
             break;
+        case COMPONENT_TYPE::RIGIDBODY:
+            Component = new CRigidbody;
+            break;
         }
 
         Component->LoadFromLevelFile(_File);
@@ -421,45 +424,42 @@ CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
     CGameObject* pNewObj = CLevelSaveLoadInScript::LoadGameObject(pFile);
     fclose(pFile);
 
-    //pPrefab->RegisterProtoObject(pNewObj);//*
-
-    //CResMgr::GetInst()->AddRes<CPrefab>(_strRelativePath, pPrefab);
-
-
-
     return pNewObj;
 }
 
-void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time)
+void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
+
     CGameObject* newPrefab = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time != 0)
+    if (time != -1)
         newPrefab->SetLifeSpan(time);
     fclose(pFile);
 }
-CGameObject* CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos)
+
+CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
+
     CGameObject* newPrefab = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
+    if (time != -1)
+        newPrefab->SetLifeSpan(time);
     fclose(pFile);
     return newPrefab;
 }

@@ -21,6 +21,7 @@ public:
     void AddVelocityModule();
     void DragModule();
     void RandomForceModule();
+    void RenderModule();
     void VelocityScaleModule();
     void AnimationModule();
     void SaveParticle();

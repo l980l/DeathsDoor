@@ -70,7 +70,7 @@ int PrefabUI::render_update()
     }
 
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "Layer Type Infos");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "0  : Default");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "0  : No Collision");
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "1  : Map");
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "2  : Player  ");
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "3  : Monster");

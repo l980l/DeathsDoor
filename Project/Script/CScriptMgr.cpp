@@ -2,12 +2,17 @@
 #include "CScriptMgr.h"
 
 #include "CAnchorScript.h"
+#include "CBankerFrameScript.h"
+#include "CBankerScript.h"
+#include "CBatScript.h"
 #include "CBazookaScript.h"
 #include "CBrazierScript.h"
-#include "CBreakablewallScript.h"
 #include "CCameraMoveScript.h"
 #include "CGameCameraScript.h"
+#include "CGhostScript.h"
 #include "CGravityScript.h"
+#include "CGrimKnightScript.h"
+#include "CKnightScript.h"
 #include "CLoadLevelThreadScript.h"
 #include "CMagic_ArrowScript.h"
 #include "CMagic_BombScript.h"
@@ -22,12 +27,17 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnchorScript");
+	_vec.push_back(L"CBankerFrameScript");
+	_vec.push_back(L"CBankerScript");
+	_vec.push_back(L"CBatScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBrazierScript");
-	_vec.push_back(L"CBreakablewallScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CGameCameraScript");
+	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
+	_vec.push_back(L"CGrimKnightScript");
+	_vec.push_back(L"CKnightScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CMagic_ArrowScript");
 	_vec.push_back(L"CMagic_BombScript");
@@ -44,18 +54,28 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnchorScript" == _strScriptName)
 		return new CAnchorScript;
+	if (L"CBankerFrameScript" == _strScriptName)
+		return new CBankerFrameScript;
+	if (L"CBankerScript" == _strScriptName)
+		return new CBankerScript;
+	if (L"CBatScript" == _strScriptName)
+		return new CBatScript;
 	if (L"CBazookaScript" == _strScriptName)
 		return new CBazookaScript;
 	if (L"CBrazierScript" == _strScriptName)
 		return new CBrazierScript;
-	if (L"CBreakablewallScript" == _strScriptName)
-		return new CBreakablewallScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
+	if (L"CGhostScript" == _strScriptName)
+		return new CGhostScript;
 	if (L"CGravityScript" == _strScriptName)
 		return new CGravityScript;
+	if (L"CGrimKnightScript" == _strScriptName)
+		return new CGrimKnightScript;
+	if (L"CKnightScript" == _strScriptName)
+		return new CKnightScript;
 	if (L"CLoadLevelThreadScript" == _strScriptName)
 		return new CLoadLevelThreadScript;
 	if (L"CMagic_ArrowScript" == _strScriptName)
@@ -86,14 +106,20 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ANCHORSCRIPT:
 		return new CAnchorScript;
 		break;
+	case (UINT)SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return new CBankerFrameScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BANKERSCRIPT:
+		return new CBankerScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BATSCRIPT:
+		return new CBatScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BAZOOKASCRIPT:
 		return new CBazookaScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BRAZIERSCRIPT:
 		return new CBrazierScript;
-		break;
-	case (UINT)SCRIPT_TYPE::BREAKABLEWALLSCRIPT:
-		return new CBreakablewallScript;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -101,8 +127,17 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
 		break;
+	case (UINT)SCRIPT_TYPE::GHOSTSCRIPT:
+		return new CGhostScript;
+		break;
 	case (UINT)SCRIPT_TYPE::GRAVITYSCRIPT:
 		return new CGravityScript;
+		break;
+	case (UINT)SCRIPT_TYPE::GRIMKNIGHTSCRIPT:
+		return new CGrimKnightScript;
+		break;
+	case (UINT)SCRIPT_TYPE::KNIGHTSCRIPT:
+		return new CKnightScript;
 		break;
 	case (UINT)SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return new CLoadLevelThreadScript;
@@ -146,16 +181,24 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAnchorScript";
 		break;
 
+	case SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return L"CBankerFrameScript";
+		break;
+
+	case SCRIPT_TYPE::BANKERSCRIPT:
+		return L"CBankerScript";
+		break;
+
+	case SCRIPT_TYPE::BATSCRIPT:
+		return L"CBatScript";
+		break;
+
 	case SCRIPT_TYPE::BAZOOKASCRIPT:
 		return L"CBazookaScript";
 		break;
 
 	case SCRIPT_TYPE::BRAZIERSCRIPT:
 		return L"CBrazierScript";
-		break;
-
-	case SCRIPT_TYPE::BREAKABLEWALLSCRIPT:
-		return L"CBreakablewallScript";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:
@@ -166,8 +209,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CGameCameraScript";
 		break;
 
+	case SCRIPT_TYPE::GHOSTSCRIPT:
+		return L"CGhostScript";
+		break;
+
 	case SCRIPT_TYPE::GRAVITYSCRIPT:
 		return L"CGravityScript";
+		break;
+
+	case SCRIPT_TYPE::GRIMKNIGHTSCRIPT:
+		return L"CGrimKnightScript";
+		break;
+
+	case SCRIPT_TYPE::KNIGHTSCRIPT:
+		return L"CKnightScript";
 		break;
 
 	case SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:

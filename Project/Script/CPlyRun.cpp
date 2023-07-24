@@ -5,6 +5,8 @@
 CPlyRun::CPlyRun()
 	: m_fSpeed(0.f)
 	, m_fTimeToIdle(0.f)
+	, m_fRotDelay(0.f)
+	, m_fRot(0.f)
 	, m_bIce(false)
 {
 }
@@ -23,6 +25,9 @@ void CPlyRun::Enter()
 void CPlyRun::tick()
 {
 	Move();
+
+	if(0.f != m_fRotDelay)
+
 
 	// 가만히 있다면(이전 프레임과 위치 차이가 없다면) Idle 전환시간 +
 	if (Vec3(0.f, 0.f, 0.f) == GetOwner()->Transform()->GetWorldPos() - GetOwner()->Transform()->GetPrevPos())
@@ -90,7 +95,7 @@ void CPlyRun::CalcDir()
 	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
 	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
 
-	float Dir = GetDir(vPrevPos, vCurPos, false);
+	float Dir = GetDir(vPrevPos, vCurPos);
 
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
 }

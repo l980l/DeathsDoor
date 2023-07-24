@@ -16,6 +16,10 @@
 #include <Script\CCameraMoveScript.h>
 #include <Script\CPlayerWeaponScript.h>
 #include <Script\CGameCameraScript.h>
+#include <Script\CMagic_ArrowScript.h>
+#include <Script\CMagic_BombScript.h>
+#include <Script\CMagic_FireScript.h>
+#include <Script\CMagic_HookScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -114,47 +118,47 @@ void CreateTestLevel()
 	SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::WALL);
 
 	Ptr<CMeshData> pMeshData = nullptr;
-	//CGameObject* pPlayer = nullptr;
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
-	//pPlayer = pMeshData->Instantiate();
-	//pPlayer->SetName(L"Player");
-	//pPlayer->AddComponent(new CPlayerScript);
-	//pPlayer->AddComponent(new CStateScript);
-	//pPlayer->AddComponent(new CCollider3D);
-	//pPlayer->AddComponent(new CRigidbody);
-	//
-	//pPlayer->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
-	//pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	//
-	//pPlayer->MeshRender()->SetDynamicShadow(true);
-	//pPlayer->MeshRender()->SetFrustumCheck(false);
-	//
-	//pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	//pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
-	//pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
-	//
-	//pPlayer->Rigidbody()->SetGravity(true);
-	//Stat PlayerStat;
-	//PlayerStat.Attack = 50.f;
-	//PlayerStat.Attack_Speed = 1.f;
-	//PlayerStat.HP = 4;
-	//PlayerStat.Speed = 1000.f;
-	//pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	//
-	//SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
-	//
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
-	//CGameObject* pSword = pMeshData->Instantiate();
-	//pSword->SetName(L"Sword");
-	//pSword->AddComponent(new CPlayerWeaponScript);
-	//pSword->AddComponent(new CStateScript);
-	//pSword->AddComponent(new CCollider3D);
-	//pSword->MeshRender()->SetDynamicShadow(true);
-	//pSword->MeshRender()->SetFrustumCheck(false);
-	//pPlayer->AddChild(pSword);
+	CGameObject* pPlayer = nullptr;
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
+	pPlayer = pMeshData->Instantiate();
+	pPlayer->SetName(L"Player");
+	pPlayer->AddComponent(new CPlayerScript);
+	pPlayer->AddComponent(new CStateScript);
+	pPlayer->AddComponent(new CCollider3D);
+	pPlayer->AddComponent(new CRigidbody);
+	
+	pPlayer->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
+	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	
+	pPlayer->MeshRender()->SetDynamicShadow(true);
+	pPlayer->MeshRender()->SetFrustumCheck(false);
+	
+	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
+	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
+	
+	pPlayer->Rigidbody()->SetGravity(true);
+	Stat PlayerStat;
+	PlayerStat.Attack = 50.f;
+	PlayerStat.Attack_Speed = 1.f;
+	PlayerStat.HP = 4;
+	PlayerStat.Speed = 1000.f;
+	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
+	
+	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
+	
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
+	CGameObject* pSword = pMeshData->Instantiate();
+	pSword->SetName(L"Sword");
+	pSword->AddComponent(new CPlayerWeaponScript);
+	pSword->AddComponent(new CStateScript);
+	pSword->AddComponent(new CCollider3D);
+	pSword->MeshRender()->SetDynamicShadow(true);
+	pSword->MeshRender()->SetFrustumCheck(false);
+	pPlayer->AddChild(pSword);
 
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\boss.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle.fbx");
 	CGameObject* pMonster = pMeshData->Instantiate();
 	pMonster->SetName(L"Map");
 	pMonster->MeshRender()->SetDynamicShadow(true);
@@ -162,21 +166,91 @@ void CreateTestLevel()
 	
 	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
+	//CGameObject* pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"arrow");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CMagic_ArrowScript);
+	//
+	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+	//
+	//pObject->Rigidbody()->SetFriction(1.f);
+	//pObject->Rigidbody()->SetMass(1.f);
+	//pObject->Rigidbody()->SetVelocityLimit(2000.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
+	CGameObject* pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Bomb");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CMagic_BombScript);
+
+	pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+
+	pObject->Rigidbody()->SetFriction(1.f);
+	pObject->Rigidbody()->SetMass(1.f);
+	pObject->Rigidbody()->SetVelocityLimit(2000.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Fire.fbx");
+	//CGameObject* pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"arrow");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CMagic_ArrowScript);
+	//
+	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+	//
+	//pObject->Rigidbody()->SetFriction(1.f);
+	//pObject->Rigidbody()->SetMass(1.f);
+	//pObject->Rigidbody()->SetVelocityLimit(2000.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	//CGameObject* pMonster = pMeshData->Instantiate();
+	//pMonster->SetName(L"Monster");
+	////pMonster->AddComponent(new CMonsterScript);
+	////pMonster->AddComponent(new CStateScript);
+	//pMonster->MeshRender()->SetDynamicShadow(true);
+	//pMonster->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+
 	// ============
 	// FBX Loading
 	// ============	
 	{
-		//Ptr<CMeshData> pMeshData = nullptr;
-		//CGameObject* pObj = nullptr;
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"Bow");
-		//pObj->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-		//pObj->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
-		//pObj->Transform()->SetRelativePos(-0.3f, 0.f, 1.5f);
-		//pObj->MeshRender()->SetDynamicShadow(true);
-		//pObj->MeshRender()->SetFrustumCheck(false);
-		//pPlayer->AddChild(pObj);
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Bow");
+		pObj->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		pObj->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+		pObj->Transform()->SetRelativePos(-0.3f, 1.f, 1.5f);
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		pPlayer->AddChild(pObj);
 
 		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
 		//pObj = pMeshData->Instantiate();

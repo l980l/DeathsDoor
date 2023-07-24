@@ -148,11 +148,20 @@
     <Filter Include="Script\02. Script\Interection_Obj\Brazier">
       <UniqueIdentifier>{3760826e-c18f-42c4-860e-934cc9647c38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\Interection_Obj\WeakWall">
-      <UniqueIdentifier>{45d64b82-b3d5-491e-a7c3-09c7c8b769c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\Anchor">
       <UniqueIdentifier>{86f05edf-4b98-48bd-8120-711bab6cc757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\Knight">
+      <UniqueIdentifier>{55c87b76-a8a8-4a43-9a07-9e16259c52cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\Grimknight">
+      <UniqueIdentifier>{c0fa8b7a-009b-4801-b1c0-67697fc90985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\Bat">
+      <UniqueIdentifier>{18f640c1-771b-447c-a686-7627c9088843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\UI">
+      <UniqueIdentifier>{2c442aed-a2be-49bf-a0cb-396db61a61b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,42 +222,6 @@
     <ClInclude Include="CMonsterScript.h">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerWeaponStates.h">
-      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpAttack.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpDance.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Dance</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpDead.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Dead</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpDodge.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Dodge</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpFall.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Fall</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpHit.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Hit</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpIdle.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpLadder.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Ladder</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpWalk.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Walk</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyDance.h">
-      <Filter>Script\01. State\02. Player\Dance</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyLadder.h">
-      <Filter>Script\01. State\02. Player\Ladder</Filter>
-    </ClInclude>
     <ClInclude Include="CBazookaAim.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
@@ -279,35 +252,230 @@
     <ClInclude Include="CStateScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
-    <ClInclude Include="CGameCameraScript.h">
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Script\02. Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyRun.h">
-      <Filter>Script\01. State\02. Player\Run</Filter>
+    <ClInclude Include="CGhostScript.h">
+      <Filter>Script\02. Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyWpRun.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
+    <ClInclude Include="CKnightScript.h">
+      <Filter>Script\02. Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyMagic_Hook.h">
-      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    <ClInclude Include="BatStates.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyMagic_Fire.h">
-      <Filter>Script\01. State\02. Player\Magic\Fire</Filter>
+    <ClInclude Include="CBatAttack.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyMagic_Bomb.h">
-      <Filter>Script\01. State\02. Player\Magic\Bomb</Filter>
+    <ClInclude Include="CBatChase.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatDeath.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatHit.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatIdle.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatRecognize.h">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightBackStep.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightBackStep2.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightChase.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightDeath.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightGuard.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightGuardBreak.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightGuardStay.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightHit.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightIdle.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightLeftSpin.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightLongDistance.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightMelee.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightRightSpin.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightScript.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightSpinDown.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrimKnightSpinUp.h">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttackCombo.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttackComboEnd.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightChopAttackEnd.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightCutScene.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightDeath.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightHit.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightIdle.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpAttack2.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpFinish.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightJumpReady.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightRunAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightSpinAttack.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightSpinAttackCombo.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightWalk.h">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="LurkerStates.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="GruntStates.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CrowBossStates.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpeed.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CPower.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackSpeed.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBankerFrameScript.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBankerScript.h">
+      <Filter>Script\02. Script\UI</Filter>
     </ClInclude>
     <ClInclude Include="CPlyMagic_Arrow.h">
       <Filter>Script\01. State\02. Player\Magic\Arrow</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Script\02. Script\Player</Filter>
+    <ClInclude Include="CPlyRun.h">
+      <Filter>Script\01. State\02. Player\Run</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerWeaponScript.h">
-      <Filter>Script\02. Script\Player</Filter>
+    <ClInclude Include="CPlyLadder.h">
+      <Filter>Script\01. State\02. Player\Ladder</Filter>
     </ClInclude>
-    <ClInclude Include="CMagic_HookScript.h">
-      <Filter>Script\02. Script\Player\Magic</Filter>
+    <ClInclude Include="CPlyWpWalk.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpRun.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Arrow.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Bomb.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Fire.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpMagic_Hook.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyMagic_Bomb.h">
+      <Filter>Script\01. State\02. Player\Magic\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyMagic_Fire.h">
+      <Filter>Script\01. State\02. Player\Magic\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyMagic_Hook.h">
+      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpLadder.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpIdle.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpHit.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpFall.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Fall</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpDodge.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Dodge</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpDead.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpDance.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Dance</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyWpAttack.h">
+      <Filter>Script\01. State\02. Player\00. Weapon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlyDance.h">
+      <Filter>Script\01. State\02. Player\Dance</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWeaponStates.h">
+      <Filter>Script\01. State\02. Player\00. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameCameraScript.h">
+      <Filter>Script\02. Script</Filter>
     </ClInclude>
     <ClInclude Include="CMagic_ArrowScript.h">
       <Filter>Script\02. Script\Player\Magic</Filter>
@@ -318,26 +486,17 @@
     <ClInclude Include="CMagic_FireScript.h">
       <Filter>Script\02. Script\Player\Magic</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyWpMagic_Arrow.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Arrow</Filter>
+    <ClInclude Include="CMagic_HookScript.h">
+      <Filter>Script\02. Script\Player\Magic</Filter>
     </ClInclude>
-    <ClInclude Include="CPlyWpMagic_Bomb.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Bomb</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpMagic_Hook.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Hook</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpMagic_Fire.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
+    <ClInclude Include="CPlayerWeaponScript.h">
+      <Filter>Script\02. Script\Player</Filter>
     </ClInclude>
     <ClInclude Include="CAnchorScript.h">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
     </ClInclude>
     <ClInclude Include="CBrazierScript.h">
       <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
-    </ClInclude>
-    <ClInclude Include="CBreakablewallScript.h">
-      <Filter>Script\02. Script\Interection_Obj\WeakWall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -401,33 +560,6 @@
     <ClCompile Include="CMonsterScript.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyWpAttack.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpDance.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Dance</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpDead.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Dead</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpDodge.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Dodge</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpIdle.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpLadder.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Ladder</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpWalk.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Walk</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyDance.cpp">
-      <Filter>Script\01. State\02. Player\Dance</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyLadder.cpp">
-      <Filter>Script\01. State\02. Player\Ladder</Filter>
-    </ClCompile>
     <ClCompile Include="CBazookaAim.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
@@ -455,14 +587,191 @@
     <ClCompile Include="CStateScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
-    <ClCompile Include="CGameCameraScript.cpp">
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Script\02. Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatScript.cpp">
       <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightScript.cpp">
+      <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatChase.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatHit.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatRecognize.cpp">
+      <Filter>Script\01. State\01. Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightBackStep.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightBackStep2.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightChase.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightGuard.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightGuardBreak.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightGuardStay.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightHit.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightLeftSpin.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightLongDistance.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightMelee.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightRightSpin.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightScript.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightSpinDown.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrimKnightSpinUp.cpp">
+      <Filter>Script\01. State\01. Monster\Grimknight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttackCombo.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttackComboEnd.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightChopAttackEnd.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightCutScene.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightHit.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpAttack2.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpFinish.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightJumpReady.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightRunAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightSpinAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightSpinAttackCombo.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightWalk.cpp">
+      <Filter>Script\01. State\01. Monster\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostScript.cpp">
+      <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpeed.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CPower.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackSpeed.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBankerFrameScript.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBankerScript.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Arrow.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Arrow</Filter>
     </ClCompile>
     <ClCompile Include="CPlyRun.cpp">
       <Filter>Script\01. State\02. Player\Run</Filter>
     </ClCompile>
+    <ClCompile Include="CPlyLadder.cpp">
+      <Filter>Script\01. State\02. Player\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpWalk.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Walk</Filter>
+    </ClCompile>
     <ClCompile Include="CPlyWpRun.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Arrow.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Bomb.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Fire.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Hook.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Bomb.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Fire.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Hook.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpLadder.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpIdle.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Idle</Filter>
     </ClCompile>
     <ClCompile Include="CPlyWpHit.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Hit</Filter>
@@ -470,23 +779,23 @@
     <ClCompile Include="CPlyWpFall.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Fall</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyMagic_Hook.cpp">
-      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    <ClCompile Include="CPlyWpDodge.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Dodge</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyMagic_Fire.cpp">
-      <Filter>Script\01. State\02. Player\Magic\Fire</Filter>
+    <ClCompile Include="CPlyWpDead.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Dead</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyMagic_Bomb.cpp">
-      <Filter>Script\01. State\02. Player\Magic\Bomb</Filter>
+    <ClCompile Include="CPlyWpDance.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Dance</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyMagic_Arrow.cpp">
-      <Filter>Script\01. State\02. Player\Magic\Arrow</Filter>
+    <ClCompile Include="CPlyWpAttack.cpp">
+      <Filter>Script\01. State\02. Player\00. Weapon\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Script\02. Script\Player</Filter>
+    <ClCompile Include="CPlyDance.cpp">
+      <Filter>Script\01. State\02. Player\Dance</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerWeaponScript.cpp">
-      <Filter>Script\02. Script\Player</Filter>
+    <ClCompile Include="CGameCameraScript.cpp">
+      <Filter>Script\02. Script</Filter>
     </ClCompile>
     <ClCompile Include="CMagic_ArrowScript.cpp">
       <Filter>Script\02. Script\Player\Magic</Filter>
@@ -500,26 +809,14 @@
     <ClCompile Include="CMagic_HookScript.cpp">
       <Filter>Script\02. Script\Player\Magic</Filter>
     </ClCompile>
-    <ClCompile Include="CPlyWpMagic_Arrow.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Arrow</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpMagic_Bomb.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Bomb</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpMagic_Hook.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Hook</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpMagic_Fire.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
+    <ClCompile Include="CPlayerWeaponScript.cpp">
+      <Filter>Script\02. Script\Player</Filter>
     </ClCompile>
     <ClCompile Include="CAnchorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
     </ClCompile>
     <ClCompile Include="CBrazierScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
-    </ClCompile>
-    <ClCompile Include="CBreakablewallScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj\WeakWall</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -30,6 +30,10 @@ public:
     ~CMonsterScript();
   
     friend class CBazookaScript;
+    friend class CBatScript;
+    friend class CGrimKnightScript;
+    friend class CKnightScript;
+    friend class CGhostScript;
 };
 
 
