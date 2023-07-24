@@ -2,11 +2,11 @@
 #include "CGruntLeftMove.h"
 #include "CGruntScript.h"
 
-void CGruntLeftMove::tick()
+void CGruntLeftMove::Enter()
 {
 }
 
-void CGruntLeftMove::Enter()
+void CGruntLeftMove::tick()
 {
 }
 

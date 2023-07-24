@@ -13,7 +13,8 @@ void CLurkerLeftMove::tick()
 
 	// 플레이어를 기준으로 왼쪽으로 이동.
 	Vec3 Velocity = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
-	Velocity *= 10.f;
+	float fSpeed = GetOwnerScript()->GetStat().Speed;
+	Velocity *= fSpeed;
 	swap(Velocity.x, Velocity.z);
 	Velocity.z *= -1.f;
 

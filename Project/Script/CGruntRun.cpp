@@ -2,11 +2,11 @@
 #include "CGruntRun.h"
 #include "CGruntScript.h"
 
-void CGruntRun::tick()
+void CGruntRun::Enter()
 {
 }
 
-void CGruntRun::Enter()
+void CGruntRun::tick()
 {
 }
 

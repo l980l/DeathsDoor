@@ -5,6 +5,7 @@
 void CLurkerBackStep::Enter()
 {
 	GetOwner()->Animator3D()->Play(4, false);
+	m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
 }
 
 void CLurkerBackStep::tick()
@@ -15,16 +16,18 @@ void CLurkerBackStep::tick()
 
 	if (CurRatio <= 0.5f)
 	{
-		Vec3 Velocity = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
-		Velocity *= -20.f;
+		Vec3 Velocity = m_Dir;
+		float fSpeed = GetOwnerScript()->GetStat().Speed;
+		Velocity *= fSpeed * -5.f;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}
 
 	else
 	{
-		Vec3 Velocity = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
-		Velocity *= 20.f;
+		Vec3 Velocity = m_Dir;
+		float fSpeed = GetOwnerScript()->GetStat().Speed;
+		Velocity *= fSpeed * 5.f;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}

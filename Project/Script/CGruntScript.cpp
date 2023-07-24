@@ -8,6 +8,7 @@ CGruntScript::CGruntScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::GRUNTSCRIPT)
 	, m_fPlayerDistance(0.f)
 	, m_fAttackRange(500.f)
+	, m_iNailAttackCount(0)
 {
 }
 
@@ -15,11 +16,21 @@ CGruntScript::CGruntScript(const CGruntScript& _Other) :
 	CMonsterScript((UINT)SCRIPT_TYPE::GRUNTSCRIPT)
 	, m_fPlayerDistance(_Other.m_fPlayerDistance)
 	, m_fAttackRange(_Other.m_fAttackRange)
+	, m_iNailAttackCount(0)
 {
 }
 
 CGruntScript::~CGruntScript()
 {
+}
+
+void CGruntScript::CountNailAttack()
+{
+	if (m_iNailAttackCount > 2)
+		m_iNailAttackCount = 0;
+
+	else
+		++m_iNailAttackCount;
 }
 
 void CGruntScript::begin()
@@ -39,7 +50,7 @@ void CGruntScript::begin()
 		m_pStateScript->AddState(L"BackStep", new CGruntBackStep);
 		m_pStateScript->AddState(L"Death", new CGruntDeath);
 		m_pStateScript->AddState(L"Idle", new CGruntIdle);
-		m_pStateScript->AddState(L"Attack", new CGruntJumpAttack);
+		m_pStateScript->AddState(L"JumpAttack", new CGruntJumpAttack);
 		m_pStateScript->AddState(L"JumpAttackReady", new CGruntJumpAttackReady);
 		m_pStateScript->AddState(L"LeftMove", new CGruntLeftMove);
 		m_pStateScript->AddState(L"Move", new CGruntMove);

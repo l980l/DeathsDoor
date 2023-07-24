@@ -2,11 +2,11 @@
 #include "CGruntWalk.h"
 #include "CGruntScript.h"
 
-void CGruntWalk::tick()
+void CGruntWalk::Enter()
 {
 }
 
-void CGruntWalk::Enter()
+void CGruntWalk::tick()
 {
 }
 

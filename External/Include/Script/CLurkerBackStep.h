@@ -4,7 +4,8 @@ class CLurkerBackStep :
     public CState
 {
 private:
-    float  m_fTime;
+    float   m_fTime;
+    Vec3    m_Dir;
 
 public:
     virtual void Enter() override;

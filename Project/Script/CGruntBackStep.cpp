@@ -2,11 +2,11 @@
 #include "CGruntBackStep.h"
 #include "CGruntScript.h"
 
-void CGruntBackStep::tick()
+void CGruntBackStep::Enter()
 {
 }
 
-void CGruntBackStep::Enter()
+void CGruntBackStep::tick()
 {
 }
 
