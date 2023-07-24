@@ -330,9 +330,6 @@
     <ClInclude Include="CPlyWpMagic_Fire.h">
       <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="MagicFunc.h">
-      <Filter>Script\01. State\02. Player\Magic</Filter>
-    </ClInclude>
     <ClInclude Include="CAnchorScript.h">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
     </ClInclude>
@@ -514,9 +511,6 @@
     </ClCompile>
     <ClCompile Include="CPlyWpMagic_Fire.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
-    </ClCompile>
-    <ClCompile Include="MagicFunc.cpp">
-      <Filter>Script\01. State\02. Player\Magic</Filter>
     </ClCompile>
     <ClCompile Include="CAnchorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
