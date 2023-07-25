@@ -37,7 +37,13 @@ public:
     Vec3 GetRelativePos() const { return m_vRelativePos; }
     Vec3 GetRelativeScale() const { return m_vRelativeScale; }
     Vec3 GetRelativeRot() const { return m_vRelativeRot; }
-
+    Vec3 GetXZDir()
+    {
+        Vec3 WorldDir = m_vWorldDir[(UINT)DIR_TYPE::FRONT];
+        WorldDir.y = 0.f;
+        WorldDir.Normalize();
+        return WorldDir;
+    }
     Vec3 GetRelativeDir(DIR_TYPE _type) const { return m_vRelativeDir[(UINT)_type]; }
     Vec3 GetWorldDir(DIR_TYPE _type) const { { return m_vWorldDir[(UINT)_type]; } }
     Vec3 GetWorldPos() { return m_matWorld.Translation(); }

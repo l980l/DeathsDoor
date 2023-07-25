@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -177,6 +177,10 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BazookaStates.h" />
+    <ClInclude Include="CAnchorScript.h" />
+    <ClInclude Include="CBrazierScript.h" />
+    <ClInclude Include="CBreakablewallScript.h" />
+    <ClInclude Include="CMagic_ArrowScript.h" />
     <ClInclude Include="CBazookaAim.h" />
     <ClInclude Include="CBazookaDeath.h" />
     <ClInclude Include="CBazookaScript.h" />
@@ -185,6 +189,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazzokaLongDistance.h" />
     <ClInclude Include="CBazzokaMelee.h" />
     <ClInclude Include="CBazzokaMove.h" />
+    <ClInclude Include="CMagic_BombScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CCrowBossBatBullet.h" />
     <ClInclude Include="CCrowBossCutScene.h" />
@@ -228,9 +233,13 @@ call CodeGen.exe</Command>
     <ClInclude Include="CLurkerRightMove.h" />
     <ClInclude Include="CLurkerScript.h" />
     <ClInclude Include="CLurkerTrace.h" />
+    <ClInclude Include="CGameCameraScript.h" />
+    <ClInclude Include="CMagic_FireScript.h" />
+    <ClInclude Include="CMagic_HookScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
+    <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CPlyAttack.h" />
-    <ClInclude Include="CPlyAttack_Magic.h" />
+    <ClInclude Include="CPlyDance.h" />
     <ClInclude Include="CPlyDead.h" />
     <ClInclude Include="CPlyDodge.h" />
     <ClInclude Include="CGravityScript.h" />
@@ -243,18 +252,41 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
-    <ClInclude Include="CrowBossStates.h" />
+    <ClInclude Include="CPlyLadder.h" />
+    <ClInclude Include="CPlyMagic_Arrow.h" />
+    <ClInclude Include="CPlyMagic_Bomb.h" />
+    <ClInclude Include="CPlyMagic_Fire.h" />
+    <ClInclude Include="CPlyMagic_Hook.h" />
+    <ClInclude Include="CPlyRun.h" />
+    <ClInclude Include="CPlyWpAttack.h" />
+    <ClInclude Include="CPlyWpDance.h" />
+    <ClInclude Include="CPlyWpDead.h" />
+    <ClInclude Include="CPlyWpDodge.h" />
+    <ClInclude Include="CPlyWpFall.h" />
+    <ClInclude Include="CPlyWpHit.h" />
+    <ClInclude Include="CPlyWpIdle.h" />
+    <ClInclude Include="CPlyWpLadder.h" />
+    <ClInclude Include="CPlyWpMagic_Arrow.h" />
+    <ClInclude Include="CPlyWpMagic_Bomb.h" />
+    <ClInclude Include="CPlyWpMagic_Fire.h" />
+    <ClInclude Include="CPlyWpMagic_Hook.h" />
+    <ClInclude Include="CPlyWpRun.h" />
+    <ClInclude Include="CPlyWpWalk.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="GruntStates.h" />
-    <ClInclude Include="LurkerStates.h" />
+    <ClInclude Include="MagicFunc.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerWeaponStates.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAnchorScript.cpp" />
+    <ClCompile Include="CBrazierScript.cpp" />
+    <ClCompile Include="CBreakablewallScript.cpp" />
+    <ClCompile Include="CMagic_ArrowScript.cpp" />
     <ClCompile Include="CBazookaAim.cpp" />
     <ClCompile Include="CBazookaDeath.cpp" />
     <ClCompile Include="CBazookaScript.cpp" />
@@ -263,6 +295,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazzokaLongDistance.cpp" />
     <ClCompile Include="CBazzokaMelee.cpp" />
     <ClCompile Include="CBazzokaMove.cpp" />
+    <ClCompile Include="CMagic_BombScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CCrowBossBatBullet.cpp" />
     <ClCompile Include="CCrowBossCutScene.cpp" />
@@ -306,9 +339,13 @@ call CodeGen.exe</Command>
     <ClCompile Include="CLurkerRightMove.cpp" />
     <ClCompile Include="CLurkerScript.cpp" />
     <ClCompile Include="CLurkerTrace.cpp" />
+    <ClCompile Include="CGameCameraScript.cpp" />
+    <ClCompile Include="CMagic_FireScript.cpp" />
+    <ClCompile Include="CMagic_HookScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
+    <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
-    <ClCompile Include="CPlyAttack_Magic.cpp" />
+    <ClCompile Include="CPlyDance.cpp" />
     <ClCompile Include="CPlyDead.cpp" />
     <ClCompile Include="CPlyDodge.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
@@ -321,11 +358,32 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPlyLadder.cpp" />
+    <ClCompile Include="CPlyMagic_Arrow.cpp" />
+    <ClCompile Include="CPlyMagic_Bomb.cpp" />
+    <ClCompile Include="CPlyMagic_Fire.cpp" />
+    <ClCompile Include="CPlyMagic_Hook.cpp" />
+    <ClCompile Include="CPlyRun.cpp" />
+    <ClCompile Include="CPlyWpAttack.cpp" />
+    <ClCompile Include="CPlyWpDance.cpp" />
+    <ClCompile Include="CPlyWpDead.cpp" />
+    <ClCompile Include="CPlyWpDodge.cpp" />
+    <ClCompile Include="CPlyWpFall.cpp" />
+    <ClCompile Include="CPlyWpHit.cpp" />
+    <ClCompile Include="CPlyWpIdle.cpp" />
+    <ClCompile Include="CPlyWpLadder.cpp" />
+    <ClCompile Include="CPlyWpMagic_Arrow.cpp" />
+    <ClCompile Include="CPlyWpMagic_Bomb.cpp" />
+    <ClCompile Include="CPlyWpMagic_Fire.cpp" />
+    <ClCompile Include="CPlyWpMagic_Hook.cpp" />
+    <ClCompile Include="CPlyWpRun.cpp" />
+    <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="CTrace.cpp" />
+    <ClCompile Include="MagicFunc.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

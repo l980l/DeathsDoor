@@ -7,52 +7,66 @@
 #include "CMissileScript.h"
 #include "CStateScript.h"
 #include "PlayerStates.h"
+#include "CPlayerWeaponScript.h"
 
 #include <Engine\CRenderMgr.h>
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
-	, m_pState(nullptr)
+	, m_pStateScript(nullptr)
+	, m_iCurMagic(0)
+	, m_bInvincible(false)
+	, m_pSword(nullptr)
+	, m_pDustEffect(nullptr)
 {
 }
 
 CPlayerScript::~CPlayerScript()
 {
-	if (nullptr == m_pState)
-		delete m_pState;
+	if (nullptr == m_pStateScript)
+		delete m_pStateScript;
 }
 
 void CPlayerScript::begin()
 {
-	if(nullptr == m_pState)
+	if (nullptr == m_pSword)
 	{
-		m_pState = GetOwner()->GetScript<CStateScript>();
+		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
 	}
-	m_pState->AddState(L"Idle", new CPlyIdle);
-	m_pState->AddState(L"Walk", new CPlyWalk);
-	m_pState->AddState(L"Dodge", new CPlyDodge);
-	m_pState->AddState(L"Fall", new CPlyFall);
-	m_pState->AddState(L"Hit", new CPlyHit);
-	m_pState->AddState(L"Dead", new CPlyDead);
-	m_pState->AddState(L"Attack", new CPlyAttack);
-	m_pState->AddState(L"Magic", new CPlyAttack_Magic);
-	m_pState->ChangeState(L"Idle");
-	MeshRender()->GetDynamicMaterial(0);
+	if (m_pDustEffect)
+	{
+		m_pDustEffect = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"DustEffect");
+	}
+	if(nullptr == m_pStateScript)
+	{
+		m_pStateScript = GetOwner()->GetScript<CStateScript>(); m_pStateScript->AddState(L"Idle", new CPlyIdle);
+		m_pStateScript->AddState(L"Walk", new CPlyWalk);
+		m_pStateScript->AddState(L"Run", new CPlyRun);
+		m_pStateScript->AddState(L"Dodge", new CPlyDodge);
+		m_pStateScript->AddState(L"Fall", new CPlyFall);
+		m_pStateScript->AddState(L"Hit", new CPlyHit);
+		m_pStateScript->AddState(L"Dead", new CPlyDead);
+		m_pStateScript->AddState(L"Attack", new CPlyAttack);
+		m_pStateScript->AddState(L"Arrow", new CPlyMagic_Arrow);
+		m_pStateScript->AddState(L"Fire", new CPlyMagic_Fire);
+		m_pStateScript->AddState(L"Bomb", new CPlyMagic_Bomb);
+		m_pStateScript->AddState(L"Hook", new CPlyMagic_Hook);
+		m_pStateScript->ChangeState(L"Idle");
+		MeshRender()->GetDynamicMaterial(0);
+	}	
 }
 
 void CPlayerScript::tick()
 {
-
-
+	SetMagicType();
 }
-
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
 	// 벽에 부딪힌다면 밀어내기
 	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
 	{
-
+		Rigidbody()->SetGround(true);
 	}
 
 	// 아래는 공격 관련으로 무적이라면 return;
@@ -61,17 +75,65 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 
 	if ((int)LAYER::MONSTERPROJECTILE == _Other->GetOwner()->GetLayerIndex())
 	{
-		m_pState->ChangeState(L"Hit");
-		Stat CurStat = m_pState->GetStat();
+		ChangeState(L"Hit");
+		Stat CurStat = m_pStateScript->GetStat();
 		CurStat.HP -= 1;
-		m_pState->SetStat(CurStat);
+		m_pStateScript->SetStat(CurStat);
 		if (CurStat.HP <= 0)
-			m_pState->ChangeState(L"Dead");
+		{
+			ChangeState(L"Dead");
+		}
 		else
-			m_pState->ChangeState(L"Hit");
+		{
+			ChangeState(L"Hit");
+		}
 	}
 }
 
+void CPlayerScript::EndOverlap(CCollider3D* _Other)
+{
+	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
+	{
+		Rigidbody()->SetGround(false);
+	}
+}
+
+void CPlayerScript::ChangeState(wstring _strStateName)
+{
+	m_pStateScript->ChangeState(_strStateName);
+	m_pSword->ChangeState(_strStateName);
+}
+
+void CPlayerScript::SetMagicType()
+{
+	if (KEY_TAP(KEY::_1))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::ARROW;
+	if (KEY_TAP(KEY::_2))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::FIRE;
+	if (KEY_TAP(KEY::_3))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::BOMB;
+	if (KEY_TAP(KEY::_4))
+		m_iCurMagic = (UINT)PLAYER_MAGIC::HOOK;
+}
+
+void CPlayerScript::ChangeMagicState()
+{
+	switch (PLAYER_MAGIC(m_iCurMagic))
+	{
+	case PLAYER_MAGIC::ARROW:
+		ChangeState(L"Arrow");
+		break;
+	case PLAYER_MAGIC::FIRE:
+		ChangeState(L"Fire");
+		break;
+	case PLAYER_MAGIC::BOMB:
+		ChangeState(L"Bomb");
+		break;
+	case PLAYER_MAGIC::HOOK:
+		ChangeState(L"Hook");
+		break;
+	}
+}
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)
 {

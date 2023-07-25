@@ -180,6 +180,96 @@ void CParticleSystem::render()
 	m_ModuleDataBuffer->Clear();
 }
 
+void CParticleSystem::SpawnModule(int _MaxParticle, int _SpawnRate, Vec3 _SpawnColor, Vec3 SpawnMinScale
+	, Vec3 SpawnMaxScale, Vec3 _SpawnBoxScale, float _MinLifeTime, float _MaxLifeTime)
+{
+	for (UINT i = 0; i < (UINT)PARTICLE_MODULE::END; ++i)
+	{
+		m_ModuleData.ModuleCheck[i] = false;
+	}
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN] = true;
+	m_ModuleData.iMaxParticleCount = _MaxParticle;
+	m_ModuleData.SpawnRate = _SpawnRate;
+	m_ModuleData.vSpawnColor = _SpawnColor / 255;
+	m_ModuleData.vSpawnScaleMin = SpawnMinScale;
+	m_ModuleData.vSpawnScaleMax = SpawnMaxScale;
+	m_ModuleData.SpawnShapeType = 0;
+	m_ModuleData.vBoxShapeScale = _SpawnBoxScale;
+	m_ModuleData.Space = 0; // ½Ã¹Ä·¹ÀÌ¼Ç ÁÂÇ¥°è
+	m_ModuleData.MinLifeTime = _MinLifeTime;
+	m_ModuleData.MaxLifeTime = _MaxLifeTime;
+
+}
+
+void CParticleSystem::ColorChangeModule(Vec3 _vStartColor, Vec3 _vEndColor)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::COLOR_CHANGE] = true;
+	m_ModuleData.vStartColor = _vStartColor / 255.f;
+	m_ModuleData.vEndColor = _vEndColor / 255;
+}
+
+void CParticleSystem::ScaleChangeModule(float _vStartScale, float _vEndScale)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE] = true;
+	m_ModuleData.StartScale = _vStartScale;
+	m_ModuleData.EndScale = _vEndScale;
+}
+
+void CParticleSystem::AddVelocityModule(float _fSpeed, int _iVelocityType, Vec3 _vVelocityDir, float _fAngle)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = true;
+	m_ModuleData.AddVelocityType = _iVelocityType;
+	m_ModuleData.Speed = _fSpeed;
+	m_ModuleData.vVelocityDir = _vVelocityDir;
+	m_ModuleData.OffsetAngle = _fAngle;
+}
+
+void CParticleSystem::DragModule(float _fStartDrag, float _fEndDrag)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG] = true;
+	m_ModuleData.StartDrag = _fStartDrag;
+	m_ModuleData.EndDrag = -_fEndDrag;
+}
+
+void CParticleSystem::RandomForceModule(float _fForceTerm, float _fForce)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE] = true;
+	m_ModuleData.fNoiseTerm = _fForceTerm;
+	m_ModuleData.fNoiseForce = _fForce;
+}
+
+void CParticleSystem::VelocityAlignmentModule()
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER] = true;
+	m_ModuleData.VelocityAlignment = true;
+}
+
+void CParticleSystem::VelocityScaleModule(float _fMaxSpeed, Vec3 _vMaxVelocityScale)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER] = true;
+	m_ModuleData.VelocityScale = true;
+	m_ModuleData.vMaxVelocityScale = _vMaxVelocityScale;
+	m_ModuleData.vMaxSpeed = _fMaxSpeed;
+}
+
+void CParticleSystem::AnimationModule(int _iFrmCount, int _iXCount, Vec2 _vLeftTop, Vec2 _vSlice, Vec2 _vOffset)
+{
+	Vec2 Resolution = Vec2(m_Tex->Width(), m_Tex->Height());
+
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ANIMATION] = true;
+	m_ModuleData.iFrmCount = _iFrmCount;
+	m_ModuleData.iXCount = _iXCount;
+	m_ModuleData.vLeftTop = _vLeftTop / Resolution;
+	m_ModuleData.vSlice = _vSlice / Resolution;
+	m_ModuleData.vOffset = _vOffset / Resolution;
+}
+
+void CParticleSystem::OnOff(bool _Onff)
+{
+	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN] = _Onff;
+	m_AccTime = 0.f;
+}
+
 void CParticleSystem::SaveToLevelFile(FILE* _File)
 {
 	CRenderComponent::SaveToLevelFile(_File);

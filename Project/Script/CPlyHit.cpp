@@ -10,18 +10,27 @@ CPlyHit::~CPlyHit()
 {
 }
 
-void CPlyHit::tick()
-{
-	//if (GetOwner()->Animator3D()->IsFinish())
-	//	GetOwnerScript()->ChangeState(L"Idle");
-}
-
 void CPlyHit::Enter()
 {
 	// Hit Anim 재생 끝나면 바로 Idle로 돌아가야 하므로 반복재생 false;
-	//GetOwner()->Animator3D()->Play(, false);
+	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT, false);
 	// 이미 Hit이므로 무적 활성화
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
+}
+
+void CPlyHit::tick()
+{
+	if(GetOwner()->Animator3D()->IsFinish())
+	{
+		if (GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::HIT)
+		{
+			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT_RECOVER, false);
+		}
+		else
+		{
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+		}
+	}
 }
 
 void CPlyHit::Exit()

@@ -3,14 +3,20 @@
 class CPlyAttack :
     public CState
 {
+private:
+    UINT    m_iAttackCount;         // 현재 공격횟수(총 3회까지)
+    float   m_fAttackDelay;
+    float   m_fAfterAttack;         // 공격모션이 끝난 후 시간
+    float   m_fLimitTimeNextAttack; // 공격모션이 끝난 후 Idle로 되돌아가는 시간
+    
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
     virtual void Exit() override;
 
-    virtual void BeginOverlap(CCollider2D* _Other);
-    virtual void OnOverlap(CCollider2D* _Other);
-    virtual void EndOverlap(CCollider2D* _Other);
+    UINT GetAttackCount() { return m_iAttackCount; }
+    void CalcDir();
 
     CLONE(CPlyAttack);
 
