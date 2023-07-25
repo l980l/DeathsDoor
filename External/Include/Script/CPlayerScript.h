@@ -13,10 +13,8 @@ private:
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
     Vec3                 m_vPosBeforeFall;
-    float                m_Dir;
 
 public:
-    void SetDir(float _Dir) {m_Dir = _Dir;}
     virtual void begin() override;
     virtual void tick() override;
 

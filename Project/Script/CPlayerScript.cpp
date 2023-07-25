@@ -18,7 +18,6 @@ CPlayerScript::CPlayerScript()
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_Dir, "Dir");
 }
 
 CPlayerScript::~CPlayerScript()

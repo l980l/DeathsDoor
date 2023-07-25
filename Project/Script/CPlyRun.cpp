@@ -98,7 +98,6 @@ void CPlyRun::CalcDir()
 	Vec3 vPrevDir = GetOwner()->Transform()->GetRelativeRot();
 	float PrevDir = vPrevDir.y;
 	float Rot = GetDir(vPrevPos, vCurPos);
-	GetOwner()->GetScript<CPlayerScript>()->SetDir(Rot);
 	float Diff = Rot - PrevDir;
 
 	if (Diff > XM_PI)

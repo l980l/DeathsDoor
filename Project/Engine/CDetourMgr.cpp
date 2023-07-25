@@ -218,3 +218,8 @@ float CDetourMgr::GetDirtoTarget(Vec3 _vStartPos)
 	
 	return GetDir(vPlayerPos, _vStartPos);;
 }
+
+float CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj)
+{
+	return GetSmoothDir(_pStartObj, m_pPlayer);
+}

@@ -163,29 +163,45 @@ void CreateTestLevel()
 	
 	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"arrow");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CMagic_ArrowScript);
-	
-	pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);	
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 180.f, 30.f));
-	pObject->Collider3D()->SetOffsetPos(Vec3(0.f, -40.f, -5.f));
-	
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"arrow");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CMagic_ArrowScript);
+	//
+	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);	
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 180.f, 30.f));
+	//pObject->Collider3D()->SetOffsetPos(Vec3(0.f, -40.f, -5.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Bomb");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CMagic_BombScript);
+	//
+	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hook.fbx");
 	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Bomb");
+	pObject->SetName(L"Hook");
 	pObject->AddComponent(new CCollider3D);
 	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CMagic_BombScript);
+	pObject->AddComponent(new CMagic_HookScript);
 	
 	pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
@@ -195,7 +211,7 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 	
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
-
+	 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//CGameObject* pMonster = pMeshData->Instantiate();
 	//pMonster->SetName(L"Monster");

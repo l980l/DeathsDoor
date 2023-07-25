@@ -259,6 +259,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlyMagic_Bomb.h" />
     <ClInclude Include="CPlyMagic_Fire.h" />
     <ClInclude Include="CPlyMagic_Hook.h" />
+    <ClInclude Include="CPlyMagic_Hooking.h" />
     <ClInclude Include="CPlyRun.h" />
     <ClInclude Include="CPlyWpAttack.h" />
     <ClInclude Include="CPlyWpDance.h" />
@@ -370,6 +371,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyMagic_Bomb.cpp" />
     <ClCompile Include="CPlyMagic_Fire.cpp" />
     <ClCompile Include="CPlyMagic_Hook.cpp" />
+    <ClCompile Include="CPlyMagic_Hooking.cpp" />
     <ClCompile Include="CPlyRun.cpp" />
     <ClCompile Include="CPlyWpAttack.cpp" />
     <ClCompile Include="CPlyWpDance.cpp" />

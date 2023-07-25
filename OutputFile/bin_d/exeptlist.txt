@@ -14,6 +14,7 @@ CPlyMagic_Arrow.h
 CPlyMagic_Bomb.h
 CPlyMagic_Fire.h
 CPlyMagic_Hook.h
+CPlyMagic_Hooking.h
 CPlyFall.h
 CPlyHit.h
 CPlyLadder.h
