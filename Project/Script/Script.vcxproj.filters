@@ -477,6 +477,9 @@
     <ClInclude Include="CBazookaScript.h">
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClInclude>
+    <ClInclude Include="CCrowHeadScript.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -787,6 +790,9 @@
     </ClCompile>
     <ClCompile Include="CBazookaScript.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowHeadScript.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

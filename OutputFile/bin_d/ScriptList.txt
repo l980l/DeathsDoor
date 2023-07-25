@@ -4,6 +4,7 @@ CBrazierScript
 CBreakablewallScript
 CCameraMoveScript
 CCrowBossScript
+CCrowHeadScript
 CGameCameraScript
 CGravityScript
 CGruntScript

@@ -7,6 +7,7 @@
 #include "CBreakablewallScript.h"
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
+#include "CCrowHeadScript.h"
 #include "CGameCameraScript.h"
 #include "CGravityScript.h"
 #include "CGruntScript.h"
@@ -30,6 +31,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBreakablewallScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
+	_vec.push_back(L"CCrowHeadScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CGruntScript");
@@ -60,6 +62,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CCrowBossScript" == _strScriptName)
 		return new CCrowBossScript;
+	if (L"CCrowHeadScript" == _strScriptName)
+		return new CCrowHeadScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
 	if (L"CGravityScript" == _strScriptName)
@@ -112,6 +116,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CROWBOSSSCRIPT:
 		return new CCrowBossScript;
+		break;
+	case (UINT)SCRIPT_TYPE::CROWHEADSCRIPT:
+		return new CCrowHeadScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
@@ -185,6 +192,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CROWBOSSSCRIPT:
 		return L"CCrowBossScript";
+		break;
+
+	case SCRIPT_TYPE::CROWHEADSCRIPT:
+		return L"CCrowHeadScript";
 		break;
 
 	case SCRIPT_TYPE::GAMECAMERASCRIPT:
