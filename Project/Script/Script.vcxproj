@@ -273,12 +273,15 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlyWpMagic_Hook.h" />
     <ClInclude Include="CPlyWpRun.h" />
     <ClInclude Include="CPlyWpWalk.h" />
+    <ClInclude Include="CrowBossStates.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GruntStates.h" />
+    <ClInclude Include="LurkerStates.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerWeaponStates.h" />
   </ItemGroup>

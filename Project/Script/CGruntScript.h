@@ -13,6 +13,8 @@ private:
 
     int     m_iNailAttackCount;  // 손톱 공격 횟수. 2회시 점프 공격.
 
+    bool    m_bStarePlayer;
+
 public:
     Vec3 GetPlayerPos() { return m_PlayerPos; }
     Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }
@@ -22,6 +24,9 @@ public:
 
     int GetNailAttackCount() { return m_iNailAttackCount; }
     void CountNailAttack();
+
+    bool GetStarePlayer() { return m_bStarePlayer; }
+    void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
 
 public:
     virtual void begin() override;

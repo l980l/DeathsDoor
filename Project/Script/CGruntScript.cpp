@@ -8,6 +8,7 @@ CGruntScript::CGruntScript() :
 	, m_fPlayerDistance(0.f)
 	, m_fAttackRange(500.f)
 	, m_iNailAttackCount(0)
+	, m_bStarePlayer(false)
 {
 }
 
@@ -16,6 +17,7 @@ CGruntScript::CGruntScript(const CGruntScript& _Other) :
 	, m_fPlayerDistance(_Other.m_fPlayerDistance)
 	, m_fAttackRange(_Other.m_fAttackRange)
 	, m_iNailAttackCount(0)
+	, m_bStarePlayer(false)
 {
 }
 
@@ -83,6 +85,13 @@ void CGruntScript::tick()
 	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
 	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
 	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
+
+	// 플레이어를 바라보는 경우.
+	if (m_bStarePlayer)
+	{
+		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(CurRot.x, atan2f(-m_MonsterToPlayerDir.z, m_MonsterToPlayerDir.x) + XM_PI + XM_PIDIV2, CurRot.z);
+	}
 }
 
 void CGruntScript::BeginOverlap(CCollider3D* _Other)

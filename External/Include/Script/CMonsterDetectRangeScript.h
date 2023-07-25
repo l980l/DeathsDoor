@@ -5,7 +5,6 @@ class CMonsterDetectRangeScript :
     public CScript
 {
 private:
-
     bool           m_bDetect;
 
 public:

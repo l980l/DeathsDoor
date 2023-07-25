@@ -6,6 +6,7 @@ void CLurkerNotify::Enter()
 {
 	// AnimClip 이름은 ReadyAction임
 	GetOwner()->Animator3D()->Play(1, false);
+	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
 }
 
 void CLurkerNotify::tick()
@@ -19,8 +20,26 @@ void CLurkerNotify::tick()
 		// 공격 범위에 들어온 경우. 난수를 생성해서 4가지 패턴 중 하나를 선택한다. 
 		if (fDistance < GetOwner()->GetScript<CLurkerScript>()->GetAttackRange())
 		{
+			// Player 응시
+			GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(true);
+
 			srand(time(0));
 			int iRandom = rand() % 4;
+			
+			// 무조건 이전 패턴과 다른 패턴이 나오도록 하기.
+			if (m_iPrevPattern == iRandom)
+			{
+				if (m_iPrevPattern == 3)
+				{
+					iRandom = m_iPrevPattern = 0;
+				}
+
+				else
+				{
+					++iRandom;
+					m_iPrevPattern = iRandom;
+				}
+			}
 
 			if(iRandom == 0)
 				ChangeState(L"Attack");
@@ -52,6 +71,7 @@ void CLurkerNotify::Exit()
 
 CLurkerNotify::CLurkerNotify() :
 	m_bNotifyAnimEnd(false)
+	, m_iPrevPattern(-1)
 {
 }
 

@@ -5,6 +5,7 @@ class CLurkerNotify :
 {
 private:
     bool    m_bNotifyAnimEnd;
+    int     m_iPrevPattern;
 
 public:
     virtual void Enter() override;

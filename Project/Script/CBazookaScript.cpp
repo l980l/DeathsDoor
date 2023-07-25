@@ -9,6 +9,7 @@ CBazookaScript::CBazookaScript() :
 	, m_fMeleeRange(300.f)
 	, m_fRunAwayRange(1000.f)
 	, m_fAttackRange(1500.f)
+	, m_bStarePlayer(false)
 {
 }
 
@@ -18,6 +19,7 @@ CBazookaScript::CBazookaScript(const CBazookaScript& _Other)
 	, m_fMeleeRange(_Other.m_fMeleeRange)
 	, m_fRunAwayRange(_Other.m_fRunAwayRange)
 	, m_fAttackRange(_Other.m_fAttackRange)
+	, m_bStarePlayer(false)
 {
 }
 
@@ -69,6 +71,13 @@ void CBazookaScript::tick()
 	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
 	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
 	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
+
+	// 플레이어를 바라보는 경우.
+	if (m_bStarePlayer)
+	{
+		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(CurRot.x, atan2f(-m_MonsterToPlayerDir.z, m_MonsterToPlayerDir.x) + XM_PI + XM_PIDIV2, CurRot.z);
+	}
 }
 
 void CBazookaScript::BeginOverlap(CCollider3D* _Other)

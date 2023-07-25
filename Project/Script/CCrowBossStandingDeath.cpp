@@ -4,7 +4,7 @@
 
 void CCrowBossStandingDeath::Enter()
 {
-	GetOwner()->Animator3D()->Play(13, true);
+	GetOwner()->Animator3D()->Play(13, false);
 }
 
 void CCrowBossStandingDeath::tick()

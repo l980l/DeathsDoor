@@ -7,11 +7,16 @@ private:
     Vec3    m_PlayerPos;
     Vec3    m_MonsterToPlayerDir;
     float   m_fPlayerDistance;
-   
+
+    bool    m_bStarePlayer;
+
 public:
     Vec3 GetPlayerPos() { return m_PlayerPos; }
     Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }
     float GetPlayerDistance() { return m_fPlayerDistance; }
+
+    bool GetStarePlayer() { return m_bStarePlayer; }
+    void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
 
 public:
     virtual void begin() override;

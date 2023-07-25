@@ -480,6 +480,15 @@
     <ClInclude Include="CCrowHeadScript.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClInclude>
+    <ClInclude Include="CrowBossStates.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="LurkerStates.h">
+      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GruntStates.h">
+      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">

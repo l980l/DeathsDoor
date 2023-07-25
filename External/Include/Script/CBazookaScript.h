@@ -13,6 +13,8 @@ private:
     float   m_fRunAwayRange;    // m_fMeleeRange ~ m_fRunAwayRange면 도망감
     float   m_fAttackRange;     // m_fRunAwayRange ~ m_fAttackRange면 조준 및 발사. 그 이상은 추적.
 
+    bool    m_bStarePlayer;
+
 public:
     Vec3 GetPlayerPos() { return m_PlayerPos; }
     Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }
@@ -21,6 +23,9 @@ public:
     float GetMeleeRange() { return m_fMeleeRange; }
     float GetRunAwayRange() { return m_fRunAwayRange; }
     float GetAttackRange() { return m_fAttackRange; }
+
+    bool GetStarePlayer() { return m_bStarePlayer; }
+    void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
 
 
 public:

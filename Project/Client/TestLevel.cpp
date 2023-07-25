@@ -125,7 +125,7 @@ void CreateTestLevel()
 	pLurker->AddComponent(new CCollider3D);
 	pLurker->AddComponent(new CRigidbody);
 
-	pLurker->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
+	pLurker->Transform()->SetRelativeScale(Vec3(0.5f, 0.5f, 0.5f));
 	pLurker->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 
 	pLurker->MeshRender()->SetDynamicShadow(true);
@@ -134,8 +134,6 @@ void CreateTestLevel()
 	pLurker->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 	pLurker->Collider3D()->SetOffsetScale(Vec3(320.f, 320.f, 220.f));
 	pLurker->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 120.f));
-
-	pLurker->Rigidbody()->SetGravity(true);
 
 	SpawnGameObject(pLurker, Vec3(100.f, 500.f, 1000.f), (int)LAYER::MONSTER);
 
@@ -160,8 +158,6 @@ void CreateTestLevel()
 	pBazooka->Collider3D()->SetOffsetScale(Vec3(400.f, 400.f, 540.f));
 	pBazooka->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 300.f));
 
-	pBazooka->Rigidbody()->SetGravity(true);
-
 	SpawnGameObject(pBazooka, Vec3(700.f, 500.f, 1000.f), (int)LAYER::MONSTER);
 
 	// ±×·±Æ®
@@ -183,8 +179,6 @@ void CreateTestLevel()
 	pGrunt->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 	pGrunt->Collider3D()->SetOffsetScale(Vec3(220.f, 220.f, 320.f));
 	pGrunt->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 200.f));
-
-	pGrunt->Rigidbody()->SetGravity(true);
 
 	SpawnGameObject(pGrunt, Vec3(400.f, 500.f, 1000.f), (int)LAYER::MONSTER);
 

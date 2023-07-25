@@ -340,9 +340,14 @@ float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 	float angle = (float)acos(vDir.Dot(vDefault));
 
 	if (vDir.x > 0.f)
-		angle = (360.f / 180.f * XM_PI) - angle;
+		angle = XM_2PI - angle;
 
-	if(_degree)
+	if (angle > XM_PI)
+		angle = angle - XM_2PI;
+	else if (angle < -(XM_PI))
+		angle = angle + XM_2PI;
+
+	if (_degree)
 		angle *= (180.f / XM_PI);
 
 	return angle;
