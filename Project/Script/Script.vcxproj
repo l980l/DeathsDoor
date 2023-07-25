@@ -278,7 +278,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="MagicFunc.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerWeaponStates.h" />
   </ItemGroup>
@@ -383,7 +382,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="CTrace.cpp" />
-    <ClCompile Include="MagicFunc.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

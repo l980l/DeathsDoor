@@ -264,9 +264,6 @@
     <ClInclude Include="CBazookaDeath.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
-    <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
     <ClInclude Include="CBazzokaIdle.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
@@ -339,9 +336,6 @@
     <ClInclude Include="CPlyWpMagic_Fire.h">
       <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="MagicFunc.h">
-      <Filter>Script\01. State\02. Player\Magic</Filter>
-    </ClInclude>
     <ClInclude Include="CAnchorScript.h">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
     </ClInclude>
@@ -353,9 +347,6 @@
     </ClInclude>
     <ClInclude Include="CLurkerScript.h">
       <Filter>Script\01. State\01. Monster\Lurker</Filter>
-    </ClInclude>
-    <ClInclude Include="LurkerStates.h">
-      <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
     </ClInclude>
     <ClInclude Include="CLurkerIdle.h">
       <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
@@ -389,9 +380,6 @@
     </ClInclude>
     <ClInclude Include="CBazookaTrace.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="GruntStates.h">
-      <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
     </ClInclude>
     <ClInclude Include="CGruntScript.h">
       <Filter>Script\01. State\01. Monster\Grunt</Filter>
@@ -483,11 +471,11 @@
     <ClInclude Include="CCrowBossScript.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClInclude>
-    <ClInclude Include="CrowBossStates.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
     <ClInclude Include="CCrowBossBatBullet.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaScript.h">
+      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -584,9 +572,6 @@
     <ClCompile Include="CBazookaDeath.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
     <ClCompile Include="CBazzokaIdle.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClCompile>
@@ -661,9 +646,6 @@
     </ClCompile>
     <ClCompile Include="CPlyWpMagic_Fire.cpp">
       <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
-    </ClCompile>
-    <ClCompile Include="MagicFunc.cpp">
-      <Filter>Script\01. State\02. Player\Magic</Filter>
     </ClCompile>
     <ClCompile Include="CAnchorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
@@ -802,6 +784,9 @@
     </ClCompile>
     <ClCompile Include="CCrowBossBatBullet.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaScript.cpp">
+      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

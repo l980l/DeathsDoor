@@ -47,7 +47,7 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::HALL);
+	ChangeLevel(LEVEL_TYPE::ICE_BOSS);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)

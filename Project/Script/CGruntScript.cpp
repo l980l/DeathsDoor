@@ -34,6 +34,8 @@ void CGruntScript::CountNailAttack()
 
 void CGruntScript::begin()
 {
+	CMonsterScript::begin();
+	
 	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
@@ -65,6 +67,9 @@ void CGruntScript::begin()
 		// 초기 스탯 설정.
 		Stat NewStat;
 		NewStat.HP = 300;
+		NewStat.Attack = 50.f;
+		NewStat.Attack_Speed = 1.f;
+		NewStat.Speed = 1000.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
@@ -82,6 +87,12 @@ void CGruntScript::tick()
 
 void CGruntScript::BeginOverlap(CCollider3D* _Other)
 {
+	// 벽에 부딪힌다면 밀어내기
+	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
+	{
+		Rigidbody()->SetGround(true);
+	}
+
 	// PlayerProjectile Layer의 물체와 충돌한 경우.
 	if (_Other->GetOwner()->GetLayerIndex() == 4)
 	{
@@ -89,10 +100,22 @@ void CGruntScript::BeginOverlap(CCollider3D* _Other)
 	}
 
 	// HP가 0 이하면 사망.
-	if (m_pStateScript->GetStat().HP <= 0)
+	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
 	{
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
+	}
+}
+
+void CGruntScript::OnOverlap(CCollider3D* _Other)
+{
+}
+
+void CGruntScript::EndOverlap(CCollider3D* _Other)
+{
+	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
+	{
+		Rigidbody()->SetGround(false);
 	}
 }
 
