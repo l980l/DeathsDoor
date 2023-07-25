@@ -10,16 +10,13 @@ class CPlayerScript :
 private:
     CStateScript*        m_pStateScript;
     CPlayerWeaponScript* m_pSword;
-    CGameObject*         m_pDustEffect;
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
-    Vec3                 m_vDir;
-    float                m_fDir;
-    float                m_fDiff;
+    Vec3                 m_vPosBeforeFall;
+    float                m_Dir;
 
 public:
-    void SetDir(float _fDir) { m_fDir = _fDir; }
-    void SetDiff(float _fDiff) { m_fDiff = _fDiff; }
+    void SetDir(float _Dir) {m_Dir = _Dir;}
     virtual void begin() override;
     virtual void tick() override;
 
@@ -29,7 +26,6 @@ public:
     void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_iCurMagic; }
     void ChangeMagicState();
-    Vec3 GetDir() { return m_vDir; }
 
 private:
     void SetMagicType();

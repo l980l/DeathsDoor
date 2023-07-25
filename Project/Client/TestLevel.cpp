@@ -30,18 +30,6 @@ void CreateTestLevel()
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 
-	// Layer 이름설정
-	pCurLevel->GetLayer(0)->SetName(L"Default");
-	pCurLevel->GetLayer(1)->SetName(L"Tile");
-	pCurLevel->GetLayer(2)->SetName(L"Player");
-	pCurLevel->GetLayer(3)->SetName(L"Monster");
-	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
-	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
-	pCurLevel->GetLayer(10)->SetName(L"MainCamera");
-	pCurLevel->GetLayer(11)->SetName(L"UICam");
-	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
-
-
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -115,7 +103,7 @@ void CreateTestLevel()
 	pWall->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 	pWall->Collider3D()->SetDebugShape(true);
 
-	SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::WALL);
+	SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::GROUND);
 
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr; 
@@ -162,7 +150,7 @@ void CreateTestLevel()
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
 	CGameObject* pBow = pMeshData->Instantiate();
 	pBow->SetName(L"Bow");
-	pBow->Transform()->SetRelativeScale(0.04f, 0.04f, 0.04f);
+	pBow->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 	pBow->MeshRender()->SetDynamicShadow(true);
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
@@ -221,5 +209,8 @@ void CreateTestLevel()
 	
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::WALL));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
 }

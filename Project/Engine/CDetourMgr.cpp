@@ -211,3 +211,10 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* Actual
 
 	return Path;
 }
+
+float CDetourMgr::GetDirtoTarget(Vec3 _vStartPos)
+{
+	Vec3 vPlayerPos = m_pPlayer->Transform()->GetWorldPos();
+	
+	return GetDir(vPlayerPos, _vStartPos);;
+}

@@ -5,6 +5,8 @@
 
 CPlayerWeaponScript::CPlayerWeaponScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERWEAPONSCRIPT)
+	, m_pStateScript(nullptr)
+	, m_tCurMagic{}
 {
 }
 
@@ -17,21 +19,22 @@ void CPlayerWeaponScript::begin()
 	if (nullptr == m_pStateScript)
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
+		m_pStateScript->AddState(L"Idle", new CPlyWpIdle);
+		m_pStateScript->AddState(L"Walk", new CPlyWpWalk);
+		m_pStateScript->AddState(L"Run", new CPlyWpRun);
+		m_pStateScript->AddState(L"Dodge", new CPlyWpDodge);
+		m_pStateScript->AddState(L"Fall", new CPlyWpFall);
+		m_pStateScript->AddState(L"Hit", new CPlyWpHit);
+		m_pStateScript->AddState(L"Dead", new CPlyWpDead);
+		m_pStateScript->AddState(L"Ladder", new CPlyWpLadder);
+		m_pStateScript->AddState(L"Attack", new CPlyWpAttack);
+		m_pStateScript->AddState(L"Arrow", new CPlyWpMagic_Arrow);
+		m_pStateScript->AddState(L"Fire", new CPlyWpMagic_Fire);
+		m_pStateScript->AddState(L"Bomb", new CPlyWpMagic_Bomb);
+		m_pStateScript->AddState(L"Hook", new CPlyWpMagic_Hook);
+		m_pStateScript->ChangeState(L"Idle");
+		MeshRender()->GetDynamicMaterial(0);
 	}
-	m_pStateScript->AddState(L"Idle", new CPlyWpIdle);
-	m_pStateScript->AddState(L"Walk", new CPlyWpWalk);
-	m_pStateScript->AddState(L"Run", new CPlyWpRun);
-	m_pStateScript->AddState(L"Dodge", new CPlyWpDodge);
-	m_pStateScript->AddState(L"Fall", new CPlyWpFall);
-	m_pStateScript->AddState(L"Hit", new CPlyWpHit);
-	m_pStateScript->AddState(L"Dead", new CPlyWpDead);
-	m_pStateScript->AddState(L"Attack", new CPlyWpAttack);
-	m_pStateScript->AddState(L"Arrow", new CPlyWpMagic_Arrow);
-	m_pStateScript->AddState(L"Fire", new CPlyWpMagic_Fire);
-	m_pStateScript->AddState(L"Bomb", new CPlyWpMagic_Bomb);
-	m_pStateScript->AddState(L"Hook", new CPlyWpMagic_Hook);
-	m_pStateScript->ChangeState(L"Idle");
-	MeshRender()->GetDynamicMaterial(0);
 }
 
 void CPlayerWeaponScript::tick()

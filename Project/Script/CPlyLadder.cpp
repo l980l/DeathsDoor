@@ -3,6 +3,7 @@
 #include "CPlayerScript.h"
 
 CPlyLadder::CPlyLadder()
+	: m_fSpeed(300.f)
 {
 }
 
@@ -14,14 +15,18 @@ void CPlyLadder::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, true);
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
+	GetOwner()->Rigidbody()->SetGravity(false);
 }
 
 void CPlyLadder::tick()
 {
-	if (KEY_RELEASE(KEY::UP))
+	Move();
+
+	if (!(KEY_RELEASE(KEY::W)) || !(KEY_RELEASE(KEY::S)))
 	{
-		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, false);
+		GetOwner()->Animator3D()->SetStop(true);
 	}
+
 	if (KEY_TAP(KEY::SPACE))
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
@@ -32,21 +37,22 @@ void CPlyLadder::tick()
 void CPlyLadder::Exit()
 {
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
+	GetOwner()->Rigidbody()->SetGravity(true);
 }
 
 void CPlyLadder::Move()
 {
-	if (KEY_PRESSED(KEY::UP))
+	if (KEY_PRESSED(KEY::W))
 	{
 		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, m_fSpeed, 0.f));
 	}
-	if (KEY_PRESSED(KEY::DOWN))
+	else if (KEY_PRESSED(KEY::S))
 	{
 		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, -m_fSpeed, 0.f));
 	}
 }
 
-void CPlyLadder::BeginOverlap(CCollider2D* _Other)
+void CPlyLadder::BeginOverlap(CCollider3D* _Other)
 {
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER)
 	{
@@ -54,10 +60,10 @@ void CPlyLadder::BeginOverlap(CCollider2D* _Other)
 	}
 }
 
-void CPlyLadder::OnOverlap(CCollider2D* _Other)
+void CPlyLadder::OnOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlyLadder::EndOverlap(CCollider2D* _Other)
+void CPlyLadder::EndOverlap(CCollider3D* _Other)
 {
 }

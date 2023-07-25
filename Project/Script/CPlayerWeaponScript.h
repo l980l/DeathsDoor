@@ -9,7 +9,6 @@ class CPlayerWeaponScript :
 private:
     CStateScript*   m_pStateScript;
     UINT            m_tCurMagic;
-    float           m_bInvincible;
 
 public:
     virtual void begin() override;
@@ -17,7 +16,6 @@ public:
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
-    void SetInvincible(bool _bInvincible) { m_bInvincible = _bInvincible; }
 
     void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_tCurMagic; }

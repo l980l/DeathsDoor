@@ -3,7 +3,6 @@
 #include "CPlayerScript.h"
 
 CPlyIdle::CPlyIdle()
-	:m_bWalk(false)
 {
 }
 
@@ -24,9 +23,6 @@ void CPlyIdle::tick()
 	// 이동키를 눌렀다면 Walk 상태로 전환
 	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::D))
 	{
-		if(m_bWalk)
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Walk");
-		else
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
 	}	
 	else if (KEY_TAP(KEY::SPACE))
@@ -45,7 +41,7 @@ void CPlyIdle::Exit()
 {
 }
 
-void CPlyIdle::BeginOverlap(CCollider2D* _Other)
+void CPlyIdle::BeginOverlap(CCollider3D* _Other)
 {
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER)
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
