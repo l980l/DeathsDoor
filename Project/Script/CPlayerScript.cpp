@@ -19,6 +19,8 @@ CPlayerScript::CPlayerScript()
 	, m_pSword(nullptr)
 	, m_pDustEffect(nullptr)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fDir, "Dir");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fDiff, "Diff");
 }
 
 CPlayerScript::~CPlayerScript()

@@ -26,11 +26,11 @@ void CPlyRun::tick()
 {
 	Move();
 
-	if(0.f != m_fRotDelay)
+	//if(0.f != m_fRotDelay)
 
 
 	// 가만히 있다면(이전 프레임과 위치 차이가 없다면) Idle 전환시간 +
-	if (Vec3(0.f, 0.f, 0.f) == GetOwner()->Transform()->GetWorldPos() - GetOwner()->Transform()->GetPrevPos())
+	if (!(KEY_PRESSED(KEY::W)) && !(KEY_PRESSED(KEY::A)) && !(KEY_PRESSED(KEY::S)) && !(KEY_PRESSED(KEY::D)))
 	{
 		m_fTimeToIdle += DT;
 	}
@@ -52,6 +52,7 @@ void CPlyRun::tick()
 	else if (m_fTimeToIdle >= 0.02f)
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Walk");
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	}
 	else if (KEY_TAP(KEY::SPACE))
 	{
@@ -92,12 +93,30 @@ void CPlyRun::Move()
 
 void CPlyRun::CalcDir()
 {
-	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
+	Vec3 vPrevPos =  GetOwner()->Transform()->GetPrevPos();
 	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
+	Vec3 vPrevDir = GetOwner()->Transform()->GetRelativeRot();
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vPrevPos, vCurPos);
+	float Diff = (Rot - PrevDir) * (180.f / XM_PI);
 
-	float Dir = GetDir(vPrevPos, vCurPos);
+	if(Diff != 0.f)
+	{
+		if (abs(Diff) > 1)
+		{
+			bool bnegative = false;
+			if (Diff < 0)
+				bnegative = true;
 
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
+			Diff = bnegative ? -1.f / 180.f * XM_PI : 1.f / 180.f * XM_PI;
+		}
+		else
+			Diff = 0.f;
+		GetOwner()->GetScript<CPlayerScript>()->SetDir(PrevDir + Diff);
+		GetOwner()->GetScript<CPlayerScript>()->SetDiff(Diff);
+
+	}
+	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
 }
 
 void CPlyRun::BeginOverlap(CCollider2D* _Other)

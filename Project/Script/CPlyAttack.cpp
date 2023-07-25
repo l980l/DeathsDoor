@@ -19,6 +19,7 @@ CPlyAttack::~CPlyAttack()
 
 void CPlyAttack::Enter()
 {
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	CalcDir();
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
 }

@@ -4,7 +4,6 @@ class CMagic_ArrowScript :
     public CScript
 {
 private:
-    float   m_fSpeed;
     Vec3    m_vDir;
 public:
     virtual void begin() override;

@@ -19,6 +19,8 @@ void CPlyMagic_Arrow::Enter()
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::ARROW, false);
 	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeScale(0.04f, 0.04f, 0.04f);
+	GetOwner()->GetChild()[1]->Transform()->SetRelativeRot(0.f, 0.f, XM_PI * 1.5f);
+	GetOwner()->GetChild()[1]->Transform()->SetRelativePos(Vec3(-0.35f, 0.35f, 1.5f));
 	m_fMagicChargeTime = 0.7f;
 }
 
@@ -38,7 +40,7 @@ void CPlyMagic_Arrow::tick()
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
 			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", 4, vSpawnPos, 3.f);
-			pArrow->Rigidbody()->AddForce(vDir * 300000.f);
+			pArrow->Rigidbody()->AddForce(vDir * 30000000.f);
 			pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 

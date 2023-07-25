@@ -14,8 +14,12 @@ private:
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
     Vec3                 m_vDir;
+    float                m_fDir;
+    float                m_fDiff;
 
 public:
+    void SetDir(float _fDir) { m_fDir = _fDir; }
+    void SetDiff(float _fDiff) { m_fDiff = _fDiff; }
     virtual void begin() override;
     virtual void tick() override;
 
