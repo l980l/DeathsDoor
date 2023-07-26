@@ -19,17 +19,20 @@ void CMagic_HookScript::begin()
 
 void CMagic_HookScript::tick()
 {
-	m_fTime += DT;
-	if (m_fTime > 0.5f)
+	if(!m_bSnatch)
 	{
-		Rigidbody()->SetVelocity(-m_vThrownDir * 300000.f);
-
-		Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
-		if(abs(Diff.x) + abs(Diff.z) < 100.f )
+		m_fTime += DT;
+		if (m_fTime > 0.5f)
 		{
-			m_pOwner->FailSnatch();
-			Destroy();
-			m_fTime = 0.f;
+			Rigidbody()->SetVelocity(-m_vThrownDir * 300000.f);
+
+			Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
+			if (abs(Diff.x) + abs(Diff.z) < 100.f)
+			{
+				m_pOwner->FailSnatch();
+				Destroy();
+				m_fTime = 0.f;
+			}
 		}
 	}
 }
@@ -40,7 +43,8 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER
 		|| _Other->GetOwner()->GetLayerIndex() == (int)LAYER::ANCHOR)
 	{
-		m_pOwner->Snatch(_Other->Transform()->GetWorldPos());
+		m_pOwner->Snatch(Transform()->GetWorldPos());
+		m_bSnatch = true;
 	}
 }
 

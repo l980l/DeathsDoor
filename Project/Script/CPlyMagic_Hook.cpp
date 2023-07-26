@@ -2,9 +2,9 @@
 #include "CPlyMagic_Hook.h"
 #include <Engine/CDevice.h>
 #include "CLevelSaveLoadInScript.h"
-#include "CPlyMagic_Hooking.h"
 #include "CPlayerScript.h"
 #include "CMagic_HookScript.h"
+#include "CPlyMagic_Hooking.h"
 
 CPlyMagic_Hook::CPlyMagic_Hook()
 	: m_vAttackDir{}
@@ -51,6 +51,7 @@ void CPlyMagic_Hook::tick()
 		}
 		if (KEY_RELEASE(KEY::RBTN))
 		{
+			// 우클릭을 해제하면 갈고리 발사
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
@@ -68,6 +69,10 @@ void CPlyMagic_Hook::tick()
 			pHook->Rigidbody()->SetGravityVelocityLimit(800.f);
 			pHook->Rigidbody()->SetVelocity(vDir * 300000.f);
 			pHook->Transform()->SetRelativeRot(m_vAttackDir);
+
+			// Hooking State에 HookObj 등록
+			CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
+			pHookingState->SetHook(pHook);
 			m_bThrow = true;
 		}
 	}

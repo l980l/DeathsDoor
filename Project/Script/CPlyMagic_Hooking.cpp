@@ -5,6 +5,7 @@
 CPlyMagic_Hooking::CPlyMagic_Hooking()
 	: m_vHookPos{}
 	, m_bAttack(false)
+	, m_pHook(nullptr)
 {
 }
 
@@ -15,20 +16,26 @@ CPlyMagic_Hooking::~CPlyMagic_Hooking()
 void CPlyMagic_Hooking::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOKING, true);
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+
+	// 날아가는 방향으로 Dir 설정
 	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
 	float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fDirtoHooked, 0.f);
+	GetOwner()->Rigidbody()->SetVelocityLimit(1500.f);
 }
 
 void CPlyMagic_Hooking::tick()
 {
 	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
-	float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, fDirtoHooked * 30000, 0.f));
-
-	Vec3 DifftoHooked = vPlayerPos - m_vHookPos;
-	if (abs(DifftoHooked.x) + abs(DifftoHooked.z) > 100.f)
+	Vec3 DifftoHooked = m_vHookPos - vPlayerPos;
+	if (abs(DifftoHooked.x) + abs(DifftoHooked.z) < 100.f)
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+	else
+	{
+		DifftoHooked.Normalize();
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(DifftoHooked.x * 30000.f, 0.f, DifftoHooked.z * 30000.f));
+	}
 
 	if (!m_bAttack)
 	{
@@ -41,4 +48,11 @@ void CPlyMagic_Hooking::tick()
 
 void CPlyMagic_Hooking::Exit()
 {
+	m_vHookPos = {};
+	m_bAttack = false;
+	if (nullptr != m_pHook)
+	{
+		m_pHook->SetLifeSpan(0.f);
+		m_pHook = nullptr;
+	}
 }

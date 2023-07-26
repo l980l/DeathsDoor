@@ -331,9 +331,6 @@ float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
 
 float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 {
-	if (_vStart == _vTarget)
-		return 0;
-
 	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
 	Vec3 CurPos = _vStart;
 	Vec2 vDefault = Vec2(0.f, -1.f);

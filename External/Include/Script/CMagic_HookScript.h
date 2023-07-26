@@ -11,6 +11,7 @@ private:
     float           m_fTime;
     Vec3            m_vStartPos;
     Vec3            m_vThrownDir;
+    bool            m_bSnatch;
     
 public:    
     virtual void begin() override;

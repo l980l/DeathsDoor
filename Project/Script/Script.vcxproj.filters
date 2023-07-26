@@ -501,11 +501,11 @@
     <ClInclude Include="CPlyMagic_Hooking.h">
       <Filter>Script\01. State\02. Player\00. Player\Magic\Hook</Filter>
     </ClInclude>
-    <ClInclude Include="CState.h">
-      <Filter>Script\01. State\02. Player\01. Weapon\Magic\Hook</Filter>
-    </ClInclude>
     <ClInclude Include="CPlyWpMagic_Hooking.h">
       <Filter>Script\01. State\02. Player\01. Weapon\Magic\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CState.h">
+      <Filter>Script\01. State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
