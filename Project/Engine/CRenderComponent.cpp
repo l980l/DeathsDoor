@@ -138,8 +138,9 @@ void CRenderComponent::SaveToLevelFile(FILE* _File)
 	for (UINT i = 0; i < iMtrlCount; ++i)
 	{
 		SaveResRef(m_vecMtrls[i].pSharedMtrl.Get(), _File);
+		SaveResRef(m_vecMtrls[i].pSharedMtrl->GetTexParam(TEX_0).Get(), _File);
 	}
-
+	
 	fwrite(&m_bDynamicShadow, 1, 1, _File);
 	fwrite(&m_bFrustumCheck, 1, 1, _File);
 	fwrite(&m_fBounding, 1, 1, _File);
@@ -157,7 +158,10 @@ void CRenderComponent::LoadFromLevelFile(FILE* _File)
 	{
 		Ptr<CMaterial> pMtrl;
 		LoadResRef(pMtrl, _File);
+		Ptr<CTexture> pTex;
+		LoadResRef(pTex, _File);
 		m_vecMtrls.resize(iMtrlCount);
+		pMtrl->SetTexParam(TEX_0, pTex);
 		SetMaterial(pMtrl, i);
 	}
 

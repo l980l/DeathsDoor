@@ -24,15 +24,3 @@ void CPlyDead::tick()
 void CPlyDead::Exit()
 {
 }
-
-void CPlyDead::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CPlyDead::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CPlyDead::EndOverlap(CCollider2D* _Other)
-{
-}

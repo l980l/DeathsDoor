@@ -39,14 +39,14 @@ void CPlyHit::Exit()
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
 }
 
-void CPlyHit::BeginOverlap(CCollider2D* _Other)
+void CPlyHit::BeginOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlyHit::OnOverlap(CCollider2D* _Other)
+void CPlyHit::OnOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlyHit::EndOverlap(CCollider2D* _Other)
+void CPlyHit::EndOverlap(CCollider3D* _Other)
 {
 }

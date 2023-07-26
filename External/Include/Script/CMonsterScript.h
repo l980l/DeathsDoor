@@ -33,6 +33,10 @@ public:
     friend class CLurkerScript;
     friend class CGruntScript;
     friend class CCrowBossScript;
+    friend class CBatScript;
+    friend class CGrimKnightScript;
+    friend class CKnightScript;
+    friend class CGhostScript;
 };
 
 

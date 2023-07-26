@@ -331,6 +331,9 @@ float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
 
 float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 {
+	if (_vStart == _vTarget)
+		return 0;
+
 	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
 	Vec3 CurPos = _vStart;
 	Vec2 vDefault = Vec2(0.f, -1.f);
@@ -344,13 +347,45 @@ float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 
 	if (angle > XM_PI)
 		angle = angle - XM_2PI;
-	else if (angle < -(XM_PI))
+	else if (angle < -XM_PI)
 		angle = angle + XM_2PI;
 
-	if (_degree)
+	if(_degree)
 		angle *= (180.f / XM_PI);
 
 	return angle;
+}
+
+float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj)
+{
+	Vec3 vOwnerPos = _pStartObject->Transform()->GetWorldPos();
+	Vec3 vTargetPos = _pTargetObj->Transform()->GetWorldPos();
+	Vec3 vPrevDir = _pStartObject->Transform()->GetRelativeRot();
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vOwnerPos, vTargetPos);
+	float Diff = Rot - PrevDir;
+
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+	}
+	else
+		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+
+	if (abs(Diff) > 0.1f)
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = bnegative ? -2.3f / 180.f * XM_PI : 2.3f / 180.f * XM_PI;
+	}
+
+	return PrevDir + Diff;
 }
 
 void AddForceCentertoMouseDir(CGameObject* _pProjectile)

@@ -17,6 +17,9 @@
 #include <Script\CPlayerWeaponScript.h>
 #include <Script\CGameCameraScript.h>
 #include <Script\CMagic_ArrowScript.h>
+#include <Script\CMagic_BombScript.h>
+#include <Script\CMagic_FireScript.h>
+#include <Script\CMagic_HookScript.h>
 
 #include <Script\CLurkerScript.h>
 #include <Script\CBazookaScript.h>
@@ -31,18 +34,6 @@ void CreateTestLevel()
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-
-	// Layer 이름설정
-	pCurLevel->GetLayer(0)->SetName(L"Default");
-	pCurLevel->GetLayer(1)->SetName(L"Tile");
-	pCurLevel->GetLayer(2)->SetName(L"Player");
-	pCurLevel->GetLayer(3)->SetName(L"Monster");
-	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
-	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
-	pCurLevel->GetLayer(10)->SetName(L"MainCamera");
-	pCurLevel->GetLayer(11)->SetName(L"UICam");
-	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
-
 
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
@@ -94,9 +85,35 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
-	
+	// Decal Object
+	//CGameObject* pDecal = new CGameObject;
+	//pDecal->SetName(L"Decal");
+	//pDecal->AddComponent(new CTransform);
+	//pDecal->AddComponent(new CDecal);
+	//
+	//pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+	//pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
+	//pDecal->Decal()->SetAsLight(false);
+	//
+	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
+
+	CGameObject* pWall = new CGameObject;
+	pWall->SetName(L"Wall");
+	pWall->AddComponent(new CTransform);
+	pWall->AddComponent(new CCollider3D);
+
+	pWall->Transform()->SetRelativeScale(8000.f, 10.f, 8000.f);
+	pWall->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	pWall->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	pWall->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
+	pWall->Collider3D()->SetDebugShape(true);
+
+	SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::WALL);
+
 	Ptr<CMeshData> pMeshData = nullptr;
-	CGameObject* pPlayer = nullptr;
+	CGameObject* pPlayer = nullptr; 
+	CGameObject* pObject = nullptr;
+
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
 	pPlayer = pMeshData->Instantiate();
 	pPlayer->SetName(L"Player");
@@ -198,9 +215,14 @@ void CreateTestLevel()
 	pWall->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 	pWall->Collider3D()->SetDebugShape(true);
 
-	SpawnGameObject(pWall, Vec3(4000.f, 520, 4000.f), (int)LAYER::WALL);
-
-	// 맵
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
+	CGameObject* pBow = pMeshData->Instantiate();
+	pBow->SetName(L"Bow");
+	pBow->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+	pBow->MeshRender()->SetDynamicShadow(true);
+	pBow->MeshRender()->SetFrustumCheck(false);
+	pPlayer->AddChild(pBow);
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle.fbx");
 	CGameObject* pMonster = pMeshData->Instantiate();
 	pMonster->SetName(L"Map");
@@ -209,10 +231,62 @@ void CreateTestLevel()
 	
 	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
+	CGameObject* pObject = pMeshData->Instantiate();
+	pObject->SetName(L"arrow");
+	pObject->AddComponent(new CMagic_ArrowScript);
+	pObject->AddComponent(new CCollider3D);
+
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	//CGameObject* pMonster = pMeshData->Instantiate();
+	//pMonster->SetName(L"Monster");
+	////pMonster->AddComponent(new CMonsterScript);
+	////pMonster->AddComponent(new CStateScript);
+	//pMonster->MeshRender()->SetDynamicShadow(true);
+	//pMonster->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+
+	// ============
+	// FBX Loading
+	// ============	
+	{
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Bow");
+		pObj->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		pObj->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
+		pObj->Transform()->SetRelativePos(-0.3f, 0.f, 1.5f);
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		pPlayer->AddChild(pObj);
+
+		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
+		//pObj = pMeshData->Instantiate();
+		//pObj->SetName(L"GrimKnight");
+		//pObj->MeshRender()->SetDynamicShadow(true);
+		//pObj->MeshRender()->SetFrustumCheck(false);
+		////
+		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+	}
 	
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTERPROJECTILE);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::MONSTER, (int)LAYER::WALL);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::WALL));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
 }

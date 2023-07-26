@@ -6,6 +6,8 @@ class CPlyRun :
 private:
     float   m_fSpeed; 
     float   m_fTimeToIdle;
+    float   m_fRotDelay;
+    float   m_fRot;
     bool    m_bIce;
 
 public:
@@ -16,7 +18,7 @@ public:
     void Move();
     void CalcDir();
 
-    virtual void BeginOverlap(CCollider2D* _Other);
+    virtual void BeginOverlap(CCollider3D* _Other);
 
     CLONE(CPlyRun);
 

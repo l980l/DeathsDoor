@@ -28,8 +28,9 @@ void CPlyWalk::tick()
 	{
 		m_fTimeToIdle += DT;
 	}
-	else
+	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
 	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");		
 		CalcDir();
 		m_fTimeToIdle = 0.f;
 	}
@@ -91,19 +92,19 @@ void CPlyWalk::CalcDir()
 	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
 	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
 
-	float Dir = GetDir(vPrevPos, vCurPos, false);
+	float Dir = GetDir(vPrevPos, vCurPos);
 
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
 }
 
-void CPlyWalk::BeginOverlap(CCollider2D* _Other)
+void CPlyWalk::BeginOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlyWalk::OnOverlap(CCollider2D* _Other)
+void CPlyWalk::OnOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlyWalk::EndOverlap(CCollider2D* _Other)
+void CPlyWalk::EndOverlap(CCollider3D* _Other)
 {
 }
