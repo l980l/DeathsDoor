@@ -35,10 +35,9 @@ void CPlyMagic_Bomb::tick()
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Bomb.prefab", 4, vSpawnPos, 3.f);
-			pArrow->Rigidbody()->SetGravityVelocityLimit(500.f);
-			pArrow->Rigidbody()->AddForce(vDir * 300000.f);
-			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
+			CGameObject* pBomb = script.SpawnandReturnPrefab(L"prefab\\Bomb.prefab", 4, vSpawnPos, 3.f);
+			pBomb->Rigidbody()->AddForce(vDir * 30000.f);
+			pBomb->Transform()->SetRelativeRot(m_vAttackDir);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 		}

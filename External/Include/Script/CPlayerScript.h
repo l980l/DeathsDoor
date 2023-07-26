@@ -10,10 +10,9 @@ class CPlayerScript :
 private:
     CStateScript*        m_pStateScript;
     CPlayerWeaponScript* m_pSword;
-    CGameObject*         m_pDustEffect;
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
-    Vec3                 m_vDir;
+    Vec3                 m_vPosBeforeFall;
 
 public:
     virtual void begin() override;
@@ -25,7 +24,6 @@ public:
     void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_iCurMagic; }
     void ChangeMagicState();
-    Vec3 GetDir() { return m_vDir; }
 
 private:
     void SetMagicType();

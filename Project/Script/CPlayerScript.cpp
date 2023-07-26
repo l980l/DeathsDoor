@@ -17,7 +17,6 @@ CPlayerScript::CPlayerScript()
 	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
-	, m_pDustEffect(nullptr)
 {
 }
 
@@ -33,13 +32,10 @@ void CPlayerScript::begin()
 	{
 		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
 	}
-	if (m_pDustEffect)
-	{
-		m_pDustEffect = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"DustEffect");
-	}
 	if(nullptr == m_pStateScript)
 	{
-		m_pStateScript = GetOwner()->GetScript<CStateScript>(); m_pStateScript->AddState(L"Idle", new CPlyIdle);
+		m_pStateScript = GetOwner()->GetScript<CStateScript>(); 
+		m_pStateScript->AddState(L"Idle", new CPlyIdle);
 		m_pStateScript->AddState(L"Walk", new CPlyWalk);
 		m_pStateScript->AddState(L"Run", new CPlyRun);
 		m_pStateScript->AddState(L"Dodge", new CPlyDodge);
@@ -47,6 +43,7 @@ void CPlayerScript::begin()
 		m_pStateScript->AddState(L"Hit", new CPlyHit);
 		m_pStateScript->AddState(L"Dead", new CPlyDead);
 		m_pStateScript->AddState(L"Attack", new CPlyAttack);
+		m_pStateScript->AddState(L"Ladder", new CPlyLadder);
 		m_pStateScript->AddState(L"Arrow", new CPlyMagic_Arrow);
 		m_pStateScript->AddState(L"Fire", new CPlyMagic_Fire);
 		m_pStateScript->AddState(L"Bomb", new CPlyMagic_Bomb);
@@ -64,7 +61,7 @@ void CPlayerScript::tick()
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
 	// 벽에 부딪힌다면 밀어내기
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
+	if ((int)LAYER::GROUND == _Other->GetOwner()->GetLayerIndex())
 	{
 		Rigidbody()->SetGround(true);
 	}
@@ -92,7 +89,7 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 
 void CPlayerScript::EndOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
+	if ((int)LAYER::GROUND == _Other->GetOwner()->GetLayerIndex())
 	{
 		Rigidbody()->SetGround(false);
 	}

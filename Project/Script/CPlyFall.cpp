@@ -25,7 +25,7 @@ void CPlyFall::Exit()
 {
 }
 
-void CPlyFall::BeginOverlap(CCollider2D* _Other)
+void CPlyFall::BeginOverlap(CCollider3D* _Other)
 {
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::FALLAREA)
 	{
@@ -36,10 +36,10 @@ void CPlyFall::BeginOverlap(CCollider2D* _Other)
 
 }
 
-void CPlyFall::OnOverlap(CCollider2D* _Other)
+void CPlyFall::OnOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlyFall::EndOverlap(CCollider2D* _Other)
+void CPlyFall::EndOverlap(CCollider3D* _Other)
 {
 }

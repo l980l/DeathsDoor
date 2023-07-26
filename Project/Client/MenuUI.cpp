@@ -64,32 +64,34 @@ int MenuUI::render_update()
             if (ImGui::BeginMenu("Create Empty Object"))
             {
                 //CreateEmptyObject();
-                if (ImGui::MenuItem("NoCollision"))
-                    CreateEmptyObject(0);
-                else if (ImGui::MenuItem("Map"))
-                    CreateEmptyObject(1);
+                if (ImGui::MenuItem("DEFAULT"))
+                    CreateEmptyObject((int)LAYER::DEFAULT);
+                else if (ImGui::MenuItem("MainCamera"))
+                    CreateEmptyObject((int)LAYER::MAINCAMERA);
                 else if (ImGui::MenuItem("Player"))
-                    CreateEmptyObject(2);
+                    CreateEmptyObject((int)LAYER::PLAYER);
                 else if (ImGui::MenuItem("Monster"))
-                    CreateEmptyObject(3);
+                    CreateEmptyObject((int)LAYER::MONSTER);
                 else if (ImGui::MenuItem("PlayerProjectile"))
-                    CreateEmptyObject(4);
+                    CreateEmptyObject((int)LAYER::PLAYERPROJECTILE);
                 else if (ImGui::MenuItem("MonsterProjectile"))
-                    CreateEmptyObject(5);
-                else if (ImGui::MenuItem("NPC"))
-                    CreateEmptyObject(6);
-                else if (ImGui::MenuItem("Door"))
-                    CreateEmptyObject(7);
-                else if (ImGui::MenuItem("HitObject"))
-                    CreateEmptyObject(8);
-                else if (ImGui::MenuItem("Boundary"))
-                    CreateEmptyObject(9);
-                else if (ImGui::MenuItem("MainCam"))
-                    CreateEmptyObject(10);
-                else if (ImGui::MenuItem("UICam"))
-                    CreateEmptyObject(11);
+                    CreateEmptyObject((int)LAYER::MONSTERPROJECTILE);
+                else if (ImGui::MenuItem("Wall"))
+                    CreateEmptyObject((int)LAYER::WALL);
+                else if (ImGui::MenuItem("Item"))
+                    CreateEmptyObject((int)LAYER::ITEM);
+                else if (ImGui::MenuItem("Ground"))
+                    CreateEmptyObject((int)LAYER::GROUND);
+                else if (ImGui::MenuItem("FallArea"))
+                    CreateEmptyObject((int)LAYER::FALLAREA);
+                else if (ImGui::MenuItem("Ladder"))
+                    CreateEmptyObject((int)LAYER::LADDER);
+                else if (ImGui::MenuItem("Anchor"))
+                    CreateEmptyObject((int)LAYER::ANCHOR);
+                else if (ImGui::MenuItem("Braizer"))
+                    CreateEmptyObject((int)LAYER::BRAIZER);
                 else if (ImGui::MenuItem("ViewPortUI"))
-                    CreateEmptyObject(31);
+                    CreateEmptyObject((int)LAYER::UI);
                 ImGui::EndMenu();
             }
             ImGui::Separator();
@@ -197,7 +199,7 @@ void MenuUI::CreateEmptyObject(int layerindx)
     pNewObject->AddComponent(new CTransform);
     pNewObject->SetName(L"NewObject");
 
-    if (layerindx == 10)
+    if (layerindx == (int)LAYER::MAINCAMERA)
     {
         pNewObject->SetName(L"MainCam");
         pNewObject->AddComponent(new CCamera);
@@ -206,12 +208,12 @@ void MenuUI::CreateEmptyObject(int layerindx)
         pNewObject->Camera()->SetLayerMaskAll(true); // 모든 레이어 체크
         pNewObject->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
     }
-    else if (layerindx == 11)
+    else if (layerindx == (int)LAYER::SUBCAMERA)
     {
         pNewObject->SetName(L"SubCam");
         pNewObject->AddComponent(new CCamera);
         pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // 카메라 오브젝트의 투영 방식 설정(직교)
-        pNewObject->Camera()->SetCameraIndex(1); //MainCamera로 설정
+        pNewObject->Camera()->SetCameraIndex(1); //SubCamera로 설정
         pNewObject->Camera()->SetLayerMask(31, true);
     }
     SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), layerindx);

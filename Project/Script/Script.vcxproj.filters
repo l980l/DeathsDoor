@@ -498,6 +498,9 @@
     <ClInclude Include="CBrazierScript.h">
       <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
     </ClInclude>
+    <ClInclude Include="CPlyMagic_Hooking.h">
+      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -817,6 +820,9 @@
     </ClCompile>
     <ClCompile Include="CBrazierScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyMagic_Hooking.cpp">
+      <Filter>Script\01. State\02. Player\Magic\Hook</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

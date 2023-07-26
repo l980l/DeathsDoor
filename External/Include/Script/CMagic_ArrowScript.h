@@ -3,14 +3,9 @@
 class CMagic_ArrowScript :
     public CScript
 {
-private:
-    float   m_fSpeed;
-    Vec3    m_vDir;
 public:
     virtual void begin() override;
     virtual void tick() override;
-
-    void SetDir(Vec3 _vDir) { m_vDir = _vDir; }
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;

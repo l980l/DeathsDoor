@@ -1,12 +1,15 @@
 #pragma once
 #include <Engine/CScript.h>
+
+class CPlyMagic_Hook;
+
 class CMagic_HookScript :
     public CScript
 {
 private:
-    bool    m_bHook;
-    Vec3    m_vHookPos;
-public:
+    CPlyMagic_Hook* m_pOwner;
+    
+public:    
     virtual void begin() override;
     virtual void tick() override;
 
@@ -22,5 +25,7 @@ public:
 public:
     CMagic_HookScript();
     ~CMagic_HookScript();
+    
+    friend class CPlyMagic_Hook;
 };
 
