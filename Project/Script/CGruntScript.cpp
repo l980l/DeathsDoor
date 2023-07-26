@@ -3,6 +3,8 @@
 #include "CGruntScript.h"
 #include "GruntStates.h"
 
+#include <Engine/CDetourMgr.h>
+
 CGruntScript::CGruntScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::GRUNTSCRIPT)
 	, m_fPlayerDistance(0.f)
@@ -89,8 +91,7 @@ void CGruntScript::tick()
 	// 플레이어를 바라보는 경우.
 	if (m_bStarePlayer)
 	{
-		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(CurRot.x, atan2f(-m_MonsterToPlayerDir.z, m_MonsterToPlayerDir.x) + XM_PI + XM_PIDIV2, CurRot.z);
+		CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner());
 	}
 }
 

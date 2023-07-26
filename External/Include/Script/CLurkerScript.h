@@ -9,6 +9,7 @@ private:
     Vec3    m_MonsterToPlayerDir;
     float   m_fPlayerDistance;
 
+    float   m_fBackStepRange;      // 추격 범위. 
     float   m_fAttackRange;     // 공격 범위. 
 
     bool    m_bStarePlayer;
@@ -18,6 +19,7 @@ public:
     Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }
     float GetPlayerDistance() { return m_fPlayerDistance; }
 
+    float GetBackStepRange() { return m_fBackStepRange; }
     float GetAttackRange() { return m_fAttackRange; }
 
     bool GetStarePlayer() { return m_bStarePlayer; }

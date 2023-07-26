@@ -20,35 +20,41 @@ void CLurkerNotify::tick()
 		// 공격 범위에 들어온 경우. 난수를 생성해서 4가지 패턴 중 하나를 선택한다. 
 		if (fDistance < GetOwner()->GetScript<CLurkerScript>()->GetAttackRange())
 		{
-			// Player 응시
-			GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(true);
-
-			srand(time(0));
-			int iRandom = rand() % 4;
-			
-			// 무조건 이전 패턴과 다른 패턴이 나오도록 하기.
-			if (m_iPrevPattern == iRandom)
+			// 너무 가까우면 백스텝.
+			if (fDistance < GetOwner()->GetScript<CLurkerScript>()->GetBackStepRange())
 			{
-				if (m_iPrevPattern == 3)
-				{
-					iRandom = m_iPrevPattern = 0;
-				}
-
-				else
-				{
-					++iRandom;
-					m_iPrevPattern = iRandom;
-				}
+				ChangeState(L"BackStep");
 			}
 
-			if(iRandom == 0)
-				ChangeState(L"Attack");
-			else if (iRandom == 1)
-				ChangeState(L"BackStep");
-			else if (iRandom == 2)
-				ChangeState(L"LeftMove");
-			else if (iRandom == 3)
-				ChangeState(L"RightMove");
+			else
+			{
+				// Player 응시
+				GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(true);
+
+				srand(time(0));
+				int iRandom = rand() % 4;
+
+				// 무조건 이전 패턴과 다른 패턴이 나오도록 하기.
+				if (m_iPrevPattern == iRandom)
+				{
+					if (m_iPrevPattern == 3)
+						iRandom = 0;
+
+					else
+						++iRandom;
+				}
+
+				m_iPrevPattern = iRandom;
+
+				if (iRandom == 0)
+					ChangeState(L"Attack");
+				else if (iRandom == 1)
+					ChangeState(L"BackStep");
+				else if (iRandom == 2)
+					ChangeState(L"LeftMove");
+				else if (iRandom == 3)
+					ChangeState(L"RightMove");
+			}
 		}
 
 		else

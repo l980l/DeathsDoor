@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CCrowHeadScript.h"
+
 #include <Engine/CDetourMgr.h>
 
 void CCrowHeadScript::begin()
@@ -63,6 +64,9 @@ void CCrowHeadScript::tick()
 			++m_iCurrentPathIndex;
 		}
 	}
+
+	// 플레이어를 바라보는 경우.
+	CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner());
 }
 
 void CCrowHeadScript::BeginOverlap(CCollider3D* _Other)

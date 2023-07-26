@@ -179,7 +179,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="BazookaStates.h" />
     <ClInclude Include="CAnchorScript.h" />
     <ClInclude Include="CBrazierScript.h" />
-    <ClInclude Include="CBreakablewallScript.h" />
     <ClInclude Include="CCrowHeadScript.h" />
     <ClInclude Include="CMagic_ArrowScript.h" />
     <ClInclude Include="CBazookaAim.h" />
@@ -288,7 +287,6 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="CAnchorScript.cpp" />
     <ClCompile Include="CBrazierScript.cpp" />
-    <ClCompile Include="CBreakablewallScript.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
     <ClCompile Include="CMagic_ArrowScript.cpp" />
     <ClCompile Include="CBazookaAim.cpp" />

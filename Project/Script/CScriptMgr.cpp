@@ -4,7 +4,6 @@
 #include "CAnchorScript.h"
 #include "CBazookaScript.h"
 #include "CBrazierScript.h"
-#include "CBreakablewallScript.h"
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
 #include "CCrowHeadScript.h"
@@ -26,15 +25,18 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnchorScript");
+	_vec.push_back(L"CBatScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBrazierScript");
-	_vec.push_back(L"CBreakablewallScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
 	_vec.push_back(L"CGameCameraScript");
+	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
+	_vec.push_back(L"CGrimKnightScript");
 	_vec.push_back(L"CGruntScript");
+	_vec.push_back(L"CKnightScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CLurkerScript");
 	_vec.push_back(L"CMagic_ArrowScript");
@@ -52,12 +54,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnchorScript" == _strScriptName)
 		return new CAnchorScript;
-	if (L"CBazookaScript" == _strScriptName)
-		return new CBazookaScript;
 	if (L"CBrazierScript" == _strScriptName)
 		return new CBrazierScript;
-	if (L"CBreakablewallScript" == _strScriptName)
-		return new CBreakablewallScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CCrowBossScript" == _strScriptName)
@@ -107,9 +105,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BRAZIERSCRIPT:
 		return new CBrazierScript;
-		break;
-	case (UINT)SCRIPT_TYPE::BREAKABLEWALLSCRIPT:
-		return new CBreakablewallScript;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -180,10 +175,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BRAZIERSCRIPT:
 		return L"CBrazierScript";
-		break;
-
-	case SCRIPT_TYPE::BREAKABLEWALLSCRIPT:
-		return L"CBreakablewallScript";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:

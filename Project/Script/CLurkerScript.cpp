@@ -3,9 +3,12 @@
 #include "CStateScript.h"
 #include "LurkerStates.h"
 
+#include <Engine/CDetourMgr.h>
+
 CLurkerScript::CLurkerScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
 	, m_fPlayerDistance(0.f)
+	, m_fBackStepRange(250.f)
 	, m_fAttackRange(500.f)
 	, m_bStarePlayer(false)
 {
@@ -56,7 +59,7 @@ void CLurkerScript::begin()
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 1000.f;
+		NewStat.Speed = 500.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
@@ -75,7 +78,7 @@ void CLurkerScript::tick()
 	if (m_bStarePlayer)
 	{
 		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(CurRot.x, atan2f(-m_MonsterToPlayerDir.z, m_MonsterToPlayerDir.x) + XM_PI + XM_PIDIV2, CurRot.z);
+		GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
 	}
 }
 
