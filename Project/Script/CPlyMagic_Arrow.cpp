@@ -27,6 +27,7 @@ void CPlyMagic_Arrow::tick()
 	if (KEY_PRESSED(KEY::RBTN))
 	{
 		CalcDir();
+
 	}
 	m_fMagicChargeTime -= DT;
 	if (m_fMagicChargeTime <= 0.f)
