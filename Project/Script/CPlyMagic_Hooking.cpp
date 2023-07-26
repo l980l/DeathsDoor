@@ -15,17 +15,19 @@ CPlyMagic_Hooking::~CPlyMagic_Hooking()
 void CPlyMagic_Hooking::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOKING, true);
+	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
+	float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
+	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fDirtoHooked, 0.f);
 }
 
 void CPlyMagic_Hooking::tick()
 {
 	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
 	float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fDirtoHooked, 0.f);
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, fDirtoHooked * 700, 0.f));
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, fDirtoHooked * 30000, 0.f));
 
 	Vec3 DifftoHooked = vPlayerPos - m_vHookPos;
-	if (DifftoHooked.x + DifftoHooked.z > 70.f)
+	if (abs(DifftoHooked.x) + abs(DifftoHooked.z) > 100.f)
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 
 	if (!m_bAttack)

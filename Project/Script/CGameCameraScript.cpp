@@ -9,7 +9,14 @@ CGameCameraScript::CGameCameraScript()
     , m_fDiffer(0.f)
     , m_fTargetScale(0.f)
     , m_fPrevScale(0.f)
+	, m_vDistance(0.f, 2000.f, 2000.f)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMoveTime, "MoveTime");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevMoveTime, "PrevMoveTime");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fDiffer, "Differ");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fTargetScale, "TargetScale");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevScale, "PrevScale");
+	AddScriptParam(SCRIPT_PARAM::VEC3, &m_vDistance, "Distance");
 }
 
 CGameCameraScript::~CGameCameraScript()
@@ -21,7 +28,7 @@ void CGameCameraScript::begin()
 	if (nullptr == m_pPlayer)
 		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
-	Camera()->SetScale(0.3f);
+	Camera()->SetScale(0.6f);
 }
 
 void CGameCameraScript::tick()
@@ -44,8 +51,8 @@ void CGameCameraScript::tick()
 	else
 	{
 		Vec3 CurPlayerPos = m_pPlayer->Transform()->GetWorldPos();
-		CurPlayerPos.y += 1000.f;
-		CurPlayerPos.z -= 1000.f;
+		CurPlayerPos.y += m_vDistance.y;
+		CurPlayerPos.z -= m_vDistance.z;
 		Transform()->SetRelativePos(CurPlayerPos);
 	}
 }

@@ -5,6 +5,7 @@
 CMagic_HookScript::CMagic_HookScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT)
 	, m_pOwner(nullptr)
+	, m_fTime(0.f)
 {
 }
 
@@ -14,14 +15,23 @@ CMagic_HookScript::~CMagic_HookScript()
 
 void CMagic_HookScript::begin()
 {
-	Rigidbody()->SetVelocityLimit(1200.f);
-	Rigidbody()->SetFriction(0.f);
-	Rigidbody()->SetMass(1.f);
-	Rigidbody()->SetFrictionScale(1.f);
 }
 
 void CMagic_HookScript::tick()
 {
+	m_fTime += DT;
+	if (m_fTime > 0.5f)
+	{
+		Rigidbody()->SetVelocity(-m_vThrownDir * 300000.f);
+
+		Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
+		if(abs(Diff.x) + abs(Diff.z) < 100.f )
+		{
+			m_pOwner->FailSnatch();
+			Destroy();
+			m_fTime = 0.f;
+		}
+	}
 }
 
 void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)

@@ -3,7 +3,6 @@
 class CPlyMagic_Arrow :
     public CState
 {
-    float m_fMagicChargeTime;
     Vec3  m_vAttackDir;
 
 public:

@@ -91,10 +91,32 @@ void CPlyWalk::CalcDir()
 {
 	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
 	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
+	Vec3 vPrevDir = GetOwner()->Transform()->GetRelativeRot();
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vPrevPos, vCurPos);
+	float Diff = Rot - PrevDir;
 
-	float Dir = GetDir(vPrevPos, vCurPos);
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+	}
+	else
+		Diff = (Rot - PrevDir) * (180.f / XM_PI);
 
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
+	if (abs(Diff) > (360.f * DT) / 180.f * XM_PI)
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = bnegative ? -(360.f * DT) / 180.f * XM_PI : (360.f * DT) / 180.f * XM_PI;
+	}
+
+	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
 }
 
 void CPlyWalk::BeginOverlap(CCollider3D* _Other)

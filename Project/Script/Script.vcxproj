@@ -273,6 +273,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlyWpMagic_Bomb.h" />
     <ClInclude Include="CPlyWpMagic_Fire.h" />
     <ClInclude Include="CPlyWpMagic_Hook.h" />
+    <ClInclude Include="CPlyWpMagic_Hooking.h" />
     <ClInclude Include="CPlyWpRun.h" />
     <ClInclude Include="CPlyWpWalk.h" />
     <ClInclude Include="CPower.h" />
@@ -385,6 +386,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyWpMagic_Bomb.cpp" />
     <ClCompile Include="CPlyWpMagic_Fire.cpp" />
     <ClCompile Include="CPlyWpMagic_Hook.cpp" />
+    <ClCompile Include="CPlyWpMagic_Hooking.cpp" />
     <ClCompile Include="CPlyWpRun.cpp" />
     <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CPower.cpp" />

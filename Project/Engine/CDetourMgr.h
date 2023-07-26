@@ -22,7 +22,7 @@ public:
     Vec3* GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount);
     Vec3* GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* ActualPathCount);
     float GetDirtoTarget(Vec3 vStartPos);
-    float GetSmoothDirtoTarget(CGameObject* _pStartObj);
+    void GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree = 2.4f);
 
     CLONE(CDetourMgr);
 };

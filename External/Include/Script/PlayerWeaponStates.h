@@ -13,3 +13,4 @@
 #include "CPlyWpMagic_Fire.h"
 #include "CPlyWpMagic_Bomb.h"
 #include "CPlyWpMagic_Hook.h"
+#include "CPlyWpMagic_Hooking.h"

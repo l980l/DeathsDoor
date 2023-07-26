@@ -5,7 +5,6 @@
 #include "CPlayerScript.h"
 
 CPlyMagic_Fire::CPlyMagic_Fire()
-	: m_fMagicChargeTime(0.f)
 {
 }
 
@@ -16,7 +15,7 @@ CPlyMagic_Fire::~CPlyMagic_Fire()
 void CPlyMagic_Fire::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_FIRE, false);
-	m_fMagicChargeTime = 0.1f;
+	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 }
 
 void CPlyMagic_Fire::tick()
@@ -26,8 +25,7 @@ void CPlyMagic_Fire::tick()
 	{
 		CalcDir();
 	}
-	m_fMagicChargeTime -= DT;
-	if (m_fMagicChargeTime <= 0.f)
+	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		if (KEY_RELEASE(KEY::RBTN))
 		{
@@ -35,7 +33,7 @@ void CPlyMagic_Fire::tick()
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", 4, vSpawnPos, 3.f);
+			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
 			pArrow->Rigidbody()->SetGravityVelocityLimit(1000.f);
 			pArrow->Rigidbody()->SetVelocity(vDir * 30000.f);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
@@ -54,7 +52,7 @@ void CPlyMagic_Fire::tick()
 
 void CPlyMagic_Fire::Exit()
 {
-	m_fMagicChargeTime = 0.f;
+	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 }
 
 void CPlyMagic_Fire::CalcDir()

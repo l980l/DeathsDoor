@@ -1,6 +1,6 @@
 #pragma once
 #include "CState.h"
-class CPlyDodge :
+class CPlyWpMagic_Hooking :
     public CState
 {
 public:
@@ -8,12 +8,10 @@ public:
     virtual void Enter() override;
     virtual void Exit() override;
 
-    void Dodge(float _fSpeed);
-
-    CLONE(CPlyDodge);
+    CLONE(CPlyWpMagic_Hooking);
 
 public:
-    CPlyDodge();
-    ~CPlyDodge();
+    CPlyWpMagic_Hooking();
+    ~CPlyWpMagic_Hooking();
 };
 

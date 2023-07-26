@@ -38,7 +38,7 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CCamera);
 	pMainCam->AddComponent(new CGameCameraScript);
 
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
@@ -117,7 +117,7 @@ void CreateTestLevel()
 	pPlayer->AddComponent(new CCollider3D);
 	pPlayer->AddComponent(new CRigidbody);
 	
-	pPlayer->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
+	pPlayer->Transform()->SetRelativeScale(Vec3(30.f, 30.f, 30.f));
 	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 	
 	pPlayer->MeshRender()->SetDynamicShadow(true);
@@ -221,6 +221,14 @@ void CreateTestLevel()
 	//pMonster->MeshRender()->SetFrustumCheck(false);
 	//
 	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+	// 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CHAIN.fbx");
+	//pMonster = pMeshData->Instantiate();
+	//pMonster->SetName(L"CHAIN");
+	//pMonster->MeshRender()->SetDynamicShadow(true);
+	//pMonster->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 	
 	// 충돌 시킬 레이어 짝 지정
@@ -229,4 +237,6 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 }

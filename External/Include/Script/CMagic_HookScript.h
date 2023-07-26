@@ -8,6 +8,9 @@ class CMagic_HookScript :
 {
 private:
     CPlyMagic_Hook* m_pOwner;
+    float           m_fTime;
+    Vec3            m_vStartPos;
+    Vec3            m_vThrownDir;
     
 public:    
     virtual void begin() override;

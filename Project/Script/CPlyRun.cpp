@@ -110,14 +110,14 @@ void CPlyRun::CalcDir()
 	}
 	else
 		Diff = (Rot - PrevDir) * (180.f / XM_PI);
-
-	if (abs(Diff) > 0.1f)
+	
+	if (abs(Diff) > 2.f)
 	{
 		bool bnegative = false;
 		if (Diff < 0)
 			bnegative = true;
 
-		Diff = bnegative ? -2.3f / 180.f * XM_PI : 2.3f / 180.f * XM_PI;
+		Diff = bnegative ? -(360.f * DT) / 180.f * XM_PI : (360.f * DT) / 180.f * XM_PI;
 	}
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
 }
