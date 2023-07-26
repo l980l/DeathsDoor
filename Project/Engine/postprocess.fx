@@ -3,6 +3,30 @@
 
 #include "value.fx"
 
+static float2 PixelKernel[13] =
+{
+    { -6, 0 },
+    { -5, 0 },
+    { -4, 0 },
+    { -3, 0 },
+    { -2, 0 },
+    { -1, 0 },
+    { 0, 0 },
+    { 1, 0 },
+    { 2, 0 },
+    { 3, 0 },
+    { 4, 0 },
+    { 5, 0 },
+    { 6, 0 },
+};
+
+static float BlurWeights[13] =
+{
+    0.002216f, 0.008764f, 0.026995f, 0.064759f, 0.120985f, 0.176033f, 0.199471f, 0.176033f, 0.120985f, 0.064759f,
+    0.026995f, 0.008764f, 0.002216f,
+
+};
+
 struct VS_IN
 {
 	float3 vLocalPos : POSITION;
@@ -15,7 +39,10 @@ struct VS_OUT
 	float2 vUV : TEXCOORD;
 };
 
-
+struct PS_OUT
+{
+    float4 vBloom : SV_Target0;
+};
 // ============================
 // GrayShader
 // mesh : RectMesh
@@ -61,21 +88,6 @@ VS_OUT VS_Distortion(VS_IN _in)
 	return output;
 }
 
-//float4 PS_Distortion(VS_OUT _in) : SV_Target
-//{
-//	float2 vUV = _in.vPosition.xy / g_Resolution;
-//		
-//	
-//	float fChange = cos(( (vUV.x - g_AccTime * 0.05f) / 0.15f) * 2 * 3.1415926535f) * 0.05f;
-//
-//	vUV.y += fChange;
-//
-//	float4 vColor = g_tex_0.Sample(g_sam_0, vUV);
-//	//vColor.r *= 2.f;
-//
-//	return vColor;
-//}
-
 float4 PS_Distortion(VS_OUT _in) : SV_Target
 {
 	float2 vUV = _in.vPosition.xy / g_Resolution;
@@ -95,49 +107,114 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 
 	return vColor;
 }
+//=========
 
-float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target
+VS_OUT VS_Bloom(VS_IN _in)
 {
-	// 특정 위치에서 파장처럼 퍼져나가는 효과를 줌.
-    float CurrentTime = 10.f * g_float_0 / 7.f;
+    VS_OUT output = (VS_OUT) 0.f;
 
-    float3 WaveParams = float3(10.0, 1.f, 0.1f);
-
-    float ratio = 1.f;
-
-	//마우스 위치를 기준으로 퍼지게 하려면 아래 줄을 사용
-	//float2 WaveCentre = float2( iMouse.xy / iResolution.xy );
-
-    float2 WaveCentre = float2(0.5, 0.5);
-    WaveCentre.y *= ratio;
-
-    float2 texCoord = _in.vPosition.xy / g_Resolution.xy;
-    texCoord.y *= ratio;
-    float Dist = distance(texCoord, WaveCentre);
-
-
-    float4 Color = g_tex_0.Sample(g_sam_0, texCoord);
-
-	//중심에서 변수 거리 내의 픽셀만 왜곡함.
-    if ((Dist <= ((CurrentTime) + (WaveParams.z))) &&
-	(Dist >= ((CurrentTime) - (WaveParams.z))))
-    {
-		// 픽셀 오프셋 거리
-        float Diff = (Dist - CurrentTime);
-        float ScaleDiff = (1.f - pow(abs(Diff * WaveParams.x), WaveParams.y));
-        float DiffTime = (Diff * ScaleDiff);
-
-		// 왜곡 방향
-        float2 DiffTexCoord = normalize(texCoord - WaveCentre);
-
-		// 시간이 지날수록 점차 약해지게 함.
-        texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.f));
-        Color = g_tex_0.Sample(g_sam_0, texCoord);
-        Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.f);
-    }
-
-    return Color;
+    output.vPosition = mul(float4(_in.vLocalPos, 1.f), g_matWVP);
+    //output.vPosition.zw = 1.f;
+    output.vUV = _in.vUV;
+    return output;
 }
+
+
+
+PS_OUT PS_Bloom(VS_OUT _in)
+{
+    PS_OUT output = (PS_OUT)0.f;
+    
+    float Directions = 8.0;
+    float4 BloomColor = 0.f;
+    float2 vFullUV = _in.vUV;
+   // _in.vPosition.xy / g_Resolution * 4.f;
+    
+    if (g_int_0 == 0)
+    {
+        for (int index = 0; index < 13; ++index)
+        {
+            BloomColor += g_tex_0.Sample(g_sam_0, float2(vFullUV.x + (PixelKernel[index].x / g_Resolution.x * 4.f), vFullUV.y)) * BlurWeights[index];
+            BloomColor += g_tex_0.Sample(g_sam_0, float2(vFullUV.x, vFullUV.y + (PixelKernel[index].x / g_Resolution.y * 4.f))) * BlurWeights[index];
+        }
+        
+        //컬러 비율 
+        float red = BloomColor.x;
+        float green = BloomColor.y;
+        float blue = BloomColor.z;
+        
+        float sum = red + green + blue;
+        
+        red /= sum;
+        green /= sum;
+        blue /= sum;
+        
+        red += 1.f;
+        green += 1.f;
+        blue += 1.f;
+        
+        //흐린 색 강화 
+        BloomColor = sqrt(BloomColor);
+                
+        BloomColor.x *= pow(red, 20);
+        BloomColor.y *= pow(green, 20);
+        BloomColor.z *= pow(blue, 20);
+       
+        BloomColor /= 10.7f;
+        
+        
+        if (BloomColor.w > 0.f)        
+            output.vBloom = BloomColor;
+        else
+        {
+            output.vBloom = float4(0.f, 0.f, 0.f, 0.f);
+        }
+    }
+    
+    return output;
+}
+
+//float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target
+//{
+	//// 특정 위치에서 파장처럼 퍼져나가는 효과를 줌.
+  
+ //   float3 WaveParams = float3(10.0, 1.f, 0.1f);
+
+ //   float ratio = 1.f;
+
+	////마우스 위치를 기준으로 퍼지게 하려면 아래 줄을 사용
+	////float2 WaveCentre = float2( iMouse.xy / iResolution.xy );
+
+ //   float2 WaveCentre = float2(0.5, 0.5);
+ //   WaveCentre.y *= ratio;
+
+ //   float2 texCoord = _in.vPosition.xy / g_Resolution.xy;
+ //   texCoord.y *= ratio;
+ //   float Dist = distance(texCoord, WaveCentre);
+
+
+ //   float4 Color = g_tex_0.Sample(g_sam_0, texCoord);
+
+	////중심에서 변수 거리 내의 픽셀만 왜곡함.
+ //   if ((Dist <= ((CurrentTime) + (WaveParams.z))) &&
+	//(Dist >= ((CurrentTime) - (WaveParams.z))))
+ //   {
+	//	// 픽셀 오프셋 거리
+ //       float Diff = (Dist - CurrentTime);
+ //       float ScaleDiff = (1.f - pow(abs(Diff * WaveParams.x), WaveParams.y));
+ //       float DiffTime = (Diff * ScaleDiff);
+
+	//	// 왜곡 방향
+ //       float2 DiffTexCoord = normalize(texCoord - WaveCentre);
+
+	//	// 시간이 지날수록 점차 약해지게 함.
+ //       texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.f));
+ //       Color = g_tex_0.Sample(g_sam_0, texCoord);
+ //       Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.f);
+ //   }
+
+ //   return Color;
+//}
 
 
 

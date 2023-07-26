@@ -311,7 +311,7 @@
     <ClInclude Include="CKnightScript.h">
       <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClInclude>
-    <ClInclude Include="CBankerScript.h">
+    <ClInclude Include="CBankUpgradeScript.h">
       <Filter>Script\01. State\03. Banker</Filter>
     </ClInclude>
     <ClInclude Include="CPower.h">
@@ -326,7 +326,12 @@
     <ClInclude Include="CMagic.h">
       <Filter>Script\01. State\03. Banker\State</Filter>
     </ClInclude>
-    <ClInclude Include="CBankerFrameScript.h" />
+    <ClInclude Include="CBankNPCScript.h">
+      <Filter>Script\01. State\03. Banker</Filter>
+    </ClInclude>
+    <ClInclude Include="CBankerFrameScript.h">
+      <Filter>Script\01. State\03. Banker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -541,7 +546,7 @@
     <ClCompile Include="CKnightScript.cpp">
       <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClCompile>
-    <ClCompile Include="CBankerScript.cpp">
+    <ClCompile Include="CBankUpgradeScript.cpp">
       <Filter>Script\01. State\03. Banker</Filter>
     </ClCompile>
     <ClCompile Include="CPower.cpp">
@@ -556,6 +561,11 @@
     <ClCompile Include="CMagic.cpp">
       <Filter>Script\01. State\03. Banker\State</Filter>
     </ClCompile>
-    <ClCompile Include="CBankerFrameScript.cpp" />
+    <ClCompile Include="CBankNPCScript.cpp">
+      <Filter>Script\01. State\03. Banker</Filter>
+    </ClCompile>
+    <ClCompile Include="CBankerFrameScript.cpp">
+      <Filter>Script\01. State\03. Banker</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

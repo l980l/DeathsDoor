@@ -42,6 +42,10 @@ void CBankUpgradeScript::begin()
 
 		m_pStateScript->ChangeState(L"Power");
 	}
+	GetOwner()->Transform()->SetRelativeScale(Vec3(1913, 982.f, 1.f));
+	Vec3 rot = (Vec3(0, -62, 0) / 180.f) * XM_PI;
+	GetOwner()->Transform()->SetRelativeRot(rot);
+
 	//플레이어의 능력치 받아오기
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	CStateScript* script = player->GetScript<CStateScript>();

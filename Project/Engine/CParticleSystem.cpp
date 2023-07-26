@@ -23,16 +23,16 @@ CParticleSystem::CParticleSystem()
 
 	m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::PARTICLE_SPAWN] = true;
 	m_ModuleData.SpawnRate = 20;
-	m_ModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
-	m_ModuleData.vSpawnScaleMin = Vec3(15.f, 15.f, 1.f);
-	m_ModuleData.vSpawnScaleMax = Vec3(20.f, 20.f, 1.f);
+	m_ModuleData.vSpawnColor = Vec3(0.4f, 0.4f, 0.4f);
+	m_ModuleData.vSpawnScaleMin = Vec3(15.f, 15.f, 15.f);
+	m_ModuleData.vSpawnScaleMax = Vec3(20.f, 20.f, 20.f);
 
-	//m_ModuleData.SpawnShapeType = 0;
-	//m_ModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);	
+	m_ModuleData.SpawnShapeType = 0;
+	m_ModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);	
 	//m_ModuleData.Space = 0; // ½Ã¹Ä·¹ÀÌ¼Ç ÁÂÇ¥°è
 
-	//m_ModuleData.MinLifeTime = 3.f;
-	//m_ModuleData.MaxLifeTime = 5.f;
+	m_ModuleData.MinLifeTime = 3.f;
+	m_ModuleData.MaxLifeTime = 5.f;
 
 	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE] = false;
 	//m_ModuleData.StartScale = 1.5f;

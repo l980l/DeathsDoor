@@ -33,14 +33,16 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
 	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
+	pCurLevel->GetLayer(6)->SetName(L"NPC");
 	pCurLevel->GetLayer(10)->SetName(L"MainCamera");
 	pCurLevel->GetLayer(11)->SetName(L"UICam");
 	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
 
+	
 
 	{
-		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\TestLevel.lv", LEVEL_STATE::STOP);
-		pNewLevel->SetName(L"Start");
+		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\HallMap.lv", LEVEL_STATE::STOP);
+		pNewLevel->SetName(L"HallMap");
 		tEvent evn = {};
 		evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 		evn.wParam = (DWORD_PTR)pNewLevel;
@@ -52,19 +54,32 @@ void CreateTestLevel()
 	}
 
 	{
-		//Ptr<CMeshData> pMeshData = nullptr;
-		//CGameObject* pObj = nullptr;
+		/*Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
 
-		//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\P_CHAIN.fbx");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"CHAIN");
-		//pObj->MeshRender()->SetDynamicShadow(true);
-		//pObj->MeshRender()->SetFrustumCheck(false);
-		//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\hall.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"hall");
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);*/
 	}
+
+	CGameObject* BloomObj = new CGameObject;
+	BloomObj->SetName(L"Bloom");
+
+	BloomObj->AddComponent(new CTransform);
+	BloomObj->AddComponent(new CMeshRender);
+
+	BloomObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
+	BloomObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	BloomObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl"), 0);
+	BloomObj->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Ghost.png"));
+	SpawnGameObject(BloomObj, Vec3(0.f, 0.f, 100.f), 10);
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"MonsterProjectile");
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"NPC");
 	CCollisionMgr::GetInst()->LayerCheck(L"Monster", L"PlayerProjectile");
 	return;
 
@@ -175,17 +190,17 @@ void CreateTestLevel()
 	// ============
 	// FBX Loading
 	// ============	
-	{
-		Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
-		
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Knight");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
-	}
+	//{
+	//	Ptr<CMeshData> pMeshData = nullptr;
+	//	CGameObject* pObj = nullptr;
+	//	
+	//	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
+	//	pObj = pMeshData->Instantiate();
+	//	pObj->SetName(L"Knight");
+	//	pObj->MeshRender()->SetDynamicShadow(true);
+	//	pObj->MeshRender()->SetFrustumCheck(false);
+	//	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+	//}
 	/*
 	{
 	Ptr<CMeshData> pMeshData = nullptr;

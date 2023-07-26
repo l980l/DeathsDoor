@@ -1,5 +1,7 @@
 CBankerFrameScript
 CBankerScript
+CBankNPCScript
+CBankUpgradeScript
 CBatScript
 CBazookaScript
 CCameraMoveScript

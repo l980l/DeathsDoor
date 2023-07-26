@@ -982,6 +982,20 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	AddRes(pShader->GetKey(), pShader);
 
+	//Bloom Shader
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"BloomShader");
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Bloom");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Bloom");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+
+	// Parameter
+	//pShader->AddTexParam(TEX_1, "Noise Texture");
+
+	AddRes(pShader->GetKey(), pShader);
+
 
 	// ============================
 	// Directional Light Shader
@@ -1250,6 +1264,11 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DistortionShader"));
 	AddRes(L"DistortionMtrl", pMtrl);
+
+	//BloomShader(PostProcess)
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"BloomShader"));
+	AddRes(L"BloomMtrl", pMtrl);
 
 	// DirLightMtrl
 	pMtrl = new CMaterial(true);

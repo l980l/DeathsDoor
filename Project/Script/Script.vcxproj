@@ -180,7 +180,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="BazookaStates.h" />
     <ClInclude Include="CAttackSpeed.h" />
     <ClInclude Include="CBankerFrameScript.h" />
-    <ClInclude Include="CBankerScript.h" />
+    <ClInclude Include="CBankUpgradeScript.h" />
+    <ClInclude Include="CBankNPCScript.h" />
     <ClInclude Include="CBatAttack.h" />
     <ClInclude Include="CBatChase.h" />
     <ClInclude Include="CBatDeath.h" />
@@ -262,7 +263,8 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="CAttackSpeed.cpp" />
     <ClCompile Include="CBankerFrameScript.cpp" />
-    <ClCompile Include="CBankerScript.cpp" />
+    <ClCompile Include="CBankUpgradeScript.cpp" />
+    <ClCompile Include="CBankNPCScript.cpp" />
     <ClCompile Include="CBatAttack.cpp" />
     <ClCompile Include="CBatChase.cpp" />
     <ClCompile Include="CBatDeath.cpp" />
