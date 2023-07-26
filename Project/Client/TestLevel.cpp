@@ -65,17 +65,18 @@ void CreateTestLevel()
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);*/
 	}
 
-	CGameObject* BloomObj = new CGameObject;
-	BloomObj->SetName(L"Bloom");
+	CGameObject* Fire = new CGameObject;
+	Fire->SetName(L"Fire");
 
-	BloomObj->AddComponent(new CTransform);
-	BloomObj->AddComponent(new CMeshRender);
+	Fire->AddComponent(new CTransform);
+	Fire->AddComponent(new CMeshRender);
 
-	BloomObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 100.f));
-	BloomObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	BloomObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl"), 0);
-	BloomObj->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Ghost.png"));
-	SpawnGameObject(BloomObj, Vec3(0.f, 0.f, 100.f), 10);
+	Fire->Transform()->SetRelativeScale(Vec3(1000, 1000.f, 1000));
+	Fire->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	Fire->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl"),0);
+	//Fire->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireBase.tga"));
+	Fire->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireDistortion.tga"));
+	SpawnGameObject(Fire, Vec3(0.f, 0.f, 100.f), 10);
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"MonsterProjectile");

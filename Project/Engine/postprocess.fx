@@ -2,6 +2,7 @@
 #define _POSTPROCESS
 
 #include "value.fx"
+#include "func.fx"
 
 static float2 PixelKernel[13] =
 {
@@ -22,6 +23,9 @@ static float2 PixelKernel[13] =
 
 static float BlurWeights[13] =
 {
+    //0.0133f, 0.0219f, 0.0133f, 0.003f,
+    //0.0133f, 0.0596f, 0.0983f, 0.0596f, 0.0133f,
+    //0.0219f, 0.0983f, 0.1621f, 0.2f
     0.002216f, 0.008764f, 0.026995f, 0.064759f, 0.120985f, 0.176033f, 0.199471f, 0.176033f, 0.120985f, 0.064759f,
     0.026995f, 0.008764f, 0.002216f,
 
@@ -29,20 +33,17 @@ static float BlurWeights[13] =
 
 struct VS_IN
 {
-	float3 vLocalPos : POSITION;
+    float3 vLocalPos : POSITION;
 	float2 vUV : TEXCOORD;	
 };
 
 struct VS_OUT
 {
-	float4 vPosition : SV_Position;
+    float4 vPosition : SV_Position;
 	float2 vUV : TEXCOORD;
 };
 
-struct PS_OUT
-{
-    float4 vBloom : SV_Target0;
-};
+
 // ============================
 // GrayShader
 // mesh : RectMesh
@@ -109,69 +110,56 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 }
 //=========
 
+
 VS_OUT VS_Bloom(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
 
+    output.vPosition = float4(_in.vLocalPos * 2.f, 1.f);
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+float4 PS_Bloom(VS_OUT _in) : SV_Target
+{
+    float4 vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+
+    float vAver = (vColor.r + vColor.g + vColor.b) / 3.f;
+
+    vColor = float4(vAver, vAver, vAver, 1.f);
+
+    return vColor;
+}
+
+VS_OUT VS_Fire(VS_IN _in)
+{
+    float time = 0;
+    time += g_DT;
+    VS_OUT output = (VS_OUT) 0.f;
+
     output.vPosition = mul(float4(_in.vLocalPos, 1.f), g_matWVP);
-    //output.vPosition.zw = 1.f;
+    output.vPosition.x = 0.8 * sin(0.71 * time);
+    output.vPosition.y = 0.8 * cos(0.71 * time);
     output.vUV = _in.vUV;
     return output;
 }
 
-
-
-PS_OUT PS_Bloom(VS_OUT _in)
+float4 PS_Fire(VS_OUT _in) : SV_Target
 {
-    PS_OUT output = (PS_OUT)0.f;
-    
-    float Directions = 8.0;
-    float4 BloomColor = 0.f;
-    float2 vFullUV = _in.vUV;
-   // _in.vPosition.xy / g_Resolution * 4.f;
-    
-    if (g_int_0 == 0)
-    {
-        for (int index = 0; index < 13; ++index)
-        {
-            BloomColor += g_tex_0.Sample(g_sam_0, float2(vFullUV.x + (PixelKernel[index].x / g_Resolution.x * 4.f), vFullUV.y)) * BlurWeights[index];
-            BloomColor += g_tex_0.Sample(g_sam_0, float2(vFullUV.x, vFullUV.y + (PixelKernel[index].x / g_Resolution.y * 4.f))) * BlurWeights[index];
-        }
-        
-        //컬러 비율 
-        float red = BloomColor.x;
-        float green = BloomColor.y;
-        float blue = BloomColor.z;
-        
-        float sum = red + green + blue;
-        
-        red /= sum;
-        green /= sum;
-        blue /= sum;
-        
-        red += 1.f;
-        green += 1.f;
-        blue += 1.f;
-        
-        //흐린 색 강화 
-        BloomColor = sqrt(BloomColor);
-                
-        BloomColor.x *= pow(red, 20);
-        BloomColor.y *= pow(green, 20);
-        BloomColor.z *= pow(blue, 20);
-       
-        BloomColor /= 10.7f;
-        
-        
-        if (BloomColor.w > 0.f)        
-            output.vBloom = BloomColor;
-        else
-        {
-            output.vBloom = float4(0.f, 0.f, 0.f, 0.f);
-        }
-    }
-    
-    return output;
+    float2 vUV = _in.vPosition.xy / g_Resolution;
+	
+	// Noise Texture 가 세팅이 되어 있다면
+    float2 vNoiseUV = float2(_in.vUV.x - (g_AccTime * 0.2f), _in.vUV.y);
+    float4 vNoise = g_tex_1.Sample(g_sam_0, vNoiseUV);
+
+    vNoise = (vNoise - 0.5f) * 0.02f;
+
+    vUV += vNoise.r;
+
+    float4 vColor = g_tex_0.Sample(g_sam_0, vUV);
+
+    return vColor;
 }
 
 //float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target

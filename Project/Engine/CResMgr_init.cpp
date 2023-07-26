@@ -989,6 +989,17 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Bloom");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+
+	//Fire Shader
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"FireShader");
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Fire");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Fire");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 
 	// Parameter
@@ -1269,6 +1280,11 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"BloomShader"));
 	AddRes(L"BloomMtrl", pMtrl);
+
+	//FireShader(PostProcess)
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"FireShader"));
+	AddRes(L"FireMtrl", pMtrl);
 
 	// DirLightMtrl
 	pMtrl = new CMaterial(true);
