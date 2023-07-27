@@ -22,10 +22,28 @@ void CMonsterScript::begin()
 	{
 		m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	}
+
+	// Crack Texture 바인딩.
+	int iMtrlCount = MeshRender()->GetMtrlCount();
+
+	for (int i = 0; i < iMtrlCount; ++i)
+	{
+		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\MonsterCrack.png", L"texture\\MonsterCrack.png");
+		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+		mtrl->SetTexParam(TEX_7, CrackTextue.Get());		// 일단 7번으로 보내보자.
+	}
 }
 
 void CMonsterScript::tick()
 {
+	int iMtrlCount = MeshRender()->GetMtrlCount();
+
+	for (int i = 0; i < iMtrlCount; ++i)
+	{
+		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+		float HPRatio = (float)m_pStateScript->GetStat().HP / (float)m_pStateScript->GetStat().Max_HP;
+		mtrl->SetScalarParam(FLOAT_0, &HPRatio);
+	}
 }
 
 void CMonsterScript::BeginOverlap(CCollider3D* _Other)

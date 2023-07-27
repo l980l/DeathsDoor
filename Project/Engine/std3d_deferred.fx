@@ -140,6 +140,20 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         vViewNormal = mul(vNormal, matRot);
     }
     
+    // 4번 텍스쳐 레지스터에 값이 있다면 CrackTexture임. 이걸 사용.
+    if (g_btex_7)
+    {
+        float4 vCrackTextureColor = g_tex_7.Sample(g_sam_0, _in.vUV);
+        
+        // 값이 0이 아니라면.
+        if (any(vCrackTextureColor))
+        {
+            vCrackTextureColor *= float4(1.f, 0.1f, 0.35f, 1.f);
+            vCrackTextureColor *= (1.f - g_float_0);
+            vObjectColor = vObjectColor + vCrackTextureColor;
+        }
+    }
+    
     PS_OUT output = (PS_OUT) 0.f;
     
     output.vColor =    float4(vObjectColor.xyz, 1.f);

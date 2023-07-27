@@ -368,3 +368,4 @@ FodyWeavers.xsd
 /External/Library/Script/Script_d.lib
 /OutputFile/bin_d/Client.exe
 **/*.bak
+/External/Library/Script/Script_d.idb

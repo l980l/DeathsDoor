@@ -13,10 +13,12 @@
 #include "components.h"
 struct Stat
 {
+    int     Max_HP;
     int     HP;
     float   Speed;
     int     Attack;
     float   Attack_Speed;
+    int     Spell_Power;
 };
 
 enum class SCRIPT_PARAM

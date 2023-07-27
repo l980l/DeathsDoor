@@ -30,15 +30,6 @@ void CLurkerScript::begin()
 {
 	CMonsterScript::begin();
 
-	int iMtrlCount = MeshRender()->GetMtrlCount();
-
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"PaperBurnTexture", L"texture\\MonsterCrack.png");
-		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
-		mtrl->SetTexParam(TEX_4, CrackTextue);		// 일단 4번으로 보내보자.
-	}
-
 	// 상태 넣어주기.
 	if (nullptr == m_pStateScript)
 	{
@@ -57,6 +48,7 @@ void CLurkerScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
+		NewStat.Max_HP = 300;
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
@@ -67,6 +59,8 @@ void CLurkerScript::begin()
 
 void CLurkerScript::tick()
 {
+	CMonsterScript::tick();
+
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
 
