@@ -194,6 +194,37 @@ struct tWeight_4
 };
 
 
+// ===========
+// Instancing
+// ===========
+union uInstID
+{
+	struct {
+		UINT iMesh;
+		WORD iMtrl;
+		WORD iMtrlIdx;
+	};
+	ULONG64 llID;
+};
+
+class CGameObject;
+struct tInstObj
+{
+	CGameObject* pObj;
+	UINT		 iMtrlIdx;
+};
+
+struct tInstancingData
+{
+	Matrix matWorld;
+	Matrix matWV;
+	Matrix matWVP;
+	int    iRowIdx;
+};
+
+
+
+
 // Material 계수
 struct tMtrlData
 {
@@ -283,7 +314,7 @@ struct tMtrlConst
 	int arrTex[(UINT)TEX_PARAM::TEX_END];
 
 	int	arrAnimData[4];	// 3D Animation 정보
-	};
+};
 
 
 struct tGlobal

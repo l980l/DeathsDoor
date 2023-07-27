@@ -53,6 +53,7 @@ public:
     vector<tDebugShapeInfo>& GetDebugShapeInfo() { return m_vecShapeInfo; }
 
     CCamera* GetMainCam();
+    
 
     const vector<CLight3D*> GetLight3D() { return m_vecLight3D; }
 

@@ -676,8 +676,33 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.clear();
 }
 
+
 void CResMgr::CreateDefaultGraphicsShader()
 {
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"POSITION", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"COLOR", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32_FLOAT,		"TEXCOORD", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"TANGENT", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"NORMAL", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"BINORMAL", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"BLENDWEIGHT", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"BLENDINDICES", 0, 0);
+
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 1);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 2);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 3);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 1);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 2);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 3);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 1);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 2);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 3);
+	AddInputLayout(DXGI_FORMAT_R32_UINT,			"ROWINDEX", 1, 0);
+
+
 	Ptr<CGraphicsShader> pShader = nullptr;
 
 	// ============================
@@ -787,11 +812,13 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
-	// Param
+	// Param	
 	pShader->AddTexParam(TEX_0, "Output Texture");
 	pShader->AddTexParam(TEX_1, "Normal Texture");
 
 	AddRes(pShader->GetKey(), pShader);
+
+
 
 
 	// =================
@@ -860,6 +887,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 
 	AddRes(pShader->GetKey(), pShader);
+
 
 	// ============================
 	// ParticleRender
@@ -945,6 +973,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
 	AddRes(pShader->GetKey(), pShader);
+
+
 
 	// ============================
 	// GrayShader

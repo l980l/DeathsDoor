@@ -180,6 +180,11 @@ void CParticleSystem::render()
 	m_ModuleDataBuffer->Clear();
 }
 
+void CParticleSystem::render(UINT _iSubset)
+{
+	render();
+}
+
 void CParticleSystem::SpawnModule(int _MaxParticle, int _SpawnRate, Vec3 _SpawnColor, Vec3 SpawnMinScale
 	, Vec3 SpawnMaxScale, Vec3 _SpawnBoxScale, float _MinLifeTime, float _MaxLifeTime)
 {

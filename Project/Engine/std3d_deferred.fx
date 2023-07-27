@@ -24,6 +24,25 @@ struct VS_IN
     float4 vIndices : BLENDINDICES;
 };
 
+struct VTX_IN_INST
+{
+    float3 vPos : POSITION;
+    float2 vUV : TEXCOORD;
+
+    float3 vTangent : TANGENT;
+    float3 vNormal : NORMAL;
+    float3 vBinormal : BINORMAL;
+
+    float4 vWeights : BLENDWEIGHT;
+    float4 vIndices : BLENDINDICES;
+
+    // Per Instance Data
+    row_major matrix matWorld : WORLD;
+    row_major matrix matWV : WV;
+    row_major matrix matWVP : WVP;
+    uint iRowIndex : ROWINDEX;
+};
+
 struct VS_OUT
 {
     float4 vPosition : SV_Position;
@@ -49,17 +68,34 @@ VS_OUT VS_Std3D_Deferred(VS_IN _in)
     output.vPosition = mul(float4(_in.vPos, 1.f), g_matWVP);
     output.vUV = _in.vUV;
     
-    // 픽셀 라이팅을 위한 View스페이스 기준 pos, Normal벡터 계산
-    output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWV);
-        
-    // 월드에 있는 모든 Obj가 같은 위치의 빛을 받아야 하므로 이동값을 반영하지 않음.
-    // Obj의 표면상의 벡터를 View Space 기준으로 변경함.
-    output.vViewTangent =  normalize(mul(float4(_in.vTangent, 0.f), g_matWV));
-    output.vViewNormal =   normalize(mul(float4(_in.vNormal, 0.f), g_matWV));
-    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
-        
+    output.vViewPos         =           mul(float4(_in.vPos,      1.f), g_matWV);
+    output.vViewTangent     = normalize(mul(float4(_in.vTangent,  0.f), g_matWV));
+    output.vViewNormal      = normalize(mul(float4(_in.vNormal,   0.f), g_matWV));
+    output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
+    
     return output;
 }
+
+VS_OUT VS_Std3D_Deferred_Inst(VTX_IN_INST _in)
+{
+    VS_OUT output = (VS_OUT)0.f;
+
+    if (g_iAnim)
+    {
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices, _in.iRowIndex);
+    }
+
+    output.vPosition = mul(float4(_in.vPos, 1.f), _in.matWVP);
+    output.vUV = _in.vUV;
+    
+    output.vViewPos         =           mul(float4(_in.vPos,      1.f), g_matWV);
+    output.vViewTangent     = normalize(mul(float4(_in.vTangent,  0.f), g_matWV));
+    output.vViewNormal      = normalize(mul(float4(_in.vNormal,   0.f), g_matWV));
+    output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
+
+    return output;
+}
+
 
 // Rasterizer로 정점 사이 픽셀 호출
 

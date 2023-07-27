@@ -30,12 +30,13 @@ void CLurkerScript::begin()
 {
 	CMonsterScript::begin();
 
-	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
 	for (int i = 0; i < iMtrlCount; ++i)
 	{
-		MeshRender()->GetDynamicMaterial(i);
+		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"PaperBurnTexture", L"texture\\MonsterCrack.png");
+		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+		mtrl->SetTexParam(TEX_4, CrackTextue);		// 일단 4번으로 보내보자.
 	}
 
 	// 상태 넣어주기.
