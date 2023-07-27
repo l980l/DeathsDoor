@@ -6,7 +6,7 @@
 #include <Engine/CRigidbody.h>
 #include "CTrace.h"
 #include "CStateScript.h"
-
+#include <Engine/CDetourMgr.h>
 #include "BatStates.h"
 
 
@@ -68,6 +68,8 @@ void CBatScript::begin()
 
 void CBatScript::tick()
 {	
+	GetSmoothDir(GetOwner(), CLevelMgr::GetInst()->FindObjectByName(L"Player"), 2.4f);
+
 	//1.Player를 탐지했다면 Idle->exit()에서 Recognize --->Trace
 	if (GetDetect()&& m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState()&&
 		recognizeCheck == false)

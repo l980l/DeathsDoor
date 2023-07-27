@@ -985,18 +985,18 @@ void CResMgr::CreateDefaultGraphicsShader()
 	//Bloom Shader
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"BloomShader");
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Bloom");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Bloom");
+	pShader->CreateVertexShader(L"shader\\light.fx", "VS_Bloom");
+	pShader->CreatePixelShader(L"shader\\light.fx", "PS_Bloom");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_LIGHT);
 
 	//Fire Shader
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"FireShader");
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Fire");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Fire");
+	pShader->CreateVertexShader(L"shader\\fire.fx", "VS_Fire");
+	pShader->CreatePixelShader(L"shader\\fire.fx", "PS_Fire");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);

@@ -41,7 +41,7 @@ void CBankNPCScript::OnOverlap(CCollider3D* _Other)
 {
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
-		if (KEY_TAP(KEY::E))
+		if (KEY_TAP(KEY::E)&& LEVEL_STATE::PLAY == CLevelMgr::GetInst()->GetCurLevel()->GetState())
 		{
 			//ªÛ¡° Frame & Upgrade Ω∫≈› spawn
 			CLevelSaveLoadInScript script;

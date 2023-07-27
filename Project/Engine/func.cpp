@@ -9,6 +9,9 @@
 #include "CRenderMgr.h"
 #include "ptr.h"
 #include "CResMgr.h"
+#include "CKeyMgr.h"
+#include "CDevice.h"
+#include "CRigidbody.h"
 
 
 
@@ -324,4 +327,79 @@ float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
 	c = _Vec1.z - _Vec2.z;
 
 	return sqrt(a*a + b*b + c*c);
+}
+
+float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
+{
+	if (_vStart == _vTarget)
+		return 0;
+
+	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
+	Vec3 CurPos = _vStart;
+	Vec2 vDefault = Vec2(0.f, -1.f);
+	Vec3 TargetPos = _vTarget;
+	Vec2 vDir = Vec2(TargetPos.x - CurPos.x, TargetPos.z - CurPos.z);
+	vDir.Normalize();
+	float angle = (float)acos(vDir.Dot(vDefault));
+
+	if (vDir.x > 0.f)
+		angle = XM_2PI - angle;
+
+	if (angle > XM_PI)
+		angle = angle - XM_2PI;
+	else if (angle < -XM_PI)
+		angle = angle + XM_2PI;
+
+	if(_degree)
+		angle *= (180.f / XM_PI);
+
+	return angle;
+}
+
+float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _degree)
+{
+	Vec3 vOwnerPos = _pStartObject->Transform()->GetWorldPos();
+	Vec3 vTargetPos = _pTargetObj->Transform()->GetWorldPos();
+	Vec3 vPrevDir = _pStartObject->Transform()->GetRelativeRot();
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vOwnerPos, vTargetPos);
+	float Diff = Rot - PrevDir;
+
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+	}
+	else
+		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+
+	if (abs(Diff) > 0.1f)
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = bnegative ? -_degree / 180.f * XM_PI : _degree / 180.f * XM_PI;
+	}
+
+	return PrevDir + Diff;
+}
+
+void AddForceCentertoMouseDir(CGameObject* _pProjectile)
+{
+	Vec2 vCursorPos = CKeyMgr::GetInst()->GetMousePos();
+	vCursorPos -= CDevice::GetInst()->GetRenderResolution() / 2.f;
+	Vec3 vMousePos = Vec3(vCursorPos.x, 0.f, -vCursorPos.y);
+	float fRot = GetDir(Vec3(0.f, 0.f, 0.f), vMousePos);
+	_pProjectile->Transform()->SetRelativeRot(XM_PI * 1.5f, fRot, 0.f);
+
+	Vec3 AttackDir = Vec3(0.f, 0.f, 0.f);
+	AttackDir = Vec3(0.f, 0.f, 0.f) - vMousePos;
+	AttackDir.Normalize();
+	AttackDir *= 500.f;
+	AttackDir.y = 0.f;
+	_pProjectile->Rigidbody()->AddVelocity(-AttackDir);
 }

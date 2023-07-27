@@ -58,19 +58,22 @@ void CStateScript::ChangeState(const wstring& _strStateName)
 	m_pCurState->Enter();
 }
 
-void CStateScript::BeginOverlap(CCollider2D* _Other)
+void CStateScript::BeginOverlap(CCollider3D* _Other)
 {
-	m_pCurState->BeginOverlap(_Other);
+	if(nullptr !=m_pCurState)
+		m_pCurState->BeginOverlap(_Other);
 }
 
-void CStateScript::OnOverlap(CCollider2D* _Other)
+void CStateScript::OnOverlap(CCollider3D* _Other)
 {
-	m_pCurState->OnOverlap(_Other);
+	if (nullptr != m_pCurState)
+		m_pCurState->OnOverlap(_Other);
 }
 
-void CStateScript::EndOverlap(CCollider2D* _Other)
+void CStateScript::EndOverlap(CCollider3D* _Other)
 {
-	m_pCurState->EndOverlap(_Other);
+	if (nullptr != m_pCurState)
+		m_pCurState->EndOverlap(_Other);
 }
 
 void CStateScript::SaveToLevelFile(FILE* _FILE)

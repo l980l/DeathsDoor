@@ -5,16 +5,15 @@
 
 cbuffer TRANSFORM : register(b0)
 {
-    row_major matrix    g_matWorld;
-    row_major matrix    g_matWorldInv;
-    row_major matrix    g_matView;
-    row_major matrix    g_matViewInv;
-    row_major matrix    g_matProj;    
+    row_major matrix g_matWorld;
+    row_major matrix g_matWorldInv;
+    row_major matrix g_matView;
+    row_major matrix g_matViewInv;
+    row_major matrix g_matProj;
     
-    row_major matrix    g_matWV;
-    row_major matrix    g_matWVP;
+    row_major matrix g_matWV;
+    row_major matrix g_matWVP;
 };
-
 cbuffer MATERIAL : register(b1)
 {
     float4              g_vDiff;

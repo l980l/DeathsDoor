@@ -8,9 +8,9 @@ public:
     virtual void Enter() override;
     virtual void Exit() override;
 
-    virtual void BeginOverlap(CCollider2D* _Other);
-    virtual void OnOverlap(CCollider2D* _Other);
-    virtual void EndOverlap(CCollider2D* _Other);
+    virtual void BeginOverlap(CCollider3D* _Other);
+    virtual void OnOverlap(CCollider3D* _Other);
+    virtual void EndOverlap(CCollider3D* _Other);
 
     CLONE(CPlyFall);
 

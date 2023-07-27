@@ -8,9 +8,7 @@ public:
     virtual void Enter() override;
     virtual void Exit() override;
 
-    virtual void BeginOverlap(CCollider2D* _Other);
-    virtual void OnOverlap(CCollider2D* _Other);
-    virtual void EndOverlap(CCollider2D* _Other);
+    void Dodge(float _fSpeed);
 
     CLONE(CPlyDodge);
 

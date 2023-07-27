@@ -27,9 +27,10 @@ void CreateTestLevel()
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 
 	// Layer 이름설정
-	pCurLevel->GetLayer(0)->SetName(L"No Collision");
-	pCurLevel->GetLayer(1)->SetName(L"Tile");
-	pCurLevel->GetLayer(2)->SetName(L"Player");
+	pCurLevel->GetLayer(0)->SetName(L"DEFAULT");
+	pCurLevel->GetLayer(1)->SetName(L"MAINCAMERA");
+	pCurLevel->GetLayer(2)->SetName(L"SUBCAMERA");
+	pCurLevel->GetLayer(3)->SetName(L"PLAYER");
 	pCurLevel->GetLayer(3)->SetName(L"Monster");
 	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
 	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
@@ -38,7 +39,6 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(11)->SetName(L"UICam");
 	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
 
-	
 
 	{
 		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\HallMap.lv", LEVEL_STATE::STOP);
@@ -54,29 +54,29 @@ void CreateTestLevel()
 	}
 
 	{
-		/*Ptr<CMeshData> pMeshData = nullptr;
+	/*	Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\hall.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"hall");
+		pObj->SetName(L"Bat");
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);*/
 	}
+	//
+	//CGameObject* bloom = new CGameObject;
+	//bloom->SetName(L"bloom");
 
-	CGameObject* Fire = new CGameObject;
-	Fire->SetName(L"Fire");
+	//bloom->AddComponent(new CTransform);
+	//bloom->AddComponent(new CMeshRender);
 
-	Fire->AddComponent(new CTransform);
-	Fire->AddComponent(new CMeshRender);
-
-	Fire->Transform()->SetRelativeScale(Vec3(1000, 1000.f, 1000));
-	Fire->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	Fire->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl"),0);
-	//Fire->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireBase.tga"));
-	Fire->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireDistortion.tga"));
-	SpawnGameObject(Fire, Vec3(0.f, 0.f, 100.f), 10);
+	//bloom->Transform()->SetRelativeScale(Vec3(1000, 1000.f, 1000));
+	//bloom->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//bloom->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl"),0);
+	////Fire->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireBase.tga"));
+	//bloom->MeshRender()->GetMaterial(0)->SetTexParam(TEX_2, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireDistortion.tga"));
+	//SpawnGameObject(bloom, Vec3(0.f, 0.f, 100.f), 10);
 
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
 	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"MonsterProjectile");

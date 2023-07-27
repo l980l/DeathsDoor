@@ -30,8 +30,6 @@ CRenderMgr::CRenderMgr()
 
     CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
 
-    CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
-    CResMgr::GetInst()->FindRes<CMaterial>(L"FireMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
 }
 
 CRenderMgr::~CRenderMgr()
