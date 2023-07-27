@@ -97,7 +97,7 @@ void CreateTestLevel()
 	pWall->AddComponent(new CTransform);
 	pWall->AddComponent(new CCollider3D);
 
-	pWall->Transform()->SetRelativeScale(8000.f, 10.f, 8000.f);
+	pWall->Transform()->SetRelativeScale(800000.f, 10.f, 800000.f);
 	pWall->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 	pWall->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
 	pWall->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
@@ -117,7 +117,7 @@ void CreateTestLevel()
 	pPlayer->AddComponent(new CCollider3D);
 	pPlayer->AddComponent(new CRigidbody);
 	
-	pPlayer->Transform()->SetRelativeScale(Vec3(30.f, 30.f, 30.f));
+	pPlayer->Transform()->SetRelativeScale(Vec3(40.f, 40.f, 40.f));
 	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 	
 	pPlayer->MeshRender()->SetDynamicShadow(true);
@@ -155,7 +155,7 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ice.fbx");
 	CGameObject* pMonster = pMeshData->Instantiate();
 	pMonster->SetName(L"Map");
 	pMonster->MeshRender()->SetDynamicShadow(true);

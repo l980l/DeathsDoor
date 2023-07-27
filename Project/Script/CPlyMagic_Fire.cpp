@@ -15,7 +15,6 @@ CPlyMagic_Fire::~CPlyMagic_Fire()
 void CPlyMagic_Fire::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_FIRE, false);
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 }
 
 void CPlyMagic_Fire::tick()
@@ -52,7 +51,6 @@ void CPlyMagic_Fire::tick()
 
 void CPlyMagic_Fire::Exit()
 {
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 }
 
 void CPlyMagic_Fire::CalcDir()

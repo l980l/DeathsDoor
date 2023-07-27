@@ -13,6 +13,7 @@ private:
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
     Vec3                 m_vPosBeforeFall;
+    UINT                 m_iUpgrade[(UINT)PLAYER_UPGRADE::END];
 
 public:
     virtual void begin() override;
@@ -24,6 +25,7 @@ public:
     void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_iCurMagic; }
     void ChangeMagicState();
+    void Upgrade(PLAYER_UPGRADE _Type);
 
 private:
     void SetMagicType();

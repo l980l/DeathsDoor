@@ -374,3 +374,12 @@ enum class PLAYER_MAGIC
 	HOOK,
 	END,
 };
+
+enum class PLAYER_UPGRADE
+{
+	ATTACK,
+	ATTACK_SPEED,
+	SPEED,
+	MAGIC_ATTACK,
+	END,
+};

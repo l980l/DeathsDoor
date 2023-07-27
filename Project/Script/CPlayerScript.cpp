@@ -106,11 +106,11 @@ void CPlayerScript::SetMagicType()
 {
 	if (KEY_TAP(KEY::_1))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::ARROW;
-	if (KEY_TAP(KEY::_2))
+	else if (KEY_TAP(KEY::_2))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::FIRE;
-	if (KEY_TAP(KEY::_3))
+	else if (KEY_TAP(KEY::_3))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::BOMB;
-	if (KEY_TAP(KEY::_4))
+	else if (KEY_TAP(KEY::_4))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::HOOK;
 }
 
@@ -131,6 +131,11 @@ void CPlayerScript::ChangeMagicState()
 		ChangeState(L"Hook");
 		break;
 	}
+}
+
+void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
+{
+	++m_iUpgrade[(UINT)_Type];
 }
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)

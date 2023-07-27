@@ -22,7 +22,6 @@ CPlyMagic_Hook::~CPlyMagic_Hook()
 void CPlyMagic_Hook::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOK, false);
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 }
 
 void CPlyMagic_Hook::tick()
@@ -51,17 +50,22 @@ void CPlyMagic_Hook::tick()
 		}
 		if (KEY_RELEASE(KEY::RBTN))
 		{
+			m_bThrow = true;
+
 			// 우클릭을 해제하면 갈고리 발사
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
 			CGameObject* pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
-			pHook->GetScript<CMagic_HookScript>()->m_pOwner = this;
-			pHook->GetScript<CMagic_HookScript>()->m_vStartPos = CurPos;
-			pHook->GetScript<CMagic_HookScript>()->m_vThrownDir = vDir * 300000.f;
+			pHook->GetScript<CMagic_HookScript>()->Clear();
+			pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
+			pHook->GetScript<CMagic_HookScript>()->SetStartPos(CurPos);
+			pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
+
 			pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
 			pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+
 			pHook->Rigidbody()->SetVelocityLimit(2000.f);
 			pHook->Rigidbody()->SetFriction(0.f);
 			pHook->Rigidbody()->SetMass(1.f);
@@ -69,18 +73,17 @@ void CPlyMagic_Hook::tick()
 			pHook->Rigidbody()->SetGravityVelocityLimit(800.f);
 			pHook->Rigidbody()->SetVelocity(vDir * 300000.f);
 			pHook->Transform()->SetRelativeRot(m_vAttackDir);
+			pHook->SetLifeSpan(5.f);
 
 			// Hooking State에 HookObj 등록
 			CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
 			pHookingState->SetHook(pHook);
-			m_bThrow = true;
 		}
 	}
 }
 
 void CPlyMagic_Hook::Exit()
 {
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 	m_bHooked = false;
 	m_bHookFail = false;
 	m_vHookPos = {};
