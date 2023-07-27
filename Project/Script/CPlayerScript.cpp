@@ -28,10 +28,10 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-	if (nullptr == m_pSword)
+	/*if (nullptr == m_pSword)
 	{
 		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
-	}
+	}*/
 	if(nullptr == m_pStateScript)
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>(); 

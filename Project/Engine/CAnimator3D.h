@@ -36,6 +36,8 @@ public:
     void UpdateData();
 
 public:
+    double GetCurClipTimeLength() { return m_pVecClip->at(m_iCurClip).dTimeLength; }
+
     bool IsStop() { return m_bStop; }
     void SetStop(bool _bStop) { m_bStop = _bStop; }
 

@@ -7,12 +7,16 @@ CBatScript
 CBazookaScript
 CBrazierScript
 CCameraMoveScript
+CCrowBossScript
+CCrowHeadScript
 CGameCameraScript
 CGhostScript
 CGravityScript
 CGrimKnightScript
+CGruntScript
 CKnightScript
 CLoadLevelThreadScript
+CLurkerScript
 CMagic_ArrowScript
 CMagic_BombScript
 CMagic_FireScript

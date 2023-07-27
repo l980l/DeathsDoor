@@ -47,12 +47,12 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::HALL);
+	ChangeLevel(LEVEL_TYPE::ICE_BOSS);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 {
-	if(nullptr != m_pNaviMesh)
+	if (nullptr != m_pNaviMesh)
 		delete m_pNaviMesh;
 	m_pNaviMesh = nullptr;
 	m_pPlayer = nullptr;
