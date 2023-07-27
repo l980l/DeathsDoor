@@ -37,7 +37,6 @@ void CMagic_HookScript::begin()
 	m_vThrownDir.y = 0.f;
 	m_vThrownDir.Normalize();
 
-
 	if (m_vecChain.empty() )
 	{
 		CLevelSaveLoadInScript script;
