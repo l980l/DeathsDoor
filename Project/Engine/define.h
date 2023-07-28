@@ -310,6 +310,7 @@ enum class LAYER
 	LADDER, 
 	ANCHOR,
 	BRAIZER,
+	MAGIC_FIRE,
 
 	UI = 31,
 };
