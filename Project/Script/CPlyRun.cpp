@@ -88,7 +88,11 @@ void CPlyRun::Move()
 	{
 		Velocity.x += m_fSpeed;
 	}
-
+	if (m_bIce)
+	{
+		GetOwner()->Rigidbody()->AddForce(Velocity * DT);
+	}
+	else
 	GetOwner()->Rigidbody()->SetVelocity(Velocity);
 }
 void CPlyRun::CalcDir()

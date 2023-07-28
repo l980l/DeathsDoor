@@ -16,9 +16,11 @@ private:
     float                   m_fChainSpacing;        // 체인 당 차지하는 공간
     bool                    m_bSnatch;              // 낚아챔 유무
     bool                    m_bReturn;              // 낚아채지 못하고 돌아오는 중
+    bool                    m_bActive;
     
 private:
     void SetOwner(CPlyMagic_Hook* _pOwner) { m_pOwner = _pOwner; }
+    void SetChain(vector<CGameObject*>& _vecChain) { m_vecChain = _vecChain; }
 public:    
     virtual void begin() override;
     virtual void tick() override;
@@ -26,6 +28,7 @@ public:
     void Clear();
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
     void SetStartPos(Vec3 _vStartPos) { m_vStartPos = _vStartPos; }
+    void Active(bool _bActive);
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;

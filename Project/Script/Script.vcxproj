@@ -198,6 +198,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazzokaMove.h" />
     <ClInclude Include="CBrazierScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CDoorScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
@@ -279,11 +280,14 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPower.h" />
     <ClInclude Include="CrowBossStates.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSpawnDoorScript.h" />
+    <ClInclude Include="CSpawnMgr.h" />
     <ClInclude Include="CSpeed.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CTrace.h" />
+    <ClInclude Include="CRoomScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GruntStates.h" />
     <ClInclude Include="LurkerStates.h" />
@@ -311,6 +315,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazzokaMove.cpp" />
     <ClCompile Include="CBrazierScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CDoorScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
@@ -391,11 +396,14 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CPower.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSpawnDoorScript.cpp" />
+    <ClCompile Include="CSpawnMgr.cpp" />
     <ClCompile Include="CSpeed.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="CTrace.cpp" />
+    <ClCompile Include="CRoomScript.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -80,6 +80,7 @@ CGrimKnightHit.h
 CGrimKnightDeath.h
 GrimKnightStates.h
 
+CSpawnMgr.h
 CSceneSaveLoad.h
 CLevelSaveLoadInScript.h
 CLoadingThread.h

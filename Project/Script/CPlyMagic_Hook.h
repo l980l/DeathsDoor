@@ -4,6 +4,8 @@ class CPlyMagic_Hook :
     public CState
 {
 private:
+    CGameObject* m_pHook;
+    vector<CGameObject*> m_vecChain;
     Vec3    m_vAttackDir;
     bool    m_bHooked;
     bool    m_bHookFail;
@@ -18,6 +20,7 @@ public:
     void FailSnatch() { m_bHookFail = true; }
 
     void CalcDir();
+
 
     CLONE(CPlyMagic_Hook);
 

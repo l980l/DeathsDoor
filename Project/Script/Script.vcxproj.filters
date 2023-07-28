@@ -166,6 +166,9 @@
     <Filter Include="Script\01. State\02. Player\00. Player\Walk">
       <UniqueIdentifier>{d4ea49f6-0639-4feb-8fd0-c5a8fb5963e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr">
+      <UniqueIdentifier>{aba3f16f-2ab0-4ebd-accf-5adf297e4a3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -507,6 +510,18 @@
     <ClInclude Include="CState.h">
       <Filter>Script\01. State</Filter>
     </ClInclude>
+    <ClInclude Include="CSpawnMgr.h">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CRoomScript.h">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpawnDoorScript.h">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CDoorScript.h">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -526,9 +541,6 @@
     </ClCompile>
     <ClCompile Include="CGravityScript.cpp">
       <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CState.cpp">
-      <Filter>Script\01. State</Filter>
     </ClCompile>
     <ClCompile Include="CLevelSaveLoadInScript.cpp">
       <Filter>LevelSaveLoad</Filter>
@@ -832,6 +844,21 @@
     </ClCompile>
     <ClCompile Include="PlayerStates.h">
       <Filter>Script\01. State\02. Player\00. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CState.cpp">
+      <Filter>Script\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnMgr.cpp">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CRoomScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnDoorScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CDoorScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

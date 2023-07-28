@@ -155,13 +155,13 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ice.fbx");
-	CGameObject* pMonster = pMeshData->Instantiate();
-	pMonster->SetName(L"Map");
-	pMonster->MeshRender()->SetDynamicShadow(true);
-	pMonster->MeshRender()->SetFrustumCheck(false);
-	
-	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ice.fbx");
+	//CGameObject* pMonster = pMeshData->Instantiate();
+	//pMonster->SetName(L"Map");
+	//pMonster->MeshRender()->SetDynamicShadow(true);
+	//pMonster->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
 	//pObject = pMeshData->Instantiate();
@@ -222,13 +222,23 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 	// 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CHAIN.fbx");
-	//pMonster = pMeshData->Instantiate();
-	//pMonster->SetName(L"CHAIN");
-	//pMonster->MeshRender()->SetDynamicShadow(true);
-	//pMonster->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_L.fbx");
+	CGameObject* pSlash = pMeshData->Instantiate();
+	pSlash->SetName(L"SLASH_L");
+	pSlash->MeshRender()->SetDynamicShadow(true);
+	pSlash->MeshRender()->SetFrustumCheck(false);
+	pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
+	
+	SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_R.fbx");
+	pSlash = pMeshData->Instantiate();
+	pSlash->SetName(L"SLASH_R");
+	pSlash->MeshRender()->SetDynamicShadow(true);
+	pSlash->MeshRender()->SetFrustumCheck(false);
+	pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
+
+	SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
 
 	
 	// 충돌 시킬 레이어 짝 지정

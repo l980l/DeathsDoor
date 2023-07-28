@@ -8,6 +8,8 @@ private:
     float   m_fAttackDelay;
     float   m_fAfterAttack;         // 공격모션이 끝난 후 시간
     float   m_fLimitTimeNextAttack; // 공격모션이 끝난 후 Idle로 되돌아가는 시간
+    float   m_fAttackDir;
+    Vec3    m_vAttackDir;
     
 
 public:
@@ -17,6 +19,7 @@ public:
 
     UINT GetAttackCount() { return m_iAttackCount; }
     void CalcDir();
+    void Slash();
 
     CLONE(CPlyAttack);
 

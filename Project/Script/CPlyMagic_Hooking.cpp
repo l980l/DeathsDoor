@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlyMagic_Hooking.h"
 #include "CPlayerScript.h"
+#include "CMagic_HookScript.h"
 
 CPlyMagic_Hooking::CPlyMagic_Hooking()
 	: m_vHookPos{}
@@ -50,9 +51,5 @@ void CPlyMagic_Hooking::Exit()
 {
 	m_vHookPos = {};
 	m_bAttack = false;
-	if (nullptr != m_pHook)
-	{
-		m_pHook->SetLifeSpan(0.f);
-		m_pHook = nullptr;
-	}
+	m_pHook->GetScript<CMagic_HookScript>()->Active(false);
 }

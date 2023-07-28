@@ -1,8 +1,10 @@
 #include "pch.h"
-#include "CWaveScript.h"
+#include "CRoomScript.h"
+#include "CSpawnDoorScript.h"
+#include "CSpawnMgr.h"
 
-CWaveScript::CWaveScript()
-	: CScript((UINT)SCRIPT_TYPE::WAVESCRIPT)
+CRoomScript::CRoomScript()
+	: CScript((UINT)SCRIPT_TYPE::ROOMSCRIPT)
 	, m_iRoomNum(-1)
 	, m_iRemainMst(-1)
 	, m_iCurWaveNum(0)
@@ -13,8 +15,8 @@ CWaveScript::CWaveScript()
 	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNum");
 }
 
-CWaveScript::CWaveScript(const CWaveScript& _Other)
-	: CScript((UINT)SCRIPT_TYPE::WAVESCRIPT)
+CRoomScript::CRoomScript(const CRoomScript& _Other)
+	: CScript((UINT)SCRIPT_TYPE::ROOMSCRIPT)
 	, m_iRoomNum(_Other.m_iRoomNum)
 	, m_iRemainMst(-1)
 	, m_iCurWaveNum(0)
@@ -25,7 +27,7 @@ CWaveScript::CWaveScript(const CWaveScript& _Other)
 	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNum");
 }
 
-CWaveScript::~CWaveScript()
+CRoomScript::~CRoomScript()
 {
 	for (size_t i = 0; i < m_vecWave->size(); ++i)
 	{
@@ -33,49 +35,98 @@ CWaveScript::~CWaveScript()
 	}
 }
 
-void CWaveScript::begin()
+void CRoomScript::begin()
+{
+	CSpawnMgr::GetInst()->RegisterWave(m_iRoomNum, this);
+}
+
+void CRoomScript::tick()
 {
 }
 
-void CWaveScript::tick()
-{
-}
-
-void CWaveScript::SpawnMst()
+void CRoomScript::SpawnMst()
 {
 	for (size_t i = 0; i < m_vecWave[m_iCurWaveNum].size(); ++i)
 	{
-		CGameObject* pMst = CResMgr::GetInst()->FindRes<CPrefab>(L"Spawner")->Instantiate();
-		int iPrefabNum = m_vecWave[m_iCurWaveNum][i].PrefabNum;
-		Vec2 Pos = m_vecWave[m_iCurWaveNum][i].SpawnPos;
-		Vec3 vPos = Vec3(Pos.x, Pos.y, 300.f);
-		pMst->GetScript<CSpawnScript>()->SetSpawnMst(iPrefabNum);
-		SpawnGameObject(pMst, vPos, (int)LAYER::DEFAULT);
+		CGameObject* pMst = CResMgr::GetInst()->FindRes<CPrefab>(L"SpawnDoor")->Instantiate();
+		wstring  wstrPrefabName = m_vecWave[m_iCurWaveNum][i].PrefabName;
+		Vec3 SpawnPos = m_vecWave[m_iCurWaveNum][i].SpawnPos;
+		pMst->GetScript<CSpawnDoorScript>()->SetSpawnMst(wstrPrefabName);
+		SpawnGameObject(pMst, SpawnPos, (int)LAYER::DEFAULT);
 	}
 	m_iRemainMst = (int)m_vecWave[m_iCurWaveNum].size();
 	++m_iCurWaveNum;
 }
 
-void CWaveScript::SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo)
+void CRoomScript::SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo)
 {
+	m_vecWave[_iWaveNum] = _mapInfo;
 }
 
-void CWaveScript::MinusMstCount()
+void CRoomScript::MinusMstCount()
 {
+	--m_iRemainMst;
+	if (0 == m_iRemainMst)
+	{
+		if (m_iCurWaveNum < m_iMaxWaveNum)
+			SpawnMst();
+		else
+			CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, true);
+	}
 }
 
-void CWaveScript::AddWaveMst(int _iWavwNum, int _iPrefNum, Vec2 _vSpawnPos)
+void CRoomScript::AddWaveMst(int _iWavwNum, wstring _wstrPrefName, Vec3 _vSpawnPos)
 {
+	SpawnInfo Info;
+	Info.PrefabName = _wstrPrefName;
+	Info.SpawnPos = _vSpawnPos;
+	m_vecWave[_iWavwNum].push_back(Info);
 }
 
-void CWaveScript::BeginOverlap(CCollider2D* _Other)
+void CRoomScript::BeginOverlap(CCollider2D* _Other)
 {
+	if (!m_bActive)
+	{
+		CSpawnMgr::GetInst()->SpawnMonster(m_iRoomNum);
+		CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, false);
+		m_bActive = true;
+	}
 }
 
-void CWaveScript::SaveToLevelFile(FILE* _File)
+void CRoomScript::SaveToLevelFile(FILE* _File)
 {
+	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
+	fwrite(&m_iMaxWaveNum, sizeof(int), 1, _File);
+	for (size_t i = 0; i < 3; ++i)
+	{
+		size_t size = m_vecWave[i].size();
+		fwrite(&size, sizeof(size_t), 1, _File);
+
+		for (size_t j = 0; j < size; ++j)
+		{
+			size_t NameLength = m_vecWave[i][j].PrefabName.length();
+			fwrite(&NameLength, sizeof(size_t), 1, _File);
+			fwrite(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
+			fwrite(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
+		}
+	}
 }
 
-void CWaveScript::LoadFromLevelFile(FILE* _File)
+void CRoomScript::LoadFromLevelFile(FILE* _File)
 {
+	fread(&m_iRoomNum, sizeof(int), 1, _File);
+	fread(&m_iMaxWaveNum, sizeof(int), 1, _File);
+	for (size_t i = 0; i < 3; ++i)
+	{
+		size_t  size = 0;
+		fread(&size, sizeof(size_t), 1, _File);
+		m_vecWave[i].resize(size);
+		for (size_t j = 0; j < size; ++j)
+		{
+			size_t NameLength = 0;
+			fread(&NameLength, sizeof(size_t), 1, _File);
+			fread(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
+			fread(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
+		}
+	}
 }

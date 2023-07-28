@@ -5,6 +5,7 @@ CBatScript
 CBazookaScript
 CBrazierScript
 CCameraMoveScript
+CDoorScript
 CGameCameraScript
 CGhostScript
 CGravityScript
@@ -19,4 +20,6 @@ CMissileScript
 CMonsterDetectRangeScript
 CPlayerScript
 CPlayerWeaponScript
+CRoomScript
+CSpawnDoorScript
 CStateScript
