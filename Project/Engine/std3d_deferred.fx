@@ -140,7 +140,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         vViewNormal = mul(vNormal, matRot);
     }
     
-    // 4번 텍스쳐 레지스터에 값이 있다면 CrackTexture임. 이걸 사용.
+    // 7번 텍스쳐 레지스터에 값이 있다면 CrackTexture임. 이걸 사용.
     if (g_btex_7)
     {
         float4 vCrackTextureColor = g_tex_7.Sample(g_sam_0, _in.vUV);
@@ -152,11 +152,43 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             vCrackTextureColor *= (1.f - g_float_0);
             vObjectColor = vObjectColor + vCrackTextureColor;
         }
+        
+        // paperburn 시작 시간이 들어왔다면.
+        if (g_float_1 > 0.f)
+        {
+            static float fFirstTime = g_float_1;
+            
+            // 6번 텍스쳐는 NoiseTexture.
+            float4 vNoiseTextureColor = g_tex_6.Sample(g_sam_0, _in.vUV);
+            float fGrey = (vNoiseTextureColor.r + vNoiseTextureColor.g + vNoiseTextureColor.b) / 3.f;
+            
+            //threshold on sin time
+            float thresh = (1.f - (g_AccTime - fFirstTime) * 0.5f)
+            +0.5f;
+            float thresh2 = ((1.f - (g_AccTime - fFirstTime) + 0.1f) * 0.5f)
+            +0.5f;
+    
+            if (fGrey > thresh2)
+            {
+                vObjectColor.r = 1.f;
+                vObjectColor.g = 0.1f;
+                vObjectColor.b = 0.35f;
+            }
+    
+            if (fGrey > thresh)
+            {
+                vObjectColor.r = 0.f;
+                vObjectColor.g = 0.f;
+                vObjectColor.b = 0.f;
+                vObjectColor.a = 0.f;
+            }
+        }
     }
     
     PS_OUT output = (PS_OUT) 0.f;
     
-    output.vColor =    float4(vObjectColor.xyz, 1.f);
+    output.vColor =    float4(vObjectColor);
+    //output.vColor = float4(vObjectColor.xyz, 1.f);
     output.vNormal =   float4(vViewNormal.xyz, 1.f);
     output.vPosition = float4(_in.vViewPos.xyz, 1.f);
     output.vData =     float4(0.f, 0.f, 0.f, 1.f);

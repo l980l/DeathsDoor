@@ -8,6 +8,8 @@ CMonsterScript::CMonsterScript(UINT SCRIPT_TYPE) :
 	, m_pStateScript(nullptr)
 	, m_pPlayer(nullptr)
 	, m_bDetect(false)
+	, m_bPaperBurnEffect(false)
+	, m_bSendDeadTime(false)
 {
 }
 
@@ -28,9 +30,14 @@ void CMonsterScript::begin()
 
 	for (int i = 0; i < iMtrlCount; ++i)
 	{
-		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\MonsterCrack.png", L"texture\\MonsterCrack.png");
+		// 7번으로 보내자. CrackTexture.
+		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\MonsterCrack.png", L"texture\\Deaths_Door\\MonsterCrack.png");
 		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
-		mtrl->SetTexParam(TEX_7, CrackTextue.Get());		// 일단 7번으로 보내보자.
+		mtrl->SetTexParam(TEX_7, CrackTextue.Get());		
+
+		// 6번으로 보내자. Paperburn용 noise texture.
+		Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
+		mtrl->SetTexParam(TEX_6, NoiseTextue.Get());
 	}
 }
 
@@ -41,8 +48,17 @@ void CMonsterScript::tick()
 	for (int i = 0; i < iMtrlCount; ++i)
 	{
 		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+		
+		// 현재 체력 비율 보내기. FLOAT_0로 보냄.
 		float HPRatio = (float)m_pStateScript->GetStat().HP / (float)m_pStateScript->GetStat().Max_HP;
 		mtrl->SetScalarParam(FLOAT_0, &HPRatio);
+
+		// Paperburn 효과를 주기 시작할 때, 현재까지 흐른 시간 보내기. FLOAT_1로 보냄. 한번만 보내야 해서 m_bSendDeadTime를 사용함. 
+		if (m_bPaperBurnEffect && !m_bSendDeadTime)
+		{
+			mtrl->SetScalarParam(FLOAT_1, &GlobalData.tAccTime);
+			m_bSendDeadTime = true;
+		}
 	}
 }
 
