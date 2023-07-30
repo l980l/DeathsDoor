@@ -88,9 +88,6 @@ void CPhysXMgr::init()
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
     mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
-    // ============
-    // Create actor
-    // ============
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
