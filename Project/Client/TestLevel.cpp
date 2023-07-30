@@ -22,6 +22,7 @@
 #include <Script\CBazookaScript.h>
 #include <Script\CGruntScript.h>
 #include <Script\CCrowBossScript.h>
+#include <Script\CWindShaderScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -183,8 +184,16 @@ void CreateTestLevel()
 
 	SpawnGameObject(pGrunt, Vec3(400.f, 500.f, 1000.f), (int)LAYER::MONSTER);
 
+	// Wind 
+	CGameObject* pWind = new CGameObject;
+	pWind->SetName(L"Wind");
+	pWind->AddComponent(new CTransform);
+	pWind->AddComponent(new CMeshRender);
+	pWind->AddComponent(new CWindShaderScript);
+	pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
 
-
+	SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 
 
 	// ¹Ù´Ú

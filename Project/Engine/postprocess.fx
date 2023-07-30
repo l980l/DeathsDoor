@@ -2,6 +2,7 @@
 #define _POSTPROCESS
 
 #include "value.fx"
+#include "func.fx"
 
 struct VS_IN
 {
@@ -101,14 +102,14 @@ float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target
 	// 특정 위치에서 파장처럼 퍼져나가는 효과를 줌.
     float CurrentTime = 10.f * g_float_0 / 7.f;
 
-    float3 WaveParams = float3(10.0, 1.f, 0.1f);
+    float3 WaveParams = float3(10.f, 1.f, 0.1f);
 
     float ratio = 1.f;
 
 	//마우스 위치를 기준으로 퍼지게 하려면 아래 줄을 사용
 	//float2 WaveCentre = float2( iMouse.xy / iResolution.xy );
 
-    float2 WaveCentre = float2(0.5, 0.5);
+    float2 WaveCentre = float2(0.5f, 0.5f);
     WaveCentre.y *= ratio;
 
     float2 texCoord = _in.vPosition.xy / g_Resolution.xy;
@@ -140,7 +141,67 @@ float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target
 }
 
 
+// ============================
+// WindShader
+// mesh : RectMesh
+// Domain : DOMAIN_POSTPROCESS
+// g_tex_0 : RederTarget Copy Texture
+// g_tex_1 : Noise Texture
+// g_vec2_0 : Noise Texture Resolution
+// g_vec4_0 : Spawn Data
+// g_vec4_1 : Spawn Data
+// ============================
+VS_OUT VS_WindShader(VS_IN _in)
+{
+    VS_OUT output = (VS_OUT) 0.f;
 
+    output.vPosition = float4(_in.vLocalPos * 2.f, 1.f);
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+// 바람이 불고 있는 효과를 계산하는 함수
+float calcWind(float2 uv, float4 PerAmpThickDec, float rep, float time)
+{
+    float val = abs(PerAmpThickDec.z / (uv.y + PerAmpThickDec.y * sin(uv.x / PerAmpThickDec.x + PerAmpThickDec.w)));
+    float mask = 0.f;
+    uv.x += time;
+    uv.x = fmod(uv.x, rep) - rep * 0.5f;
+    val += -2.f / dot(uv, uv);
+    uv.x += rep * 0.5f;
+    val += -2.f / dot(uv, uv);
+    uv.x -= rep * 0.25f;
+    mask = rep * 0.5f / dot(uv, uv);
+    val = step(val, 0.5f) + step(mask, 1.f);
+    return step(val, 0.5f);
+}
+
+float4 PS_WindShader(VS_OUT _in) : SV_Target
+{
+    float4 bg = g_tex_0.Sample(g_sam_0, _in.vUV);
+    float4 col = float4(0.f, 0.f, 0.f, 0.f);
+
+    float4 params = float4(0.65f, 0.17f, 0.1f, 0.5f);
+    
+    float2 uv = 30.f * _in.vUV;
+    uv.y += uv.x; // 대각선 방향으로 이동하도록 uv 값 변환
+   
+    //if (g_vec4_0.x)
+        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -10.f), params, 8.f, g_AccTime * 1.5f);
+    //if (g_vec4_0.y)
+        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -20.f), params, 10.f, g_AccTime * 2.5f);
+    //if (g_vec4_0.z)
+        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -30.f), params, 12.f, g_AccTime * 3.5f);
+    //if (g_vec4_0.w)
+        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -40.f), params, 8.f, g_AccTime * 4.5f);
+    //if (g_vec4_1.x)
+        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -50.f), params, 12.f, g_AccTime * 5.5f);
+    
+    bg.rgb += col;
+
+    return bg;
+}
 
 
 

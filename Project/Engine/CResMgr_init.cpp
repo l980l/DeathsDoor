@@ -1171,6 +1171,23 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UNDEFINED);
 
 	AddRes<CGraphicsShader>(L"DepthMapShader", pShader);
+
+
+	// ============================
+	// WindShader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : POSTPROCESS
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"WindShader");
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_WindShader");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_WindShader");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	AddRes(pShader->GetKey(), pShader);
 }
 
 
@@ -1325,4 +1342,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DepthMapShader"));
 	AddRes<CMaterial>(L"DepthMapMtrl", pMtrl);
+
+	// Wind Material
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"WindShader"));
+	AddRes<CMaterial>(L"WindMtrl", pMtrl);
 }
