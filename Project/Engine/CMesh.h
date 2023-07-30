@@ -26,7 +26,9 @@ private:
 
 public:
 	Vtx* GetVtxSysMem() { return (Vtx*)m_pVtxSys; }
+	UINT GetVtxCount() { return m_VtxCount; }
 	UINT GetSubsetCount() { return (UINT)m_vecIdxInfo.size(); }
+	tIndexInfo& GetIdxInfo(UINT _idx) { return m_vecIdxInfo[_idx]; }
 
 	const vector<tMTBone>* GetBones() { return &m_vecBones; }
 	UINT GetBoneCount() { return (UINT)m_vecBones.size(); }

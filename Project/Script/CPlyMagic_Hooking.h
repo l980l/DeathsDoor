@@ -14,8 +14,16 @@ public:
     virtual void tick() override;
     virtual void Exit() override;
     void SetHookedPos(Vec3 _vHookedPos) { m_vHookPos = _vHookedPos; }
-    void SetHook(CGameObject* _pHookObj) { m_pHook = _pHookObj; }
-    void SetChain(vector<CGameObject*>& _vecChain) { m_vecChain = _vecChain; }
+    void SetHook(CGameObject* _pHookObj) 
+    { 
+        if(nullptr == m_pHook)
+            m_pHook = _pHookObj; 
+    }
+    void SetChain(vector<CGameObject*>& _vecChain) 
+    { 
+        if(m_vecChain.empty())
+            m_vecChain = _vecChain; 
+    }
 
 
     CLONE(CPlyMagic_Hooking);

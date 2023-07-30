@@ -11,13 +11,11 @@ CMagic_HookScript::CMagic_HookScript()
 	, m_vThrownDir{}
 	, m_fTime(0.f)
 	, m_fDistancetoTarget(0.f)
-	, m_fChainSpacing(0.f)
+	, m_fChainSpacing(15.f)
 	, m_bSnatch(false)
 	, m_bReturn(false)
+	, m_bActive(false)
 {	
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fDistancetoTarget, "Distance");
-	AddScriptParam(SCRIPT_PARAM::VEC3, m_vStartPos, "StartPos");
-	AddScriptParam(SCRIPT_PARAM::VEC3, m_vThrownDir, "ThrownDir");
 }
 
 CMagic_HookScript::~CMagic_HookScript()
@@ -31,82 +29,80 @@ CMagic_HookScript::~CMagic_HookScript()
 	
 }
 
-void CMagic_HookScript::begin()
-{
-	m_fChainSpacing = 30.f;
-	m_vThrownDir.y = 0.f;
-	m_vThrownDir.Normalize();
-
-	if (m_vecChain.empty() )
-	{
-		CLevelSaveLoadInScript script;
-		for (int i = 0; i < 80; ++i)
-		{
-			Vec3 SpawnPos = m_vStartPos +  m_vThrownDir * (m_fChainSpacing * (i + 1));
-			CGameObject* Chain = script.SpawnandReturnPrefab(L"prefab\\Chain.prefab", (int)LAYER::DEFAULT, SpawnPos);
-			float YDir = GetDir(Vec3(0.f, 0.f, 0.f), m_vThrownDir);
-			Chain->Transform()->SetRelativeRot(-XM_PI / 2.5f, 0.f, 0.f);
-			Chain->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-			m_vecChain.push_back(Chain);
-		}
-	}
-}
-
-void CMagic_HookScript::tick()
-{
-	if (!m_bActive)
-		return;
-
-	PaveChain();
-
-	Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
-	Diff.y = 0.f;
-	m_fDistancetoTarget = Diff.Length();
-
-	if(!m_bSnatch)
-	{
-		m_fTime += DT;
-		if (m_fTime > 0.5f)
-		{
-			if (abs(m_fDistancetoTarget) < 150.f)
-			{
-				m_pOwner->FailSnatch();
-				Destroy();
-			}
-			if(!m_bReturn)
-			{
-				Rigidbody()->SetVelocity(-m_vThrownDir * 300000.f);
-				m_bReturn = true;
-			}
-		}
-
-	}
-
-}
-
 void CMagic_HookScript::Clear()
 {
-	m_vecChain = {};
 	m_vStartPos = {};
 	m_vThrownDir = {};
 	m_fTime = 0.f;
 	m_fDistancetoTarget = 0.f;
-	m_fChainSpacing = 0.f;
 	m_bSnatch = false;
 	m_bReturn = false;
+	m_bActive = false;
+}
 
+void CMagic_HookScript::begin()
+{
+}
+
+void CMagic_HookScript::tick()
+{
+	// 던지지 않았다면 return
+	if (!m_bActive)
+		return;
+
+	// 시작지점과의 거리만큼 Chain을 활성화
+	PaveChain();
+
+	Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
+	m_fDistancetoTarget = Diff.Length();
+
+	if(!m_bSnatch)
+	{
+		// 일정시간 이상 갔다면 돌아오도록 함.
+		m_fTime += DT;
+		// 시간이 지나고 첫 tick이라면 날아오던 반대편으로 방향을 바꿈
+		
+		if(m_bReturn)
+		{
+			// 돌아오는 도중에 시작지점과 가까이 왔다면 Hook 종료
+			if (abs(m_fDistancetoTarget) < 100.f && m_bReturn)
+			{
+				Active(false);
+				m_pOwner->FailSnatch();
+			}
+		}
+		else
+		{
+			if (m_fTime > 0.5f)
+			{
+				m_bReturn = true;
+				Rigidbody()->SetVelocity(-m_vThrownDir * 300000.f);
+			}
+		}
+
+	}
 }
 
 void CMagic_HookScript::Active(bool _bActive)
 {
 	m_bActive = _bActive;
-
-	if(!m_bActive)
+	m_fTime = 0.f;
+	if(m_bActive)
 	{
+		Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
-			m_vecChain[i]->Transform()->SetRelativeScale(Scale, Scale, Scale);
+			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
 		}
+	}
+	else if(!m_bActive)
+	{
+		Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		for (size_t i = 0; i < m_vecChain.size(); ++i)
+		{
+			m_vecChain[i]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		}
+		Clear();
 	}
 }
 
@@ -118,6 +114,7 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 	{
 		if(!m_bReturn)
 		{
+			Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 			m_pOwner->Snatch(Transform()->GetWorldPos());
 			m_bSnatch = true;
 		}
@@ -125,14 +122,6 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 }
 
 void CMagic_HookScript::EndOverlap(CCollider3D* _Other)
-{
-}
-
-void CMagic_HookScript::SaveToLevelFile(FILE* _File)
-{
-}
-
-void CMagic_HookScript::LoadFromLevelFile(FILE* _FILE)
 {
 }
 
@@ -156,7 +145,7 @@ void CMagic_HookScript::PaveChain()
 		{
 			for (int i = 0; i < ActiveChain; ++i)
 			{
-				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(2.f, 2.f, 2.f));
+				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
 			}
 			for(int j = ActiveChain; j < 80; ++j)
 			{

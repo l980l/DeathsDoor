@@ -17,7 +17,6 @@ CPlyMagic_Hooking::~CPlyMagic_Hooking()
 void CPlyMagic_Hooking::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOKING, true);
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 
 	// 날아가는 방향으로 Dir 설정
 	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();

@@ -1,10 +1,15 @@
 #pragma once
 #include "CComponent.h"
+#include <PhysX/PxPhysics.h>
+#include <PhysX/PxPhysicsAPI.h>
+
+class PxRigidDynamic;
 
 class CRigidbody :
     public CComponent
 {
 private:
+    physx::PxRigidDynamic* m_PxRigidbody;
     Vec3    m_vForce;           // Èû
     Vec3    m_vVelocity;        // ¼Óµµ ( vector )
     float   m_fMass;            // Áú·®
@@ -25,6 +30,7 @@ public:
     virtual void finaltick() override;
 
 public:
+    void SetRigidbody(bool _bDynamic, void* _pRigidbody);
     void AddForce(Vec3 _vForce) { m_vForce += _vForce; }
     void SetVelocityLimit(float _fLimit) { m_fVelocityLimit = _fLimit; }
     void SetGravityVelocityLimit(float _fLimit) { m_fGravityVLimit = _fLimit; }

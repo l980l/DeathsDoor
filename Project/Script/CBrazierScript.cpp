@@ -21,7 +21,10 @@ void CBrazierScript::tick()
 
 void CBrazierScript::BeginOverlap(CCollider3D* _Other)
 {
-	if(_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MAGIC_FIRE)
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MAGIC_FIRE)
+	{
+
+	}
 
 }
 

@@ -25,7 +25,6 @@ public:
     virtual void begin() override;
     virtual void tick() override;
 
-    void Clear();
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
     void SetStartPos(Vec3 _vStartPos) { m_vStartPos = _vStartPos; }
     void Active(bool _bActive);
@@ -33,11 +32,8 @@ public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
 
-public:
-    virtual void SaveToLevelFile(FILE* _File) override;
-    virtual void LoadFromLevelFile(FILE* _FILE) override;
-
     void PaveChain();
+    void Clear();
 
     CLONE(CMagic_HookScript);
 

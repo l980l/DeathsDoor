@@ -7,10 +7,12 @@
 #include "CPlyMagic_Hooking.h"
 
 CPlyMagic_Hook::CPlyMagic_Hook()
-	: m_vAttackDir{}
+	: m_pHook(nullptr)
+	, m_vecChain{}
+	, m_vAttackDir{}
+	, m_vHookPos{}
 	, m_bHooked(false)
 	, m_bHookFail(false)
-	, m_vHookPos{}
 	, m_bThrow(false)
 {
 	CLevelSaveLoadInScript script;
@@ -19,6 +21,7 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 	{
 		m_pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
 		m_pHook->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		m_pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
 	}
 	if (m_vecChain.empty())
 	{
@@ -27,6 +30,7 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 			CGameObject* Chain = script.SpawnandReturnPrefab(L"prefab\\Chain.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
 			Chain->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 			m_vecChain.push_back(Chain);
+			m_pHook->GetScript<CMagic_HookScript>()->SetChain(m_vecChain);
 		}
 	}
 }
@@ -39,6 +43,10 @@ void CPlyMagic_Hook::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOK, false);
 	m_pHook->GetScript<CMagic_HookScript>()->Active(true);
+	// Hooking State에 HookObj 등록
+	CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
+	pHookingState->SetHook(m_pHook);
+	pHookingState->SetChain(m_vecChain);
 }
 
 void CPlyMagic_Hook::tick()
@@ -52,11 +60,8 @@ void CPlyMagic_Hook::tick()
 			pHookingState->SetHookedPos(m_vHookPos);
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Hooking");
 		}
-		else if (m_bHookFail)
-		{
-			GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-		}
+		else
+			return;
 	}
 	else
 	{
@@ -65,7 +70,7 @@ void CPlyMagic_Hook::tick()
 		{
 			CalcDir();
 		}
-		if (KEY_RELEASE(KEY::RBTN))
+		else if (KEY_RELEASE(KEY::RBTN))
 		{
 			m_bThrow = true;
 
@@ -74,39 +79,42 @@ void CPlyMagic_Hook::tick()
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			m_pHook->GetScript<CMagic_HookScript>()->Clear();
-			m_pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
-			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(CurPos);
+			m_pHook->Transform()->SetRelativePos(vSpawnPos);
+			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
-			m_pHook->GetScript<CMagic_HookScript>()->SetChain(m_vecChain);
+			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 
 			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
-			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 
 			m_pHook->Rigidbody()->SetVelocityLimit(2000.f);
 			m_pHook->Rigidbody()->SetFriction(0.f);
 			m_pHook->Rigidbody()->SetMass(1.f);
 			m_pHook->Rigidbody()->SetFrictionScale(1.f);
 			m_pHook->Rigidbody()->SetGravityVelocityLimit(800.f);
-			m_pHook->Rigidbody()->SetVelocity(vDir * 300000.f);
+			m_pHook->Rigidbody()->SetVelocity(vDir * 30000.f);
 			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
-			m_pHook->SetLifeSpan(5.f);
-
-			// Hooking State에 HookObj 등록
-			CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
-			pHookingState->SetHook(m_pHook);
-			pHookingState->SetChain(m_vecChain);
 		}
 	}
 }
 
 void CPlyMagic_Hook::Exit()
 {
+	m_vAttackDir = {};
+	m_vHookPos = {};
 	m_bHooked = false;
 	m_bHookFail = false;
-	m_vHookPos = {};
 	m_bThrow = false;
 	m_pHook->GetScript<CMagic_HookScript>()->Active(false);
+}
+
+void CPlyMagic_Hook::FailSnatch()
+{
+	if(GetOwnerScript()->GetCurState() == GetOwnerScript()->FindState(L"Hook"))
+	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+	}
 }
 
 void CPlyMagic_Hook::CalcDir()

@@ -106,6 +106,10 @@ void CRigidbody::finaltick()
 	m_vForce = Vec3(0.f, 0.f, 0.f);
 }
 
+void CRigidbody::SetRigidbody(bool _bDynamic, void* _pRigidbody)
+{
+}
+
 void CRigidbody::SetGround(bool _bGround)
 {
 	m_bGround = _bGround;

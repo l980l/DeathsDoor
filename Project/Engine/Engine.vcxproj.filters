@@ -289,6 +289,9 @@
     <ClCompile Include="Detour\DetourNode.cpp">
       <Filter>08. Module\Detour</Filter>
     </ClCompile>
+    <ClCompile Include="CPhysXMgr.cpp">
+      <Filter>03. Manager\10, PhysXMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEntity.h" />
@@ -529,6 +532,9 @@
     <ClInclude Include="..\..\External\Include\Detour\DetourStatus.h">
       <Filter>08. Module\Detour</Filter>
     </ClInclude>
+    <ClInclude Include="CPhysXMgr.h">
+      <Filter>03. Manager\10, PhysXMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Header">
@@ -734,6 +740,9 @@
     </Filter>
     <Filter Include="08. Module\Detour">
       <UniqueIdentifier>{6a206414-80a8-48e3-826d-c9370ced1cf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\10, PhysXMgr">
+      <UniqueIdentifier>{4ecd7a58-b683-49c5-9f7b-e76e880fb907}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
