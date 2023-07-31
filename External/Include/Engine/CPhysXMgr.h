@@ -28,6 +28,22 @@ class CPhysXMgr :
     SINGLE(CPhysXMgr);
 
 private:
+    // 변수 선언
+    physx::PxDefaultErrorCallback       m_DefaultErrorCallback;
+    physx::PxDefaultAllocator           m_DefaultAllocatorCallback;
+    physx::PxDefaultCpuDispatcher*      m_Dispatcher = NULL;
+    physx::PxTolerancesScale            m_ToleranceScale;
+
+    physx::PxFoundation*                m_Foundation = NULL;
+    physx::PxPhysics*                   m_Physics = NULL;
+
+    physx::PxScene*                     m_Scene = NULL;
+    physx::PxMaterial*                  m_Material = NULL;
+
+    physx::PxPvd*                       m_Pvd = NULL;
+    physx::PxCooking*                   m_Cooking = NULL;
+    physx::PxPvdTransport*              m_Transport = NULL;
+
     vector<CGameObject*>                m_vecDynamicObject;
     vector<physx::PxRigidDynamic*>      m_vecDynamicActor;
     vector<physx::PxRigidStatic*>       m_vecStaticActor;
@@ -36,13 +52,21 @@ public:
     void init();
     void tick();
 
+private:
+    physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, const PxVec3& velocity = PxVec3(0));
+    //void CalcDir();
+
 public:
     // 동적 물체 생성 함수.
     // t : 위치, geometry : 형태, velocity : 속도
     // 생성된 물체를 반환함.
-    physx::PxRigidDynamic* CreateDynamic(const PxTransform& t, const PxGeometry& geometry, CGameObject* _Object, const PxVec3& velocity = PxVec3(0));
-    physx::PxRigidStatic* ConvertStatic(const PxTransform& t, const PxGeometry& geometry, CGameObject* _Object, const PxVec3& velocity = PxVec3(0));
+    physx::PxRigidDynamic* CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
+    physx::PxRigidDynamic* CreateCapsule(Vec3 _vSpawnPos, float _fRadius, float _fHeight, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
+    physx::PxRigidDynamic* CreateSphere(Vec3 _vSpawnPos, float _fRadius, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
+    physx::PxRigidStatic* ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
     void Clear();
+    void Set();
+
 };

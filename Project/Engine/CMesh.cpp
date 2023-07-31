@@ -74,6 +74,7 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	pMesh->m_VB = pVB;
 	pMesh->m_tVBDesc = tVtxDesc;
 	pMesh->m_pVtxSys = pSys;
+	pMesh->m_VtxCount = iVtxCount;
 
 	// 인덱스 정보
 	UINT iIdxBufferCount = (UINT)container->vecIdx.size();
@@ -196,8 +197,6 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	}
 
 	return pMesh;
-
-	return pMesh;
 }
 
 void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount)
@@ -281,7 +280,7 @@ int CMesh::Save(const wstring& _strRelativePath)
 	int iByteSize = m_tVBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pVtxSys, iByteSize, 1, pFile);
-
+	//fwrite(&m_VtxCount, sizeof(UINT), 1, pFile);
 	// 인덱스 정보
 	UINT iMtrlCount = (UINT)m_vecIdxInfo.size();
 	fwrite(&iMtrlCount, sizeof(int), 1, pFile);
@@ -333,13 +332,11 @@ int CMesh::Save(const wstring& _strRelativePath)
 
 	fclose(pFile);
 
-
 	return S_OK;
 }
 
 int CMesh::Load(const wstring& _strFilePath)
 {
-
 	// 읽기모드로 파일열기
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
@@ -357,10 +354,13 @@ int CMesh::Load(const wstring& _strFilePath)
 	// 정점데이터
 	UINT iByteSize = 0;
 	fread(&iByteSize, sizeof(int), 1, pFile);
+	//fread(&m_VtxCount, sizeof(UINT), 1, pFile);
 
 	m_pVtxSys = (Vtx*)malloc(iByteSize);
 	fread(m_pVtxSys, 1, iByteSize, pFile);
 
+	int iVtxCount = iByteSize / sizeof(Vtx);
+	m_VtxCount = iVtxCount;
 
 	D3D11_BUFFER_DESC tDesc = {};
 	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;

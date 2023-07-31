@@ -398,5 +398,5 @@ void AddForceCentertoMouseDir(CGameObject* _pProjectile)
 	AttackDir.Normalize();
 	AttackDir *= 500.f;
 	AttackDir.y = 0.f;
-	_pProjectile->Rigidbody()->AddVelocity(-AttackDir);
+	_pProjectile->Rigidbody()->SetVelocity(-AttackDir);
 }

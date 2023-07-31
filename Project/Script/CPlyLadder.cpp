@@ -15,7 +15,6 @@ void CPlyLadder::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, true);
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
-	GetOwner()->Rigidbody()->SetGravity(false);
 }
 
 void CPlyLadder::tick()
@@ -37,7 +36,6 @@ void CPlyLadder::tick()
 void CPlyLadder::Exit()
 {
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
-	GetOwner()->Rigidbody()->SetGravity(true);
 }
 
 void CPlyLadder::Move()

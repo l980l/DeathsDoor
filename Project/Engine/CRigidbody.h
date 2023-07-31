@@ -28,25 +28,54 @@ private:
 
 public:
     virtual void finaltick() override;
-
+    
 public:
-    void SetRigidbody(bool _bDynamic, void* _pRigidbody);
-    void AddForce(Vec3 _vForce) { m_vForce += _vForce; }
-    void SetVelocityLimit(float _fLimit) { m_fVelocityLimit = _fLimit; }
-    void SetGravityVelocityLimit(float _fLimit) { m_fGravityVLimit = _fLimit; }
+    void SetRigidbody(void* _pRigidbody);
+    void SetAngularVelocity(Vec3 _vAngvel)
+    {
+        const physx::PxVec3& Angvel = physx::PxVec3(_vAngvel.x, _vAngvel.y, _vAngvel.z);
+        m_PxRigidbody->setAngularVelocity(Angvel);
+    }
+    void AddTorque(Vec3 _vTorque)
+    {
+        const physx::PxVec3& Torque = physx::PxVec3(_vTorque.x, _vTorque.y, _vTorque.z);
+        m_PxRigidbody->addTorque(Torque);
+    }
+    void AddForce(Vec3 _vForce) 
+    {
+        const physx::PxVec3& Force =  physx::PxVec3(_vForce.x, _vForce.y, _vForce.z);
+        m_PxRigidbody->addForce(Force, physx::PxForceMode::eFORCE);
+    }
+    void SetVelocityLimit(float _fLimit) { 
 
-    float GetVelocityLimit() { return m_fVelocityLimit; }
-    float GetGravityLimit() { return m_fGravityVLimit; }
+        m_PxRigidbody->setMaxLinearVelocity(physx::PxReal(_fLimit));
+        m_fVelocityLimit = _fLimit; }
 
-    void SetVelocity(Vec3 _vVelocity) { m_vVelocity = _vVelocity; }
-    Vec3 GetVelocity() { return m_vVelocity; }
+    void AddVelocity(Vec3 _vVelocity)
+    {
+        physx::PxVec3 AddVelocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+        physx::PxVec3 LinearVelocity = m_PxRigidbody->getLinearVelocity();
+        m_PxRigidbody->setLinearVelocity(AddVelocity + LinearVelocity);
+    }
+    void SetVelocity(Vec3 _vVelocity) 
+    { 
+        const physx::PxVec3& Velocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+        m_PxRigidbody->setLinearVelocity(Velocity);
+    }
+    Vec3 GetVelocity() 
+    { 
+        physx::PxVec3 LinearVelocity = m_PxRigidbody->getLinearVelocity();
+        return Vec3(LinearVelocity.x, LinearVelocity.y, LinearVelocity.z);
+    }
 
-    void AddVelocity(Vec3 _vAddV) { m_vVelocity += _vAddV; }
-
-    void SetMass(float _fMass) { m_fMass = _fMass; }
-    void SetFriction(float _fFriction) { m_fFriction = _fFriction; }
+    void SetMass(float _fMass) {
+        m_PxRigidbody->setMass(physx::PxReal(_fMass));
+    }
+    void SetFriction(float _fFriction) 
+    { 
+        m_fFriction = _fFriction;
+    }
     void SetFrictionScale(float _fFrictionScale) { m_fFrictionScale = _fFrictionScale; }
-    void SetGravity(bool _bSet) { m_bGravityUse = _bSet; }
     void SetGravityAccel(float _fAccel) { m_fGravityAccel = _fAccel; }
     void SetGround(bool _bGround);
     void SetIce(bool _bIce);

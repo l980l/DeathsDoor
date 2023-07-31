@@ -20,6 +20,7 @@
 #include <Script\CMagic_BombScript.h>
 #include <Script\CMagic_FireScript.h>
 #include <Script\CMagic_HookScript.h>
+#include <Engine/CPhysXMgr.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -92,23 +93,25 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
-	CGameObject* pWall = new CGameObject;
-	pWall->SetName(L"Wall");
-	pWall->AddComponent(new CTransform);
-	pWall->AddComponent(new CCollider3D);
-
-	pWall->Transform()->SetRelativeScale(800000.f, 10.f, 800000.f);
-	pWall->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	pWall->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
-	pWall->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
-	pWall->Collider3D()->SetDebugShape(true);
-
-	SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::GROUND);
-
+	//CGameObject* pWall = new CGameObject;
+	//pWall->SetName(L"Wall");
+	//pWall->AddComponent(new CTransform);
+	//pWall->AddComponent(new CMeshRender);
+	//
+	//pWall->Transform()->SetRelativeScale(8000.f, 3.f, 8000.f);
+	//
+	//pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	//pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
+	//pWall->MeshRender()->SetDynamicShadow(true);
+	//pWall->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::GROUND);
+	
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr; 
 	CGameObject* pObject = nullptr;
-
+	//
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
 	pPlayer = pMeshData->Instantiate();
 	pPlayer->SetName(L"Player");
@@ -127,14 +130,13 @@ void CreateTestLevel()
 	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
 	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
 	
-	pPlayer->Rigidbody()->SetGravity(true);
 	Stat PlayerStat;
 	PlayerStat.Attack = 50.f;
 	PlayerStat.Attack_Speed = 1.f;
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 1000.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	
+	CPhysXMgr::GetInst()->CreateCapsule(Vec3(0.f, 500.f, 0.f), 30.f, 30.f, pPlayer);	
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -146,7 +148,7 @@ void CreateTestLevel()
 	pSword->MeshRender()->SetDynamicShadow(true);
 	pSword->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pSword);
-
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
 	CGameObject* pBow = pMeshData->Instantiate();
 	pBow->SetName(L"Bow");
@@ -155,31 +157,15 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 	
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ice.fbx");
-	//CGameObject* pMonster = pMeshData->Instantiate();
-	//pMonster->SetName(L"Map");
-	//pMonster->MeshRender()->SetDynamicShadow(true);
-	//pMonster->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle_boss_SIMPLE.fbx");
+	CGameObject* pMonster = pMeshData->Instantiate();
+	pMonster->SetName(L"Map");
+	pMonster->MeshRender()->SetDynamicShadow(true);
+	pMonster->MeshRender()->SetFrustumCheck(false);
+	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pMonster);
+	
+	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ARROW.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"arrow");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CRigidbody);
-	//pObject->AddComponent(new CMagic_ArrowScript);
-	//
-	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);	
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 180.f, 30.f));
-	//pObject->Collider3D()->SetOffsetPos(Vec3(0.f, -40.f, -5.f));
-	//
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
-	//
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Bomb");
@@ -222,31 +208,31 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
 	// 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_L.fbx");
-	CGameObject* pSlash = pMeshData->Instantiate();
-	pSlash->SetName(L"SLASH_L");
-	pSlash->MeshRender()->SetDynamicShadow(true);
-	pSlash->MeshRender()->SetFrustumCheck(false);
-	pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
-	
-	SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_R.fbx");
-	pSlash = pMeshData->Instantiate();
-	pSlash->SetName(L"SLASH_R");
-	pSlash->MeshRender()->SetDynamicShadow(true);
-	pSlash->MeshRender()->SetFrustumCheck(false);
-	pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
-
-	SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_L.fbx");
+	//CGameObject* pSlash = pMeshData->Instantiate();
+	//pSlash->SetName(L"SLASH_L");
+	//pSlash->MeshRender()->SetDynamicShadow(true);
+	//pSlash->MeshRender()->SetFrustumCheck(false);
+	//pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
+	//
+	//SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_R.fbx");
+	//pSlash = pMeshData->Instantiate();
+	//pSlash->SetName(L"SLASH_R");
+	//pSlash->MeshRender()->SetDynamicShadow(true);
+	//pSlash->MeshRender()->SetFrustumCheck(false);
+	//pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
+	//
+	//SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
 
 	
 	// 충돌 시킬 레이어 짝 지정
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 }

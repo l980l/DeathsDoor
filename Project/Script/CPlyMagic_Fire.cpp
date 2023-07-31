@@ -33,7 +33,6 @@ void CPlyMagic_Fire::tick()
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
 			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
-			pArrow->Rigidbody()->SetGravityVelocityLimit(1000.f);
 			pArrow->Rigidbody()->SetVelocity(vDir * 30000.f);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 

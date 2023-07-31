@@ -5,6 +5,7 @@
 
 CRigidbody::CRigidbody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
+	, m_PxRigidbody(nullptr)
 	, m_fMass(3.f)
 	, m_fFriction(300.f)
 	, m_fFrictionScale(3.f)
@@ -106,8 +107,12 @@ void CRigidbody::finaltick()
 	m_vForce = Vec3(0.f, 0.f, 0.f);
 }
 
-void CRigidbody::SetRigidbody(bool _bDynamic, void* _pRigidbody)
+void CRigidbody::SetRigidbody(void* _pRigidbody)
 {
+	if (nullptr != m_PxRigidbody)
+		assert(nullptr);
+
+	m_PxRigidbody = (physx::PxRigidDynamic *)_pRigidbody;
 }
 
 void CRigidbody::SetGround(bool _bGround)

@@ -91,7 +91,6 @@ void CPlyMagic_Hook::tick()
 			m_pHook->Rigidbody()->SetFriction(0.f);
 			m_pHook->Rigidbody()->SetMass(1.f);
 			m_pHook->Rigidbody()->SetFrictionScale(1.f);
-			m_pHook->Rigidbody()->SetGravityVelocityLimit(800.f);
 			m_pHook->Rigidbody()->SetVelocity(vDir * 30000.f);
 			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 		}

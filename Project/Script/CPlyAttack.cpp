@@ -58,6 +58,9 @@ void CPlyAttack::tick()
 			m_fAttackDelay = 0.f;
 		}
 	}
+	else if(m_fAttackDelay > 0.15f)
+		GetOwner()->Rigidbody()->SetAngularVelocity(-m_vAttackDir * 300.f * (m_fAttackDelay / 0.35f) * DT);
+
 }
 
 void CPlyAttack::Exit()
@@ -65,6 +68,8 @@ void CPlyAttack::Exit()
 	m_iAttackCount = 0;
 	m_fAttackDelay = 0.f;
 	m_fAfterAttack = 0.f;
+
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 }
 
 void CPlyAttack::CalcDir()
@@ -78,9 +83,9 @@ void CPlyAttack::CalcDir()
 	m_vAttackDir = Vec3(0.f, 0.f, 0.f);
 	m_vAttackDir = Vec3(0.f, 0.f, 0.f) - vMousePos;
 	m_vAttackDir.Normalize();
-	Vec3 AttackDir = m_vAttackDir * 700.f;
+	Vec3 AttackDir = m_vAttackDir * 500.f * DT;
 	AttackDir.y = 0.f;
-	GetOwner()->Rigidbody()->AddVelocity(-AttackDir);
+	GetOwner()->Rigidbody()->SetVelocity(-AttackDir);
 }
 
 void CPlyAttack::Slash()
@@ -89,7 +94,7 @@ void CPlyAttack::Slash()
 	if(m_iAttackCount == 0 || m_iAttackCount % 2 == 0 )
 		bRight =  true;
 	CLevelSaveLoadInScript script;
-	Vec3 SpawnPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vAttackDir * 200.f;
+	Vec3 SpawnPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vAttackDir * 100.f;
 	if (bRight)
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);

@@ -12,6 +12,7 @@
 #include "CEventMgr.h"
 #include "CFontMgr.h"
 #include "CDetourMgr.h"
+#include "CPhysXMgr.h"
 
 // ThreadMgr
 #include "CThreadMgr.h"
@@ -65,6 +66,8 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CLevelMgr::GetInst()->init();	
 
 	CDetourMgr::GetInst()->init();
+
+	CPhysXMgr::GetInst()->init();
 	
 
 

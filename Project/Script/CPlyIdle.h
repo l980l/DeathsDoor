@@ -11,6 +11,7 @@ public:
     virtual void Exit() override;
 
     virtual void BeginOverlap(CCollider3D* _Other);
+    virtual void OnOverlap(CCollider3D* _Other);
 
     CLONE(CPlyIdle);
 
