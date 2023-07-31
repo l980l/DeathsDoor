@@ -21,24 +21,18 @@
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CStateScript.h"
-#include "CWindShaderScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnchorScript");
-	_vec.push_back(L"CBankerFrameScript");
-	_vec.push_back(L"CBankerScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBrazierScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
 	_vec.push_back(L"CGameCameraScript");
-	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
-	_vec.push_back(L"CGrimKnightScript");
 	_vec.push_back(L"CGruntScript");
-	_vec.push_back(L"CKnightScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CLurkerScript");
 	_vec.push_back(L"CMagic_ArrowScript");
@@ -50,7 +44,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CStateScript");
-	_vec.push_back(L"CWindShaderScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -95,8 +88,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerWeaponScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
-	if (L"CWindShaderScript" == _strScriptName)
-		return new CWindShaderScript;
 	return nullptr;
 }
 
@@ -163,9 +154,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
-		break;
-	case (UINT)SCRIPT_TYPE::WINDSHADERSCRIPT:
-		return new CWindShaderScript;
 		break;
 	}
 	return nullptr;
@@ -253,10 +241,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::STATESCRIPT:
 		return L"CStateScript";
-		break;
-
-	case SCRIPT_TYPE::WINDSHADERSCRIPT:
-		return L"CWindShaderScript";
 		break;
 
 	}

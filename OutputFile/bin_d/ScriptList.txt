@@ -1,18 +1,12 @@
 CAnchorScript
-CBankerFrameScript
-CBankerScript
-CBatScript
 CBazookaScript
 CBrazierScript
 CCameraMoveScript
 CCrowBossScript
 CCrowHeadScript
 CGameCameraScript
-CGhostScript
 CGravityScript
-CGrimKnightScript
 CGruntScript
-CKnightScript
 CLoadLevelThreadScript
 CLurkerScript
 CMagic_ArrowScript
@@ -24,4 +18,3 @@ CMonsterDetectRangeScript
 CPlayerScript
 CPlayerWeaponScript
 CStateScript
-CWindShaderScript

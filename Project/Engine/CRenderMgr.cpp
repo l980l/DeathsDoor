@@ -29,6 +29,10 @@ CRenderMgr::CRenderMgr()
     CResMgr::GetInst()->FindRes<CMaterial>(L"GrayMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
     CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
     CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
+    Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png"); 
+    CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetTexParam(TEX_1, NoiseTextue.Get());
+    Vec2 NoiseTextureSize(NoiseTextue->Width(), NoiseTextue->Height());
+    CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetScalarParam(VEC2_0, &NoiseTextureSize);
 }
 
 CRenderMgr::~CRenderMgr()

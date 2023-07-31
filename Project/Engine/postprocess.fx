@@ -188,15 +188,15 @@ float4 PS_WindShader(VS_OUT _in) : SV_Target
     uv.y += uv.x; // 대각선 방향으로 이동하도록 uv 값 변환
    
     //if (g_vec4_0.x)
-        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -10.f), params, 8.f, g_AccTime * 1.5f);
+        col += float4(0.1f, 0.1f, 0.1f, 0.f) * calcWind(uv + float2(0.f, -10.f), params, 8.f, g_AccTime * 1.5f);
     //if (g_vec4_0.y)
-        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -20.f), params, 10.f, g_AccTime * 2.5f);
+        col += float4(0.1f, 0.1f, 0.1f, 0.f) * calcWind(uv + float2(0.f, -20.f), params, 10.f, g_AccTime * 2.5f);
     //if (g_vec4_0.z)
-        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -30.f), params, 12.f, g_AccTime * 3.5f);
+        col += float4(0.1f, 0.1f, 0.1f, 0.f) * calcWind(uv + float2(0.f, -30.f), params, 12.f, g_AccTime * 3.5f);
     //if (g_vec4_0.w)
-        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -40.f), params, 8.f, g_AccTime * 4.5f);
+        col += float4(0.1f, 0.1f, 0.1f, 0.f) * calcWind(uv + float2(0.f, -40.f), params, 8.f, g_AccTime * 4.5f);
     //if (g_vec4_1.x)
-        col += float4(0.2f, 0.2f, 0.2f, 0.f) * calcWind(uv + float2(0.f, -50.f), params, 12.f, g_AccTime * 5.5f);
+        col += float4(0.1f, 0.1f, 0.1f, 0.f) * calcWind(uv + float2(0.f, -50.f), params, 12.f, g_AccTime * 5.5f);
     
     bg.rgb += col;
 
