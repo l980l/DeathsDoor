@@ -68,62 +68,62 @@ void CPlyRun::Move()
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		Velocity.z += m_fSpeed;
-	}
-
-	if (KEY_PRESSED(KEY::S))
-	{
-		Velocity.z -= m_fSpeed;
-	}
-
-	if (KEY_PRESSED(KEY::A))
-	{
-		Velocity.x -= m_fSpeed;
-	}
-
-	if (KEY_PRESSED(KEY::D))
-	{
-		Velocity.x += m_fSpeed;
+		Velocity.z += m_fSpeed* DT;
+	}						  
+							  
+	if (KEY_PRESSED(KEY::S))  
+	{						  
+		Velocity.z -= m_fSpeed* DT;
+	}						  
+							  
+	if (KEY_PRESSED(KEY::A))  
+	{						  
+		Velocity.x -= m_fSpeed* DT;
+	}						  
+							  
+	if (KEY_PRESSED(KEY::D))  
+	{						  
+		Velocity.x += m_fSpeed* DT;
 	}
 
 	if (m_bIce)
-		GetOwner()->Rigidbody()->SetVelocity(Velocity);
-	else
 		GetOwner()->Rigidbody()->AddForce(Velocity);
+	else
+		GetOwner()->Rigidbody()->SetVelocity(Velocity);
 
 	
 }
 void CPlyRun::CalcDir()
 {
-	//Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
-	//Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
-	//Vec3 vPrevDir = GetOwner()->Transform()->GetRelativeRot();
-	//float PrevDir = vPrevDir.y;
-	//float Rot = GetDir(vPrevPos, vCurPos);
-	//float Diff = Rot - PrevDir;
-	//
-	//if (Diff > XM_PI)
-	//{
-	//	Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
-	//}
-	//else if (Diff < -XM_PI)
-	//{
-	//	Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
-	//}
-	//else
-	//	Diff = (Rot - PrevDir) * (180.f / XM_PI);
-	//
-	//if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
-	//{
-	//	bool bnegative = false;
-	//	if (Diff < 0)
-	//		bnegative = true;
-	//	
-	//	Diff = XMConvertToRadians(360.f * 3.f * DT);
-	//	if (bnegative)
-	//		Diff *= -1.f;
-	//}
-	//GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
+	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
+	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
+	Vec3 vPrevDir = GetOwner()->Transform()->GetRelativeRot();
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vPrevPos, vCurPos);
+	float Diff = Rot - PrevDir;
+	
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+	}
+	else
+		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+	
+	if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+		
+		Diff = XMConvertToRadians(360.f * 3.f * DT);
+		if (bnegative)
+			Diff *= -1.f;
+	}
+	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
 }
 
 void CPlyRun::BeginOverlap(CCollider3D* _Other)

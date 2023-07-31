@@ -10,25 +10,15 @@ class CRigidbody :
 {
 private:
     physx::PxRigidDynamic* m_PxRigidbody;
-    Vec3    m_vForce;           // 힘
-    Vec3    m_vVelocity;        // 속도 ( vector )
-    float   m_fMass;            // 질량
-
-    float   m_fFriction;        // 마찰력
-    float   m_fFrictionScale;   // 마찰계수
-
-    float   m_fVelocityLimit;   // 제한 속도
-    float   m_fGravityVLimit;   // 중력에 의한 제한 속도
-
-
-    float   m_fGravityAccel;    // 중력 가속도 설정
-    bool    m_bGravityUse;      // 중력 사용여부
-    bool    m_bGround;          // 땅 체크
-    bool    m_bIce;             // *얼음 위 체크
+    float   m_fFriction;
+    float   m_fFrictionScale;
 
 public:
-    virtual void finaltick() override;
+    virtual void finaltick() override {};
     
+    void SetFriction(float _fFriction) {};
+    void SetFrictionScale(float _fFrictionScale) {};
+
 public:
     void SetRigidbody(void* _pRigidbody);
     void SetAngularVelocity(Vec3 _vAngvel)
@@ -46,11 +36,7 @@ public:
         const physx::PxVec3& Force =  physx::PxVec3(_vForce.x, _vForce.y, _vForce.z);
         m_PxRigidbody->addForce(Force, physx::PxForceMode::eFORCE);
     }
-    void SetVelocityLimit(float _fLimit) { 
-
-        m_PxRigidbody->setMaxLinearVelocity(physx::PxReal(_fLimit));
-        m_fVelocityLimit = _fLimit; }
-
+    void SetVelocityLimit(float _fLimit) {m_PxRigidbody->setMaxLinearVelocity(physx::PxReal(_fLimit));}
     void AddVelocity(Vec3 _vVelocity)
     {
         physx::PxVec3 AddVelocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
@@ -68,29 +54,11 @@ public:
         return Vec3(LinearVelocity.x, LinearVelocity.y, LinearVelocity.z);
     }
 
-    void SetMass(float _fMass) {
-        m_PxRigidbody->setMass(physx::PxReal(_fMass));
-    }
-    void SetFriction(float _fFriction) 
-    { 
-        m_fFriction = _fFriction;
-    }
-    void SetFrictionScale(float _fFrictionScale) { m_fFrictionScale = _fFrictionScale; }
-    void SetGravityAccel(float _fAccel) { m_fGravityAccel = _fAccel; }
-    void SetGround(bool _bGround);
-    void SetIce(bool _bIce);
+    void SetMass(float _fMass) {m_PxRigidbody->setMass(physx::PxReal(_fMass));}
 
-    float GetMass() { return m_fMass; }
-    float GetFriction() { return m_fFriction; }
-    float GetFrictionScale() { return m_fFrictionScale; }    
-    bool IsUseGravity() { return m_bGravityUse; }
-    bool GetGravityAccel() { return m_fGravityAccel; }
-    bool IsGround() { return m_bGround; }
-    bool IsIce() { return m_bIce; }
+    virtual void SaveToLevelFile(FILE* _File) {};
+    virtual void LoadFromLevelFile(FILE* _FILE) {};
 
-public:
-    virtual void SaveToLevelFile(FILE* _pFile) override;
-    virtual void LoadFromLevelFile(FILE* _pFile) override;
     CLONE(CRigidbody);
 
 public:

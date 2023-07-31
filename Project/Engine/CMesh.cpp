@@ -280,7 +280,7 @@ int CMesh::Save(const wstring& _strRelativePath)
 	int iByteSize = m_tVBDesc.ByteWidth;
 	fwrite(&iByteSize, sizeof(int), 1, pFile);
 	fwrite(m_pVtxSys, iByteSize, 1, pFile);
-	//fwrite(&m_VtxCount, sizeof(UINT), 1, pFile);
+
 	// 인덱스 정보
 	UINT iMtrlCount = (UINT)m_vecIdxInfo.size();
 	fwrite(&iMtrlCount, sizeof(int), 1, pFile);
@@ -352,14 +352,13 @@ int CMesh::Load(const wstring& _strFilePath)
 	SetRelativePath(strRelativePath);
 
 	// 정점데이터
-	UINT iByteSize = 0;
+	int iByteSize = 0;
 	fread(&iByteSize, sizeof(int), 1, pFile);
-	//fread(&m_VtxCount, sizeof(UINT), 1, pFile);
 
 	m_pVtxSys = (Vtx*)malloc(iByteSize);
 	fread(m_pVtxSys, 1, iByteSize, pFile);
 
-	int iVtxCount = iByteSize / sizeof(Vtx);
+	UINT iVtxCount = (UINT)iByteSize / (UINT)(sizeof(Vtx));
 	m_VtxCount = iVtxCount;
 
 	D3D11_BUFFER_DESC tDesc = {};

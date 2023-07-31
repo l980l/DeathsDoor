@@ -17,7 +17,10 @@ void CPlyFall::Enter()
 
 void CPlyFall::tick()
 {
-	if (GetOwner()->Rigidbody()->IsGround())
+	Vec3 Diff = GetOwner()->Transform()->GetWorldPos() - GetOwner()->Transform()->GetPrevPos();
+	if (Diff == Vec3(0.f, 0.f, 0.f))
+		m_fTimeToIdle += DT;
+	if(m_fTimeToIdle > 0.2f)
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 }
 

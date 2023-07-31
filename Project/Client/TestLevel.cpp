@@ -157,14 +157,14 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle_boss_SIMPLE.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ice_simple.fbx");
 	CGameObject* pMonster = pMeshData->Instantiate();
 	pMonster->SetName(L"Map");
 	pMonster->MeshRender()->SetDynamicShadow(true);
 	pMonster->MeshRender()->SetFrustumCheck(false);
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pMonster);
-	
-	SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	delete pMonster;
+	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
 	//pObject = pMeshData->Instantiate();

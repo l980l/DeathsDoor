@@ -43,7 +43,7 @@ void CPlyAttack::tick()
 		{
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 		}
-		else if(KEY_PRESSED(KEY::LBTN))
+		else if (KEY_PRESSED(KEY::LBTN))
 		{
 			CalcDir();
 
@@ -58,8 +58,8 @@ void CPlyAttack::tick()
 			m_fAttackDelay = 0.f;
 		}
 	}
-	else if(m_fAttackDelay > 0.15f)
-		GetOwner()->Rigidbody()->SetAngularVelocity(-m_vAttackDir * 300.f * (m_fAttackDelay / 0.35f) * DT);
+	else if (m_fAttackDelay > 0.3f)
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));//-m_vAttackDir * 500.f * (m_fAttackDelay / 0.35f) * DT);
 
 }
 
@@ -83,7 +83,7 @@ void CPlyAttack::CalcDir()
 	m_vAttackDir = Vec3(0.f, 0.f, 0.f);
 	m_vAttackDir = Vec3(0.f, 0.f, 0.f) - vMousePos;
 	m_vAttackDir.Normalize();
-	Vec3 AttackDir = m_vAttackDir * 500.f * DT;
+	Vec3 AttackDir = m_vAttackDir * 700.f * DT;
 	AttackDir.y = 0.f;
 	GetOwner()->Rigidbody()->SetVelocity(-AttackDir);
 }

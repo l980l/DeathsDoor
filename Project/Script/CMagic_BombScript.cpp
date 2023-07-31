@@ -12,9 +12,7 @@ CMagic_BombScript::~CMagic_BombScript()
 
 void CMagic_BombScript::begin()
 {
-	Rigidbody()->SetFriction(0.f);
 	Rigidbody()->SetMass(1.f);
-	Rigidbody()->SetFrictionScale(1.f);
 }
 
 void CMagic_BombScript::tick()

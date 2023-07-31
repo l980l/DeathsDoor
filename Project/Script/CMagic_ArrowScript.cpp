@@ -12,9 +12,7 @@ CMagic_ArrowScript::~CMagic_ArrowScript()
 void CMagic_ArrowScript::begin()
 {
 	Rigidbody()->SetVelocityLimit(1200.f);
-	Rigidbody()->SetFriction(0.f);
 	Rigidbody()->SetMass(1.f);
-	Rigidbody()->SetFrictionScale(1.f);
 }
 
 void CMagic_ArrowScript::tick()

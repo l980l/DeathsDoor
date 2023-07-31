@@ -49,7 +49,7 @@ void CMagic_HookScript::tick()
 	// 던지지 않았다면 return
 	if (!m_bActive)
 		return;
-
+	
 	// 시작지점과의 거리만큼 Chain을 활성화
 	PaveChain();
 
@@ -58,6 +58,10 @@ void CMagic_HookScript::tick()
 
 	if(!m_bSnatch)
 	{
+		Vec3 CurPos = Transform()->GetWorldPos();
+		CurPos += m_vThrownDir * 2500.f * DT;
+		Transform()->SetRelativePos(CurPos);
+
 		// 일정시간 이상 갔다면 돌아오도록 함.
 		m_fTime += DT;
 		// 시간이 지나고 첫 tick이라면 날아오던 반대편으로 방향을 바꿈
@@ -73,10 +77,10 @@ void CMagic_HookScript::tick()
 		}
 		else
 		{
-			if (m_fTime > 0.5f)
+			if (m_fTime > 0.4f)
 			{
 				m_bReturn = true;
-				Rigidbody()->SetVelocity(-m_vThrownDir * 300000.f);
+				m_vThrownDir *= -1.f;
 			}
 		}
 
@@ -146,6 +150,7 @@ void CMagic_HookScript::PaveChain()
 			for (int i = 0; i < ActiveChain; ++i)
 			{
 				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
+				m_vecChain[i]->Transform()->SetRelativeRot(m_vChainDir);
 			}
 			for(int j = ActiveChain; j < 80; ++j)
 			{

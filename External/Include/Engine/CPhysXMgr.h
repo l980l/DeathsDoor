@@ -54,7 +54,6 @@ public:
 
 private:
     physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, const PxVec3& velocity = PxVec3(0));
-    //void CalcDir();
 
 public:
     // 동적 물체 생성 함수.
@@ -67,6 +66,5 @@ public:
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
     void Clear();
-    void Set();
 
 };

@@ -83,15 +83,16 @@ void CPlyMagic_Hook::tick()
 			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
+			m_pHook->GetScript<CMagic_HookScript>()->SetChainDir(m_vAttackDir);
 
 			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
 			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 
-			m_pHook->Rigidbody()->SetVelocityLimit(2000.f);
-			m_pHook->Rigidbody()->SetFriction(0.f);
-			m_pHook->Rigidbody()->SetMass(1.f);
-			m_pHook->Rigidbody()->SetFrictionScale(1.f);
-			m_pHook->Rigidbody()->SetVelocity(vDir * 30000.f);
+			//m_pHook->Rigidbody()->SetVelocityLimit(2000.f);
+			//m_pHook->Rigidbody()->SetFriction(0.f);
+			//m_pHook->Rigidbody()->SetMass(1.f);
+			//m_pHook->Rigidbody()->SetFrictionScale(1.f);
+			//m_pHook->Rigidbody()->SetVelocity(vDir * 30000.f);
 			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 		}
 	}

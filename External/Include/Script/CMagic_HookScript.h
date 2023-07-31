@@ -11,6 +11,7 @@ private:
     vector<CGameObject*>    m_vecChain;
     Vec3                    m_vStartPos;
     Vec3                    m_vThrownDir;
+    Vec3                    m_vChainDir;
     float                   m_fTime;
     float                   m_fDistancetoTarget;    // Hookpos와의 거리
     float                   m_fChainSpacing;        // 체인 당 차지하는 공간
@@ -26,6 +27,7 @@ public:
     virtual void tick() override;
 
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
+    void SetChainDir(Vec3 _vDir) {m_vChainDir = Vec3(_vDir.x, _vDir.y, _vDir.z - XM_PI / 2.f);}
     void SetStartPos(Vec3 _vStartPos) { m_vStartPos = _vStartPos; }
     void Active(bool _bActive);
 

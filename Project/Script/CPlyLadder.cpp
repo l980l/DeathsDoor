@@ -42,11 +42,11 @@ void CPlyLadder::Move()
 {
 	if (KEY_PRESSED(KEY::W))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, m_fSpeed, 0.f));
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, m_fSpeed * DT, 0.f));
 	}
 	else if (KEY_PRESSED(KEY::S))
 	{
-		GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, -m_fSpeed, 0.f));
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, -m_fSpeed * DT, 0.f));
 	}
 }
 

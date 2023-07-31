@@ -62,12 +62,6 @@ void CPlayerScript::tick()
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
-	// 벽에 부딪힌다면 밀어내기
-	if ((int)LAYER::GROUND == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(true);
-	}
-
 	// 아래는 공격 관련으로 무적이라면 return;
 	if (m_bInvincible)
 		return;
@@ -91,10 +85,6 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 
 void CPlayerScript::EndOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::GROUND == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(false);
-	}
 }
 
 void CPlayerScript::ChangeState(wstring _strStateName)
