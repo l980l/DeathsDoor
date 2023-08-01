@@ -18,6 +18,8 @@ void CMonsterDetectRangeScript::BeginOverlap(CCollider3D* _Other)
 		m_bDetect = true;
 		
 		GetOwner()->GetParent()->GetScript<CMonsterScript>()->SetDetect(true);
+
+		Destroy();
 	}
 }
 

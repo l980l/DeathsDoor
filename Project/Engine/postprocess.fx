@@ -2,16 +2,18 @@
 #define _POSTPROCESS
 
 #include "value.fx"
+#include "func.fx"
+
 
 struct VS_IN
 {
-	float3 vLocalPos : POSITION;
+    float3 vLocalPos : POSITION;
 	float2 vUV : TEXCOORD;	
 };
 
 struct VS_OUT
 {
-	float4 vPosition : SV_Position;
+    float4 vPosition : SV_Position;
 	float2 vUV : TEXCOORD;
 };
 
@@ -61,21 +63,6 @@ VS_OUT VS_Distortion(VS_IN _in)
 	return output;
 }
 
-//float4 PS_Distortion(VS_OUT _in) : SV_Target
-//{
-//	float2 vUV = _in.vPosition.xy / g_Resolution;
-//		
-//	
-//	float fChange = cos(( (vUV.x - g_AccTime * 0.05f) / 0.15f) * 2 * 3.1415926535f) * 0.05f;
-//
-//	vUV.y += fChange;
-//
-//	float4 vColor = g_tex_0.Sample(g_sam_0, vUV);
-//	//vColor.r *= 2.f;
-//
-//	return vColor;
-//}
-
 float4 PS_Distortion(VS_OUT _in) : SV_Target
 {
 	float2 vUV = _in.vPosition.xy / g_Resolution;
@@ -83,7 +70,7 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 	// Noise Texture 가 세팅이 되어 있다면
 	if (g_btex_1)
 	{
-		float2 vNoiseUV = float2(_in.vUV.x - (g_AccTime * 0.2f), _in.vUV.y);
+		float2 vNoiseUV = float2(_in.vUV.x - (/*g_AccTime * */0.2f), _in.vUV.y);
 		float4 vNoise = g_tex_1.Sample(g_sam_0, vNoiseUV);
 
 		vNoise = (vNoise - 0.5f) * 0.02f;		
@@ -95,49 +82,49 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 
 	return vColor;
 }
+//=========
 
-float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target
-{
-	// 특정 위치에서 파장처럼 퍼져나가는 효과를 줌.
-    float CurrentTime = 10.f * g_float_0 / 7.f;
+//float4 PS_ShockWaveShader(VS_OUT _in) : SV_Target
+//{
+	//// 특정 위치에서 파장처럼 퍼져나가는 효과를 줌.
+  
+ //   float3 WaveParams = float3(10.0, 1.f, 0.1f);
 
-    float3 WaveParams = float3(10.0, 1.f, 0.1f);
+ //   float ratio = 1.f;
 
-    float ratio = 1.f;
+	////마우스 위치를 기준으로 퍼지게 하려면 아래 줄을 사용
+	////float2 WaveCentre = float2( iMouse.xy / iResolution.xy );
 
-	//마우스 위치를 기준으로 퍼지게 하려면 아래 줄을 사용
-	//float2 WaveCentre = float2( iMouse.xy / iResolution.xy );
+ //   float2 WaveCentre = float2(0.5, 0.5);
+ //   WaveCentre.y *= ratio;
 
-    float2 WaveCentre = float2(0.5, 0.5);
-    WaveCentre.y *= ratio;
-
-    float2 texCoord = _in.vPosition.xy / g_Resolution.xy;
-    texCoord.y *= ratio;
-    float Dist = distance(texCoord, WaveCentre);
+ //   float2 texCoord = _in.vPosition.xy / g_Resolution.xy;
+ //   texCoord.y *= ratio;
+ //   float Dist = distance(texCoord, WaveCentre);
 
 
-    float4 Color = g_tex_0.Sample(g_sam_0, texCoord);
+ //   float4 Color = g_tex_0.Sample(g_sam_0, texCoord);
 
-	//중심에서 변수 거리 내의 픽셀만 왜곡함.
-    if ((Dist <= ((CurrentTime) + (WaveParams.z))) &&
-	(Dist >= ((CurrentTime) - (WaveParams.z))))
-    {
-		// 픽셀 오프셋 거리
-        float Diff = (Dist - CurrentTime);
-        float ScaleDiff = (1.f - pow(abs(Diff * WaveParams.x), WaveParams.y));
-        float DiffTime = (Diff * ScaleDiff);
+	////중심에서 변수 거리 내의 픽셀만 왜곡함.
+ //   if ((Dist <= ((CurrentTime) + (WaveParams.z))) &&
+	//(Dist >= ((CurrentTime) - (WaveParams.z))))
+ //   {
+	//	// 픽셀 오프셋 거리
+ //       float Diff = (Dist - CurrentTime);
+ //       float ScaleDiff = (1.f - pow(abs(Diff * WaveParams.x), WaveParams.y));
+ //       float DiffTime = (Diff * ScaleDiff);
 
-		// 왜곡 방향
-        float2 DiffTexCoord = normalize(texCoord - WaveCentre);
+	//	// 왜곡 방향
+ //       float2 DiffTexCoord = normalize(texCoord - WaveCentre);
 
-		// 시간이 지날수록 점차 약해지게 함.
-        texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.f));
-        Color = g_tex_0.Sample(g_sam_0, texCoord);
-        Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.f);
-    }
+	//	// 시간이 지날수록 점차 약해지게 함.
+ //       texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.f));
+ //       Color = g_tex_0.Sample(g_sam_0, texCoord);
+ //       Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.f);
+ //   }
 
-    return Color;
-}
+ //   return Color;
+//}
 
 
 

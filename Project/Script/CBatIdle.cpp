@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CBatIdle.h"
-
-CBatIdle::CBatIdle()
+#include "CBatScript.h"
+CBatIdle::CBatIdle()	:
+	m_fTime(0.f)
 {
 }
 
@@ -13,29 +14,40 @@ void CBatIdle::tick()
 {
 	m_fTime += DT;
 
-	Stat m_stat = GetOwnerScript()->GetStat();
-	if (0.f<=m_fTime && m_fTime < 0.4f)
+	CBatScript* batscript = GetOwner()->GetScript<CBatScript>();
+	bool check = batscript->GetRecognizeCheck();
+	if (check /*&& m_fTime >=1.f*/)
 	{
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT, 0.f, m_stat.Speed * DT));
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, m_stat.Speed * DT));
+		ChangeState(L"BatAttack");
+		//m_fTime = 0.f;
 	}
-	else if (0.4f <= m_fTime && m_fTime < 0.8f)
+	else
 	{
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, m_stat.Speed * DT));
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, 0.f));
+		Stat m_stat = GetOwnerScript()->GetStat();
+		if (0.f <= m_fTime && m_fTime < 0.4f)
+		{
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT, 0.f, m_stat.Speed * DT));
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, m_stat.Speed * DT));
+		}
+		else if (0.4f <= m_fTime && m_fTime < 0.8f)
+		{
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, m_stat.Speed * DT));
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, 0.f));
+		}
+		else if (0.8f <= m_fTime && m_fTime < 1.2f)
+		{
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, -m_stat.Speed * DT));
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, -m_stat.Speed * DT));
+		}
+		else if (1.2f <= m_fTime && m_fTime < 1.6f)
+		{
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT, 0.f, -m_stat.Speed * DT));
+			GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT, 0.f, 0.f));
+		}
+		else if (1.6f <= m_fTime)
+			m_fTime = 0.f;
 	}
-	else if (0.8f <= m_fTime && m_fTime < 1.2f)
-	{
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(-m_stat.Speed * DT, 0.f, -m_stat.Speed * DT));
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(0.f, 0.f, -m_stat.Speed * DT));
-	}
-	else if (1.2f <= m_fTime && m_fTime < 1.6f)
-	{
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT, 0.f, -m_stat.Speed * DT));
-		GetOwnerScript()->GetOwner()->Rigidbody()->AddVelocity(Vec3(m_stat.Speed * DT, 0.f, 0.f));
-	}
-	else if(1.6f<=m_fTime)
-		m_fTime = 0.f;
+	
 }
 
 void CBatIdle::Enter()

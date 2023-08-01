@@ -13,10 +13,14 @@
 #include "components.h"
 struct Stat
 {
+    int     MAXHP;
     int     HP;
+    int     MAXEnergy;
+    int     Energy;//player Àü¿ë
     float   Speed;
     int     Attack;
     float   Attack_Speed;
+    int     Magic_Attack;
 };
 
 enum class SCRIPT_PARAM

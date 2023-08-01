@@ -90,6 +90,8 @@ int MenuUI::render_update()
                     CreateEmptyObject((int)LAYER::ANCHOR);
                 else if (ImGui::MenuItem("Braizer"))
                     CreateEmptyObject((int)LAYER::BRAIZER);
+                else if (ImGui::MenuItem("NPC"))
+                    CreateEmptyObject((int)LAYER::NPC);
                 else if (ImGui::MenuItem("ViewPortUI"))
                     CreateEmptyObject((int)LAYER::UI);
                 ImGui::EndMenu();

@@ -2,7 +2,6 @@
 #define _DECAL
 
 #include "value.fx"
-
 // ============================
 // Decal Shader
 // RS_TYPE  : CULL_FRONT
@@ -50,7 +49,7 @@ PS_OUT PS_Decal(VS_DECAL_OUT _in)
     // 계산한 UV값으로 PositionTargetTex에서 위치값 추출
     float3 vViewPos = g_tex_1.Sample(g_sam_0, vUV).xyz;    
     
-    // 얻어온 위치값이 없다면 discard
+    // 얻어온 위치값이 없다면 discardj
     if(!any(vViewPos))
         discard;
     
@@ -69,7 +68,7 @@ PS_OUT PS_Decal(VS_DECAL_OUT _in)
             // -0.5 ~ 0.5인 x축을 0 ~ 1로 보간하고
             // 0.5 ~ -0.5인 z축을 0 ~ 1로 보간하여 UV를 구한다.
             float2 vSampleUV = float2(vLocalPos.x + 0.5f, 0.5f - vLocalPos.z);
-            float4 vSampleColor = g_tex_0.Sample(g_sam_0, vSampleUV);
+            float4 vSampleColor = g_tex_0.Sample(g_sam_1, vSampleUV);
             
             // 색상의 알파가 0이라면 discard
             if (vSampleColor.a == 0.f)
@@ -80,6 +79,7 @@ PS_OUT PS_Decal(VS_DECAL_OUT _in)
             {
                 output.vEmissive = vSampleColor;
                 output.vEmissive.a = g_float_0;
+                
             }
             else
             {
@@ -101,5 +101,7 @@ PS_OUT PS_Decal(VS_DECAL_OUT _in)
     }
     
     return output;
+     //=================
+    
 }
 #endif

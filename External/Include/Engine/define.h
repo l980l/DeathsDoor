@@ -18,6 +18,8 @@
 
 #define SINGLE(type) private: type(); ~type(); friend class CSingleton<type>;
 
+
+
 enum class MRT_TYPE
 {
 	SWAPCHAIN,
@@ -27,6 +29,8 @@ enum class MRT_TYPE
 	SHADOW,
 	END,
 };
+
+
 
 enum class COMPONENT_TYPE
 {
@@ -306,7 +310,7 @@ enum class LAYER
 	LADDER, 
 	ANCHOR,
 	BRAIZER,
-	MAGIC_FIRE,
+	NPC,
 
 	UI = 31,
 };
@@ -369,14 +373,5 @@ enum class PLAYER_MAGIC
 	FIRE,
 	BOMB,
 	HOOK,
-	END,
-};
-
-enum class PLAYER_UPGRADE
-{
-	ATTACK,
-	ATTACK_SPEED,
-	SPEED,
-	MAGIC_ATTACK,
 	END,
 };

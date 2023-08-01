@@ -17,6 +17,7 @@ struct Stat
     float   Speed;
     int     Attack;
     float   Attack_Speed;
+    int     Magic_Attack;
 };
 
 enum class SCRIPT_PARAM

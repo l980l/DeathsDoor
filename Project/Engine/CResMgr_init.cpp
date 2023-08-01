@@ -790,6 +790,10 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// Param
 	pShader->AddTexParam(TEX_0, "Output Texture");
 	pShader->AddTexParam(TEX_1, "Normal Texture");
+	pShader->AddTexParam(TEX_2, "Bloom Texture");
+	pShader->AddScalarParam(FLOAT_0, "Bloom R");
+	pShader->AddScalarParam(FLOAT_1, "Bloom G");
+	pShader->AddScalarParam(FLOAT_2, "Bloom B");
 
 	AddRes(pShader->GetKey(), pShader);
 
@@ -981,6 +985,41 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->AddTexParam(TEX_1, "Noise Texture");
 
 	AddRes(pShader->GetKey(), pShader);
+	
+	//=============
+	//Bloom Shader
+	//=============
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"BloomShader");
+	pShader->CreateVertexShader(L"shader\\bloom.fx", "VS_Bloom");
+	pShader->CreatePixelShader(L"shader\\bloom.fx", "PS_Bloom");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	pShader->AddTexParam(TEX_0, "Target Tex");
+	pShader->AddScalarParam(INT_0, "Fade Type");
+	pShader->AddScalarParam(FLOAT_0, "Fade Time");
+	pShader->AddScalarParam(INT_1, "Black White");
+
+	AddRes(pShader->GetKey(), pShader);
+	
+	//=============
+	//Fire Shader
+	//=============
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"FireShader");
+	pShader->CreateVertexShader(L"shader\\fire.fx", "VS_Fire");
+	pShader->CreatePixelShader(L"shader\\fire.fx", "PS_Fire");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
+
+	pShader->AddTexParam(TEX_0, "Noise Tex");
+	pShader->AddTexParam(TEX_1, "Gradient Tex");
+
+	AddRes(pShader->GetKey(), pShader);
 
 
 	// ============================
@@ -1075,6 +1114,9 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// 모든 정보를 종합해 새로운 화면의 씌워야 하므로 Default
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
+
+	pShader->AddScalarParam(INT_0, "Uselight");
+	pShader->AddScalarParam(FLOAT_0, "brightness");
 	AddRes(pShader->GetKey(), pShader);
 
 	// ============================
@@ -1250,6 +1292,16 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DistortionShader"));
 	AddRes(L"DistortionMtrl", pMtrl);
+
+	//BloomShader(PostProcess)
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"BloomShader"));
+	AddRes(L"BloomMtrl", pMtrl);
+
+	//FireShader(PostProcess)
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"FireShader"));
+	AddRes(L"FireMtrl", pMtrl);
 
 	// DirLightMtrl
 	pMtrl = new CMaterial(true);

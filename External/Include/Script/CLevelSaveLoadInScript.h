@@ -22,5 +22,12 @@ public:
 	//Prefab 생성
 	void SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
 	CGameObject* SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
+
+	//자리수 계산
+	int GetDigitCount(int money);
+
+	//데미지 출력
+	void ShowMoney(int money, int DigitCount, CGameObject* UI);
+	void MoneyCount(int money, CGameObject* UI) { ShowMoney(money, GetDigitCount(money), UI); }//이걸 사용하면 됨다.
 };
 

@@ -2,8 +2,6 @@
 #include "CBazzokaIdle.h"
 #include "CBazookaScript.h"
 
-#include <Engine/CTransform.h>
-
 void CBazzokaIdle::Enter()
 {
 	GetOwner()->Animator3D()->Play(2, true);

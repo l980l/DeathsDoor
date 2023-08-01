@@ -28,10 +28,10 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-	if (nullptr == m_pSword)
+	/*if (nullptr == m_pSword)
 	{
 		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
-	}
+	}*/
 	if(nullptr == m_pStateScript)
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>(); 
@@ -90,7 +90,7 @@ void CPlayerScript::EndOverlap(CCollider3D* _Other)
 void CPlayerScript::ChangeState(wstring _strStateName)
 {
 	m_pStateScript->ChangeState(_strStateName);
-	m_pSword->ChangeState(_strStateName);
+	//m_pSword->ChangeState(_strStateName);
 }
 
 void CPlayerScript::SetMagicType()

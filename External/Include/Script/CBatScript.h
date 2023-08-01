@@ -8,6 +8,7 @@ class CBatScript    :
 private:
     Stat m_stat;
     bool recognizeCheck;
+    bool retrace;
     bool onCollision;
 public:
     virtual void begin() override;
@@ -21,7 +22,7 @@ public:
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;
-
+    bool GetRecognizeCheck() { return recognizeCheck; }
     CLONE(CBatScript);
 
 public:

@@ -4,7 +4,7 @@ class CBatAttack    :
     public CState
     {
     private:
-        int m_time;
+        float m_time;
     public:
         virtual void tick() override;
         virtual void Enter() override;

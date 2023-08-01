@@ -52,7 +52,7 @@ void CDetourMgr::init()
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 {
-	if(nullptr != m_pNaviMesh)
+	if (nullptr != m_pNaviMesh)
 		delete m_pNaviMesh;
 	m_pNaviMesh = nullptr;
 	m_pPlayer = nullptr;
@@ -218,7 +218,7 @@ float CDetourMgr::GetDirtoTarget(Vec3 _vStartPos)
 	return GetDir(vPlayerPos, _vStartPos);;
 }
 
-void CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree)
+float CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree)
 {
-	GetSmoothDir(_pStartObj, m_pPlayer, _fdegree);
+	return GetSmoothDir(_pStartObj, m_pPlayer, _fdegree);
 }
