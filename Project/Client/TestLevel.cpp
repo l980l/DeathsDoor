@@ -21,6 +21,7 @@
 #include <Script\CMagic_FireScript.h>
 #include <Script\CMagic_HookScript.h>
 #include <Engine/CPhysXMgr.h>
+#include <Script/CBatScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -136,7 +137,7 @@ void CreateTestLevel()
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 1000.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateCapsule(Vec3(0.f, 500.f, 0.f), 30.f, 30.f, pPlayer);	
+	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 500.f, 0.f), Vec3(80, 180, 80), pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -157,30 +158,25 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ice_simple.fbx");
-	CGameObject* pMonster = pMeshData->Instantiate();
-	pMonster->SetName(L"Map");
-	pMonster->MeshRender()->SetDynamicShadow(true);
-	pMonster->MeshRender()->SetFrustumCheck(false);
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pMonster);
-	delete pMonster;
 	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Bomb");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CRigidbody);
-	//pObject->AddComponent(new CMagic_BombScript);
-	//
-	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-	//
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Bat");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CBatScript);
+	pObject->AddComponent(new CStateScript);
+	
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+
+	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 0.f, 0.f), Vec3(80, 80, 80), pObject);
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hook.fbx");
 	//pObject = pMeshData->Instantiate();

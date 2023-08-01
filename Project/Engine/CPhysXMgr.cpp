@@ -58,8 +58,8 @@ void CPhysXMgr::init()
 
     // Create scene
     physx::PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
-    //sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-    sceneDesc.gravity = physx::PxVec3(0.0f, 0.f, 0.0f);
+    sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+    //sceneDesc.gravity = physx::PxVec3(0.0f, 0.f, 0.0f);
     m_Dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
     sceneDesc.cpuDispatcher = m_Dispatcher;
     sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
@@ -79,8 +79,8 @@ void CPhysXMgr::init()
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
    // *mMaterial는 이 평면의 물리적 속성(마찰력, 반발력 등)을 정의하는 물질을 나타냄.
-   //physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*mPhysics, physx::PxPlane(0, 1, 0, 0), *mMaterial);
-   //mScene->addActor(*groundPlane);
+   physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(0.f, 1.f, 0.f, 0.f), *m_Material);
+   m_Scene->addActor(*groundPlane);
 
     //// 동적 물체 생성, #1 위치, #2 물체 모양, #3 속도(기본값 0)
     //CreateDynamic(PxTransform(PxVec3(0, 40, 100)), PxSphereGeometry(10), PxVec3(0, -50, -100));
@@ -96,17 +96,8 @@ void CPhysXMgr::tick()
     {
         if (nullptr == m_vecDynamicActor[i])
             continue;
-
-        PxVec3 velocity = m_vecDynamicActor[i]->getLinearVelocity();
-        if (velocity.magnitudeSquared() > 0.0f)
-        {
-            PxVec3 forwardDir = velocity.getNormalized();
-            Vec3 targetRotation(XM_PI * 1.5f, atan2(forwardDir.x, forwardDir.z), 0.f);
-            m_vecDynamicObject[i]->Transform()->SetRelativeRot(targetRotation);
-        }
-        
+                
         PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
-        PxVec3 Rotation =  m_vecDynamicActor[i]->getGlobalPose().q.getBasisVector1();
         m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
     };
 }
@@ -128,39 +119,6 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     _Object->Rigidbody()->SetRigidbody(dynamic);
     return dynamic;
 }
-
-//void CPhysXMgr::CalcDir(CGameObject* _pObject)
-//{
-//    Vec3 vPrevPos = _pObject->Transform()->GetPrevPos();
-//    Vec3 vCurPos = _pObject->Transform()->GetWorldPos();
-//    Vec3 vPrevDir = _pObject->Transform()->GetRelativeRot();
-//    float PrevDir = vPrevDir.y;
-//    float Rot = GetDir(vPrevPos, vCurPos);
-//    float Diff = Rot - PrevDir;
-//
-//    if (Diff > XM_PI)
-//    {
-//        Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
-//    }
-//    else if (Diff < -XM_PI)
-//    {
-//        Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
-//    }
-//    else
-//        Diff = (Rot - PrevDir) * (180.f / XM_PI);
-//
-//    if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
-//    {
-//        bool bnegative = false;
-//        if (Diff < 0)
-//            bnegative = true;
-//
-//        Diff = XMConvertToRadians(360.f * 3.f * DT);
-//        if (bnegative)
-//            Diff *= -1.f;
-//    }
-//    _pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
-//}
 
 physx::PxRigidDynamic* CPhysXMgr::CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object, Vec3 _vVelocity)
 {
@@ -247,8 +205,4 @@ void CPhysXMgr::Clear()
     }
 
     m_vecDynamicObject.clear();
-}
-
-void CPhysXMgr::Set()
-{
 }
