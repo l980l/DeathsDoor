@@ -120,7 +120,7 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
     dynamic->setAngularDamping(0.f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
     dynamic->setLinearVelocity(_Velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
-    dynamic->setMaxDepenetrationVelocity(100.f);
+    dynamic->setMaxDepenetrationVelocity(30.f);
     dynamic->setMass(10.f);
     m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
