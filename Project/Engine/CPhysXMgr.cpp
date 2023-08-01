@@ -74,7 +74,7 @@ void CPhysXMgr::init()
     }
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
-    m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.1f);
+    m_Material = m_Physics->createMaterial(0.1f, 0.1f, 0.1f);
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
@@ -97,7 +97,16 @@ void CPhysXMgr::tick()
         if (nullptr == m_vecDynamicActor[i])
             continue;
 
+        PxVec3 velocity = m_vecDynamicActor[i]->getLinearVelocity();
+        if (velocity.magnitudeSquared() > 0.0f)
+        {
+            PxVec3 forwardDir = velocity.getNormalized();
+            Vec3 targetRotation(XM_PI * 1.5f, atan2(forwardDir.x, forwardDir.z), 0.f);
+            m_vecDynamicObject[i]->Transform()->SetRelativeRot(targetRotation);
+        }
+        
         PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
+        PxVec3 Rotation =  m_vecDynamicActor[i]->getGlobalPose().q.getBasisVector1();
         m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
     };
 }
@@ -119,6 +128,39 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     _Object->Rigidbody()->SetRigidbody(dynamic);
     return dynamic;
 }
+
+//void CPhysXMgr::CalcDir(CGameObject* _pObject)
+//{
+//    Vec3 vPrevPos = _pObject->Transform()->GetPrevPos();
+//    Vec3 vCurPos = _pObject->Transform()->GetWorldPos();
+//    Vec3 vPrevDir = _pObject->Transform()->GetRelativeRot();
+//    float PrevDir = vPrevDir.y;
+//    float Rot = GetDir(vPrevPos, vCurPos);
+//    float Diff = Rot - PrevDir;
+//
+//    if (Diff > XM_PI)
+//    {
+//        Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+//    }
+//    else if (Diff < -XM_PI)
+//    {
+//        Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+//    }
+//    else
+//        Diff = (Rot - PrevDir) * (180.f / XM_PI);
+//
+//    if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
+//    {
+//        bool bnegative = false;
+//        if (Diff < 0)
+//            bnegative = true;
+//
+//        Diff = XMConvertToRadians(360.f * 3.f * DT);
+//        if (bnegative)
+//            Diff *= -1.f;
+//    }
+//    _pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
+//}
 
 physx::PxRigidDynamic* CPhysXMgr::CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object, Vec3 _vVelocity)
 {
@@ -147,12 +189,12 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     // Mesh의 정점 정보를 넣어줌
     Ptr<CMesh> pMesh = _Object->GetRenderComponent()->GetMesh();
     PxTriangleMeshDesc  meshDesc;
-    meshDesc.points.count = PxU32(pMesh->GetVtxCount());
-    meshDesc.points.stride = PxU32(sizeof(Vtx));
+    meshDesc.points.count = pMesh->GetVtxCount();
+    meshDesc.points.stride = sizeof(Vtx);
     meshDesc.points.data = pMesh->GetVtxSysMem();
     // Mesh의 Idx 버퍼 정보를 넣어줌
-    meshDesc.triangles.count = PxU32(pMesh->GetIdxInfo(0).iIdxCount / 3);
-    meshDesc.triangles.stride = PxU32(3 * sizeof(UINT));
+    meshDesc.triangles.count = pMesh->GetIdxInfo(0).iIdxCount / 3;;
+    meshDesc.triangles.stride = 3 * sizeof(UINT);
     meshDesc.triangles.data = pMesh->GetIdxInfo(0).pIdxSysMem;
 
     // Physx에서는 Mesh를 생성하는 것을 Cooking이라고 함.
@@ -205,4 +247,8 @@ void CPhysXMgr::Clear()
     }
 
     m_vecDynamicObject.clear();
+}
+
+void CPhysXMgr::Set()
+{
 }
