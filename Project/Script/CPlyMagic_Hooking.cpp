@@ -22,7 +22,6 @@ void CPlyMagic_Hooking::Enter()
 	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
 	float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fDirtoHooked, 0.f);
-	GetOwner()->Rigidbody()->SetVelocityLimit(1500.f);
 }
 
 void CPlyMagic_Hooking::tick()
@@ -34,7 +33,7 @@ void CPlyMagic_Hooking::tick()
 	else
 	{
 		DifftoHooked.Normalize();
-		GetOwner()->Rigidbody()->SetVelocity(Vec3(DifftoHooked.x * 30000.f, 0.f, DifftoHooked.z * 30000.f));
+		GetOwner()->Rigidbody()->SetVelocity(Vec3(DifftoHooked.x * 1500.f, 0.f, DifftoHooked.z * 1500.f));
 	}
 
 	if (!m_bAttack)

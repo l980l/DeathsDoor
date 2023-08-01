@@ -7,6 +7,7 @@ CPhysXMgr::CPhysXMgr()
     : m_vecDynamicObject{}
     , m_vecDynamicActor{}
     , m_vecStaticActor{}
+    , m_fUpdateTime(0.f)
 {
 }
 
@@ -59,7 +60,6 @@ void CPhysXMgr::init()
     // Create scene
     physx::PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
     sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-    //sceneDesc.gravity = physx::PxVec3(0.0f, 0.f, 0.0f);
     m_Dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
     sceneDesc.cpuDispatcher = m_Dispatcher;
     sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
@@ -74,14 +74,13 @@ void CPhysXMgr::init()
     }
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
-    m_Material = m_Physics->createMaterial(0.1f, 0.1f, 0.1f);
+    m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.2f);
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
    // *mMaterial는 이 평면의 물리적 속성(마찰력, 반발력 등)을 정의하는 물질을 나타냄.
-   physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(0.f, 1.f, 0.f, 0.f), *m_Material);
-   m_Scene->addActor(*groundPlane);
-
+   //physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(0.f, 1.f, 0.f, 0.f), *m_Material);
+   //m_Scene->addActor(*groundPlane);
     //// 동적 물체 생성, #1 위치, #2 물체 모양, #3 속도(기본값 0)
     //CreateDynamic(PxTransform(PxVec3(0, 40, 100)), PxSphereGeometry(10), PxVec3(0, -50, -100));
 }
@@ -89,14 +88,21 @@ void CPhysXMgr::init()
 void CPhysXMgr::tick()
 {
     // Run simulation
-    //mScene->simulate(DT);
-    m_Scene->simulate(1.f / 60.f);
-    m_Scene->fetchResults(true);
+    m_Scene->simulate(DT);
+    m_fUpdateTime += DT;
+    if(m_fUpdateTime > 0.1f)
+    {
+        m_Scene->fetchResults(true);
+        m_fUpdateTime = 0.f;
+    }
+    else
+        m_Scene->fetchResults(false);
+
     for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
     {
         if (nullptr == m_vecDynamicActor[i])
             continue;
-                
+        m_vecDynamicObject[i]->Rigidbody()->AddForce(Vec3(0.f, -100.f * DT, 0.f));
         PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
         m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
     };
@@ -111,12 +117,15 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
 
     m_vecDynamicObject.push_back(_Object);
 
-    physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.0f);
-    dynamic->setAngularDamping(0.1f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
+    physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
+    dynamic->setAngularDamping(0.f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
     dynamic->setLinearVelocity(_Velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
+    dynamic->setMaxDepenetrationVelocity(100.f);
+    dynamic->setMass(10.f);
     m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     _Object->Rigidbody()->SetRigidbody(dynamic);
+
     return dynamic;
 }
 
@@ -188,6 +197,19 @@ PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
     physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(_Plane.x, _Plane.y, _Plane.z, _Plane.w), *m_Material);
     m_Scene->addActor(*groundPlane);
     return groundPlane;
+}
+
+void CPhysXMgr::SetRenderRigidbody(bool _bRender)
+{
+    for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
+    {
+        m_vecDynamicActor[i]->setActorFlags(PxActorFlag::eVISUALIZATION);
+    }
+
+    for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
+    {
+        m_vecStaticActor[i]->setActorFlags(PxActorFlag::eVISUALIZATION);
+    }
 }
 
 void CPhysXMgr::Clear()

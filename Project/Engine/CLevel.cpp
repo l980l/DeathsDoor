@@ -37,7 +37,6 @@ void CLevel::tick()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i]->tick();
-
 	}
 }
 
@@ -46,8 +45,6 @@ void CLevel::finaltick()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i]->finaltick();
-
-		CPhysXMgr::GetInst()->tick();
 	}
 }
 

@@ -47,6 +47,7 @@ private:
     vector<CGameObject*>                m_vecDynamicObject;
     vector<physx::PxRigidDynamic*>      m_vecDynamicActor;
     vector<physx::PxRigidStatic*>       m_vecStaticActor;
+    float                               m_fUpdateTime;
 
 public:
     void init();
@@ -65,6 +66,7 @@ public:
     physx::PxRigidStatic* ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
+    void SetRenderRigidbody(bool _bRender);
     void Clear();
 
 };

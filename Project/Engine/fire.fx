@@ -106,14 +106,8 @@ float fbm(float2 uv)
     return f;
 
 }
-
-
-#ifdef BLUE_FLAME
-    col = col.zyx;
-#endif
-#ifdef GREEN_FLAME
-    col = 0.85 * col.yxz;
-#endif
+#define BLUE_FLAME col = col.zyx;    
+#define GREEN_FLAME col = 0.85 * col.yxz;
 
 PS_OUT PS_Fire(VS_OUT _in) : SV_Target
 {
@@ -144,6 +138,7 @@ PS_OUT PS_Fire(VS_OUT _in) : SV_Target
     output.vNormal = float4(_in.vVeiwNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);
     
+    return output;
     
     // 전에 있던 테스트 코드
     //float3 vViewNormal = _in.vVeiwNormal;
@@ -197,7 +192,6 @@ PS_OUT PS_Fire(VS_OUT _in) : SV_Target
     //    }
     //}
 
-    return output;
 }
 
 #endif

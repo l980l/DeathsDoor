@@ -60,6 +60,7 @@ public:
 public:
     virtual void finaltick() override;    
     void UpdateData();
+    void CalcDir();
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override;

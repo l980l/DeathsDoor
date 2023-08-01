@@ -28,7 +28,6 @@ void CPlyDodge::Exit()
 {
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
 	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
-	GetOwner()->Rigidbody()->SetVelocityLimit(GetOwnerScript()->GetStat().Speed);
 }
 
 void CPlyDodge::Dodge(float _fSpeed)
@@ -68,7 +67,6 @@ void CPlyDodge::Dodge(float _fSpeed)
 	if (vDir.x > 0.f)
 		angle = XM_2PI - angle;
 
-	GetOwner()->Rigidbody()->SetVelocityLimit(_fSpeed * 2.f);
 	GetOwner()->Rigidbody()->SetVelocity(vDir * _fSpeed * 1.5f * DT);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, angle, 0.f);
 }

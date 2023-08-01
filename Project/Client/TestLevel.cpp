@@ -77,8 +77,6 @@ void CreateTestLevel()
 
 	pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::CUBE);
 	pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
-	//pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::SPHERE);
-	//pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"Sky02"));
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
@@ -94,21 +92,21 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
-	CGameObject* pWall = new CGameObject;
-	pWall->SetName(L"Wall");
-	pWall->AddComponent(new CTransform);
-	pWall->AddComponent(new CMeshRender);
-	
-	pWall->Transform()->SetRelativeScale(300.f, 300.f, 300.f);
-	
-	pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FireMtrl"), 0);
-	pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
-	pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
-	pWall->MeshRender()->SetDynamicShadow(true);
-	pWall->MeshRender()->SetFrustumCheck(false);
-	
-	SpawnGameObject(pWall, Vec3(0.f, 0.f, 0.f), (int)LAYER::GROUND);
+	//CGameObject* pWall = new CGameObject;
+	//pWall->SetName(L"Wall");
+	//pWall->AddComponent(new CTransform);
+	//pWall->AddComponent(new CMeshRender);
+	//
+	//pWall->Transform()->SetRelativeScale(3000.f, 3000.f, 3000.f);
+	//
+	//pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FireMtrl"), 0);
+	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
+	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
+	//pWall->MeshRender()->SetDynamicShadow(true);
+	//pWall->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pWall, Vec3(0.f, 0.f, 0.f), (int)LAYER::GROUND);
 	
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr; 
@@ -138,7 +136,7 @@ void CreateTestLevel()
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 1000.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 500.f, 0.f), Vec3(80, 180, 80), pPlayer);
+	CPhysXMgr::GetInst()->CreateCube(Vec3(2000.f, 1500.f, 2500.f), Vec3(80, 180, 80), pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -158,7 +156,6 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetDynamicShadow(true);
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
-	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
 	pObject = pMeshData->Instantiate();
@@ -178,16 +175,16 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 0.f, 0.f), Vec3(80, 80, 80), pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle_boss_SIMPLE.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_SIMPLE.fbx");
 	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"castle_boss_SIMPLE");
-	
+	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+	
+	//delete pObject;
 
-	delete pObject;
-	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//CGameObject* pMonster = pMeshData->Instantiate();

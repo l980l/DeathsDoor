@@ -37,7 +37,7 @@ void CPlyMagic_Arrow::tick()
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
 			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
-			pArrow->Rigidbody()->SetVelocity(vDir * 3000.f);
+			pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");

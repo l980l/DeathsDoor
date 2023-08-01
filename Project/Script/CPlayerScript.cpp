@@ -51,7 +51,6 @@ void CPlayerScript::begin()
 		m_pStateScript->AddState(L"Hooking", new CPlyMagic_Hooking);
 		m_pStateScript->ChangeState(L"Idle");
 		MeshRender()->GetDynamicMaterial(0);
-		Rigidbody()->SetMass(3.f);
 	}	
 }
 

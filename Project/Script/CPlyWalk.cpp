@@ -17,7 +17,6 @@ void CPlyWalk::Enter()
 {
 	m_fSpeed = GetOwnerScript()->GetStat().Speed;
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::WALK, false);
-	GetOwner()->Rigidbody()->SetVelocityLimit(m_fSpeed * 0.5f);
 }
 
 void CPlyWalk::tick()
@@ -30,8 +29,8 @@ void CPlyWalk::tick()
 	}
 	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
 	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");		
-		CalcDir();
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
+		GetOwner()->Transform()->CalcDir();
 		m_fTimeToIdle = 0.f;
 	}
 
@@ -85,38 +84,6 @@ void CPlyWalk::Move()
 	}
 
 	GetOwner()->Rigidbody()->SetVelocity(Velocity);
-}
-
-void CPlyWalk::CalcDir()
-{
-	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
-	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
-	Vec3 vPrevDir = GetOwner()->Transform()->GetRelativeRot();
-	float PrevDir = vPrevDir.y;
-	float Rot = GetDir(vPrevPos, vCurPos);
-	float Diff = Rot - PrevDir;
-	
-	if (Diff > XM_PI)
-	{
-		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
-	}
-	else if (Diff < -XM_PI)
-	{
-		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
-	}
-	else
-		Diff = (Rot - PrevDir) * (180.f / XM_PI);
-	
-	if (abs(Diff) > (360.f * DT) / 180.f * XM_PI)
-	{
-		bool bnegative = false;
-		if (Diff < 0)
-			bnegative = true;
-	
-		Diff = bnegative ? -(360.f * DT) / 180.f * XM_PI : (360.f * DT) / 180.f * XM_PI;
-	}
-	
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, PrevDir + Diff, 0.f);
 }
 
 void CPlyWalk::BeginOverlap(CCollider3D* _Other)

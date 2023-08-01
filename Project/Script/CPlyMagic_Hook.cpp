@@ -88,11 +88,6 @@ void CPlyMagic_Hook::tick()
 			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
 			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 
-			//m_pHook->Rigidbody()->SetVelocityLimit(2000.f);
-			//m_pHook->Rigidbody()->SetFriction(0.f);
-			//m_pHook->Rigidbody()->SetMass(1.f);
-			//m_pHook->Rigidbody()->SetFrictionScale(1.f);
-			//m_pHook->Rigidbody()->SetVelocity(vDir * 30000.f);
 			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 		}
 	}
@@ -113,7 +108,6 @@ void CPlyMagic_Hook::FailSnatch()
 	if(GetOwnerScript()->GetCurState() == GetOwnerScript()->FindState(L"Hook"))
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	}
 }
 

@@ -118,7 +118,6 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 	{
 		if(!m_bReturn)
 		{
-			Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 			m_pOwner->Snatch(Transform()->GetWorldPos());
 			m_bSnatch = true;
 		}

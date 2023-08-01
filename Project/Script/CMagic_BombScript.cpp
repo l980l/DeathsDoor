@@ -12,7 +12,6 @@ CMagic_BombScript::~CMagic_BombScript()
 
 void CMagic_BombScript::begin()
 {
-	Rigidbody()->SetMass(1.f);
 }
 
 void CMagic_BombScript::tick()
