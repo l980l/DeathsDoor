@@ -51,7 +51,7 @@ InspectorUI::InspectorUI()
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetSize(0.f, 80.f);
+	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetSize(0.f, 200.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
@@ -105,6 +105,7 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidbodyUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetSize(0.f, 210.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
+
 
 	// RenderComponentUI
 	m_RenComUI = new RenderComponentUI;
@@ -208,6 +209,7 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 
 			m_vecScriptUI.push_back(UI);
 			AddChildUI(UI);
+			UI->SetSize(0.f, 200.f);
 			UI->SetActive(true);
 		}
 	}

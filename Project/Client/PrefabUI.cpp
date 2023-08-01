@@ -84,6 +84,7 @@ int PrefabUI::render_update()
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "11 : LADDER");
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "12 : ANCHOR");
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "13 : BRAIZER");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "14 : NPC");
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "31 : UI");
     return 0;
 }

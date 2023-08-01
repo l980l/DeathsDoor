@@ -89,7 +89,7 @@ PS_OUT PS_DirLightShader(VS_OUT _in)
     }
     
     output.vDiffuse = lightcolor.vDiffuse * saturate(1.f - fShadowPow) + lightcolor.vAmbient;
-    output.vDiffuse = ceil(output.vDiffuse * 2) / 2.f;
+    output.vDiffuse = ceil(output.vDiffuse * 8) / 8.f;
     output.vSpecular = lightcolor.vSpecular * saturate(1.f - fShadowPow);
       
     // ImGui에서 확인할 수 있도록 알파값을 1로 넣어줌.
@@ -101,44 +101,44 @@ PS_OUT PS_DirLightShader(VS_OUT _in)
 
 
 //BLOOM======================
-VS_OUT VS_Bloom(VS_IN _in)
-{
-    VS_OUT output = (VS_OUT) 0.f;
+//VS_OUT VS_Bloom(VS_IN _in)
+//{
+//    VS_OUT output = (VS_OUT) 0.f;
 
-    float3 dirX = g_matWV[0];
-    float3 dirY = g_matWV[1];
+//    float3 dirX = g_matWV[0];
+//    float3 dirY = g_matWV[1];
     
-    float radius = 30.f;
+//    float radius = 30.f;
     
-    float3 pos = _in.vPos + radius * (output.vPosition.x * dirX + output.vPosition.y * dirY);
-    output.vPosition = mul(g_matProj, float4(pos, 1));
-    output.vUV = 0.5 * output.vPosition.xy + 0.5;
-    return output;
-}
+//    float3 pos = _in.vPos + radius * (output.vPosition.x * dirX + output.vPosition.y * dirY);
+//    output.vPosition = mul(g_matProj, float4(pos, 1));
+//    output.vUV = 0.5 * output.vPosition.xy + 0.5;
+//    return output;
+//}
 
 
-PS_OUT PS_Bloom(VS_OUT _in)
-{
-    PS_OUT output = (PS_OUT) 0.f;
-    float4 corona = g_tex_2.Sample(g_sam_0, _in.vUV);
-    float strenth = 2.64f;
+//PS_OUT PS_Bloom(VS_OUT _in)
+//{
+//    PS_OUT output = (PS_OUT) 0.f;
+//    float4 corona = g_tex_2.Sample(g_sam_0, _in.vUV);
+//    float strenth = 2.64f;
     
-     // Position 정보
-    float3 vViewPos = g_tex_0.Sample(g_sam_0, _in.vUV).xyz;
+//     // Position 정보
+//    float3 vViewPos = g_tex_0.Sample(g_sam_0, _in.vUV).xyz;
     
-    // 받아온 위치 정보가 없다면(0.f, 0.f, 0.f) 호출하지 않음.
-    if (!any(vViewPos.xyz))
-        discard;
+//    // 받아온 위치 정보가 없다면(0.f, 0.f, 0.f) 호출하지 않음.
+//    if (!any(vViewPos.xyz))
+//        discard;
     
-    // 여기까지 왔다면 위치 정보가 있는 것이므로 같은 위치의 노말값을 가져와서 광원계산을 함.
-    float3 vViewNormal = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
+//    // 여기까지 왔다면 위치 정보가 있는 것이므로 같은 위치의 노말값을 가져와서 광원계산을 함.
+//    float3 vViewNormal = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
     
-    tLightColor lightcolor = (tLightColor) 0.f;
-    CalcLight3D(vViewPos, vViewNormal, g_int_0, lightcolor);
+//    tLightColor lightcolor = (tLightColor) 0.f;
+//    CalcLight3D(vViewPos, vViewNormal, g_int_0, lightcolor);
     
-    output.vDiffuse = strenth * pow(0.8, 10.4) * corona * lightcolor.vDiffuse;
-    return output;
-}
+//    output.vDiffuse = strenth * pow(0.8, 10.4) * corona * lightcolor.vDiffuse;
+//    return output;
+//}
 
 
 

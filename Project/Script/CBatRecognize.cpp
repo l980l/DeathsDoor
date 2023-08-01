@@ -11,6 +11,8 @@ CBatRecognize::~CBatRecognize()
 
 void CBatRecognize::tick()
 {
+	if(GetOwner()->Animator3D()->IsFinish())
+		ChangeState(L"BatTrace");
 }
 
 void CBatRecognize::Enter()

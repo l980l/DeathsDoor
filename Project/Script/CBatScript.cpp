@@ -28,6 +28,8 @@ CBatScript::~CBatScript()
 
 void CBatScript::begin()
 {
+	CMonsterScript::begin();
+
 	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
@@ -60,15 +62,24 @@ void CBatScript::begin()
 	m_stat.HP = 300;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
-	m_stat.Speed = 120;
+	m_stat.Speed = 200;
 	m_pStateScript->SetStat(m_stat);
 	recognizeCheck = false;
 	onCollision = false;
+	retrace = false;
 }
 
 void CBatScript::tick()
 {	
-	GetSmoothDir(GetOwner(), CLevelMgr::GetInst()->FindObjectByName(L"Player"), 2.4f);
+	CMonsterScript::tick();
+	
+	if (recognizeCheck)
+	{
+		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+		float dir = GetSmoothDir(GetOwner(), m_pPlayer);
+		Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);
+	}
 
 	//1.Player를 탐지했다면 Idle->exit()에서 Recognize --->Trace
 	if (GetDetect()&& m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState()&&
@@ -80,29 +91,33 @@ void CBatScript::tick()
 			recognizeCheck = true;
 		}
 	}
-	if (GetDetect()&& onCollision == false)
+	Vec3 PlayerPos = GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos();
+	float fDistance = GetDistance(PlayerPos, GetOwner()->Transform()->GetWorldPos());
+	if (retrace && fDistance > 100.f)
 	{
 		if (m_pStateScript->FindState(L"BatTrace") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"BatTrace");
-		SetLifeSpan(0.5f);
 	}
-	 
-	
 	//2.HP가 0 이면 Death
 	if (m_pStateScript->GetStat().HP <= 0)
 	{
 		if (m_pStateScript->FindState(L"BatDeath") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"BatDeath");
 	}
+
+
 }
 
 void CBatScript::BeginOverlap(CCollider3D* _Other)
 {
+	if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::STOP)
+		return;
+
+
 	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면 Hit
-	if (L"Player" == _Other->GetOwner()->GetName())
+	if (L"Player" == _Other->GetOwner()->GetName() && onCollision == false)
 	{
-		m_pStateScript->ChangeState(L"BatIdle");
-		onCollision = true;
+		m_pStateScript->ChangeState(L"BatAttack");
 	}
 
 	if (L"Sword" == _Other->GetName())
@@ -134,18 +149,21 @@ void CBatScript::BeginOverlap(CCollider3D* _Other)
 
 void CBatScript::OnOverlap(CCollider3D* _Other)
 {
-	if (L"Player" == _Other->GetOwner()->GetName())
-	{
-		//3.Player와 충돌했다면 Attack
-		if (m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState())
-				m_pStateScript->ChangeState(L"BatAttack");
-	}
+	//if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::STOP)
+	//	return;
+	//if (L"Player" == _Other->GetOwner()->GetName())
+	//{
+	//	//3.Player와 충돌했다면 Attack
+	//	if (m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState())
+	//			m_pStateScript->ChangeState(L"BatAttack");
+	//}
 	
 }
 
 void CBatScript::EndOverlap(CCollider3D* _Other)
 {
 	onCollision = false;
+	retrace = true;
 }
 
 void CBatScript::SaveToLevelFile(FILE* _File)

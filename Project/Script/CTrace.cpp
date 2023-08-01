@@ -86,6 +86,7 @@ void CTrace::Enter()
 
 void CTrace::Exit()
 {
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f,0.f,0.f));
 }
 
 void CTrace::BeginOverlap(CCollider3D* _Other)

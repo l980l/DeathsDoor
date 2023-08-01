@@ -310,6 +310,7 @@ enum class LAYER
 	LADDER, 
 	ANCHOR,
 	BRAIZER,
+	NPC,
 
 	UI = 31,
 };

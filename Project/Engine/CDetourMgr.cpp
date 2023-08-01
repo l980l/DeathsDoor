@@ -47,7 +47,7 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::ICE_BOSS);
+	ChangeLevel(LEVEL_TYPE::HALL);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
@@ -219,7 +219,7 @@ float CDetourMgr::GetDirtoTarget(Vec3 _vStartPos)
 	return GetDir(vPlayerPos, _vStartPos);;
 }
 
-void CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree)
+float CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree)
 {
-	GetSmoothDir(_pStartObj, m_pPlayer, _fdegree);
+	return GetSmoothDir(_pStartObj, m_pPlayer, _fdegree);
 }

@@ -70,7 +70,7 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 	// Noise Texture 가 세팅이 되어 있다면
 	if (g_btex_1)
 	{
-		float2 vNoiseUV = float2(_in.vUV.x - (g_AccTime * 0.2f), _in.vUV.y);
+		float2 vNoiseUV = float2(_in.vUV.x - (/*g_AccTime * */0.2f), _in.vUV.y);
 		float4 vNoise = g_tex_1.Sample(g_sam_0, vNoiseUV);
 
 		vNoise = (vNoise - 0.5f) * 0.02f;		

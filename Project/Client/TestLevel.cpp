@@ -31,15 +31,26 @@ void CreateTestLevel()
 	pCurLevel->GetLayer(1)->SetName(L"MAINCAMERA");
 	pCurLevel->GetLayer(2)->SetName(L"SUBCAMERA");
 	pCurLevel->GetLayer(3)->SetName(L"PLAYER");
-	pCurLevel->GetLayer(3)->SetName(L"Monster");
-	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
-	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
-	pCurLevel->GetLayer(6)->SetName(L"NPC");
-	pCurLevel->GetLayer(10)->SetName(L"MainCamera");
-	pCurLevel->GetLayer(11)->SetName(L"UICam");
-	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
+	pCurLevel->GetLayer(4)->SetName(L"MONSTER");
+	pCurLevel->GetLayer(5)->SetName(L"PLAYERPROJECTILE");
+	pCurLevel->GetLayer(6)->SetName(L"MONSTERPROJECTILE");
+	pCurLevel->GetLayer(7)->SetName(L"WALL");
+	pCurLevel->GetLayer(8)->SetName(L"ITEM");
+	pCurLevel->GetLayer(9)->SetName(L"GROUND");
+	pCurLevel->GetLayer(10)->SetName(L"FALLAREA");
+	pCurLevel->GetLayer(11)->SetName(L"LADDER");
+	pCurLevel->GetLayer(12)->SetName(L"ANCHOR");
+	pCurLevel->GetLayer(13)->SetName(L"BRAIZER");
+	pCurLevel->GetLayer(14)->SetName(L"NPC");
 
 
+	CCollisionMgr::GetInst()->LayerCheck(L"PLAYER", L"MONSTER");
+	CCollisionMgr::GetInst()->LayerCheck(L"PLAYER", L"MONSTERPROJECTILE");
+	CCollisionMgr::GetInst()->LayerCheck(L"PLAYER", L"NPC");
+	CCollisionMgr::GetInst()->LayerCheck(L"MONSTER", L"PLAYERPROJECTILE");
+
+	
+	
 	{
 		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\HallMap.lv", LEVEL_STATE::STOP);
 		pNewLevel->SetName(L"HallMap");
@@ -48,13 +59,59 @@ void CreateTestLevel()
 		evn.wParam = (DWORD_PTR)pNewLevel;
 		CEventMgr::GetInst()->AddEvent(evn);
 
-		/*CLevelMgr::GetInst()->SavePlayerInfo(1, 1000, 1000, 500, 500, 0, 100, 2, 1, 10);
-		Ptr<CSound> pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\203680770.wem");
-		pSound->Play(1, 0.5f, false);*/
+		///*CLevelMgr::GetInst()->SavePlayerInfo(1, 1000, 1000, 500, 500, 0, 100, 2, 1, 10);
+		//Ptr<CSound> pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\203680770.wem");
+		//pSound->Play(1, 0.5f, false);*/
+	}
+
+	
+
+	//{
+	//	Ptr<CMeshData> pMeshData = nullptr;
+	//	CGameObject* pObj = nullptr;
+
+	//	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
+	//	pObj = pMeshData->Instantiate();
+	//	pObj->SetName(L"CrowSword");
+	//	pObj->MeshRender()->SetDynamicShadow(true);
+	//	pObj->MeshRender()->SetFrustumCheck(false);
+	//	pObj->MeshRender()->GetMaterial(0)->SetTexParam(TEX_2, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\weaponsTexture2.png"));
+	//	//pObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl"), 2);
+	//	//pObj->MeshRender()->GetMaterial(1)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
+	//	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//}
+
+	//// Decal Object
+	//CGameObject* pDecal = new CGameObject;
+	//pDecal->SetName(L"Blur");
+	//pDecal->AddComponent(new CTransform);
+	//pDecal->AddComponent(new CMeshRender);
+
+	//pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
+
+	//pDecal->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pDecal->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl"), 0);
+	//pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0,(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\weaponsTexture2.png")));
+	//pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1,(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png")));
+	///*pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0,(CResMgr::GetInst()->FindRes<CTexture>(L"texutre\\FireDistortion.tga")));
+	//pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1,(CResMgr::GetInst()->FindRes<CTexture>(L"texutre\\FireBase.tga")));	*/
+	//SpawnGameObject(pDecal, Vec3(0.f, 0.f, 100.f), (int)LAYER::DEFAULT);
+
+	return;
+	{
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\hall.fbx");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Hall");
+		pObj->MeshRender()->SetDynamicShadow(true);
+		pObj->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	}
 
 	{
-	/*	Ptr<CMeshData> pMeshData = nullptr;
+		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
 
 		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
@@ -62,7 +119,7 @@ void CreateTestLevel()
 		pObj->SetName(L"Bat");
 		pObj->MeshRender()->SetDynamicShadow(true);
 		pObj->MeshRender()->SetFrustumCheck(false);
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);*/
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	}
 	//
 	//CGameObject* bloom = new CGameObject;
@@ -78,11 +135,7 @@ void CreateTestLevel()
 	//bloom->MeshRender()->GetMaterial(0)->SetTexParam(TEX_2, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireDistortion.tga"));
 	//SpawnGameObject(bloom, Vec3(0.f, 0.f, 100.f), 10);
 
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"MonsterProjectile");
-	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"NPC");
-	CCollisionMgr::GetInst()->LayerCheck(L"Monster", L"PlayerProjectile");
-	return;
+
 
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
@@ -99,7 +152,7 @@ void CreateTestLevel()
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
 
-	
+
 	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
 	pLightObj->SetName(L"Light");

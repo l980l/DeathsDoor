@@ -16,6 +16,7 @@ void CBatDeath::tick()
 void CBatDeath::Enter()
 {
 	//사망 시 페이퍼 번 효과
+	GetOwner()->SetLifeSpan(0.5f);
 }
 
 void CBatDeath::Exit()

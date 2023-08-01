@@ -99,7 +99,7 @@ void CPlayerScript::EndOverlap(CCollider3D* _Other)
 void CPlayerScript::ChangeState(wstring _strStateName)
 {
 	m_pStateScript->ChangeState(_strStateName);
-	m_pSword->ChangeState(_strStateName);
+	//m_pSword->ChangeState(_strStateName);
 }
 
 void CPlayerScript::SetMagicType()

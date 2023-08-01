@@ -78,7 +78,7 @@ void CLurkerScript::tick()
 	if (m_bStarePlayer)
 	{
 		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
+		//GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
 	}
 }
 
