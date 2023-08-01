@@ -13,7 +13,10 @@
 #include "components.h"
 struct Stat
 {
+    int     MAXHP;
     int     HP;
+    int     MAXEnergy;
+    int     Energy;
     float   Speed;
     int     Attack;
     float   Attack_Speed;

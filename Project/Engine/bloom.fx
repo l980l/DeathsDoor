@@ -139,5 +139,4 @@ float4 PS_Bloom(VS_OUT _in) : SV_Target
     //return Fade_In_Out(vOriginalColor, 0, 5.f);
 }
 
-
 #endif

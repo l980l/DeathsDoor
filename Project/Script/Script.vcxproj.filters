@@ -169,6 +169,15 @@
     <Filter Include="Script\02. Script\SpawnMgr">
       <UniqueIdentifier>{aba3f16f-2ab0-4ebd-accf-5adf297e4a3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\Monster">
+      <UniqueIdentifier>{3c153b05-d550-4045-b97f-4395314bc487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\NPC">
+      <UniqueIdentifier>{43d4753e-516e-4d82-bb21-8b2fcb5e71a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Boss">
+      <UniqueIdentifier>{d7c2fd1c-6b70-42e9-a2d7-c4472e169baf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -257,15 +266,6 @@
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script\02. Script\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CBatScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CGhostScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightScript.h">
-      <Filter>Script\02. Script</Filter>
     </ClInclude>
     <ClInclude Include="BatStates.h">
       <Filter>Script\01. State\01. Monster\Bat</Filter>
@@ -408,9 +408,6 @@
     <ClInclude Include="CBankerFrameScript.h">
       <Filter>Script\02. Script\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CBankerScript.h">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClInclude>
     <ClInclude Include="CPlyMagic_Arrow.h">
       <Filter>Script\01. State\02. Player\00. Player\Magic\Arrow</Filter>
     </ClInclude>
@@ -522,6 +519,156 @@
     <ClInclude Include="CDoorScript.h">
       <Filter>Script\02. Script\SpawnMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CLurkerAttack.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerBackMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerBackStep.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerDeath.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerFrontMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerIdle.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerLeftMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerNotify.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerRightMove.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerTrace.h">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntBackStep.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntDeath.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntIdle.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntJumpAttack.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntJumpAttackReady.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntLeftMove.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntMove.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntNailAttack.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntNailAttackReady.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntRightMove.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntRun.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntRun2.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntTrace.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntWalk.h">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossBatBullet.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossCutScene.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossDeath.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossGuidedBullet.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossIdle.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossJump.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossLeftSpin.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossRightSpin.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossRun.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossSliding.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossSlidingReady.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossSpitting.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossStandingDeath.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossStomp.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossWalk.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaTrace.h">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CHUDScript.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CGhostScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CBankNPCScript.h">
+      <Filter>Script\02. Script\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CBankUpgradeScript.h">
+      <Filter>Script\02. Script\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossScript.h">
+      <Filter>Script\02. Script\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowHeadScript.h">
+      <Filter>Script\02. Script\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -607,12 +754,6 @@
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script\02. Script\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="CBatScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightScript.cpp">
-      <Filter>Script\02. Script</Filter>
     </ClCompile>
     <ClCompile Include="CBatAttack.cpp">
       <Filter>Script\01. State\01. Monster\Bat</Filter>
@@ -728,9 +869,6 @@
     <ClCompile Include="CKnightWalk.cpp">
       <Filter>Script\01. State\01. Monster\Knight</Filter>
     </ClCompile>
-    <ClCompile Include="CGhostScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
     <ClCompile Include="CSpeed.cpp">
       <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
@@ -744,9 +882,6 @@
       <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
     <ClCompile Include="CBankerFrameScript.cpp">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CBankerScript.cpp">
       <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
     <ClCompile Include="CPlyMagic_Arrow.cpp">
@@ -859,6 +994,156 @@
     </ClCompile>
     <ClCompile Include="CDoorScript.cpp">
       <Filter>Script\02. Script\SpawnMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerBackMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerBackStep.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerFrontMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerLeftMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerNotify.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerRightMove.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerTrace.cpp">
+      <Filter>Script\01. State\01. Monster\Lurker</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntBackStep.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntDeath.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntIdle.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntJumpAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntJumpAttackReady.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntLeftMove.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntMove.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntNailAttack.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntNailAttackReady.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntRightMove.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntRun.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntRun2.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntTrace.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntWalk.cpp">
+      <Filter>Script\01. State\01. Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossBatBullet.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossCutScene.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossDeath.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossGuidedBullet.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossIdle.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossJump.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossLeftSpin.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossRightSpin.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossRun.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossSliding.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossSlidingReady.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossSpitting.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossStandingDeath.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossStomp.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossWalk.cpp">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaTrace.cpp">
+      <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CHUDScript.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBankNPCScript.cpp">
+      <Filter>Script\02. Script\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CBankUpgradeScript.cpp">
+      <Filter>Script\02. Script\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowBossScript.cpp">
+      <Filter>Script\02. Script\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrowHeadScript.cpp">
+      <Filter>Script\02. Script\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

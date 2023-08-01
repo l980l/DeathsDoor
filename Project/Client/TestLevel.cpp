@@ -94,20 +94,21 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
-	//CGameObject* pWall = new CGameObject;
-	//pWall->SetName(L"Wall");
-	//pWall->AddComponent(new CTransform);
-	//pWall->AddComponent(new CMeshRender);
-	//
-	//pWall->Transform()->SetRelativeScale(8000.f, 3.f, 8000.f);
-	//
-	//pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	//pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
-	//pWall->MeshRender()->SetDynamicShadow(true);
-	//pWall->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pWall, Vec3(4000.f, 300.f, 4000.f), (int)LAYER::GROUND);
+	CGameObject* pWall = new CGameObject;
+	pWall->SetName(L"Wall");
+	pWall->AddComponent(new CTransform);
+	pWall->AddComponent(new CMeshRender);
+	
+	pWall->Transform()->SetRelativeScale(300.f, 300.f, 300.f);
+	
+	pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FireMtrl"), 0);
+	pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
+	pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
+	pWall->MeshRender()->SetDynamicShadow(true);
+	pWall->MeshRender()->SetFrustumCheck(false);
+	
+	SpawnGameObject(pWall, Vec3(0.f, 0.f, 0.f), (int)LAYER::GROUND);
 	
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr; 
@@ -157,7 +158,6 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetDynamicShadow(true);
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
-	
 	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
@@ -178,20 +178,15 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 0.f, 0.f), Vec3(80, 80, 80), pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Hook.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Hook");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CRigidbody);
-	//pObject->AddComponent(new CMagic_HookScript);
-	//
-	//pObject->Transform()->SetRelativeRot(XM_PI / 2.f, 0.f, XM_PI * 1.5f);
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-	//
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\castle_boss_SIMPLE.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"castle_boss_SIMPLE");
+	
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+
+	delete pObject;
 	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
 	 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");

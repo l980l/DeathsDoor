@@ -1,6 +1,5 @@
 CAnchorScript
 CBankerFrameScript
-CBankerScript
 CBankNPCScript
 CBankUpgradeScript
 CBatScript
@@ -9,6 +8,7 @@ CBrazierScript
 CCameraMoveScript
 CCrowBossScript
 CCrowHeadScript
+CDoorScript
 CGameCameraScript
 CGhostScript
 CGravityScript
@@ -26,4 +26,6 @@ CMissileScript
 CMonsterDetectRangeScript
 CPlayerScript
 CPlayerWeaponScript
+CRoomScript
+CSpawnDoorScript
 CStateScript

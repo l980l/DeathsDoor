@@ -1170,7 +1170,6 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// BS_TYPE : DEFAULT	 
 	// Domain : DOMAIN_LIGHT
 	// ============================
-	pShader = new CGraphicsShader;
 	
 	// DepthmapShader
 	pShader = new CGraphicsShader;	
@@ -1183,6 +1182,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UNDEFINED);
 
 	AddRes<CGraphicsShader>(L"DepthMapShader", pShader);
+
 }
 
 

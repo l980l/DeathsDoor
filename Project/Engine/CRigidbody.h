@@ -10,12 +10,11 @@ class CRigidbody :
 {
 private:
     physx::PxRigidDynamic* m_PxRigidbody;
-    float   m_fFriction;
-    float   m_fFrictionScale;
 
 public:
     virtual void finaltick() override {};
     
+    void SetGround(bool _bOn) {};
     void SetFriction(float _fFriction) {};
     void SetFrictionScale(float _fFrictionScale) {};
 

@@ -11,6 +11,7 @@
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
 #include "CCrowHeadScript.h"
+#include "CDoorScript.h"
 #include "CGameCameraScript.h"
 #include "CGhostScript.h"
 #include "CGravityScript.h"
@@ -28,6 +29,8 @@
 #include "CMonsterDetectRangeScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
+#include "CRoomScript.h"
+#include "CSpawnDoorScript.h"
 #include "CStateScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -42,6 +45,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
+	_vec.push_back(L"CDoorScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
@@ -59,6 +63,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMonsterDetectRangeScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
+	_vec.push_back(L"CRoomScript");
+	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
 }
 
@@ -84,6 +90,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCrowBossScript;
 	if (L"CCrowHeadScript" == _strScriptName)
 		return new CCrowHeadScript;
+	if (L"CDoorScript" == _strScriptName)
+		return new CDoorScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
 	if (L"CGhostScript" == _strScriptName)
@@ -118,6 +126,10 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
 		return new CPlayerWeaponScript;
+	if (L"CRoomScript" == _strScriptName)
+		return new CRoomScript;
+	if (L"CSpawnDoorScript" == _strScriptName)
+		return new CSpawnDoorScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
 	return nullptr;
@@ -156,6 +168,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CROWHEADSCRIPT:
 		return new CCrowHeadScript;
+		break;
+	case (UINT)SCRIPT_TYPE::DOORSCRIPT:
+		return new CDoorScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
@@ -208,6 +223,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERWEAPONSCRIPT:
 		return new CPlayerWeaponScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ROOMSCRIPT:
+		return new CRoomScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SPAWNDOORSCRIPT:
+		return new CSpawnDoorScript;
+		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
 		break;
@@ -226,7 +247,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::BANKERFRAMESCRIPT:
 		return L"CBankerFrameScript";
 		break;
-
 
 	case SCRIPT_TYPE::BANKNPCSCRIPT:
 		return L"CBankNPCScript";
@@ -258,6 +278,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CROWHEADSCRIPT:
 		return L"CCrowHeadScript";
+		break;
+
+	case SCRIPT_TYPE::DOORSCRIPT:
+		return L"CDoorScript";
 		break;
 
 	case SCRIPT_TYPE::GAMECAMERASCRIPT:
@@ -326,6 +350,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERWEAPONSCRIPT:
 		return L"CPlayerWeaponScript";
+		break;
+
+	case SCRIPT_TYPE::ROOMSCRIPT:
+		return L"CRoomScript";
+		break;
+
+	case SCRIPT_TYPE::SPAWNDOORSCRIPT:
+		return L"CSpawnDoorScript";
 		break;
 
 	case SCRIPT_TYPE::STATESCRIPT:
