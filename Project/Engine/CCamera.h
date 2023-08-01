@@ -43,8 +43,13 @@ private:
 
     vector<CGameObject*>    m_vecDynamicShadow;     // 동적 그림자 물체
 
+    // 
+    bool                    m_bWaterCamera;
+    Ptr<CTexture>           m_WaterCamTex;
 
 public:
+    void SetWaterCamera(bool _bWaterCamera) { m_bWaterCamera = _bWaterCamera; }
+
     void SetProjType(PROJ_TYPE _Type) { m_ProjType = _Type; }
     PROJ_TYPE GetProjType() { return m_ProjType; }
 
@@ -75,6 +80,7 @@ public:
     void SortShadowObject();
     void render();
     void render_depthmap();
+    void render_water();
 
 public:
     virtual void begin() override;

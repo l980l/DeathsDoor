@@ -1188,6 +1188,35 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 	AddRes(pShader->GetKey(), pShader);
+
+
+	// ============================
+	// WaterShader
+	// RasterizerState      : CULL_BACK
+	// BlendState           : Mask
+	// DepthStencilState    : Less
+	//
+	// Parameter
+	// g_tex_0              : Output Texture
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"WaterShader");
+	pShader->CreateVertexShader(L"shader\\water.fx", "VS_Water");
+	pShader->CreatePixelShader(L"shader\\water.fx", "PS_Water");
+	/*pShader->CreateVertexShader(L"shader\\std3d_deferred.fx", "VS_Std3D_Deferred");
+	pShader->CreatePixelShader(L"shader\\std3d_deferred.fx", "PS_Std3D_Deferred");*/
+
+	pShader->SetRSType(RS_TYPE::CULL_FRONT);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::MASK);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
+
+	// Param
+	pShader->AddTexParam(TEX_0, "Output Texture");
+	pShader->AddTexParam(TEX_1, "Normal Texture");
+
+	AddRes(pShader->GetKey(), pShader);
 }
 
 
@@ -1347,4 +1376,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"WindShader"));
 	AddRes<CMaterial>(L"WindMtrl", pMtrl);
+
+	// Water Material
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"WaterShader"));
+	AddRes(L"WaterMtrl", pMtrl);
 }

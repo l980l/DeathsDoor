@@ -157,8 +157,15 @@ void CRenderMgr::MRT_Clear()
 {
     for (UINT i = 0; i < (UINT)MRT_TYPE::END; ++i)
     {
+        if (i == (UINT)MRT_TYPE::WATER)
+            continue;
         m_MRT[i]->Clear();
     }
+}
+
+void CRenderMgr::MRT_Clear(MRT_TYPE _Type)
+{
+    m_MRT[(UINT)_Type]->Clear();
 }
 
 void CRenderMgr::UpdateData()

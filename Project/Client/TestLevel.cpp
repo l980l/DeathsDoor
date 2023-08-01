@@ -22,6 +22,7 @@
 #include <Script\CBazookaScript.h>
 #include <Script\CGruntScript.h>
 #include <Script\CCrowBossScript.h>
+#include <Script\CWaterCameraScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -52,7 +53,7 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CCamera);
 	pMainCam->AddComponent(new CGameCameraScript);
 
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
@@ -193,18 +194,33 @@ void CreateTestLevel()
 
 	SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 
+	// Water 
+	CGameObject* pWater = new CGameObject;
+	pWater->SetName(L"Water");
+	pWater->AddComponent(new CTransform);
+	pWater->AddComponent(new CMeshRender);
+	pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+	pWater->Transform()->SetRelativeScale(8000.f, 8000.f, 8000.f);
+	pWater->MeshRender()->SetFrustumCheck(false);
 
-	//// Water 
-	//CGameObject* pWater = new CGameObject;
-	//pWater->SetName(L"Water");
-	//pWater->AddComponent(new CTransform);
-	//pWater->AddComponent(new CMeshRender);
-	//pWater->AddComponent(new CWindShaderScript);
-	//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+	SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
 
-	//SpawnGameObject(pWater, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
+	// Water Camera Object 생성
+	CGameObject* pWaterCam = new CGameObject;
+	pWaterCam->SetName(L"WaterCamera");
 
+	pWaterCam->AddComponent(new CTransform);
+	pWaterCam->AddComponent(new CCamera);
+	pWaterCam->AddComponent(new CWaterCameraScript);
+
+	pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pWaterCam->Camera()->SetCameraIndex(1);		 
+	pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+	pWaterCam->Camera()->SetWaterCamera(true);
+
+	SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
 	// 바닥
 	CGameObject* pWall = new CGameObject;

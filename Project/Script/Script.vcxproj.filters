@@ -498,6 +498,9 @@
     <ClInclude Include="GruntStates.h">
       <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
     </ClInclude>
+    <ClInclude Include="CWaterCameraScript.h">
+      <Filter>Script\02. Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -820,5 +823,8 @@
     </ClCompile>
     <ClCompile Include="CMagic_HookScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
+    <ClCompile Include="CWaterCameraScript.cpp">
+      <Filter>Script\02. Script</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

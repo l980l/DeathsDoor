@@ -58,9 +58,10 @@ public:
     const vector<CLight3D*> GetLight3D() { return m_vecLight3D; }
 
     void CopyRenderTarget();
+    void MRT_Clear();
+    void MRT_Clear(MRT_TYPE _Type);
 
 private:
-    void MRT_Clear();
     void UpdateData();
     void render_play();
     void render_editor();

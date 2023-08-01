@@ -327,42 +327,55 @@ void CCamera::render()
 	// =====================================
 	// Deferred Object
 	// 지연 출력으로 원하는 정보를 따로 받는 텍스쳐에 받아옴
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
-	render_deferred();
-
-	// Decal Render
-	// decal에서 position tex를 인자로 받기 위해
-	// 기존의 Target으로 지정된 Tex를 바인딩 해제해줘야 함.
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DECAL)->OMSet();
-	render_decal();
-
-	// Lighting
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet();
-	
-	// LightObj 기준 render 
-	const vector<CLight3D*> vecLight3D = CRenderMgr::GetInst()->GetLight3D();
-	for (size_t i = 0; i < vecLight3D.size(); ++i)
+	if (m_bWaterCamera)
 	{
-		vecLight3D[i]->render();
+		CRenderMgr::GetInst()->MRT_Clear(MRT_TYPE::WATER);
+		// Water MRT에 랜더
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::WATER)->OMSet();
+		render_deferred();
+		render_water();
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 	}
 
-	// (Deferred + Light) Merge
-	// 지연 출력이 끝난 후 SwapChain 출력대상 재지정 후 출력
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
-	render_merge();
+	else
+	{
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
+		render_deferred();
 
-	// Forward Object	
-	//render_opaque();
-	//render_mask();
-	render_forward();
-	
-	render_transparent();
+		// Decal Render
+		// decal에서 position tex를 인자로 받기 위해
+		// 기존의 Target으로 지정된 Tex를 바인딩 해제해줘야 함.
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DECAL)->OMSet();
+		render_decal();
 
-	// PostProcess
-	render_postprocess();
+		// Lighting
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet();
 
-	// UI
-	render_ui();
+		// LightObj 기준 render 
+		const vector<CLight3D*> vecLight3D = CRenderMgr::GetInst()->GetLight3D();
+		for (size_t i = 0; i < vecLight3D.size(); ++i)
+		{
+			vecLight3D[i]->render();
+		}
+
+		// (Deferred + Light) Merge
+		// 지연 출력이 끝난 후 SwapChain 출력대상 재지정 후 출력
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
+		render_merge();
+
+		// Forward Object	
+		//render_opaque();
+		//render_mask();
+		render_forward();
+
+		render_transparent();
+
+		// PostProcess
+		render_postprocess();
+
+		// UI
+		render_ui();
+	}
 }
 
 void CCamera::render_depthmap()
@@ -376,6 +389,12 @@ void CCamera::render_depthmap()
 	{
 		m_vecDynamicShadow[i]->GetRenderComponent()->render_depthmap();
 	}
+}
+
+void CCamera::render_water()
+{
+	Ptr<CTexture> pWaterTex = CResMgr::GetInst()->FindRes<CTexture>(L"WaterCameraTex");
+	CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl")->SetTexParam(TEX_0, pWaterTex);
 }
 
 
