@@ -98,13 +98,13 @@ void CPlyAttack::Slash()
 	if (bRight)
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
-		//CGameObject* pSlashR = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, SpawnPos, 0.35f);
-		//pSlashR->Transform()->SetRelativeRot(XM_PI * 1.5f, m_fAttackDir, 0.f);
+		CGameObject* pSlashR = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, SpawnPos, 0.35f);
+		pSlashR->Transform()->SetRelativeRot(XM_PI * 1.5f, m_fAttackDir, 0.f);
 	}
 	else
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_L, false);
-		//CGameObject* pSlashL = script.SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, SpawnPos, 0.35f);
-		//pSlashL->Transform()->SetRelativeRot(XM_PI * 1.5f, -m_fAttackDir, XM_PI);
+		CGameObject* pSlashL = script.SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, SpawnPos, 0.35f);
+		pSlashL->Transform()->SetRelativeRot(XM_PI * 1.5f, -m_fAttackDir, XM_PI);
 	}
 }

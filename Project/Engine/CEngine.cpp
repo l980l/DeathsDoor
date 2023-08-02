@@ -97,7 +97,6 @@ void CEngine::tick()
 	// Level Update
 	CLevelMgr::GetInst()->tick();
 
-	CPhysXMgr::GetInst()->tick();
 	CCollisionMgr::GetInst()->tick();
 }
 

@@ -67,23 +67,26 @@ void CPlyRun::Move()
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		Velocity.z += m_fSpeed;
+		Velocity.z += 1.f;
 	}						  
 							  
 	if (KEY_PRESSED(KEY::S))  
 	{						  
-		Velocity.z -= m_fSpeed;
+		Velocity.z -= 1.f;
 	}						  
 							  
 	if (KEY_PRESSED(KEY::A))  
 	{						  
-		Velocity.x -= m_fSpeed;
+		Velocity.x -= 1.f;
 	}						  
 							  
 	if (KEY_PRESSED(KEY::D))  
 	{						  
-		Velocity.x += m_fSpeed;
+		Velocity.x += 1.f;
 	}
+	Velocity.Normalize();
+
+	Velocity *= m_fSpeed;
 
 	if (m_bIce)
 		GetOwner()->Rigidbody()->AddForce(Velocity * DT);

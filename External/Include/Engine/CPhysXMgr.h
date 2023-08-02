@@ -54,7 +54,7 @@ public:
     void tick();
 
 private:
-    physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, const PxVec3& velocity = PxVec3(0));
+    physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, float _fYOffset,  const PxVec3& velocity = PxVec3(0));
 
 public:
     // 동적 물체 생성 함수.

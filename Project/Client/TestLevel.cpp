@@ -134,9 +134,9 @@ void CreateTestLevel()
 	PlayerStat.Attack = 50.f;
 	PlayerStat.Attack_Speed = 1.f;
 	PlayerStat.HP = 4;
-	PlayerStat.Speed = 1000.f;
+	PlayerStat.Speed = 120.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateCube(Vec3(2000.f, 1500.f, 2500.f), Vec3(80, 180, 80), pPlayer);
+	CPhysXMgr::GetInst()->CreateCube(Vec3(2000.f, 2000.f, 2500.f), Vec3(80, 80, 80), pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -171,7 +171,7 @@ void CreateTestLevel()
 	
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
-
+	
 	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 0.f, 0.f), Vec3(80, 80, 80), pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 

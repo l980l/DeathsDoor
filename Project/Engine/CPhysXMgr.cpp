@@ -64,7 +64,6 @@ void CPhysXMgr::init()
     sceneDesc.cpuDispatcher = m_Dispatcher;
     sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
     m_Scene = m_Physics->createScene(sceneDesc);
-
     physx::PxPvdSceneClient* pvdClient = m_Scene->getScenePvdClient();
     if (pvdClient)
     {
@@ -74,7 +73,7 @@ void CPhysXMgr::init()
     }
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
-    m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.2f);
+    m_Material = m_Physics->createMaterial(2.f, 0.5f, 0.f);
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
@@ -88,6 +87,7 @@ void CPhysXMgr::init()
 void CPhysXMgr::tick()
 {
     // Run simulation
+
     m_Scene->simulate(DT);
     m_fUpdateTime += DT;
     if(m_fUpdateTime > 0.1f)
@@ -102,13 +102,12 @@ void CPhysXMgr::tick()
     {
         if (nullptr == m_vecDynamicActor[i])
             continue;
-        m_vecDynamicObject[i]->Rigidbody()->AddForce(Vec3(0.f, -100.f * DT, 0.f));
         PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
         m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
     };
 }
 
-physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& _Geometry, CGameObject* _Object, const PxVec3& _Velocity)
+physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& _Geometry, CGameObject* _Object, float _fYOffset, const PxVec3& _Velocity)
 {
     if (nullptr == _Object)
         assert(nullptr);
@@ -116,12 +115,12 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
 
     m_vecDynamicObject.push_back(_Object);
-
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
-    dynamic->setAngularDamping(0.f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
+    dynamic->setLinearDamping(0.f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
     dynamic->setLinearVelocity(_Velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
-    dynamic->setMaxDepenetrationVelocity(30.f);
-    dynamic->setMass(10.f);
+    dynamic->setMass(10000.f);
+    dynamic->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+
     m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     _Object->Rigidbody()->SetRigidbody(dynamic);
@@ -133,21 +132,21 @@ physx::PxRigidDynamic* CPhysXMgr::CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, 
 {
     const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
     const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
-    return CreateDynamic(_vSpawnPos, BoxGeometry, _Object, Velocity);
+    return CreateDynamic(_vSpawnPos, BoxGeometry, _Object, 0);
 }
 
 physx::PxRigidDynamic* CPhysXMgr::CreateCapsule(Vec3 _vSpawnPos, float _fRadius, float _fHeight, CGameObject* _Object, Vec3 _vVelocity)
 {
     const PxCapsuleGeometry& CapsuleGeometry = PxCapsuleGeometry(_fRadius, _fHeight);
     const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
-    return CreateDynamic(_vSpawnPos, CapsuleGeometry, _Object, Velocity);
+    return CreateDynamic(_vSpawnPos, CapsuleGeometry, _Object, 0);
 }
 
 physx::PxRigidDynamic* CPhysXMgr::CreateSphere(Vec3 _vSpawnPos, float _fRadius, CGameObject* _Object, Vec3 _vVelocity)
 {
     const PxSphereGeometry& SphereGeometry = PxSphereGeometry(_fRadius);
     const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
-    return CreateDynamic(_vSpawnPos, SphereGeometry, _Object, Velocity);
+    return CreateDynamic(_vSpawnPos, SphereGeometry, _Object, 0);
 }
 
 physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object)

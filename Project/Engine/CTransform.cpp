@@ -106,14 +106,14 @@ void CTransform::CalcDir()
 
 	if (Diff > XM_PI)
 	{
-		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+		Diff = -(XM_2PI - Rot + PrevDir);
 	}
 	else if (Diff < -XM_PI)
 	{
-		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+		Diff = (XM_2PI - PrevDir + Rot);
 	}
 	else
-		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+		Diff = (Rot - PrevDir);
 
 	if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
 	{

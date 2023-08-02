@@ -67,6 +67,6 @@ void CPlyDodge::Dodge(float _fSpeed)
 	if (vDir.x > 0.f)
 		angle = XM_2PI - angle;
 
-	GetOwner()->Rigidbody()->SetVelocity(vDir * _fSpeed * 1.5f * DT);
+	GetOwner()->Rigidbody()->SetVelocity(vDir * _fSpeed * 1.5f);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, angle, 0.f);
 }
