@@ -14,6 +14,7 @@
 struct Stat
 {
     int     MAXHP;
+    int     Max_HP;
     int     HP;
     int     MAXEnergy;
     int     Energy;
@@ -21,6 +22,7 @@ struct Stat
     int     Attack;
     float   Attack_Speed;
     int     Magic_Attack;
+    int     Spell_Power;
 };
 
 enum class SCRIPT_PARAM

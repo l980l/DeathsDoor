@@ -26,6 +26,7 @@ private:
 public:
     virtual void finaltick() override;
     virtual void render() override;
+    virtual void render(UINT _iSubset) override;
 
     void SetModuleData(tParticleModule _ModuleData) {m_ModuleData = _ModuleData;}
     tParticleModule GetModuleData() { return m_ModuleData; }

@@ -333,6 +333,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CTrace.h" />
+    <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GruntStates.h" />
@@ -495,6 +496,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="CTrace.cpp" />
+    <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

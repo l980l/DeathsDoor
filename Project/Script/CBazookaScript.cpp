@@ -56,6 +56,7 @@ void CBazookaScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
+		NewStat.Max_HP = 300;
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
@@ -66,6 +67,8 @@ void CBazookaScript::begin()
 
 void CBazookaScript::tick()
 {
+	CMonsterScript::tick();
+	
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, Transform()->GetWorldPos());
 

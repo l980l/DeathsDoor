@@ -49,7 +49,7 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_pLightCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 		m_pLightCam->Camera()->SetWidth(4096.f);
 		m_pLightCam->Camera()->SetAspectRatio(1.f);
-		m_pLightCam->Camera()->SetFar(100000.f);
+		m_pLightCam->Camera()->SetFar(50000.f);
 	}
 
 	else if (LIGHT_TYPE::POINT == _Type)
@@ -92,14 +92,6 @@ void CLight3D::SetLightDirection(Vec3 _vDir)
 	Transform()->SetRelativeRot(vRot);
 }
 
-Vec3 CLight3D::GetLightDirection()
-{
-	return m_LightInfo.vWorldDir;
-}
-
-
-
-
 void CLight3D::finaltick()
 {
 	m_LightInfo.vWorldPos = Transform()->GetWorldPos();
@@ -127,6 +119,8 @@ void CLight3D::render()
 	// Light 여부 및 세기를 계산하는 데에 필요한 위치 및 노말값을 기록한 Tex를 보내줌
 	m_LightMtrl->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"PositionTargetTex"));
 	m_LightMtrl->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"NormalTargetTex"));
+	
+	// 방향성 광원인 경우 그림자 처리를 위해서 광원카메라로 투영시킬 수 있게 View * Proj 행렬을 전달
 	if (LIGHT_TYPE::DIRECTIONAL == (LIGHT_TYPE)m_LightInfo.LightType)
 	{
 		Matrix matLightVP = m_pLightCam->Camera()->GetViewMat() * m_pLightCam->Camera()->GetProjMat();
@@ -142,6 +136,10 @@ void CLight3D::render()
 void CLight3D::render_depthmap()
 {
 	m_pLightCam->Camera()->SortShadowObject();
+
+	// 여기서 skinning이 있어야 될거 같음..
+
+
 	m_pLightCam->Camera()->render_depthmap();
 }
 
@@ -153,5 +151,11 @@ void CLight3D::SaveToLevelFile(FILE* _File)
 void CLight3D::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
+
 	SetLightType((LIGHT_TYPE)m_LightInfo.LightType);
+	SetRadius(m_LightInfo.Radius);
+	SetAngle(m_LightInfo.Angle);
+	SetLightDiffuse(m_LightInfo.Color.vDiffuse);
+	SetLightSpecular(m_LightInfo.Color.vSpecular);
+	SetLightAmbient(m_LightInfo.Color.vAmbient);
 }

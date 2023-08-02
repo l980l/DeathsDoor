@@ -27,11 +27,12 @@ CRenderMgr::CRenderMgr()
                                                     , D3D11_USAGE_DEFAULT);
 
     CResMgr::GetInst()->FindRes<CMaterial>(L"GrayMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
-
-    //CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
-
-    CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
-
+    CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
+    CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
+    Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png"); 
+    CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetTexParam(TEX_1, NoiseTextue.Get());
+    Vec2 NoiseTextureSize(NoiseTextue->Width(), NoiseTextue->Height());
+    CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetScalarParam(VEC2_0, &NoiseTextureSize);
 }
 
 CRenderMgr::~CRenderMgr()
@@ -156,8 +157,15 @@ void CRenderMgr::MRT_Clear()
 {
     for (UINT i = 0; i < (UINT)MRT_TYPE::END; ++i)
     {
+        if (i == (UINT)MRT_TYPE::WATER)
+            continue;
         m_MRT[i]->Clear();
     }
+}
+
+void CRenderMgr::MRT_Clear(MRT_TYPE _Type)
+{
+    m_MRT[(UINT)_Type]->Clear();
 }
 
 void CRenderMgr::UpdateData()
