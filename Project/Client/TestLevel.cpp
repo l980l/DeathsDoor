@@ -184,6 +184,22 @@ void CreateTestLevel()
 
 	SpawnGameObject(pGrunt, Vec3(400.f, 500.f, 1000.f), (int)LAYER::MONSTER);
 
+	// Į
+	CGameObject* pSword = nullptr;
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
+	pSword = pMeshData->Instantiate();
+	pSword->SetName(L"CrowSword");
+
+	pSword->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
+	pSword->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+
+	pSword->MeshRender()->SetDynamicShadow(true);
+	pSword->MeshRender()->SetFrustumCheck(false);
+	static int bEmissive = 1;
+	pSword->MeshRender()->GetMaterial(0)->GetScalarParam(SCALAR_PARAM::INT_0, &bEmissive);
+
+	SpawnGameObject(pSword, Vec3(0.f, 500.f, 0.f), (int)LAYER::DEFAULT);
+
 	// Wind 
 	CGameObject* pWind = new CGameObject;
 	pWind->SetName(L"Wind");
