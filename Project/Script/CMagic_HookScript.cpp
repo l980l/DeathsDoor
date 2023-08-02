@@ -33,6 +33,7 @@ void CMagic_HookScript::Clear()
 {
 	m_vStartPos = {};
 	m_vThrownDir = {};
+	m_vAttackDir = {};
 	m_fTime = 0.f;
 	m_fDistancetoTarget = 0.f;
 	m_bSnatch = false;
@@ -46,15 +47,13 @@ void CMagic_HookScript::begin()
 
 void CMagic_HookScript::tick()
 {
+	Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
+	m_fDistancetoTarget = Diff.Length();
+
 	// 던지지 않았다면 return
 	if (!m_bActive)
 		return;
 	
-	// 시작지점과의 거리만큼 Chain을 활성화
-	PaveChain();
-
-	Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
-	m_fDistancetoTarget = Diff.Length();
 
 	if(!m_bSnatch)
 	{
@@ -85,6 +84,10 @@ void CMagic_HookScript::tick()
 		}
 
 	}
+
+
+	// 시작지점과의 거리만큼 Chain을 활성화
+	PaveChain();
 }
 
 void CMagic_HookScript::Active(bool _bActive)
@@ -94,9 +97,11 @@ void CMagic_HookScript::Active(bool _bActive)
 	if(m_bActive)
 	{
 		Transform()->SetRelativeScale(1.f, 1.f, 1.f);
+		Transform()->SetRelativeRot(m_vAttackDir);
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
+			m_vecChain[i]->Transform()->SetRelativeRot(m_vAttackDir);
 		}
 	}
 	else if(!m_bActive)
@@ -146,16 +151,22 @@ void CMagic_HookScript::PaveChain()
 		}
 		else
 		{
-			for (int i = 0; i < ActiveChain; ++i)
+			for (int i = 0; i < 80; ++i)
 			{
-				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
-				m_vecChain[i]->Transform()->SetRelativeRot(m_vChainDir);
-			}
-			for(int j = ActiveChain; j < 80; ++j)
-			{
-				m_vecChain[j]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
+				if(i < ActiveChain)
+					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(2.f, 2.f, 2.f));
+				else
+					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
 			}
 		}
 
+	}
+	else
+	{
+
+		for (int i = 0; i < 80; ++i)
+		{
+				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
+		}
 	}
 }

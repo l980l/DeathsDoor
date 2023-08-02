@@ -134,7 +134,7 @@ void CreateTestLevel()
 	PlayerStat.Attack = 50.f;
 	PlayerStat.Attack_Speed = 1.f;
 	PlayerStat.HP = 4;
-	PlayerStat.Speed = 120.f;
+	PlayerStat.Speed = 150.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
 	CPhysXMgr::GetInst()->CreateCube(Vec3(2000.f, 2000.f, 2500.f), Vec3(80, 80, 80), pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
@@ -177,13 +177,18 @@ void CreateTestLevel()
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_SIMPLE.fbx");
 	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	
 	//delete pObject;
 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Map");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");

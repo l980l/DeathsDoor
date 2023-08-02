@@ -82,13 +82,11 @@ void CPlyMagic_Hook::tick()
 			m_pHook->Transform()->SetRelativePos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
+			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(m_vAttackDir);
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
-			m_pHook->GetScript<CMagic_HookScript>()->SetChainDir(m_vAttackDir);
 
 			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
 			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-
-			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 		}
 	}
 }

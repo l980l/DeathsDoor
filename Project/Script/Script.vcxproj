@@ -287,20 +287,20 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMagic_HookScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
-    <ClInclude Include="CPlyAttack.h" />
-    <ClInclude Include="CPlyDance.h" />
-    <ClInclude Include="CPlyDead.h" />
-    <ClInclude Include="CPlyDodge.h" />
     <ClInclude Include="CGravityScript.h" />
-    <ClInclude Include="CPlyFall.h" />
-    <ClInclude Include="CPlyHit.h" />
-    <ClInclude Include="CPlyIdle.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
     <ClInclude Include="CLoadingThread.h" />
     <ClInclude Include="CLoadLevelThreadScript.h" />
     <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
+    <ClInclude Include="CPlyAttack.h" />
+    <ClInclude Include="CPlyDance.h" />
+    <ClInclude Include="CPlyDead.h" />
+    <ClInclude Include="CPlyDodge.h" />
+    <ClInclude Include="CPlyFall.h" />
+    <ClInclude Include="CPlyHit.h" />
+    <ClInclude Include="CPlyIdle.h" />
     <ClInclude Include="CPlyLadder.h" />
     <ClInclude Include="CPlyMagic_Arrow.h" />
     <ClInclude Include="CPlyMagic_Bomb.h" />
@@ -308,6 +308,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlyMagic_Hook.h" />
     <ClInclude Include="CPlyMagic_Hooking.h" />
     <ClInclude Include="CPlyRun.h" />
+    <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CPlyWpAttack.h" />
     <ClInclude Include="CPlyWpDance.h" />
     <ClInclude Include="CPlyWpDead.h" />
@@ -331,7 +332,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CSpeed.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
-    <ClInclude Include="CPlyWalk.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
@@ -339,7 +339,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="GruntStates.h" />
     <ClInclude Include="LurkerStates.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PlayerWeaponStates.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnchorScript.cpp" />
@@ -451,20 +450,20 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMagic_HookScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
-    <ClCompile Include="CPlyAttack.cpp" />
-    <ClCompile Include="CPlyDance.cpp" />
-    <ClCompile Include="CPlyDead.cpp" />
-    <ClCompile Include="CPlyDodge.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
-    <ClCompile Include="CPlyFall.cpp" />
-    <ClCompile Include="CPlyHit.cpp" />
-    <ClCompile Include="CPlyIdle.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />
     <ClCompile Include="CLoadingThread.cpp" />
     <ClCompile Include="CLoadLevelThreadScript.cpp" />
     <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
+    <ClCompile Include="CPlyAttack.cpp" />
+    <ClCompile Include="CPlyDance.cpp" />
+    <ClCompile Include="CPlyDead.cpp" />
+    <ClCompile Include="CPlyDodge.cpp" />
+    <ClCompile Include="CPlyFall.cpp" />
+    <ClCompile Include="CPlyHit.cpp" />
+    <ClCompile Include="CPlyIdle.cpp" />
     <ClCompile Include="CPlyLadder.cpp" />
     <ClCompile Include="CPlyMagic_Arrow.cpp" />
     <ClCompile Include="CPlyMagic_Bomb.cpp" />
@@ -472,6 +471,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyMagic_Hook.cpp" />
     <ClCompile Include="CPlyMagic_Hooking.cpp" />
     <ClCompile Include="CPlyRun.cpp" />
+    <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="CPlyWpAttack.cpp" />
     <ClCompile Include="CPlyWpDance.cpp" />
     <ClCompile Include="CPlyWpDead.cpp" />
@@ -494,7 +494,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CSpeed.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
-    <ClCompile Include="CPlyWalk.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />

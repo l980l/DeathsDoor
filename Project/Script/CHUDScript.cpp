@@ -19,7 +19,7 @@ void CHUDScript::begin()
 	
 	//player의 HP 정보 받아오기
 	Stat playerStatus = playerStatusScript->GetStat();
-	m_pMaxHP = playerStatus.MAXHP;
+	m_pMaxHP = playerStatus.Max_HP;
 	m_pHP = playerStatus.HP;
 	
 	//HP Frame과 HP empty icon 배치
@@ -32,7 +32,7 @@ void CHUDScript::begin()
 	script.SpawnPrefab(L"texture\\HUD\\hud_hp_empty 1.png", 0, Vec3(0.f, 0.f, 0.f));
 
 	//Player의 energy 정보 받아오기
-	m_pMaxEnergy = playerStatus.MAXEnergy;
+	m_pMaxEnergy = playerStatus.Max_Energy;
 	m_pEnergy = playerStatus.Energy;
 
 	//energy empty icon 배치
@@ -196,10 +196,10 @@ void CHUDScript::tick()
 	//HP
 	CStateScript* playerStatusScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>();
 	Stat playerStatus = playerStatusScript->GetStat();
-	m_pMaxHP = playerStatus.MAXHP;
+	m_pMaxHP = playerStatus.Max_HP;
 	m_pHP = playerStatus.HP;
 	//Energy
-	m_pMaxEnergy = playerStatus.MAXEnergy;
+	m_pMaxEnergy = playerStatus.Max_Energy;
 	m_pEnergy = playerStatus.Energy;
 	//Point -> monster가 dead 일 때 마다 GetDigitCount --> ShowMoney 고로 Money는 여기에서 spawn하지 않는다.
 }

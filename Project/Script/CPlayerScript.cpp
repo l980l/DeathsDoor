@@ -57,6 +57,9 @@ void CPlayerScript::begin()
 void CPlayerScript::tick()
 {
 	SetMagicType();
+	int a = 1;
+	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+	GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)

@@ -83,7 +83,7 @@ void CPlyAttack::CalcDir()
 	m_vAttackDir = Vec3(0.f, 0.f, 0.f);
 	m_vAttackDir = Vec3(0.f, 0.f, 0.f) - vMousePos;
 	m_vAttackDir.Normalize();
-	Vec3 AttackDir = m_vAttackDir * 700.f * DT;
+	Vec3 AttackDir = m_vAttackDir * 50.f;
 	AttackDir.y = 0.f;
 	GetOwner()->Rigidbody()->SetVelocity(-AttackDir);
 }

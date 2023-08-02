@@ -32,6 +32,7 @@
 #include "CRoomScript.h"
 #include "CSpawnDoorScript.h"
 #include "CStateScript.h"
+#include "CWaterCameraScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -66,6 +67,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CRoomScript");
 	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
+	_vec.push_back(L"CWaterCameraScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -132,6 +134,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSpawnDoorScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
+	if (L"CWaterCameraScript" == _strScriptName)
+		return new CWaterCameraScript;
 	return nullptr;
 }
 
@@ -231,6 +235,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
+		break;
+	case (UINT)SCRIPT_TYPE::WATERCAMERASCRIPT:
+		return new CWaterCameraScript;
 		break;
 	}
 	return nullptr;
@@ -362,6 +369,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::STATESCRIPT:
 		return L"CStateScript";
+		break;
+
+	case SCRIPT_TYPE::WATERCAMERASCRIPT:
+		return L"CWaterCameraScript";
 		break;
 
 	}
