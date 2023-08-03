@@ -1,14 +1,15 @@
 #pragma once
 #include <Engine/CScript.h>
-class CDoorScript :
+
+class CColiider3D;
+
+// Coliider를 가지고 방의 입구에 위치함
+// Player와 충돌하면 자신을 삭제하며 문을 닫고 SpawnMgr에 자신이 가진 번호의 방을 활성화시키게 함.
+class CEnterScript :
     public CScript
 {
 private:
     int      m_iRoomNum;
-    bool     m_bOpen;
-    bool     m_bClose;
-    Vec3     m_vStartPos;
-    float    m_fMoveDistance;
 
 public:
     virtual void begin() override;
@@ -16,17 +17,17 @@ public:
 
 public:
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
-    void CloseDoor();
-    void OpenDoor();
+
+    virtual void BeginOverlap(CColiider3D* _Other);
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;
 
-    CLONE(CDoorScript);
+    CLONE(CEnterScript);
 public:
-    CDoorScript();
-    CDoorScript(const CDoorScript& _Other);
-    ~CDoorScript();
+    CEnterScript();
+    CEnterScript(const CEnterScript& _Other);
+    ~CEnterScript();
 
     friend class CSpawnMgr;
 };
