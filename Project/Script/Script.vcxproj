@@ -217,7 +217,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCrowBossStomp.h" />
     <ClInclude Include="CCrowBossWalk.h" />
     <ClInclude Include="CCrowHeadScript.h" />
-    <ClInclude Include="CDoorScript.h" />
+    <ClInclude Include="CEnterScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
@@ -286,6 +286,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMagic_FireScript.h" />
     <ClInclude Include="CMagic_HookScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
+    <ClInclude Include="CCusrorScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
@@ -333,6 +334,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
+    <ClInclude Include="CWallScript.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
     <ClInclude Include="framework.h" />
@@ -380,7 +382,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCrowBossStomp.cpp" />
     <ClCompile Include="CCrowBossWalk.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
-    <ClCompile Include="CDoorScript.cpp" />
+    <ClCompile Include="CEnterScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
@@ -449,6 +451,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMagic_FireScript.cpp" />
     <ClCompile Include="CMagic_HookScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
+    <ClCompile Include="CCusrorScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />
@@ -495,6 +498,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />
+    <ClCompile Include="CWallScript.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />
     <ClCompile Include="pch.cpp">

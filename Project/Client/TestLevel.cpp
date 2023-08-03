@@ -132,11 +132,11 @@ void CreateTestLevel()
 	
 	Stat PlayerStat;
 	PlayerStat.Attack = 50.f;
-	PlayerStat.Attack_Speed = 1.f;
+	PlayerStat.Attack_Speed = 0.4f;
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 150.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateCube(Vec3(2000.f, 2000.f, 2500.f), Vec3(80, 80, 80), pPlayer);
+	CPhysXMgr::GetInst()->CreateCube(Vec3(6000.f, 2000.f, 1500.f), Vec3(80, 80, 80), pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -175,20 +175,17 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 0.f, 0.f), Vec3(80, 80, 80), pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_SIMPLE.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_SIMPLE.fbx");
 	pObject = pMeshData->Instantiate();
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	
-	//delete pObject;
+	delete pObject;
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Map");
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Map");
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");

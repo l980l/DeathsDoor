@@ -93,7 +93,7 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 	if (L"CCrowHeadScript" == _strScriptName)
 		return new CCrowHeadScript;
 	if (L"CDoorScript" == _strScriptName)
-		return new CDoorScript;
+		return new CEnterScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
 	if (L"CGhostScript" == _strScriptName)
@@ -174,7 +174,7 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		return new CCrowHeadScript;
 		break;
 	case (UINT)SCRIPT_TYPE::DOORSCRIPT:
-		return new CDoorScript;
+		return new CEnterScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;

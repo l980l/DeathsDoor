@@ -67,6 +67,15 @@
     <Filter Include="Script\01. State\01. Monster\CrowBoss\State">
       <UniqueIdentifier>{9285e7aa-16f1-4dc7-b8b0-61d05f647ed9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr\SpawnDoor">
+      <UniqueIdentifier>{58386487-ac43-4d10-8541-b74b01ae8844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr\Enter">
+      <UniqueIdentifier>{82c4a778-7a70-4862-b253-ac9bca68d1d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr\Door">
+      <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -399,6 +408,18 @@
     <ClInclude Include="CPlyWpRun.h">
       <Filter>Script\01. State\02. Player\01. Weapon\Run</Filter>
     </ClInclude>
+    <ClInclude Include="CEnterScript.h">
+      <Filter>Script\02. Script\SpawnMgr\Enter</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpawnDoorScript.h">
+      <Filter>Script\02. Script\SpawnMgr\SpawnDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="CWallScript.h">
+      <Filter>Script\02. Script\SpawnMgr\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="CCusrorScript.h">
+      <Filter>Script\02. Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -478,9 +499,6 @@
     </ClCompile>
     <ClCompile Include="CMagic_FireScript.cpp">
       <Filter>Script\02. Script\Player\Magic</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlyWpMagic_Fire.cpp">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic\Fire</Filter>
     </ClCompile>
     <ClCompile Include="CAnchorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Anchor</Filter>
@@ -711,6 +729,19 @@
     </ClCompile>
     <ClCompile Include="CPlyWpWalk.cpp">
       <Filter>Script\01. State\02. Player\01. Weapon\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlyWpMagic_Fire.cpp" />
+    <ClCompile Include="CEnterScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr\Enter</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnDoorScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr\SpawnDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="CWallScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="CCusrorScript.cpp">
+      <Filter>Script\02. Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1148,12 +1179,6 @@
     <ClInclude Include="CRoomScript.h">
       <Filter>Script\02. Script\SpawnMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CSpawnDoorScript.h">
-      <Filter>Script\02. Script\SpawnMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CDoorScript.h">
-      <Filter>Script\02. Script\SpawnMgr</Filter>
-    </ClInclude>
     <ClInclude Include="CLurkerAttack.h">
       <Filter>Script\01. State\01. Monster\Lurker</Filter>
     </ClInclude>
@@ -1553,12 +1578,6 @@
       <Filter>Script\02. Script\SpawnMgr</Filter>
     </ClCompile>
     <ClCompile Include="CRoomScript.cpp">
-      <Filter>Script\02. Script\SpawnMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CSpawnDoorScript.cpp">
-      <Filter>Script\02. Script\SpawnMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CDoorScript.cpp">
       <Filter>Script\02. Script\SpawnMgr</Filter>
     </ClCompile>
     <ClCompile Include="CLurkerAttack.cpp">

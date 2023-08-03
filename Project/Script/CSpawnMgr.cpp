@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CSpawnMgr.h"
 #include "CRoomScript.h"
-#include "CDoorScript.h"
+#include "CWallScript.h"
 
 CSpawnMgr::CSpawnMgr()
 	: m_iCurRoomNum(-1)
@@ -46,7 +46,7 @@ void CSpawnMgr::ModifyDoor(int _iRoomNum, bool _bOpen)
 		for (size_t i = 0; i < m_vecDoor.size(); ++i)
 		{
 			if (_iRoomNum == m_vecDoor[i].RoomNum)
-				m_vecDoor[i].Obj->GetScript<CDoorScript>()->OpenDoor();
+				m_vecDoor[i].Obj->GetScript<CWallScript>()->OpenDoor();
 		}
 	}
 	else
@@ -54,21 +54,9 @@ void CSpawnMgr::ModifyDoor(int _iRoomNum, bool _bOpen)
 		for (size_t i = 0; i < m_vecDoor.size(); ++i)
 		{
 			if (_iRoomNum == m_vecDoor[i].RoomNum)
-				m_vecDoor[i].Obj->GetScript<CDoorScript>()->CloseDoor();
+				m_vecDoor[i].Obj->GetScript<CWallScript>()->CloseDoor();
 		}
 	}
-}
-
-void CSpawnMgr::ReduceMonsterCount()
-{
-	CRoomScript* Wave = m_mapWave.find(m_iCurRoomNum)->second;
-	Wave->MinusMstCount();
-}
-
-void CSpawnMgr::ReduceGimmickCount()
-{
-	CRoomScript* Wave = m_mapWave.find(m_iCurRoomNum)->second;
-	Wave->MinusMstCount();
 }
 
 void CSpawnMgr::DeleteDoor(CGameObject* _pDoor)

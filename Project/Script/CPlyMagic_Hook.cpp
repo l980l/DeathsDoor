@@ -42,7 +42,6 @@ CPlyMagic_Hook::~CPlyMagic_Hook()
 void CPlyMagic_Hook::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOK, false);
-	m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 	// Hooking State¿¡ HookObj µî·Ï
 	CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
 	pHookingState->SetHook(m_pHook);

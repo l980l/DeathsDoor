@@ -43,6 +43,7 @@ void CMagic_HookScript::Clear()
 
 void CMagic_HookScript::begin()
 {
+	Active(m_bActive);
 }
 
 void CMagic_HookScript::tick()

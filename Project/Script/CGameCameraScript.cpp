@@ -9,7 +9,7 @@ CGameCameraScript::CGameCameraScript()
     , m_fDiffer(0.f)
     , m_fTargetScale(0.f)
     , m_fPrevScale(0.f)
-	, m_vDistance(0.f, 2000.f, 2000.f)
+	, m_vDistance(-2000.f, 2000.f, 2000.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMoveTime, "MoveTime");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevMoveTime, "PrevMoveTime");
@@ -51,6 +51,7 @@ void CGameCameraScript::tick()
 	else
 	{
 		Vec3 CurPlayerPos = m_pPlayer->Transform()->GetWorldPos();
+		CurPlayerPos.x += m_vDistance.x;
 		CurPlayerPos.y += m_vDistance.y;
 		CurPlayerPos.z -= m_vDistance.z;
 		Transform()->SetRelativePos(CurPlayerPos);

@@ -17,6 +17,7 @@ CPlayerScript::CPlayerScript()
 	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
+	, m_iUpgrade{}
 {
 }
 
@@ -129,6 +130,28 @@ void CPlayerScript::ChangeMagicState()
 void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
 {
 	++m_iUpgrade[(UINT)_Type];
+
+	Stat CurStat = m_pStateScript->GetStat();
+	switch (_Type)
+	{
+		// 무기 공격력 및 공격범위 증가
+		// 20%씩 증가함
+	case PLAYER_UPGRADE::Strength:
+		CurStat.Attack *= 1.f + (0.2f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Strength]);
+		break;
+		// 공격딜레이 레발 당 10% 증가
+	case PLAYER_UPGRADE::Dexterity:
+		CurStat.Attack_Speed *= 1.f - (0.1f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Dexterity]);
+		break;
+		// 이동속도 레벨 당 10% 증가
+	case PLAYER_UPGRADE::Haste:
+		CurStat.Speed *= 1.f + (0.1f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Haste]);
+		break;
+		// 마법 공격력을 레벨 당 30%씩 증가
+	case PLAYER_UPGRADE::Magic:
+		CurStat.Spell_Power *= 1.f + (0.3f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Strength]);
+		break;
+	}
 }
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)

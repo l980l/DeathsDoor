@@ -42,6 +42,11 @@ void CRoomScript::begin()
 
 void CRoomScript::tick()
 {
+	if(m_bActive)
+	{
+		if(m_iRemainGimmik == 0 && m_iRemainMst == 0)
+			CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, true);
+	}
 }
 
 void CRoomScript::SpawnMst()
@@ -63,16 +68,23 @@ void CRoomScript::SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo)
 	m_vecWave[_iWaveNum] = _mapInfo;
 }
 
-void CRoomScript::MinusMstCount()
+void CRoomScript::ReduceMonsterCount()
 {
-	--m_iRemainMst;
-	if (0 == m_iRemainMst)
+	if(m_iRemainMst > 0)
 	{
-		if (m_iCurWaveNum < m_iMaxWaveNum)
-			SpawnMst();
-		else
-			CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, true);
+		--m_iRemainMst;
+		if (0 == m_iRemainMst)
+		{
+			if (m_iCurWaveNum < m_iMaxWaveNum)
+				SpawnMst();
+		}
 	}
+}
+
+void CRoomScript::ReduceGimmickCount()
+{
+	if(m_iRemainGimmik > 0)
+		--m_iRemainGimmik;
 }
 
 void CRoomScript::AddWaveMst(int _iWavwNum, wstring _wstrPrefName, Vec3 _vSpawnPos)
