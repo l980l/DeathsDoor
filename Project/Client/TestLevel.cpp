@@ -195,8 +195,8 @@ void CreateTestLevel()
 
 	pSword->MeshRender()->SetDynamicShadow(true);
 	pSword->MeshRender()->SetFrustumCheck(false);
-	static int bEmissive = 1;
-	pSword->MeshRender()->GetMaterial(0)->GetScalarParam(SCALAR_PARAM::INT_0, &bEmissive);
+	int bEmissive = 1;
+	pSword->MeshRender()->GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_0, &bEmissive);
 
 	SpawnGameObject(pSword, Vec3(0.f, 500.f, 0.f), (int)LAYER::DEFAULT);
 
@@ -207,6 +207,7 @@ void CreateTestLevel()
 	pWind->AddComponent(new CMeshRender);
 	pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
+	pWind->MeshRender()->SetFrustumCheck(false);
 
 	SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 

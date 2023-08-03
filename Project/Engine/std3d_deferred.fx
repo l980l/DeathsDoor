@@ -190,11 +190,24 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     // Emissive 물체인 경우. vEmissive에 색상 넣기.
     if(g_int_0)
     {
-        output.vColor = float4(0.f, 0.f, 0.f, 1.f);
-        output.vNormal = float4(vViewNormal.xyz, 1.f);
-        output.vPosition = float4(_in.vViewPos.xyz, 1.f);
-        output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = float4(vObjectColor);
+        // 색상이 있다면 
+        if (vObjectColor.a > 0.f)
+        {
+            output.vColor = float4(0.f, 0.f, 0.f, 1.f);
+            output.vNormal = float4(vViewNormal.xyz, 1.f);
+            output.vPosition = float4(_in.vViewPos.xyz, 1.f);
+            output.vData = float4(0.f, 0.f, 0.f, 1.f);
+            output.vEmissive = float4(vObjectColor);
+        }
+        
+        else
+        {
+            output.vColor = float4(vObjectColor.rgb, 1.f);
+            output.vNormal = float4(vViewNormal.xyz, 1.f);
+            output.vPosition = float4(_in.vViewPos.xyz, 1.f);
+            output.vData = float4(0.f, 0.f, 0.f, 1.f);
+            output.vEmissive = float4(0.f, 0.f, 0.f, 1.f);
+        }
     }
     
     else

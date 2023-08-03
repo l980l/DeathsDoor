@@ -95,6 +95,9 @@ private:
     void render_deferred();
     void render_decal();
 
+    // 가우시안 블러용
+    void render_blur();
+
     void render_merge();
 
     void render_forward();
