@@ -16,6 +16,7 @@ CSpawnDoorScript::~CSpawnDoorScript()
 
 void CSpawnDoorScript::begin()
 {
+	// 등장 순간 한 바퀴 돌면서 Bloom효과를 주면서 몬스터를 스폰하고 FireBurn 효과를 주며 사라질 것
 }
 
 void CSpawnDoorScript::tick()
@@ -25,6 +26,6 @@ void CSpawnDoorScript::tick()
 	{
 		CLevelSaveLoadInScript script;
 		script.SpawnPrefab(m_strSpawnMstName, (int)LAYER::MONSTER, Transform()->GetWorldPos());
-		SetLifeSpan(0.f);
+		SetLifeSpan(1.5f);
 	}
 }

@@ -16,7 +16,7 @@ CCursorScript::~CCursorScript()
 
 void CCursorScript::begin()
 {
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"AIM"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"fbx\\Cursor.png"));
 	MeshRender()->GetDynamicMaterial(0);
 }
 
