@@ -417,7 +417,7 @@
     <ClInclude Include="CWallScript.h">
       <Filter>Script\02. Script\SpawnMgr\Door</Filter>
     </ClInclude>
-    <ClInclude Include="CCusrorScript.h">
+    <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
   </ItemGroup>
@@ -740,7 +740,7 @@
     <ClCompile Include="CWallScript.cpp">
       <Filter>Script\02. Script\SpawnMgr\Door</Filter>
     </ClCompile>
-    <ClCompile Include="CCusrorScript.cpp">
+    <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
   </ItemGroup>

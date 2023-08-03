@@ -286,7 +286,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMagic_FireScript.h" />
     <ClInclude Include="CMagic_HookScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
-    <ClInclude Include="CCusrorScript.h" />
+    <ClInclude Include="CCursorScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
@@ -451,7 +451,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMagic_FireScript.cpp" />
     <ClCompile Include="CMagic_HookScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
-    <ClCompile Include="CCusrorScript.cpp" />
+    <ClCompile Include="CCursorScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />

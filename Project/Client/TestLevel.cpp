@@ -22,6 +22,7 @@
 #include <Script\CMagic_HookScript.h>
 #include <Engine/CPhysXMgr.h>
 #include <Script/CBatScript.h>
+#include <Script\CGruntScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -136,7 +137,7 @@ void CreateTestLevel()
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 150.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateCube(Vec3(6000.f, 2000.f, 1500.f), Vec3(80, 80, 80), pPlayer);
+	CPhysXMgr::GetInst()->CreateCube(Vec3(1500.f, 1500.f, 1500.f), Vec3(20, 20, 20), pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -162,7 +163,7 @@ void CreateTestLevel()
 	pObject->SetName(L"Bat");
 	pObject->AddComponent(new CCollider3D);
 	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CBatScript);
+	pObject->AddComponent(new CGruntScript);
 	pObject->AddComponent(new CStateScript);
 	
 	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
@@ -172,16 +173,17 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	
-	CPhysXMgr::GetInst()->CreateCube(Vec3(0.f, 0.f, 0.f), Vec3(80, 80, 80), pObject);
+	CPhysXMgr::GetInst()->CreateCube(Vec3(2000.f, 1500.f, 1500.f), Vec3(80, 80, 80), pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_SIMPLE.fbx");
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\castle_boss_simple_0156.fbx");
 	pObject = pMeshData->Instantiate();
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	
 	delete pObject;
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\castle_boss_map.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
@@ -218,11 +220,11 @@ void CreateTestLevel()
 
 	
 	// 충돌 시킬 레이어 짝 지정
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
-	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 }

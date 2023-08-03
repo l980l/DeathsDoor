@@ -1,14 +1,14 @@
 #pragma once
 #include <Engine/CScript.h>
-class CCusrorScript :
+class CCursorScript :
     public CScript
 {
     virtual void begin() override;
     virtual void tick() override;
 
-    CLONE(CCusrorScript);
+    CLONE(CCursorScript);
 
-    CCusrorScript();
-    ~CCusrorScript();
+    CCursorScript();
+    ~CCursorScript();
 };
 

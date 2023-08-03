@@ -29,7 +29,6 @@ void CPlyAttack::Enter()
 
 	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
 	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 
 	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 100.f;
 	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(XM_PI * 1.6f, m_fAttackDir, 0.f);
@@ -89,7 +88,6 @@ void CPlyAttack::Exit()
 	m_iAttackCount = 0;
 	m_fAcctime = 0.f;
 	m_fAfterAttack = 0.f;
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 }
 
 void CPlyAttack::CalcDir()

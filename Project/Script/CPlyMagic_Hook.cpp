@@ -19,7 +19,7 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 
 	if (nullptr == m_pHook)
 	{
-		m_pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
+		m_pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 		m_pHook->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		m_pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
 	}

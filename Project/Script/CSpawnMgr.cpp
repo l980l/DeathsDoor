@@ -7,7 +7,6 @@ CSpawnMgr::CSpawnMgr()
 	: m_iCurRoomNum(-1)
 	, m_vecDoor{}
 	, m_mapWave{}
-	, m_iGimmickCount(0)
 {
 
 }

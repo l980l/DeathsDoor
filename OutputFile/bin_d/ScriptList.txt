@@ -8,7 +8,8 @@ CBrazierScript
 CCameraMoveScript
 CCrowBossScript
 CCrowHeadScript
-CDoorScript
+CCursorScript
+CEnterScript
 CGameCameraScript
 CGhostScript
 CGravityScript
@@ -29,4 +30,5 @@ CPlayerWeaponScript
 CRoomScript
 CSpawnDoorScript
 CStateScript
+CWallScript
 CWaterCameraScript

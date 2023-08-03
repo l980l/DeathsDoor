@@ -73,7 +73,7 @@ void CPhysXMgr::init()
     }
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
-    m_Material = m_Physics->createMaterial(2.f, 0.5f, 0.f);
+    m_Material = m_Physics->createMaterial(200.f, 20.f, 0.f);
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
@@ -88,7 +88,7 @@ void CPhysXMgr::tick()
 {
     // Run simulation
 
-    m_Scene->simulate(DT);
+    m_Scene->simulate(1.f / 60.f);
     m_fUpdateTime += DT;
     if(m_fUpdateTime > 0.1f)
     {
@@ -120,6 +120,7 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     dynamic->setLinearVelocity(_Velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
     dynamic->setMass(10000.f);
     dynamic->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
+    dynamic->setMaxDepenetrationVelocity(30.f);
 
     m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
@@ -185,6 +186,7 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     m_Scene->addActor(*pActor);
     m_vecStaticActor.push_back(pActor);
     meshShape->release();
+    tMesh->release();
 
     return pActor;
 

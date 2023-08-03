@@ -3,7 +3,7 @@
 #include "CSpawnMgr.h"
 
 CEnterScript::CEnterScript()
-	: CScript((UINT)SCRIPT_TYPE::DOORSCRIPT)
+	: CScript((UINT)SCRIPT_TYPE::ENTERSCRIPT)
 	, m_iRoomNum(-1)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNum");
