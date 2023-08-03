@@ -141,3 +141,4 @@ CPower.h
 CAttackSpeed.h
 CSpeed.h
 CMagic.h
+CBankerScript.h

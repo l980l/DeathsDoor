@@ -179,6 +179,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="BatStates.h" />
     <ClInclude Include="BazookaStates.h" />
     <ClInclude Include="CAnchorScript.h" />
+    <ClInclude Include="CArrowIconScript.h" />
     <ClInclude Include="CAttackSpeed.h" />
     <ClInclude Include="CBankerFrameScript.h" />
     <ClInclude Include="CBankNPCScript.h" />
@@ -190,8 +191,11 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBatIdle.h" />
     <ClInclude Include="CBatRecognize.h" />
     <ClInclude Include="CBatScript.h" />
+    <ClInclude Include="CBombIconScript.h" />
     <ClInclude Include="CBrazierScript.h" />
     <ClInclude Include="CCrowHeadScript.h" />
+    <ClInclude Include="CEnergyIconScript.h" />
+    <ClInclude Include="CFireIconScript.h" />
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
     <ClInclude Include="CGrimKnightBackStep2.h" />
@@ -209,6 +213,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGrimKnightScript.h" />
     <ClInclude Include="CGrimKnightSpinDown.h" />
     <ClInclude Include="CGrimKnightSpinUp.h" />
+    <ClInclude Include="CHookIconScript.h" />
+    <ClInclude Include="CHPIconScript.h" />
     <ClInclude Include="CHUDScript.h" />
     <ClInclude Include="CKnightChopAttack.h" />
     <ClInclude Include="CKnightChopAttackCombo.h" />
@@ -284,6 +290,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CMagic_FireScript.h" />
     <ClInclude Include="CMagic_HookScript.h" />
+    <ClInclude Include="CMoneyCountScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CPlyAttack.h" />
@@ -340,6 +347,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnchorScript.cpp" />
+    <ClCompile Include="CArrowIconScript.cpp" />
     <ClCompile Include="CAttackSpeed.cpp" />
     <ClCompile Include="CBankerFrameScript.cpp" />
     <ClCompile Include="CBankNPCScript.cpp" />
@@ -351,8 +359,11 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBatIdle.cpp" />
     <ClCompile Include="CBatRecognize.cpp" />
     <ClCompile Include="CBatScript.cpp" />
+    <ClCompile Include="CBombIconScript.cpp" />
     <ClCompile Include="CBrazierScript.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
+    <ClCompile Include="CEnergyIconScript.cpp" />
+    <ClCompile Include="CFireIconScript.cpp" />
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
     <ClCompile Include="CGrimKnightBackStep2.cpp" />
@@ -370,6 +381,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGrimKnightScript.cpp" />
     <ClCompile Include="CGrimKnightSpinDown.cpp" />
     <ClCompile Include="CGrimKnightSpinUp.cpp" />
+    <ClCompile Include="CHookIconScript.cpp" />
+    <ClCompile Include="CHPIconScript.cpp" />
     <ClCompile Include="CHUDScript.cpp" />
     <ClCompile Include="CKnightChopAttack.cpp" />
     <ClCompile Include="CKnightChopAttackCombo.cpp" />
@@ -445,6 +458,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CMagic_FireScript.cpp" />
     <ClCompile Include="CMagic_HookScript.cpp" />
+    <ClCompile Include="CMoneyCountScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />

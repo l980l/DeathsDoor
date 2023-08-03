@@ -68,6 +68,8 @@ int MenuUI::render_update()
                     CreateEmptyObject((int)LAYER::DEFAULT);
                 else if (ImGui::MenuItem("MainCamera"))
                     CreateEmptyObject((int)LAYER::MAINCAMERA);
+                else if (ImGui::MenuItem("SubCamera"))
+                    CreateEmptyObject((int)LAYER::SUBCAMERA);
                 else if (ImGui::MenuItem("Player"))
                     CreateEmptyObject((int)LAYER::PLAYER);
                 else if (ImGui::MenuItem("Monster"))

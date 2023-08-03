@@ -184,6 +184,15 @@
     <Filter Include="Script\01. State\04. HUD">
       <UniqueIdentifier>{9adfbdf7-bbfc-4f4e-b2f0-a78ae928906a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\01. State\04. HUD\Icon">
+      <UniqueIdentifier>{046f6505-9760-412b-b226-35c06e8bd0e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\04. HUD\Icon\Skill">
+      <UniqueIdentifier>{df91ac96-99b8-4da9-9c96-4deda171eb6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\04. HUD\Icon\HP&amp;Energy">
+      <UniqueIdentifier>{9abf5a4f-02b2-4262-9e56-37a0c56a3ece}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -681,7 +690,30 @@
     <ClInclude Include="CMagic.h">
       <Filter>Script\02. Script\Player\Magic</Filter>
     </ClInclude>
-    <ClInclude Include="CHUDScript.h" />
+    <ClInclude Include="CHUDScript.h">
+      <Filter>Script\01. State\04. HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CArrowIconScript.h">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CBombIconScript.h">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CFireIconScript.h">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CHookIconScript.h">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CMoneyCountScript.h">
+      <Filter>Script\01. State\04. HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnergyIconScript.h">
+      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPIconScript.h">
+      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -1156,6 +1188,29 @@
     <ClCompile Include="CMagic.cpp">
       <Filter>Script\02. Script\Player\Magic</Filter>
     </ClCompile>
-    <ClCompile Include="CHUDScript.cpp" />
+    <ClCompile Include="CHUDScript.cpp">
+      <Filter>Script\01. State\04. HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowIconScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CBombIconScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CFireIconScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CHookIconScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CMoneyCountScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnergyIconScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPIconScript.cpp">
+      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

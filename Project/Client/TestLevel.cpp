@@ -49,7 +49,17 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck(L"PLAYER", L"NPC");
 	CCollisionMgr::GetInst()->LayerCheck(L"MONSTER", L"PLAYERPROJECTILE");
 
-	
+	//{
+	//	Ptr<CMeshData> pMeshData = nullptr;
+	//	CGameObject* pObj = nullptr;
+
+	//	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\hall.fbx");
+	//	pObj = pMeshData->Instantiate();
+	//	pObj->SetName(L"Hall");
+	//	pObj->MeshRender()->SetDynamicShadow(true);
+	//	pObj->MeshRender()->SetFrustumCheck(false);
+	//	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//}
 	
 	{
 		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\HallMap.lv", LEVEL_STATE::STOP);
@@ -63,7 +73,6 @@ void CreateTestLevel()
 		//Ptr<CSound> pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\203680770.wem");
 		//pSound->Play(1, 0.5f, false);*/
 	}
-
 	
 
 	//{
@@ -98,17 +107,7 @@ void CreateTestLevel()
 	//SpawnGameObject(pDecal, Vec3(0.f, 0.f, 100.f), (int)LAYER::DEFAULT);
 
 	return;
-	{
-		Ptr<CMeshData> pMeshData = nullptr;
-		CGameObject* pObj = nullptr;
-
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\hall.fbx");
-		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Hall");
-		pObj->MeshRender()->SetDynamicShadow(true);
-		pObj->MeshRender()->SetFrustumCheck(false);
-		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-	}
+	
 
 	{
 		Ptr<CMeshData> pMeshData = nullptr;

@@ -16,7 +16,7 @@ struct Stat
     int     MAXHP;
     int     HP;
     int     MAXEnergy;
-    int     Energy;//player Àü¿ë
+    int     Energy;
     float   Speed;
     int     Attack;
     float   Attack_Speed;
