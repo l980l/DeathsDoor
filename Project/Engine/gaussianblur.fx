@@ -48,6 +48,7 @@ static float GaussianFilter2[7][7] =
 float4 PS_GaussianBlur(VS_OUT _in) : SV_Target1
 {
     float4 vOutColor = (float4) 0.f;
+    
     // 영향을 줄 범위.
     float2 texelSize = 7.f / float2(g_Resolution.x, g_Resolution.y);
     
@@ -58,14 +59,13 @@ float4 PS_GaussianBlur(VS_OUT _in) : SV_Target1
     vOutColor = g_tex_1.Sample(g_sam_0, centerUV);
     
     // 가우시안 필터를 적용할 픽셀 주위 Emissive 값을 추출하여 누적
-    
     // 7x7 가우시안 필터 사용
     for (int i = -3; i <= 3; ++i)
     {
         for (int j = -3; j <= 3; ++j)
         {
             float2 offset = float2(i, j) * texelSize;
-            vOutColor += g_tex_1.Sample(g_sam_0, centerUV + offset) * GaussianFilter2[i + 3][j + 3];
+            vOutColor += (g_tex_1.Sample(g_sam_0, centerUV + offset) * GaussianFilter2[i + 3][j + 3]);
         }
     }
     

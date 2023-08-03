@@ -190,7 +190,7 @@ void CreateTestLevel()
 	pSword = pMeshData->Instantiate();
 	pSword->SetName(L"CrowSword");
 
-	pSword->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
+	pSword->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
 	pSword->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 
 	pSword->MeshRender()->SetDynamicShadow(true);
