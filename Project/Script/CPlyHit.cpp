@@ -37,6 +37,7 @@ void CPlyHit::Exit()
 {
 	// 무적 비활성화
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyHit::BeginOverlap(CCollider3D* _Other)

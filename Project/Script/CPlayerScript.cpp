@@ -149,7 +149,7 @@ void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
 		break;
 		// 마법 공격력을 레벨 당 30%씩 증가
 	case PLAYER_UPGRADE::Magic:
-		CurStat.Spell_Power *= 1.f + (0.3f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Strength]);
+		CurStat.Spell_Power *= 1.f + (0.3f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Magic]);
 		break;
 	}
 }

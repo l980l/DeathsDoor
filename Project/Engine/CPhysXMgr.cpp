@@ -64,6 +64,7 @@ void CPhysXMgr::init()
     sceneDesc.cpuDispatcher = m_Dispatcher;
     sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
     m_Scene = m_Physics->createScene(sceneDesc);
+    m_Scene->setBounceThresholdVelocity(0.1f);
     physx::PxPvdSceneClient* pvdClient = m_Scene->getScenePvdClient();
     if (pvdClient)
     {
@@ -73,7 +74,7 @@ void CPhysXMgr::init()
     }
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
-    m_Material = m_Physics->createMaterial(200.f, 20.f, 0.f);
+    m_Material = m_Physics->createMaterial(200.f, 0.5f, 0.f);
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
@@ -116,12 +117,10 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
 
     m_vecDynamicObject.push_back(_Object);
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
-    dynamic->setLinearDamping(0.f);       // 물체가 회전할 때 얼마나 빨리 속도가 줄어드는지를 결정
     dynamic->setLinearVelocity(_Velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
     dynamic->setMass(10000.f);
-    dynamic->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, false);
-    dynamic->setMaxDepenetrationVelocity(30.f);
-
+    //dynamic->setMassSpaceInertiaTensor(PxVec3(0.f));
+    //dynamic->setMinCCDAdvanceCoefficient(300.f);
     m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     _Object->Rigidbody()->SetRigidbody(dynamic);

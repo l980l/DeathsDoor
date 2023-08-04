@@ -59,6 +59,7 @@ void CPlyRun::tick()
 void CPlyRun::Exit()
 {
 	m_fTimeToIdle = 0.f;
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyRun::Move()

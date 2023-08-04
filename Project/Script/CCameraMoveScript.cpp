@@ -7,6 +7,13 @@
 CCameraMoveScript::CCameraMoveScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
 	, m_fCamSpeed(500.f)
+	, m_vOffset{}
+	, m_fAccTime(0.f)
+	, m_fMaxTime(0.f)
+	, m_fRange(0.f)
+	, m_fShakeSpeed(0.f)
+	, m_fShakeDir(0.f)
+	, m_bCamShake(false)
 {
 }
 

@@ -86,7 +86,6 @@ void CMagic_HookScript::tick()
 
 	}
 
-
 	// 시작지점과의 거리만큼 Chain을 활성화
 	PaveChain();
 }

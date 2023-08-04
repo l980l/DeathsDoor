@@ -24,6 +24,8 @@ CPlyAttack::~CPlyAttack()
 
 void CPlyAttack::Enter()
 {
+	GetOwner()->Rigidbody()->ClearForce();
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	CalcDir();
 	Slash();
 
@@ -88,6 +90,8 @@ void CPlyAttack::Exit()
 	m_iAttackCount = 0;
 	m_fAcctime = 0.f;
 	m_fAfterAttack = 0.f;
+	GetOwner()->Rigidbody()->ClearForce();
+	GetOwner()->Rigidbody()->SetGravity(0.f); 
 }
 
 void CPlyAttack::CalcDir()

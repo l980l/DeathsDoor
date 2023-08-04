@@ -27,7 +27,7 @@ void CPlyDodge::tick()
 void CPlyDodge::Exit()
 {
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyDodge::Dodge(float _fSpeed)

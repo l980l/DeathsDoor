@@ -26,6 +26,7 @@ void CPlyFall::tick()
 
 void CPlyFall::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyFall::BeginOverlap(CCollider3D* _Other)

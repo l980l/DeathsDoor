@@ -27,6 +27,7 @@ public:
     void AddVelocity(Vec3 _vVelocity);
     void SetVelocity(Vec3 _vVelocity);
     void SetVelocityLimit(float _fLimit);
+    void SetGravity(float _fGravity);
     Vec3 GetVelocity();
     void SetMass(float _fMass);
 

@@ -18,8 +18,8 @@ void CLurkerBackStep::tick()
 	{
 		Vec3 Velocity = m_Dir;
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * -8.f;
-		Velocity.y = 20.f;
+		Velocity *= fSpeed * -8.f * DT;
+		Velocity.y = 20.f * DT;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}
@@ -31,6 +31,7 @@ void CLurkerBackStep::tick()
 
 void CLurkerBackStep::Exit()
 {
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	m_fTime = 0.f;
 }
 

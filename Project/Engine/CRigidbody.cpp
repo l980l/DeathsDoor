@@ -29,7 +29,9 @@ void CRigidbody::AddForce(Vec3 _vForce)
 
 void CRigidbody::ClearForce()
 {
-    m_PxRigidbody->clearForce(physx::PxForceMode::eVELOCITY_CHANGE);
+    m_PxRigidbody->clearForce(physx::PxForceMode::eACCELERATION);
+    SetVelocity(Vec3(0.f));
+    m_PxRigidbody->setAngularVelocity(physx::PxVec3(0.f));
 }
 
 void CRigidbody::AddVelocity(Vec3 _vVelocity)
@@ -56,6 +58,13 @@ Vec3 CRigidbody::GetVelocity()
 void CRigidbody::SetVelocityLimit(float _fLimit) 
 { 
     m_PxRigidbody->setMaxLinearVelocity(physx::PxReal(_fLimit)); 
+}
+
+void CRigidbody::SetGravity(float _fGravity)
+{
+    physx::PxVec3 LinearVelocity = m_PxRigidbody->getLinearVelocity();
+    physx::PxVec3 CurVelocity = physx::PxVec3(LinearVelocity.x, _fGravity, LinearVelocity.z);
+    m_PxRigidbody->setLinearVelocity(CurVelocity);
 }
 
 void CRigidbody::SetMass(float _fMass) 

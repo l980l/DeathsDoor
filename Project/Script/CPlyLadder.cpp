@@ -36,6 +36,7 @@ void CPlyLadder::tick()
 void CPlyLadder::Exit()
 {
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyLadder::Move()

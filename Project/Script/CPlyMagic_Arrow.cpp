@@ -17,8 +17,8 @@ void CPlyMagic_Arrow::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::ARROW, false);
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeScale(0.04f, 0.04f, 0.04f);
-	GetOwner()->GetChild()[1]->Transform()->SetRelativeRot(0.f, 0.f, XM_PI * 1.5f);
-	GetOwner()->GetChild()[1]->Transform()->SetRelativePos(Vec3(-0.35f, 0.35f, 1.5f));
+	GetOwner()->GetChild()[1]->Transform()->SetRelativeRot(XM_PI / 2.f, XM_PI, XM_PI / 2.f);
+	GetOwner()->GetChild()[1]->Transform()->SetRelativePos(Vec3(0.f, 1.f, 1.f));
 }
 
 void CPlyMagic_Arrow::tick()
