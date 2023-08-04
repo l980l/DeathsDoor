@@ -195,10 +195,36 @@ void CreateTestLevel()
 
 	pSword->MeshRender()->SetDynamicShadow(true);
 	pSword->MeshRender()->SetFrustumCheck(false);
-	int bEmissive = 1;
+	static int bEmissive = 1;
 	pSword->MeshRender()->GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_0, &bEmissive);
 
 	SpawnGameObject(pSword, Vec3(0.f, 500.f, 0.f), (int)LAYER::DEFAULT);
+
+	//// Ã¼ÀÎ 
+	//CGameObject* pChain = nullptr;
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CHAIN.fbx");
+	//pChain = pMeshData->Instantiate();
+	//pChain->SetName(L"CHAIN");
+
+	//pChain->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
+	//pChain->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+
+	//pChain->MeshRender()->SetDynamicShadow(true);
+	//static int bEmissiveColor = 1;
+	//pChain->MeshRender()->GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_1, &bEmissiveColor);
+	//Vec4 vecEmissiveColor = Vec4(0.3f, 7.f, 0.3f, 0.f);
+	//pChain->MeshRender()->GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC4_0, &vecEmissiveColor);
+
+	//SpawnGameObject(pChain, Vec3(0.f, 500.f, 0.f), (int)LAYER::DEFAULT);
+
+	// particle 
+	CGameObject* pParticle = new CGameObject;
+	pParticle->SetName(L"Particle");
+	pParticle->AddComponent(new CTransform);
+	pParticle->AddComponent(new CParticleSystem);
+	pParticle->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
+
+	SpawnGameObject(pParticle, Vec3(0.f, 500.f, 0.f), (int)LAYER::DEFAULT);
 
 	// Wind 
 	CGameObject* pWind = new CGameObject;

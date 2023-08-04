@@ -14,6 +14,7 @@ CParticleSystem::CParticleSystem()
 	, m_RWBuffer(nullptr)
 	, m_ModuleData{}
 	, m_AccTime(0.f)
+	, m_iEmissive(0)
 {
 
 	//================
@@ -172,6 +173,9 @@ void CParticleSystem::render()
 	//Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_0", L"texture\\particle\\flame1.png");
 	GetMaterial(0)->SetTexParam(TEX_0, m_Tex);
 
+	// Emissive ¿©ºÎ
+	GetMaterial(0)->SetScalarParam(INT_0, &m_iEmissive);
+
 	GetMaterial(0)->UpdateData();
 	GetMesh()->render_particle(m_ModuleData.iMaxParticleCount);
 
@@ -279,6 +283,7 @@ void CParticleSystem::SaveToLevelFile(FILE* _File)
 {
 	CRenderComponent::SaveToLevelFile(_File);
 
+	fwrite(&m_iEmissive, sizeof(int), 1, _File);
 	fwrite(&m_ModuleData, sizeof(tParticleModule), 1, _File);
 	SaveResRef(m_UpdateCS.Get(), _File);
 	SaveResRef(m_Tex.Get(), _File);
@@ -288,6 +293,7 @@ void CParticleSystem::LoadFromLevelFile(FILE* _File)
 {
 	CRenderComponent::LoadFromLevelFile(_File);
 
+	fread(&m_iEmissive, sizeof(int), 1, _File);
 	fread(&m_ModuleData, sizeof(tParticleModule), 1, _File);
 
 	int i = 0;

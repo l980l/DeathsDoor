@@ -341,6 +341,7 @@ void CCamera::render()
 	{
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
 		render_deferred();
+		render_transparent(); // 파티클
 
 		// Decal Render
 		// decal에서 position tex를 인자로 받기 위해
@@ -357,7 +358,6 @@ void CCamera::render()
 		{
 			vecLight3D[i]->render();
 		}
-
 		render_blur();
 
 		// (Deferred + Light) Merge
@@ -370,7 +370,7 @@ void CCamera::render()
 		//render_mask();
 		render_forward();
 
-		render_transparent();
+		//render_transparent(); // 파티클 원래는 여기서 함. 
 
 		// PostProcess
 		render_postprocess();

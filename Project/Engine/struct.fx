@@ -62,7 +62,7 @@ struct tParticleModule
    // Color Change 모듈
     float4 vStartColor; // 초기 색상
     float4 vEndColor; // 최종 색상
-
+   
    // Scale Change 모듈
     float StartScale; // 초기 크기
     float EndScale; // 최종 크기   

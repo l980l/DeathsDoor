@@ -187,7 +187,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     
     PS_OUT output = (PS_OUT) 0.f;
     
-    // Emissive 물체인 경우. vEmissive에 색상 넣기.
+    // 텍스쳐를 이용해서 Emissive를 추출하는 경우.
     if(g_int_0)
     {
         // 알파 값이 양수라면, Color와 Emissive 모두 넣기. Emissive는 0.5만 추출. 이게 원본 게임의 칼과 더 비슷한 느낌이 나기 때문에. 칼을 제외한 bloom 효과들은 텍스쳐를 사용하지 않아서 상관없다.
@@ -209,6 +209,17 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             output.vData = float4(0.f, 0.f, 0.f, 1.f);
             output.vEmissive = float4(0.f, 0.f, 0.f, 1.f);
         }
+    }
+    
+    // 인자로 들어온 색상으로 Emissive 값을 주고 싶은 경우. 
+    else if (g_int_1)
+    {
+        // Vec4로 들어온 색상을 Emissive 타겟에 저장해준다.
+        output.vColor = float4(vObjectColor);
+        output.vNormal = float4(vViewNormal.xyz, 1.f);
+        output.vPosition = float4(_in.vViewPos.xyz, 1.f);
+        output.vData = float4(0.f, 0.f, 0.f, 1.f);
+        output.vEmissive = g_vec4_0;
     }
     
     else
