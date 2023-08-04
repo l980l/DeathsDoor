@@ -47,7 +47,7 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+	ChangeLevel(LEVEL_TYPE::FOREST_FIELD);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
@@ -175,7 +175,7 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* Actual
 	endpos[2] = -vEndPos.z;
 
 	dtPolyRef startRef, endRef;
-	float polyPickExt[3] = { 3000,3000,3000 }; // 범위를 제한하기 위한 벡터
+	float polyPickExt[3] = { 30000,30000,30000 }; // 범위를 제한하기 위한 벡터
 
 	dtQueryFilter filter;
 	filter.setIncludeFlags(0xFFFF); // Include all polygons in pathfinding.

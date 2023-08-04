@@ -456,6 +456,9 @@
     <ClInclude Include="CMoneyCountScript.h">
       <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="CNaviTestScript.h">
+      <Filter>Script\02. Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -805,6 +808,9 @@
     </ClCompile>
     <ClCompile Include="CMoneyCountScript.cpp">
       <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CNaviTestScript.cpp">
+      <Filter>Script\02. Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

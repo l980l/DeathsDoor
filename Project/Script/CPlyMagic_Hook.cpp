@@ -72,16 +72,14 @@ void CPlyMagic_Hook::tick()
 		else if (KEY_RELEASE(KEY::RBTN))
 		{
 			m_bThrow = true;
-
 			// 우클릭을 해제하면 갈고리 발사
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			m_pHook->Transform()->SetRelativePos(vSpawnPos);
+			m_vAttackDir.Normalize();
 			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
-			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(m_vAttackDir);
+			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(-m_vAttackDir);
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 
 			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));

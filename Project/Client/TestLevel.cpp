@@ -24,6 +24,7 @@
 #include <Script/CBatScript.h>
 #include <Script\CGruntScript.h>
 #include <Script/CLurkerScript.h>
+#include <Script/CNaviTestScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -139,7 +140,7 @@ void CreateTestLevel()
 	PlayerStat.Speed = 150.f;
 	PlayerStat.Spell_Power = 40.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 800.f), 20.f, pPlayer);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(1000.f, 500.f, 300.f), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -160,43 +161,50 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Lurker");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CLurkerScript);
-	pObject->AddComponent(new CStateScript);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Lurker");
+	//pObject->AddComponent(new CCollider3D);
+	////pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CNaviTestScript);
+	//pObject->AddComponent(new CStateScript);
+	//
+	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	////CPhysXMgr::GetInst()->CreateSphere(Vec3(1000.f, 1000.f, 1000.f), 20.f, pObject);
+	//SpawnGameObject(pObject, Vec3(1000.f, 1000.f, 1000.f), (int)LAYER::MONSTER);
 	
-	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-	
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(2000.f, 500.f, 3000.f), (int)LAYER::MONSTER);
-	
-	CLevelSaveLoad script;
-	CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");	
-	pObject->AddChild(pSerch);
+	//CLevelSaveLoad script;
+	//CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");	
+	//pObject->AddChild(pSerch);
 
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_Simple.fbx");
 	pObject = pMeshData->Instantiate();
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	
 	delete pObject;
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-	 
+
+	pObject = new CGameObject;
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CParticleSystem);
+	pObject->ParticleSystem()->SetTex(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\Frame.png"));
+	pObject->ParticleSystem()->AnimationModule(4, 0, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(0.f));
+	SpawnGameObject(pObject, Vec3(3000.f, 1500.f, 3000.f), (int)LAYER::DEFAULT);
+
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//CGameObject* pMonster = pMeshData->Instantiate();
 	//pMonster->SetName(L"Monster");

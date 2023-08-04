@@ -6,7 +6,7 @@
 
 CTrace::CTrace()
 	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(2.f)
+	, m_fRenewal_Trace(1.f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)
@@ -52,13 +52,13 @@ void CTrace::tick()
 		direction = direction.Normalize();
 
 		// 새로운 위치 계산
-		Vec3 newPos = currentPos + fSpeed * direction * DT;
+		Vec3 newPos = currentPos + 300.f * direction * DT;
 
-		GetOwner()->Rigidbody()->SetVelocity(newPos);
+		GetOwner()->Transform()->SetRelativePos(targetPos);
 
 		// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
 		float distanceToTarget = (targetPos - newPos).Length();
-		if (distanceToTarget < fSpeed * DT)
+		if (distanceToTarget < 100)
 		{
 			++m_iCurrentPathIndex;
 		}

@@ -34,6 +34,7 @@ CMagic_HookScript
 CMissileScript
 CMoneyCountScript
 CMonsterDetectRangeScript
+CNaviTestScript
 CPlayerScript
 CPlayerWeaponScript
 CRoomScript
