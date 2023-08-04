@@ -17,6 +17,7 @@ CPlayerScript::CPlayerScript()
 	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
+	, m_iUpgrade{}
 {
 }
 
@@ -28,10 +29,10 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-	/*if (nullptr == m_pSword)
+	if (nullptr == m_pSword)
 	{
 		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
-	}*/
+	}
 	if(nullptr == m_pStateScript)
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>(); 
@@ -57,16 +58,13 @@ void CPlayerScript::begin()
 void CPlayerScript::tick()
 {
 	SetMagicType();
+	int a = 1;
+	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+	GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
-	// 벽에 부딪힌다면 밀어내기
-	if ((int)LAYER::GROUND == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(true);
-	}
-
 	// 아래는 공격 관련으로 무적이라면 return;
 	if (m_bInvincible)
 		return;
@@ -90,27 +88,23 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 
 void CPlayerScript::EndOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::GROUND == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(false);
-	}
 }
 
 void CPlayerScript::ChangeState(wstring _strStateName)
 {
 	m_pStateScript->ChangeState(_strStateName);
-	//m_pSword->ChangeState(_strStateName);
+	m_pSword->ChangeState(_strStateName);
 }
 
 void CPlayerScript::SetMagicType()
 {
 	if (KEY_TAP(KEY::_1))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::ARROW;
-	if (KEY_TAP(KEY::_2))
+	else if (KEY_TAP(KEY::_2))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::FIRE;
-	if (KEY_TAP(KEY::_3))
+	else if (KEY_TAP(KEY::_3))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::BOMB;
-	if (KEY_TAP(KEY::_4))
+	else if (KEY_TAP(KEY::_4))
 		m_iCurMagic = (UINT)PLAYER_MAGIC::HOOK;
 }
 
@@ -129,6 +123,33 @@ void CPlayerScript::ChangeMagicState()
 		break;
 	case PLAYER_MAGIC::HOOK:
 		ChangeState(L"Hook");
+		break;
+	}
+}
+
+void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
+{
+	++m_iUpgrade[(UINT)_Type];
+
+	Stat CurStat = m_pStateScript->GetStat();
+	switch (_Type)
+	{
+		// 무기 공격력 및 공격범위 증가
+		// 20%씩 증가함
+	case PLAYER_UPGRADE::Strength:
+		CurStat.Attack *= 1.f + (0.2f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Strength]);
+		break;
+		// 공격딜레이 레발 당 10% 증가
+	case PLAYER_UPGRADE::Dexterity:
+		CurStat.Attack_Speed *= 1.f - (0.1f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Dexterity]);
+		break;
+		// 이동속도 레벨 당 10% 증가
+	case PLAYER_UPGRADE::Haste:
+		CurStat.Speed *= 1.f + (0.1f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Haste]);
+		break;
+		// 마법 공격력을 레벨 당 30%씩 증가
+	case PLAYER_UPGRADE::Magic:
+		CurStat.Spell_Power *= 1.f + (0.3f * m_iUpgrade[(UINT)PLAYER_UPGRADE::Magic]);
 		break;
 	}
 }

@@ -51,6 +51,7 @@ void CGameCameraScript::tick()
 	else
 	{
 		Vec3 CurPlayerPos = m_pPlayer->Transform()->GetWorldPos();
+		CurPlayerPos.x += m_vDistance.x;
 		CurPlayerPos.y += m_vDistance.y;
 		CurPlayerPos.z -= m_vDistance.z;
 		Transform()->SetRelativePos(CurPlayerPos);

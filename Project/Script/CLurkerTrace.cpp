@@ -41,12 +41,10 @@ void CLurkerTrace::tick()
 			// 다음 노드(메시) 위치
 			Vec3 targetPos = m_vActualPath[m_iCurrentPathIndex];
 			targetPos.z *= -1.f;
-
 			if (targetPos.x == 0 && targetPos.y == 0 && targetPos.z == 0)
 			{
 				return;
 			}
-
 			// 현재 오브젝트 위치		
 			Vec3 currentPos = GetOwner()->Transform()->GetWorldPos();
 
@@ -57,7 +55,7 @@ void CLurkerTrace::tick()
 			// 새로운 위치 계산
 			Vec3 newPos = currentPos + fSpeed * direction * DT;
 
-			GetOwner()->Transform()->SetRelativePos(newPos);
+			GetOwner()->Rigidbody()->SetVelocity(newPos);
 
 			// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
 			float distanceToTarget = (targetPos - newPos).Length();
@@ -71,6 +69,7 @@ void CLurkerTrace::tick()
 
 void CLurkerTrace::Exit()
 {
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 }
 
 void CLurkerTrace::BeginOverlap(CCollider3D* _Other)

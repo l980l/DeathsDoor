@@ -5,6 +5,7 @@
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
+#include "CInstancingBuffer.h"
 #include "CResMgr.h"
 #include "CLevelMgr.h"
 #include "CCollisionMgr.h"
@@ -12,6 +13,7 @@
 #include "CEventMgr.h"
 #include "CFontMgr.h"
 #include "CDetourMgr.h"
+#include "CPhysXMgr.h"
 
 // ThreadMgr
 #include "CThreadMgr.h"
@@ -53,6 +55,8 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CKeyMgr::GetInst()->init();
 
 	CTimeMgr::GetInst()->init();
+	
+	CInstancingBuffer::GetInst()->init();
 
 	CResMgr::GetInst()->init();
 
@@ -62,9 +66,11 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 	CThreadMgr::GetInst()->init();
 
-	CLevelMgr::GetInst()->init();	
+	CLevelMgr::GetInst()->init();
 
 	CDetourMgr::GetInst()->init();
+
+	CPhysXMgr::GetInst()->init();
 	
 
 
@@ -93,6 +99,7 @@ void CEngine::tick()
 
 	// Level Update
 	CLevelMgr::GetInst()->tick();
+
 	CCollisionMgr::GetInst()->tick();
 }
 

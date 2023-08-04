@@ -3,7 +3,12 @@
 class CMagic_ArrowScript :
     public CScript
 {
+private:
+    Vec3    m_vDir;
+    float   m_fSpeed;
+
 public:
+    void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); }
     virtual void begin() override;
     virtual void tick() override;
 

@@ -333,5 +333,4 @@ float PS_DepthMap(VS_DEPTH_OUT _in) : SV_Target
     return fOut;
 }
 
-
 #endif

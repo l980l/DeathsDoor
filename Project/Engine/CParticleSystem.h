@@ -22,10 +22,13 @@ private:
    
     float                       m_AccTime;
 
+    int                         m_iEmissive;
 
 public:
     virtual void finaltick() override;
     virtual void render() override;
+    virtual void render(UINT _iSubset) override;
+
 
     void SetModuleData(tParticleModule _ModuleData) {m_ModuleData = _ModuleData;}
     tParticleModule GetModuleData() { return m_ModuleData; }
@@ -44,6 +47,8 @@ public:
     void VelocityScaleModule(float _fMaxSpeed, Vec3 _vMaxVelocityScale);
     void AnimationModule(int _iFrmCount, int _iXCount, Vec2 _vLeftTop, Vec2 _vSlice, Vec2 _vOffset);
     void SetFollow() { m_ModuleData.Space = 1; }
+    void SetEmissive(bool _bEmissive) { m_iEmissive = _bEmissive; }
+    bool GetEmissive() { return m_iEmissive; }
 
     void OnOff(bool _Onoff);
 

@@ -58,6 +58,7 @@ void CCrowBossScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
+		NewStat.Max_HP = 3000;
 		NewStat.HP = 3000;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
@@ -68,6 +69,8 @@ void CCrowBossScript::begin()
 
 void CCrowBossScript::tick()
 {
+	CMonsterScript::tick();
+	
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
 

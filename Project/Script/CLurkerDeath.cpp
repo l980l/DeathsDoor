@@ -9,20 +9,28 @@ void CLurkerDeath::Enter()
 
 void CLurkerDeath::tick()
 {
-	// 럴커는 데스 애니메이션이 있어서 애니메이션 끝나면 페이퍼번 효과 주면 됨.
+	// 애니메이션이 끝난 경우 사망 Paperburn 효과 주기.
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
-		// 페이퍼번 효과 시작.
+		GetOwner()->GetScript<CLurkerScript>()->SetPaperBurnEffect(true);
+		m_bStartPaperBurn = true;
 	}
 
-	// 페이퍼번 효과가 끝나면 아예 Destroy 시켜야지
+	if (m_bStartPaperBurn)
+		m_fPaperBurnTime += DT;
+
+	// 지금까지 흐른 시간이 3초 이상이면 Destory.
+	if (m_fPaperBurnTime > 3.f)
+		GetOwnerScript()->Destroy();
 }
 
 void CLurkerDeath::Exit()
 {
 }
 
-CLurkerDeath::CLurkerDeath()
+CLurkerDeath::CLurkerDeath() :
+	m_bStartPaperBurn(false)
+	, m_fPaperBurnTime(0.f)
 {
 }
 

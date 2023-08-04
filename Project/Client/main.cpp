@@ -27,8 +27,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(353417);
+    //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    //_CrtSetBreakAlloc(368810);
    
     MyRegisterClass(hInstance);
 
@@ -39,7 +39,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     // CEngine 초기화
-    if (FAILED(CEngine::GetInst()->init(g_hWnd, 1280, 768)))
+    if (FAILED(CEngine::GetInst()->init(g_hWnd, 1600, 900)))
     {
         return 0;
     }

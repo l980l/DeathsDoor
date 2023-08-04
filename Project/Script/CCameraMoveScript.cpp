@@ -7,6 +7,13 @@
 CCameraMoveScript::CCameraMoveScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
 	, m_fCamSpeed(500.f)
+	, m_vOffset{}
+	, m_fAccTime(0.f)
+	, m_fMaxTime(0.f)
+	, m_fRange(0.f)
+	, m_fShakeSpeed(0.f)
+	, m_fShakeDir(0.f)
+	, m_bCamShake(false)
 {
 }
 
@@ -20,6 +27,39 @@ void CCameraMoveScript::tick()
 		Camera2DMove();
 	else
 		Camera3DMove();
+	ShackCamera();
+}
+
+void CCameraMoveScript::CameraShake(float _fRange, float _fShackSpeed, float _fTerm)
+{
+	m_fAccTime = 0.f;
+	m_fMaxTime = _fTerm;
+	m_fRange = _fRange;
+	m_fShakeSpeed = _fShackSpeed;
+	m_fShakeDir = 1.f;
+	m_bCamShake = true;
+}
+
+void CCameraMoveScript::ShackCamera()
+{
+	if (!m_bCamShake)
+		return;
+
+	m_fAccTime += DT;
+
+	if (m_fMaxTime <= m_fAccTime)
+	{
+		m_bCamShake = false;
+		m_vOffset = Vec2(0.f, 0.f);
+	}
+
+	m_vOffset.x += DT * m_fShakeSpeed * m_fShakeDir;
+	m_fShakeSpeed -= m_fShakeSpeed * m_fMaxTime * DT;
+	if (m_fRange < fabsf(m_vOffset.x))
+	{
+		m_vOffset.x = m_fRange * m_fShakeDir;
+		m_fShakeDir *= -1;
+	}
 }
 
 void CCameraMoveScript::Camera2DMove()

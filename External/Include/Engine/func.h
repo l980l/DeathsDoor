@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 // 오브젝트 생성
 class CGameObject;
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx);
@@ -51,9 +50,13 @@ const wchar_t* ToWSTring(COMPONENT_TYPE);
 wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 
 
-
 // FbxMatrix -> Matrix
 Matrix GetMatrixFromFbxMatrix(FbxAMatrix& _mat);
+
+
+// DXGI_FORMAT -> Size(Byte)
+int GetSizeofFormat(DXGI_FORMAT _eFormat);
+
 
 // Save / Load
 void SaveWString(const wstring& _str, FILE* _File);

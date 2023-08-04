@@ -13,6 +13,7 @@ ParticleSystemUI::ParticleSystemUI()
 	: ComponentUI("##ParticleSystemUI", COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_pParticleSystem(nullptr)
 	, m_tModuleData{}
+	, m_iEmissive(0)
 {
 	SetName("ParticleSysyem");
 }
@@ -58,9 +59,14 @@ int ParticleSystemUI::render_update()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	ModuleOnOff("Add Velocity", "##Add_Velocity", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
-	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY])
-		AddVelocityModule();
+	// Emissive 여부
+	bool bEmissive = GetTarget()->ParticleSystem()->GetEmissive();
+	ImGui::Checkbox("Emissive", &bEmissive);
+	if (bEmissive)
+		m_iEmissive = 1;
+	else
+		m_iEmissive = 0;
+	GetTarget()->ParticleSystem()->SetEmissive(m_iEmissive);
 
 	ImGui::NewLine();
 	ImGui::Separator();
@@ -520,6 +526,7 @@ void ParticleSystemUI::SaveParticle()
 		wchar_t szNum[50] = {};
 		size_t iFrmCount = m_tModuleData.AddVelocityType;
 		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwrite(&m_iEmissive, sizeof(int), 1, pFile); 
 		fwprintf_s(pFile, L"[AddVelocityType]\n");
 		fwprintf_s(pFile, szNum);
 		fwprintf_s(pFile, L"\n\n");
@@ -725,6 +732,8 @@ void ParticleSystemUI::LoadParticle()
 		wstring strTextureRelativePath;
 		while (true)
 		{
+			fread(&m_iEmissive, sizeof(int), 1, pFile);
+			GetTarget()->ParticleSystem()->SetEmissive(m_iEmissive);
 			wchar_t szBuffer[256] = {};
 			fwscanf_s(pFile, L"%s", szBuffer, 256);//문자열 변수를 만들어 문자열을 읽게 할 건데
 

@@ -12,7 +12,6 @@ CPlyIdle::~CPlyIdle()
 
 void CPlyIdle::tick()
 {
-	return;
 	if (KEY_TAP(KEY::LBTN))
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
@@ -44,6 +43,10 @@ void CPlyIdle::Exit()
 
 void CPlyIdle::BeginOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER)
+}
+
+void CPlyIdle::OnOverlap(CCollider3D* _Other)
+{
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER && KEY_PRESSED(KEY::E))
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
 }

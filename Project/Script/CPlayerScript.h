@@ -13,7 +13,8 @@ private:
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
     Vec3                 m_vPosBeforeFall;
-    int                     m_money;
+    UINT                 m_imoney;
+    UINT                 m_iUpgrade[(UINT)PLAYER_UPGRADE::END];
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -23,7 +24,10 @@ public:
     void SetInvincible(bool _bInvincible) { m_bInvincible = _bInvincible; }
     void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_iCurMagic; }
-    int GetMoneyCount() { return m_money; }
+    UINT GetMoneyCount() { return m_imoney; }
+    UINT AddMoney(UINT _iAddMoney) { m_imoney += _iAddMoney; return m_imoney; }
+    void Upgrade(PLAYER_UPGRADE _Type);
+    UINT GetUpgrade(PLAYER_UPGRADE _Upgrade) { return m_iUpgrade[(UINT)_Upgrade]; }
     void ChangeMagicState();
 
 private:

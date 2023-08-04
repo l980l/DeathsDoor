@@ -26,18 +26,30 @@ private:
 
     tRay                    m_ray;      // 마우스 방향을 향하는 직선
 
-    vector<CGameObject*>    m_vecDeferred;
+
+    map<ULONG64, vector<tInstObj>>		m_mapInstGroup_D;	    // Deferred
+    map<ULONG64, vector<tInstObj>>		m_mapInstGroup_F;	    // Foward ( Opaque, Mask )	
+    map<INT_PTR, vector<tInstObj>>		m_mapSingleObj;		    // Single Object
+
+    //vector<CGameObject*>    m_vecDeferred;
     vector<CGameObject*>    m_vecDecal;
-    vector<CGameObject*>    m_vecOpaque;
-    vector<CGameObject*>    m_vecMask;
+
+    //vector<CGameObject*>    m_vecOpaque;
+    //vector<CGameObject*>    m_vecMask;
+
     vector<CGameObject*>    m_vecTransparent;    
     vector<CGameObject*>    m_vecUI;
     vector<CGameObject*>    m_vecPost;
 
     vector<CGameObject*>    m_vecDynamicShadow;     // 동적 그림자 물체
 
+    // 
+    bool                    m_bWaterCamera;
+    Ptr<CTexture>           m_WaterCamTex;
 
 public:
+    void SetWaterCamera(bool _bWaterCamera) { m_bWaterCamera = _bWaterCamera; }
+
     void SetProjType(PROJ_TYPE _Type) { m_ProjType = _Type; }
     PROJ_TYPE GetProjType() { return m_ProjType; }
 
@@ -68,6 +80,7 @@ public:
     void SortShadowObject();
     void render();
     void render_depthmap();
+    void render_water();
 
 public:
     virtual void begin() override;
@@ -82,10 +95,14 @@ private:
     void render_deferred();
     void render_decal();
 
+    // 가우시안 블러용
+    void render_blur();
+
     void render_merge();
 
-    void render_opaque();
-    void render_mask();
+    void render_forward();
+    //void render_opaque();
+    //void render_mask();
     void render_transparent();
     void render_postprocess();
     void render_ui();

@@ -54,7 +54,7 @@ void CTrace::tick()
 		// 새로운 위치 계산
 		Vec3 newPos = currentPos + fSpeed * direction * DT;
 
-		GetOwner()->Transform()->SetRelativePos(newPos);
+		GetOwner()->Rigidbody()->SetVelocity(newPos);
 
 		// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
 		float distanceToTarget = (targetPos - newPos).Length();

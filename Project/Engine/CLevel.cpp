@@ -5,6 +5,7 @@
 #include "CGameObject.h"
 
 #include "CRenderMgr.h"
+#include "CPhysXMgr.h"
 
 CLevel::CLevel()
 	: m_arrLayer{}
@@ -36,6 +37,8 @@ void CLevel::tick()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i]->tick();
+
+		CPhysXMgr::GetInst()->tick();
 	}
 }
 

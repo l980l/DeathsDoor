@@ -10,11 +10,15 @@ private:
     CStateScript*   m_pStateScript;
     CGameObject*    m_pPlayer;
     bool            m_bDetect;
+    bool            m_bPaperBurnEffect;     // PaperBurn 효과를 줄지.
+    bool            m_bSendDeadTime;        // 사망시간을 이미 보냈는지. 
 
 public:
     CGameObject*    GetPlayer() { return m_pPlayer; }
     bool            GetDetect() { return m_bDetect; }
     void            SetDetect(bool _bDetect) { m_bDetect = _bDetect; }
+    bool            GetPaperBurnEffect() const { return m_bPaperBurnEffect;}
+    void            SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value;}
 
 public:
     virtual void begin() override;

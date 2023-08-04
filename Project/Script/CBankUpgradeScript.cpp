@@ -53,7 +53,7 @@ void CBankUpgradeScript::begin()
 	m_Power = playerStatus.Attack;
 	m_ASpeed = playerStatus.Attack_Speed;
 	m_Speed = playerStatus.Speed;
-	m_Magic = playerStatus.Magic_Attack;
+	m_Magic = playerStatus.Spell_Power;
 }
 
 void CBankUpgradeScript::tick()

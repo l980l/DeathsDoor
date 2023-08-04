@@ -27,39 +27,46 @@ void CPlyDodge::tick()
 void CPlyDodge::Exit()
 {
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyDodge::Dodge(float _fSpeed)
 {
-	Vec3 Dir = Vec3(0.f, 0.f, 0.f);
-
-	if(!(KEY_PRESSED(KEY::W)) || !(KEY_PRESSED(KEY::A)) || !(KEY_PRESSED(KEY::S)) || !(KEY_PRESSED(KEY::D)))
+	Vec3 vDir = Vec3(0.f, 0.f, 0.f);
+	float fDir = 0.f;
+	if(!(KEY_PRESSED(KEY::W)) && !(KEY_PRESSED(KEY::A)) && !(KEY_PRESSED(KEY::S)) && !(KEY_PRESSED(KEY::D)))
 	{
-		Vec3 vCurDir = GetOwner()->Transform()->GetXZDir();
-		Dir = Vec3(vCurDir.x, 0.f, vCurDir.z);
+		vDir = GetOwner()->Transform()->GetXZDir();
+		fDir = GetOwner()->Transform()->GetRelativeRot().y;
 	}
 	else 
 	{
 		if (KEY_PRESSED(KEY::W))
 		{
-			Dir.z = 1.f;
-		}
-		if (KEY_PRESSED(KEY::A))
-		{
-			Dir.z = -1.f;
+			vDir.z = 1.f;
 		}
 		if (KEY_PRESSED(KEY::S))
 		{
-			Dir.x = -1.f;
+			vDir.z = -1.f;
+		}
+		if (KEY_PRESSED(KEY::A))
+		{
+			vDir.x = -1.f;
 		}
 		if (KEY_PRESSED(KEY::D))
 		{
-			Dir.x = 1.f;
+			vDir.x = 1.f;
 		}
+		vDir.Normalize();
 	}
 
-	Dir.Normalize();
-	GetOwner()->Rigidbody()->SetVelocityLimit(_fSpeed * 2.f);
-	GetOwner()->Rigidbody()->SetVelocity(Dir * _fSpeed * 1000.f);
+	Vec2 vDefault = Vec2(0.f, -1.f);
+	Vec2 v2Dir = Vec2(vDir.x, vDir.z);
+	float angle = (float)acos(v2Dir.Dot(vDefault));
+
+	if (vDir.x > 0.f)
+		angle = XM_2PI - angle;
+
+	GetOwner()->Rigidbody()->SetVelocity(vDir * _fSpeed * 1.5f);
+	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, angle, 0.f);
 }

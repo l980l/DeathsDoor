@@ -30,14 +30,6 @@ void CLurkerScript::begin()
 {
 	CMonsterScript::begin();
 
-	// 동적 재질 생성.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
-
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
-
 	// 상태 넣어주기.
 	if (nullptr == m_pStateScript)
 	{
@@ -56,16 +48,19 @@ void CLurkerScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
+		NewStat.Max_HP = 300;
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 500.f;
+		NewStat.Speed = 50.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
 
 void CLurkerScript::tick()
 {
+	CMonsterScript::tick();
+
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
 

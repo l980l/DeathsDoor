@@ -32,13 +32,14 @@ public:
         m_Const.mtrl.vSpec = _vSpec;
         m_Const.mtrl.vEmv = _vEmis;
     }
-    
+
     void SetAnim3D(bool _bTrue) { m_Const.arrAnimData[0] = (int)_bTrue; }
     void SetBoneCount(int _iBoneCount) { m_Const.arrAnimData[1] = _iBoneCount; }
 
    
 
     void UpdateData();
+    void UpdateData_Inst();
 
 private:
     virtual int Load(const wstring& _strFilePath);

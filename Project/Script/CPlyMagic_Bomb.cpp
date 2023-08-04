@@ -15,7 +15,6 @@ CPlyMagic_Bomb::~CPlyMagic_Bomb()
 void CPlyMagic_Bomb::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_BOMB, false);
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 }
 
 void CPlyMagic_Bomb::tick()
@@ -51,7 +50,6 @@ void CPlyMagic_Bomb::tick()
 
 void CPlyMagic_Bomb::Exit()
 {
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 }
 
 void CPlyMagic_Bomb::CalcDir()

@@ -10,6 +10,7 @@
 #include "CLevel.h"
 #include "CLayer.h"
 #include "CGameObject.h"
+#include "CAnimator3D.h"
 #include "CRenderComponent.h"
 #include "CMaterial.h"
 #include "CGraphicsShader.h"
@@ -20,6 +21,7 @@
 #include "CResMgr.h"
 #include "CKeyMgr.h"
 
+#include "CInstancingBuffer.h"
 #include "CMeshRender.h"
 
 CCamera::CCamera()
@@ -146,8 +148,12 @@ void CCamera::CalcProjMat()
 	}
 
 	// 투영행렬 역행렬
-	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);	
+	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);
+
+	
 }
+
+
 
 void CCamera::SetLayerMask(int _iLayer, bool _Visible)
 {
@@ -196,9 +202,7 @@ void CCamera::SortObject()
 				CRenderComponent* pRenderCom = vecObject[j]->GetRenderComponent();
 
 				// 렌더링 기능이 없는 오브젝트는 제외
-				if (   nullptr == pRenderCom 
-					|| nullptr == pRenderCom->GetMaterial(0)
-					|| nullptr == pRenderCom->GetMaterial(0)->GetShader())
+				if (nullptr == pRenderCom)
 					continue;
 
 				// FrustumCheck
@@ -209,32 +213,79 @@ void CCamera::SortObject()
 						continue;
 				}
 
-				// 쉐이더 도메인에 따른 분류
-				SHADER_DOMAIN eDomain = pRenderCom->GetMaterial(0)->GetShader()->GetDomain();
-				switch (eDomain)
+				// 메테리얼 개수만큼 반복
+				UINT iMtrlCount = pRenderCom->GetMtrlCount();
+
+				for (UINT iMtrl = 0; iMtrl < iMtrlCount; ++iMtrl)
 				{
-				case SHADER_DOMAIN::DOMAIN_DEFERRED:
-					m_vecDeferred.push_back(vecObject[j]);
-					break;
-				case SHADER_DOMAIN::DOMAIN_DECAL:
-					m_vecDecal.push_back(vecObject[j]);
-					break;
-				case SHADER_DOMAIN::DOMAIN_OPAQUE:
-					m_vecOpaque.push_back(vecObject[j]);
-					break;
-				case SHADER_DOMAIN::DOMAIN_MASK:
-					m_vecMask.push_back(vecObject[j]);
-					break;
-				case SHADER_DOMAIN::DOMAIN_TRANSPARENT:
-					m_vecTransparent.push_back(vecObject[j]);
-					break;
-				case SHADER_DOMAIN::DOMAIN_POSTPROCESS:
-					m_vecPost.push_back(vecObject[j]);
-					break;
-				case SHADER_DOMAIN::DOMAIN_UI:
-					m_vecUI.push_back(vecObject[j]);
-					break;				
-				}
+					// 재질이 없거나, 재질의 쉐이더가 설정이 안된 경우
+					if (nullptr == pRenderCom->GetMaterial(iMtrl)
+						|| nullptr == pRenderCom->GetMaterial(iMtrl)->GetShader())
+					{
+						continue;
+					}
+					
+					// 쉐이더 도메인에 따른 분류
+					SHADER_DOMAIN eDomain = pRenderCom->GetMaterial(iMtrl)->GetShader()->GetDomain();
+					Ptr<CGraphicsShader> pShader = pRenderCom->GetMaterial(iMtrl)->GetShader();
+
+					switch (eDomain)
+					{
+					case SHADER_DOMAIN::DOMAIN_DEFERRED:
+					case SHADER_DOMAIN::DOMAIN_OPAQUE:
+					case SHADER_DOMAIN::DOMAIN_MASK:
+					{
+						// Shader 의 POV 에 따라서 인스턴싱 그룹을 분류한다.
+						map<ULONG64, vector<tInstObj>>* pMap = NULL;
+						Ptr<CMaterial> pMtrl = pRenderCom->GetMaterial(iMtrl);
+
+						if (pShader->GetDomain() == SHADER_DOMAIN::DOMAIN_DEFERRED)
+						{
+							pMap = &m_mapInstGroup_D;
+						}
+						else if (pShader->GetDomain() == SHADER_DOMAIN::DOMAIN_OPAQUE
+							|| pShader->GetDomain() == SHADER_DOMAIN::DOMAIN_MASK)
+						{
+							pMap = &m_mapInstGroup_F;
+						}
+						else
+						{
+							assert(nullptr);
+							continue;
+						}
+
+						uInstID uID = {};
+						uID.llID = pRenderCom->GetInstID(iMtrl);
+
+						// ID 가 0 다 ==> Mesh 나 Material 이 셋팅되지 않았다.
+						if (0 == uID.llID)
+							continue;
+
+						map<ULONG64, vector<tInstObj>>::iterator iter = pMap->find(uID.llID);
+						if (iter == pMap->end())
+						{
+							pMap->insert(make_pair(uID.llID, vector<tInstObj>{tInstObj{ vecObject[j], iMtrl }}));
+						}
+						else
+						{
+							iter->second.push_back(tInstObj{ vecObject[j], iMtrl });
+						}
+					}
+						break;
+					case SHADER_DOMAIN::DOMAIN_DECAL:
+						m_vecDecal.push_back(vecObject[j]);
+						break;					
+					case SHADER_DOMAIN::DOMAIN_TRANSPARENT:
+						m_vecTransparent.push_back(vecObject[j]);
+						break;
+					case SHADER_DOMAIN::DOMAIN_POSTPROCESS:
+						m_vecPost.push_back(vecObject[j]);
+						break;
+					case SHADER_DOMAIN::DOMAIN_UI:
+						m_vecUI.push_back(vecObject[j]);
+						break;
+					}
+				}				
 			}
 		}
 	}
@@ -263,6 +314,7 @@ void CCamera::SortShadowObject()
 	}
 }
 
+
 void CCamera::render()
 {
 	// 행렬 업데이트
@@ -275,41 +327,57 @@ void CCamera::render()
 	// =====================================
 	// Deferred Object
 	// 지연 출력으로 원하는 정보를 따로 받는 텍스쳐에 받아옴
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
-	render_deferred();
-
-	// Decal Render
-	// decal에서 position tex를 인자로 받기 위해
-	// 기존의 Target으로 지정된 Tex를 바인딩 해제해줘야 함.
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DECAL)->OMSet();
-	render_decal();
-
-	// Lighting
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet();
-	
-	// LightObj 기준 render 
-	const vector<CLight3D*> vecLight3D = CRenderMgr::GetInst()->GetLight3D();
-	for (size_t i = 0; i < vecLight3D.size(); ++i)
+	if (m_bWaterCamera)
 	{
-		vecLight3D[i]->render();
+		CRenderMgr::GetInst()->MRT_Clear(MRT_TYPE::WATER);
+		// Water MRT에 랜더
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::WATER)->OMSet();
+		render_deferred();
+		render_water();
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 	}
 
-	// (Deferred + Light) Merge
-	// 지연 출력이 끝난 후 SwapChain 출력대상 재지정 후 출력
-	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
-	render_merge();
+	else
+	{
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
+		render_deferred();
+		render_transparent(); // 파티클
 
+		// Decal Render
+		// decal에서 position tex를 인자로 받기 위해
+		// 기존의 Target으로 지정된 Tex를 바인딩 해제해줘야 함.
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DECAL)->OMSet();
+		render_decal();
 
-	// Forward Object	
-	render_opaque();
-	render_mask();
-	render_transparent();
+		// Lighting
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet();
 
-	// PostProcess
-	render_postprocess();
+		// LightObj 기준 render 
+		const vector<CLight3D*> vecLight3D = CRenderMgr::GetInst()->GetLight3D();
+		for (size_t i = 0; i < vecLight3D.size(); ++i)
+		{
+			vecLight3D[i]->render();
+		}
+		render_blur();
 
-	// UI
-	render_ui();
+		// (Deferred + Light) Merge
+		// 지연 출력이 끝난 후 SwapChain 출력대상 재지정 후 출력
+		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
+		render_merge();
+
+		// Forward Object	
+		//render_opaque();
+		//render_mask();
+		render_forward();
+
+		//render_transparent(); // 파티클 원래는 여기서 함. 
+
+		// PostProcess
+		render_postprocess();
+
+		// UI
+		render_ui();
+	}
 }
 
 void CCamera::render_depthmap()
@@ -325,12 +393,21 @@ void CCamera::render_depthmap()
 	}
 }
 
+void CCamera::render_water()
+{
+	Ptr<CTexture> pWaterTex = CResMgr::GetInst()->FindRes<CTexture>(L"WaterCameraTex");
+	CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl")->SetTexParam(TEX_0, pWaterTex);
+}
+
+
 void CCamera::clear()
 {
-	m_vecDeferred.clear();
-	m_vecDecal.clear();
-	m_vecOpaque.clear();
-	m_vecMask.clear();
+	for (auto& pair : m_mapInstGroup_D)
+		pair.second.clear();
+	for (auto& pair : m_mapInstGroup_F)
+		pair.second.clear();
+		
+	m_vecDecal.clear();	
 	m_vecTransparent.clear();
 	m_vecPost.clear();
 	m_vecUI.clear();
@@ -338,9 +415,108 @@ void CCamera::clear()
 
 void CCamera::render_deferred()
 {
-	for (size_t i = 0; i < m_vecDeferred.size(); ++i)
+	for (auto& pair : m_mapSingleObj)
 	{
-		m_vecDeferred[i]->render();
+		pair.second.clear();
+	}
+
+	// Deferred object render
+	tInstancingData tInstData = {};
+
+	for (auto& pair : m_mapInstGroup_D)
+	{
+		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
+		if (pair.second.empty())
+			continue;
+
+		// instancing 개수 조건 미만이거나
+		// Animation2D 오브젝트거나(스프라이트 애니메이션 오브젝트)
+		// Shader 가 Instancing 을 지원하지 않는경우
+		if (pair.second.size() <= 1
+			|| pair.second[0].pObj->Animator2D()
+			|| pair.second[0].pObj->GetRenderComponent()->GetMaterial(pair.second[0].iMtrlIdx)->GetShader()->GetVSInst() == nullptr)
+		{
+			// 해당 물체들은 단일 랜더링으로 전환
+			for (UINT i = 0; i < pair.second.size(); ++i)
+			{
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second[i].pObj);
+
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
+				else
+				{
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[i].pObj, vector<tInstObj>{pair.second[i]}));
+				}
+			}
+			continue;
+		}
+
+		CGameObject* pObj = pair.second[0].pObj;
+		Ptr<CMesh> pMesh = pObj->GetRenderComponent()->GetMesh();
+		Ptr<CMaterial> pMtrl = pObj->GetRenderComponent()->GetMaterial(pair.second[0].iMtrlIdx);
+
+		// Instancing 버퍼 클리어
+		CInstancingBuffer::GetInst()->Clear();
+
+		int iRowIdx = 0;
+		bool bHasAnim3D = false;
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			tInstData.matWorld = pair.second[i].pObj->Transform()->GetWorldMat();
+			tInstData.matWV = tInstData.matWorld * m_matView;
+			tInstData.matWVP = tInstData.matWV * m_matProj;
+
+			if (pair.second[i].pObj->Animator3D())
+			{
+				pair.second[i].pObj->Animator3D()->UpdateData();
+				tInstData.iRowIdx = iRowIdx++;
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
+				bHasAnim3D = true;
+			}
+			else
+				tInstData.iRowIdx = -1;
+
+			CInstancingBuffer::GetInst()->AddInstancingData(tInstData);
+		}
+
+		// 인스턴싱에 필요한 데이터를 세팅(SysMem -> GPU Mem)
+		CInstancingBuffer::GetInst()->SetData();
+
+		if (bHasAnim3D)
+		{
+			pMtrl->SetAnim3D(true); // Animation Mesh 알리기
+			pMtrl->SetBoneCount(pMesh->GetBoneCount());
+		}
+
+		pMtrl->UpdateData_Inst();
+		pMesh->render_instancing(pair.second[0].iMtrlIdx);
+
+		// 정리
+		if (bHasAnim3D)
+		{
+			pMtrl->SetAnim3D(false); // Animation Mesh 알리기
+			pMtrl->SetBoneCount(0);
+		}
+	}
+
+	// 개별 랜더링
+	for (auto& pair : m_mapSingleObj)
+	{
+		if (pair.second.empty())
+			continue;
+
+		pair.second[0].pObj->Transform()->UpdateData();
+
+		for (auto& instObj : pair.second)
+		{
+			instObj.pObj->GetRenderComponent()->render(instObj.iMtrlIdx);
+		}
+
+		if (pair.second[0].pObj->Animator3D())
+		{
+			pair.second[0].pObj->Animator3D()->ClearData();
+		}
 	}
 }
 
@@ -350,6 +526,18 @@ void CCamera::render_decal()
 	{
 		m_vecDecal[i]->render();
 	}
+}
+
+void CCamera::render_blur()
+{
+	Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"GaussianBlurMtrl");
+
+	pMtrl->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"ColorTargetTex"));
+	pMtrl->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"EmissiveTargetTex"));
+	pMtrl->UpdateData();
+
+	pMesh->render(0);
 }
 
 void CCamera::render_merge()
@@ -366,19 +554,110 @@ void CCamera::render_merge()
 	pMesh->render(0);
 }
 
-void CCamera::render_opaque()
+void CCamera::render_forward()
 {
-	for (size_t i = 0; i < m_vecOpaque.size(); ++i)
+	for (auto& pair : m_mapSingleObj)
 	{
-		m_vecOpaque[i]->render();
+		pair.second.clear();
 	}
-}
 
-void CCamera::render_mask()
-{
-	for (size_t i = 0; i < m_vecMask.size(); ++i)
+	// Deferred object render
+	tInstancingData tInstData = {};
+
+	for (auto& pair : m_mapInstGroup_F)
 	{
-		m_vecMask[i]->render();
+		// 그룹 오브젝트가 없거나, 쉐이더가 없는 경우
+		if (pair.second.empty())
+			continue;
+
+		// instancing 개수 조건 미만이거나
+		// Animation2D 오브젝트거나(스프라이트 애니메이션 오브젝트)
+		// Shader 가 Instancing 을 지원하지 않는경우
+		if (pair.second.size() <= 1
+			|| pair.second[0].pObj->Animator2D()
+			|| pair.second[0].pObj->GetRenderComponent()->GetMaterial(pair.second[0].iMtrlIdx)->GetShader()->GetVSInst() == nullptr)
+		{
+			// 해당 물체들은 단일 랜더링으로 전환
+			for (UINT i = 0; i < pair.second.size(); ++i)
+			{
+				map<INT_PTR, vector<tInstObj>>::iterator iter
+					= m_mapSingleObj.find((INT_PTR)pair.second[i].pObj);
+
+				if (iter != m_mapSingleObj.end())
+					iter->second.push_back(pair.second[i]);
+				else
+				{
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[i].pObj, vector<tInstObj>{pair.second[i]}));
+				}
+			}
+			continue;
+		}
+
+		CGameObject* pObj = pair.second[0].pObj;
+		Ptr<CMesh> pMesh = pObj->GetRenderComponent()->GetMesh();
+		Ptr<CMaterial> pMtrl = pObj->GetRenderComponent()->GetMaterial(pair.second[0].iMtrlIdx);
+
+		// Instancing 버퍼 클리어
+		CInstancingBuffer::GetInst()->Clear();
+
+		int iRowIdx = 0;
+		bool bHasAnim3D = false;
+		for (UINT i = 0; i < pair.second.size(); ++i)
+		{
+			tInstData.matWorld = pair.second[i].pObj->Transform()->GetWorldMat();
+			tInstData.matWV = tInstData.matWorld * m_matView;
+			tInstData.matWVP = tInstData.matWV * m_matProj;
+
+			if (pair.second[i].pObj->Animator3D())
+			{
+				pair.second[i].pObj->Animator3D()->UpdateData();
+				tInstData.iRowIdx = iRowIdx++;
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
+				bHasAnim3D = true;
+			}
+			else
+				tInstData.iRowIdx = -1;
+
+			CInstancingBuffer::GetInst()->AddInstancingData(tInstData);
+		}
+
+		// 인스턴싱에 필요한 데이터를 세팅(SysMem -> GPU Mem)
+		CInstancingBuffer::GetInst()->SetData();
+
+		if (bHasAnim3D)
+		{
+			pMtrl->SetAnim3D(true); // Animation Mesh 알리기
+			pMtrl->SetBoneCount(pMesh->GetBoneCount());
+		}
+
+		pMtrl->UpdateData_Inst();
+		pMesh->render_instancing(pair.second[0].iMtrlIdx);
+
+		// 정리
+		if (bHasAnim3D)
+		{
+			pMtrl->SetAnim3D(false); // Animation Mesh 알리기
+			pMtrl->SetBoneCount(0);
+		}
+	}
+
+	// 개별 랜더링
+	for (auto& pair : m_mapSingleObj)
+	{
+		if (pair.second.empty())
+			continue;
+
+		pair.second[0].pObj->Transform()->UpdateData();
+
+		for (auto& instObj : pair.second)
+		{
+			instObj.pObj->GetRenderComponent()->render(instObj.iMtrlIdx);
+		}
+
+		if (pair.second[0].pObj->Animator3D())
+		{
+			pair.second[0].pObj->Animator3D()->ClearData();
+		}
 	}
 }
 
