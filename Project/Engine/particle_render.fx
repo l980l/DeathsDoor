@@ -13,19 +13,19 @@
 // g_int_0 : Particle Index
 // =========================
 
-StructuredBuffer<tParticle> ParticleBuffer : register(t20);
-StructuredBuffer<tParticleModule> ParticleModuleData : register(t21);
+StructuredBuffer<tParticle>         ParticleBuffer : register(t20);
+StructuredBuffer<tParticleModule>   ParticleModuleData : register(t21);
 #define ModuleData                  ParticleModuleData[0]
 
 struct VS_IN
 {
-    float3 vPos : POSITION;
+    float3 vPos  : POSITION;
     uint iInstID : SV_InstanceID;
 };
 
 struct VS_OUT
 {
-    float3 vPos : POSITION;
+    float3 vPos  : POSITION;
     uint iInstID : SV_InstanceID;
 };
 
@@ -45,8 +45,8 @@ VS_OUT VS_ParticleRender(VS_IN _in)
 struct GS_OUT
 {
     float4 vPosition : SV_Position;
-    float2 vUV : TEXCOORD;
-    uint iInstID : SV_InstanceID;
+    float2 vUV       : TEXCOORD;
+    uint   iInstID   : SV_InstanceID;
 };
 
 [maxvertexcount(6)]
@@ -59,8 +59,8 @@ void GS_ParticleRender(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outstr
     tParticle particle = ParticleBuffer[id];
     
     float3 vParticleViewPos = mul(float4(particle.vWorldPos.xyz, 1.f), g_matView).xyz;
-   // float2 vParticleScale = particle.vWorldScale.xy * particle.ScaleFactor;
-    float3 vParticleScale = particle.vWorldScale.xyz * particle.ScaleFactor;
+    float2 vParticleScale = particle.vWorldScale.xy * particle.ScaleFactor;
+    //float3 vParticleScale = particle.vWorldScale.xyz * particle.ScaleFactor;
    
     // 0 -- 1
     // |    |
@@ -159,19 +159,15 @@ void GS_ParticleRender(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outstr
     }
     
     output[0].vPosition = mul(float4(NewPos[0] + vParticleViewPos, 1.f), g_matProj);
-    output[0].vUV = float2(0.f, 0.f);
     output[0].iInstID = id;
     
     output[1].vPosition = mul(float4(NewPos[1] + vParticleViewPos, 1.f), g_matProj);
-    output[1].vUV = float2(1.f, 0.f);
     output[1].iInstID = id;
     
     output[2].vPosition = mul(float4(NewPos[2] + vParticleViewPos, 1.f), g_matProj);
-    output[2].vUV = float2(1.f, 1.f);
     output[2].iInstID = id;
     
     output[3].vPosition = mul(float4(NewPos[3] + vParticleViewPos, 1.f), g_matProj);
-    output[3].vUV = float2(0.f, 1.f);
     output[3].iInstID = id;
     
     

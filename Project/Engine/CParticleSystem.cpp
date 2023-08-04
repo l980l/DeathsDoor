@@ -35,35 +35,9 @@ CParticleSystem::CParticleSystem()
 	m_ModuleData.MinLifeTime = 3.f;
 	m_ModuleData.MaxLifeTime = 5.f;
 
-	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE] = false;
-	//m_ModuleData.StartScale = 1.5f;
-	//m_ModuleData.EndScale = 0.2f;
-
-	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::COLOR_CHANGE] = true;
-	//m_ModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
-	//m_ModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
-
-	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = true;
-	//m_ModuleData.AddVelocityType = 0; // From Center
-	//m_ModuleData.Speed = 700.f;
-	//m_ModuleData.vVelocityDir;
-	//m_ModuleData.OffsetAngle;
-
-	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG] = true;
-	//m_ModuleData.StartDrag = 500.f;
-	//m_ModuleData.EndDrag = -500.f;
-
-	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::NOISE_FORCE] = false;
-	//m_ModuleData.fNoiseTerm = 0.3f;
-	//m_ModuleData.fNoiseForce = 50.f;
-
-	//m_ModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER] = true;
-	//m_ModuleData.VelocityAlignment = true;
-	//m_ModuleData.VelocityScale = true;
-	//m_ModuleData.vMaxVelocityScale = Vec3(15.f, 1.f, 1.f);
-	//m_ModuleData.vMaxSpeed = 500.f;
-
-	//m_Tex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\flame1.png");
+	m_Tex = CResMgr::GetInst()->LoadTexture(L"texture\\particle\\Frame.png",L"texture\\particle\\Frame.png", 0);
+	SpawnModule(1, 10, Vec3(255.f, 255.f, 255.f), Vec3(40.f, 40.f, 1.f), Vec3(35.f, 35.f, 1.f), Vec3(1.f, 1.f, 1.f), 0.7f, 0.7f);
+	AnimationModule(8, 4, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(0.f, 0.f));
 
 
 	//========================================================
@@ -115,13 +89,22 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _Other)
 CParticleSystem::~CParticleSystem()
 {
 	if (nullptr != m_ParticleBuffer)
+	{
 		delete m_ParticleBuffer;
+		m_ParticleBuffer = nullptr;
+	}
 
 	if (nullptr != m_RWBuffer)
+	{
 		delete m_RWBuffer;
+		m_RWBuffer = nullptr;
+	}
 
 	if (nullptr != m_ModuleDataBuffer)
+	{
 		delete m_ModuleDataBuffer;
+		m_ModuleDataBuffer = nullptr;
+	}
 }
 
 
@@ -141,8 +124,11 @@ void CParticleSystem::finaltick()
 		// 나머지는 남은 시간
 		m_AccTime = fTimePerCount * (fData - floor(fData));
 
-		// 버퍼에 스폰 카운트 전달
-		tRWParticleBuffer rwbuffer = { (int)fData, };
+		// RW버퍼의 개수보다 생성개수가 많다면 버퍼 사이즈를 늘려줌.
+		if (m_RWBuffer->GetElementCount() < (UINT)fData)
+			m_RWBuffer->Create(sizeof(tRWParticleBuffer), (UINT)fData, SB_TYPE::READ_WRITE, true);
+		// 버퍼에 스폰카운트 전달
+		tRWParticleBuffer rwbuffer = { (int)fData };
 		m_RWBuffer->SetData(&rwbuffer);
 	}
 
@@ -170,9 +156,7 @@ void CParticleSystem::render()
 	m_ModuleDataBuffer->UpdateData(21, PIPELINE_STAGE::PS_GEOMETRY);
 
 	// Particle Render	
-	//Ptr<CTexture> pParticleTex = CResMgr::GetInst()->Load<CTexture>(L"Particle_0", L"texture\\particle\\flame1.png");
 	GetMaterial(0)->SetTexParam(TEX_0, m_Tex);
-
 	// Emissive 여부
 	GetMaterial(0)->SetScalarParam(INT_0, &m_iEmissive);
 
