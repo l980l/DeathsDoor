@@ -1,27 +1,27 @@
-#include "pch.h"
-#include "TestLevel.h"
-
-#include <Engine\CLevelMgr.h>
-#include <Engine\CLevel.h>
-#include <Engine\CLayer.h>
-#include <Engine\CGameObject.h>
-#include <Engine\components.h>
-
-#include <Engine\CResMgr.h>
-#include <Engine\CCollisionMgr.h>
-
-#include <Script\CPlayerScript.h>
-#include <Script\CStateScript.h>
-#include <Script\CMonsterScript.h>
-#include <Script\CCameraMoveScript.h>
-#include <Script\CPlayerWeaponScript.h>
-#include <Script\CGameCameraScript.h>
-#include <Script\CMagic_ArrowScript.h>
-
-#include <Script\CLurkerScript.h>
-#include <Script\CBazookaScript.h>
-#include <Script\CGruntScript.h>
-#include <Script\CCrowBossScript.h>
+//#include "pch.h"
+//#include "TestLevel.h"
+//
+//#include <Engine\CLevelMgr.h>
+//#include <Engine\CLevel.h>
+//#include <Engine\CLayer.h>
+//#include <Engine\CGameObject.h>
+//#include <Engine\components.h>
+//
+//#include <Engine\CResMgr.h>
+//#include <Engine\CCollisionMgr.h>
+//
+//#include <Script\CPlayerScript.h>
+//#include <Script\CStateScript.h>
+//#include <Script\CMonsterScript.h>
+//#include <Script\CCameraMoveScript.h>
+//#include <Script\CPlayerWeaponScript.h>
+//#include <Script\CGameCameraScript.h>
+//#include <Script\CMagic_ArrowScript.h>
+//
+//#include <Script\CLurkerScript.h>
+//#include <Script\CBazookaScript.h>
+//#include <Script\CGruntScript.h>
+//#include <Script\CCrowBossScript.h>
 //#include <Script\CWaterCameraScript.h>
 //
 //#include "CLevelSaveLoad.h"
