@@ -15,9 +15,8 @@ CPlyWalk::~CPlyWalk()
 
 void CPlyWalk::Enter()
 {
-	m_fSpeed = GetOwnerScript()->GetStat().Speed;
+	m_fSpeed = GetOwnerScript()->GetStat().Speed * 0.5f;
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::WALK, false);
-	GetOwner()->Rigidbody()->SetVelocityLimit(m_fSpeed * 0.5f);
 }
 
 void CPlyWalk::tick()
@@ -30,8 +29,8 @@ void CPlyWalk::tick()
 	}
 	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
 	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");		
-		CalcDir();
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
+		GetOwner()->Transform()->CalcDir();
 		m_fTimeToIdle = 0.f;
 	}
 
@@ -57,44 +56,38 @@ void CPlyWalk::tick()
 
 void CPlyWalk::Exit()
 {
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fTimeToIdle = 0.f;
 }
 
 void CPlyWalk::Move()
 {
-	Vec3 Velocity = {};
+	Vec3 Velocity = Vec3(0.f, 0.f, 0.f);
+
 	if (KEY_PRESSED(KEY::W))
 	{
-		Velocity.z = m_fSpeed;
+		Velocity.z += 1.f;
 	}
 
 	if (KEY_PRESSED(KEY::S))
 	{
-		Velocity.z = -m_fSpeed;
+		Velocity.z -= 1.f;
 	}
 
 	if (KEY_PRESSED(KEY::A))
 	{
-		Velocity.x = -m_fSpeed;
+		Velocity.x -= 1.f;
 	}
 
 	if (KEY_PRESSED(KEY::D))
 	{
-		Velocity.x = m_fSpeed;
+		Velocity.x += 1.f;
 	}
+	Velocity.Normalize();
 
-	GetOwner()->Rigidbody()->SetVelocity(Velocity);
-}
+	Velocity *= m_fSpeed;
 
-void CPlyWalk::CalcDir()
-{
-	Vec3 vPrevPos = GetOwner()->Transform()->GetPrevPos();
-	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
-
-	float Dir = GetDir(vPrevPos, vCurPos);
-
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, Dir, 0.f);
+	GetOwner()->Rigidbody()->AddVelocity(Velocity);
 }
 
 void CPlyWalk::BeginOverlap(CCollider3D* _Other)
@@ -103,6 +96,8 @@ void CPlyWalk::BeginOverlap(CCollider3D* _Other)
 
 void CPlyWalk::OnOverlap(CCollider3D* _Other)
 {
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER && KEY_PRESSED(KEY::E))
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
 }
 
 void CPlyWalk::EndOverlap(CCollider3D* _Other)

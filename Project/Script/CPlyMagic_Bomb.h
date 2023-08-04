@@ -3,7 +3,6 @@
 class CPlyMagic_Bomb :
     public CState
 {
-    float m_fMagicChargeTime;
     Vec3  m_vAttackDir;
 
 public:

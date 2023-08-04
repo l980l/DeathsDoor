@@ -32,6 +32,7 @@ void CPlayerWeaponScript::begin()
 		m_pStateScript->AddState(L"Fire", new CPlyWpMagic_Fire);
 		m_pStateScript->AddState(L"Bomb", new CPlyWpMagic_Bomb);
 		m_pStateScript->AddState(L"Hook", new CPlyWpMagic_Hook);
+		m_pStateScript->AddState(L"Hooking", new CPlyWpMagic_Hooking);
 		m_pStateScript->ChangeState(L"Idle");
 		MeshRender()->GetDynamicMaterial(0);
 	}

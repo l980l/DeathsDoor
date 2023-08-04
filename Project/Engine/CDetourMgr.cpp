@@ -47,7 +47,7 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::ICE_BOSS);
+	ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
@@ -141,8 +141,7 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 }
 
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
-{
-	
+{	
 	if (nullptr == m_pPlayer)
 	{
 		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
@@ -219,7 +218,7 @@ float CDetourMgr::GetDirtoTarget(Vec3 _vStartPos)
 	return GetDir(vPlayerPos, _vStartPos);;
 }
 
-float CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj)
+float CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree)
 {
-	return GetSmoothDir(_pStartObj, m_pPlayer);
+	return GetSmoothDir(_pStartObj, m_pPlayer, _fdegree);
 }

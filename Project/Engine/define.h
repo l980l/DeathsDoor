@@ -311,6 +311,8 @@ enum class LAYER
 	LADDER, 
 	ANCHOR,
 	BRAIZER,
+	NPC, 
+	MAGIC_FIRE,
 
 	UI = 31,
 };
@@ -373,5 +375,14 @@ enum class PLAYER_MAGIC
 	FIRE,
 	BOMB,
 	HOOK,
+	END,
+};
+
+enum class PLAYER_UPGRADE
+{
+	Strength,
+	Dexterity,
+	Haste,
+	Magic,
 	END,
 };

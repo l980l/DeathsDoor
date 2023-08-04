@@ -9,7 +9,6 @@ public:
     virtual void Exit() override;
 
     void Dodge(float _fSpeed);
-    void CalcDir();
 
     CLONE(CPlyDodge);
 

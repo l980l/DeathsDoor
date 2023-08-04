@@ -52,7 +52,7 @@ void CLurkerScript::begin()
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 500.f;
+		NewStat.Speed = 50.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
@@ -73,7 +73,7 @@ void CLurkerScript::tick()
 	if (m_bStarePlayer)
 	{
 		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
+		//GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
 	}
 }
 

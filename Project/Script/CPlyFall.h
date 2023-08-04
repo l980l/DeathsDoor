@@ -3,6 +3,8 @@
 class CPlyFall :
     public CState
 {
+private:
+    float   m_fTimeToIdle;
 public:
     virtual void tick() override;
     virtual void Enter() override;

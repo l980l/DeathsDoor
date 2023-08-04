@@ -309,14 +309,14 @@ int CDevice::CreateSampler()
     tSamDesc.Filter   = D3D11_FILTER_ANISOTROPIC;    
     // 텍스쳐를 샘플링할 때 사용할 밉레벨 수준 지정
     tSamDesc.MaxLOD   = D3D11_FLOAT32_MAX;
-    DEVICE->CreateSamplerState(&tSamDesc, m_Sampler[0].GetAddressOf());
+    DEVICE->CreateSamplerState(&tSamDesc, m_Sampler[0].GetAddressOf());//이중 필터링
 
     tSamDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
     tSamDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
     tSamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
     tSamDesc.Filter   = D3D11_FILTER_MIN_MAG_MIP_POINT;
     tSamDesc.MaxLOD   = D3D11_FLOAT32_MAX;
-    DEVICE->CreateSamplerState(&tSamDesc, m_Sampler[1].GetAddressOf());
+    DEVICE->CreateSamplerState(&tSamDesc, m_Sampler[1].GetAddressOf());//민맵
 
     CONTEXT->VSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
     CONTEXT->HSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());

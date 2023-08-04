@@ -330,5 +330,10 @@ struct tGlobal
 
 extern tGlobal GlobalData;
 
+struct SpawnInfo
+{
+	wstring PrefabName;
+	Vec3	SpawnPos;
+};
 
 

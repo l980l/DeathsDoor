@@ -6,7 +6,6 @@
 #include "CMagic_ArrowScript.h"
 
 CPlyMagic_Arrow::CPlyMagic_Arrow()
-	: m_fMagicChargeTime(0.f)
 {
 }
 
@@ -17,11 +16,9 @@ CPlyMagic_Arrow::~CPlyMagic_Arrow()
 void CPlyMagic_Arrow::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::ARROW, false);
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeScale(0.04f, 0.04f, 0.04f);
-	GetOwner()->GetChild()[1]->Transform()->SetRelativeRot(0.f, 0.f, XM_PI * 1.5f);
-	GetOwner()->GetChild()[1]->Transform()->SetRelativePos(Vec3(-0.35f, 0.35f, 1.5f));
-	m_fMagicChargeTime = 0.7f;
+	GetOwner()->GetChild()[1]->Transform()->SetRelativeRot(XM_PI / 2.f, XM_PI, XM_PI / 2.f);
+	GetOwner()->GetChild()[1]->Transform()->SetRelativePos(Vec3(0.f, 1.f, 1.f));
 }
 
 void CPlyMagic_Arrow::tick()
@@ -31,8 +28,7 @@ void CPlyMagic_Arrow::tick()
 		CalcDir();
 
 	}
-	m_fMagicChargeTime -= DT;
-	if (m_fMagicChargeTime <= 0.f)
+	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		if (KEY_RELEASE(KEY::RBTN))
 		{
@@ -40,8 +36,8 @@ void CPlyMagic_Arrow::tick()
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", 4, vSpawnPos, 3.f);
-			pArrow->Rigidbody()->SetVelocity(vDir * 3000.f);
+			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
+			pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
@@ -59,8 +55,6 @@ void CPlyMagic_Arrow::tick()
 void CPlyMagic_Arrow::Exit()
 {
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-	GetOwner()->GetChild()[0]->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
-	m_fMagicChargeTime = 0.f;
 }
 
 void CPlyMagic_Arrow::CalcDir()

@@ -70,18 +70,21 @@ int PrefabUI::render_update()
     }
 
     ImGui::TextColored(ImVec4(1, 1, 1, 1), "Layer Type Infos");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "0  : No Collision");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "1  : Map");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "2  : Player  ");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "3  : Monster");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "4  : PlayerProjectile");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "5  : MonsterProjectile");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "6  : NPC");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "7  : Door");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "8  : HitObject");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "9  : Boundary");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "10 : MainCam");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "11 : UICam");
-    ImGui::TextColored(ImVec4(1, 1, 1, 1), "31 : ViewPortUI");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "0  : DEFAULT");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "1  : MAINCAMERA");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "2  : SUBCAMERA  ");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "3  : PLAYER");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "4  : MONSTER");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "5  : PLAYERPROJECTILE");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "6  : MONSTERPROJECTILE");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "7  : WALL");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "8  : ITEM");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "9  : GROUND");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "10 : FALLAREA");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "11 : LADDER");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "12 : ANCHOR");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "13 : BRAIZER");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "14 : NPC");
+    ImGui::TextColored(ImVec4(1, 1, 1, 1), "31 : UI");
     return 0;
 }

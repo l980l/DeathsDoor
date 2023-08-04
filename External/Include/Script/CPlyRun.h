@@ -16,9 +16,9 @@ public:
     virtual void Exit() override;
 
     void Move();
-    void CalcDir();
 
     virtual void BeginOverlap(CCollider3D* _Other);
+    virtual void OnOverlap(CCollider3D* _Other);
 
     CLONE(CPlyRun);
 

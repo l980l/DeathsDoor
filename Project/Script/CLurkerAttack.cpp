@@ -9,6 +9,7 @@ void CLurkerAttack::Enter()
 	// 공격 방향은 처음에만 지정해야 함. 
 	m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
 	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
+	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 }
 
 void CLurkerAttack::tick()
@@ -22,7 +23,7 @@ void CLurkerAttack::tick()
 	{
 		Vec3 Velocity = m_Dir;
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * 10.f;
+		Velocity *= fSpeed;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}
@@ -34,6 +35,7 @@ void CLurkerAttack::tick()
 
 void CLurkerAttack::Exit()
 {
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	m_fTime = 0.f;
 }
 

@@ -2,13 +2,37 @@
 #include "CPlyMagic_Hook.h"
 #include <Engine/CDevice.h>
 #include "CLevelSaveLoadInScript.h"
-#include "CPlyMagic_Hooking.h"
 #include "CPlayerScript.h"
 #include "CMagic_HookScript.h"
+#include "CPlyMagic_Hooking.h"
 
 CPlyMagic_Hook::CPlyMagic_Hook()
-	: m_fMagicChargeTime(0.f)
+	: m_pHook(nullptr)
+	, m_vecChain{}
+	, m_vAttackDir{}
+	, m_vHookPos{}
+	, m_bHooked(false)
+	, m_bHookFail(false)
+	, m_bThrow(false)
 {
+	CLevelSaveLoadInScript script;
+
+	if (nullptr == m_pHook)
+	{
+		m_pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+		m_pHook->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		m_pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
+	}
+	if (m_vecChain.empty())
+	{
+		for (int i = 0; i < 80; ++i)
+		{
+			CGameObject* Chain = script.SpawnandReturnPrefab(L"prefab\\Chain.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
+			Chain->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+			m_vecChain.push_back(Chain);
+			m_pHook->GetScript<CMagic_HookScript>()->SetChain(m_vecChain);
+		}
+	}
 }
 
 CPlyMagic_Hook::~CPlyMagic_Hook()
@@ -18,55 +42,70 @@ CPlyMagic_Hook::~CPlyMagic_Hook()
 void CPlyMagic_Hook::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOK, false);
-	m_fMagicChargeTime = 0.01f;
+	// Hooking State에 HookObj 등록
+	CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
+	pHookingState->SetHook(m_pHook);
+	pHookingState->SetChain(m_vecChain);
 }
 
 void CPlyMagic_Hook::tick()
 {
-	// 갈고리를 걸었다면 Hooking으로 전환하고 갈고리가 걸린 곳의 위치를 지정
-	if (m_bHooked)
-	{	
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Hooking");
-		CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
-		pHookingState->SetHookedPos(m_vHookPos);
-	}
-
-	// 차지 중에는 방향전환 자유롭게
-	if (KEY_PRESSED(KEY::RBTN))
+	if(m_bThrow)
 	{
-		CalcDir();
-	}
-	m_fMagicChargeTime -= DT;
-	// 차지시간이 끝난 후에 우클릭을 해제했다면 투사체 발사
-	if (m_fMagicChargeTime <= 0.f)
-	{
-		if (KEY_RELEASE(KEY::RBTN))
+		// 갈고리를 걸었다면 Hooking으로 전환하고 갈고리가 걸린 곳의 위치를 지정
+		if (m_bHooked)
 		{
+			CPlyMagic_Hooking* pHookingState = (CPlyMagic_Hooking*)GetOwnerScript()->FindState(L"Hooking");
+			pHookingState->SetHookedPos(m_vHookPos);
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Hooking");
+		}
+		else
+			return;
+	}
+	else
+	{
+		// 차지 중에는 방향전환 자유롭게
+		if (KEY_PRESSED(KEY::RBTN))
+		{
+			CalcDir();
+		}
+		else if (KEY_RELEASE(KEY::RBTN))
+		{
+			m_bThrow = true;
+
+			// 우클릭을 해제하면 갈고리 발사
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", 4, vSpawnPos, 3.f);
-			pHook->GetScript<CMagic_HookScript>()->m_pOwner = this;
-			pHook->Rigidbody()->SetGravityVelocityLimit(800.f);
-			pHook->Rigidbody()->SetVelocity(vDir * 300000.f);
-			pHook->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pHook->Transform()->SetRelativePos(vSpawnPos);
+			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
+			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
+			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(m_vAttackDir);
+			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-		}
-	}
-	// 차지시간 전에 해제했다면 Idle로
-	else
-	{
-		if (KEY_RELEASE(KEY::RBTN))
-		{
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
+			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 		}
 	}
 }
 
 void CPlyMagic_Hook::Exit()
 {
+	m_vAttackDir = {};
+	m_vHookPos = {};
+	m_bHooked = false;
+	m_bHookFail = false;
+	m_bThrow = false;
+	m_pHook->GetScript<CMagic_HookScript>()->Active(false);
+}
+
+void CPlyMagic_Hook::FailSnatch()
+{
+	if(GetOwnerScript()->GetCurState() == GetOwnerScript()->FindState(L"Hook"))
+	{
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+	}
 }
 
 void CPlyMagic_Hook::CalcDir()

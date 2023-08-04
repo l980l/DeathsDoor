@@ -34,6 +34,7 @@ CPlyWpMagic_Arrow.h
 CPlyWpMagic_Fire.h
 CPlyWpMagic_Bomb.h
 CPlyWpMagic_Hook.h
+CPlyWpMagic_Hooking.h
 PlayerWeaponStates.h
 
 CBatAttack.h
@@ -79,6 +80,7 @@ CGrimKnightHit.h
 CGrimKnightDeath.h
 GrimKnightStates.h
 
+CSpawnMgr.h
 CSceneSaveLoad.h
 CLevelSaveLoadInScript.h
 CLoadingThread.h

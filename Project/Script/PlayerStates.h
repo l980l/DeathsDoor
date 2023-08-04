@@ -8,6 +8,7 @@
 #include "CPlyMagic_Bomb.h"
 #include "CPlyMagic_Fire.h"
 #include "CPlyMagic_Hook.h"
+#include "CPlyMagic_Hooking.h"
 #include "CPlyHit.h"
 #include "CPlyFall.h"
 #include "CPlyDead.h"

@@ -53,7 +53,7 @@ int TransformUI::render_update()
 	// Rotation
 	ImGui::Text("Rotation ");
 	ImGui::SameLine();
-	if (ImGui::DragFloat3("##Relative Rotation", vRotation))
+	if (ImGui::DragFloat3("##Relative Rotation",vRotation))
 	{
 		vRotation = (vRotation / 180.f) * XM_PI;
 		GetTarget()->Transform()->SetRelativeRot(vRotation);

@@ -331,9 +331,6 @@ float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
 
 float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 {
-	if (_vStart == _vTarget)
-		return 0;
-
 	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
 	Vec3 CurPos = _vStart;
 	Vec2 vDefault = Vec2(0.f, -1.f);
@@ -356,7 +353,7 @@ float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 	return angle;
 }
 
-float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj)
+float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _degree)
 {
 	Vec3 vOwnerPos = _pStartObject->Transform()->GetWorldPos();
 	Vec3 vTargetPos = _pTargetObj->Transform()->GetWorldPos();
@@ -382,7 +379,7 @@ float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj)
 		if (Diff < 0)
 			bnegative = true;
 
-		Diff = bnegative ? -2.3f / 180.f * XM_PI : 2.3f / 180.f * XM_PI;
+		Diff = bnegative ? -_degree / 180.f * XM_PI : _degree / 180.f * XM_PI;
 	}
 
 	return PrevDir + Diff;
@@ -401,7 +398,7 @@ void AddForceCentertoMouseDir(CGameObject* _pProjectile)
 	AttackDir.Normalize();
 	AttackDir *= 500.f;
 	AttackDir.y = 0.f;
-	_pProjectile->Rigidbody()->AddVelocity(-AttackDir);
+	_pProjectile->Rigidbody()->SetVelocity(-AttackDir);
 }
 
 int GetSizeofFormat(DXGI_FORMAT _eFormat)

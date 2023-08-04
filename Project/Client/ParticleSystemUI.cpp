@@ -196,6 +196,12 @@ void ParticleSystemUI::SpawnModule()
 	string TypeName = SpawnType[m_tModuleData.SpawnShapeType];
 	ImGui::SliderInt("##Spawn_ShapeType", &m_tModuleData.SpawnShapeType, 0, 1, TypeName.c_str());
 
+	ImGui::Text("Space       ");
+	ImGui::SameLine();
+	string SpaceType[2] = { "World", "Local" };
+	string SpaceName = SpaceType[m_tModuleData.Space];
+	ImGui::SliderInt("##Spawn_Space", &m_tModuleData.Space, 0, 1, SpaceName.c_str());
+
 	if (0 == m_tModuleData.SpawnShapeType)
 	{
 		ImGui::Text("SpawnRange  ");

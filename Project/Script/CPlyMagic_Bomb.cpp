@@ -5,7 +5,6 @@
 #include "CPlayerScript.h"
 
 CPlyMagic_Bomb::CPlyMagic_Bomb()
-	: m_fMagicChargeTime(0.f)
 {
 }
 
@@ -16,7 +15,6 @@ CPlyMagic_Bomb::~CPlyMagic_Bomb()
 void CPlyMagic_Bomb::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_BOMB, false);
-	m_fMagicChargeTime = 1.5f;
 }
 
 void CPlyMagic_Bomb::tick()
@@ -26,8 +24,7 @@ void CPlyMagic_Bomb::tick()
 	{
 		CalcDir();
 	}
-	m_fMagicChargeTime -= DT;
-	if (m_fMagicChargeTime <= 0.f)
+	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		if (KEY_RELEASE(KEY::RBTN))
 		{
@@ -35,7 +32,7 @@ void CPlyMagic_Bomb::tick()
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pBomb = script.SpawnandReturnPrefab(L"prefab\\Bomb.prefab", 4, vSpawnPos, 3.f);
+			CGameObject* pBomb = script.SpawnandReturnPrefab(L"prefab\\Bomb.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
 			pBomb->Rigidbody()->AddForce(vDir * 30000.f);
 			pBomb->Transform()->SetRelativeRot(m_vAttackDir);
 
@@ -53,7 +50,6 @@ void CPlyMagic_Bomb::tick()
 
 void CPlyMagic_Bomb::Exit()
 {
-	m_fMagicChargeTime = 0.f;
 }
 
 void CPlyMagic_Bomb::CalcDir()

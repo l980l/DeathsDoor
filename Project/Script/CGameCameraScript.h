@@ -10,6 +10,7 @@ private:
     float           m_fDiffer;
     float           m_fTargetScale;
     float           m_fPrevScale;
+    Vec3            m_vDistance;
 
 public:
     virtual void begin() override;

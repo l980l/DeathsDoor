@@ -2,14 +2,24 @@
 #include "CScriptMgr.h"
 
 #include "CAnchorScript.h"
+#include "CBankerFrameScript.h"
+#include "CBankNPCScript.h"
+#include "CBankUpgradeScript.h"
+#include "CBatScript.h"
 #include "CBazookaScript.h"
 #include "CBrazierScript.h"
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
 #include "CCrowHeadScript.h"
+#include "CCursorScript.h"
+#include "CEnterScript.h"
 #include "CGameCameraScript.h"
+#include "CGhostScript.h"
 #include "CGravityScript.h"
+#include "CGrimKnightScript.h"
 #include "CGruntScript.h"
+#include "CHUDScript.h"
+#include "CKnightScript.h"
 #include "CLoadLevelThreadScript.h"
 #include "CLurkerScript.h"
 #include "CMagic_ArrowScript.h"
@@ -20,20 +30,33 @@
 #include "CMonsterDetectRangeScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
+#include "CRoomScript.h"
+#include "CSpawnDoorScript.h"
 #include "CStateScript.h"
+#include "CWallScript.h"
 #include "CWaterCameraScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnchorScript");
+	_vec.push_back(L"CBankerFrameScript");
+	_vec.push_back(L"CBankNPCScript");
+	_vec.push_back(L"CBankUpgradeScript");
+	_vec.push_back(L"CBatScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBrazierScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
+	_vec.push_back(L"CCursorScript");
+	_vec.push_back(L"CEnterScript");
 	_vec.push_back(L"CGameCameraScript");
+	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
+	_vec.push_back(L"CGrimKnightScript");
 	_vec.push_back(L"CGruntScript");
+	_vec.push_back(L"CHUDScript");
+	_vec.push_back(L"CKnightScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CLurkerScript");
 	_vec.push_back(L"CMagic_ArrowScript");
@@ -44,7 +67,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMonsterDetectRangeScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
+	_vec.push_back(L"CRoomScript");
+	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
+	_vec.push_back(L"CWallScript");
 	_vec.push_back(L"CWaterCameraScript");
 }
 
@@ -52,6 +78,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnchorScript" == _strScriptName)
 		return new CAnchorScript;
+	if (L"CBankerFrameScript" == _strScriptName)
+		return new CBankerFrameScript;
+	if (L"CBankNPCScript" == _strScriptName)
+		return new CBankNPCScript;
+	if (L"CBankUpgradeScript" == _strScriptName)
+		return new CBankUpgradeScript;
+	if (L"CBatScript" == _strScriptName)
+		return new CBatScript;
 	if (L"CBazookaScript" == _strScriptName)
 		return new CBazookaScript;
 	if (L"CBrazierScript" == _strScriptName)
@@ -62,12 +96,24 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCrowBossScript;
 	if (L"CCrowHeadScript" == _strScriptName)
 		return new CCrowHeadScript;
+	if (L"CCursorScript" == _strScriptName)
+		return new CCursorScript;
+	if (L"CEnterScript" == _strScriptName)
+		return new CEnterScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
+	if (L"CGhostScript" == _strScriptName)
+		return new CGhostScript;
 	if (L"CGravityScript" == _strScriptName)
 		return new CGravityScript;
+	if (L"CGrimKnightScript" == _strScriptName)
+		return new CGrimKnightScript;
 	if (L"CGruntScript" == _strScriptName)
 		return new CGruntScript;
+	if (L"CHUDScript" == _strScriptName)
+		return new CHUDScript;
+	if (L"CKnightScript" == _strScriptName)
+		return new CKnightScript;
 	if (L"CLoadLevelThreadScript" == _strScriptName)
 		return new CLoadLevelThreadScript;
 	if (L"CLurkerScript" == _strScriptName)
@@ -88,8 +134,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
 		return new CPlayerWeaponScript;
+	if (L"CRoomScript" == _strScriptName)
+		return new CRoomScript;
+	if (L"CSpawnDoorScript" == _strScriptName)
+		return new CSpawnDoorScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
+	if (L"CWallScript" == _strScriptName)
+		return new CWallScript;
 	if (L"CWaterCameraScript" == _strScriptName)
 		return new CWaterCameraScript;
 	return nullptr;
@@ -101,6 +153,18 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	{
 	case (UINT)SCRIPT_TYPE::ANCHORSCRIPT:
 		return new CAnchorScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return new CBankerFrameScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BANKNPCSCRIPT:
+		return new CBankNPCScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BANKUPGRADESCRIPT:
+		return new CBankUpgradeScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BATSCRIPT:
+		return new CBatScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BAZOOKASCRIPT:
 		return new CBazookaScript;
@@ -117,14 +181,32 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::CROWHEADSCRIPT:
 		return new CCrowHeadScript;
 		break;
+	case (UINT)SCRIPT_TYPE::CURSORSCRIPT:
+		return new CCursorScript;
+		break;
+	case (UINT)SCRIPT_TYPE::ENTERSCRIPT:
+		return new CEnterScript;
+		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
+		break;
+	case (UINT)SCRIPT_TYPE::GHOSTSCRIPT:
+		return new CGhostScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GRAVITYSCRIPT:
 		return new CGravityScript;
 		break;
+	case (UINT)SCRIPT_TYPE::GRIMKNIGHTSCRIPT:
+		return new CGrimKnightScript;
+		break;
 	case (UINT)SCRIPT_TYPE::GRUNTSCRIPT:
 		return new CGruntScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HUDSCRIPT:
+		return new CHUDScript;
+		break;
+	case (UINT)SCRIPT_TYPE::KNIGHTSCRIPT:
+		return new CKnightScript;
 		break;
 	case (UINT)SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return new CLoadLevelThreadScript;
@@ -156,8 +238,17 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERWEAPONSCRIPT:
 		return new CPlayerWeaponScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ROOMSCRIPT:
+		return new CRoomScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SPAWNDOORSCRIPT:
+		return new CSpawnDoorScript;
+		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
+		break;
+	case (UINT)SCRIPT_TYPE::WALLSCRIPT:
+		return new CWallScript;
 		break;
 	case (UINT)SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return new CWaterCameraScript;
@@ -172,6 +263,22 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	{
 	case SCRIPT_TYPE::ANCHORSCRIPT:
 		return L"CAnchorScript";
+		break;
+
+	case SCRIPT_TYPE::BANKERFRAMESCRIPT:
+		return L"CBankerFrameScript";
+		break;
+
+	case SCRIPT_TYPE::BANKNPCSCRIPT:
+		return L"CBankNPCScript";
+		break;
+
+	case SCRIPT_TYPE::BANKUPGRADESCRIPT:
+		return L"CBankUpgradeScript";
+		break;
+
+	case SCRIPT_TYPE::BATSCRIPT:
+		return L"CBatScript";
 		break;
 
 	case SCRIPT_TYPE::BAZOOKASCRIPT:
@@ -194,16 +301,40 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CCrowHeadScript";
 		break;
 
+	case SCRIPT_TYPE::CURSORSCRIPT:
+		return L"CCursorScript";
+		break;
+
+	case SCRIPT_TYPE::ENTERSCRIPT:
+		return L"CEnterScript";
+		break;
+
 	case SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return L"CGameCameraScript";
+		break;
+
+	case SCRIPT_TYPE::GHOSTSCRIPT:
+		return L"CGhostScript";
 		break;
 
 	case SCRIPT_TYPE::GRAVITYSCRIPT:
 		return L"CGravityScript";
 		break;
 
+	case SCRIPT_TYPE::GRIMKNIGHTSCRIPT:
+		return L"CGrimKnightScript";
+		break;
+
 	case SCRIPT_TYPE::GRUNTSCRIPT:
 		return L"CGruntScript";
+		break;
+
+	case SCRIPT_TYPE::HUDSCRIPT:
+		return L"CHUDScript";
+		break;
+
+	case SCRIPT_TYPE::KNIGHTSCRIPT:
+		return L"CKnightScript";
 		break;
 
 	case SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
@@ -246,8 +377,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CPlayerWeaponScript";
 		break;
 
+	case SCRIPT_TYPE::ROOMSCRIPT:
+		return L"CRoomScript";
+		break;
+
+	case SCRIPT_TYPE::SPAWNDOORSCRIPT:
+		return L"CSpawnDoorScript";
+		break;
+
 	case SCRIPT_TYPE::STATESCRIPT:
 		return L"CStateScript";
+		break;
+
+	case SCRIPT_TYPE::WALLSCRIPT:
+		return L"CWallScript";
 		break;
 
 	case SCRIPT_TYPE::WATERCAMERASCRIPT:
