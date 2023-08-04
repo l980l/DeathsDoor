@@ -89,7 +89,7 @@ PS_OUT PS_DirLightShader(VS_OUT _in)
     }
     
     output.vDiffuse = lightcolor.vDiffuse * saturate(1.f - fShadowPow) + lightcolor.vAmbient;
-    output.vDiffuse = ceil(output.vDiffuse * 3) / 3.f;
+    output.vDiffuse = ceil(output.vDiffuse * 2.5f) / 2.5f;
     output.vSpecular = lightcolor.vSpecular * saturate(1.f - fShadowPow);
       
     // ImGui에서 확인할 수 있도록 알파값을 1로 넣어줌.
