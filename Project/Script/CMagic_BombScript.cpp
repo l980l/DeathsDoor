@@ -21,7 +21,12 @@ void CMagic_BombScript::tick()
 void CMagic_BombScript::BeginOverlap(CCollider3D* _Other)
 {
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+	{
+		Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		CurStat.HP -= m_fDamage;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
 		Destroy();
+	}
 }
 
 void CMagic_BombScript::EndOverlap(CCollider3D* _Other)

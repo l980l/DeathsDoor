@@ -2,6 +2,7 @@
 #include "CRigidbody.h"
 #include "CTimeMgr.h"
 #include "CTransform.h"
+#include "CPhysXMgr.h"
 
 CRigidbody::CRigidbody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)

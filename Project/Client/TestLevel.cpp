@@ -137,6 +137,7 @@ void CreateTestLevel()
 	PlayerStat.Attack_Speed = 0.4f;
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 150.f;
+	PlayerStat.Spell_Power = 40.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 800.f), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
@@ -176,7 +177,7 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 	
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	SpawnGameObject(pObject, Vec3(2000.f, 500.f, 3000.f), (int)LAYER::MONSTER);
 	
 	CLevelSaveLoad script;
 	CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");	
