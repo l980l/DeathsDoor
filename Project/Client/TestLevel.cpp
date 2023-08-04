@@ -201,8 +201,8 @@ void CreateTestLevel()
 	pObject = new CGameObject;
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CParticleSystem);
-	//pObject->ParticleSystem()->SetTex(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\Frame.png"));
-	//pObject->ParticleSystem()->AnimationModule(8, 4, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(0.f));
+	pObject->ParticleSystem()->SetTex(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\Frame.png"));
+	pObject->ParticleSystem()->AnimationModule(8, 4, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(0.f));
 	SpawnGameObject(pObject, Vec3(3000.f, 1500.f, 3000.f), (int)LAYER::DEFAULT);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");

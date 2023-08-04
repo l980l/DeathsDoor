@@ -35,11 +35,6 @@ CParticleSystem::CParticleSystem()
 	m_ModuleData.MinLifeTime = 3.f;
 	m_ModuleData.MaxLifeTime = 5.f;
 
-	m_Tex = CResMgr::GetInst()->LoadTexture(L"texture\\particle\\Frame.png",L"texture\\particle\\Frame.png", 0);
-	SpawnModule(1, 10, Vec3(255.f, 255.f, 255.f), Vec3(40.f, 40.f, 1.f), Vec3(35.f, 35.f, 1.f), Vec3(1.f, 1.f, 1.f), 0.7f, 0.7f);
-	AnimationModule(8, 4, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(0.f, 0.f));
-
-
 	//========================================================
 
 	//SetName(L"ParticleSystem");
