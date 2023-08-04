@@ -76,6 +76,15 @@
     <Filter Include="Script\02. Script\SpawnMgr\Door">
       <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\HUD">
+      <UniqueIdentifier>{e4d812ec-98ca-4a41-ba8e-4ae16ebbefe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\Fense">
+      <UniqueIdentifier>{95d16417-1984-4d06-8f69-6e11bef36dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\HitStone">
+      <UniqueIdentifier>{187a1b40-0b68-45e6-8d98-e3aa6ec036bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -420,6 +429,33 @@
     <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
+    <ClInclude Include="CArrowIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CBombIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnergyIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CFireIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CHookIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CFenseScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitStoneScript.h">
+      <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
+    </ClInclude>
+    <ClInclude Include="CMoneyCountScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -742,6 +778,33 @@
     </ClCompile>
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CBombIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnergyIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CFireIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CHookIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CFenseScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitStoneScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
+    </ClCompile>
+    <ClCompile Include="CMoneyCountScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

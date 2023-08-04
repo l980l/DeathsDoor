@@ -63,7 +63,7 @@ void CCamera::begin()
 {
 	if (-1 != m_iCamIdx)
 	{
-		CRenderMgr::GetInst()->RegisterCamera(this, m_iCamIdx);
+		CRenderMgr::GetInst()->RegisterCamera(this, m_iCamIdx); // camera begin 시 해당 카메라 인덱스로 등록
 	}
 }
 
@@ -341,6 +341,7 @@ void CCamera::render()
 	{
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
 		render_deferred();
+		render_transparent(); // 파티클
 
 		// Decal Render
 		// decal에서 position tex를 인자로 받기 위해
@@ -357,6 +358,7 @@ void CCamera::render()
 		{
 			vecLight3D[i]->render();
 		}
+		render_blur();
 
 		// (Deferred + Light) Merge
 		// 지연 출력이 끝난 후 SwapChain 출력대상 재지정 후 출력
@@ -368,7 +370,7 @@ void CCamera::render()
 		//render_mask();
 		render_forward();
 
-		render_transparent();
+		//render_transparent(); // 파티클 원래는 여기서 함. 
 
 		// PostProcess
 		render_postprocess();
@@ -524,6 +526,18 @@ void CCamera::render_decal()
 	{
 		m_vecDecal[i]->render();
 	}
+}
+
+void CCamera::render_blur()
+{
+	Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"GaussianBlurMtrl");
+
+	pMtrl->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"ColorTargetTex"));
+	pMtrl->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"EmissiveTargetTex"));
+	pMtrl->UpdateData();
+
+	pMesh->render(0);
 }
 
 void CCamera::render_merge()

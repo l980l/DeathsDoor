@@ -73,6 +73,7 @@ void CGrimKnightScript::begin()
 
 	recognizeCheck = false;
 	onCollision = false;
+	retrace = false;
 }
 
 void CGrimKnightScript::tick()
@@ -81,9 +82,18 @@ void CGrimKnightScript::tick()
 	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
 		recognizeCheck == false)
 	{
-		m_pStateScript->ChangeState(L"Trace");
 		recognizeCheck = true;
+		m_pStateScript->ChangeState(L"Trace");
 	}
+
+	if (recognizeCheck)
+	{
+		/*m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+		float dir = GetSmoothDir(GetOwner(), m_pPlayer);
+		Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);*/
+	}
+
 	else if (GetDetect() && m_pStateScript->FindState(L"LongDistance") == m_pStateScript->GetCurState())
 	{
 		m_pStateScript->ChangeState(L"Trace");
@@ -102,9 +112,10 @@ void CGrimKnightScript::tick()
 void CGrimKnightScript::BeginOverlap(CCollider3D* _Other)
 {
 	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면
-	if (L"Player" == _Other->GetOwner()->GetName())
+	if (L"Player" == _Other->GetOwner()->GetName() && onCollision == false)
 	{
 		m_pStateScript->ChangeState(L"Attack");
+		onCollision = true;
 	}
 	if (L"Sword" == _Other->GetName())
 	{

@@ -369,3 +369,4 @@ FodyWeavers.xsd
 /OutputFile/bin_d/Client.exe
 **/*.bak
 /External/Library/Script/Script_d.idb
+/OutputFile/bin_d/imgui.ini

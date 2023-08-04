@@ -1,10 +1,16 @@
 #include "pch.h"
 #include "CGrimKnightGuardStay.h"
+#include <Engine/CKeyMgr.h>
 
 void CGrimKnightGuardStay::tick()
 {
 	//5번 공격 받으면 Guard Break
 	if (m_hitCount >= 5)
+	{
+		ChangeState(L"GuardBreak");
+	}
+	
+	if(KEY_TAP(KEY::R))
 	{
 		ChangeState(L"GuardBreak");
 	}

@@ -1217,6 +1217,23 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->AddTexParam(TEX_1, "Normal Texture");
 
 	AddRes(pShader->GetKey(), pShader);
+
+	// ============================
+	// GaussianBlurShader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : DOMAIN_LIGHT
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"GaussianBlurShader");
+	pShader->CreateVertexShader(L"shader\\gaussianblur.fx", "VS_GaussianBlur");
+	pShader->CreatePixelShader(L"shader\\gaussianblur.fx", "PS_GaussianBlur");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
+	AddRes(pShader->GetKey(), pShader);
 }
 
 
@@ -1381,4 +1398,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"WaterShader"));
 	AddRes(L"WaterMtrl", pMtrl);
+
+	// GaussianBlurMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"GaussianBlurShader"));
+	AddRes(L"GaussianBlurMtrl", pMtrl);
 }

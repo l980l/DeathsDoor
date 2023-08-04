@@ -29,5 +29,6 @@ public:
 	//데미지 출력
 	void ShowMoney(int money, int DigitCount, CGameObject* UI);
 	void MoneyCount(int money, CGameObject* UI) { ShowMoney(money, GetDigitCount(money), UI); }//이걸 사용하면 됨다.
+	void AddChild(CGameObject* _owner, CGameObject* _child);
 };
 

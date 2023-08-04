@@ -96,9 +96,9 @@ void CEventMgr::tick()
 		case EVENT_TYPE::LEVEL_CHANGE:
 		{
 			// wParam : Level Adress
+			CRenderMgr::GetInst()->ClearCamera();
 			CLevel* Level = (CLevel*)m_vecEvent[i].wParam;
 			CLevelMgr::GetInst()->ChangeLevel(Level);
-			CRenderMgr::GetInst()->ClearCamera();
 			m_LevelChanged = true;
 		}
 			break;		

@@ -70,10 +70,7 @@
     <FxCompile Include="water.fx">
       <Filter>07. ShaderCode\02. Render\3D</Filter>
     </FxCompile>
-    <FxCompile Include="fire.fx">
-      <Filter>07. ShaderCode\02. Render\3D</Filter>
-    </FxCompile>
-    <FxCompile Include="bloom.fx">
+    <FxCompile Include="gaussianblur.fx">
       <Filter>07. ShaderCode\02. Render\3D</Filter>
     </FxCompile>
   </ItemGroup>
