@@ -71,6 +71,10 @@ int ParticleSystemUI::render_update()
 	ImGui::NewLine();
 	ImGui::Separator();
 
+	ModuleOnOff("Velocity", "##Velocity_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
+	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY])
+		AddVelocityModule();
+
 	ModuleOnOff("Drag        ", "##Drag_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG]);
 	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG])
 		DragModule();
