@@ -16,6 +16,13 @@ CPlyAttack::CPlyAttack()
 	CLevelSaveLoadInScript script;
 	m_pSlash[(UINT)SLASH::RIGHT] = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 	m_pSlash[(UINT)SLASH::LEFT] = script.SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+
+	// Emissive·Î
+	for (UINT i = (UINT)SLASH::LEFT; i < (UINT)SLASH::END; ++i)
+	{
+		int a = 1;
+		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+	}
 }
 
 CPlyAttack::~CPlyAttack()
@@ -83,6 +90,7 @@ void CPlyAttack::tick()
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 	}
 
+	
 }
 
 void CPlyAttack::Exit()
