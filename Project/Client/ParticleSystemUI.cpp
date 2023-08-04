@@ -733,6 +733,7 @@ void ParticleSystemUI::LoadParticle()
 		while (true)
 		{
 			fread(&m_iEmissive, sizeof(int), 1, pFile);
+			GetTarget()->ParticleSystem()->SetEmissive(m_iEmissive);
 			wchar_t szBuffer[256] = {};
 			fwscanf_s(pFile, L"%s", szBuffer, 256);//문자열 변수를 만들어 문자열을 읽게 할 건데
 
