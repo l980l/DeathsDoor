@@ -61,7 +61,7 @@ void CCamera::begin()
 {
 	if (-1 != m_iCamIdx)
 	{
-		CRenderMgr::GetInst()->RegisterCamera(this, m_iCamIdx);
+		CRenderMgr::GetInst()->RegisterCamera(this, m_iCamIdx); // camera begin 시 해당 카메라 인덱스로 등록
 	}
 }
 

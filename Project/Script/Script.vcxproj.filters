@@ -193,6 +193,12 @@
     <Filter Include="Script\01. State\04. HUD\Icon\HP&amp;Energy">
       <UniqueIdentifier>{9abf5a4f-02b2-4262-9e56-37a0c56a3ece}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\Fense">
+      <UniqueIdentifier>{a5e0f2d5-633f-4658-a52b-63b1ea353cbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\HitStone">
+      <UniqueIdentifier>{5866822f-21bc-45c3-85af-5b59c9c3de16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -714,6 +720,12 @@
     <ClInclude Include="CHPIconScript.h">
       <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
     </ClInclude>
+    <ClInclude Include="CFenseScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitStoneScript.h">
+      <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -1211,6 +1223,12 @@
     </ClCompile>
     <ClCompile Include="CHPIconScript.cpp">
       <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+    </ClCompile>
+    <ClCompile Include="CFenseScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitStoneScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ void CGrimKnightGuardBreak::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
-		ChangeState(L"BackStep");
+		ChangeState(L"BackStep1");
 	}
 }
 

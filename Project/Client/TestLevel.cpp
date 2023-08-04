@@ -49,18 +49,6 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck(L"PLAYER", L"NPC");
 	CCollisionMgr::GetInst()->LayerCheck(L"MONSTER", L"PLAYERPROJECTILE");
 
-	//{
-	//	Ptr<CMeshData> pMeshData = nullptr;
-	//	CGameObject* pObj = nullptr;
-
-	//	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\hall.fbx");
-	//	pObj = pMeshData->Instantiate();
-	//	pObj->SetName(L"Hall");
-	//	pObj->MeshRender()->SetDynamicShadow(true);
-	//	pObj->MeshRender()->SetFrustumCheck(false);
-	//	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-	//}
-	
 	{
 		CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\HallMap.lv", LEVEL_STATE::STOP);
 		pNewLevel->SetName(L"HallMap");
@@ -73,38 +61,34 @@ void CreateTestLevel()
 		//Ptr<CSound> pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\203680770.wem");
 		//pSound->Play(1, 0.5f, false);*/
 	}
+
+	//Ptr<CMeshData> pMeshData = nullptr;
+	//CGameObject* pObj = nullptr;
+
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
+	//pObj = pMeshData->Instantiate();
+	//pObj->SetName(L"GrimKinght");
+	//pObj->MeshRender()->SetDynamicShadow(true);
+	//pObj->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
+
+	// SkyBox 추가
+	/*{
+		CGameObject* pSkyBox = new CGameObject;
+		pSkyBox->SetName(L"SkyBox");
+
+		pSkyBox->AddComponent(new CTransform);
+		pSkyBox->AddComponent(new CSkyBox);
+
+		pSkyBox->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
+		pSkyBox->Transform()->SetRelativeRot(Vec3(0.f, XM_PI / 2.f, 0.f));
+
+		pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::CUBE);
+		pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
+
+		SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
+	}*/
 	
-
-	//{
-	//	Ptr<CMeshData> pMeshData = nullptr;
-	//	CGameObject* pObj = nullptr;
-
-	//	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
-	//	pObj = pMeshData->Instantiate();
-	//	pObj->SetName(L"CrowSword");
-	//	pObj->MeshRender()->SetDynamicShadow(true);
-	//	pObj->MeshRender()->SetFrustumCheck(false);
-	//	pObj->MeshRender()->GetMaterial(0)->SetTexParam(TEX_2, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\weaponsTexture2.png"));
-	//	//pObj->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl"), 2);
-	//	//pObj->MeshRender()->GetMaterial(1)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
-	//	SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-	//}
-
-	//// Decal Object
-	//CGameObject* pDecal = new CGameObject;
-	//pDecal->SetName(L"Blur");
-	//pDecal->AddComponent(new CTransform);
-	//pDecal->AddComponent(new CMeshRender);
-
-	//pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-
-	//pDecal->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//pDecal->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl"), 0);
-	//pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0,(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\weaponsTexture2.png")));
-	//pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1,(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png")));
-	///*pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0,(CResMgr::GetInst()->FindRes<CTexture>(L"texutre\\FireDistortion.tga")));
-	//pDecal->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1,(CResMgr::GetInst()->FindRes<CTexture>(L"texutre\\FireBase.tga")));	*/
-	//SpawnGameObject(pDecal, Vec3(0.f, 0.f, 100.f), (int)LAYER::DEFAULT);
 
 	return;
 	
@@ -120,21 +104,6 @@ void CreateTestLevel()
 		pObj->MeshRender()->SetFrustumCheck(false);
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	}
-	//
-	//CGameObject* bloom = new CGameObject;
-	//bloom->SetName(L"bloom");
-
-	//bloom->AddComponent(new CTransform);
-	//bloom->AddComponent(new CMeshRender);
-
-	//bloom->Transform()->SetRelativeScale(Vec3(1000, 1000.f, 1000));
-	//bloom->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//bloom->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"BloomMtrl"),0);
-	////Fire->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireBase.tga"));
-	//bloom->MeshRender()->GetMaterial(0)->SetTexParam(TEX_2, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\FireDistortion.tga"));
-	//SpawnGameObject(bloom, Vec3(0.f, 0.f, 100.f), 10);
-
-
 
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
@@ -169,20 +138,7 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
 
-	// SkyBox 추가
-	CGameObject* pSkyBox = new CGameObject;
-	pSkyBox->SetName(L"SkyBox");
-
-	pSkyBox->AddComponent(new CTransform);
-	pSkyBox->AddComponent(new CSkyBox);
-
-	pSkyBox->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
-	pSkyBox->Transform()->SetRelativeRot(Vec3(0.f, XM_PI / 2.f, 0.f));
-
-	pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::CUBE);
-	pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
-
-	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
+	
 
 	{
 		//// Decal Object

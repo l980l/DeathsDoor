@@ -1,12 +1,15 @@
 #include "pch.h"
 #include "CGrimKnightLongDistance.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CGrimKnightScript.h"
 
 void CGrimKnightLongDistance::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		ChangeState(L"Trace");
+		CGrimKnightScript* gScript = GetOwner()->GetScript< CGrimKnightScript>();
+		gScript->SetOnCollision(false);
 	}
 }
 

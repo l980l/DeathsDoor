@@ -217,7 +217,7 @@ void MenuUI::CreateEmptyObject(int layerindx)
         pNewObject->SetName(L"SubCam");
         pNewObject->AddComponent(new CCamera);
         pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // 카메라 오브젝트의 투영 방식 설정(직교)
-        pNewObject->Camera()->SetCameraIndex(1); //SubCamera로 설정
+        pNewObject->Camera()->SetCameraIndex(5); //SubCamera로 설정
         pNewObject->Camera()->SetLayerMask(31, true);
     }
     SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), layerindx);

@@ -11,12 +11,14 @@ CCameraMoveScript
 CCrowBossScript
 CCrowHeadScript
 CEnergyIconScript
+CFenseScript
 CFireIconScript
 CGameCameraScript
 CGhostScript
 CGravityScript
 CGrimKnightScript
 CGruntScript
+CHitStoneScript
 CHookIconScript
 CHPIconScript
 CHUDScript

@@ -195,6 +195,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBrazierScript.h" />
     <ClInclude Include="CCrowHeadScript.h" />
     <ClInclude Include="CEnergyIconScript.h" />
+    <ClInclude Include="CFenseScript.h" />
     <ClInclude Include="CFireIconScript.h" />
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
@@ -213,6 +214,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGrimKnightScript.h" />
     <ClInclude Include="CGrimKnightSpinDown.h" />
     <ClInclude Include="CGrimKnightSpinUp.h" />
+    <ClInclude Include="CHitStoneScript.h" />
     <ClInclude Include="CHookIconScript.h" />
     <ClInclude Include="CHPIconScript.h" />
     <ClInclude Include="CHUDScript.h" />
@@ -363,6 +365,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBrazierScript.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
     <ClCompile Include="CEnergyIconScript.cpp" />
+    <ClCompile Include="CFenseScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
@@ -381,6 +384,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGrimKnightScript.cpp" />
     <ClCompile Include="CGrimKnightSpinDown.cpp" />
     <ClCompile Include="CGrimKnightSpinUp.cpp" />
+    <ClCompile Include="CHitStoneScript.cpp" />
     <ClCompile Include="CHookIconScript.cpp" />
     <ClCompile Include="CHPIconScript.cpp" />
     <ClCompile Include="CHUDScript.cpp" />

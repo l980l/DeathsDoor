@@ -14,12 +14,14 @@
 #include "CCrowBossScript.h"
 #include "CCrowHeadScript.h"
 #include "CEnergyIconScript.h"
+#include "CFenseScript.h"
 #include "CFireIconScript.h"
 #include "CGameCameraScript.h"
 #include "CGhostScript.h"
 #include "CGravityScript.h"
 #include "CGrimKnightScript.h"
 #include "CGruntScript.h"
+#include "CHitStoneScript.h"
 #include "CHookIconScript.h"
 #include "CHPIconScript.h"
 #include "CHUDScript.h"
@@ -52,12 +54,14 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
 	_vec.push_back(L"CEnergyIconScript");
+	_vec.push_back(L"CFenseScript");
 	_vec.push_back(L"CFireIconScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CGrimKnightScript");
 	_vec.push_back(L"CGruntScript");
+	_vec.push_back(L"CHitStoneScript");
 	_vec.push_back(L"CHookIconScript");
 	_vec.push_back(L"CHPIconScript");
 	_vec.push_back(L"CHUDScript");
@@ -104,6 +108,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCrowHeadScript;
 	if (L"CEnergyIconScript" == _strScriptName)
 		return new CEnergyIconScript;
+	if (L"CFenseScript" == _strScriptName)
+		return new CFenseScript;
 	if (L"CFireIconScript" == _strScriptName)
 		return new CFireIconScript;
 	if (L"CGameCameraScript" == _strScriptName)
@@ -116,6 +122,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGrimKnightScript;
 	if (L"CGruntScript" == _strScriptName)
 		return new CGruntScript;
+	if (L"CHitStoneScript" == _strScriptName)
+		return new CHitStoneScript;
 	if (L"CHookIconScript" == _strScriptName)
 		return new CHookIconScript;
 	if (L"CHPIconScript" == _strScriptName)
@@ -194,6 +202,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ENERGYICONSCRIPT:
 		return new CEnergyIconScript;
 		break;
+	case (UINT)SCRIPT_TYPE::FENSESCRIPT:
+		return new CFenseScript;
+		break;
 	case (UINT)SCRIPT_TYPE::FIREICONSCRIPT:
 		return new CFireIconScript;
 		break;
@@ -211,6 +222,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GRUNTSCRIPT:
 		return new CGruntScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HITSTONESCRIPT:
+		return new CHitStoneScript;
 		break;
 	case (UINT)SCRIPT_TYPE::HOOKICONSCRIPT:
 		return new CHookIconScript;
@@ -320,6 +334,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CEnergyIconScript";
 		break;
 
+	case SCRIPT_TYPE::FENSESCRIPT:
+		return L"CFenseScript";
+		break;
+
 	case SCRIPT_TYPE::FIREICONSCRIPT:
 		return L"CFireIconScript";
 		break;
@@ -342,6 +360,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GRUNTSCRIPT:
 		return L"CGruntScript";
+		break;
+
+	case SCRIPT_TYPE::HITSTONESCRIPT:
+		return L"CHitStoneScript";
 		break;
 
 	case SCRIPT_TYPE::HOOKICONSCRIPT:
