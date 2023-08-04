@@ -76,20 +76,14 @@
     <Filter Include="Script\02. Script\SpawnMgr\Door">
       <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\04. HUD\Icon">
-      <UniqueIdentifier>{046f6505-9760-412b-b226-35c06e8bd0e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\04. HUD\Icon\Skill">
-      <UniqueIdentifier>{df91ac96-99b8-4da9-9c96-4deda171eb6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\04. HUD\Icon\HP&amp;Energy">
-      <UniqueIdentifier>{9abf5a4f-02b2-4262-9e56-37a0c56a3ece}</UniqueIdentifier>
+    <Filter Include="Script\02. Script\HUD">
+      <UniqueIdentifier>{e4d812ec-98ca-4a41-ba8e-4ae16ebbefe0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\Fense">
-      <UniqueIdentifier>{a5e0f2d5-633f-4658-a52b-63b1ea353cbc}</UniqueIdentifier>
+      <UniqueIdentifier>{95d16417-1984-4d06-8f69-6e11bef36dbd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\HitStone">
-      <UniqueIdentifier>{5866822f-21bc-45c3-85af-5b59c9c3de16}</UniqueIdentifier>
+      <UniqueIdentifier>{187a1b40-0b68-45e6-8d98-e3aa6ec036bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -435,90 +429,23 @@
     <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="CKnightIdle.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpAttack.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpAttack2.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpFinish.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightJumpReady.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightRunAttack.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightSpinAttack.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightSpinAttackCombo.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightWalk.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="KnightStates.h">
-      <Filter>Script\01. State\01. Monster\Knight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="GrimKnightStates.h">
-      <Filter>Script\01. State\01. Monster\GKnight\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CGrimKnightScript.h">
-      <Filter>Script\01. State\01. Monster\GKnight</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightScript.h">
-      <Filter>Script\01. State\01. Monster\Knight</Filter>
-    </ClInclude>
-    <ClInclude Include="CGhostScript.h">
-      <Filter>Script\01. State\01. Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="CSpeed.h">
-      <Filter>Script\02. Script\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CAttackSpeed.h">
-      <Filter>Script\02. Script\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CPower.h">
-      <Filter>Script\02. Script\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyMagic_Hooking.h">
-      <Filter>Script\01. State\02. Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlyWpMagic_Hooking.h">
-      <Filter>Script\01. State\02. Player\00. Weapon\Magic</Filter>
-    </ClInclude>
-    <ClInclude Include="CMagic.h">
-      <Filter>Script\02. Script\Player\Magic</Filter>
-    </ClInclude>
-    <ClInclude Include="CHUDScript.h">
-      <Filter>Script\01. State\04. HUD</Filter>
-    </ClInclude>
     <ClInclude Include="CArrowIconScript.h">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
+      <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
     <ClInclude Include="CBombIconScript.h">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="CFireIconScript.h">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="CHookIconScript.h">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="CMoneyCountScript.h">
-      <Filter>Script\01. State\04. HUD\Icon</Filter>
+      <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
     <ClInclude Include="CEnergyIconScript.h">
-      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CFireIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CHookIconScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
     <ClInclude Include="CHPIconScript.h">
-      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
+      <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
     <ClInclude Include="CFenseScript.h">
       <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
@@ -526,8 +453,9 @@
     <ClInclude Include="CHitStoneScript.h">
       <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
     </ClInclude>
-=======
->>>>>>> origin/KwanHyeonMonsterScript
+    <ClInclude Include="CMoneyCountScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -850,6 +778,33 @@
     </ClCompile>
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CBombIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnergyIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CFireIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CHookIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPIconScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CFenseScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitStoneScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
+    </ClCompile>
+    <ClCompile Include="CMoneyCountScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1838,38 +1793,5 @@
     <ClCompile Include="CCrowHeadScript.cpp">
       <Filter>Script\02. Script\Boss</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="CHUDScript.cpp">
-      <Filter>Script\01. State\04. HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CArrowIconScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="CBombIconScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="CFireIconScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="CHookIconScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="CMoneyCountScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon</Filter>
-    </ClCompile>
-    <ClCompile Include="CEnergyIconScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
-    </ClCompile>
-    <ClCompile Include="CHPIconScript.cpp">
-      <Filter>Script\01. State\04. HUD\Icon\HP&amp;Energy</Filter>
-    </ClCompile>
-    <ClCompile Include="CFenseScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
-    </ClCompile>
-    <ClCompile Include="CHitStoneScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
-    </ClCompile>
-=======
->>>>>>> origin/KwanHyeonMonsterScript
   </ItemGroup>
 </Project>

@@ -9,9 +9,9 @@ CStateScript::CStateScript()
 	, m_pCurState(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.HP, "HP");
-	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.MAXHP, "MaxHP");
+	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Max_HP, "MaxHP");
 	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Energy, "Energy");
-	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.MAXEnergy, "MaxEnergy");
+	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Max_Energy, "MaxEnergy");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_tStat.Speed, "Speed");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_tStat.Attack, "Attack");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_tStat.Attack_Speed, "Attack_Speed");
