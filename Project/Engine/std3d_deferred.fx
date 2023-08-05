@@ -191,17 +191,26 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     }
     
     // Slash 시간에 따라 사라지게 하기.
-    if(g_int_2)
+    if (g_int_2)
     {
-        float fFirstTime = g_float_2;                       // 검기 생성 시간.
-        float fTime = g_AccTime - fFirstTime;               // 생성후 지난 시간.
-        float fDisappearBoarder = 1.f - fTime * 0.5f;       // 사리지는 UV 구간
+        float fFirstTime = g_float_2;               // 검기 생성 시간.
+        float fTime = g_AccTime - fFirstTime;       // 생성후 지난 시간.
+        float fDisappearBoarder = fTime * 3.f;      // 사리지는 UV 구간
         
-        if (_in.vUV.x == 0.f)
-        {
-            vObjectColor = float4(1.f, 1.f, 1.f, 1.f);
-            //discard;
-        }
+        //// 끝쪽부터 사라지게 하기.
+        //if (_in.vUV.x < fDisappearBoarder)
+        //{
+        //    discard;
+        //}
+        
+        // 샘플링 위치를 옮겨서 마치 그쪽으로 움직이는 느낌을 주게 하기.
+        float2 vNoiseUV = float2(_in.vUV.x - (g_AccTime * 1.f), _in.vUV.y);
+        float4 vNoise = g_tex_6.Sample(g_sam_0, vNoiseUV);
+        
+        if (vNoise.r < fDisappearBoarder)
+            vObjectColor *= 0.5f;
+        
+        vObjectColor *= vNoise;
     }
     
     // 피격 이펙트.
@@ -210,7 +219,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         // 깜빡이 주기에 따라 0.0부터 1.0 사이의 값을 구함
         float t = frac(g_AccTime / 0.2f);
 
-        // t가 0.5보다 작을 때 FlashColor1, 크거나 같을 때 FlashColor2 사용
+        // t가 0.5보다 작을 때 빨간색, 크거나 같을 때 하얀색 사용
         vObjectColor = lerp(float4(1.0, 0.0, 0.0, 1.0), float4(1.0, 1.0, 1.0, 1.0), step(0.5, t));
     }
     
