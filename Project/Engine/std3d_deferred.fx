@@ -149,7 +149,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         // 값이 0이 아니라면.
         if (any(vCrackTextureColor))
         {
-            vCrackTextureColor *= float4(1.f, 0.1f, 0.35f, 1.f);
+            vCrackTextureColor *= float4(1.f, 0.35f, 0.4f, 1.f);
             vCrackTextureColor *= (1.f - g_float_0);
             vObjectColor = vObjectColor + vCrackTextureColor;
             
@@ -174,8 +174,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             if (fGrey > thresh2)
             {
                 vObjectColor.r = 1.f;
-                vObjectColor.g = 0.1f;
-                vObjectColor.b = 0.35f;
+                vObjectColor.g = 0.35f;
+                vObjectColor.b = 0.4f;
                 
                 vEmissiveColor = float4(vObjectColor.rgb, 1.f);
             }
@@ -244,21 +244,22 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     else if (g_int_1)
     {
         // Vec4로 들어온 색상을 Emissive 타겟에 저장해준다.
-        output.vColor = float4(vObjectColor);
+        //output.vColor = float4(vObjectColor);
+        output.vColor = float4(0.f, 0.f, 0.f, 1.f);
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = g_vec4_0;
+        output.vEmissive = g_vec4_0 * 0.5f;
     }
     
-    // Crack에 bloom 주기.
+    // Crack 및 paperburn에 bloom 주기.
     else if (any(vEmissiveColor))
     {
         output.vColor = float4(vObjectColor);
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = float4(vEmissiveColor);
+        output.vEmissive = float4(vEmissiveColor * 0.5f);
     }
     
     else

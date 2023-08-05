@@ -1234,6 +1234,24 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
 	AddRes(pShader->GetKey(), pShader);
+
+	// ============================
+	// LoadingUI Shader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : DOMAIN_UI
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"LoadingUIShader");
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+	
+	AddRes(pShader->GetKey(), pShader);
 }
 
 
@@ -1403,4 +1421,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"GaussianBlurShader"));
 	AddRes(L"GaussianBlurMtrl", pMtrl);
+
+	// LoadingUIMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"LoadingUIShader"));
+	AddRes(L"LoadingUIMtrl", pMtrl);
 }

@@ -475,6 +475,17 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
+	// LoadingUI 
+	CGameObject* pLoadingUI = new CGameObject;
+	pLoadingUI->SetName(L"LoadingUI");
+	pLoadingUI->AddComponent(new CTransform);
+	pLoadingUI->AddComponent(new CMeshRender);
+	pLoadingUI->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"LoadingUIMtrl"), 0);
+	pLoadingUI->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+	pLoadingUI->MeshRender()->SetFrustumCheck(false);
+	SpawnGameObject(pLoadingUI, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+
 	CLevelSaveLoad script;
 	CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");
 	pObject->AddChild(pSerch);
@@ -492,35 +503,6 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
-	//CGameObject* pMonster = pMeshData->Instantiate();
-	//pMonster->SetName(L"Monster");
-	////pMonster->AddComponent(new CMonsterScript);
-	////pMonster->AddComponent(new CStateScript);
-	//pMonster->MeshRender()->SetDynamicShadow(true);
-	//pMonster->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pMonster, Vec3(0.f, 0.f, 0.f), (int)LAYER::MONSTER);
-	// 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_L.fbx");
-	//CGameObject* pSlash = pMeshData->Instantiate();
-	//pSlash->SetName(L"SLASH_L");
-	//pSlash->MeshRender()->SetDynamicShadow(true);
-	//pSlash->MeshRender()->SetFrustumCheck(false);
-	//pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
-	//
-	//SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
-	//
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\SLASH_R.fbx");
-	//pSlash = pMeshData->Instantiate();
-	//pSlash->SetName(L"SLASH_R");
-	//pSlash->MeshRender()->SetDynamicShadow(true);
-	//pSlash->MeshRender()->SetFrustumCheck(false);
-	//pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
-	//
-	//SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
-
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
