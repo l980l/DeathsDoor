@@ -156,7 +156,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         // paperburn 시작 시간이 들어왔다면.
         if (g_float_1 > 0.f)
         {
-            static float fFirstTime = g_float_1;
+            float fFirstTime = g_float_1;
             
             // 6번 텍스쳐는 NoiseTexture.
             float4 vNoiseTextureColor = g_tex_6.Sample(g_sam_0, _in.vUV);
@@ -183,6 +183,30 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
                 vObjectColor.a = 0.f;
             }
         }
+    }
+    
+    // Slash 시간에 따라 사라지게 하기.
+    if(g_int_2)
+    {
+        float fFirstTime = g_float_2;                       // 검기 생성 시간.
+        float fTime = g_AccTime - fFirstTime;               // 생성후 지난 시간.
+        float fDisappearBoarder = 1.f - fTime * 0.5f;       // 사리지는 UV 구간
+        
+        if (_in.vUV.x == 0.f)
+        {
+            vObjectColor = float4(1.f, 1.f, 1.f, 1.f);
+            //discard;
+        }
+    }
+    
+    // 피격 이펙트.
+    if(g_int_3)
+    {
+        // 깜빡이 주기에 따라 0.0부터 1.0 사이의 값을 구함
+        float t = frac(g_AccTime / 0.2f);
+
+        // t가 0.5보다 작을 때 FlashColor1, 크거나 같을 때 FlashColor2 사용
+        vObjectColor = lerp(float4(1.0, 0.0, 0.0, 1.0), float4(1.0, 1.0, 1.0, 1.0), step(0.5, t));
     }
     
     PS_OUT output = (PS_OUT) 0.f;

@@ -12,6 +12,7 @@ CPlyAttack::CPlyAttack()
 	, m_fDelay(0.f)
 	, m_fTimeToIdle(0.15f)
 	, m_fAttackDir(0.f)
+	, m_fSlashStartTime(0.f)
 {
 	CLevelSaveLoadInScript script;
 	m_pSlash[(UINT)SLASH::RIGHT] = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
@@ -57,9 +58,10 @@ void CPlyAttack::tick()
 	m_fAcctime += DT;
 	if (GetOwner()->Animator3D()->IsFinish() || m_fAcctime >= m_fDelay)
 	{
+		// 공격 모션이 끝나고 첫 번째 tick에만 현재 공격횟수가 증가하게 함
 		if (0.f == m_fAfterAttack)
 			++m_iAttackCount;
-		// 공격 모션이 끝나고 첫 번째 tick에만 현재 공격횟수가 증가하게 함
+
 		// Idle까지의 시간 증가
 		m_fAfterAttack += DT;
 
@@ -78,7 +80,7 @@ void CPlyAttack::tick()
 
 			// 좌우 번갈아 공격함
 			Slash();
-
+			m_fSlashStartTime = GlobalData.tAccTime;
 			m_fAfterAttack = 0.f;
 			m_fAcctime = 0.f;
 		}
@@ -129,11 +131,17 @@ void CPlyAttack::Slash()
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange));
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(XM_PI * 1.6f, m_fAttackDir, 0.f);
+		int a = 1;
+		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);
+		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
 	}
 	else
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_L, false);
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(m_fRange));
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * 1.6f, -m_fAttackDir, XM_PI);
+		int a = 1;
+		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);
+		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
 	}
 }
