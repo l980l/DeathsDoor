@@ -112,6 +112,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
 {
     // obj 색상 설정(회색)
     float4 vObjectColor = float4(0.6f, 0.6f, 0.6f, 1.f);
+    float4 vEmissiveColor = float4(0.f, 0.f, 0.f, 0.f);
     float4 vOutColor = float4(0.f, 0.f, 0.f, 1.f);
     
     float3 vViewNormal = _in.vViewNormal;
@@ -151,6 +152,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             vCrackTextureColor *= float4(1.f, 0.1f, 0.35f, 1.f);
             vCrackTextureColor *= (1.f - g_float_0);
             vObjectColor = vObjectColor + vCrackTextureColor;
+            
+            vEmissiveColor = vCrackTextureColor;
         }
         
         // paperburn 시작 시간이 들어왔다면.
@@ -173,6 +176,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
                 vObjectColor.r = 1.f;
                 vObjectColor.g = 0.1f;
                 vObjectColor.b = 0.35f;
+                
+                vEmissiveColor = float4(vObjectColor.rgb, 1.f);
             }
     
             if (fGrey > thresh)
@@ -244,6 +249,16 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
         output.vEmissive = g_vec4_0;
+    }
+    
+    // Crack에 bloom 주기.
+    else if (any(vEmissiveColor))
+    {
+        output.vColor = float4(vObjectColor);
+        output.vNormal = float4(vViewNormal.xyz, 1.f);
+        output.vPosition = float4(_in.vViewPos.xyz, 1.f);
+        output.vData = float4(0.f, 0.f, 0.f, 1.f);
+        output.vEmissive = float4(vEmissiveColor);
     }
     
     else
