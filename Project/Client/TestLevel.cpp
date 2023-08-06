@@ -481,9 +481,10 @@ void CreateTestLevel()
 	pLoadingUI->AddComponent(new CTransform);
 	pLoadingUI->AddComponent(new CMeshRender);
 	pLoadingUI->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"LoadingUIMtrl"), 0);
-	pLoadingUI->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+	pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FlickerMtrl"), 0);
+	pLoadingUI->Transform()->SetRelativeScale(300.f, 300.f, 0.f);
 	pLoadingUI->MeshRender()->SetFrustumCheck(false);
+	pLoadingUI->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture/Deaths_Door/dd_icon_loading.png").Get());
 	SpawnGameObject(pLoadingUI, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 	CLevelSaveLoad script;

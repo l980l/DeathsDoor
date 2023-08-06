@@ -46,6 +46,8 @@ void CPlyAttack::Enter()
 	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	CalcDir();
 	Slash();
+
+	m_fSlashStartTime = -3.f;
 }
 
 void CPlyAttack::tick()
