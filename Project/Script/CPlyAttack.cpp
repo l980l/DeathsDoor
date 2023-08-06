@@ -7,11 +7,16 @@
 #include <Engine/CDevice.h>
 
 CPlyAttack::CPlyAttack()
-	: m_iAttackCount(0)
-	, m_fAfterAttack(0.f)
+	: m_pSlash{}
+	, m_iAttackCount(0)
+	, m_vSlashPos{}
+	, m_fRange(0.f)
+	, m_fAcctime(0.f)
 	, m_fDelay(0.f)
-	, m_fTimeToIdle(0.15f)
+	, m_fAfterAttack(0.f)
+	, m_fTimeToIdle(0.2f)
 	, m_fAttackDir(0.f)
+	, m_vMouseDir{}
 {
 	CLevelSaveLoadInScript script;
 	m_pSlash[(UINT)SLASH::RIGHT] = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
@@ -31,28 +36,23 @@ CPlyAttack::~CPlyAttack()
 
 void CPlyAttack::Enter()
 {
+	m_fAcctime = 0.f;
+	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
+	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
+	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) + m_vMouseDir * 80.f;
+
 	GetOwner()->Rigidbody()->ClearForce();
 	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	CalcDir();
 	Slash();
-
-	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
-	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
-
-	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 100.f;
-	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(XM_PI * 1.6f, m_fAttackDir, 0.f);
-	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * 1.6f, -m_fAttackDir, XM_PI);
-	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativePos(Vec3(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z));
-	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativePos(m_vSlashPos);
 }
 
 void CPlyAttack::tick()
 {
-
-	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 100.f;
+	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 80.f;
 
 	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativePos(Vec3(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z));
-	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativePos(m_vSlashPos);
+	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativePos(Vec3(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z));
 	// 공격모션이 끝났다면 이후 제한시간 안에 공격하면 다음공격 아니라면 Idle로 전환
 	m_fAcctime += DT;
 	if (GetOwner()->Animator3D()->IsFinish() || m_fAcctime >= m_fDelay)
@@ -88,9 +88,7 @@ void CPlyAttack::tick()
 		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-	}
-
-	
+	}	
 }
 
 void CPlyAttack::Exit()
@@ -99,7 +97,6 @@ void CPlyAttack::Exit()
 	m_fAcctime = 0.f;
 	m_fAfterAttack = 0.f;
 	GetOwner()->Rigidbody()->ClearForce();
-	GetOwner()->Rigidbody()->SetGravity(0.f); 
 }
 
 void CPlyAttack::CalcDir()
@@ -121,19 +118,22 @@ void CPlyAttack::CalcDir()
 void CPlyAttack::Slash()
 {
 
+	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativePos(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z);
+	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativePos(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z);
+
 	bool bRight = false;
 	if(m_iAttackCount == 0 || m_iAttackCount % 2 == 0 )
 		bRight =  true;
 	if (bRight)
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
-		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange));
-		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(XM_PI * 1.6f, m_fAttackDir, 0.f);
+		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange / 100.f));
+		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(-XM_PI / 18.f, m_fAttackDir + XM_PI, 0.f);
 	}
 	else
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_L, false);
-		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(m_fRange));
-		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * 1.6f, -m_fAttackDir, XM_PI);
+		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(-m_fRange));
+		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * (10.f / 18.f), m_fAttackDir + XM_2PI, 0.f);
 	}
 }

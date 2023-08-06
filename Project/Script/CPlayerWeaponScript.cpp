@@ -6,7 +6,6 @@
 CPlayerWeaponScript::CPlayerWeaponScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERWEAPONSCRIPT)
 	, m_pStateScript(nullptr)
-	, m_tCurMagic{}
 {
 }
 

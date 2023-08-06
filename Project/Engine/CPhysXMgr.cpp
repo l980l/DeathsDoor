@@ -91,6 +91,7 @@ void CPhysXMgr::tick()
     // 시뮬레이션은 120hz로 하고 결과값을 0.1초마다 가져옴
     m_Scene->simulate(1.f / 120.f);
     m_fUpdateTime += DT;
+
     if(m_fUpdateTime > 0.1f)
     {
         m_Scene->fetchResults(true);
@@ -106,11 +107,35 @@ void CPhysXMgr::tick()
         if (nullptr == m_vecDynamicActor[i])
             continue;
         PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
+
         if(abs(Velo.y) < 300.f)
             m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT);
+
         PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
         m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
     };
+}
+
+void CPhysXMgr::finaltick()
+{
+    vector<CGameObject*>::iterator iter = m_vecDynamicObject.begin();
+    for (; iter != m_vecDynamicObject.end(); ++iter)
+    {
+        CGameObject* obj = *iter;
+        if(obj->IsDead())
+        {
+            vector<physx::PxRigidDynamic*>::iterator iteractor = m_vecDynamicActor.begin();
+            for (; iteractor != m_vecDynamicActor.end(); ++iteractor)
+            {
+                physx::PxRigidDynamic*  actor = *iteractor;
+                if (actor->getName() == string(obj->GetName().begin(), obj->GetName().end()).c_str())
+                {
+                    m_vecDynamicActor.erase(iteractor);
+                }
+            }
+            m_vecDynamicObject.erase(iter);
+        }
+    }
 }
 
 physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& _Geometry, CGameObject* _Object, float _fYOffset, const PxVec3& _Velocity)
@@ -121,7 +146,8 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
     m_vecDynamicObject.push_back(_Object);
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
-    m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
+    m_Scene->addActor(*dynamic);
+    dynamic->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     _Object->Rigidbody()->SetRigidbody(dynamic);
 

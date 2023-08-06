@@ -156,8 +156,16 @@ void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)
 {
+	fwrite(&m_iCurMagic, sizeof(UINT), 1, _File);
+	fwrite(&m_imoney, sizeof(UINT), 1, _File);
+	for (UINT i = 0; i < (UINT)PLAYER_UPGRADE::END; ++i)
+		fwrite(&m_iUpgrade[i], sizeof(UINT), 1, _File);
 }
 
 void CPlayerScript::LoadFromLevelFile(FILE* _File)
 {
+	fread(&m_iCurMagic, sizeof(UINT), 1, _File);
+	fread(&m_imoney, sizeof(UINT), 1, _File);
+	for (UINT i = 0; i < (UINT)PLAYER_UPGRADE::END; ++i)
+		fread(&m_iUpgrade[i], sizeof(UINT), 1, _File);
 }

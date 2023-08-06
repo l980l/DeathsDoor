@@ -8,7 +8,6 @@ class CPlayerWeaponScript :
 {
 private:
     CStateScript*   m_pStateScript;
-    UINT            m_tCurMagic;
 
 public:
     virtual void begin() override;
@@ -18,7 +17,6 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
 
     void ChangeState(wstring _strStateName);
-    UINT GetUseMagic() { return m_tCurMagic; }
 
 private:
 

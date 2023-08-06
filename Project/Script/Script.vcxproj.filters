@@ -73,9 +73,6 @@
     <Filter Include="Script\02. Script\SpawnMgr\Enter">
       <UniqueIdentifier>{82c4a778-7a70-4862-b253-ac9bca68d1d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\SpawnMgr\Door">
-      <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\02. Script\HUD">
       <UniqueIdentifier>{e4d812ec-98ca-4a41-ba8e-4ae16ebbefe0}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
     </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\HitStone">
       <UniqueIdentifier>{187a1b40-0b68-45e6-8d98-e3aa6ec036bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr\Wall">
+      <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -424,7 +424,7 @@
       <Filter>Script\02. Script\SpawnMgr\SpawnDoor</Filter>
     </ClInclude>
     <ClInclude Include="CWallScript.h">
-      <Filter>Script\02. Script\SpawnMgr\Door</Filter>
+      <Filter>Script\02. Script\SpawnMgr\Wall</Filter>
     </ClInclude>
     <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script</Filter>
@@ -457,6 +457,9 @@
       <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
     <ClInclude Include="CNaviTestScript.h">
+      <Filter>Script\02. Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainLightScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
   </ItemGroup>
@@ -777,7 +780,7 @@
       <Filter>Script\02. Script\SpawnMgr\SpawnDoor</Filter>
     </ClCompile>
     <ClCompile Include="CWallScript.cpp">
-      <Filter>Script\02. Script\SpawnMgr\Door</Filter>
+      <Filter>Script\02. Script\SpawnMgr\Wall</Filter>
     </ClCompile>
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script</Filter>
@@ -810,6 +813,9 @@
       <Filter>Script\02. Script\HUD</Filter>
     </ClCompile>
     <ClCompile Include="CNaviTestScript.cpp">
+      <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainLightScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
   </ItemGroup>

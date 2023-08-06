@@ -52,6 +52,7 @@ private:
 public:
     void init();
     void tick();
+    void finaltick();
 
 private:
     physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, float _fYOffset,  const PxVec3& velocity = PxVec3(0));

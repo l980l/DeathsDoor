@@ -31,6 +31,7 @@ CMagic_ArrowScript
 CMagic_BombScript
 CMagic_FireScript
 CMagic_HookScript
+CMainLightScript
 CMissileScript
 CMoneyCountScript
 CMonsterDetectRangeScript
