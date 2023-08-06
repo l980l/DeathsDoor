@@ -236,6 +236,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             output.vPosition = float4(_in.vViewPos.xyz, 1.f);
             output.vData = float4(0.f, 0.f, 0.f, 1.f);
             output.vEmissive = float4(vObjectColor * 0.5f);
+            if (g_int_2)
+                output.vEmissive = float4(vObjectColor * 2.f);
         }
         
         // 칼 texture가 알파값을 1로 줘야 색이 나오게 되어있다.

@@ -28,6 +28,7 @@ CPlyAttack::CPlyAttack()
 	{
 		int a = 1;
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+		m_pSlash[i]->MeshRender()->SetDynamicShadow(false);
 		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
 	}
 }
@@ -43,12 +44,11 @@ void CPlyAttack::Enter()
 	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
 	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) + m_vMouseDir * 80.f;
 
+	m_fSlashStartTime = GlobalData.tAccTime;
 	GetOwner()->Rigidbody()->ClearForce();
 	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	CalcDir();
 	Slash();
-
-	m_fSlashStartTime = -3.f;
 }
 
 void CPlyAttack::tick()

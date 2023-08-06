@@ -145,12 +145,12 @@ void CreateTestLevel()
 	//=========================
 
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bat.fbx");
 	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Lurker");
+	pObject->SetName(L"Bat");
 	pObject->AddComponent(new CCollider3D);
 	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CLurkerScript);
+	pObject->AddComponent(new CBatScript);
 	pObject->AddComponent(new CStateScript);
 	
 	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
