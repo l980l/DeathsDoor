@@ -9,6 +9,7 @@
 #include <Engine\components.h>
 #include <Engine\CScript.h>
 #include <Engine/CPrefab.h>
+#include <Engine/CPhysXMgr.h>
 #include "commdlg.h"
 
 #include <Script\CScriptMgr.h>
@@ -373,6 +374,11 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
+        if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
+        {
+            CPhysXMgr::GetInst()->AddDynamicActor((CRigidbody*)Component);
+        }
+        
     }
 
 

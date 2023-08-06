@@ -139,7 +139,7 @@ void CPlyAttack::Slash()
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange / 100.f));
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(-XM_PI / 18.f, m_fAttackDir + XM_PI, 0.f);
-		m_pSlash[(UINT)SLASH::RIGH]->Collider3D()->SetOffsetScale(Vec3(0.f));
+		m_pSlash[(UINT)SLASH::RIGHT]->Collider3D()->SetOffsetScale(Vec3(0.f));
 
 		int a = 1;
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);

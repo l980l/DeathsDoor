@@ -31,13 +31,15 @@ public:
     Vec3 GetVelocity();
     void SetMass(float _fMass);
 
-    virtual void SaveToLevelFile(FILE* _File) override;
-    virtual void LoadFromLevelFile(FILE* _File) override;
+    virtual void SaveToLevelFile(FILE* _File);
+    virtual void LoadFromLevelFile(FILE* _FILE);
 
     CLONE(CRigidbody);
 
 public:
     CRigidbody();
     ~CRigidbody();
+
+    friend class CPhysXMgr;
 };
 

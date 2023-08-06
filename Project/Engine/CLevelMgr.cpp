@@ -4,6 +4,7 @@
 #include "CLevel.h"
 #include "CLayer.h"
 #include "CPhysXMgr.h"
+#include "CDetourMgr.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -51,9 +52,10 @@ void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 	{
 		CPhysXMgr::GetInst()->Clear();
 		delete m_pCurLevel;
-		CPhysXMgr::GetInst()->Clear();
 		m_pCurLevel = nullptr;
 	}
 	
 	m_pCurLevel = _NextLevel;
+	CPhysXMgr::GetInst()->ChangeLevel((LEVEL_TYPE)_NextLevel->GetLevelType());
+	CDetourMgr::GetInst()->ChangeLevel((LEVEL_TYPE)_NextLevel->GetLevelType());
 }

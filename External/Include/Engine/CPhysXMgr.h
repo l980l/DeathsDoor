@@ -70,7 +70,8 @@ public:
     void ReleaseStatic(wstring _strStaticName);
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
-    void SetRenderRigidbody(bool _bRender);
+    void AddDynamicActor(CRigidbody* _pRigidbody);
     void Clear();
+    void ChangeLevel(LEVEL_TYPE _tType);
 
 };

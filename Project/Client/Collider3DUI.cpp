@@ -77,21 +77,7 @@ int Collider3DUI::render_update()
 	ImVec4 vColor = iCount == 0 ? ImVec4(0.f, 1.f, 0.f, 1.f) : ImVec4(1.f, 0.f, 0.f, 1.f);
 	string Count = to_string(iCount);
 	ImGui::TextColored(vColor, Count.c_str());
-
-	ImGui::Text("PhysX Pos");
-	ImGui::DragFloat3("##PhysX Pos", pPos);
-	ImGui::Text("PhysX Radius");
-	ImGui::DragFloat("##PhysX Radius", &pRadius);
 	
-	if (ImGui::Checkbox("Creathe Sphere button", &createSphere))
-	{
-		CPhysXMgr::GetInst()->CreateSphere(pPos, pRadius, GetTarget());
-	}
-
-	if (ImGui::Checkbox("Set Render Rigidbody", &setRenderRigidbody))
-	{
-		CPhysXMgr::GetInst()->SetRenderRigidbody(true);
-	}
 
 	
 

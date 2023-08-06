@@ -75,14 +75,12 @@ void CRigidbody::SetMass(float _fMass)
 
 void CRigidbody::SaveToLevelFile(FILE* _pFile)
 {
-    fwrite(m_PxRigidbody, sizeof(physx::PxRigidDynamic*), 1, _pFile);
+    fwrite(&m_PxRigidbody, sizeof(physx::PxRigidDynamic), 1, _pFile);
 }
 
 void CRigidbody::LoadFromLevelFile(FILE* _pFile)
 {
-    physx::PxRigidDynamic* Rigidbody = nullptr;
-    fread(Rigidbody, sizeof(physx::PxRigidDynamic*), 1, _pFile);
-    m_PxRigidbody =  Rigidbody;
+    //physx::PxRigidDynamic* Rigidbody = nullptr;
+    fread(&m_PxRigidbody, sizeof(physx::PxRigidDynamic), 1, _pFile);
 
-    CPhysXMgr::GetInst()->AddDynamicActor(this);
 }
