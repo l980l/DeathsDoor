@@ -6,6 +6,7 @@ void CLurkerBackStep::Enter()
 {
 	GetOwner()->Animator3D()->Play(4, false);
 	m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
+	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 }
 
 void CLurkerBackStep::tick()

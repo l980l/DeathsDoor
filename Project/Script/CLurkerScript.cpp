@@ -54,7 +54,7 @@ void CLurkerScript::begin()
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 50.f;
+		NewStat.Speed = 100.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }

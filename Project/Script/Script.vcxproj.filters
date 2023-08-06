@@ -315,9 +315,6 @@
     <ClInclude Include="CCrowBossBatBullet.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
-    <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClInclude>
     <ClInclude Include="CCrowHeadScript.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClInclude>
@@ -461,6 +458,9 @@
     </ClInclude>
     <ClInclude Include="CMainLightScript.h">
       <Filter>Script\02. Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaScript.h">
+      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -677,9 +677,6 @@
     <ClCompile Include="CCrowBossBatBullet.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
-    </ClCompile>
     <ClCompile Include="CCrowHeadScript.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClCompile>
@@ -817,6 +814,9 @@
     </ClCompile>
     <ClCompile Include="CMainLightScript.cpp">
       <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaScript.cpp">
+      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
