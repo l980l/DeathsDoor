@@ -12,6 +12,7 @@ CGruntScript::CGruntScript() :
 	, m_iNailAttackCount(0)
 	, m_bStarePlayer(false)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
 }
 
 CGruntScript::CGruntScript(const CGruntScript& _Other) :
