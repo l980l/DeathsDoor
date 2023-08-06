@@ -186,6 +186,12 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	pObject = new CGameObject;
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CRigidbody);
+	CPhysXMgr::GetInst()->CreateStaticCube(Vec3(2500.f, 500.f, 2700.f), Vec3(500.f), pObject);
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Anchor.fbx");
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Anchor");

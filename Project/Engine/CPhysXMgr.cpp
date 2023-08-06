@@ -131,6 +131,7 @@ void CPhysXMgr::finaltick()
                 if (actor->getName() == string(obj->GetName().begin(), obj->GetName().end()).c_str())
                 {
                     m_vecDynamicActor.erase(iteractor);
+                    m_Scene->removeActor(*actor);
                 }
             }
             m_vecDynamicObject.erase(iter);
@@ -218,6 +219,23 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
 
 }
 
+physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object)
+{
+    if (nullptr == _Object)
+        assert(nullptr);
+    const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
+
+    const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
+    m_vecDynamicObject.push_back(_Object);
+    physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
+    m_Scene->addActor(*Static);
+    Static->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
+    m_vecStaticActor.push_back(Static);
+    _Object->Rigidbody()->SetRigidbody(Static);
+
+    return Static;
+}
+
 void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
 {
     vector< PxRigidStatic*>::iterator iter = m_vecStaticActor.begin();
@@ -227,6 +245,7 @@ void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
         if (State->getName() == string(_strStaticName.begin(), _strStaticName.end()).c_str())
         {
             m_vecStaticActor.erase(iter);
+            m_Scene->removeActor(*State);
             return;
         }
     }
@@ -260,13 +279,19 @@ void CPhysXMgr::Clear()
     for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
     {
         if(nullptr != m_vecDynamicActor[i])
+        {
+            m_Scene->removeActor(*m_vecDynamicActor[i]);
             m_vecDynamicActor[i]->release();
+        }
     }
 
     for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
     {
         if (nullptr != m_vecStaticActor[i])
+        {
+            m_Scene->removeActor(*m_vecStaticActor[i]);
             m_vecStaticActor[i]->release();
+        }
     }
 
     m_vecDynamicObject.clear();
