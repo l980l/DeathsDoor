@@ -7,7 +7,12 @@ class CGrimKnightScript :
 private:
     Stat m_stat;
     bool recognizeCheck;
+    bool retrace;
     bool onCollision;
+
+public:
+    void SetOnCollision(bool onCol) { onCollision = onCol; }
+
 public:
     virtual void begin() override;
     virtual void tick() override;

@@ -321,6 +321,8 @@
 #include <Script/CBatScript.h>
 #include <Script\CGruntScript.h>
 #include <Script/CLurkerScript.h>
+#include <Script/CNaviTestScript.h>
+#include <Script/CMainLightScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -346,13 +348,14 @@ void CreateTestLevel()
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
 
-
+	
 	// ±¤¿ø Ãß°¡
 	CGameObject* pLightObj = new CGameObject;
 	pLightObj->SetName(L"Light");
 
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
+	pLightObj->AddComponent(new CMainLightScript);
 
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 	pLightObj->Light3D()->SetLightDirection(Vec3(1.f, -1.f, 1.f));
@@ -379,38 +382,11 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
-	// Decal Object
-	//CGameObject* pDecal = new CGameObject;
-	//pDecal->SetName(L"Decal");
-	//pDecal->AddComponent(new CTransform);
-	//pDecal->AddComponent(new CDecal);
-	//
-	//pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	//pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	//pDecal->Decal()->SetAsLight(false);
-	//
-	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
-
-	//CGameObject* pWall = new CGameObject;
-	//pWall->SetName(L"Wall");
-	//pWall->AddComponent(new CTransform);
-	//pWall->AddComponent(new CMeshRender);
-	//
-	//pWall->Transform()->SetRelativeScale(3000.f, 3000.f, 3000.f);
-	//
-	//pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FireMtrl"), 0);
-	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
-	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
-	//pWall->MeshRender()->SetDynamicShadow(true);
-	//pWall->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pWall, Vec3(0.f, 0.f, 0.f), (int)LAYER::GROUND);
 
 	Ptr<CMeshData> pMeshData = nullptr;
-	CGameObject* pPlayer = nullptr;
+	CGameObject* pPlayer = nullptr; 
 	CGameObject* pObject = nullptr;
-	//
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
 	pPlayer = pMeshData->Instantiate();
 	pPlayer->SetName(L"Player");
@@ -418,26 +394,27 @@ void CreateTestLevel()
 	pPlayer->AddComponent(new CStateScript);
 	pPlayer->AddComponent(new CCollider3D);
 	pPlayer->AddComponent(new CRigidbody);
-
+	
 	pPlayer->Transform()->SetRelativeScale(Vec3(40.f, 40.f, 40.f));
 	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-
+	
 	pPlayer->MeshRender()->SetDynamicShadow(true);
 	pPlayer->MeshRender()->SetFrustumCheck(false);
-
+	
 	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
 	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
-
+	
 	Stat PlayerStat;
 	PlayerStat.Attack = 50.f;
 	PlayerStat.Attack_Speed = 0.4f;
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 150.f;
+	PlayerStat.Spell_Power = 40.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 800.f), 20.f, pPlayer);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 1000.f, 3000.f), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
-
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
 	CGameObject* pSword = pMeshData->Instantiate();
 	pSword->SetName(L"Sword");
@@ -447,7 +424,7 @@ void CreateTestLevel()
 	pSword->MeshRender()->SetDynamicShadow(true);
 	pSword->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pSword);
-
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
 	CGameObject* pBow = pMeshData->Instantiate();
 	pBow->SetName(L"Bow");
@@ -497,7 +474,7 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 
 	delete pObject;
-
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Map");

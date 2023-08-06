@@ -28,6 +28,7 @@ CPlyAttack::CPlyAttack()
 	{
 		int a = 1;
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
 	}
 }
 
@@ -95,7 +96,7 @@ void CPlyAttack::tick()
 		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-	}
+	}	
 }
 
 void CPlyAttack::Exit()

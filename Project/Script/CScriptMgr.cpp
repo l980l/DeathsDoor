@@ -2,22 +2,30 @@
 #include "CScriptMgr.h"
 
 #include "CAnchorScript.h"
+#include "CArrowIconScript.h"
 #include "CBankerFrameScript.h"
 #include "CBankNPCScript.h"
 #include "CBankUpgradeScript.h"
 #include "CBatScript.h"
 #include "CBazookaScript.h"
+#include "CBombIconScript.h"
 #include "CBrazierScript.h"
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
 #include "CCrowHeadScript.h"
 #include "CCursorScript.h"
+#include "CEnergyIconScript.h"
 #include "CEnterScript.h"
+#include "CFenseScript.h"
+#include "CFireIconScript.h"
 #include "CGameCameraScript.h"
 #include "CGhostScript.h"
 #include "CGravityScript.h"
 #include "CGrimKnightScript.h"
 #include "CGruntScript.h"
+#include "CHitStoneScript.h"
+#include "CHookIconScript.h"
+#include "CHPIconScript.h"
 #include "CHUDScript.h"
 #include "CKnightScript.h"
 #include "CLoadLevelThreadScript.h"
@@ -26,8 +34,11 @@
 #include "CMagic_BombScript.h"
 #include "CMagic_FireScript.h"
 #include "CMagic_HookScript.h"
+#include "CMainLightScript.h"
 #include "CMissileScript.h"
+#include "CMoneyCountScript.h"
 #include "CMonsterDetectRangeScript.h"
+#include "CNaviTestScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
@@ -39,22 +50,30 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnchorScript");
+	_vec.push_back(L"CArrowIconScript");
 	_vec.push_back(L"CBankerFrameScript");
 	_vec.push_back(L"CBankNPCScript");
 	_vec.push_back(L"CBankUpgradeScript");
 	_vec.push_back(L"CBatScript");
 	_vec.push_back(L"CBazookaScript");
+	_vec.push_back(L"CBombIconScript");
 	_vec.push_back(L"CBrazierScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
 	_vec.push_back(L"CCursorScript");
+	_vec.push_back(L"CEnergyIconScript");
 	_vec.push_back(L"CEnterScript");
+	_vec.push_back(L"CFenseScript");
+	_vec.push_back(L"CFireIconScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGhostScript");
 	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CGrimKnightScript");
 	_vec.push_back(L"CGruntScript");
+	_vec.push_back(L"CHitStoneScript");
+	_vec.push_back(L"CHookIconScript");
+	_vec.push_back(L"CHPIconScript");
 	_vec.push_back(L"CHUDScript");
 	_vec.push_back(L"CKnightScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
@@ -63,8 +82,11 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMagic_BombScript");
 	_vec.push_back(L"CMagic_FireScript");
 	_vec.push_back(L"CMagic_HookScript");
+	_vec.push_back(L"CMainLightScript");
 	_vec.push_back(L"CMissileScript");
+	_vec.push_back(L"CMoneyCountScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
+	_vec.push_back(L"CNaviTestScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
@@ -78,6 +100,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnchorScript" == _strScriptName)
 		return new CAnchorScript;
+	if (L"CArrowIconScript" == _strScriptName)
+		return new CArrowIconScript;
 	if (L"CBankerFrameScript" == _strScriptName)
 		return new CBankerFrameScript;
 	if (L"CBankNPCScript" == _strScriptName)
@@ -88,6 +112,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBatScript;
 	if (L"CBazookaScript" == _strScriptName)
 		return new CBazookaScript;
+	if (L"CBombIconScript" == _strScriptName)
+		return new CBombIconScript;
 	if (L"CBrazierScript" == _strScriptName)
 		return new CBrazierScript;
 	if (L"CCameraMoveScript" == _strScriptName)
@@ -98,8 +124,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCrowHeadScript;
 	if (L"CCursorScript" == _strScriptName)
 		return new CCursorScript;
+	if (L"CEnergyIconScript" == _strScriptName)
+		return new CEnergyIconScript;
 	if (L"CEnterScript" == _strScriptName)
 		return new CEnterScript;
+	if (L"CFenseScript" == _strScriptName)
+		return new CFenseScript;
+	if (L"CFireIconScript" == _strScriptName)
+		return new CFireIconScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
 	if (L"CGhostScript" == _strScriptName)
@@ -110,6 +142,12 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGrimKnightScript;
 	if (L"CGruntScript" == _strScriptName)
 		return new CGruntScript;
+	if (L"CHitStoneScript" == _strScriptName)
+		return new CHitStoneScript;
+	if (L"CHookIconScript" == _strScriptName)
+		return new CHookIconScript;
+	if (L"CHPIconScript" == _strScriptName)
+		return new CHPIconScript;
 	if (L"CHUDScript" == _strScriptName)
 		return new CHUDScript;
 	if (L"CKnightScript" == _strScriptName)
@@ -126,10 +164,16 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMagic_FireScript;
 	if (L"CMagic_HookScript" == _strScriptName)
 		return new CMagic_HookScript;
+	if (L"CMainLightScript" == _strScriptName)
+		return new CMainLightScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
+	if (L"CMoneyCountScript" == _strScriptName)
+		return new CMoneyCountScript;
 	if (L"CMonsterDetectRangeScript" == _strScriptName)
 		return new CMonsterDetectRangeScript;
+	if (L"CNaviTestScript" == _strScriptName)
+		return new CNaviTestScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
@@ -154,6 +198,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ANCHORSCRIPT:
 		return new CAnchorScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ARROWICONSCRIPT:
+		return new CArrowIconScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BANKERFRAMESCRIPT:
 		return new CBankerFrameScript;
 		break;
@@ -168,6 +215,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BAZOOKASCRIPT:
 		return new CBazookaScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOMBICONSCRIPT:
+		return new CBombIconScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BRAZIERSCRIPT:
 		return new CBrazierScript;
@@ -184,8 +234,17 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::CURSORSCRIPT:
 		return new CCursorScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ENERGYICONSCRIPT:
+		return new CEnergyIconScript;
+		break;
 	case (UINT)SCRIPT_TYPE::ENTERSCRIPT:
 		return new CEnterScript;
+		break;
+	case (UINT)SCRIPT_TYPE::FENSESCRIPT:
+		return new CFenseScript;
+		break;
+	case (UINT)SCRIPT_TYPE::FIREICONSCRIPT:
+		return new CFireIconScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
@@ -201,6 +260,15 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GRUNTSCRIPT:
 		return new CGruntScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HITSTONESCRIPT:
+		return new CHitStoneScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HOOKICONSCRIPT:
+		return new CHookIconScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HPICONSCRIPT:
+		return new CHPIconScript;
 		break;
 	case (UINT)SCRIPT_TYPE::HUDSCRIPT:
 		return new CHUDScript;
@@ -226,11 +294,20 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT:
 		return new CMagic_HookScript;
 		break;
+	case (UINT)SCRIPT_TYPE::MAINLIGHTSCRIPT:
+		return new CMainLightScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
 		break;
+	case (UINT)SCRIPT_TYPE::MONEYCOUNTSCRIPT:
+		return new CMoneyCountScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return new CMonsterDetectRangeScript;
+		break;
+	case (UINT)SCRIPT_TYPE::NAVITESTSCRIPT:
+		return new CNaviTestScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -265,6 +342,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAnchorScript";
 		break;
 
+	case SCRIPT_TYPE::ARROWICONSCRIPT:
+		return L"CArrowIconScript";
+		break;
+
 	case SCRIPT_TYPE::BANKERFRAMESCRIPT:
 		return L"CBankerFrameScript";
 		break;
@@ -283,6 +364,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BAZOOKASCRIPT:
 		return L"CBazookaScript";
+		break;
+
+	case SCRIPT_TYPE::BOMBICONSCRIPT:
+		return L"CBombIconScript";
 		break;
 
 	case SCRIPT_TYPE::BRAZIERSCRIPT:
@@ -305,8 +390,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CCursorScript";
 		break;
 
+	case SCRIPT_TYPE::ENERGYICONSCRIPT:
+		return L"CEnergyIconScript";
+		break;
+
 	case SCRIPT_TYPE::ENTERSCRIPT:
 		return L"CEnterScript";
+		break;
+
+	case SCRIPT_TYPE::FENSESCRIPT:
+		return L"CFenseScript";
+		break;
+
+	case SCRIPT_TYPE::FIREICONSCRIPT:
+		return L"CFireIconScript";
 		break;
 
 	case SCRIPT_TYPE::GAMECAMERASCRIPT:
@@ -327,6 +424,18 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GRUNTSCRIPT:
 		return L"CGruntScript";
+		break;
+
+	case SCRIPT_TYPE::HITSTONESCRIPT:
+		return L"CHitStoneScript";
+		break;
+
+	case SCRIPT_TYPE::HOOKICONSCRIPT:
+		return L"CHookIconScript";
+		break;
+
+	case SCRIPT_TYPE::HPICONSCRIPT:
+		return L"CHPIconScript";
 		break;
 
 	case SCRIPT_TYPE::HUDSCRIPT:
@@ -361,12 +470,24 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CMagic_HookScript";
 		break;
 
+	case SCRIPT_TYPE::MAINLIGHTSCRIPT:
+		return L"CMainLightScript";
+		break;
+
 	case SCRIPT_TYPE::MISSILESCRIPT:
 		return L"CMissileScript";
 		break;
 
+	case SCRIPT_TYPE::MONEYCOUNTSCRIPT:
+		return L"CMoneyCountScript";
+		break;
+
 	case SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return L"CMonsterDetectRangeScript";
+		break;
+
+	case SCRIPT_TYPE::NAVITESTSCRIPT:
+		return L"CNaviTestScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
