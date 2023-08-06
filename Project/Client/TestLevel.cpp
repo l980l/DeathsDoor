@@ -478,15 +478,16 @@ void CreateTestLevel()
 	door->AddComponent(new CRigidbody);
 	door->AddComponent(new CFenseScript);
 
-	door->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
-	door->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	door->Transform()->SetRelativeScale(0.2f, 0.2f, 0.2f);
+	door->Transform()->SetRelativeRot(XM_PI * 1.5f, 45.f, 0.f);
 	door->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	door->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
 
 	door->MeshRender()->SetDynamicShadow(true);
 	door->MeshRender()->SetFrustumCheck(false);
 
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(2000.f, 500.f, 3000.f), door);
+	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(2000.f, 500.f, 3000.f), door);
+	CPhysXMgr::GetInst()->CreateStaticCube(Vec3(2000.f, 500.f, 3000.f), Vec3(100.f, 100.f, 100.f), door);
 	SpawnGameObject(door, Vec3(2000.f, 500.f, 3000.f), (int)LAYER::ITEM);
 
 	//CLevelSaveLoad script;

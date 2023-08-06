@@ -31,8 +31,8 @@ public:
     Vec3 GetVelocity();
     void SetMass(float _fMass);
 
-    virtual void SaveToLevelFile(FILE* _File) {};
-    virtual void LoadFromLevelFile(FILE* _FILE) {};
+    virtual void SaveToLevelFile(FILE* _File) override;
+    virtual void LoadFromLevelFile(FILE* _File) override;
 
     CLONE(CRigidbody);
 

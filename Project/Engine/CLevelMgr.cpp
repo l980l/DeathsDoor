@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CLevelMgr.h"
-
+#include "CPhysXMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
 
@@ -49,8 +49,9 @@ void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 	if (nullptr != m_pCurLevel)
 	{
 		delete m_pCurLevel;
+		CPhysXMgr::GetInst()->Clear();
 		m_pCurLevel = nullptr;
 	}
-
+	
 	m_pCurLevel = _NextLevel;
 }

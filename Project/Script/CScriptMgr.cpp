@@ -44,6 +44,7 @@
 #include "CRoomScript.h"
 #include "CSpawnDoorScript.h"
 #include "CStateScript.h"
+#include "CTrapScript.h"
 #include "CWallScript.h"
 #include "CWaterCameraScript.h"
 
@@ -92,6 +93,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CRoomScript");
 	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
+	_vec.push_back(L"CTrapScript");
 	_vec.push_back(L"CWallScript");
 	_vec.push_back(L"CWaterCameraScript");
 }
@@ -184,6 +186,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSpawnDoorScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
+	if (L"CTrapScript" == _strScriptName)
+		return new CTrapScript;
 	if (L"CWallScript" == _strScriptName)
 		return new CWallScript;
 	if (L"CWaterCameraScript" == _strScriptName)
@@ -323,6 +327,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TRAPSCRIPT:
+		return new CTrapScript;
 		break;
 	case (UINT)SCRIPT_TYPE::WALLSCRIPT:
 		return new CWallScript;
@@ -508,6 +515,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::STATESCRIPT:
 		return L"CStateScript";
+		break;
+
+	case SCRIPT_TYPE::TRAPSCRIPT:
+		return L"CTrapScript";
 		break;
 
 	case SCRIPT_TYPE::WALLSCRIPT:

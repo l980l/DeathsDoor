@@ -3,15 +3,18 @@
 class CFenseScript :
     public CScript
 {
-private:
+    int     m_iRoomNum;
+    Vec3     m_vStartPos;
+    bool    m_bOpen;
+    bool    m_bClose;
+    float    m_fMoveDistance;
 
 public:
     virtual void begin() override;
     virtual void tick() override;
 
-    virtual void BeginOverlap(CCollider3D* _Other) override;
-    virtual void OnOverlap(CCollider3D* _Other) override;
-    virtual void EndOverlap(CCollider3D* _Other) override;
+    void CloseDoor();
+    void OpenDoor();
 
     CLONE(CFenseScript);
 public:

@@ -72,3 +72,13 @@ void CRigidbody::SetMass(float _fMass)
 { 
     m_PxRigidbody->setMass(physx::PxReal(_fMass)); 
 }
+
+void CRigidbody::SaveToLevelFile(FILE* _File)
+{
+    fwrite(&m_PxRigidbody, sizeof(physx::PxRigidDynamic), 1, _File);
+}
+
+void CRigidbody::LoadFromLevelFile(FILE* _File)
+{
+    fread(&m_PxRigidbody, sizeof(physx::PxRigidDynamic), 1, _File);
+}

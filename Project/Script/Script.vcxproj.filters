@@ -462,6 +462,7 @@
     <ClInclude Include="CMainLightScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
+    <ClInclude Include="CTrapScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -818,6 +819,7 @@
     <ClCompile Include="CMainLightScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
+    <ClCompile Include="CTrapScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Script">
