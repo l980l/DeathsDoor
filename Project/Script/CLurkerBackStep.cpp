@@ -31,7 +31,7 @@ void CLurkerBackStep::tick()
 
 void CLurkerBackStep::Exit()
 {
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fTime = 0.f;
 }
 

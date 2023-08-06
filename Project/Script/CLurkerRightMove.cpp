@@ -21,7 +21,7 @@ void CLurkerRightMove::tick()
 	GetOwner()->Rigidbody()->SetVelocity(Velocity);
 
 	// 일정 시간 동안 이동하고 끝.
-	if (m_fTime > 2.f)
+	if (m_fTime > 1.f)
 	{
 		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 		ChangeState(L"Notify");
@@ -30,6 +30,7 @@ void CLurkerRightMove::tick()
 
 void CLurkerRightMove::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fTime = 0.f;
 }
 

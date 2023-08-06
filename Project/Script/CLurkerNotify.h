@@ -6,6 +6,7 @@ class CLurkerNotify :
 private:
     bool    m_bNotifyAnimEnd;
     int     m_iPrevPattern;
+    bool    m_bJustBeforeBackStep;  // 방금 전에 BackStep을 한 경우.
 
 public:
     virtual void Enter() override;
