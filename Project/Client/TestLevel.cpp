@@ -85,6 +85,9 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
+	//=========================
+	// Player
+	//=========================
 
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr; 
@@ -136,12 +139,18 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
+
+	//=========================
+	// Monster
+	//=========================
+
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Lurker");
 	pObject->AddComponent(new CCollider3D);
 	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CNaviTestScript);
+	pObject->AddComponent(new CLurkerScript);
 	pObject->AddComponent(new CStateScript);
 	
 	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
@@ -152,13 +161,17 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(1000.f, 1000.f, 2000.f), 20.f, pObject);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 3000.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(1000.f, 1000.f, 1300.f), (int)LAYER::MONSTER);
 	
 	CLevelSaveLoad script;
-	CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");	
+	CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");
 	pObject->AddChild(pSerch);
 
+
+	//=========================
+	// Map
+	//=========================
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
 	pObject = pMeshData->Instantiate();
