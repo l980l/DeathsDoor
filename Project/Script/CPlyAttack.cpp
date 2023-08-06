@@ -30,6 +30,8 @@ CPlyAttack::CPlyAttack()
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 		m_pSlash[i]->MeshRender()->SetDynamicShadow(false);
 		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
+		m_pSlash[i]->Collider3D()->SetAbsolute(true);
+		m_pSlash[i]->Collider3D()->SetOffsetScale(Vec3(0.f));
 	}
 }
 
@@ -137,18 +139,21 @@ void CPlyAttack::Slash()
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange / 100.f));
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(-XM_PI / 18.f, m_fAttackDir + XM_PI, 0.f);
+		m_pSlash[(UINT)SLASH::RIGH]->Collider3D()->SetOffsetScale(Vec3(0.f));
 
 		int a = 1;
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
 		Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetTexParam(TEX_6, NoiseTextue.Get());
+
 	}
 	else
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_L, false);
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(-m_fRange));
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * (10.f / 18.f), m_fAttackDir + XM_2PI, 0.f);
+		m_pSlash[(UINT)SLASH::LEFT]->Collider3D()->SetOffsetScale(Vec3(0.f));
 
 		int a = 1;
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);

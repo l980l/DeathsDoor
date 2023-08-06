@@ -3,6 +3,7 @@
 #include "CPhysXMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
+#include "CPhysXMgr.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -48,6 +49,7 @@ void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 {
 	if (nullptr != m_pCurLevel)
 	{
+		CPhysXMgr::GetInst()->Clear();
 		delete m_pCurLevel;
 		CPhysXMgr::GetInst()->Clear();
 		m_pCurLevel = nullptr;
