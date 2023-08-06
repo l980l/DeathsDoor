@@ -94,12 +94,6 @@ void CCrowBossScript::BeginOverlap(CCollider3D* _Other)
 		Rigidbody()->SetGround(true);
 	}
 
-	// PlayerProjectile Layer의 물체와 충돌한 경우.
-	if (_Other->GetOwner()->GetLayerIndex() == 4)
-	{
-		// 
-	}
-
 	// HP가 0 이하면 사망.
 	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
 	{

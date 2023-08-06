@@ -1234,6 +1234,24 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
 	AddRes(pShader->GetKey(), pShader);
+
+	// ============================
+	// FlickerShader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : DOMAIN_UI
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"FlickerShader");
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Flicker");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Flicker");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+	
+	AddRes(pShader->GetKey(), pShader);
 }
 
 
@@ -1403,4 +1421,9 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"GaussianBlurShader"));
 	AddRes(L"GaussianBlurMtrl", pMtrl);
+
+	// FlickerMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"FlickerShader"));
+	AddRes(L"FlickerMtrl", pMtrl);
 }
