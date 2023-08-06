@@ -34,6 +34,7 @@
 #include "CMagic_BombScript.h"
 #include "CMagic_FireScript.h"
 #include "CMagic_HookScript.h"
+#include "CMainLightScript.h"
 #include "CMissileScript.h"
 #include "CMoneyCountScript.h"
 #include "CMonsterDetectRangeScript.h"
@@ -81,6 +82,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMagic_BombScript");
 	_vec.push_back(L"CMagic_FireScript");
 	_vec.push_back(L"CMagic_HookScript");
+	_vec.push_back(L"CMainLightScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMoneyCountScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
@@ -162,6 +164,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMagic_FireScript;
 	if (L"CMagic_HookScript" == _strScriptName)
 		return new CMagic_HookScript;
+	if (L"CMainLightScript" == _strScriptName)
+		return new CMainLightScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMoneyCountScript" == _strScriptName)
@@ -289,6 +293,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT:
 		return new CMagic_HookScript;
+		break;
+	case (UINT)SCRIPT_TYPE::MAINLIGHTSCRIPT:
+		return new CMainLightScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
@@ -461,6 +468,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MAGIC_HOOKSCRIPT:
 		return L"CMagic_HookScript";
+		break;
+
+	case SCRIPT_TYPE::MAINLIGHTSCRIPT:
+		return L"CMainLightScript";
 		break;
 
 	case SCRIPT_TYPE::MISSILESCRIPT:

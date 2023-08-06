@@ -25,6 +25,7 @@
 #include <Script\CGruntScript.h>
 #include <Script/CLurkerScript.h>
 #include <Script/CNaviTestScript.h>
+#include <Script/CMainLightScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -57,6 +58,7 @@ void CreateTestLevel()
 
 	pLightObj->AddComponent(new CTransform);
 	pLightObj->AddComponent(new CLight3D);
+	pLightObj->AddComponent(new CMainLightScript);
 
 	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 	pLightObj->Light3D()->SetLightDirection(Vec3(1.f, -1.f, 1.f));
@@ -83,38 +85,11 @@ void CreateTestLevel()
 
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
-	// Decal Object
-	//CGameObject* pDecal = new CGameObject;
-	//pDecal->SetName(L"Decal");
-	//pDecal->AddComponent(new CTransform);
-	//pDecal->AddComponent(new CDecal);
-	//
-	//pDecal->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 200.f));
-	//pDecal->Decal()->SetOutputTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\MagicCircle.png"));
-	//pDecal->Decal()->SetAsLight(false);
-	//
-	//SpawnGameObject(pDecal, Vec3(0.f, 200.f, 0.f), (int)LAYER::DEFAULT);
 
-	//CGameObject* pWall = new CGameObject;
-	//pWall->SetName(L"Wall");
-	//pWall->AddComponent(new CTransform);
-	//pWall->AddComponent(new CMeshRender);
-	//
-	//pWall->Transform()->SetRelativeScale(3000.f, 3000.f, 3000.f);
-	//
-	//pWall->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	//pWall->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FireMtrl"), 0);
-	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_01.png"));
-	//pWall->MeshRender()->GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
-	//pWall->MeshRender()->SetDynamicShadow(true);
-	//pWall->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pWall, Vec3(0.f, 0.f, 0.f), (int)LAYER::GROUND);
-	
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr; 
 	CGameObject* pObject = nullptr;
-	//
+	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
 	pPlayer = pMeshData->Instantiate();
 	pPlayer->SetName(L"Player");
@@ -140,7 +115,7 @@ void CreateTestLevel()
 	PlayerStat.Speed = 150.f;
 	PlayerStat.Spell_Power = 40.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(1000.f, 500.f, 300.f), 20.f, pPlayer);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 1000.f, 3000.f), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -165,7 +140,7 @@ void CreateTestLevel()
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Lurker");
 	//pObject->AddComponent(new CCollider3D);
-	////pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CRigidbody);
 	//pObject->AddComponent(new CNaviTestScript);
 	//pObject->AddComponent(new CStateScript);
 	//
@@ -177,33 +152,47 @@ void CreateTestLevel()
 	//pObject->MeshRender()->SetDynamicShadow(true);
 	//pObject->MeshRender()->SetFrustumCheck(false);
 	//
-	////CPhysXMgr::GetInst()->CreateSphere(Vec3(1000.f, 1000.f, 1000.f), 20.f, pObject);
-	//SpawnGameObject(pObject, Vec3(1000.f, 1000.f, 1000.f), (int)LAYER::MONSTER);
-	
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(1000.f, 1000.f, 2000.f), 20.f, pObject);
+	//SpawnGameObject(pObject, Vec3(1000.f, 1000.f, 1300.f), (int)LAYER::MONSTER);
+	//
 	//CLevelSaveLoad script;
 	//CGameObject* pSerch = script.LoadPrefab(L"prefab\\MonsterDetectRange.prefab");	
 	//pObject->AddChild(pSerch);
 
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_Simple.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
 	pObject = pMeshData->Instantiate();
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
-	
+
 	delete pObject;
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Anchor.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Anchor");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Fence.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Fence");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+
 	pObject = new CGameObject;
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CParticleSystem);
-	pObject->ParticleSystem()->SetTex(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\Frame.png"));
-	pObject->ParticleSystem()->AnimationModule(8, 4, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(0.f));
-	SpawnGameObject(pObject, Vec3(3000.f, 1500.f, 3000.f), (int)LAYER::DEFAULT);
+	pObject->ParticleSystem()->SetTex(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\Fire2.png"));
+	pObject->ParticleSystem()->AnimationModule(56, 8, Vec2(0.f, 0.f), Vec2(256.f, 256.f), Vec2(0.f));
+	SpawnGameObject(pObject, Vec3(500.f, 500.f, 500.f), (int)LAYER::DEFAULT);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//CGameObject* pMonster = pMeshData->Instantiate();
@@ -220,7 +209,7 @@ void CreateTestLevel()
 	//pSlash->SetName(L"SLASH_L");
 	//pSlash->MeshRender()->SetDynamicShadow(true);
 	//pSlash->MeshRender()->SetFrustumCheck(false);
-	//pSlash->Transform()->SetRelativeScale(40.f, 40.f, 40.f);
+	//pSlash->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 	//
 	//SpawnGameObject(pSlash, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
 	//

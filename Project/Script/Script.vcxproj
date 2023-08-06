@@ -295,6 +295,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMagic_BombScript.h" />
     <ClInclude Include="CMagic_FireScript.h" />
     <ClInclude Include="CMagic_HookScript.h" />
+    <ClInclude Include="CMainLightScript.h" />
     <ClInclude Include="CMoneyCountScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CCursorScript.h" />
@@ -470,6 +471,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMagic_BombScript.cpp" />
     <ClCompile Include="CMagic_FireScript.cpp" />
     <ClCompile Include="CMagic_HookScript.cpp" />
+    <ClCompile Include="CMainLightScript.cpp" />
     <ClCompile Include="CMoneyCountScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CCursorScript.cpp" />

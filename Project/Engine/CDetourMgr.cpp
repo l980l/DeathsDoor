@@ -47,7 +47,7 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::FOREST_FIELD);
+	ChangeLevel(LEVEL_TYPE::ICE_FIELD);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
@@ -154,6 +154,7 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* Actual
 {
 	if (nullptr == m_pNaviMesh)
 		assert(nullptr);
+
 	float actualPath[256 * 3] = { 0.f, };
 	for (int i = 0; i < 256 * 3; i++)
 		actualPath[i] = 0.0f;
