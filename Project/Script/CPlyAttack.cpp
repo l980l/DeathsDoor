@@ -28,6 +28,7 @@ CPlyAttack::CPlyAttack()
 	{
 		int a = 1;
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+		m_pSlash[i]->MeshRender()->SetDynamicShadow(false);
 		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
 	}
 }

@@ -207,6 +207,7 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     // Mesh 정보와 Mtrl을 통해 전달받은 Mesh 모양 Shape을 생성해 Actor를 생성해 입혀줌.
     PxRigidStatic* pActor = m_Physics->createRigidStatic(SpawnPos);
     pActor->attachShape(*meshShape);
+    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     // Scean에 Actor 등록
     m_Scene->addActor(*pActor);
     m_vecStaticActor.push_back(pActor);
@@ -215,6 +216,22 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
 
     return pActor;
 
+}
+
+void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
+{
+    vector< PxRigidStatic*>::iterator iter = m_vecStaticActor.begin();
+    for (; iter != m_vecStaticActor.end(); ++iter)
+    {
+        PxRigidStatic* State = *iter;
+        if (State->getName() == string(_strStaticName.begin(), _strStaticName.end()).c_str())
+        {
+            m_vecStaticActor.erase(iter);
+            return;
+        }
+    }
+
+    return;
 }
 
 PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
