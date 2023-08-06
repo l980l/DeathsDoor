@@ -6,9 +6,11 @@ class CMagic_ArrowScript :
 private:
     Vec3    m_vDir;
     float   m_fSpeed;
+    float   m_fDamage;
 
 public:
     void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); }
+    void SetDamege(float _fDamege) { m_fDamage = _fDamege; }
     virtual void begin() override;
     virtual void tick() override;
 

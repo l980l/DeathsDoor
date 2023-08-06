@@ -19,14 +19,7 @@ CMagic_HookScript::CMagic_HookScript()
 }
 
 CMagic_HookScript::~CMagic_HookScript()
-{
-	for (int i = 0; i < 80; ++i)
-	{
-		if(nullptr != m_vecChain[i])
-		m_vecChain[i]->SetLifeSpan(0.f);
-		m_vecChain[i] = nullptr;
-	}
-	
+{	
 }
 
 void CMagic_HookScript::Clear()
@@ -48,28 +41,28 @@ void CMagic_HookScript::begin()
 
 void CMagic_HookScript::tick()
 {
-	Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
-	m_fDistancetoTarget = Diff.Length();
-
 	// 던지지 않았다면 return
 	if (!m_bActive)
 		return;
-	
 
+	Vec3 Diff = m_vStartPos - Transform()->GetWorldPos();
+	m_fDistancetoTarget = Diff.Length();
+
+	
 	if(!m_bSnatch)
 	{
-		Vec3 CurPos = Transform()->GetWorldPos();
+		Vec3 CurPos = Transform()->GetRelativePos();
 		CurPos += m_vThrownDir * 2500.f * DT;
 		Transform()->SetRelativePos(CurPos);
 
 		// 일정시간 이상 갔다면 돌아오도록 함.
 		m_fTime += DT;
-		// 시간이 지나고 첫 tick이라면 날아오던 반대편으로 방향을 바꿈
-		
+
+		// 시간이 지나고 첫 tick이라면 날아오던 반대편으로 방향을 바꿈		
 		if(m_bReturn)
 		{
 			// 돌아오는 도중에 시작지점과 가까이 왔다면 Hook 종료
-			if (abs(m_fDistancetoTarget) < 100.f && m_bReturn)
+			if (abs(m_fDistancetoTarget) < 100.f)
 			{
 				Active(false);
 				m_pOwner->FailSnatch();
@@ -96,8 +89,9 @@ void CMagic_HookScript::Active(bool _bActive)
 	m_fTime = 0.f;
 	if(m_bActive)
 	{
-		Transform()->SetRelativeScale(1.f, 1.f, 1.f);
-		Transform()->SetRelativeRot(m_vAttackDir);
+		Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vThrownDir.x, m_vThrownDir.y, m_vThrownDir.z));
+		Transform()->SetRelativePos(m_vStartPos);
+		Transform()->SetRelativeScale(Vec3(0.7f));
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));

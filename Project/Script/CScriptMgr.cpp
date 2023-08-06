@@ -34,9 +34,11 @@
 #include "CMagic_BombScript.h"
 #include "CMagic_FireScript.h"
 #include "CMagic_HookScript.h"
+#include "CMainLightScript.h"
 #include "CMissileScript.h"
 #include "CMoneyCountScript.h"
 #include "CMonsterDetectRangeScript.h"
+#include "CNaviTestScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
@@ -80,9 +82,11 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMagic_BombScript");
 	_vec.push_back(L"CMagic_FireScript");
 	_vec.push_back(L"CMagic_HookScript");
+	_vec.push_back(L"CMainLightScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMoneyCountScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
+	_vec.push_back(L"CNaviTestScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
@@ -160,12 +164,16 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMagic_FireScript;
 	if (L"CMagic_HookScript" == _strScriptName)
 		return new CMagic_HookScript;
+	if (L"CMainLightScript" == _strScriptName)
+		return new CMainLightScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMoneyCountScript" == _strScriptName)
 		return new CMoneyCountScript;
 	if (L"CMonsterDetectRangeScript" == _strScriptName)
 		return new CMonsterDetectRangeScript;
+	if (L"CNaviTestScript" == _strScriptName)
+		return new CNaviTestScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
@@ -286,6 +294,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT:
 		return new CMagic_HookScript;
 		break;
+	case (UINT)SCRIPT_TYPE::MAINLIGHTSCRIPT:
+		return new CMainLightScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
 		break;
@@ -294,6 +305,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return new CMonsterDetectRangeScript;
+		break;
+	case (UINT)SCRIPT_TYPE::NAVITESTSCRIPT:
+		return new CNaviTestScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -456,6 +470,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CMagic_HookScript";
 		break;
 
+	case SCRIPT_TYPE::MAINLIGHTSCRIPT:
+		return L"CMainLightScript";
+		break;
+
 	case SCRIPT_TYPE::MISSILESCRIPT:
 		return L"CMissileScript";
 		break;
@@ -466,6 +484,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return L"CMonsterDetectRangeScript";
+		break;
+
+	case SCRIPT_TYPE::NAVITESTSCRIPT:
+		return L"CNaviTestScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

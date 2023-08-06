@@ -74,7 +74,7 @@ void CPhysXMgr::init()
     }
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
-    m_Material = m_Physics->createMaterial(200.f, 0.5f, 0.f);
+    m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.f);
 
    // PxCreatePlane
    // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
@@ -88,9 +88,10 @@ void CPhysXMgr::init()
 void CPhysXMgr::tick()
 {
     // Run simulation
-
-    m_Scene->simulate(1.f / 60.f);
+    // 시뮬레이션은 120hz로 하고 결과값을 0.1초마다 가져옴
+    m_Scene->simulate(1.f / 120.f);
     m_fUpdateTime += DT;
+
     if(m_fUpdateTime > 0.1f)
     {
         m_Scene->fetchResults(true);
@@ -99,13 +100,43 @@ void CPhysXMgr::tick()
     else
         m_Scene->fetchResults(false);
 
+    // 결과값을 가져와 Rigidbody를 사용하는 obj의 위치값에 적용시켜줌.
+    // 현재 Scean의 중력이 매우 약하게 적용되므로 Velocity 300까지 중력 대신 아래로 밀어줌
     for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
     {
         if (nullptr == m_vecDynamicActor[i])
             continue;
+        PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
+
+        if(abs(Velo.y) < 300.f)
+            m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT);
+
         PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
         m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
     };
+}
+
+void CPhysXMgr::finaltick()
+{
+    vector<CGameObject*>::iterator iter = m_vecDynamicObject.begin();
+    for (; iter != m_vecDynamicObject.end(); ++iter)
+    {
+        CGameObject* obj = *iter;
+        if(obj->IsDead())
+        {
+            vector<physx::PxRigidDynamic*>::iterator iteractor = m_vecDynamicActor.begin();
+            for (; iteractor != m_vecDynamicActor.end(); ++iteractor)
+            {
+                physx::PxRigidDynamic*  actor = *iteractor;
+                if (actor->getName() == string(obj->GetName().begin(), obj->GetName().end()).c_str())
+                {
+                    m_vecDynamicActor.erase(iteractor);
+                    m_Scene->removeActor(*actor);
+                }
+            }
+            m_vecDynamicObject.erase(iter);
+        }
+    }
 }
 
 physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& _Geometry, CGameObject* _Object, float _fYOffset, const PxVec3& _Velocity)
@@ -114,14 +145,10 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
         assert(nullptr);
 
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
-
     m_vecDynamicObject.push_back(_Object);
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
-    dynamic->setLinearVelocity(_Velocity);   // 물체의 선속도, 물체가 얼마나 빨리 이동하는지를 결정
-    dynamic->setMass(10000.f);
-    //dynamic->setMassSpaceInertiaTensor(PxVec3(0.f));
-    //dynamic->setMinCCDAdvanceCoefficient(300.f);
-    m_Scene->addActor(*dynamic);             // 씬에 해당 액터 추가
+    m_Scene->addActor(*dynamic);
+    dynamic->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     _Object->Rigidbody()->SetRigidbody(dynamic);
 
@@ -181,6 +208,7 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     // Mesh 정보와 Mtrl을 통해 전달받은 Mesh 모양 Shape을 생성해 Actor를 생성해 입혀줌.
     PxRigidStatic* pActor = m_Physics->createRigidStatic(SpawnPos);
     pActor->attachShape(*meshShape);
+    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     // Scean에 Actor 등록
     m_Scene->addActor(*pActor);
     m_vecStaticActor.push_back(pActor);
@@ -189,6 +217,40 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
 
     return pActor;
 
+}
+
+physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object)
+{
+    if (nullptr == _Object)
+        assert(nullptr);
+    const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
+
+    const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
+    m_vecDynamicObject.push_back(_Object);
+    physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
+    m_Scene->addActor(*Static);
+    Static->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
+    m_vecStaticActor.push_back(Static);
+    _Object->Rigidbody()->SetRigidbody(Static);
+
+    return Static;
+}
+
+void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
+{
+    vector< PxRigidStatic*>::iterator iter = m_vecStaticActor.begin();
+    for (; iter != m_vecStaticActor.end(); ++iter)
+    {
+        PxRigidStatic* State = *iter;
+        if (State->getName() == string(_strStaticName.begin(), _strStaticName.end()).c_str())
+        {
+            m_vecStaticActor.erase(iter);
+            m_Scene->removeActor(*State);
+            return;
+        }
+    }
+
+    return;
 }
 
 PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
@@ -217,13 +279,19 @@ void CPhysXMgr::Clear()
     for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
     {
         if(nullptr != m_vecDynamicActor[i])
+        {
+            m_Scene->removeActor(*m_vecDynamicActor[i]);
             m_vecDynamicActor[i]->release();
+        }
     }
 
     for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
     {
         if (nullptr != m_vecStaticActor[i])
+        {
+            m_Scene->removeActor(*m_vecStaticActor[i]);
             m_vecStaticActor[i]->release();
+        }
     }
 
     m_vecDynamicObject.clear();

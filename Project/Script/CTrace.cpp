@@ -6,7 +6,7 @@
 
 CTrace::CTrace()
 	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(2.f)
+	, m_fRenewal_Trace(1.f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)
@@ -14,8 +14,7 @@ CTrace::CTrace()
 }
 
 CTrace::~CTrace()
-{ 
-}
+{}
 
 void CTrace::tick()
 {
@@ -49,16 +48,17 @@ void CTrace::tick()
 
 		// 이동할 방향 벡터 계산 및 정규화
 		Vec3 direction = targetPos - currentPos;
-		direction = direction.Normalize();
+		direction.Normalize();
 
 		// 새로운 위치 계산
-		Vec3 newPos = currentPos + fSpeed * direction * DT;
+		Vec3 newPos = currentPos + direction * fSpeed * DT;
+		direction.y = 0.f;
 
-		GetOwner()->Rigidbody()->SetVelocity(newPos);
+		GetOwner()->Rigidbody()->SetVelocity(direction * fSpeed);
 
 		// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
-		float distanceToTarget = (targetPos - newPos).Length();
-		if (distanceToTarget < fSpeed * DT)
+		float distanceToTarget = (targetPos - currentPos).Length();
+		if (distanceToTarget < 50.f)
 		{
 			++m_iCurrentPathIndex;
 		}
@@ -86,7 +86,7 @@ void CTrace::Enter()
 
 void CTrace::Exit()
 {
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f,0.f,0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CTrace::BeginOverlap(CCollider3D* _Other)

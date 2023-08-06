@@ -132,6 +132,7 @@
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -160,6 +161,7 @@ call CodeGen.exe</Command>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -293,9 +295,11 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMagic_BombScript.h" />
     <ClInclude Include="CMagic_FireScript.h" />
     <ClInclude Include="CMagic_HookScript.h" />
+    <ClInclude Include="CMainLightScript.h" />
     <ClInclude Include="CMoneyCountScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CCursorScript.h" />
+    <ClInclude Include="CNaviTestScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
@@ -467,9 +471,11 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMagic_BombScript.cpp" />
     <ClCompile Include="CMagic_FireScript.cpp" />
     <ClCompile Include="CMagic_HookScript.cpp" />
+    <ClCompile Include="CMainLightScript.cpp" />
     <ClCompile Include="CMoneyCountScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CCursorScript.cpp" />
+    <ClCompile Include="CNaviTestScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />

@@ -12,6 +12,9 @@ CPlyIdle::~CPlyIdle()
 
 void CPlyIdle::tick()
 {
+
+	GetOwner()->Rigidbody()->ClearForce();
+
 	if (KEY_TAP(KEY::LBTN))
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");

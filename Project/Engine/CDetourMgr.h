@@ -19,6 +19,7 @@ public:
     void ChangeLevel(LEVEL_TYPE _LevelType);
     void LoadNavMeshFromBinFile(const char* path);
 
+    CGameObject* GetPlayer() { return m_pPlayer; }
     Vec3* GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount);
     Vec3* GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* ActualPathCount);
     float GetDirtoTarget(Vec3 vStartPos);

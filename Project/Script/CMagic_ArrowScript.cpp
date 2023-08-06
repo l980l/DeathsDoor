@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "CMagic_ArrowScript.h"
+#include "CStateScript.h"
 
 CMagic_ArrowScript::CMagic_ArrowScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_ARROWSCRIPT)
+	, m_vDir{}
+	, m_fDamage(0.f)
 {
 }
 
@@ -23,7 +26,12 @@ void CMagic_ArrowScript::tick()
 void CMagic_ArrowScript::BeginOverlap(CCollider3D* _Other)
 {
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+	{
+		Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		CurStat.HP -= m_fDamage;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
 		Destroy();
+	}
 	// 터지는 효과 등 나오게 할 것
 }
 

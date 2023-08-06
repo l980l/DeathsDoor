@@ -22,6 +22,9 @@ private:
     float           m_fTimeToIdle; // 공격모션이 끝난 후 Idle로 되돌아가는 시간
     float           m_fAttackDir;
     Vec3            m_vMouseDir;
+
+    // 
+    float           m_fSlashStartTime;      // 이번 Slash 이펙트 생성 시각.
     
 public:
     virtual void tick() override;

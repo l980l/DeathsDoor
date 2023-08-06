@@ -7,6 +7,7 @@ CRoomScript::CRoomScript()
 	: CScript((UINT)SCRIPT_TYPE::ROOMSCRIPT)
 	, m_iRoomNum(-1)
 	, m_iRemainMst(-1)
+	, m_iRemainGimmik(-1)
 	, m_iCurWaveNum(0)
 	, m_iMaxWaveNum(0)
 	, m_vecWave{}
