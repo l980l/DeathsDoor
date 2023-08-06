@@ -161,7 +161,7 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 	
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 3000.f, 3000.f), 20.f, pObject);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 3000.f, 2700.f), 30.f, pObject);
 	SpawnGameObject(pObject, Vec3(1000.f, 1000.f, 1300.f), (int)LAYER::MONSTER);
 	
 	CLevelSaveLoad script;

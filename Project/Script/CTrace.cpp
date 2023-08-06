@@ -57,8 +57,8 @@ void CTrace::tick()
 		GetOwner()->Rigidbody()->SetVelocity(direction * fSpeed);
 
 		// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
-		float distanceToTarget = (targetPos - newPos).Length();
-		if (distanceToTarget < 100.f)
+		float distanceToTarget = (targetPos - currentPos).Length();
+		if (distanceToTarget < 50.f)
 		{
 			++m_iCurrentPathIndex;
 		}
