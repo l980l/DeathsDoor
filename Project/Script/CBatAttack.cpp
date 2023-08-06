@@ -25,12 +25,13 @@ void CBatAttack::tick()
 void CBatAttack::Enter()
 {
 	GetOwner()->Animator3D()->Play(2, false); 
+	CLevelSaveLoadInScript slscript;
+	slscript.SpawnPrefab(L"prefab\\BatAttack.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CBatAttack::Exit()
 {
-	CLevelSaveLoadInScript slscript;
-	slscript.SpawnPrefab(L"prefab\\BatAttack.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	
 }
 
 void CBatAttack::BeginOverlap(CCollider2D* _Other)

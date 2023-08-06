@@ -215,11 +215,12 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     else if (g_int_1)
     {
         // Vec4로 들어온 색상을 Emissive 타겟에 저장해준다.
-        output.vColor = float4(vObjectColor);
+        //output.vColor = float4(g_vec4_0.xyz, 1.f);
+        output.vColor = float4(0.f, 0.f, 0.f, 1.f);
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = g_vec4_0;
+        output.vEmissive = g_vec4_0 * 0.6f;
     }
     
     else
