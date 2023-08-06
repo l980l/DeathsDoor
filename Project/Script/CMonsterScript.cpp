@@ -10,6 +10,7 @@ CMonsterScript::CMonsterScript(UINT SCRIPT_TYPE) :
 	, m_bDetect(false)
 	, m_bPaperBurnEffect(false)
 	, m_bSendDeadTime(false)
+	, m_fLastHitTime(-3.f)
 {
 }
 
@@ -59,6 +60,15 @@ void CMonsterScript::tick()
 			mtrl->SetScalarParam(FLOAT_1, &GlobalData.tAccTime);
 			m_bSendDeadTime = true;
 		}
+
+		// 피격 이펙트
+		float fHitAfterTime = GlobalData.tAccTime - m_fLastHitTime;		// 피격 이후 지난 시간.
+		int HitEffect = 0;
+
+		if (fHitAfterTime < 0.2f)
+			HitEffect = 1;
+
+		mtrl->SetScalarParam(INT_3, &HitEffect);
 	}
 }
 

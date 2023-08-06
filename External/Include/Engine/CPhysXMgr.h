@@ -65,9 +65,13 @@ public:
     physx::PxRigidDynamic* CreateCapsule(Vec3 _vSpawnPos, float _fRadius, float _fHeight, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
     physx::PxRigidDynamic* CreateSphere(Vec3 _vSpawnPos, float _fRadius, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
     physx::PxRigidStatic* ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
+    physx::PxRigidStatic* CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object);
+
+    void ReleaseStatic(wstring _strStaticName);
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
-    void SetRenderRigidbody(bool _bRender);
+    void AddDynamicActor(CRigidbody* _pRigidbody);
     void Clear();
+    void ChangeLevel(LEVEL_TYPE _tType);
 
 };

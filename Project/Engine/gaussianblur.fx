@@ -50,7 +50,7 @@ float4 PS_GaussianBlur(VS_OUT _in) : SV_Target1
     float4 vOutColor = (float4) 0.f;
     
     // 영향을 줄 범위.
-    float2 texelSize = 3.f / float2(g_Resolution.x, g_Resolution.y);
+    float2 texelSize = 5.f / float2(g_Resolution.x, g_Resolution.y);
     
     // 가우시안 필터를 적용할 픽셀 중심 좌표
     float2 centerUV = _in.vUV;

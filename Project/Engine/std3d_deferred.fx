@@ -112,6 +112,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
 {
     // obj 색상 설정(회색)
     float4 vObjectColor = float4(0.6f, 0.6f, 0.6f, 1.f);
+    float4 vEmissiveColor = float4(0.f, 0.f, 0.f, 0.f);
     float4 vOutColor = float4(0.f, 0.f, 0.f, 1.f);
     
     float3 vViewNormal = _in.vViewNormal;
@@ -148,15 +149,17 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         // 값이 0이 아니라면.
         if (any(vCrackTextureColor))
         {
-            vCrackTextureColor *= float4(1.f, 0.1f, 0.35f, 1.f);
+            vCrackTextureColor *= float4(1.f, 0.35f, 0.4f, 1.f);
             vCrackTextureColor *= (1.f - g_float_0);
             vObjectColor = vObjectColor + vCrackTextureColor;
+            
+            vEmissiveColor = vCrackTextureColor;
         }
         
         // paperburn 시작 시간이 들어왔다면.
         if (g_float_1 > 0.f)
         {
-            static float fFirstTime = g_float_1;
+            float fFirstTime = g_float_1;
             
             // 6번 텍스쳐는 NoiseTexture.
             float4 vNoiseTextureColor = g_tex_6.Sample(g_sam_0, _in.vUV);
@@ -171,8 +174,10 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             if (fGrey > thresh2)
             {
                 vObjectColor.r = 1.f;
-                vObjectColor.g = 0.1f;
-                vObjectColor.b = 0.35f;
+                vObjectColor.g = 0.35f;
+                vObjectColor.b = 0.4f;
+                
+                vEmissiveColor = float4(vObjectColor.rgb, 1.f);
             }
     
             if (fGrey > thresh)
@@ -183,6 +188,39 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
                 vObjectColor.a = 0.f;
             }
         }
+    }
+    
+    // Slash 시간에 따라 사라지게 하기.
+    if (g_int_2)
+    {
+        float fFirstTime = g_float_2;               // 검기 생성 시간.
+        float fTime = g_AccTime - fFirstTime;       // 생성후 지난 시간.
+        float fDisappearBoarder = fTime * 3.f;      // 사리지는 UV 구간
+        
+        //// 끝쪽부터 사라지게 하기.
+        //if (_in.vUV.x < fDisappearBoarder)
+        //{
+        //    discard;
+        //}
+        
+        // 샘플링 위치를 옮겨서 마치 그쪽으로 움직이는 느낌을 주게 하기.
+        float2 vNoiseUV = float2(_in.vUV.x - (g_AccTime * 1.f), _in.vUV.y);
+        float4 vNoise = g_tex_6.Sample(g_sam_0, vNoiseUV);
+        
+        if (vNoise.r < fDisappearBoarder)
+            vObjectColor *= 0.5f;
+        
+        vObjectColor *= vNoise;
+    }
+    
+    // 피격 이펙트.
+    if(g_int_3)
+    {
+        // 깜빡이 주기에 따라 0.0부터 1.0 사이의 값을 구함
+        float t = frac(g_AccTime / 0.2f);
+
+        // t가 0.5보다 작을 때 빨간색, 크거나 같을 때 하얀색 사용
+        vObjectColor = lerp(float4(1.0, 0.0, 0.0, 1.0), float4(1.0, 1.0, 1.0, 1.0), step(0.5, t));
     }
     
     PS_OUT output = (PS_OUT) 0.f;
@@ -198,6 +236,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             output.vPosition = float4(_in.vViewPos.xyz, 1.f);
             output.vData = float4(0.f, 0.f, 0.f, 1.f);
             output.vEmissive = float4(vObjectColor * 0.5f);
+            if (g_int_2)
+                output.vEmissive = float4(vObjectColor * 2.f);
         }
         
         // 칼 texture가 알파값을 1로 줘야 색이 나오게 되어있다.
@@ -215,11 +255,22 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     else if (g_int_1)
     {
         // Vec4로 들어온 색상을 Emissive 타겟에 저장해준다.
+        //output.vColor = float4(vObjectColor);
+        output.vColor = float4(0.f, 0.f, 0.f, 1.f);
+        output.vNormal = float4(vViewNormal.xyz, 1.f);
+        output.vPosition = float4(_in.vViewPos.xyz, 1.f);
+        output.vData = float4(0.f, 0.f, 0.f, 1.f);
+        output.vEmissive = g_vec4_0 * 0.5f;
+    }
+    
+    // Crack 및 paperburn에 bloom 주기.
+    else if (any(vEmissiveColor))
+    {
         output.vColor = float4(vObjectColor);
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = g_vec4_0;
+        output.vEmissive = float4(vEmissiveColor * 0.5f);
     }
     
     else

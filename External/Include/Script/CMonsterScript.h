@@ -12,6 +12,10 @@ private:
     bool            m_bDetect;
     bool            m_bPaperBurnEffect;     // PaperBurn 효과를 줄지.
     bool            m_bSendDeadTime;        // 사망시간을 이미 보냈는지. 
+    float           m_fLastHitTime;         // 마지막으로 피격된 시각.
+
+
+    int             m_iTemp;
 
 public:
     CGameObject*    GetPlayer() { return m_pPlayer; }
@@ -19,6 +23,7 @@ public:
     void            SetDetect(bool _bDetect) { m_bDetect = _bDetect; }
     bool            GetPaperBurnEffect() const { return m_bPaperBurnEffect;}
     void            SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value;}
+    void            SetLastHitTime() { m_fLastHitTime = GlobalData.tAccTime; }
 
 public:
     virtual void begin() override;

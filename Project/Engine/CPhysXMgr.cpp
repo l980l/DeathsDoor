@@ -2,6 +2,8 @@
 #include "CPhysXMgr.h"
 #include "CTimeMgr.h"
 #include "components.h"
+#include "CMeshData.h"
+#include "CResMgr.h"
 
 CPhysXMgr::CPhysXMgr()
     : m_vecDynamicObject{}
@@ -118,6 +120,7 @@ void CPhysXMgr::tick()
 
 void CPhysXMgr::finaltick()
 {
+    // 매 finaltick마다 가지고 있는 동적 물체들의 IsDead 여부를 확인하고 맞다면 Scean에서 삭제함.
     vector<CGameObject*>::iterator iter = m_vecDynamicObject.begin();
     for (; iter != m_vecDynamicObject.end(); ++iter)
     {
@@ -131,6 +134,7 @@ void CPhysXMgr::finaltick()
                 if (actor->getName() == string(obj->GetName().begin(), obj->GetName().end()).c_str())
                 {
                     m_vecDynamicActor.erase(iteractor);
+                    m_Scene->removeActor(*actor);
                 }
             }
             m_vecDynamicObject.erase(iter);
@@ -140,6 +144,7 @@ void CPhysXMgr::finaltick()
 
 physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& _Geometry, CGameObject* _Object, float _fYOffset, const PxVec3& _Velocity)
 {
+    // 동적 물체 추가
     if (nullptr == _Object)
         assert(nullptr);
 
@@ -207,6 +212,7 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     // Mesh 정보와 Mtrl을 통해 전달받은 Mesh 모양 Shape을 생성해 Actor를 생성해 입혀줌.
     PxRigidStatic* pActor = m_Physics->createRigidStatic(SpawnPos);
     pActor->attachShape(*meshShape);
+    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     // Scean에 Actor 등록
     m_Scene->addActor(*pActor);
     m_vecStaticActor.push_back(pActor);
@@ -217,6 +223,43 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
 
 }
 
+physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object)
+{
+    // 정적 물체 추가
+    if (nullptr == _Object)
+        assert(nullptr);
+    const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
+
+    const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
+    m_vecDynamicObject.push_back(_Object);
+    physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
+    m_Scene->addActor(*Static);
+    Static->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
+    m_vecStaticActor.push_back(Static);
+    _Object->Rigidbody()->SetRigidbody(Static);
+
+    return Static;
+}
+
+void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
+{
+    // 중간에 삭제할 필요가 있는 Map 요소에 대해 삭제할 수 있는 정적 물체 삭제 기능
+
+    vector< PxRigidStatic*>::iterator iter = m_vecStaticActor.begin();
+    for (; iter != m_vecStaticActor.end(); ++iter)
+    {
+        PxRigidStatic* State = *iter;
+        if (State->getName() == string(_strStaticName.begin(), _strStaticName.end()).c_str())
+        {
+            m_vecStaticActor.erase(iter);
+            m_Scene->removeActor(*State);
+            return;
+        }
+    }
+    // 아무것도 삭제하지 못했다면 assert
+    assert(nullptr);
+}
+
 PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
 {
     // 평면의 방정식을 이용한 전체 맵에 적용되는 평면 생성
@@ -225,32 +268,72 @@ PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
     return groundPlane;
 }
 
-void CPhysXMgr::SetRenderRigidbody(bool _bRender)
+void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 {
-    for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
-    {
-        m_vecDynamicActor[i]->setActorFlags(PxActorFlag::eVISUALIZATION);
-    }
-
-    for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
-    {
-        m_vecStaticActor[i]->setActorFlags(PxActorFlag::eVISUALIZATION);
-    }
+    m_vecDynamicObject.push_back(_pRigidbody->GetOwner());
+    m_vecDynamicActor.push_back(_pRigidbody->m_PxRigidbody);
+    m_Scene->addActor(*_pRigidbody->m_PxRigidbody);
 }
 
 void CPhysXMgr::Clear()
 {
-    for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
+    // Level 초기화에 호출될 전체 피직스 초기화
+
+    if(!m_vecDynamicActor.empty())
     {
-        if(nullptr != m_vecDynamicActor[i])
-            m_vecDynamicActor[i]->release();
+        for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
+        {
+            if (nullptr != m_vecDynamicActor[i])
+            {
+                m_Scene->removeActor(*m_vecDynamicActor[i]);
+                m_vecDynamicActor[i]->release();
+            }
+        }
     }
 
-    for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
+    if (!m_vecStaticActor.empty())
     {
-        if (nullptr != m_vecStaticActor[i])
-            m_vecStaticActor[i]->release();
+        for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
+        {
+            if (nullptr != m_vecStaticActor[i])
+            {
+                m_Scene->removeActor(*m_vecStaticActor[i]);
+                m_vecStaticActor[i]->release();
+            }
+        }
     }
 
+    m_vecDynamicActor.clear();
+    m_vecStaticActor.clear();
     m_vecDynamicObject.clear();
+}
+
+void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
+{
+    // 레벨 타입에 맞는 피직스 맵 로딩
+    Ptr<CMeshData> pMeshData = nullptr; 
+    switch (_tType)
+    {
+    case LEVEL_TYPE::CASTLE_FIELD:
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Simple.fbx");
+        break;
+    case LEVEL_TYPE::CASTLE_BOSS:
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss_Simple.fbx");
+        break;
+    case LEVEL_TYPE::FOREST_FIELD:
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest_Simple.fbx");
+        break;
+    case LEVEL_TYPE::ICE_FIELD:
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Ice_Simple.fbx");
+        break;
+    case LEVEL_TYPE::ICE_BOSS:
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Ice_Boss_Simple.fbx");
+        break;
+    case LEVEL_TYPE::HALL:
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall_Simple.fbx");
+        break;
+    }
+
+    CGameObject* pMap = pMeshData->Instantiate();
+    ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
 }

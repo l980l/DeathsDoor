@@ -9,6 +9,7 @@
 #include <Engine\components.h>
 #include <Engine\CScript.h>
 #include <Engine/CPrefab.h>
+#include <Engine/CPhysXMgr.h>
 #include "commdlg.h"
 
 #include <Script\CScriptMgr.h>
@@ -31,6 +32,8 @@ int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
     // 레벨 이름 저장
     SaveWString(_Level->GetName(), pFile);
 
+    int level_type = _Level->GetLevelType();
+    fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -78,7 +81,10 @@ CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
     wstring strLevelName;
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
-
+    
+    int level_type = 0;
+    fread(&level_type, sizeof(int), 1, pFile);
+    NewLevel->SetLevelType(level_type);
 
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
@@ -145,6 +151,8 @@ int CLevelSaveLoad::SaveLevel(CLevel* _Level)
     // 레벨 이름 저장
     SaveWString(_Level->GetName(), pFile);
 
+    int level_type = _Level->GetLevelType();
+    fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -262,6 +270,9 @@ CLevel* CLevelSaveLoad::LoadLevel(LEVEL_STATE _state)
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
 
+    int level_type = 0;
+    fread(&level_type, sizeof(int), 1, pFile);
+    NewLevel->SetLevelType(level_type);
 
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
@@ -363,6 +374,11 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
+        if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
+        {
+            CPhysXMgr::GetInst()->AddDynamicActor((CRigidbody*)Component);
+        }
+        
     }
 
 
