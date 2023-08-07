@@ -61,7 +61,7 @@ void CKnightScript::begin()
 	/*GetOwner()->Rigidbody()->SetMass(1.f);
 	GetOwner()->Rigidbody()->SetFriction(1.f);
 	GetOwner()->Rigidbody()->SetFrictionScale(1.f);*/
-	GetOwner()->Rigidbody()->SetVelocityLimit(1.f);
+	GetOwner()->Rigidbody()->SetVelocityLimit(100.f);
 
 	// 초기 스탯 설정.
 	m_stat.HP = 300;
@@ -78,7 +78,10 @@ void CKnightScript::begin()
 void CKnightScript::tick()
 {
 	//Player방향을 바라보기
-	//Vec3 forward = GetOwner()->Transform()->GetWorldRotation().Forward();//몬스터의 앞방향
+	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	float dir = GetSmoothDir(GetOwner(), m_pPlayer);
+	Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);
 
 	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
 		recognizeCheck == false)
@@ -100,7 +103,7 @@ void CKnightScript::tick()
 	}
 }
 
-void CKnightScript::BeginOverlap(CCollider2D* _Other)
+void CKnightScript::BeginOverlap(CCollider3D* _Other)
 {
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{

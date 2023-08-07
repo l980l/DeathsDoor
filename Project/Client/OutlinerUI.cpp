@@ -15,7 +15,7 @@
 #include <Engine/CResMgr.h>
 #include <Engine/CPrefab.h>
 #include <Engine/CEventMgr.h>
-
+#include <Engine/CPhysXMgr.h>
 #include "CLevelSaveLoad.h"
 #include "TreeUI.h"
 
@@ -265,8 +265,12 @@ void OutlinerUI::MouseRightClick(DWORD_PTR _RClickNode)
 				CGameObject* pRClickObj = (CGameObject*)pRClickNode->GetData();
 								
 				CurLevel->GetLayer(pRClickObj->GetLayerIndex())->RemoveFromParentList(pRClickObj);
-				
-				delete(pRClickObj);
+				//CPhysXMgr::
+				//delete(pRClickObj);
+				tEvent evn = {};
+				evn.Type = EVENT_TYPE::DELETE_OBJECT;
+				evn.wParam = (DWORD_PTR)pRClickObj;
+				CEventMgr::GetInst()->AddEvent(evn);
 
 				ResetOutliner();
 

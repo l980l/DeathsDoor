@@ -28,6 +28,7 @@
 #include <Script/CNaviTestScript.h>
 #include <Script/CMainLightScript.h>
 #include <Script/CKnightScript.h>
+#include <Script/CGrimKnightScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -37,9 +38,55 @@ void CreateTestLevel()
 	CLevelSaveLoad script;
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-	pCurLevel->SetName(L"Castle");
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"Castle");
+
+	tEvent evn = {};
+	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	evn.wParam = (DWORD_PTR)NewLevel;
+	CEventMgr::GetInst()->AddEvent(evn);
 
 
+	// 충돌 시킬 레이어 짝 지정
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::ITEM));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+
+	Ptr<CMeshData> pMeshData = nullptr;
+	CGameObject* pPlayer = nullptr;
+	CGameObject* pObject = nullptr;
+	CGameObject* Knight = nullptr;
+	CGameObject* GKnight = nullptr;
+
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
+	GKnight = pMeshData->Instantiate();
+	GKnight->SetName(L"GrimKnight");
+	GKnight->AddComponent(new CGrimKnightScript);
+	GKnight->AddComponent(new CStateScript);
+	GKnight->AddComponent(new CCollider3D);
+	GKnight->AddComponent(new CRigidbody);
+
+	GKnight->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
+	GKnight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+
+	GKnight->MeshRender()->SetDynamicShadow(true);
+	GKnight->MeshRender()->SetFrustumCheck(false);
+
+	GKnight->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	GKnight->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
+	GKnight->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
+
+	SpawnGameObject(GKnight, Vec3(2500.f, 500.f, 2500.f), (int)LAYER::MONSTER);*/
+
+
+
+
+	return;
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -90,33 +137,30 @@ void CreateTestLevel()
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
 
-	Ptr<CMeshData> pMeshData = nullptr;
-	CGameObject* pPlayer = nullptr;
-	CGameObject* pObject = nullptr;
-	CGameObject* Knight = nullptr;
+	
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
-	Knight = pMeshData->Instantiate();
-	Knight->SetName(L"Knight");
-	Knight->AddComponent(new CStateScript);
-	Knight->AddComponent(new CCollider3D);
-	Knight->AddComponent(new CRigidbody);
-	Knight->AddComponent(new CKnightScript);
-	Knight->Transform()->SetRelativeScale(Vec3(0.2f, 0.2f, 0.2f));
-	Knight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
+	//Knight = pMeshData->Instantiate();
+	//Knight->SetName(L"Knight");
+	//Knight->AddComponent(new CStateScript);
+	//Knight->AddComponent(new CCollider3D);
+	//Knight->AddComponent(new CRigidbody);
+	//Knight->AddComponent(new CKnightScript);
+	//Knight->Transform()->SetRelativeScale(Vec3(0.2f, 0.2f, 0.2f));
+	//Knight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 
-	Knight->MeshRender()->SetDynamicShadow(true);
-	Knight->MeshRender()->SetFrustumCheck(false);
+	//Knight->MeshRender()->SetDynamicShadow(true);
+	//Knight->MeshRender()->SetFrustumCheck(false);
 
-	Knight->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	Knight->Collider3D()->SetOffsetScale(Vec3(1000.f, 1000.f, 1000.f));
-	Knight->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 200.f));
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(1500.f, 500.f, 3400.f), 20.f, Knight);
-	SpawnGameObject(Knight, Vec3(1500.f, 500.f, 3400.f), (int)LAYER::MONSTER);
-	CGameObject* range = script.SpawnandReturnPrefab(L"prefab\\DetectRange.prefab", 6, Vec3(0.f, 0.f, 0.f));
+	//Knight->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	//Knight->Collider3D()->SetOffsetScale(Vec3(1000.f, 1000.f, 1000.f));
+	//Knight->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 200.f));
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(1500.f, 500.f, 3400.f), 20.f, Knight);
+	//SpawnGameObject(Knight, Vec3(1500.f, 500.f, 3400.f), (int)LAYER::MONSTER);
+	//CGameObject* range = script.SpawnandReturnPrefab(L"prefab\\DetectRange.prefab", 6, Vec3(0.f, 0.f, 0.f));
 
-	range->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	Knight->AddChild(range);
+	//range->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+
 	
 
 	//==================

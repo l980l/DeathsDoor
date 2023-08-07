@@ -14,7 +14,7 @@ public:
     virtual void tick() override;
 
 public:
-    virtual void BeginOverlap(CCollider2D* _Other) override;
+    virtual void BeginOverlap(CCollider3D* _Other) override;
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;

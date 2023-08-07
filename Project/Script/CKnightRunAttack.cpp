@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CKnightRunAttack.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CKnightRunAttack::tick()
 {
@@ -13,6 +14,8 @@ void CKnightRunAttack::Enter()
 {
 	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(2, false);
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CKnightRunAttack::Exit()

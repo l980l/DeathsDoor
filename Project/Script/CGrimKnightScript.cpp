@@ -59,10 +59,7 @@ void CGrimKnightScript::begin()
 	}
 
 	//Rigidbody 질량, 마찰, 마찰계수, 제한 속도 재 설정
-	GetOwner()->Rigidbody()->SetMass(1.f);
-	GetOwner()->Rigidbody()->SetFriction(1.f);
-	GetOwner()->Rigidbody()->SetFrictionScale(1.f);
-	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+	GetOwner()->Rigidbody()->SetVelocityLimit(200.f);
 
 	// 초기 스탯 설정.
 	m_stat.HP = 300;
@@ -85,6 +82,11 @@ void CGrimKnightScript::tick()
 		recognizeCheck = true;
 		m_pStateScript->ChangeState(L"Trace");
 	}
+
+	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	float dir = GetSmoothDir(GetOwner(), m_pPlayer);
+	Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);
 
 	if (recognizeCheck)
 	{

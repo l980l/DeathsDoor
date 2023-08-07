@@ -9,14 +9,15 @@ void CKnightSpinAttack::tick()
 		ChangeState(L"Trace");
 	}
 
-	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"SpinAttack", 5, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	
 }
 
 void CKnightSpinAttack::Enter()
 {
 	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(12, false);
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"prefab\\SpinAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CKnightSpinAttack::Exit()

@@ -21,6 +21,7 @@ void CLevelMgr::init()
 {
 	m_pCurLevel = new CLevel;
 	m_pCurLevel->ChangeState(LEVEL_STATE::STOP);
+	m_pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_BOSS);
 }
 
 void CLevelMgr::tick()

@@ -8,14 +8,15 @@ void CKnightJumpAttack2::tick()
 	{
 		ChangeState(L"JumpFinish");
 	}
-	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"JumpAttack", 5, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+
 }
 
 void CKnightJumpAttack2::Enter()
 {
 	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(14, false);
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CKnightJumpAttack2::Exit()
