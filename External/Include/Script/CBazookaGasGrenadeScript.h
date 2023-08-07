@@ -7,8 +7,9 @@ private:
     Vec3            m_ShotDir;
     Vec3            m_PrevVelocity;
     int             m_iState;       // 0: 날아가는 중. 1: 땅에 떨어져서 퍼지는 중.
-    CGameObject*    m_GasParticle1;
-    CGameObject*    m_GasParticle2;
+    CGameObject*    m_GasBulletParticle;
+    CGameObject*    m_GasCenterParticle;
+    CGameObject*    m_GasRoundParticle;
 
 public:
     void SetShotDir(Vec3 _ShotDir) { m_ShotDir = _ShotDir; }
