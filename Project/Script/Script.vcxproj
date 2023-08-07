@@ -195,6 +195,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBatScript.h" />
     <ClInclude Include="CBazookaAim.h" />
     <ClInclude Include="CBazookaDeath.h" />
+    <ClInclude Include="CBazookaGasGrenadeScript.h" />
     <ClInclude Include="CBazookaScript.h" />
     <ClInclude Include="CBazookaTrace.h" />
     <ClInclude Include="CBazzokaIdle.h" />
@@ -371,6 +372,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBatScript.cpp" />
     <ClCompile Include="CBazookaAim.cpp" />
     <ClCompile Include="CBazookaDeath.cpp" />
+    <ClCompile Include="CBazookaGasGrenadeScript.cpp" />
     <ClCompile Include="CBazookaScript.cpp" />
     <ClCompile Include="CBazookaTrace.cpp" />
     <ClCompile Include="CBazzokaIdle.cpp" />

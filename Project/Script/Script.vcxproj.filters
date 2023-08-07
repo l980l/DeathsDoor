@@ -186,9 +186,6 @@
     <ClInclude Include="CBrazierScript.h">
       <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
     </ClInclude>
-    <ClInclude Include="CLurkerScript.h">
-      <Filter>Script\01. State\01. Monster\Lurker</Filter>
-    </ClInclude>
     <ClInclude Include="CLurkerIdle.h">
       <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
     </ClInclude>
@@ -221,9 +218,6 @@
     </ClInclude>
     <ClInclude Include="CBazookaTrace.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CGruntScript.h">
-      <Filter>Script\01. State\01. Monster\Grunt</Filter>
     </ClInclude>
     <ClInclude Include="CGruntBackStep.h">
       <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
@@ -459,8 +453,26 @@
     <ClInclude Include="CMainLightScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
+    <ClInclude Include="CBatScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CGhostScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CGruntScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CKnightScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CLurkerScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
     <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaGasGrenadeScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -548,9 +560,6 @@
     <ClCompile Include="CBrazierScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Brazier</Filter>
     </ClCompile>
-    <ClCompile Include="CLurkerScript.cpp">
-      <Filter>Script\01. State\01. Monster\Lurker</Filter>
-    </ClCompile>
     <ClCompile Include="CLurkerIdle.cpp">
       <Filter>Script\01. State\01. Monster\Lurker\State</Filter>
     </ClCompile>
@@ -583,9 +592,6 @@
     </ClCompile>
     <ClCompile Include="CBazookaTrace.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CGruntScript.cpp">
-      <Filter>Script\01. State\01. Monster\Grunt</Filter>
     </ClCompile>
     <ClCompile Include="CGruntBackStep.cpp">
       <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
@@ -815,8 +821,26 @@
     <ClCompile Include="CMainLightScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
+    <ClCompile Include="CBatScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CGruntScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CKnightScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CLurkerScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
     <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\01. State\01. Monster\Bazooka</Filter>
+      <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaGasGrenadeScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1377,16 +1401,7 @@
     <ClInclude Include="CHUDScript.h">
       <Filter>Script\02. Script\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CBatScript.h">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="CGhostScript.h">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="CGruntScript.h">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="CKnightScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CLurkerScript.h">
@@ -1778,16 +1793,7 @@
     <ClCompile Include="CHUDScript.cpp">
       <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
-    <ClCompile Include="CBatScript.cpp">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="CGhostScript.cpp">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="CGruntScript.cpp">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="CKnightScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CLurkerScript.cpp">

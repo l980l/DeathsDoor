@@ -20,8 +20,8 @@ public:
 
 
 	//Prefab 생성
-	void SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
-	CGameObject* SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
+	static void SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
+	static CGameObject* SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
 
 	//자리수 계산
 	int GetDigitCount(int money);
