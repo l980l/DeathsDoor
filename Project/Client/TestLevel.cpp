@@ -239,20 +239,20 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(pHook, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
 	// 
-	CGameObject* pArrow = nullptr;
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Arrow.fbx");
-	pArrow = pMeshData->Instantiate();
-	pArrow->SetName(L"Arrow");
-	pArrow->AddComponent(new CCollider3D);
-	pArrow->AddComponent(new CMagic_ArrowScript);
-	
-	pArrow->Transform()->SetRelativeScale(Vec3(0.4f));
-	
-	pArrow->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pArrow->Collider3D()->SetAbsolute(true);
-	pArrow->Collider3D()->SetOffsetScale(Vec3(40.f));
-	
-	SpawnGameObject(pArrow, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
+	//CGameObject* pArrow = nullptr;
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Arrow.fbx");
+	//pArrow = pMeshData->Instantiate();
+	//pArrow->SetName(L"Arrow");
+	//pArrow->AddComponent(new CCollider3D);
+	//pArrow->AddComponent(new CMagic_ArrowScript);
+	//
+	//pArrow->Transform()->SetRelativeScale(Vec3(0.4f));
+	//
+	//pArrow->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pArrow->Collider3D()->SetAbsolute(true);
+	//pArrow->Collider3D()->SetOffsetScale(Vec3(40.f));
+	//
+	//SpawnGameObject(pArrow, Vec3(0.f, 0.f, 0.f), (int)LAYER::PLAYERPROJECTILE);
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
