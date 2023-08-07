@@ -7,6 +7,7 @@
 #include <Engine\components.h>
 #include <Engine\CScript.h>
 #include <Engine/CLevelMgr.h>
+#include <Engine/CPhysXMgr.h>
 
 #include <Script\CScriptMgr.h>
 
@@ -172,7 +173,9 @@ int MenuUI::render_update()
             }
             else if (ImGui::MenuItem("Stop", nullptr, nullptr, StopEnable))
             {
+
                 CurLevel->ChangeState(LEVEL_STATE::STOP);
+                CPhysXMgr::GetInst()->Clear();
                 CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\Temp.lv", LEVEL_STATE::STOP);
 
                 tEvent evn = {};

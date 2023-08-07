@@ -147,13 +147,16 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     // 동적 물체 추가
     if (nullptr == _Object)
         assert(nullptr);
-
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
     m_vecDynamicObject.push_back(_Object);
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
     m_Scene->addActor(*dynamic);
     dynamic->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
+    // Obj의 Rigidbody에 정보 세팅
+    _Object->Rigidbody()->SetSpawnPos(_vSpawnPos);
+    PxGeometryType::Enum type = _Geometry.getType();
+    _Object->Rigidbody()->SetShapeType(_Geometry.getType());
     _Object->Rigidbody()->SetRigidbody(dynamic);
 
     return dynamic;
@@ -163,6 +166,7 @@ physx::PxRigidDynamic* CPhysXMgr::CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, 
 {
     const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
     const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    _Object->Rigidbody()->SetRigidScale(_vCubeScale);
     return CreateDynamic(_vSpawnPos, BoxGeometry, _Object, 0);
 }
 
@@ -170,6 +174,9 @@ physx::PxRigidDynamic* CPhysXMgr::CreateCapsule(Vec3 _vSpawnPos, float _fRadius,
 {
     const PxCapsuleGeometry& CapsuleGeometry = PxCapsuleGeometry(_fRadius, _fHeight);
     const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    Vec3 vCapsuleSclae = Vec3(_fRadius);
+    vCapsuleSclae.y = _fHeight;
+    _Object->Rigidbody()->SetRigidScale(vCapsuleSclae);
     return CreateDynamic(_vSpawnPos, CapsuleGeometry, _Object, 0);
 }
 
@@ -177,6 +184,7 @@ physx::PxRigidDynamic* CPhysXMgr::CreateSphere(Vec3 _vSpawnPos, float _fRadius, 
 {
     const PxSphereGeometry& SphereGeometry = PxSphereGeometry(_fRadius);
     const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    _Object->Rigidbody()->SetRigidScale(Vec3(_fRadius));
     return CreateDynamic(_vSpawnPos, SphereGeometry, _Object, 0);
 }
 
@@ -264,6 +272,7 @@ PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
 {
     // 평면의 방정식을 이용한 전체 맵에 적용되는 평면 생성
     physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(_Plane.x, _Plane.y, _Plane.z, _Plane.w), *m_Material);
+    m_vecStaticActor.push_back(groundPlane);
     m_Scene->addActor(*groundPlane);
     return groundPlane;
 }
@@ -278,6 +287,7 @@ void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 void CPhysXMgr::Clear()
 {
     // Level 초기화에 호출될 전체 피직스 초기화
+    
 
     if(!m_vecDynamicActor.empty())
     {
@@ -286,7 +296,6 @@ void CPhysXMgr::Clear()
             if (nullptr != m_vecDynamicActor[i])
             {
                 m_Scene->removeActor(*m_vecDynamicActor[i]);
-                m_vecDynamicActor[i]->release();
             }
         }
     }
@@ -297,8 +306,8 @@ void CPhysXMgr::Clear()
         {
             if (nullptr != m_vecStaticActor[i])
             {
+                //m_vecStaticActor[i]->release();
                 m_Scene->removeActor(*m_vecStaticActor[i]);
-                m_vecStaticActor[i]->release();
             }
         }
     }
@@ -336,4 +345,5 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
 
     CGameObject* pMap = pMeshData->Instantiate();
     ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
+    delete pMap;
 }

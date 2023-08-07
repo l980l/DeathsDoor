@@ -89,6 +89,7 @@ void CLevel::ChangeState(LEVEL_STATE _State)
 	else
 	{
 		CRenderMgr::GetInst()->SetRenderFunc(false);
+		
 	}
 }
 

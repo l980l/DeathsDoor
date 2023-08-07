@@ -243,6 +243,7 @@ enum class SHAPE_TYPE
 	CUBE,
 	SPHERE,
 	FRUSTUM,
+	CAPSULE,
 	END,
 };
 
