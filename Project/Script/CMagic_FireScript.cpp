@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CMagic_FireScript.h"
+#include "CStateScript.h"
 
 CMagic_FireScript::CMagic_FireScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_FIRESCRIPT)

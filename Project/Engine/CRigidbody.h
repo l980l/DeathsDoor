@@ -9,7 +9,10 @@ class CRigidbody :
     public CComponent
 {
 private:
-    physx::PxRigidDynamic* m_PxRigidbody;
+    physx::PxRigidDynamic*  m_PxRigidbody;
+    SHAPE_TYPE              m_PxShapeType;
+    Vec3                    m_vScale;
+    Vec3                    m_vSpawnPos;
 
 public:
     virtual void finaltick() override {};
@@ -20,6 +23,13 @@ public:
 
 public:
     void SetRigidbody(void* _pRigidbody);
+    void SetShapeType(physx::PxGeometryType::Enum _ShapeInfo);
+    void SetRigidScale(Vec3 _vScale) { m_vScale = _vScale; }
+    void SetSpawnPos(Vec3 _pxSpawnPos) { m_vSpawnPos =  _pxSpawnPos; }
+
+    physx::PxGeometryType::Enum GetShapeType();
+    Vec3 GetRigidScale() { return m_vScale; }
+    Vec3 SetSpawnPos() { return m_vSpawnPos; }
 
     void AddForce(Vec3 _vForce);
     void ClearForce();

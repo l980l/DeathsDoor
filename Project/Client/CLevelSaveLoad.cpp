@@ -374,13 +374,27 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
-        //if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
-        //{
-        //    CPhysXMgr::GetInst()->AddDynamicActor((CRigidbody*)Component);
-        //}
+        if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
+        {
+            CRigidbody* RigidbodyComponent = (CRigidbody*)Component;
+            PxGeometryType::Enum Type = RigidbodyComponent->GetShapeType();
+            Vec3 vSpawnPos = RigidbodyComponent->SetSpawnPos();
+            Vec3 vRigidScale = RigidbodyComponent->GetRigidScale(); 
+            switch (Type)
+            {
+            case PxGeometryType::Enum::eBOX:
+                CPhysXMgr::GetInst()->CreateCube(vSpawnPos, vRigidScale, pObject);
+                break;
+            case PxGeometryType::Enum::eCAPSULE:
+                CPhysXMgr::GetInst()->CreateCapsule(vSpawnPos, vRigidScale.x, vRigidScale.y, pObject);
+                break;
+            case PxGeometryType::Enum::eSPHERE:
+                CPhysXMgr::GetInst()->CreateSphere(vSpawnPos, vRigidScale.x, pObject);
+                break;
+            }
+        }
         
     }
-
 
     // 스크립트   
     size_t ScriptCount = 0;
