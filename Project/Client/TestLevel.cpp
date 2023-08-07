@@ -323,6 +323,7 @@
 #include <Script\CGruntScript.h>
 #include <Script/CLurkerScript.h>
 #include <Script/CKnightScript.h>
+#include <Script/CTrapScript.h>
 #include "CLevelSaveLoad.h"
 
 
@@ -331,9 +332,25 @@ void CreateTestLevel()
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+	pCurLevel->SetName(L"Castle");
+	//CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
+	//pNewLevel->SetName(L"Castle");
+	//tEvent evn = {};
+	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	//evn.wParam = DWORD_PTR(pNewLevel);
+	//CEventMgr::GetInst()->AddEvent(evn);
 
+	//// 충돌 시킬 레이어 짝 지정
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::ITEM));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
-
+	//return;
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -349,6 +366,17 @@ void CreateTestLevel()
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
 
+	CGameObject* Trap = new CGameObject;
+	Trap->SetName(L"Trap1");
+
+	Trap->AddComponent(new CTransform);
+	Trap->AddComponent(new CCollider3D);
+	Trap->AddComponent(new CTrapScript);
+
+	Trap->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
+	Trap->Collider3D()->SetDebugShape(true);
+
+	SpawnGameObject(Trap, Vec3(2284.f, 545.f, 2386.f), 8);
 
 	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
