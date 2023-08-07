@@ -362,7 +362,7 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
             Component = new CRigidbody;
             break;
         }
-
+        
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
     }

@@ -374,10 +374,10 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
 
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
-        if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
-        {
-            CPhysXMgr::GetInst()->AddDynamicActor((CRigidbody*)Component);
-        }
+        //if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
+        //{
+        //    CPhysXMgr::GetInst()->AddDynamicActor((CRigidbody*)Component);
+        //}
         
     }
 

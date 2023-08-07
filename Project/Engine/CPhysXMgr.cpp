@@ -279,21 +279,27 @@ void CPhysXMgr::Clear()
 {
     // Level 초기화에 호출될 전체 피직스 초기화
 
-    for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
+    if(!m_vecDynamicActor.empty())
     {
-        if(nullptr != m_vecDynamicActor[i])
+        for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
         {
-            m_Scene->removeActor(*m_vecDynamicActor[i]);
-            m_vecDynamicActor[i]->release();
+            if (nullptr != m_vecDynamicActor[i])
+            {
+                m_Scene->removeActor(*m_vecDynamicActor[i]);
+                m_vecDynamicActor[i]->release();
+            }
         }
     }
 
-    for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
+    if (!m_vecStaticActor.empty())
     {
-        if (nullptr != m_vecStaticActor[i])
+        for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
         {
-            m_Scene->removeActor(*m_vecStaticActor[i]);
-            m_vecStaticActor[i]->release();
+            if (nullptr != m_vecStaticActor[i])
+            {
+                m_Scene->removeActor(*m_vecStaticActor[i]);
+                m_vecStaticActor[i]->release();
+            }
         }
     }
 

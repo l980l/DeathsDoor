@@ -30,8 +30,8 @@ CPlyAttack::CPlyAttack()
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 		m_pSlash[i]->MeshRender()->SetDynamicShadow(false);
 		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
-		m_pSlash[i]->Collider3D()->SetAbsolute(true);
-		m_pSlash[i]->Collider3D()->SetOffsetScale(Vec3(0.f));
+		//m_pSlash[i]->Collider3D()->SetAbsolute(true);
+		//m_pSlash[i]->Collider3D()->SetOffsetScale(Vec3(0.f));
 	}
 }
 
