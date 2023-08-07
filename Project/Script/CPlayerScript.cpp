@@ -58,8 +58,6 @@ void CPlayerScript::begin()
 
 void CPlayerScript::tick()
 {
-	if (KEY_TAP(KEY::Q))
-		CPhysXMgr::GetInst()->SetRigidPos(Rigidbody()->GetRigidbody(), Vec3(0.f));
 	SetMagicType();
 	int a = 1;
 	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
