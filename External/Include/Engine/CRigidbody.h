@@ -27,6 +27,7 @@ public:
     void SetRigidScale(Vec3 _vScale) { m_vScale = _vScale; }
     void SetSpawnPos(Vec3 _pxSpawnPos) { m_vSpawnPos =  _pxSpawnPos; }
 
+    physx::PxRigidDynamic* GetRigidbody() { return m_PxRigidbody; }
     physx::PxGeometryType::Enum GetShapeType();
     Vec3 GetRigidScale() { return m_vScale; }
     Vec3 SetSpawnPos() { return m_vSpawnPos; }

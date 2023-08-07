@@ -158,7 +158,6 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     PxGeometryType::Enum type = _Geometry.getType();
     _Object->Rigidbody()->SetShapeType(_Geometry.getType());
     _Object->Rigidbody()->SetRigidbody(dynamic);
-
     return dynamic;
 }
 
@@ -249,7 +248,13 @@ physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeSc
     return Static;
 }
 
-void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
+void CPhysXMgr::SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos)
+{
+    const PxTransform& Transform = PxTransform(_vPos.x, _vPos.y, _vPos.z);
+    _pDynamic->setGlobalPose(Transform);
+}
+
+void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
 {
     // 중간에 삭제할 필요가 있는 Map 요소에 대해 삭제할 수 있는 정적 물체 삭제 기능
 
@@ -257,10 +262,10 @@ void CPhysXMgr::ReleaseStatic(wstring _strStaticName)
     for (; iter != m_vecStaticActor.end(); ++iter)
     {
         PxRigidStatic* State = *iter;
-        if (State->getName() == string(_strStaticName.begin(), _strStaticName.end()).c_str())
+        if (*iter == _pStatic)
         {
             m_vecStaticActor.erase(iter);
-            m_Scene->removeActor(*State);
+            m_Scene->removeActor(*_pStatic);
             return;
         }
     }
