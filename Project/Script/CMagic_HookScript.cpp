@@ -104,8 +104,12 @@ void CMagic_HookScript::Active(bool _bActive)
 		Collider3D()->SetOffsetScale(Vec3(100.f));
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
+			int a = i % 2;
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
-			m_vecChain[i]->Transform()->SetRelativeRot(m_vAttackDir);
+			if(1 == a)
+				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f), m_vAttackDir.y, XM_PI / 2.f));
+			else
+				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f), m_vAttackDir.y, 0.f));
 		}
 	}
 	else if(!m_bActive)
@@ -164,11 +168,9 @@ void CMagic_HookScript::PaveChain()
 					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
 			}
 		}
-
 	}
 	else
 	{
-
 		for (int i = 0; i < 80; ++i)
 		{
 				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
