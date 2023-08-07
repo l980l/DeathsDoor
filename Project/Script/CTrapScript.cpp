@@ -24,10 +24,10 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 		{
 			if (GetOwner()->GetName() == L"Trap1")
 			{
-				CGameObject* door = script.SpawnandReturnPrefab(L"prefab\\Fense", (int)LAYER::ITEM, Vec3(3622.f, 608.f, 1409.f));
+				CGameObject* door = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(3622.f, 608.f, 1409.f));
 				door->Transform()->SetRelativeScale(Vec3(0.21f, 0.21f, 0.21f));
 				Vec3 rot = (Vec3(270.f, 48.f, 0.f) / 180.f) * XM_PI;
-				door->SetName(L"Fense");
+				door->SetName(L"Fence");
 				door->Transform()->SetRelativePos(rot);
 				door->AddComponent(new CCollider3D);
 				door->AddComponent(new CRigidbody);
@@ -39,10 +39,10 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 			}
 			else if (GetOwner()->GetName() == L"Trap2")
 			{
-				CGameObject* door1 = script.SpawnandReturnPrefab(L"prefab\\Fense", (int)LAYER::ITEM, Vec3(2515.f, 608.f, 2143.f));
+				CGameObject* door1 = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(2515.f, 608.f, 2143.f));
 				door1->Transform()->SetRelativeScale(Vec3(0.21f, 0.21f, 0.21f));
 				Vec3 rot = (Vec3(270.f, 41.f, 0.f) / 180.f) * XM_PI;
-				door1->SetName(L"Fense");
+				door1->SetName(L"Fence");
 				door1->Transform()->SetRelativePos(rot);
 				door1->AddComponent(new CCollider3D);
 				door1->AddComponent(new CRigidbody);
@@ -52,10 +52,10 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 				door1->MeshRender()->SetFrustumCheck(false);
 				CPhysXMgr::GetInst()->CreateStaticCube(Vec3(2515.f, 608.f, 2143.f), Vec3(100.f, 100.f, 100.f), door1);//till here
 
-				CGameObject* door2 = script.SpawnandReturnPrefab(L"prefab\\Fense", (int)LAYER::ITEM, Vec3(2864.f, 957.f, 3988.f));
+				CGameObject* door2 = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(2864.f, 957.f, 3988.f));
 				door2->Transform()->SetRelativeScale(Vec3(0.27f, 0.27f, 0.27f));
 				Vec3 rot1 = (Vec3(270.f, -43.f, 0.f) / 180.f) * XM_PI;
-				door2->SetName(L"Fense");
+				door2->SetName(L"Fence");
 				door2->Transform()->SetRelativePos(rot1);
 				door2->AddComponent(new CCollider3D);
 				door2->AddComponent(new CRigidbody);
@@ -65,7 +65,7 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 				door2->MeshRender()->SetFrustumCheck(false);
 				CPhysXMgr::GetInst()->CreateStaticCube(Vec3(2864.f, 957.f, 3988.f), Vec3(100.f, 100.f, 100.f), door2);
 
-				CGameObject* door3 = script.SpawnandReturnPrefab(L"prefab\\Fense", (int)LAYER::ITEM, Vec3(807.f, 957.f, 3533.f));
+				CGameObject* door3 = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(807.f, 957.f, 3533.f));
 				door3->Transform()->SetRelativeScale(Vec3(0.27f, 0.27f, 0.27f));
 				Vec3 rot2 = (Vec3(270.f, 39.f, 0.f) / 180.f) * XM_PI;
 				door3->SetName(L"Fense");

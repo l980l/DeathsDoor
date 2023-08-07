@@ -23,6 +23,12 @@ void CMonsterDetectRangeScript::BeginOverlap(CCollider3D* _Other)
 	}
 }
 
+void CMonsterDetectRangeScript::OnOverlap(CCollider3D* _Other)
+{
+	int a = 0;
+}
+
+
 CMonsterDetectRangeScript::CMonsterDetectRangeScript()
 	: CScript((UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT)
 	, m_bDetect(false)

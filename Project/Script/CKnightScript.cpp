@@ -58,9 +58,9 @@ void CKnightScript::begin()
 	}
 
 	//Rigidbody 질량, 마찰, 마찰계수, 제한 속도 재 설정
-	GetOwner()->Rigidbody()->SetMass(1.f);
+	/*GetOwner()->Rigidbody()->SetMass(1.f);
 	GetOwner()->Rigidbody()->SetFriction(1.f);
-	GetOwner()->Rigidbody()->SetFrictionScale(1.f);
+	GetOwner()->Rigidbody()->SetFrictionScale(1.f);*/
 	GetOwner()->Rigidbody()->SetVelocityLimit(1.f);
 
 	// 초기 스탯 설정.

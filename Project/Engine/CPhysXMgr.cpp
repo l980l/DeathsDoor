@@ -272,7 +272,7 @@ void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 {
     m_vecDynamicObject.push_back(_pRigidbody->GetOwner());
     m_vecDynamicActor.push_back(_pRigidbody->m_PxRigidbody);
-    m_Scene->addActor(*_pRigidbody->m_PxRigidbody);
+    m_Scene->addActor(*(_pRigidbody->m_PxRigidbody));
 }
 
 void CPhysXMgr::Clear()
