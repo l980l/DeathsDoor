@@ -79,9 +79,10 @@ void CPlyMagic_Hook::tick()
 			m_vAttackDir.Normalize();
 			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
-			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(-m_vAttackDir);
+			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(m_vAttackDir);
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 
+			m_pHook->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vAttackDir.x, m_vAttackDir.y, m_vAttackDir.z));
 			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
 			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 		}

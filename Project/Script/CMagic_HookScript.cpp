@@ -89,7 +89,6 @@ void CMagic_HookScript::Active(bool _bActive)
 	m_fTime = 0.f;
 	if(m_bActive)
 	{
-		Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vThrownDir.x, m_vThrownDir.y, m_vThrownDir.z));
 		Transform()->SetRelativePos(m_vStartPos);
 		Transform()->SetRelativeScale(Vec3(0.7f));
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
