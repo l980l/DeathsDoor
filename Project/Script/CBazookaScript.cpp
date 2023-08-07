@@ -9,10 +9,13 @@ CBazookaScript::CBazookaScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
 	, m_fPlayerDistance(0.f)
 	, m_fMeleeRange(300.f)
-	, m_fRunAwayRange(1000.f)
-	, m_fAttackRange(1500.f)
+	, m_fRunAwayRange(600.f)
+	, m_fAttackRange(1000.f)
 	, m_bStarePlayer(false)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMeleeRange, "MeleeRange");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRunAwayRange, "RunAwayRange");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
 }
 
 CBazookaScript::CBazookaScript(const CBazookaScript& _Other)

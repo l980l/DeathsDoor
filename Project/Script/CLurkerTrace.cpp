@@ -87,7 +87,7 @@ void CLurkerTrace::EndOverlap(CCollider3D* _Other)
 
 CLurkerTrace::CLurkerTrace()
 	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(2.f)
+	, m_fRenewal_Trace(0.2f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)

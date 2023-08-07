@@ -68,11 +68,12 @@ void CBazookaTrace::tick()
 
 void CBazookaTrace::Enter()
 {
-	GetOwner()->Animator3D()->Play(3, true);
+	GetOwner()->Animator3D()->Play(4, true);
 }
 
 void CBazookaTrace::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CBazookaTrace::BeginOverlap(CCollider3D* _Other)
@@ -89,7 +90,7 @@ void CBazookaTrace::EndOverlap(CCollider3D* _Other)
 
 CBazookaTrace::CBazookaTrace()
 	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(2.f)
+	, m_fRenewal_Trace(0.2f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)

@@ -385,6 +385,38 @@ float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _
 	return PrevDir + Diff;
 }
 
+float GetSmoothDir(Vec3 _vStart, Vec3 _vTarget, Vec3 _vPrevDir, float _degree)
+{
+	Vec3 vOwnerPos = _vStart;
+	Vec3 vTargetPos = _vTarget;
+	Vec3 vPrevDir = _vPrevDir;
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vOwnerPos, vTargetPos);
+	float Diff = Rot - PrevDir;
+
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+	}
+	else
+		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+
+	if (abs(Diff) > 0.1f)
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = bnegative ? -_degree / 180.f * XM_PI : _degree / 180.f * XM_PI;
+	}
+
+	return PrevDir + Diff;
+}
+
 void AddForceCentertoMouseDir(CGameObject* _pProjectile)
 {
 	Vec2 vCursorPos = CKeyMgr::GetInst()->GetMousePos();
