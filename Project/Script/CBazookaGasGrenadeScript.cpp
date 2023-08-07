@@ -4,12 +4,6 @@
 
 void CBazookaGasGrenadeScript::begin()
 {
-	/*pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(700.f, 700.f, 700.f));
-	pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 333.f));*/
-
 	Vec3 Velocity = m_ShotDir;
 	float fSpeed = 50.f;
 	Velocity *= fSpeed;

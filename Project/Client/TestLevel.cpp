@@ -27,6 +27,7 @@
 #include <Script\CBazookaScript.h>
 #include <Script/CNaviTestScript.h>
 #include <Script/CMainLightScript.h>
+#include <Script/CWaterCameraScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -195,14 +196,19 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	// particle 
-	CGameObject* pParticle = new CGameObject;
-	pParticle->SetName(L"Particle");
-	pParticle->AddComponent(new CTransform);
-	pParticle->AddComponent(new CParticleSystem);
-	pParticle->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
+	// GasGrenade 
+	CGameObject* pGasGrenade = new CGameObject;
+	pGasGrenade->SetName(L"GasGrenade");
+	pGasGrenade->AddComponent(new CCollider3D);
+	pGasGrenade->AddComponent(new CTransform);
+	pGasGrenade->AddComponent(new CRigidbody);
+	pGasGrenade->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
+	pGasGrenade->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pGasGrenade->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	pGasGrenade->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 
-	SpawnGameObject(pParticle, Vec3(0.f, 500.f, 0.f), (int)LAYER::DEFAULT);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 40.f, pGasGrenade);
+	SpawnGameObject(pGasGrenade, Vec3(0.f, 500.f, 500.f), (int)LAYER::MONSTERPROJECTILE);
 
 	// LoadingUI 
 	CGameObject* pLoadingUI = new CGameObject;
@@ -228,33 +234,33 @@ void CreateTestLevel()
 
 	SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 
-	//// Water 
-	//CGameObject* pWater = new CGameObject;
-	//pWater->SetName(L"Water");
-	//pWater->AddComponent(new CTransform);
-	//pWater->AddComponent(new CMeshRender);
-	//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-	//pWater->Transform()->SetRelativeScale(8000.f, 8000.f, 8000.f);
-	//pWater->MeshRender()->SetFrustumCheck(false);
+	// Water 
+	CGameObject* pWater = new CGameObject;
+	pWater->SetName(L"Water");
+	pWater->AddComponent(new CTransform);
+	pWater->AddComponent(new CMeshRender);
+	pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+	pWater->Transform()->SetRelativeScale(8000.f, 8000.f, 8000.f);
+	pWater->MeshRender()->SetFrustumCheck(false);
 
-	//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+	SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
 
-	//// Water Camera Object 생성
-	//CGameObject* pWaterCam = new CGameObject;
-	//pWaterCam->SetName(L"WaterCamera");
+	// Water Camera Object 생성
+	CGameObject* pWaterCam = new CGameObject;
+	pWaterCam->SetName(L"WaterCamera");
 
-	//pWaterCam->AddComponent(new CTransform);
-	//pWaterCam->AddComponent(new CCamera);
-	//pWaterCam->AddComponent(new CWaterCameraScript);
+	pWaterCam->AddComponent(new CTransform);
+	pWaterCam->AddComponent(new CCamera);
+	pWaterCam->AddComponent(new CWaterCameraScript);
 
-	//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	//pWaterCam->Camera()->SetCameraIndex(1);
-	//pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-	//pWaterCam->Camera()->SetWaterCamera(true);
+	pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pWaterCam->Camera()->SetCameraIndex(1);
+	pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+	pWaterCam->Camera()->SetWaterCamera(true);
 
-	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
+	SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
