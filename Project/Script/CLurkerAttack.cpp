@@ -23,7 +23,7 @@ void CLurkerAttack::tick()
 	{
 		Vec3 Velocity = m_Dir;
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed;
+		Velocity *= fSpeed * 30.f * DT;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}
@@ -35,7 +35,7 @@ void CLurkerAttack::tick()
 
 void CLurkerAttack::Exit()
 {
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fTime = 0.f;
 }
 

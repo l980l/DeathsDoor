@@ -7,6 +7,7 @@
 #include "CBankNPCScript.h"
 #include "CBankUpgradeScript.h"
 #include "CBatScript.h"
+#include "CBazookaGasGrenadeScript.h"
 #include "CBazookaScript.h"
 #include "CBombIconScript.h"
 #include "CBrazierScript.h"
@@ -56,6 +57,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBankNPCScript");
 	_vec.push_back(L"CBankUpgradeScript");
 	_vec.push_back(L"CBatScript");
+	_vec.push_back(L"CBazookaGasGrenadeScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBombIconScript");
 	_vec.push_back(L"CBrazierScript");
@@ -112,6 +114,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBankUpgradeScript;
 	if (L"CBatScript" == _strScriptName)
 		return new CBatScript;
+	if (L"CBazookaGasGrenadeScript" == _strScriptName)
+		return new CBazookaGasGrenadeScript;
 	if (L"CBazookaScript" == _strScriptName)
 		return new CBazookaScript;
 	if (L"CBombIconScript" == _strScriptName)
@@ -216,6 +220,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BATSCRIPT:
 		return new CBatScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT:
+		return new CBazookaGasGrenadeScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BAZOOKASCRIPT:
 		return new CBazookaScript;
@@ -367,6 +374,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BATSCRIPT:
 		return L"CBatScript";
+		break;
+
+	case SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT:
+		return L"CBazookaGasGrenadeScript";
 		break;
 
 	case SCRIPT_TYPE::BAZOOKASCRIPT:

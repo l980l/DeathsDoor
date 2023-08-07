@@ -73,8 +73,6 @@
     <FxCompile Include="gaussianblur.fx">
       <Filter>07. ShaderCode\02. Render\3D</Filter>
     </FxCompile>
-    <FxCompile Include="bloom.fx" />
-    <FxCompile Include="fire.fx" />
     <FxCompile Include="copybone.fx">
       <Filter>07. ShaderCode\03. Compute\CopyBone</Filter>
     </FxCompile>
