@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "CLevelMgr.h"
-
+#include "CPhysXMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
+#include "CPhysXMgr.h"
+#include "CDetourMgr.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -18,6 +20,7 @@ CLevelMgr::~CLevelMgr()
 void CLevelMgr::init()
 {
 	m_pCurLevel = new CLevel;
+	m_pCurLevel->m_iLevel_type = (int)LEVEL_TYPE::CASTLE_FIELD;
 	m_pCurLevel->ChangeState(LEVEL_STATE::STOP);
 }
 
@@ -51,6 +54,8 @@ void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 		delete m_pCurLevel;
 		m_pCurLevel = nullptr;
 	}
-
+	
 	m_pCurLevel = _NextLevel;
+	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
 }

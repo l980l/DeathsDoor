@@ -12,6 +12,7 @@
 #include "CKeyMgr.h"
 #include "CDevice.h"
 #include "CRigidbody.h"
+#include "CTimeMgr.h"
 
 
 
@@ -364,22 +365,24 @@ float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _
 
 	if (Diff > XM_PI)
 	{
-		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+		Diff = -(XM_2PI - Rot + PrevDir);
 	}
 	else if (Diff < -XM_PI)
 	{
-		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+		Diff = (XM_2PI - PrevDir + Rot);
 	}
 	else
-		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+		Diff = (Rot - PrevDir);
 
-	if (abs(Diff) > 0.1f)
+	if (abs(Diff) > XMConvertToRadians(360.f * DT))
 	{
 		bool bnegative = false;
 		if (Diff < 0)
 			bnegative = true;
 
-		Diff = bnegative ? -_degree / 180.f * XM_PI : _degree / 180.f * XM_PI;
+		Diff = XMConvertToRadians(360.f * DT);
+		if (bnegative)
+			Diff *= -1.f;
 	}
 
 	return PrevDir + Diff;

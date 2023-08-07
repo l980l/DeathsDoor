@@ -243,6 +243,7 @@ enum class SHAPE_TYPE
 	CUBE,
 	SPHERE,
 	FRUSTUM,
+	CAPSULE,
 	END,
 };
 
@@ -332,6 +333,7 @@ enum class LEVEL_TYPE
 	ICE_FIELD,
 	ICE_BOSS,
 	HALL,
+	LOADING,
 	END
 };
 

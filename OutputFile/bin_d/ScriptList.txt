@@ -42,5 +42,6 @@ CPlayerWeaponScript
 CRoomScript
 CSpawnDoorScript
 CStateScript
+CTrapScript
 CWallScript
 CWaterCameraScript

@@ -89,9 +89,9 @@ void CMagic_HookScript::Active(bool _bActive)
 	m_fTime = 0.f;
 	if(m_bActive)
 	{
-		Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vThrownDir.x, m_vThrownDir.y, m_vThrownDir.z));
 		Transform()->SetRelativePos(m_vStartPos);
 		Transform()->SetRelativeScale(Vec3(0.7f));
+		Collider3D()->SetOffsetScale(Vec3(100.f));
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
@@ -101,6 +101,7 @@ void CMagic_HookScript::Active(bool _bActive)
 	else if(!m_bActive)
 	{
 		Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		Collider3D()->SetOffsetScale(Vec3(0.f));
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);

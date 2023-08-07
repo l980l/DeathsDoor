@@ -7,6 +7,7 @@
 CRigidbody::CRigidbody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
 	, m_PxRigidbody(nullptr)
+    , m_vSpawnPos{}
 {
 }
 
@@ -22,6 +23,41 @@ void CRigidbody::SetRigidbody(void* _pRigidbody)
 	m_PxRigidbody = (physx::PxRigidDynamic *)_pRigidbody;
 }
 
+void CRigidbody::SetShapeType(PxGeometryType::Enum _ShapeInfo)
+{
+    switch (_ShapeInfo)
+    {
+    case PxGeometryType::Enum::eBOX:
+        m_PxShapeType = SHAPE_TYPE::CUBE;
+        break;
+    case PxGeometryType::Enum::eCAPSULE:
+        m_PxShapeType = SHAPE_TYPE::CAPSULE;
+        break;
+    case PxGeometryType::Enum::eSPHERE:
+        m_PxShapeType = SHAPE_TYPE::SPHERE;
+        break;
+    }
+}
+
+PxGeometryType::Enum CRigidbody::GetShapeType()
+{
+    PxGeometryType::Enum Type = PxGeometryType::Enum::eINVALID;
+    switch (m_PxShapeType)
+    {
+    case SHAPE_TYPE::CUBE:
+        Type = physx::PxGeometryType::Enum::eBOX;
+        return Type;
+        break;
+    case SHAPE_TYPE::CAPSULE:
+        Type = physx::PxGeometryType::Enum::eCAPSULE;
+        return Type;
+        break;
+    case SHAPE_TYPE::SPHERE:
+        Type = physx::PxGeometryType::Enum::eSPHERE;
+        return Type;
+        break;
+    }
+}
 void CRigidbody::AddForce(Vec3 _vForce)
 {
     const physx::PxVec3& Force = physx::PxVec3(_vForce.x , _vForce.y, _vForce.z);
@@ -71,4 +107,18 @@ void CRigidbody::SetGravity(float _fGravity)
 void CRigidbody::SetMass(float _fMass) 
 { 
     m_PxRigidbody->setMass(physx::PxReal(_fMass)); 
+}
+
+void CRigidbody::SaveToLevelFile(FILE* _pFile)
+{
+    fwrite(&m_vSpawnPos, sizeof(Vec3), 1, _pFile);
+    fwrite(&m_vScale, sizeof(Vec3), 1, _pFile);
+    fwrite(&m_PxShapeType, sizeof(physx::PxGeometryType::Enum), 1, _pFile);
+}
+
+void CRigidbody::LoadFromLevelFile(FILE* _pFile)
+{
+    fread(&m_vSpawnPos, sizeof(Vec3), 1, _pFile);
+    fread(&m_vScale, sizeof(Vec3), 1, _pFile);
+    fread(&m_PxShapeType, sizeof(physx::PxGeometryType::Enum), 1, _pFile);
 }

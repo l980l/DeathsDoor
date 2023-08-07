@@ -10,6 +10,7 @@
 #include "CPlayerWeaponScript.h"
 
 #include <Engine\CRenderMgr.h>
+#include <Engine/CPhysXMgr.h>
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)

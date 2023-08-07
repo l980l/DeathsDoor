@@ -348,6 +348,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
+    <ClInclude Include="CTrapScript.h" />
     <ClInclude Include="CWallScript.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
@@ -525,6 +526,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />
+    <ClCompile Include="CTrapScript.cpp" />
     <ClCompile Include="CWallScript.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />

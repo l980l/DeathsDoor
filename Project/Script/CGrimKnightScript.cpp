@@ -92,6 +92,10 @@ void CGrimKnightScript::tick()
 		float dir = GetSmoothDir(GetOwner(), m_pPlayer);
 		Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
 		GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);*/
+
+		//or
+		//Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
+		//GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
 	}
 
 	else if (GetDetect() && m_pStateScript->FindState(L"LongDistance") == m_pStateScript->GetCurState())
