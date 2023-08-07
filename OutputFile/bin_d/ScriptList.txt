@@ -4,6 +4,7 @@ CBankerFrameScript
 CBankNPCScript
 CBankUpgradeScript
 CBatScript
+CBazookaGasGrenadeScript
 CBazookaScript
 CBombIconScript
 CBrazierScript

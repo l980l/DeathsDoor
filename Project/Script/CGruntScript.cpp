@@ -12,6 +12,7 @@ CGruntScript::CGruntScript() :
 	, m_iNailAttackCount(0)
 	, m_bStarePlayer(false)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
 }
 
 CGruntScript::CGruntScript(const CGruntScript& _Other) :
@@ -29,7 +30,7 @@ CGruntScript::~CGruntScript()
 
 void CGruntScript::CountNailAttack()
 {
-	if (m_iNailAttackCount > 2)
+	if (m_iNailAttackCount > 1)
 		m_iNailAttackCount = 0;
 
 	else
@@ -74,7 +75,7 @@ void CGruntScript::begin()
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 1000.f;
+		NewStat.Speed = 150.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
@@ -94,7 +95,9 @@ void CGruntScript::tick()
 	// 플레이어를 바라보는 경우.
 	if (m_bStarePlayer)
 	{
-		CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner());
+		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
+		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 	}
 }
 

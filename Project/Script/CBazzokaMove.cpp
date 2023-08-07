@@ -5,11 +5,14 @@
 
 void CBazzokaMove::Enter()
 {
-	GetOwner()->Animator3D()->Play(3, true);
+	GetOwner()->Animator3D()->Play(4, true);
 }
 
 void CBazzokaMove::tick()
 {
+	// Player 응시
+	GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(true);
+
 	Vec3 PlayerPos = GetOwner()->GetScript<CBazookaScript>()->GetPlayerPos();
 
 	float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
@@ -21,8 +24,10 @@ void CBazzokaMove::tick()
 	}
 
 	// 도망. 여기서는 달리는 곳을 바라보도록 회전시켜줘야 한다. 
-	else if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
+	else if (fDistance <= GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
 	{
+		GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
+		
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
 
 		m_fLastRenewal += DT;
@@ -39,7 +44,6 @@ void CBazzokaMove::tick()
 			// 현재 위치에서 플레이어와의 차이만큼 더해준 곳으로 이동시키자.
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 TargetPos = CurPos + CurPos - PlayerPos;
-
 			memcpy(m_vActualPath, CDetourMgr::GetInst()->GetPathtoTarget(CurPos, TargetPos, &m_iActualPathCount), sizeof(Vec3) * 256);
 		}
 
@@ -57,24 +61,30 @@ void CBazzokaMove::tick()
 
 			// 이동할 방향 벡터 계산 및 정규화
 			Vec3 direction = targetPos - currentPos;
-			direction = direction.Normalize();
+			direction.Normalize();
 
 			// 새로운 위치 계산
-			Vec3 newPos = currentPos + fSpeed * direction * DT;
+			Vec3 newPos = currentPos + direction * fSpeed * DT;
+			direction.y = 0.f;
 
-			GetOwner()->Transform()->SetRelativePos(newPos);
+			GetOwner()->Rigidbody()->SetVelocity(direction * fSpeed);
 
 			// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
-			float distanceToTarget = (targetPos - newPos).Length();
-			if (distanceToTarget < fSpeed * DT)
+			float distanceToTarget = (targetPos - currentPos).Length();
+			if (distanceToTarget < 50.f)
 			{
 				++m_iCurrentPathIndex;
 			}
+
+			// 가는 곳을 바라보도록 회전 시키기.
+			Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+			float fDir = GetSmoothDir(currentPos, targetPos, CurDir);
+			GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 		}
 	}
 
 	// 공격범위
-	else if (fDistance< GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
+	else if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange() && fDistance > GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
 	{
 		ChangeState(L"Aim");
 	}
@@ -88,11 +98,12 @@ void CBazzokaMove::tick()
 
 void CBazzokaMove::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 CBazzokaMove::CBazzokaMove()
 	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(2.f)
+	, m_fRenewal_Trace(0.2f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)

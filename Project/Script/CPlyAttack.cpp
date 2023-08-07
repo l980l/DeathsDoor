@@ -93,8 +93,16 @@ void CPlyAttack::tick()
 			m_fAcctime = 0.f;
 		}
 	}
+	else if (m_fDelay * 0.8f > m_fAcctime > m_fDelay* 0.3f)
+	{
+		if (KEY_TAP(KEY::SPACE))
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+	}
 	else if (m_fAcctime > m_fDelay * 0.8f)
 	{
+		if (KEY_TAP(KEY::SPACE))
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+
 		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);

@@ -67,7 +67,8 @@ public:
     physx::PxRigidStatic* ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
     physx::PxRigidStatic* CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object);
 
-    void ReleaseStatic(wstring _strStaticName);
+    void SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos);
+    void ReleaseStatic(physx::PxRigidStatic* _pStatic);
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
     void AddDynamicActor(CRigidbody* _pRigidbody);

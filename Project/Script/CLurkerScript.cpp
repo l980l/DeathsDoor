@@ -12,6 +12,8 @@ CLurkerScript::CLurkerScript() :
 	, m_fAttackRange(500.f)
 	, m_bStarePlayer(false)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fBackStepRange, "BackStepRange");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
 }
 
 CLurkerScript::CLurkerScript(const CLurkerScript& _Other) :
@@ -52,7 +54,7 @@ void CLurkerScript::begin()
 		NewStat.HP = 300;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 50.f;
+		NewStat.Speed = 100.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
@@ -72,8 +74,9 @@ void CLurkerScript::tick()
 	// 플레이어를 바라보는 경우.
 	if (m_bStarePlayer)
 	{
-		Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
-		//GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
+		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
+		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 	}
 }
 

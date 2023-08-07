@@ -62,7 +62,7 @@ void CCrowBossScript::begin()
 		NewStat.HP = 3000;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 1000.f;
+		NewStat.Speed = 50.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }

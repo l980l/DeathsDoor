@@ -12,6 +12,7 @@
 #include <Engine/CPhysXMgr.h>
 #include "CPlayerScript.h"
 #include "commdlg.h"
+#include <Engine/CPhysXMgr.h>
 
 #include "CScriptMgr.h"
 
@@ -376,9 +377,25 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
 
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
+
         if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
         {
-            CPhysXMgr::GetInst()->AddDynamicActor((CRigidbody*)Component);
+            CRigidbody* RigidbodyComponent = (CRigidbody*)Component;
+            physx::PxGeometryType::Enum Type = RigidbodyComponent->GetShapeType();
+            Vec3 vSpawnPos = RigidbodyComponent->SetSpawnPos();
+            Vec3 vRigidScale = RigidbodyComponent->GetRigidScale();
+            switch (Type)
+            {
+            case physx::PxGeometryType::Enum::eBOX:
+                CPhysXMgr::GetInst()->CreateCube(vSpawnPos, vRigidScale, pObject);
+                break;
+            case physx::PxGeometryType::Enum::eCAPSULE:
+                CPhysXMgr::GetInst()->CreateCapsule(vSpawnPos, vRigidScale.x, vRigidScale.y, pObject);
+                break;
+            case physx::PxGeometryType::Enum::eSPHERE:
+                CPhysXMgr::GetInst()->CreateSphere(vSpawnPos, vRigidScale.x, pObject);
+                break;
+            }
         }
     }
 

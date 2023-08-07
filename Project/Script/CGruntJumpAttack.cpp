@@ -6,8 +6,15 @@ void CGruntJumpAttack::Enter()
 {
 	GetOwner()->Animator3D()->Play(12, false);
 
+	// Player 응시
+	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
 	// 공격 방향은 처음에만 지정해야 함. 
 	m_Dir = GetOwner()->GetScript<CGruntScript>()->GetMonsterToPlayerDir();
+	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+
+	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CGruntScript>()->GetPlayerPos());
+	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 }
 
 void CGruntJumpAttack::tick()
@@ -20,19 +27,13 @@ void CGruntJumpAttack::tick()
 	{
 		Vec3 Velocity = m_Dir;
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * 5.f;
+		Velocity *= fSpeed * 30.f * DT;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}
 
-	else
-	{
-		Vec3 Velocity = m_Dir;
-		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * -5.f;
-
-		GetOwner()->Rigidbody()->AddVelocity(Velocity);
-	}
+	if(CurRatio > 0.65f)
+		GetOwner()->Rigidbody()->ClearForce();
 
 	// 애니메이션이 끝나면 Run2로 다시 변경.
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -41,6 +42,7 @@ void CGruntJumpAttack::tick()
 
 void CGruntJumpAttack::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fTime = 0.f;
 }
 

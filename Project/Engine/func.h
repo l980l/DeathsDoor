@@ -33,6 +33,7 @@ float GetDistance(Vec3 _Vec1, Vec3 _Vec2);
 // z축은 y로 계산하여 방향을 알려줌.
 float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree = false);
 float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _fdegree = 2.3f);
+float GetSmoothDir(Vec3 _vStart, Vec3 _vTarget, Vec3 _vPrevDir, float _degree = 2.3f);
 
 // Player만 사용하는 함수
 void AddForceCentertoMouseDir(CGameObject* _pProjectile);

@@ -4,12 +4,14 @@ class CMagic_ArrowScript :
     public CScript
 {
 private:
+    Vec3    m_vStartPos;
     Vec3    m_vDir;
     float   m_fSpeed;
     float   m_fDamage;
 
 public:
-    void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); }
+    void SetStartPos(Vec3 _vPos) { m_vStartPos = _vPos; }
+    void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); m_vDir.y = 0.f; }
     void SetDamege(float _fDamege) { m_fDamage = _fDamege; }
     virtual void begin() override;
     virtual void tick() override;
