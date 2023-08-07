@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CBazookaGasGrenadeScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include <Engine/CPhysXMgr.h>
 
 void CBazookaGasGrenadeScript::begin()
 {
@@ -12,6 +13,7 @@ void CBazookaGasGrenadeScript::begin()
 
 	// 가스탄 파티클 프리펩.
 	m_GasBulletParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", 3, GetOwner()->Transform()->GetWorldPos());
+	CPhysXMgr::GetInst()->SetRigidPos(m_GasBulletParticle->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
 }
 
 void CBazookaGasGrenadeScript::tick()
@@ -27,12 +29,16 @@ void CBazookaGasGrenadeScript::tick()
 			// 땅에 튕긴거임. 
 			if (CurVelocity.y > 0.f)
 			{
-				DestroyObject(m_GasBulletParticle);
-				m_iState = 1;
-
 				// 퍼지는 독가스 파티클 프리펩.
 				m_GasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 4.f);
 				m_GasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 4.f);
+
+				CPhysXMgr::GetInst()->SetRigidPos(m_GasRoundParticle->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
+				CPhysXMgr::GetInst()->SetRigidPos(m_GasCenterParticle->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
+
+				// 가스탄 삭제
+				DestroyObject(m_GasBulletParticle);
+				m_iState = 1;
 			}
 		}
 
