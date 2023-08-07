@@ -22,6 +22,9 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 		m_pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 		m_pHook->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		m_pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
+		m_pHook->Collider3D()->SetAbsolute(true);
+		m_pHook->Collider3D()->SetOffsetScale(Vec3(0.f));
+		m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	}
 	if (m_vecChain.empty())
 	{
@@ -83,8 +86,6 @@ void CPlyMagic_Hook::tick()
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 
 			m_pHook->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vAttackDir.x, m_vAttackDir.y, m_vAttackDir.z));
-			m_pHook->Collider3D()->SetOffsetScale(Vec3(100.f, 100.f, 100.f));
-			m_pHook->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 		}
 	}
 }
