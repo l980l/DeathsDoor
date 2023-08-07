@@ -235,9 +235,9 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             output.vNormal = float4(vViewNormal.xyz, 1.f);
             output.vPosition = float4(_in.vViewPos.xyz, 1.f);
             output.vData = float4(0.f, 0.f, 0.f, 1.f);
-            output.vEmissive = float4(vObjectColor * 0.5f);
+            output.vEmissive = float4(vObjectColor * (0.5f + g_float_3));
             if (g_int_2)
-                output.vEmissive = float4(vObjectColor * 2.f);
+                output.vEmissive = float4(vObjectColor * (2.f + g_float_3));
         }
         
         // 칼 texture가 알파값을 1로 줘야 색이 나오게 되어있다.
@@ -260,7 +260,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = g_vec4_0 * 0.5f;
+        output.vEmissive = g_vec4_0 * (0.5f + g_float_3);
     }
     
     // Crack 및 paperburn에 bloom 주기.
@@ -270,7 +270,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);
-        output.vEmissive = float4(vEmissiveColor * 0.5f);
+        output.vEmissive = float4(vEmissiveColor * (0.5f + g_float_3));
     }
     
     else
