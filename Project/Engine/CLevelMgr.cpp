@@ -20,6 +20,7 @@ CLevelMgr::~CLevelMgr()
 void CLevelMgr::init()
 {
 	m_pCurLevel = new CLevel;
+	m_pCurLevel->m_iLevel_type = (int)LEVEL_TYPE::CASTLE_FIELD;
 	m_pCurLevel->ChangeState(LEVEL_STATE::STOP);
 }
 

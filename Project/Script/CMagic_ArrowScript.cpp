@@ -18,9 +18,9 @@ void CMagic_ArrowScript::begin()
 
 void CMagic_ArrowScript::tick()
 {
-	Vec3 CurPos = Transform()->GetWorldPos();
-	CurPos += m_vDir * m_fSpeed * DT;
-	Transform()->SetRelativePos(CurPos);
+	//Vec3 CurPos = Transform()->GetWorldPos();
+	//CurPos += m_vDir * m_fSpeed * DT;
+	//Transform()->SetRelativePos(CurPos);
 }
 
 void CMagic_ArrowScript::BeginOverlap(CCollider3D* _Other)
