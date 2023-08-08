@@ -9,6 +9,7 @@
 #include <Engine\components.h>
 #include <Engine\CScript.h>
 #include <Engine/CEventMgr.h>
+#include <Engine/CPhysXMgr.h>
 #include "CPlayerScript.h"
 #include "commdlg.h"
 #include <Engine/CPhysXMgr.h>
@@ -34,6 +35,8 @@ int CLevelSaveLoadInScript::Play(const wstring& _LevelPath, CLevel* _Level)
     // 레벨 이름 저장
     SaveWString(_Level->GetName(), pFile);
 
+    int level_type = _Level->GetLevelType();
+    fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -82,6 +85,9 @@ CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _sta
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
 
+    int level_type = 0;
+    fread(&level_type, sizeof(int), 1, pFile);
+    NewLevel->SetLevelType(level_type);
 
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
@@ -148,6 +154,8 @@ int CLevelSaveLoadInScript::SaveLevel(CLevel* _Level)
     // 레벨 이름 저장
     SaveWString(_Level->GetName(), pFile);
 
+    int level_type = _Level->GetLevelType();
+    fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -265,6 +273,9 @@ CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _state)
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
 
+    int level_type = 0;
+    fread(&level_type, sizeof(int), 1, pFile);
+    NewLevel->SetLevelType(level_type);
 
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
@@ -363,7 +374,7 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
             Component = new CRigidbody;
             break;
         }
-        
+
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
 
@@ -466,7 +477,6 @@ void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int ind, Vec3 _v
         newPrefab->SetLifeSpan(time);
     fclose(pFile);
 }
-
 CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
@@ -485,7 +495,6 @@ CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath,
     fclose(pFile);
     return newPrefab;
 }
-
 int CLevelSaveLoadInScript::GetDigitCount(int Damage)
 {
     int count = 0;

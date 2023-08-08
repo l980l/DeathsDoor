@@ -10,6 +10,7 @@ class CFenseScript :
     float    m_fMoveDistance;
 
 public:
+    void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
     virtual void begin() override;
     virtual void tick() override;
 
@@ -20,6 +21,6 @@ public:
 public:
     CFenseScript();
     ~CFenseScript();
-
+    friend class CSpawnMgr;
 };
 
