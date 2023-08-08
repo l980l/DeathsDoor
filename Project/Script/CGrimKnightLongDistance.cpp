@@ -20,7 +20,7 @@ void CGrimKnightLongDistance::Enter()
 	
 	//Ghost prefab »ý¼º
 	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"prefab\\Ghost.prefab", 5, GetOwner()->Transform()->GetWorldPos(), 5.f);
+	//script.SpawnPrefab(L"prefab\\Ghost.prefab", 5, GetOwner()->Transform()->GetWorldPos(), 5.f);
 }
 
 void CGrimKnightLongDistance::Exit()

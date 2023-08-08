@@ -63,25 +63,24 @@ void CreateTestLevel()
 	CGameObject* Knight = nullptr;
 	CGameObject* GKnight = nullptr;
 
-	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
-	GKnight = pMeshData->Instantiate();
-	GKnight->SetName(L"GrimKnight");
-	GKnight->AddComponent(new CGrimKnightScript);
-	GKnight->AddComponent(new CStateScript);
-	GKnight->AddComponent(new CCollider3D);
-	GKnight->AddComponent(new CRigidbody);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Fence.fbx");
+	//GKnight = pMeshData->Instantiate();
+	//GKnight->SetName(L"Fence");
+	//GKnight->AddComponent(new CFenseScript);
+	//GKnight->AddComponent(new CCollider3D);
+	////GKnight->AddComponent(new CRigidbody);
 
-	GKnight->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
-	GKnight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//GKnight->Transform()->SetRelativeScale(Vec3(0.2f, 0.2f, 0.2f));
+	//GKnight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 
-	GKnight->MeshRender()->SetDynamicShadow(true);
-	GKnight->MeshRender()->SetFrustumCheck(false);
+	//GKnight->MeshRender()->SetDynamicShadow(true);
+	//GKnight->MeshRender()->SetFrustumCheck(false);
 
-	GKnight->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	GKnight->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
-	GKnight->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
-
-	SpawnGameObject(GKnight, Vec3(2500.f, 500.f, 2500.f), (int)LAYER::MONSTER);*/
+	//GKnight->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	//GKnight->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	//GKnight->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
+	//
+	//SpawnGameObject(GKnight, Vec3(2500.f, 500.f, 2500.f), (int)LAYER::ITEM);
 
 
 
