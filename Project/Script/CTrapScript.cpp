@@ -89,9 +89,9 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 
 				CGameObject* door1 = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(5811.f, 550.f, 6159.f));
 				door1->Transform()->SetRelativeScale(Vec3(0.4f, 0.4f, 0.4f));
-				Vec3 rot = (Vec3(270.f, 89.f, 0.f) / 180.f) * XM_PI;
+				Vec3 rot1 = (Vec3(270.f, 89.f, 0.f) / 180.f) * XM_PI;
 				door1->SetName(L"Fence1");
-				door1->Transform()->SetRelativeRot(rot);
+				door1->Transform()->SetRelativeRot(rot1);
 				door1->AddComponent(new CRigidbody);
 				door1->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 				door1->MeshRender()->SetDynamicShadow(true);
