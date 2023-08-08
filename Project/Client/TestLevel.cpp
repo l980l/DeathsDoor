@@ -158,7 +158,7 @@ void CreateTestLevel()
 	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
 	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	CGameObject* pDetectRange = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab//Lurker.prefab", (int)LAYER::MONSTER, Vec3(50000.f));
+	CGameObject* pDetectRange = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab//Grunt.prefab", (int)LAYER::MONSTER, Vec3(0.f));
 	//pObject->AddChild(pDetectRange);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");

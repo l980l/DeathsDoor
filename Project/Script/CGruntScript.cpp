@@ -103,12 +103,6 @@ void CGruntScript::tick()
 
 void CGruntScript::BeginOverlap(CCollider3D* _Other)
 {
-	// 벽에 부딪힌다면 밀어내기
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(true);
-	}
-
 	// PlayerProjectile Layer의 물체와 충돌한 경우.
 	if (_Other->GetOwner()->GetLayerIndex() == 4)
 	{
@@ -129,10 +123,6 @@ void CGruntScript::OnOverlap(CCollider3D* _Other)
 
 void CGruntScript::EndOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(false);
-	}
 }
 
 void CGruntScript::SaveToLevelFile(FILE* _File)

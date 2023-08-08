@@ -89,12 +89,6 @@ void CCrowBossScript::tick()
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)
 {
-	// 벽에 부딪힌다면 밀어내기
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(true);
-	}
-
 	// HP가 0 이하면 사망.
 	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
 	{
@@ -109,10 +103,6 @@ void CCrowBossScript::OnOverlap(CCollider3D* _Other)
 
 void CCrowBossScript::EndOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(false);
-	}
 }
 
 void CCrowBossScript::SaveToLevelFile(FILE* _File)

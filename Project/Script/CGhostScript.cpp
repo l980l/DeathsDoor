@@ -35,9 +35,6 @@ void CGhostScript::begin()
 		m_pStateScript->ChangeState(L"Trace");
 	}
 
-	GetOwner()->Rigidbody()->SetMass(1.f);
-	GetOwner()->Rigidbody()->SetFriction(1.f);
-	GetOwner()->Rigidbody()->SetFrictionScale(1.f);
 	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 
 	// 초기 스탯 설정.
