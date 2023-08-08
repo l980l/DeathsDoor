@@ -273,6 +273,40 @@ void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
     assert(nullptr);
 }
 
+void CPhysXMgr::RelaaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
+{
+    vector<CGameObject*>::iterator Objiter = m_vecDynamicObject.begin();
+    vector<CGameObject*>::iterator Objiter_end = m_vecDynamicObject.end();
+    int a = 0;
+    for (; Objiter != Objiter_end; ++Objiter)
+    {
+        CGameObject* Obj = *Objiter;
+        if (Obj == _pObject)
+        {
+            m_vecDynamicObject.erase(Objiter);
+            a = 1;
+        }
+    }
+
+    if (0 == a)
+        assert(nullptr);
+
+    vector<physx::PxRigidDynamic*>::iterator Dynamiciter = m_vecDynamicActor.begin();
+    vector<physx::PxRigidDynamic*>::iterator Dynamiciter_end = m_vecDynamicActor.end();
+    for (; Dynamiciter != Dynamiciter_end; ++Dynamiciter)
+    {
+        physx::PxRigidDynamic* Dynamic = *Dynamiciter;
+        if (*Dynamiciter == _pDynamic)
+        {
+            m_vecDynamicActor.erase(Dynamiciter);
+            m_Scene->removeActor(*_pDynamic);
+            return;
+        }
+    }
+    // 아무것도 삭제하지 못했다면 assert
+    assert(nullptr);
+}
+
 PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
 {
     // 평면의 방정식을 이용한 전체 맵에 적용되는 평면 생성
