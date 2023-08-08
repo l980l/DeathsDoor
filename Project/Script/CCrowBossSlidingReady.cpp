@@ -20,6 +20,7 @@ void CCrowBossSlidingReady::tick()
 	{
 		if (GetOwner()->Animator3D()->IsFinish())
 		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"Sliding");
 		}
 	}
@@ -28,6 +29,7 @@ void CCrowBossSlidingReady::tick()
 	{
 		if (GetOwner()->Animator3D()->IsFinish())
 		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"Sliding");
 			m_iSlidingCount = 0;
 		}

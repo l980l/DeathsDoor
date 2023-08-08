@@ -107,7 +107,7 @@ void CreateTestLevel()
 	pPlayer->MeshRender()->SetDynamicShadow(true);
 	pPlayer->MeshRender()->SetFrustumCheck(false);
 	
-	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
 	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
 	
@@ -158,7 +158,7 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Grunt");
 	pObject->AddComponent(new CCollider3D);
@@ -175,26 +175,7 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Grunt1");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CGruntScript);
-	pObject->AddComponent(new CStateScript);
-
-	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2200.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
 
 	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bazooka.fbx");
 	pObject = pMeshData->Instantiate();

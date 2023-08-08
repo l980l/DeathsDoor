@@ -5,6 +5,7 @@ class CCrowBossRun :
 {
 private:
     int     m_iTime;
+    Vec3   m_Dir;
 
 public:
     virtual void tick() override;

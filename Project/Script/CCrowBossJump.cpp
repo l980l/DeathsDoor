@@ -12,8 +12,8 @@ void CCrowBossJump::tick()
 {
 	Vec3 Velocity = m_Dir;
 	float fSpeed = GetOwnerScript()->GetStat().Speed;
-	Velocity *= fSpeed;
-	Velocity.y = 100.f;
+	Velocity *= fSpeed * 30.f * DT;
+	Velocity.y = fSpeed * 30.f * DT;
 
 	GetOwner()->Rigidbody()->AddVelocity(Velocity);
 
@@ -26,6 +26,7 @@ void CCrowBossJump::tick()
 
 void CCrowBossJump::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 CCrowBossJump::CCrowBossJump() 
