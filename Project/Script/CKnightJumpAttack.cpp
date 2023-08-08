@@ -5,12 +5,6 @@
 
 void CKnightJumpAttack::tick()
 {
-	//playerPos·Î ÀÌµ¿
-	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	Vec3 playerPos = player->Transform()->GetWorldPos();
-	Vec3 dir = (playerPos - GetOwner()->Transform()->GetWorldPos()).Normalize();
-	float distance = GetDistance(playerPos, GetOwner()->Transform()->GetWorldPos());
-	GetOwner()->Rigidbody()->AddVelocity(dir * distance);
 
 	if (GetOwner()->Animator3D()->IsFinish())
 	{

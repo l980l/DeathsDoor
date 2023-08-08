@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "RigidbodyUI.h"
-
+#include <Engine/components.h>
 #include <Engine\CRigidbody.h>
+#include <Engine/CPhysXMgr.h>
 
 RigidbodyUI::RigidbodyUI()
-	: ComponentUI("##Rigidbody", COMPONENT_TYPE::RIGIDBODY)
+	: ComponentUI("##Rigidbody", COMPONENT_TYPE::RIGIDBODY),
+	m_IsStaticCube(false),
+	m_IsSphere(false)
 {
 	SetName("Rigidbody");
 }
@@ -17,6 +20,23 @@ int RigidbodyUI::render_update()
 {
 	if (FALSE == ComponentUI::render_update())
 		return FALSE;
+
+	ImGui::Text("PhysX Sphere");
+	bool isChecked = false;
+	if (ImGui::Checkbox("##Sphere", &m_IsSphere) && isChecked == false)
+	{
+		Vec3 pos = GetTarget()->Transform()->GetWorldPos();
+		CPhysXMgr::GetInst()->CreateSphere(pos, 20.f, GetTarget());
+		isChecked = true;
+	}
+
+	ImGui::Text("PhysX Static Cube");
+	if (ImGui::Checkbox("##isStaticCube", &m_IsStaticCube) && isChecked == false)
+	{
+		Vec3 pos = GetTarget()->Transform()->GetWorldPos();
+		CPhysXMgr::GetInst()->CreateStaticCube(pos, Vec3(100.f, 100.f, 100.f), GetTarget());
+		isChecked = true;
+	}
 
 	//float fMass = GetTarget()->Rigidbody()->GetMass();
 	//float fFriction = GetTarget()->Rigidbody()->GetFriction();
