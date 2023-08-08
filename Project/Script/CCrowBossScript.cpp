@@ -10,6 +10,7 @@ CCrowBossScript::CCrowBossScript() :
 	, m_fPlayerDistance(0.f)
 	, m_bStarePlayer(false)
 {
+	AddScriptParam(SCRIPT_PARAM::INT, &m_bDetect, "Detect");
 }
 
 CCrowBossScript::CCrowBossScript(const CCrowBossScript& _Other) :

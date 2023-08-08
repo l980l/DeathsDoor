@@ -76,6 +76,7 @@ VS_OUT VS_Std3D_Deferred(VS_IN _in)
     return output;
 }
 
+
 VS_OUT VS_Std3D_Deferred_Inst(VTX_IN_INST _in)
 {
     VS_OUT output = (VS_OUT)0.f;
@@ -87,11 +88,11 @@ VS_OUT VS_Std3D_Deferred_Inst(VTX_IN_INST _in)
 
     output.vPosition = mul(float4(_in.vPos, 1.f), _in.matWVP);
     output.vUV = _in.vUV;
-    
-    output.vViewPos         =           mul(float4(_in.vPos,      1.f), g_matWV);
-    output.vViewTangent     = normalize(mul(float4(_in.vTangent,  0.f), g_matWV));
-    output.vViewNormal      = normalize(mul(float4(_in.vNormal,   0.f), g_matWV));
-    output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), g_matWV));
+
+    output.vViewPos         =           mul(float4(_in.vPos     , 1.f), _in.matWV);
+    output.vViewTangent     = normalize(mul(float4(_in.vTangent , 0.f), _in.matWV));
+    output.vViewNormal      = normalize(mul(float4(_in.vNormal  , 0.f), _in.matWV));
+    output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), _in.matWV));
 
     return output;
 }
@@ -275,7 +276,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
     
     else
     {
-        output.vColor = float4(vObjectColor);
+        output.vColor = float4(vObjectColor.xyz, 1.f);
         output.vNormal = float4(vViewNormal.xyz, 1.f);
         output.vPosition = float4(_in.vViewPos.xyz, 1.f);
         output.vData = float4(0.f, 0.f, 0.f, 1.f);

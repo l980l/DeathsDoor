@@ -28,6 +28,7 @@
 #include <Script/CNaviTestScript.h>
 #include <Script/CMainLightScript.h>
 #include <Script/CWaterCameraScript.h>
+#include <Script/CCrowBossScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -157,7 +158,7 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
 
-	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Grunt");
 	pObject->AddComponent(new CCollider3D);
@@ -174,9 +175,28 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bazooka.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Grunt1");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CGruntScript);
+	pObject->AddComponent(new CStateScript);
+
+	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2200.f, 500.f, 3000.f), 20.f, pObject);
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bazooka.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Bazooka");
 	pObject->AddComponent(new CCollider3D);
@@ -194,7 +214,27 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
+
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowBoss.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"CrowBoss");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CCrowBossScript);
+	pObject->AddComponent(new CStateScript);
+
+	pObject->Transform()->SetRelativeScale(3.f, 3.f, 3.f);
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(162.f, 270.f, 162.f));
+	pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 55.f, 97.f));
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
 
 	//// GasGrenade 
 	//CGameObject* pGasGrenade = new CGameObject;
