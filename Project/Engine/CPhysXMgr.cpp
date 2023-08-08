@@ -16,19 +16,26 @@ CPhysXMgr::CPhysXMgr()
 CPhysXMgr::~CPhysXMgr()
 {
     // Cleanup
-    m_Dispatcher->release();
-    m_Scene->release();
-    m_Material->release();
-    m_Physics->release();
+    if(m_Dispatcher != nullptr)
+        m_Dispatcher->release();
+    if (m_Scene != nullptr)
+        m_Scene->release();
+    if (m_Material != nullptr)
+        m_Material->release();
+    if (m_Physics != nullptr)
+        m_Physics->release();
 
     if (m_Pvd)
     {
         m_Pvd->release();
         m_Pvd = nullptr;
     }
-    m_Cooking->release();
-    m_Transport->release();
-    m_Foundation->release();
+    if (m_Cooking != nullptr)
+        m_Cooking->release();
+    if (m_Transport != nullptr)
+        m_Transport->release();
+    if (m_Foundation != nullptr)
+        m_Foundation->release();
 }
 
 void CPhysXMgr::init()
@@ -273,8 +280,11 @@ void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
     assert(nullptr);
 }
 
-void CPhysXMgr::RelaaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
+void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
 {
+    if (m_vecDynamicObject.empty() && m_vecDynamicActor.empty())
+        return;
+
     vector<CGameObject*>::iterator Objiter = m_vecDynamicObject.begin();
     vector<CGameObject*>::iterator Objiter_end = m_vecDynamicObject.end();
     int a = 0;

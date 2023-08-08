@@ -19,9 +19,8 @@ CPlyAttack::CPlyAttack()
 	, m_vMouseDir{}
 	, m_fSlashStartTime(-3.f)
 {
-	CLevelSaveLoadInScript script;
-	m_pSlash[(UINT)SLASH::RIGHT] = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
-	m_pSlash[(UINT)SLASH::LEFT] = script.SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::RIGHT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::LEFT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 
 	// Emissive·Î
 	for (UINT i = 0; i < (UINT)SLASH::END; ++i)
@@ -178,12 +177,12 @@ void CPlyAttack::SetSlashScale(bool _bOn, SLASH _tDir)
 		case SLASH::LEFT:
 			m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(-m_fRange));
 			m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * (10.f / 18.f), m_fAttackDir + XM_2PI, 0.f);
-			m_pSlash[(UINT)SLASH::LEFT]->Collider3D()->SetOffsetScale(Vec3(m_fRange, m_fRange / 2.f, m_fRange));
+			m_pSlash[(UINT)SLASH::LEFT]->Collider3D()->SetOffsetScale(Vec3(m_fRange * 5.2f));
 			break;
 		case SLASH::RIGHT:
 			m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange / 100.f));
 			m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(-XM_PI / 18.f, m_fAttackDir + XM_PI, 0.f);
-			m_pSlash[(UINT)SLASH::RIGHT]->Collider3D()->SetOffsetScale(Vec3(m_fRange, m_fRange / 2.f, m_fRange));
+			m_pSlash[(UINT)SLASH::RIGHT]->Collider3D()->SetOffsetScale(Vec3(m_fRange * 5.2f));
 			break;
 		}
 	}

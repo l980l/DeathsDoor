@@ -29,6 +29,7 @@
 #include <Script/CMainLightScript.h>
 #include <Script/CWaterCameraScript.h>
 #include <Script/CCrowBossScript.h>
+#include <Script/CSlashScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -107,8 +108,8 @@ void CreateTestLevel()
 	pPlayer->MeshRender()->SetDynamicShadow(true);
 	pPlayer->MeshRender()->SetFrustumCheck(false);
 	
-	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 3.f));
+	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
 	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
 	
 	Stat PlayerStat;
@@ -126,7 +127,6 @@ void CreateTestLevel()
 	pSword->SetName(L"Sword");
 	pSword->AddComponent(new CPlayerWeaponScript);
 	pSword->AddComponent(new CStateScript);
-	pSword->AddComponent(new CCollider3D);
 	pSword->MeshRender()->SetDynamicShadow(true);
 	pSword->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pSword);
@@ -139,7 +139,7 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Lurker");
 	pObject->AddComponent(new CCollider3D);
@@ -155,46 +155,49 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
 
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);*/
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Grunt");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CGruntScript);
-	pObject->AddComponent(new CStateScript);
-
-	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Grunt1");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CGruntScript);
-	pObject->AddComponent(new CStateScript);
+	//CGameObject* pDetectRange = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab//MonsterDetectRange.prefab", (int)LAYER::MONSTER, Vec3(0.f));
+	//pObject->AddChild(pDetectRange);
 
-	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2200.f, 500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Grunt");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CGruntScript);
+	//pObject->AddComponent(new CStateScript);
+	//
+	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Grunt1");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CGruntScript);
+	//pObject->AddComponent(new CStateScript);
+	//
+	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2200.f, 500.f, 3000.f), 20.f, pObject);
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
 	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bazooka.fbx");
 	pObject = pMeshData->Instantiate();
@@ -251,16 +254,16 @@ void CreateTestLevel()
 	//SpawnGameObject(pGasGrenade, Vec3(0.f, 500.f, 500.f), (int)LAYER::MONSTERPROJECTILE);
 
 	// LoadingUI 
-	CGameObject* pLoadingUI = new CGameObject;
-	pLoadingUI->SetName(L"LoadingUI");
-	pLoadingUI->AddComponent(new CTransform);
-	pLoadingUI->AddComponent(new CMeshRender);
-	pLoadingUI->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FlickerMtrl"), 0);
-	pLoadingUI->Transform()->SetRelativeScale(300.f, 300.f, 0.f);
-	pLoadingUI->MeshRender()->SetFrustumCheck(false);
-	pLoadingUI->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture/Deaths_Door/dd_icon_loading.png").Get());
-	SpawnGameObject(pLoadingUI, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//CGameObject* pLoadingUI = new CGameObject;
+	//pLoadingUI->SetName(L"LoadingUI");
+	//pLoadingUI->AddComponent(new CTransform);
+	//pLoadingUI->AddComponent(new CMeshRender);
+	//pLoadingUI->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FlickerMtrl"), 0);
+	//pLoadingUI->Transform()->SetRelativeScale(300.f, 300.f, 0.f);
+	//pLoadingUI->MeshRender()->SetFrustumCheck(false);
+	//pLoadingUI->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture/Deaths_Door/dd_icon_loading.png").Get());
+	//SpawnGameObject(pLoadingUI, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 
 	// Wind 
@@ -275,32 +278,32 @@ void CreateTestLevel()
 	SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 
 	// Water 
-	CGameObject* pWater = new CGameObject;
-	pWater->SetName(L"Water");
-	pWater->AddComponent(new CTransform);
-	pWater->AddComponent(new CMeshRender);
-	pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-	pWater->Transform()->SetRelativeScale(8000.f, 8000.f, 8000.f);
-	pWater->MeshRender()->SetFrustumCheck(false);
-
-	SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
-
-	// Water Camera Object 생성
-	CGameObject* pWaterCam = new CGameObject;
-	pWaterCam->SetName(L"WaterCamera");
-
-	pWaterCam->AddComponent(new CTransform);
-	pWaterCam->AddComponent(new CCamera);
-	pWaterCam->AddComponent(new CWaterCameraScript);
-
-	pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pWaterCam->Camera()->SetCameraIndex(1);
-	pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-	pWaterCam->Camera()->SetWaterCamera(true);
-
-	SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
+	//CGameObject* pWater = new CGameObject;
+	//pWater->SetName(L"Water");
+	//pWater->AddComponent(new CTransform);
+	//pWater->AddComponent(new CMeshRender);
+	//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+	//pWater->Transform()->SetRelativeScale(8000.f, 8000.f, 8000.f);
+	//pWater->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+	//
+	//// Water Camera Object 생성
+	//CGameObject* pWaterCam = new CGameObject;
+	//pWaterCam->SetName(L"WaterCamera");
+	//
+	//pWaterCam->AddComponent(new CTransform);
+	//pWaterCam->AddComponent(new CCamera);
+	//pWaterCam->AddComponent(new CWaterCameraScript);
+	//
+	//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pWaterCam->Camera()->SetCameraIndex(1);
+	//pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+	//pWaterCam->Camera()->SetWaterCamera(true);
+	//
+	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
@@ -316,12 +319,30 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetFrustumCheck(false);
 	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_L.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Slash_L");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CSlashScript);
+	//
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_R.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Slash_R");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CSlashScript);
+	//
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+
 	// 충돌 시킬 레이어 짝 지정
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 }

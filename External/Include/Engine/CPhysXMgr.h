@@ -69,7 +69,7 @@ public:
 
     void SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos);
     void ReleaseStatic(physx::PxRigidStatic* _pStatic);
-    void RelaaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject);
+    void ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject);
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
     void AddDynamicActor(CRigidbody* _pRigidbody);
