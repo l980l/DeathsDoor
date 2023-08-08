@@ -34,6 +34,7 @@ public:
     UINT GetAttackCount() { return m_iAttackCount; }
     void CalcDir();
     void Slash();
+    void SetSlashScale(bool _bOn, SLASH _tDir);
 
     CLONE(CPlyAttack);
 

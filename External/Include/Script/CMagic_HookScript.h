@@ -27,7 +27,7 @@ public:
     virtual void tick() override;
 
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
-    void SetAttackDir(Vec3 _vDir) {m_vAttackDir = _vDir.Normalize();}
+    void SetAttackDir(Vec3 _vDir) {m_vAttackDir;}
     void SetStartPos(Vec3 _vStartPos) { m_vStartPos = _vStartPos; }
     void Active(bool _bActive);
 

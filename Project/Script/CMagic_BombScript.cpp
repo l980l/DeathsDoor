@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CMagic_BombScript.h"
+#include "CStateScript.h"
 
 CMagic_BombScript::CMagic_BombScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_BOMBSCRIPT)
@@ -12,6 +13,10 @@ CMagic_BombScript::~CMagic_BombScript()
 
 void CMagic_BombScript::begin()
 {
+	int a = 1;
+	Vec4 Color = Vec4(0.f, 0.f, 1.f, 1.f);
+	MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
+	MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
 }
 
 void CMagic_BombScript::tick()

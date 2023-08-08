@@ -79,13 +79,12 @@ void CPlyMagic_Hook::tick()
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			m_vAttackDir.Normalize();
 			m_pHook->GetScript<CMagic_HookScript>()->SetStartPos(vSpawnPos);
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
 			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(m_vAttackDir);
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
 
-			m_pHook->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vAttackDir.x, m_vAttackDir.y, m_vAttackDir.z));
+			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 		}
 	}
 }
