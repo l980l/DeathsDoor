@@ -6,7 +6,7 @@
 void CBazookaGasGrenadeScript::begin()
 {
 	Vec3 Velocity = m_ShotDir;
-	float fSpeed = 50.f;
+	float fSpeed = 100.f;
 	Velocity *= fSpeed;
 
 	GetOwner()->Rigidbody()->SetVelocity(Velocity);
