@@ -10,17 +10,15 @@
 
 CCollisionMgr::CCollisionMgr()
     : m_matrix{}
+	, m_mapColID{}
 {
 
 }
-
 
 CCollisionMgr::~CCollisionMgr()
 {
 
 }
-
-
 
 void CCollisionMgr::tick()
 {
@@ -236,23 +234,26 @@ bool CCollisionMgr::CollisionBtw2DCollider(CCollider2D* _pLeft, CCollider2D* _pR
 
 bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pRight)
 {
-	if(_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::CUBE 
-		|| _pRight->GetCollider3DType() == COLLIDER3D_TYPE::CUBE)
-	{
-		Vec3 arrLocal[8] =
-		{
-			Vec3(-0.5f, 0.5f, -0.5f),
-			Vec3(0.5f, 0.5f, -0.5f),
-			Vec3(0.5f, -0.5f, -0.5f),
-			Vec3(-0.5f, -0.5f, -0.5f),
-			Vec3(-0.5f, 0.5f, 0.5f),
-			Vec3(0.5f, 0.5f, 0.5f),
-			Vec3(0.5f, -0.5f, 0.5f),
-			Vec3(-0.5f, -0.5f, 0.5f),
-		};
+	if (_pLeft->GetColliderWorldMat()._11 <= 0.f || _pRight->GetColliderWorldMat()._11 <= 0.f)
+		return false;
 
-		if(_pLeft->GetCollider3DType() == _pRight->GetCollider3DType())
-		{			
+	Vec3 arrLocal[8] =
+	{
+		Vec3(-0.5f,  0.5f, -0.5f),
+		Vec3( 0.5f,  0.5f, -0.5f),
+		Vec3( 0.5f, -0.5f, -0.5f),
+		Vec3(-0.5f, -0.5f, -0.5f),
+		Vec3(-0.5f,  0.5f,  0.5f),
+		Vec3( 0.5f,  0.5f,  0.5f),
+		Vec3( 0.5f, -0.5f,  0.5f),
+		Vec3(-0.5f, -0.5f,  0.5f),
+	};
+
+	if (_pLeft->GetCollider3DType() == _pRight->GetCollider3DType())
+	{
+		// 둘 다 Cube인 경우
+		if (_pLeft->GetCollider3DType() == COLLIDER3D_TYPE::CUBE)
+		{
 			// 두 충돌체의 각 축 표면벡터 3개씩 구함
 			Vec3 arrProj[6] = {};
 
@@ -288,50 +289,51 @@ bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pR
 					return false;
 			}
 		}
-		else
-		{
-			Vec3 arrProj[3] = {};
-
-			arrProj[0] = XMVector3TransformCoord(arrLocal[1], _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(arrLocal[0], _pLeft->GetColliderWorldMat());
-			arrProj[1] = XMVector3TransformCoord(arrLocal[3], _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(arrLocal[0], _pLeft->GetColliderWorldMat());
-			arrProj[2] = XMVector3TransformCoord(arrLocal[4], _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(arrLocal[0], _pLeft->GetColliderWorldMat());
-
+		// 둘 다 Sphere인 경우
+		else		{
 			// 두 충돌체의 중심점을 구함
 			Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat());
 
-			// 분리축 테스트
-			for (int i = 0; i < 3; ++i)
-			{
-				Vec3 vProj = arrProj[i];
-				vProj.Normalize();
+			// 두 물체의 x축 Scale을 가져와 Radius로 사용
+			float fRadius = (_pLeft->GetColliderWorldMat()._11 + _pRight->GetColliderWorldMat()._11) / 2.f;
+			float fCenter = vCenter.Length();
 
-				// 4개의 표면백터를 지정된 투영축으로 투영시킨 거리의 총합 / 2
-				float fProjDist = 0.f;
-				for (int j = 0; j < 3; ++j)
-				{
-					fProjDist += fabsf(arrProj[j].Dot(vProj));
-				}
-
-				float fCenter = fabsf(vCenter.Dot(vProj));
-
-				if (fProjDist < fCenter)
-					return false;
-			}
+			if (fRadius < fCenter)
+				return false;
 		}
 	}
-
-	// Sphere인 경우
+	// 각각 Cube, Sphere인 경우
 	else
 	{
+		Vec3 arrProj[3] = {};
+
+		arrProj[0] = XMVector3TransformCoord(arrLocal[1], _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(arrLocal[0], _pLeft->GetColliderWorldMat());
+		arrProj[1] = XMVector3TransformCoord(arrLocal[3], _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(arrLocal[0], _pLeft->GetColliderWorldMat());
+		arrProj[2] = XMVector3TransformCoord(arrLocal[4], _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(arrLocal[0], _pLeft->GetColliderWorldMat());
+
 		// 두 충돌체의 중심점을 구함
 		Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat());
-		// 두 물체의 x축 Scale을 가져와 Radius로 사용
-		float fRadius = (_pLeft->GetColliderWorldMat()._11 + _pRight->GetColliderWorldMat()._11) / 2.f;
 
-		if (vCenter.Length() > fRadius)
-			return false;		
+		// 분리축 테스트
+		for (int i = 0; i < 3; ++i)
+		{
+			Vec3 vProj = arrProj[i];
+			vProj.Normalize();
+
+			// 4개의 표면백터를 지정된 투영축으로 투영시킨 거리의 총합 / 2
+			float fProjDist = 0.f;
+			for (int j = 0; j < 3; ++j)
+			{
+				fProjDist += fabsf(arrProj[j].Dot(vProj));
+			}
+
+			float fCenter = fabsf(vCenter.Dot(vProj));
+
+			if (fProjDist < fCenter)
+				return false;
+		}
+
 	}
-
 
 	return true;
 }

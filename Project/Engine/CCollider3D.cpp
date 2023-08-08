@@ -7,8 +7,11 @@
 
 CCollider3D::CCollider3D()
 	: CComponent(COMPONENT_TYPE::COLLIDER3D)
-	, m_Shape(COLLIDER3D_TYPE::CUBE)
+	, m_vOffsetPos{}
+	, m_vOffsetScale{}
 	, m_bAbsolute(false)
+	, m_Shape(COLLIDER3D_TYPE::CUBE)
+	, m_matCollider3D{}
 	, m_iCollisionCount(0)
 	, m_bDebugShape(false)
 {

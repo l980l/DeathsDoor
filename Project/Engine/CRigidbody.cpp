@@ -15,8 +15,6 @@ CRigidbody::CRigidbody()
 
 CRigidbody::~CRigidbody()
 {
-    //if(nullptr != m_PxRigidbody)
-    //    CPhysXMgr::GetInst()->ReleaseDynamic(m_PxRigidbody, GetOwner());
 }
 
 void CRigidbody::SetRigidbody(void* _pRigidbody)

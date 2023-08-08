@@ -19,8 +19,8 @@ CPlyAttack::CPlyAttack()
 	, m_vMouseDir{}
 	, m_fSlashStartTime(-3.f)
 {
-	m_pSlash[(UINT)SLASH::RIGHT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
-	m_pSlash[(UINT)SLASH::LEFT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::RIGHT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//Slash_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::LEFT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//Slash_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 
 	// Emissive·Î
 	for (UINT i = 0; i < (UINT)SLASH::END; ++i)

@@ -50,6 +50,7 @@ public:
 public:
     void AddComponent(CComponent* _Component);
     void AddChild(CGameObject* _Object);
+    void AddChild(CGameObject* _Object, int _iLayer);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChild() { return m_vecChild; }
@@ -98,6 +99,7 @@ public:
 private:
     void DisconnectFromParent();
     void ChangeToChildType();
+    void ChangeToChildType(int _iLayer);
     void AddParentList();
 
 

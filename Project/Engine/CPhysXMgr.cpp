@@ -128,24 +128,32 @@ void CPhysXMgr::tick()
 void CPhysXMgr::finaltick()
 {
     // 매 finaltick마다 가지고 있는 동적 물체들의 IsDead 여부를 확인하고 맞다면 Scean에서 삭제함.
-    vector<CGameObject*>::iterator Objiter = m_vecDynamicObject.begin();
-    for (; Objiter != m_vecDynamicObject.end(); ++Objiter)
+    auto Objiter = m_vecDynamicObject.begin();
+    auto Objiter_end = m_vecDynamicObject.end();
+    for (; Objiter != Objiter_end;)
     {
         CGameObject* obj = *Objiter;
         if(obj->IsDead())
         {
-            vector<physx::PxRigidDynamic*>::iterator Dynamiciter = m_vecDynamicActor.begin();
-            for (; Dynamiciter != m_vecDynamicActor.end(); ++Dynamiciter)
+            auto Dynamiciter = m_vecDynamicActor.begin();
+            auto Dynamiciter_end = m_vecDynamicActor.end();
+            for (; Dynamiciter != Dynamiciter_end; )
             {
                 physx::PxRigidDynamic*  actor = *Dynamiciter;
                 if (obj->Rigidbody()->GetRigidbody() == actor)
                 {
-                    m_vecDynamicActor.erase(Dynamiciter);
+                    Dynamiciter = m_vecDynamicActor.erase(Dynamiciter);
                     m_Scene->removeActor(*actor);
+                    Dynamiciter_end = m_vecDynamicActor.end();          
+                    continue;
                 }
+                ++Dynamiciter;
             }
-            m_vecDynamicObject.erase(Objiter);
+            Objiter = m_vecDynamicObject.erase(Objiter);
+            Objiter_end = m_vecDynamicObject.end();
+            continue;
         }
+        ++Objiter;
     }
 }
 
