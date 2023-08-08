@@ -342,6 +342,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPower.h" />
     <ClInclude Include="CrowBossStates.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSlashScript.h" />
     <ClInclude Include="CSpawnDoorScript.h" />
     <ClInclude Include="CSpawnMgr.h" />
     <ClInclude Include="CSpeed.h" />
@@ -520,6 +521,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CPower.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSlashScript.cpp" />
     <ClCompile Include="CSpawnDoorScript.cpp" />
     <ClCompile Include="CSpawnMgr.cpp" />
     <ClCompile Include="CSpeed.cpp" />

@@ -16,19 +16,26 @@ CPhysXMgr::CPhysXMgr()
 CPhysXMgr::~CPhysXMgr()
 {
     // Cleanup
-    m_Dispatcher->release();
-    m_Scene->release();
-    m_Material->release();
-    m_Physics->release();
+    if(m_Dispatcher != nullptr)
+        m_Dispatcher->release();
+    if (m_Scene != nullptr)
+        m_Scene->release();
+    if (m_Material != nullptr)
+        m_Material->release();
+    if (m_Physics != nullptr)
+        m_Physics->release();
 
     if (m_Pvd)
     {
         m_Pvd->release();
         m_Pvd = nullptr;
     }
-    m_Cooking->release();
-    m_Transport->release();
-    m_Foundation->release();
+    if (m_Cooking != nullptr)
+        m_Cooking->release();
+    if (m_Transport != nullptr)
+        m_Transport->release();
+    if (m_Foundation != nullptr)
+        m_Foundation->release();
 }
 
 void CPhysXMgr::init()
@@ -121,24 +128,32 @@ void CPhysXMgr::tick()
 void CPhysXMgr::finaltick()
 {
     // 매 finaltick마다 가지고 있는 동적 물체들의 IsDead 여부를 확인하고 맞다면 Scean에서 삭제함.
-    vector<CGameObject*>::iterator Objiter = m_vecDynamicObject.begin();
-    for (; Objiter != m_vecDynamicObject.end(); ++Objiter)
+    auto Objiter = m_vecDynamicObject.begin();
+    auto Objiter_end = m_vecDynamicObject.end();
+    for (; Objiter != Objiter_end;)
     {
         CGameObject* obj = *Objiter;
         if(obj->IsDead())
         {
-            vector<physx::PxRigidDynamic*>::iterator Dynamiciter = m_vecDynamicActor.begin();
-            for (; Dynamiciter != m_vecDynamicActor.end(); ++Dynamiciter)
+            auto Dynamiciter = m_vecDynamicActor.begin();
+            auto Dynamiciter_end = m_vecDynamicActor.end();
+            for (; Dynamiciter != Dynamiciter_end; )
             {
                 physx::PxRigidDynamic*  actor = *Dynamiciter;
                 if (obj->Rigidbody()->GetRigidbody() == actor)
                 {
-                    m_vecDynamicActor.erase(Dynamiciter);
+                    Dynamiciter = m_vecDynamicActor.erase(Dynamiciter);
                     m_Scene->removeActor(*actor);
+                    Dynamiciter_end = m_vecDynamicActor.end();          
+                    continue;
                 }
+                ++Dynamiciter;
             }
-            m_vecDynamicObject.erase(Objiter);
+            Objiter = m_vecDynamicObject.erase(Objiter);
+            Objiter_end = m_vecDynamicObject.end();
+            continue;
         }
+        ++Objiter;
     }
 }
 
@@ -266,6 +281,43 @@ void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
         {
             m_vecStaticActor.erase(iter);
             m_Scene->removeActor(*_pStatic);
+            return;
+        }
+    }
+    // 아무것도 삭제하지 못했다면 assert
+    assert(nullptr);
+}
+
+void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
+{
+    if (m_vecDynamicObject.empty() && m_vecDynamicActor.empty())
+        return;
+
+    vector<CGameObject*>::iterator Objiter = m_vecDynamicObject.begin();
+    vector<CGameObject*>::iterator Objiter_end = m_vecDynamicObject.end();
+    int a = 0;
+    for (; Objiter != Objiter_end; ++Objiter)
+    {
+        CGameObject* Obj = *Objiter;
+        if (Obj == _pObject)
+        {
+            m_vecDynamicObject.erase(Objiter);
+            a = 1;
+        }
+    }
+
+    if (0 == a)
+        assert(nullptr);
+
+    vector<physx::PxRigidDynamic*>::iterator Dynamiciter = m_vecDynamicActor.begin();
+    vector<physx::PxRigidDynamic*>::iterator Dynamiciter_end = m_vecDynamicActor.end();
+    for (; Dynamiciter != Dynamiciter_end; ++Dynamiciter)
+    {
+        physx::PxRigidDynamic* Dynamic = *Dynamiciter;
+        if (*Dynamiciter == _pDynamic)
+        {
+            m_vecDynamicActor.erase(Dynamiciter);
+            m_Scene->removeActor(*_pDynamic);
             return;
         }
     }

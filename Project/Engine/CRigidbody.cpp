@@ -7,6 +7,8 @@
 CRigidbody::CRigidbody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
 	, m_PxRigidbody(nullptr)
+    , m_PxShapeType{}
+    , m_vScale{}
     , m_vSpawnPos{}
 {
 }
