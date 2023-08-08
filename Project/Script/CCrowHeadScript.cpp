@@ -71,12 +71,6 @@ void CCrowHeadScript::tick()
 
 void CCrowHeadScript::BeginOverlap(CCollider3D* _Other)
 {
-	// 벽에 부딪힌다면 밀어내기
-	if ((int)LAYER::WALL == _Other->GetOwner()->GetLayerIndex())
-	{
-		Rigidbody()->SetGround(true);
-	}
-
 	// PlayerProjectile Layer의 물체와 충돌한 경우.
 	if (_Other->GetOwner()->GetLayerIndex() == 4)
 	{

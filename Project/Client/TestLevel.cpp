@@ -205,10 +205,10 @@ void CreateTestLevel()
 	pObject->AddComponent(new CCrowBossScript);
 	pObject->AddComponent(new CStateScript);
 
-	pObject->Transform()->SetRelativeScale(3.f, 3.f, 3.f);
+	pObject->Transform()->SetRelativeScale(1.f, 1.f, 1.f);
 	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(162.f, 270.f, 162.f));
+	pObject->Collider3D()->SetOffsetScale(Vec3(270.f, 270.f, 270.f));
 	pObject->Collider3D()->SetOffsetPos(Vec3(0.f, 55.f, 97.f));
 
 	pObject->MeshRender()->SetDynamicShadow(true);
@@ -283,6 +283,7 @@ void CreateTestLevel()
 
 	SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
+	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
 	pObject = pMeshData->Instantiate();
