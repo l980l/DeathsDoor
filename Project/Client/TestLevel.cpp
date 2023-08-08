@@ -196,19 +196,19 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	// GasGrenade 
-	CGameObject* pGasGrenade = new CGameObject;
-	pGasGrenade->SetName(L"GasGrenade");
-	pGasGrenade->AddComponent(new CCollider3D);
-	pGasGrenade->AddComponent(new CTransform);
-	pGasGrenade->AddComponent(new CRigidbody);
-	pGasGrenade->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
-	pGasGrenade->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pGasGrenade->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
-	pGasGrenade->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
+	//// GasGrenade 
+	//CGameObject* pGasGrenade = new CGameObject;
+	//pGasGrenade->SetName(L"GasGrenade");
+	//pGasGrenade->AddComponent(new CCollider3D);
+	//pGasGrenade->AddComponent(new CTransform);
+	//pGasGrenade->AddComponent(new CRigidbody);
+	//pGasGrenade->Transform()->SetRelativeScale(Vec3(80.f, 80.f, 80.f));
+	//pGasGrenade->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pGasGrenade->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	//pGasGrenade->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 0.f));
 
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 40.f, pGasGrenade);
-	SpawnGameObject(pGasGrenade, Vec3(0.f, 500.f, 500.f), (int)LAYER::MONSTERPROJECTILE);
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 40.f, pGasGrenade);
+	//SpawnGameObject(pGasGrenade, Vec3(0.f, 500.f, 500.f), (int)LAYER::MONSTERPROJECTILE);
 
 	// LoadingUI 
 	CGameObject* pLoadingUI = new CGameObject;

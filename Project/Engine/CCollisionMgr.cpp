@@ -319,6 +319,8 @@ bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pR
 			}
 		}
 	}
+
+	// Sphere인 경우
 	else
 	{
 		// 두 충돌체의 중심점을 구함
