@@ -158,7 +158,8 @@ void InspectorUI::init()
 
 void InspectorUI::tick()
 {
-	
+	if (m_pTargetObj && m_pTargetObj->IsDead())
+		SetTargetObject(nullptr);
 }
 
 int InspectorUI::render_update()

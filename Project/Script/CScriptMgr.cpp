@@ -48,6 +48,7 @@
 #include "CTrapScript.h"
 #include "CWallScript.h"
 #include "CWaterCameraScript.h"
+#include "CWaterScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -98,6 +99,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CTrapScript");
 	_vec.push_back(L"CWallScript");
 	_vec.push_back(L"CWaterCameraScript");
+	_vec.push_back(L"CWaterScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -196,6 +198,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CWallScript;
 	if (L"CWaterCameraScript" == _strScriptName)
 		return new CWaterCameraScript;
+	if (L"CWaterScript" == _strScriptName)
+		return new CWaterScript;
 	return nullptr;
 }
 
@@ -343,6 +347,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return new CWaterCameraScript;
+		break;
+	case (UINT)SCRIPT_TYPE::WATERSCRIPT:
+		return new CWaterScript;
 		break;
 	}
 	return nullptr;
@@ -538,6 +545,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return L"CWaterCameraScript";
+		break;
+
+	case SCRIPT_TYPE::WATERSCRIPT:
+		return L"CWaterScript";
 		break;
 
 	}

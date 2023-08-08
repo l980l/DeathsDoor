@@ -45,3 +45,4 @@ CStateScript
 CTrapScript
 CWallScript
 CWaterCameraScript
+CWaterScript

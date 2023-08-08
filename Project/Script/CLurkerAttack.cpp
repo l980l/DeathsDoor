@@ -8,8 +8,13 @@ void CLurkerAttack::Enter()
 
 	// 공격 방향은 처음에만 지정해야 함. 
 	m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
-	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
 	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+
+	// 공격 직전에는 무조건 플레이어를 바라보도록. 
+	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
+	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CLurkerScript>()->GetPlayerPos());
+	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 }
 
 void CLurkerAttack::tick()
