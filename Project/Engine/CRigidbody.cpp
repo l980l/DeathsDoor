@@ -7,12 +7,16 @@
 CRigidbody::CRigidbody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
 	, m_PxRigidbody(nullptr)
+    , m_PxShapeType{}
+    , m_vScale{}
     , m_vSpawnPos{}
 {
 }
 
 CRigidbody::~CRigidbody()
 {
+    //if(nullptr != m_PxRigidbody)
+    //    CPhysXMgr::GetInst()->ReleaseDynamic(m_PxRigidbody, GetOwner());
 }
 
 void CRigidbody::SetRigidbody(void* _pRigidbody)

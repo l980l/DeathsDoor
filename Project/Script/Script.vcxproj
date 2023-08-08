@@ -342,6 +342,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPower.h" />
     <ClInclude Include="CrowBossStates.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSlashScript.h" />
     <ClInclude Include="CSpawnDoorScript.h" />
     <ClInclude Include="CSpawnMgr.h" />
     <ClInclude Include="CSpeed.h" />
@@ -352,6 +353,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CWallScript.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
+    <ClInclude Include="CWaterScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GruntStates.h" />
     <ClInclude Include="LurkerStates.h" />
@@ -519,6 +521,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlyWpWalk.cpp" />
     <ClCompile Include="CPower.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSlashScript.cpp" />
     <ClCompile Include="CSpawnDoorScript.cpp" />
     <ClCompile Include="CSpawnMgr.cpp" />
     <ClCompile Include="CSpeed.cpp" />
@@ -529,6 +532,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CWallScript.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />
+    <ClCompile Include="CWaterScript.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

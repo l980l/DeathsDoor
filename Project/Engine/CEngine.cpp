@@ -56,9 +56,9 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 	CTimeMgr::GetInst()->init();
 	
-	CInstancingBuffer::GetInst()->init();
-
 	CResMgr::GetInst()->init();
+
+	CInstancingBuffer::GetInst()->init();
 
 	CRenderMgr::GetInst()->init();
 

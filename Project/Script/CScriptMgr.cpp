@@ -43,11 +43,13 @@
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
+#include "CSlashScript.h"
 #include "CSpawnDoorScript.h"
 #include "CStateScript.h"
 #include "CTrapScript.h"
 #include "CWallScript.h"
 #include "CWaterCameraScript.h"
+#include "CWaterScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -93,11 +95,13 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
+	_vec.push_back(L"CSlashScript");
 	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
 	_vec.push_back(L"CTrapScript");
 	_vec.push_back(L"CWallScript");
 	_vec.push_back(L"CWaterCameraScript");
+	_vec.push_back(L"CWaterScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -186,6 +190,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerWeaponScript;
 	if (L"CRoomScript" == _strScriptName)
 		return new CRoomScript;
+	if (L"CSlashScript" == _strScriptName)
+		return new CSlashScript;
 	if (L"CSpawnDoorScript" == _strScriptName)
 		return new CSpawnDoorScript;
 	if (L"CStateScript" == _strScriptName)
@@ -196,6 +202,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CWallScript;
 	if (L"CWaterCameraScript" == _strScriptName)
 		return new CWaterCameraScript;
+	if (L"CWaterScript" == _strScriptName)
+		return new CWaterScript;
 	return nullptr;
 }
 
@@ -329,6 +337,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ROOMSCRIPT:
 		return new CRoomScript;
 		break;
+	case (UINT)SCRIPT_TYPE::SLASHSCRIPT:
+		return new CSlashScript;
+		break;
 	case (UINT)SCRIPT_TYPE::SPAWNDOORSCRIPT:
 		return new CSpawnDoorScript;
 		break;
@@ -343,6 +354,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return new CWaterCameraScript;
+		break;
+	case (UINT)SCRIPT_TYPE::WATERSCRIPT:
+		return new CWaterScript;
 		break;
 	}
 	return nullptr;
@@ -520,6 +534,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CRoomScript";
 		break;
 
+	case SCRIPT_TYPE::SLASHSCRIPT:
+		return L"CSlashScript";
+		break;
+
 	case SCRIPT_TYPE::SPAWNDOORSCRIPT:
 		return L"CSpawnDoorScript";
 		break;
@@ -538,6 +556,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return L"CWaterCameraScript";
+		break;
+
+	case SCRIPT_TYPE::WATERSCRIPT:
+		return L"CWaterScript";
 		break;
 
 	}

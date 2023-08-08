@@ -474,6 +474,13 @@
     <ClInclude Include="CBazookaGasGrenadeScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="CWaterScript.h">
+      <Filter>Script\02. Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CTrapScript.h" />
+    <ClInclude Include="CSlashScript.h">
+      <Filter>Script\02. Script\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -841,6 +848,13 @@
     </ClCompile>
     <ClCompile Include="CBazookaGasGrenadeScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaterScript.cpp">
+      <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CTrapScript.cpp" />
+    <ClCompile Include="CSlashScript.cpp">
+      <Filter>Script\02. Script\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

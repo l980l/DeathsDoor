@@ -40,8 +40,10 @@ CNaviTestScript
 CPlayerScript
 CPlayerWeaponScript
 CRoomScript
+CSlashScript
 CSpawnDoorScript
 CStateScript
 CTrapScript
 CWallScript
 CWaterCameraScript
+CWaterScript

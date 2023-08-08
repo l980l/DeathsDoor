@@ -19,19 +19,18 @@ CPlyAttack::CPlyAttack()
 	, m_vMouseDir{}
 	, m_fSlashStartTime(-3.f)
 {
-	CLevelSaveLoadInScript script;
-	m_pSlash[(UINT)SLASH::RIGHT] = script.SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
-	m_pSlash[(UINT)SLASH::LEFT] = script.SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::RIGHT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::LEFT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 
 	// Emissive로
-	for (UINT i = (UINT)SLASH::LEFT; i < (UINT)SLASH::END; ++i)
+	for (UINT i = 0; i < (UINT)SLASH::END; ++i)
 	{
 		int a = 1;
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 		m_pSlash[i]->MeshRender()->SetDynamicShadow(false);
 		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
-		//m_pSlash[i]->Collider3D()->SetAbsolute(true);
-		//m_pSlash[i]->Collider3D()->SetOffsetScale(Vec3(0.f));
+		m_pSlash[i]->Collider3D()->SetAbsolute(true);
+		m_pSlash[i]->Collider3D()->SetOffsetScale(Vec3(0.f));
 	}
 }
 
@@ -41,16 +40,13 @@ CPlyAttack::~CPlyAttack()
 
 void CPlyAttack::Enter()
 {
-	m_fAcctime = 0.f;
 	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
 	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
-	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) + m_vMouseDir * 80.f;
-
 	m_fSlashStartTime = GlobalData.tAccTime;
-	GetOwner()->Rigidbody()->ClearForce();
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
 	CalcDir();
+	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 80.f;
 	Slash();
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyAttack::tick()
@@ -59,8 +55,10 @@ void CPlyAttack::tick()
 
 	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativePos(Vec3(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z));
 	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativePos(Vec3(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z));
-	// 공격모션이 끝났다면 이후 제한시간 안에 공격하면 다음공격 아니라면 Idle로 전환
+
 	m_fAcctime += DT;
+
+	// 모션이 끝났거나 경과 시간이 공격 딜레이를 넘었다면 다음 공격으로 넘어감
 	if (GetOwner()->Animator3D()->IsFinish() || m_fAcctime >= m_fDelay)
 	{
 		// 공격 모션이 끝나고 첫 번째 tick에만 현재 공격횟수가 증가하게 함
@@ -93,7 +91,7 @@ void CPlyAttack::tick()
 			m_fAcctime = 0.f;
 		}
 	}
-	else if (m_fDelay * 0.8f > m_fAcctime > m_fDelay* 0.3f)
+	else if (m_fDelay * 0.8f > m_fAcctime > m_fDelay * 0.3f)
 	{
 		if (KEY_TAP(KEY::SPACE))
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
@@ -103,10 +101,11 @@ void CPlyAttack::tick()
 		if (KEY_TAP(KEY::SPACE))
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
 
-		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
-		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-	}	
+		SetSlashScale(false, SLASH::LEFT);
+		SetSlashScale(false, SLASH::RIGHT);
+		GetOwner()->Rigidbody()->ClearForce();
+	}
+
 }
 
 void CPlyAttack::Exit()
@@ -114,6 +113,10 @@ void CPlyAttack::Exit()
 	m_iAttackCount = 0;
 	m_fAcctime = 0.f;
 	m_fAfterAttack = 0.f;
+	m_vSlashPos = {};
+	m_vMouseDir = {};
+	SetSlashScale(false, SLASH::LEFT);
+	SetSlashScale(false, SLASH::RIGHT);
 	GetOwner()->Rigidbody()->ClearForce();
 }
 
@@ -135,38 +138,66 @@ void CPlyAttack::CalcDir()
 
 void CPlyAttack::Slash()
 {
-
 	m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativePos(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z);
 	m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativePos(m_vSlashPos.x, m_vSlashPos.y - 30.f, m_vSlashPos.z);
 
 	bool bRight = false;
 	if (m_iAttackCount == 0 || m_iAttackCount % 2 == 0)
 		bRight = true;
+
+	int a = 1;
+	Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
+
 	if (bRight)
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_R, false);
-		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange / 100.f));
-		m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(-XM_PI / 18.f, m_fAttackDir + XM_PI, 0.f);
-		m_pSlash[(UINT)SLASH::RIGHT]->Collider3D()->SetOffsetScale(Vec3(0.f));
+		SetSlashScale(true, SLASH::RIGHT);
 
-		int a = 1;
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
-		Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
 		m_pSlash[(UINT)SLASH::RIGHT]->MeshRender()->GetMaterial(0)->SetTexParam(TEX_6, NoiseTextue.Get());
-
 	}
 	else
 	{
 		GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::SLASH_L, false);
-		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(-m_fRange));
-		m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * (10.f / 18.f), m_fAttackDir + XM_2PI, 0.f);
-		m_pSlash[(UINT)SLASH::LEFT]->Collider3D()->SetOffsetScale(Vec3(0.f));
+		SetSlashScale(true, SLASH::LEFT);
 
-		int a = 1;
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &a);
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
-		Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetTexParam(TEX_6, NoiseTextue.Get());
+	}
+}
+
+void CPlyAttack::SetSlashScale(bool _bOn, SLASH _tDir)
+{
+	if (_bOn)
+	{
+		switch (_tDir)
+		{
+		case SLASH::LEFT:
+			m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(-m_fRange));
+			m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeRot(XM_PI * (10.f / 18.f), m_fAttackDir + XM_2PI, 0.f);
+			m_pSlash[(UINT)SLASH::LEFT]->Collider3D()->SetOffsetScale(Vec3(m_fRange * 5.2f));
+			break;
+		case SLASH::RIGHT:
+			m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(m_fRange / 100.f));
+			m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeRot(-XM_PI / 18.f, m_fAttackDir + XM_PI, 0.f);
+			m_pSlash[(UINT)SLASH::RIGHT]->Collider3D()->SetOffsetScale(Vec3(m_fRange * 5.2f));
+			break;
+		}
+	}
+	else
+	{
+		switch (_tDir)
+		{
+		case SLASH::LEFT:
+			m_pSlash[(UINT)SLASH::LEFT]->Transform()->SetRelativeScale(Vec3(0.f));
+			m_pSlash[(UINT)SLASH::LEFT]->Collider3D()->SetOffsetScale(Vec3(0.f));
+			break;
+		case SLASH::RIGHT:
+			m_pSlash[(UINT)SLASH::RIGHT]->Transform()->SetRelativeScale(Vec3(0.f));
+			m_pSlash[(UINT)SLASH::RIGHT]->Collider3D()->SetOffsetScale(Vec3(0.f));
+			break;
+		}
 	}
 }
