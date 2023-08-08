@@ -290,9 +290,10 @@ bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pR
 			}
 		}
 		// 둘 다 Sphere인 경우
-		else		{
+		else		
+		{
 			// 두 충돌체의 중심점을 구함
-			Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat());
+			Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat());
 
 			// 두 물체의 x축 Scale을 가져와 Radius로 사용
 			float fRadius = (_pLeft->GetColliderWorldMat()._11 + _pRight->GetColliderWorldMat()._11) / 2.f;

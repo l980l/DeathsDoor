@@ -17,10 +17,6 @@ private:
 public:
     virtual void finaltick() override {};
     
-    void SetGround(bool _bOn) {};
-    void SetFriction(float _fFriction) {};
-    void SetFrictionScale(float _fFrictionScale) {};
-
 public:
     void SetRigidbody(void* _pRigidbody);
     void SetShapeType(physx::PxGeometryType::Enum _ShapeInfo);

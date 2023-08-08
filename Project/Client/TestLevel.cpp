@@ -339,6 +339,30 @@ void CreateTestLevel()
 	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	//CGameObject* pObj = new CGameObject;
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CCollider3D);
+	//pObj->SetName(L"Cube");
+	//
+	//pObj->Collider3D()->SetAbsolute(true);
+	//pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	//pObj->Collider3D()->SetOffsetScale(Vec3(100.f));
+	//pObj->Collider3D()->SetDebugShape(true);
+	//
+	//SpawnGameObject(pObj, Vec3(0.f), (int)LAYER::PLAYERPROJECTILE);
+	//
+	//pObj = new CGameObject;
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CCollider3D);
+	//pObj->SetName(L"Sphere");
+	//
+	//pObj->Collider3D()->SetAbsolute(true);
+	//pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObj->Collider3D()->SetOffsetScale(Vec3(100.f));
+	//pObj->Collider3D()->SetDebugShape(true);
+	//
+	//SpawnGameObject(pObj, Vec3(0.f), (int)LAYER::ANCHOR);
+
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
@@ -346,5 +370,5 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	//CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 }
