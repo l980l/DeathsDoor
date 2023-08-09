@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CAttackSpeed.h"
+#include "CPlayerScript.h"
 
 CAttackSpeed::CAttackSpeed()
 {
@@ -18,6 +19,11 @@ void CAttackSpeed::tick()
 	if (KEY_TAP(KEY::DOWN))
 	{
 		ChangeState(L"Speed");
+	}
+
+	if (KEY_TAP(KEY::ENTER))
+	{
+		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	}
 }
 

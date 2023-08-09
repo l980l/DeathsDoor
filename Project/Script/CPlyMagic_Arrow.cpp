@@ -39,7 +39,7 @@ void CPlyMagic_Arrow::tick()
 			CGameObject* pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
 			pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
 			pArrow->GetScript<CMagic_ArrowScript>()->SetStartPos(vSpawnPos);
-			pArrow->GetScript<CMagic_ArrowScript>()->SetDamege(fDamage);
+			pArrow->GetScript<CMagic_ArrowScript>()->SetDamage(fDamage);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 			pArrow->Transform()->SetRelativeScale(Vec3(0.4f));
 

@@ -25,11 +25,11 @@
 #include <Script\CGruntScript.h>
 #include <Script/CLurkerScript.h>
 #include <Script\CBazookaScript.h>
-#include <Script/CNaviTestScript.h>
 #include <Script/CMainLightScript.h>
 #include <Script/CWaterCameraScript.h>
 #include <Script/CCrowBossScript.h>
 #include <Script/CSlashScript.h>
+#include <Script/CMonsterDetectRangeScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -39,7 +39,7 @@ void CreateTestLevel()
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-
+	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 	// Main Camera Object »ý¼º
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -139,27 +139,36 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Lurker");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CRigidbody);
-	//pObject->AddComponent(new CLurkerScript);
-	//pObject->AddComponent(new CStateScript);
-	//
-	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-	//
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//
-	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
-	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Lurker");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CLurkerScript);
+	pObject->AddComponent(new CStateScript);
+	
+	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
 
-	//CGameObject* pDetectRange = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab//Grunt.prefab", (int)LAYER::MONSTER, Vec3(0.f));
-	//pObject->AddChild(pDetectRange);
+	CGameObject* pDetect = new CGameObject;
+	pDetect->SetName(L"MonsterDetectRange");
+	pDetect->AddComponent(new CTransform);
+	pDetect->AddComponent(new CCollider3D);
+	pDetect->AddComponent(new CMonsterDetectRangeScript);
+
+	pDetect->Collider3D()->SetAbsolute(true);
+	pDetect->Collider3D()->SetOffsetScale(Vec3(400.f, 400.f, 400.f));
+
+	pObject->AddChild(pDetect);
+
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//pObject = pMeshData->Instantiate();

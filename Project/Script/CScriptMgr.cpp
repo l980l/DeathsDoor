@@ -39,7 +39,6 @@
 #include "CMissileScript.h"
 #include "CMoneyCountScript.h"
 #include "CMonsterDetectRangeScript.h"
-#include "CNaviTestScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
@@ -91,7 +90,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMoneyCountScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
-	_vec.push_back(L"CNaviTestScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
@@ -182,8 +180,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMoneyCountScript;
 	if (L"CMonsterDetectRangeScript" == _strScriptName)
 		return new CMonsterDetectRangeScript;
-	if (L"CNaviTestScript" == _strScriptName)
-		return new CNaviTestScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
@@ -324,9 +320,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return new CMonsterDetectRangeScript;
-		break;
-	case (UINT)SCRIPT_TYPE::NAVITESTSCRIPT:
-		return new CNaviTestScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -516,10 +509,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return L"CMonsterDetectRangeScript";
-		break;
-
-	case SCRIPT_TYPE::NAVITESTSCRIPT:
-		return L"CNaviTestScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

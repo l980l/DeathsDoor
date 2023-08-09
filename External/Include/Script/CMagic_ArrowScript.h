@@ -12,7 +12,7 @@ private:
 public:
     void SetStartPos(Vec3 _vPos) { m_vStartPos = _vPos; }
     void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); m_vDir.y = 0.f; }
-    void SetDamege(float _fDamege) { m_fDamage = _fDamege; }
+    void SetDamage(float _fDamage) { m_fDamage = _fDamage; }
     virtual void begin() override;
     virtual void tick() override;
 

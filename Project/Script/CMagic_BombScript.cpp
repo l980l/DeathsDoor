@@ -5,6 +5,7 @@
 CMagic_BombScript::CMagic_BombScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_BOMBSCRIPT)
 	, m_fDamage(0.f)
+	, m_fSpeed(800.f)
 {
 }
 
@@ -22,6 +23,9 @@ void CMagic_BombScript::begin()
 
 void CMagic_BombScript::tick()
 {
+	Vec3 CurPos = Transform()->GetRelativePos();
+	CurPos += m_vDir * m_fSpeed * DT;
+	Transform()->SetRelativePos(CurPos);
 }
 
 void CMagic_BombScript::BeginOverlap(CCollider3D* _Other)

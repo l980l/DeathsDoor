@@ -36,7 +36,6 @@ CMainLightScript
 CMissileScript
 CMoneyCountScript
 CMonsterDetectRangeScript
-CNaviTestScript
 CPlayerScript
 CPlayerWeaponScript
 CRoomScript
