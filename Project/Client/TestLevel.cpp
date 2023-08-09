@@ -339,17 +339,17 @@ void CreateTestLevel()
 	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-	CGameObject* pObj = new CGameObject;
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CCollider3D);
-	pObj->SetName(L"Cube");
-	
-	pObj->Collider3D()->SetAbsolute(true);
-	pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	pObj->Collider3D()->SetOffsetScale(Vec3(500.f));
-	pObj->Collider3D()->SetDebugShape(true);
-	
-	SpawnGameObject(pObj, Vec3(3000.f, 500.f, 2500.f), (int)LAYER::MONSTER);
+	//CGameObject* pObj = new CGameObject;
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CCollider3D);
+	//pObj->SetName(L"Cube");
+	//
+	//pObj->Collider3D()->SetAbsolute(true);
+	//pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	//pObj->Collider3D()->SetOffsetScale(Vec3(500.f));
+	//pObj->Collider3D()->SetDebugShape(true);
+	//
+	//SpawnGameObject(pObj, Vec3(3000.f, 500.f, 2500.f), (int)LAYER::MONSTER);
 	//
 	//pObj = new CGameObject;
 	//pObj->AddComponent(new CTransform);

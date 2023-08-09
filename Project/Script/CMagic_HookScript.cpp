@@ -43,9 +43,8 @@ void CMagic_HookScript::begin()
 	Vec4 ChainColor = Vec4(0.6f, 1.f, 0.6f, 1.f);
 	for (size_t i = 0; i < m_vecChain.size(); ++i)
 	{
-		Color *= i + 1 / 80;
 		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(INT_1, &a);
-		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
+		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(VEC4_0, &ChainColor);
 	}
 	Active(m_bActive);
 }
@@ -108,7 +107,7 @@ void CMagic_HookScript::Active(bool _bActive)
 			int a = i % 2;
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
 			if(1 == a)
-				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f), m_vAttackDir.y, XM_PI / 2.f));
+				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f), m_vAttackDir.y, 0.f));
 			else
 				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f), m_vAttackDir.y, 0.f));
 		}

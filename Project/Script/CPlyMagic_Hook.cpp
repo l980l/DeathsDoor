@@ -72,6 +72,7 @@ void CPlyMagic_Hook::tick()
 		}
 		else if (KEY_RELEASE(KEY::RBTN))
 		{
+			CalcDir();
 			m_bThrow = true;
 			// 우클릭을 해제하면 갈고리 발사
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
@@ -81,7 +82,6 @@ void CPlyMagic_Hook::tick()
 			m_pHook->GetScript<CMagic_HookScript>()->SetThrowDir(vDir);
 			m_pHook->GetScript<CMagic_HookScript>()->SetAttackDir(m_vAttackDir);
 			m_pHook->GetScript<CMagic_HookScript>()->Active(true);
-
 			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 		}
 	}
@@ -112,5 +112,5 @@ void CPlyMagic_Hook::CalcDir()
 	Vec3 vMousePos = Vec3(vCursorPos.x, 0.f, -vCursorPos.y);
 	float fRot = GetDir(Vec3(0.f, 0.f, 0.f), vMousePos);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fRot, 0.f);
-	m_vAttackDir = Vec3(XM_2PI - XM_PI * 1.5f, fRot, XM_2PI);
+	m_vAttackDir = Vec3(XM_2PI - XM_PI * 1.5f, fRot, 0.f);
 }
