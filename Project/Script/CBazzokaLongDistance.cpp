@@ -10,7 +10,9 @@ void CBazzokaLongDistance::Enter()
 	GetOwner()->Animator3D()->Play(1, false);
 
 	// °¡½ºÅº ¹ß»ç.
-	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", 6, GetOwner()->Transform()->GetWorldPos());
+	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos());
+	CPhysXMgr::GetInst()->CreateSphere(GetOwner()->Transform()->GetWorldPos(), 20.f, this->GetOwner());
+
 	CPhysXMgr::GetInst()->SetRigidPos(pGasGrenade->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
 
 	pGasGrenade->GetScript<CBazookaGasGrenadeScript>()->SetShotDir(GetOwner()->GetScript<CBazookaScript>()->GetMonsterToPlayerDir());
