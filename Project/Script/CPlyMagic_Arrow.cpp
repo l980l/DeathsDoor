@@ -26,19 +26,20 @@ void CPlyMagic_Arrow::tick()
 	if (KEY_PRESSED(KEY::RBTN))
 	{
 		CalcDir();
-
 	}
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		if (KEY_RELEASE(KEY::RBTN))
 		{
+			// Player 업그레이드 수치를 가져와 계수를 곱해 Arrow의 최종데미지를 정함.
+			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic))
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = script.SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
+			CGameObject* pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
 			pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
 			pArrow->GetScript<CMagic_ArrowScript>()->SetStartPos(vSpawnPos);
+			pArrow->GetScript<CMagic_ArrowScript>()->SetDamege(fDamage);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 			pArrow->Transform()->SetRelativeScale(Vec3(0.4f));
 

@@ -57,7 +57,10 @@ void CPlayerScript::begin()
 
 void CPlayerScript::tick()
 {
+	// 숫자 1~4로 우클릭으로 사용하는 마법 효과 변경
 	SetMagicType();
+
+	// Sword(Child0)과 Bow(Child1)에 Emissive효과 부여
 	int a = 1;
 	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 	GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
@@ -65,7 +68,7 @@ void CPlayerScript::tick()
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
-	// 아래는 공격 관련으로 무적이라면 return;
+	// 아래는 피격 관련으로 무적이라면 return;
 	if (m_bInvincible)
 		return;
 

@@ -5,6 +5,8 @@ class CMagic_FireScript :
 {
 private:
     float   m_fDamage;
+    Vec3    m_vDir;
+    float   m_fSpeed;
 
 public:
     virtual void begin() override;

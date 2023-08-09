@@ -3,6 +3,7 @@
 #include <Engine/CDevice.h>
 #include "CLevelSaveLoadInScript.h"
 #include "CPlayerScript.h"
+#include "CMagic_BombScript.h"
 
 CPlyMagic_Bomb::CPlyMagic_Bomb()
 {
@@ -28,11 +29,14 @@ void CPlyMagic_Bomb::tick()
 	{
 		if (KEY_RELEASE(KEY::RBTN))
 		{
+			// Player 업그레이드 수치를 가져와 계수를 곱해 Bomb의 최종데미지를 정함.
+			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
+			fDamage *= 2.5f;
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			CLevelSaveLoadInScript script;
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pBomb = script.SpawnandReturnPrefab(L"prefab\\Bomb.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
+			CGameObject* pBomb = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Bomb.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
+			pBomb->GetScript<CMagic_BombScript>()->SetDamege(fDamage);
 			pBomb->Rigidbody()->AddForce(vDir * 30000.f);
 			pBomb->Transform()->SetRelativeRot(m_vAttackDir);
 

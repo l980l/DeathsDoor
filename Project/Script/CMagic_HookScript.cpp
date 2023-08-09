@@ -40,9 +40,10 @@ void CMagic_HookScript::begin()
 	Vec4 Color = Vec4(0.2f, 0.5f, 0.2f, 1.f);
 	MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
 	MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
-	Color = Vec4(0.6f, 1.f, 0.6f, 1.f);
+	Vec4 ChainColor = Vec4(0.6f, 1.f, 0.6f, 1.f);
 	for (size_t i = 0; i < m_vecChain.size(); ++i)
 	{
+		Color *= i + 1 / 80;
 		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(INT_1, &a);
 		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
 	}
@@ -86,13 +87,13 @@ void CMagic_HookScript::tick()
 				m_vThrownDir *= -1.f;
 			}
 		}
-
 	}
 
 	// 시작지점과의 거리만큼 Chain을 활성화
 	PaveChain();
 }
 
+// Player가 Hook을 날리기 시작 또는 날리기를 종료했다면 활성/비활성화
 void CMagic_HookScript::Active(bool _bActive)
 {
 	m_bActive = _bActive;

@@ -15,11 +15,9 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 	, m_bHookFail(false)
 	, m_bThrow(false)
 {
-	CLevelSaveLoadInScript script;
-
 	if (nullptr == m_pHook)
 	{
-		m_pHook = script.SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+		m_pHook = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Hook.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
 		m_pHook->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 		m_pHook->GetScript<CMagic_HookScript>()->SetOwner(this);
 		m_pHook->Collider3D()->SetAbsolute(true);
@@ -30,7 +28,7 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 	{
 		for (int i = 0; i < 80; ++i)
 		{
-			CGameObject* Chain = script.SpawnandReturnPrefab(L"prefab\\Chain.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
+			CGameObject* Chain = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Chain.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
 			Chain->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 			m_vecChain.push_back(Chain);
 			m_pHook->GetScript<CMagic_HookScript>()->SetChain(m_vecChain);
