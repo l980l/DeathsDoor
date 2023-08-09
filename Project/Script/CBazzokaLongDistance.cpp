@@ -2,6 +2,7 @@
 #include "CBazzokaLongDistance.h"
 #include "CBazookaScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CBazookaGasGrenadeScript.h"
 #include <Engine/CPhysXMgr.h>
 
 void CBazzokaLongDistance::Enter()
@@ -11,6 +12,8 @@ void CBazzokaLongDistance::Enter()
 	// °¡½ºÅº ¹ß»ç.
 	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", 6, GetOwner()->Transform()->GetWorldPos());
 	CPhysXMgr::GetInst()->SetRigidPos(pGasGrenade->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
+
+	pGasGrenade->GetScript<CBazookaGasGrenadeScript>()->SetShotDir(GetOwner()->GetScript<CBazookaScript>()->GetMonsterToPlayerDir());
 }
 
 void CBazzokaLongDistance::tick()

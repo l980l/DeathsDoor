@@ -63,7 +63,7 @@ void CCrowBossScript::begin()
 		NewStat.HP = 3000;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 50.f;
+		NewStat.Speed = 150.f;
 		m_pStateScript->SetStat(NewStat);
 	}
 }
@@ -83,7 +83,9 @@ void CCrowBossScript::tick()
 	// 플레이어를 바라보는 경우.
 	if (m_bStarePlayer)
 	{
-		CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner());
+		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
+		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 	}
 }
 

@@ -32,6 +32,7 @@ void CCrowBossSliding::tick()
 
 void CCrowBossSliding::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 CCrowBossSliding::CCrowBossSliding()

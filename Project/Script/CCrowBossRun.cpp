@@ -10,12 +10,11 @@ void CCrowBossRun::Enter()
 void CCrowBossRun::tick()
 {
 	// 공격범위 이내에 플레이어가 있으면 NailAttackReady.
-	Vec3 PlayerPos = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerPos();
-	float fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
+	m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
 
-	Vec3 Velocity = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
+	Vec3 Velocity = m_Dir;
 	float fSpeed = GetOwnerScript()->GetStat().Speed;
-	Velocity *= fSpeed;
+	Velocity *= fSpeed * 30.f * DT;
 
 	GetOwner()->Rigidbody()->AddVelocity(Velocity);
 
@@ -34,6 +33,7 @@ void CCrowBossRun::tick()
 
 void CCrowBossRun::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	m_iTime = 0;
 }
 

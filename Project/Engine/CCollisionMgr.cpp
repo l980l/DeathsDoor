@@ -7,6 +7,7 @@
 #include "CGameObject.h"
 #include "CCollider2D.h"
 #include "CCollider3D.h"
+#include "CTransform.h"
 
 CCollisionMgr::CCollisionMgr()
     : m_matrix{}
@@ -234,9 +235,6 @@ bool CCollisionMgr::CollisionBtw2DCollider(CCollider2D* _pLeft, CCollider2D* _pR
 
 bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pRight)
 {
-	if (_pLeft->GetColliderWorldMat()._11 <= 0.f || _pRight->GetColliderWorldMat()._11 <= 0.f)
-		return false;
-
 	Vec3 arrLocal[8] =
 	{
 		Vec3(-0.5f,  0.5f, -0.5f),
@@ -290,13 +288,28 @@ bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pR
 			}
 		}
 		// 둘 다 Sphere인 경우
-		else		
-		{
+		else {
 			// 두 충돌체의 중심점을 구함
-			Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat());
+			Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat());
 
 			// 두 물체의 x축 Scale을 가져와 Radius로 사용
-			float fRadius = (_pLeft->GetColliderWorldMat()._11 + _pRight->GetColliderWorldMat()._11) / 2.f;
+			float fLeftRadius = _pLeft->GetOffsetScale().x;		// Sphere니까 x, y, z가 모두 같다고 가정.
+			float fRightRadius = _pRight->GetOffsetScale().x;	
+			
+			// 왼쪽 충돌체의 앱솔이 안 켜진 경우
+			if (!_pLeft->IsAbsolute())
+			{
+				fLeftRadius *= _pLeft->GetOwner()->Transform()->GetRelativeScale().x; // 부모의 크기도 x, y, z가 같다고 가정.
+			}
+
+			// 오른쪽 충돌체의 앱솔이 안 켜진경우
+			if (!_pRight->IsAbsolute())
+			{
+				fRightRadius *= _pRight->GetOwner()->Transform()->GetRelativeScale().x; // 부모의 크기도 x, y, z가 같다고 가정.
+			}
+
+			float fRadius = (fLeftRadius + fRightRadius) / 2.f;
+
 			float fCenter = vCenter.Length();
 
 			if (fRadius < fCenter)

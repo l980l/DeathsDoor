@@ -469,7 +469,7 @@ void CLevelSaveLoad::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time != -1)
+    if (time >= 0.f)
         newPrefab->SetLifeSpan(time);
     fclose(pFile);
 }
@@ -486,7 +486,7 @@ CGameObject* CLevelSaveLoad::SpawnandReturnPrefab(wstring _relativepath, int idx
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, idx);
-    if (time != -1)
+    if (time >= 0.f)
         newPrefab->SetLifeSpan(time);
     fclose(pFile);
     return newPrefab;
