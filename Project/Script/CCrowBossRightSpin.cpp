@@ -21,7 +21,7 @@ void CCrowBossRightSpin::tick()
 		// 달리기
 		if (iRandom == 0)
 		{
-			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
 			ChangeState(L"Run");
 		}
 		// 점프
@@ -33,6 +33,7 @@ void CCrowBossRightSpin::tick()
 		// 사슬
 		else if (iRandom == 2)
 		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"SlidingReady");
 		}
 	}

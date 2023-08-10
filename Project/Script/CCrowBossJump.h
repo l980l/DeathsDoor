@@ -4,7 +4,8 @@ class CCrowBossJump :
     public CState
 {
 private:
-    Vec3   m_Dir;
+    float    m_fDistance;
+    Vec3     m_Dir;
 public:
     virtual void tick() override;
     virtual void Enter() override;

@@ -97,6 +97,12 @@ void CCrowBossScript::BeginOverlap(CCollider3D* _Other)
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
 	}
+
+	// 피격시 까마귀 머리 생성.
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::PLAYERPROJECTILE)
+	{
+
+	}
 }
 
 void CCrowBossScript::OnOverlap(CCollider3D* _Other)

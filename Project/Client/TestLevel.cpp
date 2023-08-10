@@ -25,7 +25,6 @@
 #include <Script\CGruntScript.h>
 #include <Script/CLurkerScript.h>
 #include <Script\CBazookaScript.h>
-#include <Script/CNaviTestScript.h>
 #include <Script/CMainLightScript.h>
 #include <Script/CWaterCameraScript.h>
 #include <Script/CCrowBossScript.h>
@@ -147,7 +146,7 @@ void CreateTestLevel()
 	pFloor->AddComponent(new CMeshRender);
 	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Character.png"));
+	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Deaths_Door\\CrowBossMapFloor.png"));
 	pFloor->Transform()->SetRelativeScale(10000000.f, 10000000.f, 10000000.f);
 	pFloor->Transform()->SetRelativeRot(XM_PIDIV2, 0.f, 0.f);
 	SpawnGameObject(pFloor, Vec3(3000.f, 1.f, 3000.f), (int)LAYER::DEFAULT);
