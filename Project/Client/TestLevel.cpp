@@ -169,6 +169,18 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
+	pObject = new CGameObject;
+	pObject->SetName(L"Anchor");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CCollider3D);
+
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetAbsolute(true);
+	pObject->Collider3D()->SetDebugShape(true);
+	pObject->Collider3D()->SetOffsetScale(Vec3(300.f));
+
+	SpawnGameObject(pObject, Vec3(2500.f, 500.f, 3000.f), (int)LAYER::ANCHOR);
+
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//pObject = pMeshData->Instantiate();

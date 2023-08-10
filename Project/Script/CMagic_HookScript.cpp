@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "CMagic_HookScript.h"
 #include "CPlyMagic_Hook.h"
+#include "CPlyMagic_Hooking.h"
 #include "CLevelSaveLoadInScript.h"
 
 CMagic_HookScript::CMagic_HookScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT)
-	, m_pOwner(nullptr)
+	, m_pHookScript(nullptr)
+	, m_pHookingScript(nullptr)
 	, m_vecChain{}
 	, m_vStartPos{}
 	, m_vThrownDir{}
@@ -75,7 +77,7 @@ void CMagic_HookScript::tick()
 			if (abs(m_fDistancetoTarget) < 100.f)
 			{
 				Active(false);
-				m_pOwner->FailSnatch();
+				m_pHookScript->FailSnatch();
 			}
 		}
 		else
@@ -132,8 +134,19 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 	{
 		if(!m_bReturn)
 		{
-			m_pOwner->Snatch(Transform()->GetWorldPos());
-			m_bSnatch = true;
+			Vec3 Diff = _Other->Transform()->GetWorldPos() - Transform()->GetWorldPos();
+			if (Diff.Length() < 50.f)
+			{
+				m_bReturn = true;
+			}
+			else if(m_pHookScript && m_pHookingScript)
+			{
+				Vec3 CurPos = Transform()->GetWorldPos();
+				m_pHookScript->Snatch(CurPos);
+				m_pHookingScript->SetHookedPos(CurPos);
+				m_bSnatch = true;
+				m_fTime = 0.f;
+			}
 		}
 	}
 }
