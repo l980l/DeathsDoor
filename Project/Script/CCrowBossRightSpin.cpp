@@ -16,12 +16,12 @@ void CCrowBossRightSpin::tick()
 	{
 		// 패턴 선택. 달리기, 점프, 사슬.
 		srand(time(0));
-		int iRandom = rand() % 4;
+		int iRandom = rand() % 3;
 
 		// 달리기
 		if (iRandom == 0)
 		{
-			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
 			ChangeState(L"Run");
 		}
 		// 점프
@@ -33,6 +33,7 @@ void CCrowBossRightSpin::tick()
 		// 사슬
 		else if (iRandom == 2)
 		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"SlidingReady");
 		}
 	}

@@ -5,6 +5,7 @@
 void CLurkerDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(6, false);
+	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
 }
 
 void CLurkerDeath::tick()
