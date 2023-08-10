@@ -16,7 +16,7 @@ void CCrowBossRightSpin::tick()
 	{
 		// 패턴 선택. 달리기, 점프, 사슬.
 		srand(time(0));
-		int iRandom = rand() % 4;
+		int iRandom = rand() % 3;
 
 		// 달리기
 		if (iRandom == 0)

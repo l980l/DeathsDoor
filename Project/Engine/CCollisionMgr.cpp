@@ -288,7 +288,11 @@ bool CCollisionMgr::CollisionBtw3DCollider(CCollider3D* _pLeft, CCollider3D* _pR
 			}
 		}
 		// 둘 다 Sphere인 경우
-		else {
+		else 
+		{
+			if (abs(_pLeft->GetOffsetScale().x) <= 0.001f || abs(_pRight->GetOffsetScale().x) <= 0.001f)
+				return false;
+
 			// 두 충돌체의 중심점을 구함
 			Vec3 vCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pRight->GetColliderWorldMat()) - XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), _pLeft->GetColliderWorldMat());
 

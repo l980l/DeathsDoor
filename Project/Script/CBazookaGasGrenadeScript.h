@@ -10,6 +10,7 @@ private:
     CGameObject*    m_GasBulletParticle;
     CGameObject*    m_GasCenterParticle;
     CGameObject*    m_GasRoundParticle;
+    float           m_fBulletTime;
     float           m_fGasTime;
 
 public:
