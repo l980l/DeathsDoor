@@ -85,6 +85,9 @@
     <Filter Include="Script\02. Script\SpawnMgr\Wall">
       <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\HUD\Icon">
+      <UniqueIdentifier>{f933abf3-1699-4dbf-8d08-5ca4d84c2d02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -417,27 +420,6 @@
     <ClInclude Include="CWallScript.h">
       <Filter>Script\02. Script\SpawnMgr\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="CCursorScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CArrowIconScript.h">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CBombIconScript.h">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CEnergyIconScript.h">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CFireIconScript.h">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CHookIconScript.h">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CHPIconScript.h">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
     <ClInclude Include="CFenseScript.h">
       <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
     </ClInclude>
@@ -446,9 +428,6 @@
     </ClInclude>
     <ClInclude Include="CMoneyCountScript.h">
       <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CNaviTestScript.h">
-      <Filter>Script\02. Script</Filter>
     </ClInclude>
     <ClInclude Include="CMainLightScript.h">
       <Filter>Script\02. Script</Filter>
@@ -480,6 +459,30 @@
     <ClInclude Include="CTrapScript.h" />
     <ClInclude Include="CSlashScript.h">
       <Filter>Script\02. Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CHUDScript.h">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPIconScript.h">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CArrowIconScript.h">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CBombIconScript.h">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnergyIconScript.h">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CFireIconScript.h">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CHookIconScript.h">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CCursorScript.h">
+      <Filter>Script\02. Script\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -792,27 +795,6 @@
     <ClCompile Include="CWallScript.cpp">
       <Filter>Script\02. Script\SpawnMgr\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="CCursorScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CArrowIconScript.cpp">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CBombIconScript.cpp">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CEnergyIconScript.cpp">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CFireIconScript.cpp">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CHookIconScript.cpp">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CHPIconScript.cpp">
-      <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="CFenseScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
     </ClCompile>
@@ -821,9 +803,6 @@
     </ClCompile>
     <ClCompile Include="CMoneyCountScript.cpp">
       <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CNaviTestScript.cpp">
-      <Filter>Script\02. Script</Filter>
     </ClCompile>
     <ClCompile Include="CMainLightScript.cpp">
       <Filter>Script\02. Script</Filter>
@@ -855,6 +834,30 @@
     <ClCompile Include="CTrapScript.cpp" />
     <ClCompile Include="CSlashScript.cpp">
       <Filter>Script\02. Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CHUDScript.cpp">
+      <Filter>Script\02. Script\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowIconScript.cpp">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CBombIconScript.cpp">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnergyIconScript.cpp">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CFireIconScript.cpp">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CHookIconScript.cpp">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPIconScript.cpp">
+      <Filter>Script\02. Script\HUD\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CCursorScript.cpp">
+      <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1412,9 +1415,6 @@
     <ClInclude Include="CBazookaTrace.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
-    <ClInclude Include="CHUDScript.h">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClInclude>
     <ClInclude Include="CGruntScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
@@ -1803,9 +1803,6 @@
     </ClCompile>
     <ClCompile Include="CBazookaTrace.cpp">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CHUDScript.cpp">
-      <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
     <ClCompile Include="CGruntScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>

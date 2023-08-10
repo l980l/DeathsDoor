@@ -6,6 +6,7 @@ class CBankUpgradeScript :
 	public CScript
 {
 private:
+    CGameObject* m_pPlayer;
     CStateScript* m_pStateScript;
     int m_Power;
     int m_ASpeed;
@@ -19,6 +20,7 @@ public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
+    void Upgrade(PLAYER_UPGRADE _tUpgradeType);
 
     CLONE(CBankUpgradeScript);
 public:

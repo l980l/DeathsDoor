@@ -37,7 +37,6 @@ void CPlyMagic_Bomb::tick()
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
 			CGameObject* pBomb = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Bomb.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
 			pBomb->GetScript<CMagic_BombScript>()->SetDamege(fDamage);
-			pBomb->Rigidbody()->AddForce(vDir * 30000.f);
 			pBomb->Transform()->SetRelativeRot(m_vAttackDir);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");

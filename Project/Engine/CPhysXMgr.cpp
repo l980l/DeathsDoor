@@ -390,17 +390,17 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest_Simple.fbx");
         break;
     case LEVEL_TYPE::ICE_FIELD:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Ice_Simple.fbx");
-        break;
-    case LEVEL_TYPE::ICE_BOSS:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Ice_Boss_Simple.fbx");
+        CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
     case LEVEL_TYPE::HALL:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall_Simple.fbx");
         break;
     }
 
-    CGameObject* pMap = pMeshData->Instantiate();
-    ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
-    delete pMap;
+    if(_tType != LEVEL_TYPE::ICE_BOSS)
+    {
+        CGameObject* pMap = pMeshData->Instantiate();
+        ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
+        delete pMap;
+    }
 }

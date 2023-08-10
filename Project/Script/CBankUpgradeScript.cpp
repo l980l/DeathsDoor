@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "CBankUpgradeScript.h"
+#include "CLevelSaveLoadInScript.h"
 #include "CPower.h"
 #include "CAttackSpeed.h"
 #include "CSpeed.h"
 #include "CMagic.h"
 #include "CStateScript.h"
 #include <Engine/CEventMgr.h>
-#include "CLevelSaveLoadInScript.h"
 #include "CStateScript.h"
+#include "CPlayerScript.h"
 
 CBankUpgradeScript::CBankUpgradeScript()	:
 	CScript(SCRIPT_TYPE::BANKUPGRADESCRIPT),
@@ -47,8 +48,8 @@ void CBankUpgradeScript::begin()
 	GetOwner()->Transform()->SetRelativeRot(rot);
 
 	//플레이어의 능력치 받아오기
-	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	CStateScript* script = player->GetScript<CStateScript>();
+	m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	CStateScript* script = m_pPlayer->GetScript<CStateScript>();
 	Stat playerStatus = script->GetStat();
 	m_Power = playerStatus.Attack;
 	m_ASpeed = playerStatus.Attack_Speed;
@@ -91,4 +92,9 @@ void CBankUpgradeScript::OnOverlap(CCollider3D* _Other)
 
 void CBankUpgradeScript::EndOverlap(CCollider3D* _Other)
 {
+}
+
+void CBankUpgradeScript::Upgrade(PLAYER_UPGRADE _tUpgradeType)
+{
+	m_pPlayer->GetScript<CPlayerScript>()->Upgrade(_tUpgradeType);
 }

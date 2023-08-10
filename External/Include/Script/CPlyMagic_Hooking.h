@@ -7,6 +7,7 @@ private:
     CGameObject*            m_pHook;
     vector<CGameObject*>    m_vecChain;
     Vec3                    m_vHookPos;
+    Vec3                    m_vDir;
     bool                    m_bAttack;
 
 public:

@@ -34,8 +34,7 @@ void CPlyMagic_Fire::tick()
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
-			pArrow->Rigidbody()->SetVelocity(vDir * 30000.f);
+			CGameObject* pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
