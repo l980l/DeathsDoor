@@ -139,6 +139,11 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Chain.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Chain");
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::DEFAULT);
+
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Lurker");

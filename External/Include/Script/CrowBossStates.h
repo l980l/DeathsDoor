@@ -14,3 +14,4 @@
 #include "CCrowBossDeath.h"
 #include "CCrowBossCutScene.h"
 #include "CCrowBossBatBullet.h"
+#include "CCrowBossChainThrow.h"

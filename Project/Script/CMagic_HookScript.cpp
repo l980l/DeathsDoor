@@ -109,9 +109,9 @@ void CMagic_HookScript::Active(bool _bActive)
 			int a = i % 2;
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
 			if(1 == a)
-				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f) + m_vAttackDir.y, XM_PIDIV2, 0.f));
+				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(0.f, m_vAttackDir.y, XM_PI / 2.f));
 			else
-				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XMConvertToRadians(-33.f), m_vAttackDir.y, 0.f));
+				m_vecChain[i]->Transform()->SetRelativeRot(Vec3(0.f, m_vAttackDir.y, 0.f));
 		}
 	}
 	else if(!m_bActive)

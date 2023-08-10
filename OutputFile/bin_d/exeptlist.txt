@@ -136,6 +136,7 @@ CCrowBossGuidedBullet.h
 CCrowBossDeath.h
 CCrowBossCutScene.h
 CCrowBossBatBullet.h
+CCrowBossChainThrow.h
 CMonsterScript.h
 
 CPower.h
