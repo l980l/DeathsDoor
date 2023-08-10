@@ -11,6 +11,14 @@ private:
     float           m_fTargetScale;
     float           m_fPrevScale;
     Vec3            m_vDistance;
+    // CameraShake¿ë ¸â¹ö
+    Vec2		    m_vOffset;
+    float		    m_fAccTime;
+    float		    m_fMaxTime;
+    float		    m_fRange;
+    float		    m_fShakeSpeed;
+    float		    m_fShakeDir;
+    bool		    m_bCamShake;
 
 public:
     virtual void begin() override;
@@ -21,6 +29,8 @@ public:
     void SetInvincible(float _fMoveTime) { m_fMoveTime = _fMoveTime; }
     void SetMoveCamera(float _vTargetScale, float _fTime);
 
+    void CameraShake(float _fRange, float _fShackSpeed, float _fTerm);
+    void ShackCamera();
 
     CLONE(CGameCameraScript);
 

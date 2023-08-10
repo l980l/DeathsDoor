@@ -139,35 +139,35 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Lurker");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CRigidbody);
-	pObject->AddComponent(new CLurkerScript);
-	pObject->AddComponent(new CStateScript);
-	
-	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-	
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-
-	CGameObject* pDetect = new CGameObject;
-	pDetect->SetName(L"MonsterDetectRange");
-	pDetect->AddComponent(new CTransform);
-	pDetect->AddComponent(new CCollider3D);
-	pDetect->AddComponent(new CMonsterDetectRangeScript);
-
-	pDetect->Collider3D()->SetAbsolute(true);
-	pDetect->Collider3D()->SetOffsetScale(Vec3(400.f, 400.f, 400.f));
-
-	pObject->AddChild(pDetect);
-
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Lurker");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CLurkerScript);
+	//pObject->AddComponent(new CStateScript);
+	//
+	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//CGameObject* pDetect = new CGameObject;
+	//pDetect->SetName(L"MonsterDetectRange");
+	//pDetect->AddComponent(new CTransform);
+	//pDetect->AddComponent(new CCollider3D);
+	//pDetect->AddComponent(new CMonsterDetectRangeScript);
+	//
+	//pDetect->Collider3D()->SetAbsolute(true);
+	//pDetect->Collider3D()->SetOffsetScale(Vec3(400.f, 400.f, 400.f));
+	//
+	//pObject->AddChild(pDetect);
+	//
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
 	pObject = new CGameObject;
 	pObject->SetName(L"Anchor");
@@ -181,7 +181,16 @@ void CreateTestLevel()
 
 	SpawnGameObject(pObject, Vec3(2500.f, 500.f, 3000.f), (int)LAYER::ANCHOR);
 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Bomb");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CMagic_BombScript);
+	//pObject->AddComponent(new CRigidbody);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
 
+	// 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Grunt");

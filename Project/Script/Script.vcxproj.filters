@@ -447,9 +447,6 @@
     <ClInclude Include="CLurkerScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="CBazookaGasGrenadeScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
@@ -483,6 +480,9 @@
     </ClInclude>
     <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -822,9 +822,6 @@
     <ClCompile Include="CLurkerScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="CBazookaGasGrenadeScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
@@ -858,6 +855,9 @@
     </ClCompile>
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

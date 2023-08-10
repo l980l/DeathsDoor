@@ -32,12 +32,15 @@ void CMagic_ArrowScript::tick()
 
 void CMagic_ArrowScript::BeginOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+	if (_Other->GetOwner()->GetScript<CStateScript>())
 	{
-		Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		CurStat.HP -= m_fDamage;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
-		Destroy();
+		if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+		{
+			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+			CurStat.HP -= m_fDamage;
+			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
+			Destroy();
+		}
 	}
 	 // 터지는 효과 등 나오게 할 것
 }
