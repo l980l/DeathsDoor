@@ -25,7 +25,7 @@ CPlyMagic_Hook::CPlyMagic_Hook()
 	}
 	if (m_vecChain.empty())
 	{
-		for (int i = 0; i < 80; ++i)
+		for (int i = 0; i < 40; ++i)
 		{
 			CGameObject* Chain = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Chain.prefab", (int)LAYER::DEFAULT, Vec3(0.f, 0.f, 0.f));
 			Chain->Transform()->SetRelativeScale(0.f, 0.f, 0.f);

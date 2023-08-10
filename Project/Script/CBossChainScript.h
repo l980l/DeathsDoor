@@ -9,30 +9,26 @@ class CBossChainScript :
 private:
     CCrowBossChainThrow*    m_pChainScript;
     vector<CGameObject*>    m_vecChain;
-    Vec3                    m_vThrowStartPos;
-    Vec3                    m_vThrownDir;
-    Vec3                    m_vAttackDir;
-    float                   m_fTime;
+    Vec3                    m_vThrowStartPos;       // 던지기 시작한 위치
+    Vec3                    m_vThrownDir;           // 던지는 방향(거리로 사용)
+    Vec3                    m_vThrownRot;           // 던지는 방향(회전각도)
+    float                   m_fThrowDistance;       // 날아가야 하는 거리
     float                   m_fDistancetoTarget;    // Hookpos와의 거리
     float                   m_fChainSpacing;        // 체인 당 차지하는 공간
-    bool                    m_bSnatch;              // 낚아챔 유무
-    bool                    m_bReturn;              // 낚아채지 못하고 돌아오는 중
     bool                    m_bActive;
 
 private:
     void SetChainScript(CCrowBossChainThrow* _pChainScript) { m_pChainScript = _pChainScript; }
     void SetChain(vector<CGameObject*>& _vecChain) { m_vecChain = _vecChain; }
+
 public:
     virtual void begin() override;
     virtual void tick() override;
 
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
-    void SetAttackDir(Vec3 _vDir) { m_vAttackDir = _vDir; }
+    void SetThrowRot(Vec3 _vThrowRot) { m_vThrownRot = _vThrowRot; }
     void SetThrowStartPos(Vec3 _vStartPos) { m_vThrowStartPos = _vStartPos; }
     void Active(bool _bActive);
-
-    virtual void BeginOverlap(CCollider3D* _Other) override;
-    virtual void EndOverlap(CCollider3D* _Other) override;
 
     void PaveChain();
     void Clear();
