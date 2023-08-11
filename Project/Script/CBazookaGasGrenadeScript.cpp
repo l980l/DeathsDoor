@@ -24,7 +24,7 @@ void CBazookaGasGrenadeScript::tick()
 		if (m_fBulletTime < 1.f)
 		{
 			Vec3 Velocity = m_ShotDir;
-			float fSpeed = 85000.f;
+			float fSpeed = 70000.f;
 			Velocity *= fSpeed * DT;
 
 			GetOwner()->Rigidbody()->SetVelocity(Velocity);
