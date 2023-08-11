@@ -29,7 +29,7 @@
 #include <Script/CMainLightScript.h>
 #include <Script/CKnightScript.h>
 #include <Script/CGrimKnightScript.h>
-
+#include <Engine/CSound.h>
 #include "CLevelSaveLoad.h"
 
 
@@ -47,6 +47,13 @@ void CreateTestLevel()
 	CEventMgr::GetInst()->AddEvent(evn);
 
 
+	/*Ptr<CSound> CrowBossBGM = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\BGM\\DeathsDoorPiano.mp3");
+	CrowBossBGM->PlayBGM(0, 0.5f);
+
+	Ptr<CSound> BatAttack = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\Monster\\Bat\\BatAttack.ogg");
+	BatAttack->PlaySFX(0, 0.5f);*/
+
+	//pSound->g_pFMOD->createSound("testsound",FMOD_MODE::)
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
@@ -82,7 +89,21 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(GKnight, Vec3(2500.f, 500.f, 2500.f), (int)LAYER::ITEM);
 
+	CGameObject* pGhost = new CGameObject;
+	pGhost->SetName(L"Ghost");
 
+	pGhost->AddComponent(new CTransform);
+	pGhost->AddComponent(new CCollider3D);
+	pGhost->AddComponent(new CMeshRender);
+
+	pGhost->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
+	pGhost->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	pGhost->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	int a = 1;
+	pGhost->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+	//pGhost->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.1f,0.f,0.5f,1.f));
+	pGhost->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\GhostGreen.png"));
+	SpawnGameObject(pGhost, Vec3(2500.f, 800.f, 3000.f), 0);
 
 
 	return;

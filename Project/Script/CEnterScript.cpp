@@ -24,7 +24,7 @@ void CEnterScript::tick()
 
 void CEnterScript::BeginOverlap(CColiider3D* _Other)
 {
-	CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, false);
+	CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);
 	SetLifeSpan(0.f);
 }
 

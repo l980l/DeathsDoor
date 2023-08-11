@@ -19,11 +19,11 @@ CPlyAttack::CPlyAttack()
 	, m_vMouseDir{}
 	, m_fSlashStartTime(-3.f)
 {
-	m_pSlash[(UINT)SLASH::RIGHT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
-	m_pSlash[(UINT)SLASH::LEFT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//SLASH_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	/*m_pSlash[(UINT)SLASH::RIGHT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//Slash_R.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));
+	m_pSlash[(UINT)SLASH::LEFT] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab//Slash_L.prefab", (int)LAYER::PLAYERPROJECTILE, Vec3(0.f, 0.f, 0.f));*/
 
 	// Emissive·Î
-	for (UINT i = 0; i < (UINT)SLASH::END; ++i)
+	/*for (UINT i = 0; i < (UINT)SLASH::END; ++i)
 	{
 		int a = 1;
 		m_pSlash[i]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
@@ -31,7 +31,7 @@ CPlyAttack::CPlyAttack()
 		m_pSlash[i]->Transform()->SetRelativeScale(Vec3(0.f));
 		m_pSlash[i]->Collider3D()->SetAbsolute(true);
 		m_pSlash[i]->Collider3D()->SetOffsetScale(Vec3(0.f));
-	}
+	}*/
 }
 
 CPlyAttack::~CPlyAttack()

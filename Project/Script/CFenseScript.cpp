@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CFenseScript.h"
+#include "CSpawnMgr.h"
 
 CFenseScript::CFenseScript() :
 	CScript(SCRIPT_TYPE::FENSESCRIPT)
@@ -36,13 +37,13 @@ void CFenseScript::tick()
 	}
 }
 
-void CFenseScript::CloseDoor()
+void CFenseScript::CloseFence()
 {
 	m_bClose = true;
 	m_vStartPos = Transform()->GetWorldPos();
 }
 
-void CFenseScript::OpenDoor()
+void CFenseScript::OpenFence()
 {
 	m_bOpen = true;
 	m_vStartPos = Transform()->GetWorldPos();
