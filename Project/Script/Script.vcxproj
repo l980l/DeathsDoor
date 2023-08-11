@@ -203,6 +203,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazzokaMelee.h" />
     <ClInclude Include="CBazzokaMove.h" />
     <ClInclude Include="CBombIconScript.h" />
+    <ClInclude Include="CBossChainScript.h" />
     <ClInclude Include="CBrazierScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CCrowBossBatBullet.h" />
@@ -300,7 +301,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMoneyCountScript.h" />
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CCursorScript.h" />
-    <ClInclude Include="CNaviTestScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
     <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
@@ -384,6 +384,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazzokaMelee.cpp" />
     <ClCompile Include="CBazzokaMove.cpp" />
     <ClCompile Include="CBombIconScript.cpp" />
+    <ClCompile Include="CBossChainScript.cpp" />
     <ClCompile Include="CBrazierScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CCrowBossBatBullet.cpp" />
@@ -481,7 +482,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMoneyCountScript.cpp" />
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CCursorScript.cpp" />
-    <ClCompile Include="CNaviTestScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
     <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />

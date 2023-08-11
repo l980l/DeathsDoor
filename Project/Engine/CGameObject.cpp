@@ -189,14 +189,32 @@ void CGameObject::AddChild(CGameObject* _Object)
 	{
 		// 기존 부모가 있으면 연결 해제 후 연결
 		_Object->DisconnectFromParent();
-	}
-	
+	}	
 	else
 	{
 		// 기존 부모가 없으면, 소속 레이어에서 최상위부모 목록에서 제거된 후 연결
 		_Object->ChangeToChildType();
 	}
 	
+
+	// 부모 자식 연결
+	_Object->m_Parent = this;
+	m_vecChild.push_back(_Object);
+}
+
+void CGameObject::AddChild(CGameObject* _Object, int _iLayer)
+{
+	if (_Object->m_Parent)
+	{
+		// 기존 부모가 있으면 연결 해제 후 연결
+		_Object->DisconnectFromParent();
+	}
+	else
+	{
+		// 기존 부모가 없으면, 소속 레이어에서 최상위부모 목록에서 제거된 후 연결
+		_Object->ChangeToChildType(_iLayer);
+	}
+
 
 	// 부모 자식 연결
 	_Object->m_Parent = this;
@@ -247,6 +265,16 @@ void CGameObject::ChangeToChildType()
 		CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
 		pLayer->RemoveFromParentList(this);
 	}
+}
+
+void CGameObject::ChangeToChildType(int _iLayer)
+{
+	if (-1 != m_iLayerIdx) 
+	{
+		CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
+		pLayer->RemoveFromParentList(this);
+	}
+	m_iLayerIdx = _iLayer;
 }
 
 void CGameObject::AddParentList()

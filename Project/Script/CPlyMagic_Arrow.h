@@ -3,6 +3,7 @@
 class CPlyMagic_Arrow :
     public CState
 {
+private:
     Vec3  m_vAttackDir;
 
 public:

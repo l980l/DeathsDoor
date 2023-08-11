@@ -5,15 +5,13 @@
 
 void CBazookaGasGrenadeScript::begin()
 {
-	Vec3 Velocity = m_ShotDir;
-	float fSpeed = 50.f;
-	Velocity *= fSpeed;
-
-	GetOwner()->Rigidbody()->SetVelocity(Velocity);
-
 	// 가스탄 파티클 프리펩.
-	m_GasBulletParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", 3, GetOwner()->Transform()->GetWorldPos());
-	CPhysXMgr::GetInst()->SetRigidPos(m_GasBulletParticle->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
+	m_GasBulletParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos());
+	m_GasBulletParticle->ParticleSystem()->SetEmissive(true);
+
+	GetOwner()->AddChild(m_GasBulletParticle);
+
+	m_fBulletTime = 0.f;
 }
 
 void CBazookaGasGrenadeScript::tick()
@@ -21,6 +19,17 @@ void CBazookaGasGrenadeScript::tick()
 	// 날아가는 중
 	if (m_iState == 0)
 	{
+		m_fBulletTime += DT;
+
+		if (m_fBulletTime < 1.f)
+		{
+			Vec3 Velocity = m_ShotDir;
+			float fSpeed = 85000.f;
+			Velocity *= fSpeed * DT;
+
+			GetOwner()->Rigidbody()->SetVelocity(Velocity);
+		}
+
 		Vec3 CurVelocity = GetOwner()->Rigidbody()->GetVelocity();
 
 		// 이전 프레임에는 낙하중인 경우.
@@ -30,11 +39,10 @@ void CBazookaGasGrenadeScript::tick()
 			if (CurVelocity.y > 0.f)
 			{
 				// 퍼지는 독가스 파티클 프리펩.
-				m_GasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 4.f);
-				m_GasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 4.f);
-
-				CPhysXMgr::GetInst()->SetRigidPos(m_GasRoundParticle->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
-				CPhysXMgr::GetInst()->SetRigidPos(m_GasCenterParticle->Rigidbody()->GetRigidbody(), GetOwner()->Transform()->GetWorldPos());
+				m_GasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos(), 3.f);
+				m_GasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos(), 3.f);
+				m_GasCenterParticle->ParticleSystem()->SetEmissive(true);
+				m_GasRoundParticle->ParticleSystem()->SetEmissive(true);
 
 				// 가스탄 삭제
 				DestroyObject(m_GasBulletParticle);
@@ -48,12 +56,18 @@ void CBazookaGasGrenadeScript::tick()
 	// 퍼지는 경우
 	else if (m_iState == 1)
 	{
+		m_fGasTime += DT;
+
 		// 퍼지는 독가스 파티클 프리펩.
 		GetOwner()->Rigidbody()->ClearForce();
 
-		// 시간이 지나서 m_GasParticle2도 사라졌으면 Destroy
-		if (!m_GasCenterParticle&& !m_GasRoundParticle)
+		if (m_fGasTime >= 3.f)
+		{
+			DestroyObject(m_GasCenterParticle);
+			DestroyObject(m_GasRoundParticle);
+
 			Destroy();
+		}
 	}
 }
 
@@ -80,6 +94,8 @@ CBazookaGasGrenadeScript::CBazookaGasGrenadeScript() :
 	, m_GasBulletParticle(nullptr)
 	, m_GasCenterParticle(nullptr)
 	, m_GasRoundParticle(nullptr)
+	, m_fBulletTime(0.f)
+	, m_fGasTime(0.f)
 {
 }
 
@@ -89,6 +105,8 @@ CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScrip
 	, m_GasBulletParticle(nullptr)
 	, m_GasCenterParticle(nullptr)
 	, m_GasRoundParticle(nullptr)
+	, m_fBulletTime(0.f)
+	, m_fGasTime(0.f)
 {
 }
 

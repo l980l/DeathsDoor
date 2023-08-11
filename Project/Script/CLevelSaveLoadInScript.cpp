@@ -473,8 +473,8 @@ void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int ind, Vec3 _v
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time != -1)
-        newPrefab->SetLifeSpan(time);
+    if (time >= 0.f)
+            newPrefab->SetLifeSpan(time);
     fclose(pFile);
 }
 CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
@@ -490,7 +490,7 @@ CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath,
     Vec3 prefpos = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time != -1)
+    if (time >= 0.f)
         newPrefab->SetLifeSpan(time);
     fclose(pFile);
     return newPrefab;

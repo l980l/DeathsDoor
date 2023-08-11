@@ -6,7 +6,8 @@ class CPlyLadder :
 private:
     float   m_fSpeed;
     float   m_fStartYPos;
-    float   m_fYDistance;
+    float   m_fLadderHeight;
+    bool    m_bEnd;
 
 public:
     virtual void Enter() override;
@@ -14,11 +15,7 @@ public:
     virtual void Exit() override;
 
     void Move();
-    void SetHeight(float _fHeight) { m_fYDistance = _fHeight; }
-
-    virtual void BeginOverlap(CCollider3D* _Other);
-    virtual void OnOverlap(CCollider3D* _Other);
-    virtual void EndOverlap(CCollider3D* _Other);
+    void SetHeight(float _fHeight) { m_fLadderHeight = _fHeight; }
 
     CLONE(CPlyLadder);
 

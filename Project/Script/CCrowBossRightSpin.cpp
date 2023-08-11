@@ -9,29 +9,39 @@ void CCrowBossRightSpin::Enter()
 
 void CCrowBossRightSpin::tick()
 {
-	// 애니메이션 동안 Player를 바라보도록 회전해야 함.
-
+	// Player 응시
+	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
 
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		// 패턴 선택. 달리기, 점프, 사슬.
 		srand(time(0));
-		int iRandom = rand() % 4;
+		int iRandom = rand() % 3;
 
 		// 달리기
 		if (iRandom == 0)
+		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
 			ChangeState(L"Run");
+		}
 		// 점프
 		else if (iRandom == 1)
+		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"Jump");
+		}
 		// 사슬
 		else if (iRandom == 2)
+		{
+			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"SlidingReady");
+		}
 	}
 }
 
 void CCrowBossRightSpin::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 CCrowBossRightSpin::CCrowBossRightSpin()

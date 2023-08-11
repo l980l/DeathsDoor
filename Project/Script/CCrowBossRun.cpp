@@ -9,31 +9,31 @@ void CCrowBossRun::Enter()
 
 void CCrowBossRun::tick()
 {
-	// 공격범위 이내에 플레이어가 있으면 NailAttackReady.
-	Vec3 PlayerPos = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerPos();
-	float fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
+	m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
 
-	Vec3 Velocity = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
+	Vec3 Velocity = m_Dir;
 	float fSpeed = GetOwnerScript()->GetStat().Speed;
-	Velocity *= fSpeed;
+	Velocity *= fSpeed * 10.f * DT;
 
 	GetOwner()->Rigidbody()->AddVelocity(Velocity);
 
 	// 애니메이션이 끝난 경우.
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
+		++m_iTime;
+		GetOwner()->Animator3D()->Play(14, false);
+
 		// 애니메이션 4번 재생 후 다른 State로
 		if (m_iTime>=3)
 		{
 			ChangeState(L"RightSpin");
 		}
-	
-		++m_iTime;
 	}
 }
 
 void CCrowBossRun::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	m_iTime = 0;
 }
 

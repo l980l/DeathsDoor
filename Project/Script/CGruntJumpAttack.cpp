@@ -6,8 +6,6 @@ void CGruntJumpAttack::Enter()
 {
 	GetOwner()->Animator3D()->Play(12, false);
 
-	// Player 응시
-	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
 	// 공격 방향은 처음에만 지정해야 함. 
 	m_Dir = GetOwner()->GetScript<CGruntScript>()->GetMonsterToPlayerDir();
 	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);

@@ -5,6 +5,7 @@
 void CBazookaDeath::Enter()
 {
 	GetOwner()->GetScript<CBazookaScript>()->SetPaperBurnEffect(true);
+	GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
 	// 몬스터 사망시 현재까지 흐른 시간을 저장.
 	m_bStartPaperBurn = true;
 }

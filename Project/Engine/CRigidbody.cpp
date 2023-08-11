@@ -15,8 +15,6 @@ CRigidbody::CRigidbody()
 
 CRigidbody::~CRigidbody()
 {
-    //if(nullptr != m_PxRigidbody)
-    //    CPhysXMgr::GetInst()->ReleaseDynamic(m_PxRigidbody, GetOwner());
 }
 
 void CRigidbody::SetRigidbody(void* _pRigidbody)
@@ -41,6 +39,11 @@ void CRigidbody::SetShapeType(PxGeometryType::Enum _ShapeInfo)
         m_PxShapeType = SHAPE_TYPE::SPHERE;
         break;
     }
+}
+
+void CRigidbody::SetRigidPos(Vec3 _vPos)
+{
+    CPhysXMgr::GetInst()->SetRigidPos(m_PxRigidbody, _vPos);
 }
 
 PxGeometryType::Enum CRigidbody::GetShapeType()

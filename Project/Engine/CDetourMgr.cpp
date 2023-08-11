@@ -47,7 +47,8 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel((LEVEL_TYPE)CLevelMgr::GetInst()->GetCurLevel()->GetLevelType());
+	ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+	//ChangeLevel((LEVEL_TYPE)CLevelMgr::GetInst()->GetCurLevel()->GetLevelType());
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)

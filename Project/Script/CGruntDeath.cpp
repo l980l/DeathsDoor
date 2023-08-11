@@ -5,6 +5,7 @@
 void CGruntDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(13, false);
+	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
 }
 
 void CGruntDeath::tick()

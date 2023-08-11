@@ -5,11 +5,21 @@ class CMagic_BombScript :
 {
 private:
     float   m_fDamage;
+    float   m_fSpeed;
+    Vec3    m_vDir;
+    bool    m_bThrow;
+    float   m_fPrevDirRatio;
 
 public:
     virtual void begin() override;
     virtual void tick() override;
     void SetDamege(float _fDamege) { m_fDamage = _fDamege; }
+    void SetDir(Vec3 _vDir) {
+        m_vDir = _vDir.Normalize(); 
+        m_vDir.y = 0.f; 
+        m_fPrevDirRatio = m_vDir.x / m_vDir.z;
+    }
+    void SetThrow() { m_bThrow = true; }
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;

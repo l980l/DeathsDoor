@@ -4,6 +4,9 @@
 
 CMagic_FireScript::CMagic_FireScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_FIRESCRIPT)
+	, m_fDamage(0.f)
+	, m_vDir{}
+	, m_fSpeed(1200.f)
 {
 }
 
@@ -17,16 +20,22 @@ void CMagic_FireScript::begin()
 
 void CMagic_FireScript::tick()
 {
+	Vec3 CurPos = Transform()->GetRelativePos();
+	CurPos += m_vDir * m_fSpeed * DT;
+	Transform()->SetRelativePos(CurPos);
 }
 
 void CMagic_FireScript::BeginOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+	if (_Other->GetOwner()->GetScript<CStateScript>())
 	{
-		Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		CurStat.HP -= m_fDamage;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
-		Destroy();
+		if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+		{
+			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+			CurStat.HP -= m_fDamage;
+			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
+			Destroy();
+		}
 	}
 }
 

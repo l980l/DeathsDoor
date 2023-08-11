@@ -56,6 +56,7 @@ public:
 
 private:
     physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, float _fYOffset,  const PxVec3& velocity = PxVec3(0));
+    void SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos);
 
 public:
     // 동적 물체 생성 함수.
@@ -67,13 +68,14 @@ public:
     physx::PxRigidStatic* ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
     physx::PxRigidStatic* CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object);
 
-    void SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos);
     void ReleaseStatic(physx::PxRigidStatic* _pStatic);
     void ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject);
+
     // 평면 생성 함수
     physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
     void AddDynamicActor(CRigidbody* _pRigidbody);
     void Clear();
     void ChangeLevel(LEVEL_TYPE _tType);
 
+    friend class CRigidbody;
 };

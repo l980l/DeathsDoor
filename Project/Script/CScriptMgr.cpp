@@ -10,6 +10,7 @@
 #include "CBazookaGasGrenadeScript.h"
 #include "CBazookaScript.h"
 #include "CBombIconScript.h"
+#include "CBossChainScript.h"
 #include "CBrazierScript.h"
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
@@ -39,7 +40,6 @@
 #include "CMissileScript.h"
 #include "CMoneyCountScript.h"
 #include "CMonsterDetectRangeScript.h"
-#include "CNaviTestScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
@@ -63,6 +63,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBazookaGasGrenadeScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBombIconScript");
+	_vec.push_back(L"CBossChainScript");
 	_vec.push_back(L"CBrazierScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
@@ -92,7 +93,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMoneyCountScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
-	_vec.push_back(L"CNaviTestScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
@@ -126,6 +126,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBazookaScript;
 	if (L"CBombIconScript" == _strScriptName)
 		return new CBombIconScript;
+	if (L"CBossChainScript" == _strScriptName)
+		return new CBossChainScript;
 	if (L"CBrazierScript" == _strScriptName)
 		return new CBrazierScript;
 	if (L"CCameraMoveScript" == _strScriptName)
@@ -184,8 +186,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMoneyCountScript;
 	if (L"CMonsterDetectRangeScript" == _strScriptName)
 		return new CMonsterDetectRangeScript;
-	if (L"CNaviTestScript" == _strScriptName)
-		return new CNaviTestScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
@@ -241,6 +241,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BOMBICONSCRIPT:
 		return new CBombIconScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOSSCHAINSCRIPT:
+		return new CBossChainScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BRAZIERSCRIPT:
 		return new CBrazierScript;
@@ -329,9 +332,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return new CMonsterDetectRangeScript;
 		break;
-	case (UINT)SCRIPT_TYPE::NAVITESTSCRIPT:
-		return new CNaviTestScript;
-		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
 		break;
@@ -407,6 +407,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BOMBICONSCRIPT:
 		return L"CBombIconScript";
+		break;
+
+	case SCRIPT_TYPE::BOSSCHAINSCRIPT:
+		return L"CBossChainScript";
 		break;
 
 	case SCRIPT_TYPE::BRAZIERSCRIPT:
@@ -523,10 +527,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return L"CMonsterDetectRangeScript";
-		break;
-
-	case SCRIPT_TYPE::NAVITESTSCRIPT:
-		return L"CNaviTestScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

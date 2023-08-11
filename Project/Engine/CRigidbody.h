@@ -17,15 +17,12 @@ private:
 public:
     virtual void finaltick() override {};
     
-    void SetGround(bool _bOn) {};
-    void SetFriction(float _fFriction) {};
-    void SetFrictionScale(float _fFrictionScale) {};
-
 public:
     void SetRigidbody(void* _pRigidbody);
     void SetShapeType(physx::PxGeometryType::Enum _ShapeInfo);
     void SetRigidScale(Vec3 _vScale) { m_vScale = _vScale; }
     void SetSpawnPos(Vec3 _pxSpawnPos) { m_vSpawnPos =  _pxSpawnPos; }
+    void SetRigidPos(Vec3 _vPos);
 
     physx::PxRigidDynamic* GetRigidbody() { return m_PxRigidbody; }
     physx::PxGeometryType::Enum GetShapeType();

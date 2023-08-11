@@ -5,6 +5,7 @@
 void CCrowBossDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(7, false);
+	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 }
 
 void CCrowBossDeath::tick()

@@ -2,6 +2,16 @@
 #include "CMonsterDetectRangeScript.h"
 #include "CMonsterScript.h"
 
+CMonsterDetectRangeScript::CMonsterDetectRangeScript()
+	: CScript((UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT)
+	, m_bDetect(false)
+{
+}
+
+CMonsterDetectRangeScript::~CMonsterDetectRangeScript()
+{
+}
+
 void CMonsterDetectRangeScript::begin()
 {
 }
@@ -21,20 +31,4 @@ void CMonsterDetectRangeScript::BeginOverlap(CCollider3D* _Other)
 
 		Destroy();
 	}
-}
-
-void CMonsterDetectRangeScript::OnOverlap(CCollider3D* _Other)
-{
-	int a = 0;
-}
-
-
-CMonsterDetectRangeScript::CMonsterDetectRangeScript()
-	: CScript((UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT)
-	, m_bDetect(false)
-{
-}
-
-CMonsterDetectRangeScript::~CMonsterDetectRangeScript()
-{
 }

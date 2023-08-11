@@ -7,6 +7,7 @@ CBatScript
 CBazookaGasGrenadeScript
 CBazookaScript
 CBombIconScript
+CBossChainScript
 CBrazierScript
 CCameraMoveScript
 CCrowBossScript
@@ -36,7 +37,6 @@ CMainLightScript
 CMissileScript
 CMoneyCountScript
 CMonsterDetectRangeScript
-CNaviTestScript
 CPlayerScript
 CPlayerWeaponScript
 CRoomScript

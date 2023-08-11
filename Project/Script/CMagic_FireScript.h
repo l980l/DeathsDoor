@@ -5,11 +5,14 @@ class CMagic_FireScript :
 {
 private:
     float   m_fDamage;
+    Vec3    m_vDir;
+    float   m_fSpeed;
 
 public:
     virtual void begin() override;
     virtual void tick() override;
     void SetDamege(float _fDamege) { m_fDamage = _fDamege; }
+    void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); m_vDir.y = 0.f; }
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;

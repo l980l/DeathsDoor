@@ -10,6 +10,8 @@ private:
     CGameObject*    m_GasBulletParticle;
     CGameObject*    m_GasCenterParticle;
     CGameObject*    m_GasRoundParticle;
+    float           m_fBulletTime;
+    float           m_fGasTime;
 
 public:
     void SetShotDir(Vec3 _ShotDir) { m_ShotDir = _ShotDir; }
