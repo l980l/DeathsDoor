@@ -20,6 +20,7 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
     void SetInvincible(float _fMoveTime) { m_fMoveTime = _fMoveTime; }
     void SetMoveCamera(float _vTargetScale, float _fTime);
+    Vec3 GetDistance() { return m_vDistance; }
 
 
     CLONE(CGameCameraScript);

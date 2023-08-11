@@ -119,12 +119,22 @@ PS_OUT PS_Water(VS_OUT _in) : SV_Target
     // 텍스쳐가 있으면, 해당 색상을 사용한다.
     if (g_btex_0)
     {
+        float fChange = cos(((_in.vUV.x - g_AccTime * 0.05f) / 0.15f) * 2 * 3.1415926535f) * 0.005f;
+        
+       _in.vUV.y += fChange;
+        
         vObjectColor = g_tex_0.Sample(g_sam_0, _in.vUV);
         
         // 색상이 없는 경우.
         if (!any(vObjectColor))
         {
-            vObjectColor = float4(0.29f, 0.43f, 0.3f, 1.f);
+            vObjectColor = float4(0.29f, 0.43f, 0.3f, 1.f) * 2.f;
+        }
+        
+        else
+        {
+            vObjectColor *= float4(0.29f, 0.43f, 0.3f, 1.f) * 2.f;
+
         }
     }
        

@@ -2,8 +2,10 @@
 #include "CCrowBossScript.h"
 #include "CStateScript.h"
 #include "CrowBossStates.h"
+#include "CLevelSaveLoadInScript.h"
 
 #include <Engine/CDetourMgr.h>
+#include <Engine/CPhysXMgr.h>
 
 CCrowBossScript::CCrowBossScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::CROWBOSSSCRIPT)
@@ -101,7 +103,13 @@ void CCrowBossScript::BeginOverlap(CCollider3D* _Other)
 	// 피격시 까마귀 머리 생성.
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::PLAYERPROJECTILE)
 	{
+		/*Vec3 CurPos = Transform()->GetWorldPos();
 
+		Vec3 vDir = Transform()->GetXZDir();
+		Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 100.f, CurPos.z) + vDir * 100.f;
+
+		CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\CrowHead.prefab", (int)LAYER::MONSTERPROJECTILE, vSpawnPos);
+		CPhysXMgr::GetInst()->SetRigidPos(pGasGrenade->Rigidbody()->GetRigidbody(), vSpawnPos);*/
 	}
 }
 
