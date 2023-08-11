@@ -84,6 +84,5 @@ void CCrowBossSliding::ArriveToTarget()
 			ChangeState(L"RightSpin");
 		}
 	}
-
 	
 }
