@@ -207,7 +207,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBrazierScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CCrowBossBatBullet.h" />
-    <ClInclude Include="CCrowBossChainThrow.h" />
     <ClInclude Include="CCrowBossCutScene.h" />
     <ClInclude Include="CCrowBossDeath.h" />
     <ClInclude Include="CCrowBossGuidedBullet.h" />
@@ -388,7 +387,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBrazierScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CCrowBossBatBullet.cpp" />
-    <ClCompile Include="CCrowBossChainThrow.cpp" />
     <ClCompile Include="CCrowBossCutScene.cpp" />
     <ClCompile Include="CCrowBossDeath.cpp" />
     <ClCompile Include="CCrowBossGuidedBullet.cpp" />

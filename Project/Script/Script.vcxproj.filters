@@ -439,6 +439,12 @@
     <ClInclude Include="CBossChainScript.h">
       <Filter>Script\02. Script\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="CrowBossStates.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossWalk.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
+    </ClInclude>
     <ClInclude Include="CCrowBossBatBullet.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
@@ -480,15 +486,6 @@
     </ClInclude>
     <ClInclude Include="CCrowBossStomp.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CCrowBossWalk.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CrowBossStates.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
-    </ClInclude>
-    <ClInclude Include="CCrowBossChainThrow.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -867,9 +864,6 @@
     </ClCompile>
     <ClCompile Include="CCrowBossWalk.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CCrowBossChainThrow.cpp">
-      <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

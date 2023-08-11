@@ -39,7 +39,7 @@ void CPlyMagic_Bomb::tick()
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 120.f, CurPos.z) + vDir * 20.f;
 			m_Bomb = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Bomb.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
-			CPhysXMgr::GetInst()->SetRigidPos(m_Bomb->Rigidbody()->GetRigidbody(), vSpawnPos);
+			m_Bomb->Rigidbody()->SetRigidPos(vSpawnPos);
 		}
 		 else if (KEY_RELEASE(KEY::RBTN))
 		{
@@ -61,7 +61,7 @@ void CPlyMagic_Bomb::tick()
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 120.f, CurPos.z) + vDir * 40.f;
-			CPhysXMgr::GetInst()->SetRigidPos(m_Bomb->Rigidbody()->GetRigidbody(), vSpawnPos);
+			m_Bomb->Rigidbody()->SetRigidPos(vSpawnPos);
 		}
 	}
 	else if (GetOwner()->Animator3D()->IsFinish() && GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::MAGIC_BOMB_FINISH)

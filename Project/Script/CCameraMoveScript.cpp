@@ -6,6 +6,7 @@
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
+	, m_fCamSpeed(1000.f)
 {
 }
 

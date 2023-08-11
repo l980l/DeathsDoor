@@ -1,13 +1,15 @@
 #pragma once
 #include <Engine/CScript.h>
 
-class CCrowBossChainThrow;
+class CCrowBossSlidingReady;
+class CCrowBossSliding;
 
 class CBossChainScript :
     public CScript
 {
 private:
-    CCrowBossChainThrow*    m_pChainScript;
+    CCrowBossSlidingReady*  m_pChainScript;
+    CCrowBossSliding*       m_pSlidingScript;
     vector<CGameObject*>    m_vecChain;
     Vec3                    m_vThrowStartPos;       // 던지기 시작한 위치
     Vec3                    m_vThrownDir;           // 던지는 방향(거리로 사용)
@@ -16,9 +18,11 @@ private:
     float                   m_fDistancetoTarget;    // Hookpos와의 거리
     float                   m_fChainSpacing;        // 체인 당 차지하는 공간
     bool                    m_bActive;
+    float                   m_fDelay;
 
 private:
-    void SetChainScript(CCrowBossChainThrow* _pChainScript) { m_pChainScript = _pChainScript; }
+    void SetSlidingScript(CCrowBossSliding* _pSlidingScript) { m_pSlidingScript = _pSlidingScript; }
+    void SetChainScript(CCrowBossSlidingReady* _pChainScript) { m_pChainScript = _pChainScript; }
     void SetChain(vector<CGameObject*>& _vecChain) { m_vecChain = _vecChain; }
 
 public:
@@ -27,8 +31,9 @@ public:
 
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
     void SetThrowRot(Vec3 _vThrowRot) { m_vThrownRot = _vThrowRot; }
+    void SetThrowDistance(float _fDist) { m_fThrowDistance = _fDist; }
     void SetThrowStartPos(Vec3 _vStartPos) { m_vThrowStartPos = _vStartPos; }
-    void Active(bool _bActive);
+    void Active(bool _bActive, float _fDelay);
 
     void PaveChain();
     void Clear();
@@ -39,5 +44,7 @@ public:
     CBossChainScript();
     ~CBossChainScript();
 
+    friend class CCrowBossSlidingReady;
+    friend class CCrowBossSliding;
 };
 

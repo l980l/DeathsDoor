@@ -30,6 +30,7 @@
 #include <Script/CCrowBossScript.h>
 #include <Script/CSlashScript.h>
 #include <Script/CMonsterDetectRangeScript.h>
+#include <Script/CBossChainScript.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -143,6 +144,15 @@ void CreateTestLevel()
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Chain");
 	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::DEFAULT);
+
+	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Hook.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CBossChainScript);
+
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTERPROJECTILE);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
 	//pObject = pMeshData->Instantiate();
@@ -341,18 +351,37 @@ void CreateTestLevel()
 	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
-	pObject = pMeshData->Instantiate();
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+	// ======================
+	// Map
+	// ======================
 
-	delete pObject;
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
+	//pObject = pMeshData->Instantiate();
+	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+	//
+	//delete pObject;
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Map");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	CGameObject* pFloor = new CGameObject;
+	pFloor->AddComponent(new CTransform);
+	pFloor->AddComponent(new CMeshRender);
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Map");
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
+	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\CrowBossMapFloor.png"));
+	pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::DEFAULT);
+
+
+
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_L.fbx");
 	//pObject = pMeshData->Instantiate();

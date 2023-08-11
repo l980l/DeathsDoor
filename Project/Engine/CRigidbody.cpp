@@ -41,6 +41,11 @@ void CRigidbody::SetShapeType(PxGeometryType::Enum _ShapeInfo)
     }
 }
 
+void CRigidbody::SetRigidPos(Vec3 _vPos)
+{
+    CPhysXMgr::GetInst()->SetRigidPos(m_PxRigidbody, _vPos);
+}
+
 PxGeometryType::Enum CRigidbody::GetShapeType()
 {
     PxGeometryType::Enum Type = PxGeometryType::Enum::eINVALID;
