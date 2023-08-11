@@ -3,6 +3,10 @@
 class CWaterScript :
     public CScript
 {
+private:
+    CGameObject*    m_pPlayer;
+    float           m_fWaterHeight;
+
 public:
     virtual void begin() override;
     virtual void tick() override;

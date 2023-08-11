@@ -91,27 +91,6 @@ void CRenderMgr::init()
         m_MRT[(UINT)MRT_TYPE::DECAL]->Create(arrRTTex, arrClear, DSTex);
     }
 
-    //// ============================
-    //// Bloom , DownSample Tex, DOFTex
-    //// ============================
-    //{
-    //    Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
-    //    
-    //    Ptr<CTexture> BloomTex = CResMgr::GetInst()->CreateTexture(L"BloomLightTargetTex"
-    //        , (UINT)vRenderResolution.x / 4.f, (UINT)vRenderResolution.y / 4.f
-    //        , DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE
-    //        , D3D11_USAGE_DEFAULT);
-    //    Ptr<CTexture> DownSampleTex = CResMgr::GetInst()->CreateTexture(L"DownSampleTex", 
-    //        (UINT)vRenderResolution.x / 4.f, (UINT)vRenderResolution.y / 4.f,
-    //        DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS,
-    //        D3D11_USAGE_DEFAULT);
-    //    Ptr<CTexture> pDOFDepthTex = CResMgr::GetInst()->CreateTexture(L"DOFTex"
-    //        , vRenderResolution.x, vRenderResolution.y,
-    //        DXGI_FORMAT_R32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE,
-    //        D3D11_USAGE_DEFAULT);
-    //}
-
-
     // =========
     // Light MRT
     // =========

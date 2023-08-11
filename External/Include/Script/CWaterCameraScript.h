@@ -7,7 +7,9 @@ class CWaterCameraScript :
 private:
     CGameObject*                m_pMainCamera;      // MainCamera 포인터.
     float                       m_fWaterHeight;     // 물 높이.
-    Ptr<CTexture>               m_WaterCamTex;
+    Vec3                        m_vDistance;
+
+    float                       m_fYOffset;
 
 public:
     virtual void begin() override;
