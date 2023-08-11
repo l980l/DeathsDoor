@@ -3,7 +3,7 @@
 
 CGameCameraScript::CGameCameraScript()
 	: CScript((UINT)SCRIPT_TYPE::GAMECAMERASCRIPT)
-	, m_pPlayer(nullptr)
+	, m_pTarget(nullptr)
     , m_fMoveTime(0.f)
     , m_fPrevMoveTime(0.f)
     , m_fDiffer(0.f)
@@ -25,8 +25,8 @@ CGameCameraScript::~CGameCameraScript()
 
 void CGameCameraScript::begin()
 {
-	if (nullptr == m_pPlayer)
-		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	if (nullptr == m_pTarget)
+		m_pTarget = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
 	Camera()->SetScale(0.6f);
 }
@@ -50,7 +50,7 @@ void CGameCameraScript::tick()
 	
 	else
 	{
-		Vec3 CurPlayerPos = m_pPlayer->Transform()->GetWorldPos();
+		Vec3 CurPlayerPos = m_pTarget->Transform()->GetWorldPos();
 		CurPlayerPos.x += m_vDistance.x;
 		CurPlayerPos.y += m_vDistance.y;
 		CurPlayerPos.z -= m_vDistance.z;
