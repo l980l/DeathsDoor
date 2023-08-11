@@ -38,6 +38,7 @@ void CreateTestLevel()
 	CLevelSaveLoad script;
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+	
 	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
 	NewLevel->SetName(L"Castle");
 
@@ -89,21 +90,21 @@ void CreateTestLevel()
 	//
 	//SpawnGameObject(GKnight, Vec3(2500.f, 500.f, 2500.f), (int)LAYER::ITEM);
 
-	CGameObject* pGhost = new CGameObject;
-	pGhost->SetName(L"Ghost");
+	//CGameObject* pGhost = new CGameObject;
+	//pGhost->SetName(L"Ghost");
 
-	pGhost->AddComponent(new CTransform);
-	pGhost->AddComponent(new CCollider3D);
-	pGhost->AddComponent(new CMeshRender);
+	//pGhost->AddComponent(new CTransform);
+	//pGhost->AddComponent(new CCollider3D);
+	//pGhost->AddComponent(new CMeshRender);
 
-	pGhost->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
-	pGhost->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
-	pGhost->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	int a = 1;
-	pGhost->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
-	//pGhost->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.1f,0.f,0.5f,1.f));
-	pGhost->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\GhostGreen.png"));
-	SpawnGameObject(pGhost, Vec3(2500.f, 800.f, 3000.f), 0);
+	//pGhost->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
+	//pGhost->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh"));
+	//pGhost->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	//int a = 1;
+	//pGhost->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+	////pGhost->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.1f,0.f,0.5f,1.f));
+	//pGhost->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\GhostGreen.png"));
+	//SpawnGameObject(pGhost, Vec3(2500.f, 800.f, 3000.f), 0);
 
 
 	return;
@@ -159,13 +160,13 @@ void CreateTestLevel()
 
 	
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Knight.fbx");
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
 	//Knight = pMeshData->Instantiate();
-	//Knight->SetName(L"Knight");
+	//Knight->SetName(L"GrimKnight");
 	//Knight->AddComponent(new CStateScript);
 	//Knight->AddComponent(new CCollider3D);
 	//Knight->AddComponent(new CRigidbody);
-	//Knight->AddComponent(new CKnightScript);
+	//Knight->AddComponent(new CGrimKnightScript);
 	//Knight->Transform()->SetRelativeScale(Vec3(0.2f, 0.2f, 0.2f));
 	//Knight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 

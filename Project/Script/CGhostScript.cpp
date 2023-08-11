@@ -68,7 +68,6 @@ void CGhostScript::BeginOverlap(CCollider3D* _Other)
 
 		//script.SpawnPrefab(L"prefab\\")
 		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
-		//CPhysXMgr::GetInst()->ReleaseDynamic()
 		GetOwner()->SetLifeSpan(0.f);
 	}
 	if (L"GrimKnight" == _Other->GetOwner()->GetName() && isHit == true)
