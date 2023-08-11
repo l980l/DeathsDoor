@@ -13,6 +13,7 @@ CCrowBossScript::CCrowBossScript() :
 	, m_bStarePlayer(false)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_bDetect, "Detect");
+	AddScriptParam(SCRIPT_PARAM::INT, &m_Test, "m_Test");
 }
 
 CCrowBossScript::CCrowBossScript(const CCrowBossScript& _Other) :
@@ -89,6 +90,9 @@ void CCrowBossScript::tick()
 		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
 		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 	}
+
+	if(m_Test)
+		m_pStateScript->ChangeState(L"CutScene");
 }
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)

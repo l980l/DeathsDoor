@@ -11,6 +11,7 @@ private:
     float           m_fTargetScale;
     float           m_fPrevScale;
     Vec3            m_vDistance;
+    bool            m_bCutSceneView;
 
 public:
     virtual void begin() override;
@@ -24,6 +25,7 @@ public:
     
     void SetTarget(CGameObject* _pTarget) { m_pTarget = _pTarget; }
     void SetTargetPlayer(){ m_pTarget = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player"); }
+    void SetCutSceneView(bool _bCutSceneView);
 
 
     CLONE(CGameCameraScript);
