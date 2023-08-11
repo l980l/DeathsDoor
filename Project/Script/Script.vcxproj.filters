@@ -442,9 +442,6 @@
     <ClInclude Include="CrowBossStates.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
     </ClInclude>
-    <ClInclude Include="CCrowBossWalk.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
     <ClInclude Include="CCrowBossBatBullet.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
@@ -485,6 +482,9 @@
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
     <ClInclude Include="CCrowBossStomp.h">
+      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrowBossWalk.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
   </ItemGroup>
