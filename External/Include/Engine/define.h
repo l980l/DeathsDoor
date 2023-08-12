@@ -388,3 +388,10 @@ enum class PLAYER_UPGRADE
 	Magic,
 	END,
 };
+
+enum class CHAINPATERN
+{
+	ONE,
+	CROSS,
+	SPREAD,
+};

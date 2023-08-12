@@ -5,7 +5,6 @@
 
 CPlyMagic_Hooking::CPlyMagic_Hooking()
 	: m_vHookPos{}
-	, m_bAttack(false)
 	, m_pHook(nullptr)
 {
 }
@@ -42,20 +41,11 @@ void CPlyMagic_Hooking::tick()
 		GetOwner()->Rigidbody()->SetGravity(0.f);
 		GetOwner()->Rigidbody()->SetVelocity(m_vDir * 400.f);
 	}
-
-	if (!m_bAttack)
-	{
-		if(KEY_PRESSED(KEY::LBTN))
-		{
-			// 공격모션과 함께 대시공격 프리펩 생성
-		}
-	}
 }
 
 void CPlyMagic_Hooking::Exit()
 {
 	m_vHookPos = {};
 	m_vDir = {};
-	m_bAttack = false;
 	m_pHook->GetScript<CMagic_HookScript>()->Active(false);
 }

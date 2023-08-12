@@ -20,6 +20,7 @@ void CPlyHit::Enter()
 
 void CPlyHit::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	if(GetOwner()->Animator3D()->IsFinish())
 	{
 		if (GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::HIT)
