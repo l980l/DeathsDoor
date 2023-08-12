@@ -16,10 +16,11 @@ void CBazookaGasGrenadeScript::begin()
 
 void CBazookaGasGrenadeScript::tick()
 {
+	m_fBulletTime += DT;
+	
 	// 날아가는 중
 	if (m_iState == 0)
 	{
-		m_fBulletTime += DT;
 
 		if (m_fBulletTime < 1.f)
 		{
@@ -81,6 +82,11 @@ void CBazookaGasGrenadeScript::tick()
 
 			Destroy();
 		}
+	}
+
+	if (m_fBulletTime >= 7.f)
+	{
+		Destroy();
 	}
 }
 
