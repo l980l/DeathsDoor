@@ -36,16 +36,19 @@ void CBazookaGasGrenadeScript::tick()
 		if (m_PrevVelocity.y < 0.f)
 		{
 			// 땅에 튕긴거임. 
-			if (CurVelocity.y > 0.f)
+			if (CurVelocity.y >= 0.f)
 			{
+				GetOwner()->Rigidbody()->ClearForce();
+
 				// 퍼지는 독가스 파티클 프리펩.
-				m_GasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos(), 3.f);
-				m_GasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos(), 3.f);
-				m_GasCenterParticle->ParticleSystem()->SetEmissive(true);
+				m_GasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetRelativePos());
 				m_GasRoundParticle->ParticleSystem()->SetEmissive(true);
+				m_GasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetRelativePos());
+				m_GasCenterParticle->ParticleSystem()->SetEmissive(true);
 
 				// 가스탄 삭제
 				DestroyObject(m_GasBulletParticle);
+				m_GasBulletParticle = nullptr;
 				m_iState = 1;
 			}
 		}
@@ -61,10 +64,20 @@ void CBazookaGasGrenadeScript::tick()
 		// 퍼지는 독가스 파티클 프리펩.
 		GetOwner()->Rigidbody()->ClearForce();
 
-		if (m_fGasTime >= 3.f)
+		if (m_fGasTime >= 1.f)
 		{
-			DestroyObject(m_GasCenterParticle);
-			DestroyObject(m_GasRoundParticle);
+			if (m_GasCenterParticle && !m_GasCenterParticle->IsDead())
+			{
+				DestroyObject(m_GasCenterParticle);
+			}
+
+			if (m_GasRoundParticle && !m_GasRoundParticle->IsDead())
+			{
+				DestroyObject(m_GasRoundParticle);
+			}
+
+			m_GasCenterParticle = nullptr;
+			m_GasRoundParticle = nullptr;
 
 			Destroy();
 		}
@@ -112,4 +125,21 @@ CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScrip
 
 CBazookaGasGrenadeScript::~CBazookaGasGrenadeScript()
 {
+	if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
+	{
+		DestroyObject(m_GasBulletParticle);
+		m_GasBulletParticle = nullptr;
+	}
+
+	if (m_GasCenterParticle && !m_GasCenterParticle->IsDead())
+	{
+		DestroyObject(m_GasCenterParticle);
+		m_GasCenterParticle = nullptr;
+	}
+
+	if (m_GasRoundParticle && !m_GasRoundParticle->IsDead())
+	{
+		DestroyObject(m_GasRoundParticle);
+		m_GasRoundParticle = nullptr;
+	}
 }
