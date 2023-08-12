@@ -151,24 +151,25 @@ void CreateTestLevel()
 	pFloor->Transform()->SetRelativeRot(XM_PIDIV2, 0.f, 0.f);
 	SpawnGameObject(pFloor, Vec3(3000.f, 1.f, 3000.f), (int)LAYER::DEFAULT);
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Lurker");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CRigidbody);
-	//pObject->AddComponent(new CLurkerScript);
-	//pObject->AddComponent(new CStateScript);
 	//
-	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
-	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
-	//
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//
-	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
-	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Lurker");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CBatScript);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CStateScript);
+
+	pObject->Transform()->SetRelativeScale(0.2f, 0.2f, 0.2f);
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500, 650, 3000), 20.f, pObject);
+	SpawnGameObject(pObject, Vec3(2500, 650, 3000), (int)LAYER::MONSTER);
 
 	//CGameObject* pDetectRange = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab//Grunt.prefab", (int)LAYER::MONSTER, Vec3(0.f));
 	//pObject->AddChild(pDetectRange);
