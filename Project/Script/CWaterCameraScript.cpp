@@ -37,17 +37,20 @@ void CWaterCameraScript::tick()
 void CWaterCameraScript::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_fWaterHeight, sizeof(float), 1, _File);
+	fwrite(&m_fYOffset, sizeof(float), 1, _File);
 }
 
 void CWaterCameraScript::LoadFromLevelFile(FILE* _FILE)
 {
 	fread(&m_fWaterHeight, sizeof(float), 1, _FILE);
+	fread(&m_fYOffset, sizeof(float), 1, _FILE);
 }
 
 CWaterCameraScript::CWaterCameraScript()
 	: CScript((UINT)SCRIPT_TYPE::WATERCAMERASCRIPT)
 	, m_pMainCamera(nullptr)
 	, m_fWaterHeight(300.f)
+	, m_fYOffset(480.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fWaterHeight, "WaterHeight");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fYOffset, "m_YfTest");

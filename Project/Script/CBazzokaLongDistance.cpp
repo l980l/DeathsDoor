@@ -14,7 +14,7 @@ void CBazzokaLongDistance::Enter()
 	Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 	Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 100.f, CurPos.z) + vDir * 100.f;
 
-	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", (int)LAYER::MONSTERPROJECTILE, vSpawnPos);
+	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", (int)LAYER::MONSTERPROJECTILE, vSpawnPos, 6.f);
 	pGasGrenade->Rigidbody()->SetRigidPos(vSpawnPos);
 
 	// 45도 각도로 날릴때 가장 멀리 나간다고 가정. 

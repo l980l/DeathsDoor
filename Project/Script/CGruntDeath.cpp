@@ -15,6 +15,7 @@ void CGruntDeath::tick()
 	{
 		GetOwner()->GetScript<CGruntScript>()->SetPaperBurnEffect(true);
 		m_bStartPaperBurn = true;
+		GetOwner()->Animator3D()->SetStop(true);
 	}
 
 	if (m_bStartPaperBurn)

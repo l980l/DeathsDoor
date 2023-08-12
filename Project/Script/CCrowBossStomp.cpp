@@ -6,14 +6,17 @@ void CCrowBossStomp::Enter()
 {
 	GetOwner()->Animator3D()->Play(10, false);
 
-	m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
-	m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
+	if(m_Dir.Length())
+		m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
+
+	if(!m_fDistance)
+		m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
 }
 
 void CCrowBossStomp::tick()
 {
 	// 애니메이션 재생시간동안 플레이어의 위치까지 도달하기 위한 Velocity.
-	Vec3 Velocity = m_Dir * (m_fDistance / GetOwner()->Animator3D()->GetCurClipTimeLength());
+	Vec3 Velocity = m_Dir * (m_fDistance / (float)GetOwner()->Animator3D()->GetCurClipTimeLength());
 	Velocity *= DT;
 
 	GetOwner()->Rigidbody()->AddVelocity(Velocity);

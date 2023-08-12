@@ -33,6 +33,17 @@ void CCrowBossRightSpin::tick()
 		// »ç½½
 		else if (iRandom == 2)
 		{
+			Vec3 vPlayerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
+			Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
+			Vec3 vDiff = vPlayerPos - vCurPos;
+			vDiff.y = 0.f;			
+
+			if (vDiff.Length() < 400.f)
+			{
+				GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
+				ChangeState(L"Run");
+			}
+
 			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
 			ChangeState(L"SlidingReady");
 		}

@@ -17,8 +17,11 @@ private:
     float                   m_fThrowDistance;       // 날아가야 하는 거리
     float                   m_fDistancetoTarget;    // Hookpos와의 거리
     float                   m_fChainSpacing;        // 체인 당 차지하는 공간
-    bool                    m_bActive;
     float                   m_fDelay;
+    bool                    m_bActive;
+    bool                    m_bRetrieve;
+    bool                    m_bMulti;
+    int                     m_iActiveCount;
 
 private:
     void SetSlidingScript(CCrowBossSliding* _pSlidingScript) { m_pSlidingScript = _pSlidingScript; }
@@ -33,7 +36,7 @@ public:
     void SetThrowRot(Vec3 _vThrowRot) { m_vThrownRot = _vThrowRot; }
     void SetThrowDistance(float _fDist) { m_fThrowDistance = _fDist; }
     void SetThrowStartPos(Vec3 _vStartPos) { m_vThrowStartPos = _vStartPos; }
-    void Active(bool _bActive, float _fDelay);
+    void Active(bool _bActive, bool _bMulti, float _fDelay);
 
     void PaveChain();
     void Clear();

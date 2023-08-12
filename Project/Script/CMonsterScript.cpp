@@ -10,6 +10,7 @@ CMonsterScript::CMonsterScript(UINT SCRIPT_TYPE) :
 	, m_bDetect(false)
 	, m_bPaperBurnEffect(false)
 	, m_bSendDeadTime(false)
+	, m_fDeathTime(0.f)
 	, m_fLastHitTime(-3.f)
 {
 }
@@ -31,9 +32,10 @@ void CMonsterScript::begin()
 
 	for (int i = 0; i < iMtrlCount; ++i)
 	{
+		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+
 		// 7번으로 보내자. CrackTexture.
 		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\MonsterCrack.png", L"texture\\Deaths_Door\\MonsterCrack.png");
-		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
 		mtrl->SetTexParam(TEX_7, CrackTextue.Get());		
 
 		// 6번으로 보내자. Paperburn용 noise texture.
@@ -44,31 +46,37 @@ void CMonsterScript::begin()
 
 void CMonsterScript::tick()
 {
-	int iMtrlCount = MeshRender()->GetMtrlCount();
-
-	for (int i = 0; i < iMtrlCount; ++i)
+	//if (!abs(m_pStateScript->GetStat().HP - m_pStateScript->GetStat().Max_HP) <= 0.001f)
 	{
-		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+		int iMtrlCount = MeshRender()->GetMtrlCount();
 		
-		// 현재 체력 비율 보내기. FLOAT_0로 보냄.
-		float HPRatio = (float)m_pStateScript->GetStat().HP / (float)m_pStateScript->GetStat().Max_HP;
-		mtrl->SetScalarParam(FLOAT_0, &HPRatio);
-
-		// Paperburn 효과를 주기 시작할 때, 현재까지 흐른 시간 보내기. FLOAT_1로 보냄. 한번만 보내야 해서 m_bSendDeadTime를 사용함. 
-		if (m_bPaperBurnEffect && !m_bSendDeadTime)
+		for (int i = 0; i < iMtrlCount; ++i)
 		{
-			mtrl->SetScalarParam(FLOAT_1, &GlobalData.tAccTime);
-			m_bSendDeadTime = true;
+			Ptr<CMaterial> mtrl = MeshRender()->GetDynamicMaterial(i);
+
+			// 현재 체력 비율 보내기. FLOAT_0로 보냄.
+			float HPRatio = (float)m_pStateScript->GetStat().HP / (float)m_pStateScript->GetStat().Max_HP;
+			mtrl->SetScalarParam(FLOAT_0, &HPRatio);
+
+			// Paperburn 효과를 주기 시작할 때, 현재까지 흐른 시간 보내기. FLOAT_1로 보냄. 한번만 보내야 해서 m_bSendDeadTime를 사용함. 
+			if (m_bPaperBurnEffect && !m_bSendDeadTime)
+			{
+				m_fDeathTime = GlobalData.tAccTime;
+				m_bSendDeadTime = true;
+			}
+			
+			if(m_bSendDeadTime)
+				mtrl->SetScalarParam(FLOAT_1, &m_fDeathTime);
+
+			// 피격 이펙트
+			float fHitAfterTime = GlobalData.tAccTime - m_fLastHitTime;		// 피격 이후 지난 시간.
+			int HitEffect = 0;
+
+			if (fHitAfterTime < 0.2f)
+				HitEffect = 1;
+
+			mtrl->SetScalarParam(INT_3, &HitEffect);
 		}
-
-		// 피격 이펙트
-		float fHitAfterTime = GlobalData.tAccTime - m_fLastHitTime;		// 피격 이후 지난 시간.
-		int HitEffect = 0;
-
-		if (fHitAfterTime < 0.2f)
-			HitEffect = 1;
-
-		mtrl->SetScalarParam(INT_3, &HitEffect);
 	}
 }
 

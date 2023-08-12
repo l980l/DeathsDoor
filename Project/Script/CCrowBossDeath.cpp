@@ -15,6 +15,7 @@ void CCrowBossDeath::tick()
 	{
 		GetOwner()->GetScript<CCrowBossScript>()->SetPaperBurnEffect(true);
 		m_bStartPaperBurn = true;
+		GetOwner()->Animator3D()->SetStop(true);
 	}
 
 	if (m_bStartPaperBurn)
