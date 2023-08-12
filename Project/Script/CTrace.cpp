@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CTrace.h"
 #include "CMonsterScript.h"
+#include "CSoundScript.h"
 
 #include <Engine/CDetourMgr.h>
 
@@ -63,6 +64,13 @@ void CTrace::tick()
 			++m_iCurrentPathIndex;
 		}
 	}
+	//sound
+	if (GetOwner()->GetName() == L"GrimKnight")
+	{
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1);
+	}
+	
 }
 
 void CTrace::Enter()

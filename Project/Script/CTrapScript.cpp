@@ -10,6 +10,7 @@
 
 void CTrapScript::begin()
 {
+	m_bTrapped == false;
 }
 
 void CTrapScript::tick()
@@ -24,30 +25,33 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 	{
 		if (curLevel->GetName() == L"Castle")
 		{
-			if (GetOwner()->GetName() == L"Trap2")
+			if (GetOwner()->GetName() == L"Trap1" && m_bTrapped == false)
 			{
-				
-				CGameObject* room = new CGameObject;
-				room->AddComponent(new CTransform);
-				room->AddComponent(new CRoomScript);
-				room->GetScript<CRoomScript>()->SetRoomNum(1);  //룸 번호
-				room->GetScript<CRoomScript>()->SetWaveCount(2);  //최대 wave Count
-				vector<SpawnInfo> vecSInfo;
-				vecSInfo[0].PrefabName = L"prefab\\Bat.prefab";
-				vecSInfo[0].SpawnPos = Vec3(2600.f, 500.f, 3000.f);
-				vecSInfo[1].PrefabName = L"prefab\\Bat.prefab";
-				vecSInfo[1].SpawnPos = Vec3(2500.f, 500.f, 2900.f);
-				vecSInfo[2].PrefabName = L"prefab\\Bat.prefab";
-				vecSInfo[2].SpawnPos = Vec3(2500.f, 500.f, 2500.f);
-				vecSInfo[3].PrefabName = L"prefab\\Bat.prefab";
-				vecSInfo[3].SpawnPos = Vec3(2400.f, 500.f, 3000.f);
-				room->GetScript<CRoomScript>()->SetWaveInfo(0, vecSInfo);
-				room->GetScript<CRoomScript>()->SetWaveInfo(1, vecSInfo);
 
-				CSpawnMgr::GetInst()->SetFence(1, true);
+				GetOwner()->GetScript<CRoomScript>()->SetRoomNum(1);
+				GetOwner()->GetScript<CRoomScript>()->SetWaveCount(2);
+				
+				vector<SpawnInfo> wave0 = {};
+				SpawnInfo info;
+				info.PrefabName = L"prefab\\Bat.prefab";
+				info.SpawnPos = Vec3(2600.f, 630.f, 3000.f);
+				wave0.push_back(info);
+
+				vector<SpawnInfo> wave1;
+				info.PrefabName = L"prefab\\Bat.prefab";
+				info.SpawnPos = Vec3(2500.f, 630.f, 2900.f);
+				wave1.push_back(info);
+				/*GetOwner()->GetScript<CRoomScript>()->SetWaveInfo(0, wave0);
+				GetOwner()->GetScript<CRoomScript>()->SetWaveInfo(1, wave1);*/
+
+				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[0].PrefabName, wave0[0].SpawnPos);
+				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[0].PrefabName, wave1[0].SpawnPos);
+				
+				CSpawnMgr::GetInst()->RegisterWave(1, GetOwner()->GetScript<CRoomScript>());
 				CSpawnMgr::GetInst()->SpawnMonster(1);
+				m_bTrapped = true;
 				//Fence 소환
-				CGameObject* door = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(3622.f, 608.f, 1409.f));
+				/*CGameObject* door = script.SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(3622.f, 608.f, 1409.f));
 				door->Transform()->SetRelativeScale(Vec3(0.21f, 0.21f, 0.21f));
 				Vec3 rot = (Vec3(270.f, 48.f, 0.f) / 180.f) * XM_PI;
 				door->SetName(L"Fence");
@@ -56,9 +60,9 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 				door->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
 				door->MeshRender()->SetDynamicShadow(true);
 				door->MeshRender()->SetFrustumCheck(false);
-				CPhysXMgr::GetInst()->CreateStaticCube(Vec3(3622.f, 608.f, 1409.f), Vec3(100.f, 100.f, 100.f), door);
+				CPhysXMgr::GetInst()->CreateStaticCube(Vec3(3622.f, 608.f, 1409.f), Vec3(100.f, 100.f, 100.f), door);*/
 			}
-			else if (GetOwner()->GetName() == L"Trap1")
+			else if (GetOwner()->GetName() == L"Trap2")
 			{
 				CGameObject* room = new CGameObject;
 				room->AddComponent(new CTransform);
@@ -150,8 +154,8 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 			
 			}
 		}
-
-		GetOwner()->SetLifeSpan(0.f);
+		
+		
 	}
 	
 

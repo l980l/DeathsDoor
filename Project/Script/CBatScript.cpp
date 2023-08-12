@@ -70,6 +70,14 @@ void CBatScript::tick()
 {	
 	CMonsterScript::tick();
 	
+	// 동적 재질 생성.
+	int iMtrlCount = MeshRender()->GetMtrlCount();
+
+	for (int i = 0; i < iMtrlCount; ++i)
+	{
+		MeshRender()->GetDynamicMaterial(i);
+	}
+
 	if (recognizeCheck)
 	{
 		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");

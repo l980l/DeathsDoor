@@ -6,7 +6,8 @@
 #include<Engine/CRigidbody.h>
 #include "CTrace.h"
 #include "CStateScript.h"
-
+#include "CSoundScript.h"
+#include <Engine/CSound.h>
 #include "GrimKnightStates.h"
 
 
@@ -27,6 +28,8 @@ CGrimKnightScript::~CGrimKnightScript()
 
 void CGrimKnightScript::begin()
 {
+	CMonsterScript::begin();
+
 	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
@@ -34,7 +37,8 @@ void CGrimKnightScript::begin()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
-
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\BGM\\DeathsDoorPiano.mp3",0,0.5);
 	// 상태 설정
 	if (nullptr == m_pStateScript)
 	{
@@ -71,10 +75,12 @@ void CGrimKnightScript::begin()
 	recognizeCheck = false;
 	onCollision = false;
 	retrace = false;
+	m_hitCount = 0;
 }
 
 void CGrimKnightScript::tick()
 {
+	CMonsterScript::tick();
 	//최초 플레이어 탐지 -> 추적
 	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
 		recognizeCheck == false)
@@ -90,14 +96,7 @@ void CGrimKnightScript::tick()
 
 	if (recognizeCheck)
 	{
-		/*m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-		float dir = GetSmoothDir(GetOwner(), m_pPlayer);
-		Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);*/
-
-		//or
-		//Vec3 CurRot = GetOwner()->Transform()->GetRelativeRot();
-		//GetOwner()->Transform()->SetRelativeRot(CurRot.x, CDetourMgr::GetInst()->GetSmoothDirtoTarget(GetOwner()), CurRot.z);
+		
 	}
 
 	else if (GetDetect() && m_pStateScript->FindState(L"LongDistance") == m_pStateScript->GetCurState())
@@ -111,7 +110,6 @@ void CGrimKnightScript::tick()
 	{
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
-		SetLifeSpan(0.5f);
 	}
 }
 
@@ -123,10 +121,13 @@ void CGrimKnightScript::BeginOverlap(CCollider3D* _Other)
 		m_pStateScript->ChangeState(L"Attack");
 		onCollision = true;
 	}
-	if (L"Sword" == _Other->GetName())
+	if (L"Slash_R" == _Other->GetName()&& m_pStateScript->GetCurState()->GetName() == L"GuardStay")
 	{
-		//체력--
-		//m_stat.HP -= SwordDamage
+		m_hitCount++;
+	}
+	else if (L"Slash_L" == _Other->GetName() && m_pStateScript->GetCurState()->GetName() == L"GuardStay")
+	{
+		m_hitCount++;
 	}
 	else if (L"Arrow" == _Other->GetName())
 	{

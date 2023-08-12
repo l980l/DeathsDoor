@@ -40,7 +40,7 @@ CRoomScript::~CRoomScript()
 
 void CRoomScript::begin()
 {
-	CSpawnMgr::GetInst()->RegisterWave(m_iRoomNum, this);
+	//CSpawnMgr::GetInst()->RegisterWave(m_iRoomNum, this);
 }
 
 void CRoomScript::tick()
@@ -50,10 +50,10 @@ void CRoomScript::tick()
 		if(m_iRemainGimmik == 0 && m_iRemainMst == 0)
 			CSpawnMgr::GetInst()->SetFence(m_iRoomNum, true);
 	}
-	if (m_iRemainMst <= 0)
+	/*if (m_iRemainMst <= 0)
 	{
 		SetLifeSpan(0.f);
-	}
+	}*/
 }
 
 void CRoomScript::SpawnMst()
@@ -61,12 +61,14 @@ void CRoomScript::SpawnMst()
 	CLevelSaveLoadInScript script;
 	for (size_t i = 0; i < m_vecWave[m_iCurWaveNum].size(); ++i)
 	{
-		CGameObject* pinkDoor = script.SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", (int)LAYER::DEFAULT, Vec3(2500.f, 800.f, 3000.f));
-		wstring  wstrPrefabName = m_vecWave[m_iCurWaveNum][i].PrefabName;
-		Vec3 SpawnPos = m_vecWave[m_iCurWaveNum][i].SpawnPos;
-		pinkDoor->AddComponent(new CSpawnDoorScript);
-		pinkDoor->GetScript<CSpawnDoorScript>()->SetSpawnMst(wstrPrefabName);
-		pinkDoor->GetScript<CSpawnDoorScript>()->SetDelay(1.f);
+
+		CGameObject* pdoor = script.SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", 0, m_vecWave[m_iCurWaveNum][i].SpawnPos);
+		pdoor->AddComponent(new CSpawnDoorScript);
+		pdoor->GetScript<CSpawnDoorScript>()->SetSpawnMst(m_vecWave[m_iCurWaveNum][i].PrefabName);
+		pdoor->GetScript<CSpawnDoorScript>()->SetDelay(1.f);
+		int a = 1;
+		pdoor->MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
+		pdoor->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.6f,0.1f,0.2f,0.7f));
 	}
 	m_iRemainMst = (int)m_vecWave[m_iCurWaveNum].size();
 	++m_iCurWaveNum;

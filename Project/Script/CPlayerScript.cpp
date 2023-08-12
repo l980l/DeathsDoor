@@ -8,6 +8,7 @@
 #include "CStateScript.h"
 #include "PlayerStates.h"
 #include "CPlayerWeaponScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 #include <Engine\CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -64,6 +65,14 @@ void CPlayerScript::tick()
 	int a = 1;
 	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 	GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+
+	if (KEY_TAP(KEY::ESC))
+	{
+		CLevelSaveLoadInScript script;
+		Vec3 camPos = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera")->Transform()->GetWorldPos();
+		camPos += Vec3(0.f, 0.f, 100.f);
+		CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->Transform()->SetRelativePos(camPos);
+	}
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)

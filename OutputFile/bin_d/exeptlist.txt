@@ -139,6 +139,8 @@ CCrowBossBatBullet.h
 CCrowBossChainThrow.h
 CMonsterScript.h
 
+CGhostHit.h
+
 CPower.h
 CAttackSpeed.h
 CSpeed.h

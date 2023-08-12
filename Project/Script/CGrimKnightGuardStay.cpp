@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "CGrimKnightGuardStay.h"
+#include "CSoundScript.h"
+#include "CGrimKnightScript.h"
 #include <Engine/CKeyMgr.h>
 
 void CGrimKnightGuardStay::tick()
 {
+	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	//5번 공격 받으면 Guard Break
-	if (m_hitCount >= 5)
+	if (GetOwner()->GetScript<CGrimKnightScript>()->GetHitCount() >= 5)
 	{
 		ChangeState(L"GuardBreak");
 	}
@@ -15,17 +18,14 @@ void CGrimKnightGuardStay::tick()
 		ChangeState(L"GuardBreak");
 	}
 
+	
+
 	//Player가 오른쪽으로 이동하면 SpinRight
 	//up방향과 (playerpos-monsterpos).Normalize을 외적하고. 이 값을 월드 벡터와 내적하였을 때 +면 오른쪽 -면 왼쪽
 	Vec3 grimPos = GetOwner()->Transform()->GetWorldPos();
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	Vec3 playerPos = player->Transform()->GetWorldPos();
 	Vec3 vFront = GetOwner()->Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	
-
-
-
-	//Player가 왼쪽으로 이동하면 SpinLeft
 }
 
 float CGrimKnightGuardStay::GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
@@ -49,8 +49,14 @@ float CGrimKnightGuardStay::GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 
 void CGrimKnightGuardStay::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
+	Stat grimStat = GetOwnerScript()->GetStat();
+	Stat playerStat = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
+	grimStat.HP += playerStat.Attack * 5;//플레이어 공격력의 5배를 주었다 (임시)
+	GetOwnerScript()->SetStat(grimStat);
 	GetOwner()->Animator3D()->Play(12, true);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldPrep.ogg", 1, 0.1);
 }
 
 void CGrimKnightGuardStay::Exit()
@@ -59,26 +65,7 @@ void CGrimKnightGuardStay::Exit()
 
 void CGrimKnightGuardStay::BeginOverlap(CCollider2D* _Other)
 {
-	if (L"Sword" == _Other->GetOwner()->GetName())
-	{
-		m_hitCount++;
-	}
-	else if (L"Arrow" == _Other->GetOwner()->GetName())
-	{
-		m_hitCount++;
-	}
-	else if (L"Fire" == _Other->GetOwner()->GetName())
-	{
-		m_hitCount++;
-	}
-	else if (L"Bomb" == _Other->GetOwner()->GetName())
-	{
-		m_hitCount++;
-	}
-	else if (L"Hook" == _Other->GetOwner()->GetName())
-	{
-		m_hitCount++;
-	}
+	
 
 }
 

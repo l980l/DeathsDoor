@@ -19,7 +19,7 @@ private:
     map<int, CRoomScript*>  m_mapWave;
 
 public:
-    void RegisterDoor(int _iRoomNum, CGameObject* _pDoor);
+    void RegisterFence(int _iRoomNum, CGameObject* _pDoor);
     void RegisterWave(int _iRoomNum, CRoomScript* _pWave);
     void SpawnMonster(int _iRoomNum);
     void SetFence(int _iRoomNum, bool _bOpen);

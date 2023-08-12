@@ -450,9 +450,6 @@
     <ClInclude Include="CMoneyCountScript.h">
       <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="CNaviTestScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
     <ClInclude Include="CMainLightScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
@@ -533,6 +530,8 @@
     <ClInclude Include="CGrimKnightSpinUp.h">
       <Filter>Script\01. State\01. Monster\Grimknight\Status</Filter>
     </ClInclude>
+    <ClInclude Include="CBossChainScript.h" />
+    <ClInclude Include="CGhostHit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -874,9 +873,6 @@
     <ClCompile Include="CMoneyCountScript.cpp">
       <Filter>Script\02. Script\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="CNaviTestScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
     <ClCompile Include="CMainLightScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
@@ -957,6 +953,8 @@
     <ClCompile Include="CGrimKnightSpinUp.cpp">
       <Filter>Script\01. State\01. Monster\Grimknight\Status</Filter>
     </ClCompile>
+    <ClCompile Include="CBossChainScript.cpp" />
+    <ClCompile Include="CGhostHit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Script">
