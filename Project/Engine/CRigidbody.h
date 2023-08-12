@@ -22,6 +22,7 @@ public:
     void SetShapeType(physx::PxGeometryType::Enum _ShapeInfo);
     void SetRigidScale(Vec3 _vScale) { m_vScale = _vScale; }
     void SetSpawnPos(Vec3 _pxSpawnPos) { m_vSpawnPos =  _pxSpawnPos; }
+    void SetRigidPos(Vec3 _vPos);
 
     physx::PxRigidDynamic* GetRigidbody() { return m_PxRigidbody; }
     physx::PxGeometryType::Enum GetShapeType();

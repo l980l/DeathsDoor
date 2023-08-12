@@ -203,6 +203,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBazzokaMelee.h" />
     <ClInclude Include="CBazzokaMove.h" />
     <ClInclude Include="CBombIconScript.h" />
+    <ClInclude Include="CBossChainScript.h" />
     <ClInclude Include="CBrazierScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CCrowBossBatBullet.h" />
@@ -382,6 +383,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBazzokaMelee.cpp" />
     <ClCompile Include="CBazzokaMove.cpp" />
     <ClCompile Include="CBombIconScript.cpp" />
+    <ClCompile Include="CBossChainScript.cpp" />
     <ClCompile Include="CBrazierScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CCrowBossBatBullet.cpp" />

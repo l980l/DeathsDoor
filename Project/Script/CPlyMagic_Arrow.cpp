@@ -41,7 +41,8 @@ void CPlyMagic_Arrow::tick()
 			pArrow->GetScript<CMagic_ArrowScript>()->SetStartPos(vSpawnPos);
 			pArrow->GetScript<CMagic_ArrowScript>()->SetDamage(fDamage);
 			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
-			pArrow->Transform()->SetRelativeScale(Vec3(0.4f));
+			pArrow->Transform()->SetRelativeScale(Vec3(0.8f));
+			pArrow->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 		}

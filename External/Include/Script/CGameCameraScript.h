@@ -11,6 +11,14 @@ private:
     float           m_fTargetScale;
     float           m_fPrevScale;
     Vec3            m_vDistance;
+    // CameraShake¿ë ¸â¹ö
+    Vec2		    m_vOffset;
+    float		    m_fAccTime;
+    float		    m_fMaxTime;
+    float		    m_fRange;
+    float		    m_fShakeSpeed;
+    float		    m_fShakeDir;
+    bool		    m_bCamShake;
     bool            m_bCutSceneView;
 
 public:
@@ -27,6 +35,8 @@ public:
     void SetTargetPlayer(){ m_pTarget = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player"); }
     void SetCutSceneView(bool _bCutSceneView);
 
+    void CameraShake(float _fRange, float _fShackSpeed, float _fTerm);
+    void ShackCamera();
 
     CLONE(CGameCameraScript);
 

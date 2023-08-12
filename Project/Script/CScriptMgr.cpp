@@ -10,6 +10,7 @@
 #include "CBazookaGasGrenadeScript.h"
 #include "CBazookaScript.h"
 #include "CBombIconScript.h"
+#include "CBossChainScript.h"
 #include "CBrazierScript.h"
 #include "CCameraMoveScript.h"
 #include "CCrowBossScript.h"
@@ -61,6 +62,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBazookaGasGrenadeScript");
 	_vec.push_back(L"CBazookaScript");
 	_vec.push_back(L"CBombIconScript");
+	_vec.push_back(L"CBossChainScript");
 	_vec.push_back(L"CBrazierScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CCrowBossScript");
@@ -122,6 +124,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBazookaScript;
 	if (L"CBombIconScript" == _strScriptName)
 		return new CBombIconScript;
+	if (L"CBossChainScript" == _strScriptName)
+		return new CBossChainScript;
 	if (L"CBrazierScript" == _strScriptName)
 		return new CBrazierScript;
 	if (L"CCameraMoveScript" == _strScriptName)
@@ -233,6 +237,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BOMBICONSCRIPT:
 		return new CBombIconScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOSSCHAINSCRIPT:
+		return new CBossChainScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BRAZIERSCRIPT:
 		return new CBrazierScript;
@@ -393,6 +400,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BOMBICONSCRIPT:
 		return L"CBombIconScript";
+		break;
+
+	case SCRIPT_TYPE::BOSSCHAINSCRIPT:
+		return L"CBossChainScript";
 		break;
 
 	case SCRIPT_TYPE::BRAZIERSCRIPT:

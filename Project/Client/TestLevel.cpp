@@ -29,7 +29,12 @@
 #include <Script/CWaterCameraScript.h>
 #include <Script/CCrowBossScript.h>
 #include <Script/CSlashScript.h>
-#include <Script\CWaterScript.h>
+#include <Script/CMonsterDetectRangeScript.h>
+#include <Script/CBossChainScript.h>
+#include <Script/CWaterScript.h>
+
+#include <Engine/CDetourMgr.h>
+#include <Engine/CPhysXMgr.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -39,7 +44,7 @@ void CreateTestLevel()
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-
+	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -139,17 +144,19 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	/*CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
-	CGameObject* pFloor = new CGameObject;
-	pFloor->SetName(L"Floor");
-	pFloor->AddComponent(new CTransform);
-	pFloor->AddComponent(new CMeshRender);
-	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Deaths_Door\\CrowBossMapFloor.png"));
-	pFloor->Transform()->SetRelativeScale(10000000.f, 10000000.f, 10000000.f);
-	pFloor->Transform()->SetRelativeRot(XM_PIDIV2, 0.f, 0.f);
-	SpawnGameObject(pFloor, Vec3(3000.f, 1.f, 3000.f), (int)LAYER::DEFAULT);*/
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Chain_Set.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Chain");
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::DEFAULT);
+
+	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Hook.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CBossChainScript);
+
+	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTERPROJECTILE);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
 	//pObject = pMeshData->Instantiate();
@@ -167,12 +174,42 @@ void CreateTestLevel()
 	//pObject->MeshRender()->SetDynamicShadow(true);
 	//pObject->MeshRender()->SetFrustumCheck(false);
 	//
+	//CGameObject* pDetect = new CGameObject;
+	//pDetect->SetName(L"MonsterDetectRange");
+	//pDetect->AddComponent(new CTransform);
+	//pDetect->AddComponent(new CCollider3D);
+	//pDetect->AddComponent(new CMonsterDetectRangeScript);
+	//
+	//pDetect->Collider3D()->SetAbsolute(true);
+	//pDetect->Collider3D()->SetOffsetScale(Vec3(400.f, 400.f, 400.f));
+	//
+	//pObject->AddChild(pDetect);
+	//
 	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 3500.f, 3000.f), 20.f, pObject);
 	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
-	//CGameObject* pDetectRange = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab//Grunt.prefab", (int)LAYER::MONSTER, Vec3(0.f));
-	//pObject->AddChild(pDetectRange);
+	pObject = new CGameObject;
+	pObject->SetName(L"Anchor");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CCollider3D);
 
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetAbsolute(true);
+	pObject->Collider3D()->SetDebugShape(true);
+	pObject->Collider3D()->SetOffsetScale(Vec3(300.f));
+
+	SpawnGameObject(pObject, Vec3(2500.f, 500.f, 3000.f), (int)LAYER::ANCHOR);
+
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Bomb");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CMagic_BombScript);
+	//pObject->AddComponent(new CRigidbody);
+	//
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::PLAYERPROJECTILE);
+
+	// 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Grunt");
@@ -190,6 +227,25 @@ void CreateTestLevel()
 	//pObject->MeshRender()->SetFrustumCheck(false);
 	//
 	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2000.f, 500.f, 3000.f), 20.f, pObject);
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Grunt.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Grunt1");
+	//pObject->AddComponent(new CCollider3D);
+	//pObject->AddComponent(new CRigidbody);
+	//pObject->AddComponent(new CGruntScript);
+	//pObject->AddComponent(new CStateScript);
+	//
+	//pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	//pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	//
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//
+	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2200.f, 500.f, 3000.f), 20.f, pObject);
 	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::MONSTER);
 
 	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bazooka.fbx");
@@ -255,7 +311,7 @@ void CreateTestLevel()
 	//pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FlickerMtrl"), 0);
 	//pLoadingUI->Transform()->SetRelativeScale(300.f, 300.f, 0.f);
 	//pLoadingUI->MeshRender()->SetFrustumCheck(false);
-	//pLoadingUI->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture/FBXTexture/dd_icon_loading.png").Get());
+	//pLoadingUI->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture/Deaths_Door/dd_icon_loading.png").Get());
 	//SpawnGameObject(pLoadingUI, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 
@@ -271,46 +327,68 @@ void CreateTestLevel()
 	//SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 
 	// Water 
-	CGameObject* pWater = new CGameObject;
-	pWater->SetName(L"Water");
-	pWater->AddComponent(new CTransform);
-	pWater->AddComponent(new CMeshRender);
-	pWater->AddComponent(new CWaterScript);
-	pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-	pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
-	pWater->MeshRender()->SetFrustumCheck(false);
-	
-	SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
-	
-	// Water Camera Object 생성
-	CGameObject* pWaterCam = new CGameObject;
-	pWaterCam->SetName(L"WaterCamera");
-	
-	pWaterCam->AddComponent(new CTransform);
-	pWaterCam->AddComponent(new CCamera);
-	pWaterCam->AddComponent(new CWaterCameraScript);
-	
-	pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pWaterCam->Camera()->SetCameraIndex(1);
-	pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-	pWaterCam->Camera()->SetWaterCamera(true);
-	
-	SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
+	//CGameObject* pWater = new CGameObject;
+	//pWater->SetName(L"Water");
+	//pWater->AddComponent(new CTransform);
+	//pWater->AddComponent(new CMeshRender);
+	//pWater->AddComponent(new CWaterScript);
+	//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+	//pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+	//pWater->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+	//
+	//// Water Camera Object 생성
+	//CGameObject* pWaterCam = new CGameObject;
+	//pWaterCam->SetName(L"WaterCamera");
+	//
+	//pWaterCam->AddComponent(new CTransform);
+	//pWaterCam->AddComponent(new CCamera);
+	//pWaterCam->AddComponent(new CWaterCameraScript);
+	//
+	//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pWaterCam->Camera()->SetCameraIndex(1);
+	//pWaterCam->Camera()->SetLayerMaskAll(true);   // 모든 레이어 체크
+	//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+	//pWaterCam->Camera()->SetWaterCamera(true);
+	//
+	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
-	pObject = pMeshData->Instantiate();
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 
-	delete pObject;
+	// ======================
+	// Map
+	// ======================
+
+	//CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
+	//pObject = pMeshData->Instantiate();
+	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+	//
+	//delete pObject;
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Map");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	// 
+	CGameObject* pFloor = new CGameObject;
+	pFloor->AddComponent(new CTransform);
+	pFloor->AddComponent(new CMeshRender);
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Map");
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
+	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\CrowBossMapFloor.png"));
+	pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::DEFAULT);
+
+
+
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_L.fbx");
 	//pObject = pMeshData->Instantiate();
@@ -332,6 +410,17 @@ void CreateTestLevel()
 	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
+	//CGameObject* pObj = new CGameObject;
+	//pObj->AddComponent(new CTransform);
+	//pObj->AddComponent(new CCollider3D);
+	//pObj->SetName(L"Cube");
+	//
+	//pObj->Collider3D()->SetAbsolute(true);
+	//pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
+	//pObj->Collider3D()->SetOffsetScale(Vec3(500.f));
+	//pObj->Collider3D()->SetDebugShape(true);
+	//
+	//SpawnGameObject(pObj, Vec3(3000.f, 500.f, 2500.f), (int)LAYER::MONSTER);
 	//
 	//pObj = new CGameObject;
 	//pObj->AddComponent(new CTransform);

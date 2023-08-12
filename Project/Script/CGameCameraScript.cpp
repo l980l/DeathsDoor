@@ -10,6 +10,13 @@ CGameCameraScript::CGameCameraScript()
     , m_fTargetScale(0.f)
     , m_fPrevScale(0.f)
 	, m_vDistance(0.f, 2000.f, 2000.f)
+	, m_vOffset{}
+	, m_fAccTime(0.f)
+	, m_fMaxTime(0.f)
+	, m_fRange(0.f)
+	, m_fShakeSpeed(0.f)
+	, m_fShakeDir(0.f)
+	, m_bCamShake(false)
 	, m_bCutSceneView(false)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMoveTime, "MoveTime");
@@ -81,6 +88,8 @@ void CGameCameraScript::tick()
 			Transform()->SetRelativeRot(CurTargetRot);
 		}
 	}
+
+	ShackCamera();
 }
 
 void CGameCameraScript::BeginOverlap(CCollider3D* _Other)
@@ -98,6 +107,38 @@ void CGameCameraScript::SetMoveCamera(float _vTargetScale, float _fTime)
 	m_fMoveTime = _fTime;
 	m_fPrevMoveTime = _fTime;
 	m_fDiffer /= m_fMoveTime;
+}
+
+void CGameCameraScript::CameraShake(float _fRange, float _fShackSpeed, float _fTerm)
+{
+	m_fAccTime = 0.f;
+	m_fMaxTime = _fTerm;
+	m_fRange = _fRange;
+	m_fShakeSpeed = _fShackSpeed;
+	m_fShakeDir = 1.f;
+	m_bCamShake = true;
+}
+
+void CGameCameraScript::ShackCamera()
+{
+	if (!m_bCamShake)
+		return;
+
+	m_fAccTime += DT;
+
+	if (m_fMaxTime <= m_fAccTime)
+	{
+		m_bCamShake = false;
+		m_vOffset = Vec2(0.f, 0.f);
+	}
+
+	m_vOffset.x += DT * m_fShakeSpeed * m_fShakeDir;
+	m_fShakeSpeed -= m_fShakeSpeed * m_fMaxTime * DT;
+	if (m_fRange < fabsf(m_vOffset.x))
+	{
+		m_vOffset.x = m_fRange * m_fShakeDir;
+		m_fShakeDir *= -1;
+	}
 }
 
 void CGameCameraScript::SetCutSceneView(bool _bCutSceneView)

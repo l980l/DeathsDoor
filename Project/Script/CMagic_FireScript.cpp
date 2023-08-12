@@ -27,12 +27,15 @@ void CMagic_FireScript::tick()
 
 void CMagic_FireScript::BeginOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+	if (_Other->GetOwner()->GetScript<CStateScript>())
 	{
-		Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		CurStat.HP -= m_fDamage;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
-		Destroy();
+		if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)
+		{
+			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+			CurStat.HP -= m_fDamage;
+			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
+			Destroy();
+		}
 	}
 }
 
