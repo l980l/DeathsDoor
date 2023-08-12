@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMagic_FireScript.h"
 #include "CStateScript.h"
+#include "CMonsterScript.h"
 
 CMagic_FireScript::CMagic_FireScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_FIRESCRIPT)
@@ -34,6 +35,7 @@ void CMagic_FireScript::BeginOverlap(CCollider3D* _Other)
 			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
 			CurStat.HP -= m_fDamage;
 			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
+			_Other->GetOwner()->GetScript<CMonsterScript>()->SetLastHitTime();
 			Destroy();
 		}
 	}

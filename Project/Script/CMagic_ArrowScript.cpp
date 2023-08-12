@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMagic_ArrowScript.h"
 #include "CStateScript.h"
+#include "CMonsterScript.h"
 
 CMagic_ArrowScript::CMagic_ArrowScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_ARROWSCRIPT)
@@ -39,6 +40,7 @@ void CMagic_ArrowScript::BeginOverlap(CCollider3D* _Other)
 			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
 			CurStat.HP -= m_fDamage;
 			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
+			_Other->GetOwner()->GetScript<CMonsterScript>()->SetLastHitTime();
 			Destroy();
 		}
 	}
