@@ -10,6 +10,9 @@ private:
 
     bool    m_bStarePlayer;
 
+    // 
+    int     m_Test;
+
 public:
     Vec3 GetPlayerPos() { return m_PlayerPos; }
     Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }

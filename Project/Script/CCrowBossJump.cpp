@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "CCrowBossJump.h"
 #include "CCrowBossScript.h"
+#include "CCrowBossStomp.h"
 
 void CCrowBossJump::Enter()
 {
 	GetOwner()->Animator3D()->Play(9, false);
 
 	m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
+
 	m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
 }
 
@@ -20,17 +22,13 @@ void CCrowBossJump::tick()
 
 	GetOwner()->Rigidbody()->AddVelocity(Velocity);
 
-	/*Vec3 Velocity = m_Dir;
-	float fSpeed = GetOwnerScript()->GetStat().Speed;
-	Velocity *= fSpeed * 10.f * DT;
-	Velocity.y = fSpeed * 30.f * DT;
-
-	GetOwner()->Rigidbody()->AddVelocity(Velocity);*/
-
 	// 애니메이션이 끝난 경우.
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		ChangeState(L"Stomp");
+		CCrowBossStomp* pCrowBossStomp = (CCrowBossStomp*)GetOwnerScript()->FindState(L"Stomp");
+		pCrowBossStomp->SetDir(m_Dir);
+		pCrowBossStomp->SetDistance(m_fDistance / 2.f);
 	}
 }
 

@@ -6,6 +6,7 @@ class CCrowBossJump :
 private:
     float    m_fDistance;
     Vec3     m_Dir;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

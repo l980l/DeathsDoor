@@ -12,6 +12,7 @@ private:
     bool            m_bDetect;
     bool            m_bPaperBurnEffect;     // PaperBurn 효과를 줄지.
     bool            m_bSendDeadTime;        // 사망시간을 이미 보냈는지. 
+    float           m_fDeathTime;           // 사망 시각.
     float           m_fLastHitTime;         // 마지막으로 피격된 시각.
 
 

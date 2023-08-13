@@ -17,6 +17,7 @@ CGameCameraScript::CGameCameraScript()
 	, m_fShakeSpeed(0.f)
 	, m_fShakeDir(0.f)
 	, m_bCamShake(false)
+	, m_bCutSceneView(false)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMoveTime, "MoveTime");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevMoveTime, "PrevMoveTime");
@@ -57,11 +58,35 @@ void CGameCameraScript::tick()
 	
 	else
 	{
-		Vec3 CurPlayerPos = m_pTarget->Transform()->GetWorldPos();
-		CurPlayerPos.x += m_vDistance.x;
-		CurPlayerPos.y += m_vDistance.y;
-		CurPlayerPos.z -= m_vDistance.z + m_vOffset.y;
-		Transform()->SetRelativePos(CurPlayerPos);
+		// CutScene이 아닌 경우. 타겟의 머리위에서 찍음.
+		if (!m_bCutSceneView)
+		{
+
+			Vec3 CurTargetPos = m_pTarget->Transform()->GetWorldPos();
+			CurTargetPos.x += m_vDistance.x;
+			CurTargetPos.y += m_vDistance.y;
+			CurTargetPos.z -= m_vDistance.z;
+			Transform()->SetRelativePos(CurTargetPos);
+			Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
+		}
+		
+		// CutScene인 경우. 타겟을 정면에서 찍음. 회전된 곳의 방향으로 일정 거리만큼 이동하고, 카메라의 방향은 반대 방향으로 줘야 함. 
+		else
+		{
+			Vec3 CurTargetPos = m_pTarget->Transform()->GetWorldPos();
+			Vec3 CurTargetScale = m_pTarget->Transform()->GetRelativeScale();
+			Vec3 CurTargetXZDir = m_pTarget->Transform()->GetXZDir();
+
+			CurTargetPos.x += CurTargetXZDir.x * 600.f;
+			CurTargetPos.y += 100.f;
+			CurTargetPos.z += CurTargetXZDir.z * 600.f;
+			Transform()->SetRelativePos(CurTargetPos);
+
+			Vec3 CurTargetRot;
+			CurTargetRot.y = XM_2PI - m_pTarget->Transform()->GetRelativeRot().y;
+
+			Transform()->SetRelativeRot(CurTargetRot);
+		}
 	}
 
 	ShackCamera();
@@ -113,5 +138,22 @@ void CGameCameraScript::ShackCamera()
 	{
 		m_vOffset.x = m_fRange * m_fShakeDir;
 		m_fShakeDir *= -1;
+	}
+}
+
+void CGameCameraScript::SetCutSceneView(bool _bCutSceneView)
+{
+	m_bCutSceneView = _bCutSceneView;
+
+	// CutScene 모드 일때는 PERSPECTIVE로.
+	if (_bCutSceneView)
+	{
+		Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+	}
+
+	// Normal 모드 일때는 ORTHOGRAPHIC로.
+	else
+	{
+		Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	}
 }

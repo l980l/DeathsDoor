@@ -22,12 +22,8 @@ void CEnergyIconScript::begin()
 		MeshRender()->GetDynamicMaterial(i);
 	}
 
-	Transform()->SetRelativePos(Vec3(-1221.f, 896.f, 0.f));
-	Transform()->SetRelativeScale(Vec3(369.f, 100.f, 0.f));
-	Vec3 camRot = CLevelMgr::GetInst()->FindObjectByName(L"MainCam")->Transform()->GetRelativeRot();
-	Vec3 rot = (camRot / 180.f) * XM_PI;
-	Transform()->SetRelativeRot(rot);
-
+	Transform()->SetRelativePos(Vec3(-465.f, 319.f, 0.f));
+	Transform()->SetRelativeScale(Vec3(154.f, 43.f, 0.f));
 	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\EGempty.png"));
 
 	
@@ -35,9 +31,7 @@ void CEnergyIconScript::begin()
 
 void CEnergyIconScript::tick()
 {
-	Vec3 camRot = CLevelMgr::GetInst()->FindObjectByName(L"MainCam")->Transform()->GetRelativeRot();
-	Vec3 rot = (camRot / 180.f) * XM_PI;
-	Transform()->SetRelativeRot(rot);
+
 
 	Stat playerStatus = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
 	int energy = playerStatus.Energy;

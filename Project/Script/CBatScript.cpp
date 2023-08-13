@@ -57,6 +57,7 @@ void CBatScript::begin()
 
 	// 초기 스탯 설정.
 	m_stat.HP = 300;
+	m_stat.Max_HP = 300;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
 	m_stat.Speed = 200;
@@ -70,6 +71,14 @@ void CBatScript::tick()
 {	
 	CMonsterScript::tick();
 	
+	// 동적 재질 생성.
+	int iMtrlCount = MeshRender()->GetMtrlCount();
+
+	for (int i = 0; i < iMtrlCount; ++i)
+	{
+		MeshRender()->GetDynamicMaterial(i);
+	}
+
 	if (recognizeCheck)
 	{
 		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");

@@ -32,6 +32,7 @@ private:
 
 public:
 	// 0 (무한반복) 0 ~ 1(Volume)
+	int Play(int _iRoopCount, float _fVolume = 0.5f, int _iIdx = -1, bool _bOverlap = false);
 	int PlayBGM(int _iRoopCount, float _fVolume = 1.f, int _iIdx = -1, bool _bOverlap = false);
 	int PlaySFX(int _iRoopCount, float _fVolume = 1.f, int _iIdx = -1, bool _bOverlap = false);
 

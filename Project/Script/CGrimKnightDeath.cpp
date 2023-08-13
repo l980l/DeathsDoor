@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CGrimKnightDeath.h"
 #include "CGrimKnightScript.h"
+#include "CSoundScript.h"
 
 CGrimKnightDeath::CGrimKnightDeath()		:
 	m_bStartPaperBurn(false),
@@ -27,6 +28,9 @@ void CGrimKnightDeath::Enter()
 	GetOwner()->GetScript<CGrimKnightScript>()->SetPaperBurnEffect(true);
 	// 몬스터 사망시 현재까지 흐른 시간을 저장.
 	m_bStartPaperBurn = true;
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceLastHit.ogg", 1, 0.1);
 }
 
 void CGrimKnightDeath::Exit()

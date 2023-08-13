@@ -228,6 +228,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CFenseScript.h" />
     <ClInclude Include="CFireIconScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
+    <ClInclude Include="CGhostHit.h" />
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
     <ClInclude Include="CGrimKnightBackStep2.h" />
@@ -410,6 +411,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CFenseScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
+    <ClCompile Include="CGhostHit.cpp" />
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
     <ClCompile Include="CGrimKnightBackStep2.cpp" />

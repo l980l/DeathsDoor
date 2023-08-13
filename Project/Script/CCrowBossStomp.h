@@ -8,6 +8,10 @@ private:
     float   m_fDistance;
 
 public:
+    void SetDir(Vec3 _vDir) { m_Dir = _vDir; }
+    void SetDistance(float _fDistance) { m_fDistance = _fDistance; }
+
+public:
     virtual void tick() override;
     virtual void Enter() override;
     virtual void Exit() override;

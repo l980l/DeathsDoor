@@ -15,7 +15,7 @@ CEnterScript::~CEnterScript()
 
 void CEnterScript::begin()
 {
-	CSpawnMgr::GetInst()->RegisterDoor(m_iRoomNum, GetOwner());
+	CSpawnMgr::GetInst()->RegisterFence(m_iRoomNum, GetOwner());
 }
 
 void CEnterScript::tick()

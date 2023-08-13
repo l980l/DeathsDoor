@@ -25,6 +25,7 @@ CKnightScript::~CKnightScript()
 
 void CKnightScript::begin()
 {
+	CMonsterScript::begin();
 	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
@@ -65,6 +66,7 @@ void CKnightScript::begin()
 
 	// 초기 스탯 설정.
 	m_stat.HP = 300;
+	m_stat.Max_HP = 300;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
 	m_stat.Speed = 100;
@@ -77,6 +79,7 @@ void CKnightScript::begin()
 
 void CKnightScript::tick()
 {
+	CMonsterScript::tick();
 	//Player방향을 바라보기
 	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	float dir = GetSmoothDir(GetOwner(), m_pPlayer);

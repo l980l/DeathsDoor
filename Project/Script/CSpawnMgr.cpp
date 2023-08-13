@@ -15,7 +15,7 @@ CSpawnMgr::~CSpawnMgr()
 
 }
 
-void CSpawnMgr::RegisterDoor(int _iRoomNum, CGameObject* _pDoor)
+void CSpawnMgr::RegisterFence(int _iRoomNum, CGameObject* _pDoor)
 {
 	assert(_iRoomNum != -1);
 	DoorInfo Info;
@@ -27,7 +27,7 @@ void CSpawnMgr::RegisterDoor(int _iRoomNum, CGameObject* _pDoor)
 void CSpawnMgr::RegisterWave(int _iRoomNum, CRoomScript* _pWave)
 {
 	assert(_iRoomNum != -1);
-	if (_iRoomNum == 1)
+	if (_iRoomNum == -1)
 		m_mapWave.clear();
 	m_mapWave.insert(make_pair(_iRoomNum, _pWave));
 }

@@ -25,6 +25,37 @@ CSound::~CSound()
 	}
 }
 
+int CSound::Play(int _iRoopCount, float _fVolume, int _iIdx, bool _bOverlap)
+{
+	if (_iRoopCount <= -1)
+	{
+		assert(nullptr);
+	}
+
+	// 재생되고 있는 채널이 있는데, 중복재생을 허용하지 않았다 -> 재생 안함
+	if (!_bOverlap && !m_listChannel.empty())
+	{
+		return -1;
+	}
+
+	_iRoopCount -= 1;
+
+	FMOD::Channel* pChannel = nullptr;
+	g_pFMOD->playSound(m_pSound, nullptr, false, &pChannel);
+
+	pChannel->setVolume(_fVolume);
+	m_volume = _fVolume;
+	pChannel->setCallback(CHANNEL_CALLBACK);
+	pChannel->setUserData(this);
+
+	pChannel->setMode(FMOD_LOOP_NORMAL);
+	pChannel->setLoopCount(_iRoopCount);
+
+	m_listChannel.push_back(pChannel);
+
+	return _iIdx;
+}
+
 int CSound::PlayBGM(int _iRoopCount, float _fVolume, int _iIdx, bool _bOverlap )
 {
 	if (_iRoopCount <= -1)

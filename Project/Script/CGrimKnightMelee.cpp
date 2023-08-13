@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CGrimKnightMelee.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CPlayerScript.h"
+#include "CSoundScript.h"
 
 void CGrimKnightMelee::tick()
 {
@@ -14,18 +16,26 @@ void CGrimKnightMelee::Enter()
 {
 	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(8, false);
-	
-	//傍拜 prefab 积己
-	//CLevelSaveLoadInScript script;
-	//script.SpawnPrefab(L"Melee", 5, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBite.ogg", 1, 0.1);
 }
 
 void CGrimKnightMelee::Exit()
 {
+	//傍拜 prefab 积己
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"prefab\\HitEffect.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CGrimKnightMelee::BeginOverlap(CCollider2D* _Other)
 {
+	/*if (_Other->GetOwner()->GetName() == L"Player")
+	{
+		Stat playerStat= _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		playerStat.HP -= 1;
+		
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(playerStat);
+	}*/
 }
 
 void CGrimKnightMelee::OnOverlap(CCollider2D* _Other)
