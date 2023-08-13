@@ -3,6 +3,9 @@
 class CKnightDeath :
     public CState
 {
+private:
+    bool            m_bStartPaperBurn;
+    float            m_fPaperBurnTime;
 public:
     virtual void tick() override;
     virtual void Enter() override;

@@ -14,8 +14,8 @@ public:
     virtual void begin() override;
     virtual void tick() override;
 
-    void CloseDoor();
-    void OpenDoor();
+    void CloseFence();
+    void OpenFence();
 
     CLONE(CFenseScript);
 public:

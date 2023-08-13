@@ -2,6 +2,7 @@
 #include "CRoomScript.h"
 #include "CSpawnDoorScript.h"
 #include "CSpawnMgr.h"
+#include "CLevelSaveLoadInScript.h"
 
 CRoomScript::CRoomScript()
 	: CScript((UINT)SCRIPT_TYPE::ROOMSCRIPT)
@@ -47,19 +48,25 @@ void CRoomScript::tick()
 	if(m_bActive)
 	{
 		if(m_iRemainGimmik == 0 && m_iRemainMst == 0)
-			CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, true);
+			CSpawnMgr::GetInst()->SetFence(m_iRoomNum, true);
+	}
+	if (m_iRemainMst <= 0)
+	{
+		SetLifeSpan(0.f);
 	}
 }
 
 void CRoomScript::SpawnMst()
 {
+	CLevelSaveLoadInScript script;
 	for (size_t i = 0; i < m_vecWave[m_iCurWaveNum].size(); ++i)
 	{
-		CGameObject* pMst = CResMgr::GetInst()->FindRes<CPrefab>(L"SpawnDoor")->Instantiate();
+		CGameObject* pinkDoor = script.SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", (int)LAYER::DEFAULT, Vec3(2500.f, 800.f, 3000.f));
 		wstring  wstrPrefabName = m_vecWave[m_iCurWaveNum][i].PrefabName;
 		Vec3 SpawnPos = m_vecWave[m_iCurWaveNum][i].SpawnPos;
-		pMst->GetScript<CSpawnDoorScript>()->SetSpawnMst(wstrPrefabName);
-		SpawnGameObject(pMst, SpawnPos, (int)LAYER::DEFAULT);
+		pinkDoor->AddComponent(new CSpawnDoorScript);
+		pinkDoor->GetScript<CSpawnDoorScript>()->SetSpawnMst(wstrPrefabName);
+		pinkDoor->GetScript<CSpawnDoorScript>()->SetDelay(1.f);
 	}
 	m_iRemainMst = (int)m_vecWave[m_iCurWaveNum].size();
 	++m_iCurWaveNum;
@@ -102,14 +109,14 @@ void CRoomScript::BeginOverlap(CCollider2D* _Other)
 	if (!m_bActive)
 	{
 		CSpawnMgr::GetInst()->SpawnMonster(m_iRoomNum);
-		CSpawnMgr::GetInst()->ModifyDoor(m_iRoomNum, false);
+		CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);
 		m_bActive = true;
 	}
 }
 
 void CRoomScript::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
+	/*fwrite(&m_iRoomNum, sizeof(int), 1, _File);
 	fwrite(&m_iMaxWaveNum, sizeof(int), 1, _File);
 	for (size_t i = 0; i < 3; ++i)
 	{
@@ -123,12 +130,12 @@ void CRoomScript::SaveToLevelFile(FILE* _File)
 			fwrite(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
 			fwrite(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
-	}
+	}*/
 }
 
 void CRoomScript::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_iRoomNum, sizeof(int), 1, _File);
+	/*fread(&m_iRoomNum, sizeof(int), 1, _File);
 	fread(&m_iMaxWaveNum, sizeof(int), 1, _File);
 	for (size_t i = 0; i < 3; ++i)
 	{
@@ -142,5 +149,5 @@ void CRoomScript::LoadFromLevelFile(FILE* _File)
 			fread(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
 			fread(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
-	}
+	}*/
 }

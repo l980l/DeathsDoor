@@ -2,6 +2,10 @@
 #include "CGrimKnightLongDistance.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CGrimKnightScript.h"
+#include "CGhostScript.h"
+#include "CStateScript.h"
+#include <Engine/CRigidbody.h>
+#include <Engine/CPhysXMgr.h>
 
 void CGrimKnightLongDistance::tick()
 {
@@ -20,7 +24,13 @@ void CGrimKnightLongDistance::Enter()
 	
 	//Ghost prefab »ý¼º
 	CLevelSaveLoadInScript script;
-	//script.SpawnPrefab(L"prefab\\Ghost.prefab", 5, GetOwner()->Transform()->GetWorldPos(), 5.f);
+	CGameObject* pGhost = script.SpawnandReturnPrefab(L"prefab\\Ghost.prefab", 5, GetOwner()->Transform()->GetWorldPos(), 5.f);
+	pGhost->AddComponent(new CGhostScript);
+	pGhost->AddComponent(new CStateScript);
+	pGhost->AddComponent(new CRigidbody);
+	pGhost->MeshRender()->SetDynamicShadow(true);
+	pGhost->MeshRender()->SetFrustumCheck(false);
+	CPhysXMgr::GetInst()->CreateSphere(GetOwner()->Transform()->GetWorldPos(), 30.f, pGhost);
 }
 
 void CGrimKnightLongDistance::Exit()

@@ -7,6 +7,7 @@ private:
     Stat m_stat;
     bool recognizeCheck;
     bool onCollision;
+    bool isHit;
 public:
     virtual void begin() override;
     virtual void tick() override;
