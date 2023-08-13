@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "CCrowBossDeath.h"
 #include "CCrowBossScript.h"
+#include "CPlayerScript.h"
 
 void CCrowBossDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(7, false);
 	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CCrowBossDeath::tick()
@@ -22,8 +24,11 @@ void CCrowBossDeath::tick()
 		m_fPaperBurnTime += DT;
 
 	// 지금까지 흐른 시간이 3초 이상이면 Destory.
-	if (m_fPaperBurnTime > 3.f)
+	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+	{
+		GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)30000);
 		GetOwnerScript()->Destroy();
+	}
 }
 
 void CCrowBossDeath::Exit()

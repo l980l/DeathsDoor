@@ -9,10 +9,10 @@ void CBazookaTrace::tick()
 
 	float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
 
-	// 공격범위 이내면 Move 상태로.
+	// 공격범위 이내면 Aim 상태로.
 	if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
 	{
-		ChangeState(L"Move");
+		ChangeState(L"Aim");
 	}
 
 	// 이상이면 Trace

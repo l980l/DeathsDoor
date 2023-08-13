@@ -64,7 +64,7 @@ int PrefabUI::render_update()
 
     if (ImGui::Button("##SpawnGameObjectButton", ImVec2(18.f, 18.f)))
     {
-       /* CGameObject* proto = CLevelSaveLoad::LoadPrefab(GetTargetRes()->GetRelativePath());
+        /*CGameObject* proto = CLevelSaveLoad::LoadPrefab(GetTargetRes()->GetRelativePath());
         pPrefab->RegisterProtoObject(proto);
         SpawnGameObject(pPrefab->Instantiate(), Vec3(SpawnPos[0], SpawnPos[1], SpawnPos[2]), iSpawnLayer);*/
         CLevelSaveLoad::SpawnandReturnPrefab(GetTargetRes()->GetRelativePath(), iSpawnLayer, Vec3(SpawnPos[0], SpawnPos[1], SpawnPos[2]));

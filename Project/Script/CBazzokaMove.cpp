@@ -5,6 +5,7 @@
 
 void CBazzokaMove::Enter()
 {
+	m_fMoveTime = 0.f;
 	GetOwner()->Animator3D()->Play(4, true);
 }
 
@@ -24,8 +25,10 @@ void CBazzokaMove::tick()
 	}
 
 	// 도망. 여기서는 달리는 곳을 바라보도록 회전시켜줘야 한다. 
-	else if (fDistance <= GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
+	else if (fDistance <= GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange() || m_fMoveTime <= 0.5f)
 	{
+		m_fMoveTime += DT;
+		
 		GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
 		
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
@@ -107,6 +110,7 @@ CBazzokaMove::CBazzokaMove()
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)
+	, m_fMoveTime(0.f)
 {
 }
 
