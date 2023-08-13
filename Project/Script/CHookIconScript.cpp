@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "CHookIconScript.h"
 #include "CPlayerScript.h"
-#include "CLevelSaveLoadInScript.h"
 
 CHookIconScript::CHookIconScript() :
 	CScript(SCRIPT_TYPE::HOOKICONSCRIPT)
@@ -45,11 +44,5 @@ void CHookIconScript::tick()
 		Transform()->SetRelativePos(Vec3(-651.f, 208.f, 0.f));
 		Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
 		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HookDA.png"));
-	}
-
-	if (KEY_TAP(KEY::O))
-	{
-		CLevelSaveLoadInScript script;
-		script.MoneyCount(600, CLevelMgr::GetInst()->FindObjectByName(L"MainCam"));
 	}
 }

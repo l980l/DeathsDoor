@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CArrowIconScript.h"
 #include "CPlayerScript.h"
+#include "CLevelSaveLoadinScript.h"
 
 CArrowIconScript::CArrowIconScript() :
 	CScript(SCRIPT_TYPE::ARROWICONSCRIPT)
@@ -28,7 +29,12 @@ void CArrowIconScript::begin()
 
 void CArrowIconScript::tick()
 {
-	
+	if (KEY_TAP(KEY::F))
+	{
+		CLevelSaveLoadInScript script;
+		script.MoneyCount(300);
+
+	}
 	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
 	UINT magicState = pScript->GetUseMagic();
 	if (magicState == (UINT)PLAYER_MAGIC::ARROW)

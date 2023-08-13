@@ -506,146 +506,141 @@ int CLevelSaveLoadInScript::GetDigitCount(int Damage)
     return count;
 }
 
-void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount, CGameObject* owner)
+void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
 {
     Vec3 rot = (Vec3(0.f, 0.f, 0.f) / 180.f) * XM_PI;
     {
-        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\+.prefab", 0, Vec3(1520, -860.f, 0.f), 3.f);
+        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\+.prefab", 31, Vec3(1520, -1000.f, 0.f)/3, 3.f);
         mText->SetName(L"+");
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(20.f, 20.f, 0.f));
         mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_plus.png"));
-        AddChild(owner, mText);
+        
     }
     {
-        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyIcon.prefab", 0, Vec3(1339.f, -953.f, 0.f), 3.f);
+        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyIcon.prefab", 31, Vec3(1270.f, -1150.f, 0.f)/3, 3.f);
         mText->SetName(L"MoneyIcon");
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
-        mText->Transform()->SetRelativeScale(Vec3(149.f, 149.f, 0.f));
+        mText->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
         mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\icon_soul_white.png"));
-        AddChild(owner, mText);
+
     }
     {
-        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyX.prefab", 0, Vec3(1434.f, -970.f, 0.f), 3.f);
+        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyX.prefab", 31, Vec3(1500.f, -1150.f, 0.f)/3, 3.f);
         mText->SetName(L"MoneyX");
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
-        mText->Transform()->SetRelativeScale(Vec3(78.f, 78.f, 0.f));
+        mText->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 0.f));
         mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_x.png"));
-        AddChild(owner, mText);
+     
     }
     Vec3 textpos;
-    textpos = Vec3(1531, -860.f, 0.f);
-    
+    textpos = Vec3(1611.f, -1000.f, 0.f)/3;
+    //추가 되는 금액 출력 =================
     while (Money != 0)
     {
         DigitCount--;
         int digit = pow(10, DigitCount);
         int num = Money / digit;// 100/3
-        Vec3 scale = Vec3(40.f, 40.f, 0.f);
-        textpos += Vec3(50.f, 0.f, 0.f);
+        Vec3 scale = Vec3(20.f, 20.f, 0.f);
+        textpos += Vec3(5.f, 0.f, 0.f);
         textpos.z = 0.f;
         if (num == 1)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", 31, textpos, 3.f);
             mText->SetName(L"1");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_1.png"));
-            AddChild(owner, mText);
+
         }
         else if (num == 2)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", 0,textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", 31,textpos, 3.f);
             mText->SetName(L"2");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_2.png"));
-            AddChild(owner, mText);
+
         }
         else if (num == 3)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", 31, textpos, 3.f);
             mText->SetName(L"3");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_3.png"));
-            AddChild(owner, mText);
+
         }
         else if (num == 4)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", 31, textpos, 3.f);
             mText->SetName(L"4");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_4.png"));
-            AddChild(owner, mText);
+
         }
         else if (num == 5)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", 31, textpos, 3.f);
             mText->SetName(L"5");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_5.png"));
-            AddChild(owner, mText);
+
         }
         else if (num == 6)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", 31, textpos, 3.f);
             mText->SetName(L"6");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_6.png"));
-            AddChild(owner, mText);
         }
         else if (num == 7)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", 31, textpos, 3.f);
             mText->SetName(L"7");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_7.png"));
-            AddChild(owner, mText);
         }
         else if (num == 8)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", 31, textpos, 3.f);
             mText->SetName(L"8");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_8.png"));
-            AddChild(owner, mText);
         }
         else if (num == 9)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", 31, textpos, 3.f);
             mText->SetName(L"9");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_9.png"));
-            AddChild(owner, mText);
         }
         else if (num == 0)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 31, textpos, 3.f);
             mText->SetName(L"0");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
-            AddChild(owner, mText);
         }
 
         Money = Money % digit;// 100%3 알
@@ -656,13 +651,12 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount, CGameObject* o
             for (size_t i = 0; i < num; i++)
             {
                 textpos += Vec3(50.f, 0.f, 0.f);
-                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 0, textpos, 3.f);
+                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 31, textpos, 3.f);
                 mText->SetName(L"0");
                 mText->MeshRender()->GetDynamicMaterial(0);
                 mText->Transform()->SetRelativeRot(rot);
                 mText->Transform()->SetRelativeScale(scale);
                 mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
-                AddChild(owner, mText);
             }
         }
     }
@@ -672,115 +666,105 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount, CGameObject* o
     int MoneyTotal = pScript->GetMoneyCount();
     //int MoneyTotal = 5260;
     int MTotalDigitCount = GetDigitCount(MoneyTotal);
-    textpos = Vec3(1504.f, -970.f, 0.f);
+    textpos = Vec3(1504.f, -1150.f, 0.f)/3;
+    //player 현재 가지고 있는 금액 출력===============
     while (MoneyTotal != 0)
     {
-        
         MTotalDigitCount--;
         int digit = pow(10, MTotalDigitCount);
         int num = MoneyTotal / digit;// 100/3
-        Vec3 scale = Vec3(94.f, 94.f, 0.f);
-        textpos += Vec3(70.f, 0.f, 0.f);
+        Vec3 scale = Vec3(50.f, 50.f, 0.f);
+        textpos += Vec3(40.f, 0.f, 0.f);
         textpos.z = 0.f;
         if (num == 1)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", 31, textpos, 3.f);
             mText->SetName(L"W1");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_1.png"));
-            AddChild(owner, mText);
         }
         else if (num == 2)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", 31, textpos, 3.f);
             mText->SetName(L"W2");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_2.png"));
-            AddChild(owner, mText);
         }
         else if (num == 3)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", 31, textpos, 3.f);
             mText->SetName(L"W3");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_3.png"));
-            AddChild(owner, mText);
         }
         else if (num == 4)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", 31, textpos, 3.f);
             mText->SetName(L"W4");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_4.png"));
-            AddChild(owner, mText);
         }
         else if (num == 5)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", 31, textpos, 3.f);
             mText->SetName(L"W5");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_5.png"));
-            AddChild(owner, mText);
         }
         else if (num == 6)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", 31, textpos, 3.f);
             mText->SetName(L"W6");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_6.png"));
-            AddChild(owner, mText);
         }
         else if (num == 7)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", 31, textpos, 3.f);
             mText->SetName(L"W7");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_7.png"));
-            AddChild(owner, mText);
         }
         else if (num == 8)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", 31, textpos, 3.f);
             mText->SetName(L"W8");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_8.png"));
-            AddChild(owner, mText);
         }
         else if (num == 9)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", 31, textpos, 3.f);
             mText->SetName(L"W9");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_9.png"));
-            AddChild(owner, mText);
         }
         else if (num == 0)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 0, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 31, textpos, 3.f);
             mText->SetName(L"W0");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
-            AddChild(owner, mText);
         }
 
         MoneyTotal = MoneyTotal % digit;// 100%3 알
@@ -790,14 +774,13 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount, CGameObject* o
             num -= 1;
             for (size_t i = 0; i < num; i++)
             {
-                textpos += Vec3(70.f, 0.f, 0.f);
-                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 0, textpos, 3.f);
+                textpos += Vec3(40.f, 0.f, 0.f);
+                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", 31, textpos, 3.f);
                 mText->SetName(L"W0");
                 mText->MeshRender()->GetDynamicMaterial(0);
                 mText->Transform()->SetRelativeRot(rot);
                 mText->Transform()->SetRelativeScale(scale);
                 mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
-                AddChild(owner, mText);
             }
         }
     }

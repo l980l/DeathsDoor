@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CBatDeath.h"
 #include "CBatScript.h"
+#include "CPlayerScript.h"
+#include "CLevelSaveLoadInScript.h"
+
 
 CBatDeath::CBatDeath()	:
 m_bStartPaperBurn(false),
@@ -18,8 +21,14 @@ void CBatDeath::tick()
 		m_fPaperBurnTime += DT;
 
 	// 지금까지 흐른 시간이 3초 이상이면 Destory.
-	if (m_fPaperBurnTime > 3.f)
+	if (m_fPaperBurnTime > 3.f && GetOwner()->IsDead() == false )
+	{
+		GetOwner()->GetScript<CBatScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)100);
+		CLevelSaveLoadInScript script;
+		script.MoneyCount(100);
 		GetOwnerScript()->Destroy();
+	}
+		
 }
 
 void CBatDeath::Enter()
