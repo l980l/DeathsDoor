@@ -20,7 +20,9 @@ public:
     virtual void tick() override;
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
+    virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
+
     void SetInvincible(bool _bInvincible) { m_bInvincible = _bInvincible; }
     void ChangeState(wstring _strStateName);
     UINT GetUseMagic() { return m_iCurMagic; }

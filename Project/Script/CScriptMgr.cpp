@@ -30,6 +30,7 @@
 #include "CHPIconScript.h"
 #include "CHUDScript.h"
 #include "CKnightScript.h"
+#include "CLadderScript.h"
 #include "CLoadLevelThreadScript.h"
 #include "CLurkerScript.h"
 #include "CMagic_ArrowScript.h"
@@ -82,6 +83,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CHPIconScript");
 	_vec.push_back(L"CHUDScript");
 	_vec.push_back(L"CKnightScript");
+	_vec.push_back(L"CLadderScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CLurkerScript");
 	_vec.push_back(L"CMagic_ArrowScript");
@@ -164,6 +166,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CHUDScript;
 	if (L"CKnightScript" == _strScriptName)
 		return new CKnightScript;
+	if (L"CLadderScript" == _strScriptName)
+		return new CLadderScript;
 	if (L"CLoadLevelThreadScript" == _strScriptName)
 		return new CLoadLevelThreadScript;
 	if (L"CLurkerScript" == _strScriptName)
@@ -297,6 +301,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::KNIGHTSCRIPT:
 		return new CKnightScript;
+		break;
+	case (UINT)SCRIPT_TYPE::LADDERSCRIPT:
+		return new CLadderScript;
 		break;
 	case (UINT)SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return new CLoadLevelThreadScript;
@@ -480,6 +487,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::KNIGHTSCRIPT:
 		return L"CKnightScript";
+		break;
+
+	case SCRIPT_TYPE::LADDERSCRIPT:
+		return L"CLadderScript";
 		break;
 
 	case SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:

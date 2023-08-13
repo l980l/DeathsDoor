@@ -8,6 +8,7 @@
 #include "CStateScript.h"
 #include "PlayerStates.h"
 #include "CPlayerWeaponScript.h"
+#include "CLadderScript.h"
 
 #include <Engine\CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -85,6 +86,25 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 		else
 		{
 			ChangeState(L"Hit");
+		}
+	}
+}
+
+void CPlayerScript::OnOverlap(CCollider3D* _Other)
+{
+	if ((int)LAYER::LADDER == _Other->GetOwner()->GetLayerIndex())
+	{
+		if (KEY_TAP(KEY::E))
+		{	
+			// 사다리가 바라보고 있는 방향, 위치로 플레이어를 고정시킴
+			Vec3 vLadderRot = _Other->GetOwner()->Transform()->GetXZDir();
+			GetOwner()->Transform()->SetRelativeRot(vLadderRot);
+			Vec3 vLadderPos = _Other->GetOwner()->Transform()->GetRelativePos();
+			GetOwner()->Rigidbody()->SetRigidPos(Vec3(XM_PI * 1.5f, vLadderPos.y, 0.f));
+
+			ChangeState(L"Ladder");
+			CPlyLadder* pLadderState =  (CPlyLadder*)GetOwner()->GetScript<CStateScript>()->FindState(L"Ladder");
+			pLadderState->SetHeight(_Other->GetOwner()->GetScript<CLadderScript>()->GetHeight());
 		}
 	}
 }

@@ -487,6 +487,9 @@
     <ClInclude Include="CCrowBossWalk.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
+    <ClInclude Include="CLadderScript.h">
+      <Filter>Script\02. Script\Interection_Obj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -864,6 +867,9 @@
     </ClCompile>
     <ClCompile Include="CCrowBossWalk.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CLadderScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
