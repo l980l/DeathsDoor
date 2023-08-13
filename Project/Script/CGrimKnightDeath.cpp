@@ -2,6 +2,8 @@
 #include "CGrimKnightDeath.h"
 #include "CGrimKnightScript.h"
 #include "CSoundScript.h"
+#include "CPlayerScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 CGrimKnightDeath::CGrimKnightDeath()		:
 	m_bStartPaperBurn(false),
@@ -19,8 +21,13 @@ void CGrimKnightDeath::tick()
 		m_fPaperBurnTime += DT;
 
 	// 지금까지 흐른 시간이 3초 이상이면 Destory.
-	if (m_fPaperBurnTime > 3.f)
+	if (m_fPaperBurnTime > 3.f && GetOwner()->IsDead() == false)
+	{
+		GetOwner()->GetScript<CGrimKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
+		CLevelSaveLoadInScript script;
+		script.MoneyCount(600);
 		GetOwnerScript()->Destroy();
+	}
 }
 
 void CGrimKnightDeath::Enter()

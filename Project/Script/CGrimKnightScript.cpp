@@ -37,8 +37,6 @@ void CGrimKnightScript::begin()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
-	/*CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\BGM\\DeathsDoorPiano.mp3",0,0.5);*/
 	// 상태 설정
 	if (nullptr == m_pStateScript)
 	{

@@ -663,14 +663,13 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
 
 
     CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
-    //int MoneyTotal = pScript->GetMoneyCount();
-    int MoneyTotal = 5260;
+    int MoneyTotal = pScript->GetMoneyCount();
+    //int MoneyTotal = 5260;
     int MTotalDigitCount = GetDigitCount(MoneyTotal);
     textpos = Vec3(1504.f, -1150.f, 0.f)/3;
     //player 현재 가지고 있는 금액 출력===============
     while (MoneyTotal != 0)
     {
-        
         MTotalDigitCount--;
         int digit = pow(10, MTotalDigitCount);
         int num = MoneyTotal / digit;// 100/3

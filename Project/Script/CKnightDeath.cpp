@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CKnightDeath.h"
 #include "CKnightScript.h"
+#include "CPlayerScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CKnightDeath::tick()
 {
@@ -14,9 +16,13 @@ void CKnightDeath::tick()
     if (m_bStartPaperBurn)
         m_fPaperBurnTime += DT;
 
-    // 지금까지 흐른 시간이 3초 이상이면 Destory.
-    if (m_fPaperBurnTime > 3.f)
+    if (m_fPaperBurnTime > 3.f && GetOwner()->IsDead() == false)
+    {
+        GetOwner()->GetScript<CKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
+        CLevelSaveLoadInScript script;
+        script.MoneyCount(600);
         GetOwnerScript()->Destroy();
+    }
 }
 
 void CKnightDeath::Enter()
