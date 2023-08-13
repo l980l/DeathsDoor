@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CBazookaDeath.h"
 #include "CBazookaScript.h"
+#include "CPlayerScript.h"
 
 void CBazookaDeath::Enter()
 {
@@ -9,6 +10,7 @@ void CBazookaDeath::Enter()
 	// 몬스터 사망시 현재까지 흐른 시간을 저장.
 	m_bStartPaperBurn = true;
 	GetOwner()->Animator3D()->SetStop(true);
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CBazookaDeath::tick()
@@ -17,8 +19,11 @@ void CBazookaDeath::tick()
 		m_fPaperBurnTime += DT;
 
 	// 지금까지 흐른 시간이 3초 이상이면 Destory.
-	if (m_fPaperBurnTime > 3.f)
+	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+	{
+		GetOwner()->GetScript<CBazookaScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
 		GetOwnerScript()->Destroy();
+	}
 }
 
 void CBazookaDeath::Exit()

@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "CGruntDeath.h"
 #include "CGruntScript.h"
+#include "CPlayerScript.h"
 
 void CGruntDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(13, false);
 	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGruntDeath::tick()
@@ -22,8 +24,11 @@ void CGruntDeath::tick()
 		m_fPaperBurnTime += DT;
 
 	// 지금까지 흐른 시간이 3초 이상이면 Destory.
-	if (m_fPaperBurnTime > 3.f)
+	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+	{
+		GetOwner()->GetScript<CGruntScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)500);
 		GetOwnerScript()->Destroy();
+	}
 }
 
 void CGruntDeath::Exit()

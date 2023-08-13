@@ -72,7 +72,7 @@ void CMonsterScript::tick()
 			float fHitAfterTime = GlobalData.tAccTime - m_fLastHitTime;		// 피격 이후 지난 시간.
 			int HitEffect = 0;
 
-			if (fHitAfterTime < 0.2f)
+			if (fHitAfterTime < 0.2f && !m_bSendDeadTime)
 				HitEffect = 1;
 
 			mtrl->SetScalarParam(INT_3, &HitEffect);
