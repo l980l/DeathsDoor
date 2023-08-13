@@ -18,8 +18,9 @@ void CSlashScript::BeginOverlap(CCollider3D* _Other)
 	{
 		Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
 		CurStat.HP -= 50;
-		if (CurStat.HP < 0)
+		if (CurStat.HP <= 0)
 			CurStat.HP = 0;
+
 		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
 		_Other->GetOwner()->GetScript<CMonsterScript>()->SetLastHitTime();
 	}

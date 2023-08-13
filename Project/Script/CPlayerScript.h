@@ -12,7 +12,7 @@ private:
     CPlayerWeaponScript* m_pSword;
     UINT                 m_iCurMagic;
     bool                 m_bInvincible;
-    Vec3                 m_vPosBeforeFall;
+    float                m_fFallCheckTime;
     UINT                 m_imoney;
     UINT                 m_iUpgrade[(UINT)PLAYER_UPGRADE::END];
 public:
@@ -31,6 +31,7 @@ public:
     void Upgrade(PLAYER_UPGRADE _Type);
     UINT GetUpgrade(PLAYER_UPGRADE _Upgrade) { return m_iUpgrade[(UINT)_Upgrade]; }
     void ChangeMagicState();
+    void FallCheck();
 
 private:
     void SetMagicType();

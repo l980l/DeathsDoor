@@ -19,6 +19,7 @@ CPlayerScript::CPlayerScript()
 	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
+	, m_imoney(0)
 	, m_iUpgrade{}
 {
 }
@@ -61,6 +62,8 @@ void CPlayerScript::tick()
 	// 숫자 1~4로 우클릭으로 사용하는 마법 효과 변경
 	SetMagicType();
 
+	// Fall 상태 체크
+	FallCheck();
 	// Sword(Child0)과 Bow(Child1)에 Emissive효과 부여
 	int a = 1;
 	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
@@ -147,6 +150,23 @@ void CPlayerScript::ChangeMagicState()
 	case PLAYER_MAGIC::HOOK:
 		ChangeState(L"Hook");
 		break;
+	}
+}
+
+void CPlayerScript::FallCheck()
+{
+	if (m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Dead")
+		|| m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit"))
+	{
+		if ((Transform()->GetRelativePos() - Transform()->GetPrevPos()).y > 0.2f / DT)
+		{
+			m_fFallCheckTime += DT;
+			if (m_fFallCheckTime > 1.f)
+			{
+				ChangeState(L"Fall");
+				m_fFallCheckTime = 0.f;
+			}
+		}
 	}
 }
 

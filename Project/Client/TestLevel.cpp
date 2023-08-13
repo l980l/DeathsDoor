@@ -65,18 +65,18 @@ void CreateTestLevel()
 	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
 	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
 
-	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
+	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::MAINCAMERA);
 
 	CGameObject* pSubCam = new CGameObject;
 	pSubCam->SetName(L"SubCamera");
-
+	
 	pSubCam->AddComponent(new CTransform);
 	pSubCam->AddComponent(new CCamera);
 	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	pSubCam->Camera()->SetCameraIndex(2);
 	pSubCam->Camera()->SetLayerMaskAll(false);
 	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
-
+	
 	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 	
 	// 광원 추가
@@ -141,8 +141,11 @@ void CreateTestLevel()
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 150.f;
 	PlayerStat.Spell_Power = 40.f;
+	PlayerStat.Energy = 0;
+	PlayerStat.Max_Energy = 4;
+
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 1000.f, 3000.f), 20.f, pPlayer);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2400, 2000.f, 2400), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 	
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -162,10 +165,10 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Chain_Set.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Chain");
-	SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::DEFAULT);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Chain_Set.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Chain");
+	//SpawnGameObject(pObject, Vec3(200.f, 200.f, 200.f), (int)LAYER::DEFAULT);
 
 	//CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
 	//
@@ -231,7 +234,7 @@ void CreateTestLevel()
 
 	pObject->GetScript<CLadderScript>()->SetHeight(500.f);
 
-	SpawnGameObject(pObject, Vec3(2500.f, 500.f, 3000.f), (int)LAYER::LADDER);
+	SpawnGameObject(pObject, Vec3(2500.f, 0.f, 3000.f), (int)LAYER::LADDER);
 
 	CGameObject* pArrowIcon = new CGameObject;
 	pArrowIcon->SetName(L"ArrowIcon");
@@ -279,7 +282,7 @@ void CreateTestLevel()
 	SpawnGameObject(pHPIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
 	CGameObject* pEnergyIcon = new CGameObject;
-	pEnergyIcon->SetName(L"nergyIcon");
+	pEnergyIcon->SetName(L"EnergyIcon");
 	pEnergyIcon->AddComponent(new CTransform);
 	pEnergyIcon->AddComponent(new CMeshRender);
 	pEnergyIcon->AddComponent(new CEnergyIconScript);
@@ -441,38 +444,42 @@ void CreateTestLevel()
 	//pWaterCam->Camera()->SetWaterCamera(true);
 	//
 	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
+	// 
 
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ShortcutDoor.fbx");
+	//pObject = pMeshData->Instantiate();
+	//SpawnGameObject(pObject, Vec3(0.f), (int)LAYER::DEFAULT);
 
 	// ======================
 	// Map
 	// ======================
 
-	//CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
-	//pObject = pMeshData->Instantiate();
-	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
-	//
-	//delete pObject;
-	//
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Map");
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-	// 
-	CGameObject* pFloor = new CGameObject;
-	pFloor->AddComponent(new CTransform);
-	pFloor->AddComponent(new CMeshRender);
+	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
+	pObject = pMeshData->Instantiate();
+	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	
-	pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
-	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\CrowBossMapFloor.png"));
-	pFloor->GetRenderComponent()->SetFrustumCheck(false);
-	pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	delete pObject;
+	
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Map");
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	
+	//CGameObject* pFloor = new CGameObject;
+	//pFloor->AddComponent(new CTransform);
+	//pFloor->AddComponent(new CMeshRender);
+	//
+	//pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
+	//pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	//pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	//pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
+	//pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	//pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
-	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::DEFAULT);
 
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_L.fbx");
