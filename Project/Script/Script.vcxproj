@@ -161,7 +161,7 @@ call CodeGen.exe</Command>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>

@@ -23,9 +23,9 @@ public:
 	static FMOD::System* g_pFMOD; //사운드 객체를 생성할 곳인 시스템
 
 private:
-	FMOD_MODE					m_mode;//1번 Default, 반복 출력시 Loop
-	FMOD::Sound*					m_pSound;//사운드 파일을 저장할 사운드 객체
-	FMOD::Channel*				m_channel;
+	FMOD_MODE				m_mode;//1번 Default, 반복 출력시 Loop
+	FMOD::Sound*			m_pSound;//사운드 파일을 저장할 사운드 객체
+	FMOD::Channel*			m_channel;
 	list<FMOD::Channel*>	m_listChannel;
 
 	float m_volume;

@@ -39,6 +39,7 @@
 #include <Script\CHookIconScript.h>
 #include <Script\CHPIconScript.h>
 #include <Script\CEnergyIconScript.h>
+#include <Script/CSoundScript.h>
 
 #include <Engine/CDetourMgr.h>
 #include <Engine/CPhysXMgr.h>

@@ -4,6 +4,7 @@
 #include "CLevelSaveLoadInScript.h"
 #include "CPlayerScript.h"
 #include "CMagic_ArrowScript.h"
+#include "CSoundScript.h"
 
 CPlyMagic_Arrow::CPlyMagic_Arrow()
 	: m_vAttackDir{}
@@ -21,6 +22,9 @@ void CPlyMagic_Arrow::Enter()
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeScale(0.04f, 0.04f, 0.04f);
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeRot(XM_PI / 2.f, XM_PI, XM_PI / 2.f);
 	GetOwner()->GetChild()[1]->Transform()->SetRelativePos(Vec3(0.f, 1.f, 1.f));
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\ArrowCharge.ogg", 1, 0.1f);
 }
 
 void CPlyMagic_Arrow::tick()
@@ -70,6 +74,9 @@ void CPlyMagic_Arrow::tick()
 			m_pArrow->GetScript<CMagic_ArrowScript>()->SetDamage(fDamage);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\ArrowFire.ogg", 1, 0.1f);
 		}
 		else
 		{

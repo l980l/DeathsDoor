@@ -3,6 +3,7 @@
 #include "CPlyMagic_Hook.h"
 #include "CPlyMagic_Hooking.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 CMagic_HookScript::CMagic_HookScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT)
@@ -49,6 +50,9 @@ void CMagic_HookScript::begin()
 		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(VEC4_0, &ChainColor);
 	}
 	Active(m_bActive);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCharge.ogg", 1, 0.1);
 }
 
 void CMagic_HookScript::tick()
@@ -145,6 +149,9 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 			}
 
 			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCollision.ogg", 1, 0.1f);
 		}
 	}
 }

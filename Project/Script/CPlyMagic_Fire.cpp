@@ -4,6 +4,7 @@
 #include "CLevelSaveLoadInScript.h"
 #include "CPlayerScript.h"
 #include "CMagic_FireScript.h"
+#include "CSoundScript.h"
 
 CPlyMagic_Fire::CPlyMagic_Fire()
 	: m_vAttackDir{}
@@ -60,6 +61,9 @@ void CPlyMagic_Fire::tick()
 			m_pFire->SetLifeSpan(3.f);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.1f);
 		}
 		else
 		{

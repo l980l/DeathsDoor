@@ -4,6 +4,7 @@
 #include <Engine/CRenderMgr.h>
 #include "CGameCameraScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 CMagic_BombScript::CMagic_BombScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_BOMBSCRIPT)
@@ -63,6 +64,9 @@ void CMagic_BombScript::BeginOverlap(CCollider3D* _Other)
 			CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(5.f, 1000.f, 0.3f);
 
 			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombHit.ogg", 1, 0.1f);
 		}
 	}
 

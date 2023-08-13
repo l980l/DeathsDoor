@@ -9,6 +9,8 @@ private:
     float   m_fRotDelay;
     float   m_fRot;
     bool    m_bIce;
+    float   m_fStepSoundDelay;
+    bool    m_bStepSoundOrder;
 
 public:
     virtual void tick() override;

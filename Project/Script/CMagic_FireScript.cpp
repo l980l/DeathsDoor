@@ -2,6 +2,7 @@
 #include "CMagic_FireScript.h"
 #include "CStateScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 CMagic_FireScript::CMagic_FireScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_FIRESCRIPT)
@@ -45,6 +46,9 @@ void CMagic_FireScript::BeginOverlap(CCollider3D* _Other)
 			Destroy();
 
 			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.1f);
 		}
 	}
 

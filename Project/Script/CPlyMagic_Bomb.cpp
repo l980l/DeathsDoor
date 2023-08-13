@@ -5,6 +5,7 @@
 #include "CPlayerScript.h"
 #include "CMagic_BombScript.h"
 #include <Engine/CPhysXMgr.h>
+#include "CSoundScript.h"
 
 CPlyMagic_Bomb::CPlyMagic_Bomb()
 	: m_vAttackDir{}
@@ -19,6 +20,9 @@ CPlyMagic_Bomb::~CPlyMagic_Bomb()
 void CPlyMagic_Bomb::Enter()
 {
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_BOMB, false);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombCharge.ogg", 1, 0.1f);
 }
 
 void CPlyMagic_Bomb::tick()
@@ -65,6 +69,9 @@ void CPlyMagic_Bomb::tick()
 			m_pBomb->GetScript<CMagic_BombScript>()->SetDir(vDir);
 			m_pBomb->GetScript<CMagic_BombScript>()->SetThrow();
 			m_pBomb->SetLifeSpan(3.f);
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombFire.ogg", 1, 0.1f);
 		}
 		 else
 		{

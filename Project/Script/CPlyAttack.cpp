@@ -3,6 +3,7 @@
 #include "CPlayerScript.h"
 #include "CPlyWpAttack.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 #include <Engine/CDevice.h>
 
@@ -164,6 +165,23 @@ void CPlyAttack::Slash()
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetTexParam(TEX_6, NoiseTextue.Get());
 	}
+
+	wstring wstrSoundFilePath;
+	switch (m_iAttackCount)
+	{
+	case 0:
+		wstrSoundFilePath = L"Sound\\Player\\SwordSwing1.ogg";
+		break;
+	case 1:
+		wstrSoundFilePath = L"Sound\\Player\\SwordSwing2.ogg";
+		break;
+	case 2:
+		wstrSoundFilePath = L"Sound\\Player\\SwordSwing3.ogg";
+		break;
+	}
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.1f);
 }
 
 void CPlyAttack::SetSlashScale(bool _bOn, SLASH _tDir)

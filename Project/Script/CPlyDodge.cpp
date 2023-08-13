@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlyDodge.h"
 #include "CPlayerScript.h"
+#include "CSoundScript.h"
 
 CPlyDodge::CPlyDodge()
 {
@@ -16,6 +17,9 @@ void CPlyDodge::Enter()
 	Dodge(fSpeed);
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::DODGE, false);
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\PlayerRoll.ogg", 1, 0.1f);
 }
 
 void CPlyDodge::tick()
