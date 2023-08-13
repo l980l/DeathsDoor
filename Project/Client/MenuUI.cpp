@@ -208,7 +208,7 @@ void MenuUI::CreateEmptyObject(int layerindx)
 
     if (layerindx == (int)LAYER::MAINCAMERA)
     {
-        pNewObject->SetName(L"MainCam");
+        pNewObject->SetName(L"MainCamera");
         pNewObject->AddComponent(new CCamera);
         pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // 카메라 오브젝트의 투영 방식 설정(직교)
         pNewObject->Camera()->SetCameraIndex(0); //MainCamera로 설정
@@ -217,10 +217,11 @@ void MenuUI::CreateEmptyObject(int layerindx)
     }
     else if (layerindx == (int)LAYER::SUBCAMERA)
     {
-        pNewObject->SetName(L"SubCam");
+        pNewObject->SetName(L"SubCamera");
         pNewObject->AddComponent(new CCamera);
         pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // 카메라 오브젝트의 투영 방식 설정(직교)
-        pNewObject->Camera()->SetCameraIndex(5); //SubCamera로 설정
+        pNewObject->Camera()->SetCameraIndex(2); //SubCamera로 설정
+        pNewObject->Camera()->SetLayerMaskAll(false);
         pNewObject->Camera()->SetLayerMask(31, true);
     }
     SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), layerindx);

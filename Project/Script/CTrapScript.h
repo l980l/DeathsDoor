@@ -6,6 +6,7 @@ class CTrapScript :
 private:
     int m_itrapNum;
     bool m_bTrapped;
+
 private:
     void SetTrapNum(int _trapNum) { m_itrapNum = _trapNum; }
 public:

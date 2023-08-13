@@ -10,6 +10,7 @@ void CSoundScript::begin()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\VolumeUI.png"));
 	//pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\BGM\\DeathsDoorPiano.mp3");
 	//idx = pSound->PlayBGM(0, 0.5f);
 	

@@ -31,8 +31,16 @@
 #include <Script/CGrimKnightScript.h>
 #include <Script/CSlashScript.h>
 #include <Script\CWaterScript.h>
+
 #include <Engine/CEventMgr.h>
 #include "CLevelSaveLoad.h"
+
+#include <Script\CArrowIconScript.h>
+#include <Script\CFireIconScript.h>
+#include <Script\CBombIconScript.h>
+#include <Script\CHookIconScript.h>
+#include <Script\CHPIconScript.h>
+#include <Script\CEnergyIconScript.h>
 
 
 void CreateTestLevel()
@@ -59,6 +67,74 @@ void CreateTestLevel()
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
 	CEventMgr::GetInst()->AddEvent(evn);
+	return;
+	CGameObject* pSubCam = new CGameObject;
+	pSubCam->SetName(L"SubCamera");
+
+	pSubCam->AddComponent(new CTransform);
+	pSubCam->AddComponent(new CCamera);
+	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pSubCam->Camera()->SetCameraIndex(2);
+	pSubCam->Camera()->SetLayerMaskAll(false);
+	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
+
+	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
+
+
+	CGameObject* pArrowIcon = new CGameObject;
+	pArrowIcon->SetName(L"ArrowIcon");
+	pArrowIcon->AddComponent(new CTransform);
+	pArrowIcon->AddComponent(new CMeshRender);
+	pArrowIcon->AddComponent(new CArrowIconScript);
+	pArrowIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pArrowIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"),0);
+	SpawnGameObject(pArrowIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+
+	CGameObject* pFireIcon = new CGameObject;
+	pFireIcon->SetName(L"FireIcon");
+	pFireIcon->AddComponent(new CTransform);
+	pFireIcon->AddComponent(new CMeshRender);
+	pFireIcon->AddComponent(new CFireIconScript);
+	pFireIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pFireIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+	SpawnGameObject(pFireIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+
+	CGameObject* pBombIcon = new CGameObject;
+	pBombIcon->SetName(L"BombIcon");
+	pBombIcon->AddComponent(new CTransform);
+	pBombIcon->AddComponent(new CMeshRender);
+	pBombIcon->AddComponent(new CBombIconScript);
+	pBombIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pBombIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+	SpawnGameObject(pBombIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+
+	CGameObject* pHookIcon = new CGameObject;
+	pHookIcon->SetName(L"HookIcon");
+	pHookIcon->AddComponent(new CTransform);
+	pHookIcon->AddComponent(new CMeshRender);
+	pHookIcon->AddComponent(new CHookIconScript);
+	pHookIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pHookIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+	SpawnGameObject(pHookIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+
+	CGameObject* pHPIcon = new CGameObject;
+	pHPIcon->SetName(L"HPIcon");
+	pHPIcon->AddComponent(new CTransform);
+	pHPIcon->AddComponent(new CMeshRender);
+	pHPIcon->AddComponent(new CHPIconScript);
+	pHPIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pHPIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+	SpawnGameObject(pHPIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+
+	CGameObject* pEnergyIcon = new CGameObject;
+	pEnergyIcon->SetName(L"nergyIcon");
+	pEnergyIcon->AddComponent(new CTransform);
+	pEnergyIcon->AddComponent(new CMeshRender);
+	pEnergyIcon->AddComponent(new CEnergyIconScript);
+	pEnergyIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pEnergyIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+	SpawnGameObject(pEnergyIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+	
 
 	//Ptr<CMeshData> MeshData = nullptr;
 	//CGameObject* pbat;
@@ -81,7 +157,7 @@ void CreateTestLevel()
 	//CPhysXMgr::GetInst()->CreateSphere(Vec3(2500, 650, 3000), 20.f, pbat);
 	//SpawnGameObject(pbat, Vec3(2500, 650, 3000), (int)LAYER::MONSTER);
 
-	return;
+
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");

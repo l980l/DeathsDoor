@@ -15,6 +15,11 @@ void CTrapScript::begin()
 
 void CTrapScript::tick()
 {
+	if (m_bTrapped)
+	{
+		//GetOwner()->GetScript<CRoomScript>()->ReduceMonsterCount();
+	}
+	
 }
 
 void CTrapScript::BeginOverlap(CCollider3D* _Other)
@@ -29,23 +34,28 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 			{
 
 				GetOwner()->GetScript<CRoomScript>()->SetRoomNum(1);
-				GetOwner()->GetScript<CRoomScript>()->SetWaveCount(2);
+				GetOwner()->GetScript<CRoomScript>()->SetWaveCount(2);//최대 웨이브 수
 				
 				vector<SpawnInfo> wave0 = {};
 				SpawnInfo info;
 				info.PrefabName = L"prefab\\Bat.prefab";
 				info.SpawnPos = Vec3(2600.f, 630.f, 3000.f);
 				wave0.push_back(info);
+				info.PrefabName = L"prefab\\Bat.prefab";
+				info.SpawnPos = Vec3(2600.f, 630.f, 2800.f);
+				wave0.push_back(info);
 
 				vector<SpawnInfo> wave1;
 				info.PrefabName = L"prefab\\Bat.prefab";
 				info.SpawnPos = Vec3(2500.f, 630.f, 2900.f);
 				wave1.push_back(info);
-				/*GetOwner()->GetScript<CRoomScript>()->SetWaveInfo(0, wave0);
-				GetOwner()->GetScript<CRoomScript>()->SetWaveInfo(1, wave1);*/
-
+				info.PrefabName = L"prefab\\Bat.prefab";
+				info.SpawnPos = Vec3(2500.f, 630.f, 2700.f);
+				wave1.push_back(info);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[0].PrefabName, wave0[0].SpawnPos);
+				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[1].PrefabName, wave0[1].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[0].PrefabName, wave1[0].SpawnPos);
+				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[1].PrefabName, wave1[1].SpawnPos);
 				
 				CSpawnMgr::GetInst()->RegisterWave(1, GetOwner()->GetScript<CRoomScript>());
 				CSpawnMgr::GetInst()->SpawnMonster(1);

@@ -57,6 +57,7 @@ void CBatScript::begin()
 
 	// 초기 스탯 설정.
 	m_stat.HP = 300;
+	m_stat.Max_HP = 300;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
 	m_stat.Speed = 200;

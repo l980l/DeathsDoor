@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CSpawnDoorScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSpawnMgr.h"
 #include <Engine/CPhysXMgr.h>
 
 CSpawnDoorScript::CSpawnDoorScript()
@@ -26,9 +27,11 @@ void CSpawnDoorScript::tick()
 	if (m_fDelay <= 0.f && m_bSpawn == false)
 	{
 		CLevelSaveLoadInScript script;
-		CGameObject* pmonster = script.SpawnandReturnPrefab(m_strSpawnMstName, (int)LAYER::MONSTER, Transform()->GetWorldPos());
-		pmonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos());
+		CGameObject* pMonster = script.SpawnandReturnPrefab(m_strSpawnMstName, (int)LAYER::MONSTER, Transform()->GetWorldPos());
+		pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos());
 		SetLifeSpan(1.5f);
 		m_bSpawn = true;
+		
+
 	}
 }

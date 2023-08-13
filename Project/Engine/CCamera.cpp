@@ -327,6 +327,7 @@ void CCamera::render()
 	// =====================================
 	// Deferred Object
 	// 지연 출력으로 원하는 정보를 따로 받는 텍스쳐에 받아옴
+
 	if (m_bWaterCamera)
 	{
 		CRenderMgr::GetInst()->MRT_Clear(MRT_TYPE::WATER);
@@ -353,7 +354,7 @@ void CCamera::render()
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::LIGHT)->OMSet();
 
 		// LightObj 기준 render 
-		const vector<CLight3D*> vecLight3D = CRenderMgr::GetInst()->GetLight3D();
+		const vector<CLight3D*> vecLight3D = CRenderMgr::GetInst()->GetLight3D();//
 		for (size_t i = 0; i < vecLight3D.size(); ++i)
 		{
 			vecLight3D[i]->render();
