@@ -40,13 +40,13 @@ CPlyAttack::~CPlyAttack()
 
 void CPlyAttack::Enter()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
 	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
 	m_fSlashStartTime = GlobalData.tAccTime;
 	CalcDir();
 	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 80.f;
 	Slash();
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyAttack::tick()
@@ -91,21 +91,20 @@ void CPlyAttack::tick()
 			m_fAcctime = 0.f;
 		}
 	}
-	else if (m_fDelay * 0.8f > m_fAcctime > m_fDelay * 0.3f)
+	else if(m_fAcctime > m_fDelay * 0.8f)
 	{
-		if (KEY_TAP(KEY::SPACE))
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-	}
-	else if (m_fAcctime > m_fDelay * 0.8f)
-	{
-		if (KEY_TAP(KEY::SPACE))
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-
 		SetSlashScale(false, SLASH::LEFT);
 		SetSlashScale(false, SLASH::RIGHT);
 		GetOwner()->Rigidbody()->ClearForce();
-	}
 
+		if (KEY_TAP(KEY::SPACE))
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+	}
+	else
+	{
+		if (KEY_TAP(KEY::SPACE))
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+	}
 }
 
 void CPlyAttack::Exit()
@@ -117,7 +116,6 @@ void CPlyAttack::Exit()
 	m_vMouseDir = {};
 	SetSlashScale(false, SLASH::LEFT);
 	SetSlashScale(false, SLASH::RIGHT);
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyAttack::CalcDir()

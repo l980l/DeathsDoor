@@ -3,8 +3,11 @@
 #include <Engine/CDevice.h>
 #include "CLevelSaveLoadInScript.h"
 #include "CPlayerScript.h"
+#include "CMagic_FireScript.h"
 
 CPlyMagic_Fire::CPlyMagic_Fire()
+	: m_vAttackDir{}
+	, m_pFire(nullptr)
 {
 }
 
@@ -26,18 +29,46 @@ void CPlyMagic_Fire::tick()
 	}
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
-		if (KEY_RELEASE(KEY::RBTN))
+		// 에너지가 부족하다면 Idle로 돌아가게 함.
+		if (2 > GetOwnerScript()->GetStat().Energy)
+		{
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+		}
+		else if (nullptr == m_pFire)
+		{
+			// Player 업그레이드 수치를 가져와 계수를 곱해 Bomb의 최종데미지를 정함.
+			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
+			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;;
+			m_pFire = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Fire.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
+			m_pFire->Transform()->SetRelativeScale(Vec3(0.45f));
+			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pFire->Transform()->SetRelativePos(vSpawnPos);
+		}
+		else if (KEY_RELEASE(KEY::RBTN))
 		{
 			// Player 업그레이드 수치를 가져와 계수를 곱해 Fire의 최종데미지를 정함.
 			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
 			fDamage *= 1.3f;
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos, 3.f);
-			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;
+			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
+			m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);
+			m_pFire->GetScript<CMagic_FireScript>()->SetStartPos(vSpawnPos);
+			m_pFire->SetLifeSpan(3.f);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+		}
+		else
+		{
+			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
+			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;
+			CalcDir();
+			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pFire->Transform()->SetRelativePos(vSpawnPos);
 		}
 	}
 	else
@@ -51,6 +82,7 @@ void CPlyMagic_Fire::tick()
 
 void CPlyMagic_Fire::Exit()
 {
+	m_pFire = nullptr;
 }
 
 void CPlyMagic_Fire::CalcDir()

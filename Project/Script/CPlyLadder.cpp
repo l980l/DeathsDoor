@@ -19,6 +19,8 @@ void CPlyLadder::Enter()
 {
 	m_fStartYPos = GetOwner()->Transform()->GetWorldPos().y;
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, true);
+
+	// 사다리를 타는 중에는 무적
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
 }
 
@@ -76,12 +78,14 @@ void CPlyLadder::Exit()
 	m_fStartYPos = 0.f;
 	m_fLadderHeight = 0.f;
 	m_fStartDelay = 0.5f;
+	m_fGroundCheckDelay = 0.f;
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
 	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyLadder::Move()
 {
+	// W, S를 누르고 있다면 위아래로 움직임. 이전에 멈춰있었다면 다시 애니메이션을 재생
 	if (KEY_PRESSED(KEY::W))
 	{
 		GetOwner()->Rigidbody()->SetGravity(m_fSpeed);
@@ -102,6 +106,15 @@ void CPlyLadder::Move()
 		{
 			if (GetOwner()->Animator3D()->IsStop())
 				GetOwner()->Animator3D()->SetStop(false);
+
+			if (0.1f > abs((GetOwner()->Transform()->GetRelativePos() - GetOwner()->Transform()->GetPrevPos()).y))
+			{
+				m_fGroundCheckDelay += DT;
+				if (m_fGroundCheckDelay > 0.3f)
+				{
+					GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+				}
+			}
 		}
 	}
 }

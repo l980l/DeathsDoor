@@ -1,6 +1,17 @@
 #include "pch.h"
 #include "CSoundScript.h"
 
+CSoundScript::CSoundScript() :
+	CScript(SCRIPT_TYPE::SOUNDSCRIPT)
+	, m_pSound(nullptr)
+	, m_fVolume(0.5f)
+	, m_iIdx(0)
+{
+}
+
+CSoundScript::~CSoundScript()
+{
+}
 void CSoundScript::begin()
 {
 	// 동적 재질 생성.
@@ -20,13 +31,13 @@ void CSoundScript::tick()
 {
 	if (KEY_TAP(KEY::LEFT))
 	{
-		m_volume -= 0.1f;
-		pSound->SetVolume(m_volume, 31);
+		m_fVolume -= 0.1f;
+		m_pSound->SetVolume(m_fVolume, 31);
 	}
 	if (KEY_TAP(KEY::RIGHT))
 	{
-		m_volume += 0.1f;
-		pSound->SetVolume(m_volume , 31);
+		m_fVolume += 0.1f;
+		m_pSound->SetVolume(m_fVolume, 31);
 	}
 	if (KEY_TAP(KEY::Q))
 	{
@@ -40,17 +51,8 @@ void CSoundScript::BeginOverlap(CCollider3D* _Other)
 
 Ptr<CSound> CSoundScript::AddSound(wstring _filename, int _repeat, float _volume)
 {
-	pSound = CResMgr::GetInst()->FindRes<CSound>(_filename);
-	pSound->Play(_repeat, _volume);
-	return pSound;
+	m_pSound = CResMgr::GetInst()->FindRes<CSound>(_filename);
+	m_pSound->Play(_repeat, _volume);
+	return m_pSound;
 }
 
-CSoundScript::CSoundScript()		:
-	CScript(SCRIPT_TYPE::SOUNDSCRIPT),
-	m_volume(0.5f)
-{
-}
-
-CSoundScript::~CSoundScript()
-{
-}

@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "CMagic_FireScript.h"
 #include "CStateScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 CMagic_FireScript::CMagic_FireScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_FIRESCRIPT)
-	, m_fDamage(0.f)
+	, m_vStartPos{}
 	, m_vDir{}
-	, m_fSpeed(1200.f)
+	, m_fDamage(0.f)
+	, m_fSpeed(2000.f)
 {
 }
 
@@ -16,6 +18,12 @@ CMagic_FireScript::~CMagic_FireScript()
 
 void CMagic_FireScript::begin()
 {
+	Transform()->SetRelativePos(m_vStartPos);
+	int a = 1;
+	Vec4 Color = Vec4(1.f, 0.5f, 0.5f, 1.f);
+	ParticleSystem()->GetMaterial(0)->SetScalarParam(INT_1, &a);
+	ParticleSystem()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
+	ParticleSystem()->SetEmissive(true);
 }
 
 void CMagic_FireScript::tick()
@@ -35,8 +43,11 @@ void CMagic_FireScript::BeginOverlap(CCollider3D* _Other)
 			CurStat.HP -= m_fDamage;
 			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
 			Destroy();
+
+			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
 		}
 	}
+
 }
 
 void CMagic_FireScript::EndOverlap(CCollider3D* _Other)

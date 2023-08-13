@@ -6,6 +6,8 @@
 #include "CMagic_ArrowScript.h"
 
 CPlyMagic_Arrow::CPlyMagic_Arrow()
+	: m_vAttackDir{}
+	, m_pArrow(nullptr)
 {
 }
 
@@ -29,22 +31,54 @@ void CPlyMagic_Arrow::tick()
 	}
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
-		if (KEY_RELEASE(KEY::RBTN))
+		// 에너지가 부족하다면 Idle로 돌아가게 함.
+		if (1 > GetOwnerScript()->GetStat().Energy)
 		{
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");			
+		}
+		else if (nullptr == m_pArrow)
+		{
+			// Player 업그레이드 수치를 가져와 계수를 곱해 Bomb의 최종데미지를 정함.
+			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
+			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 20.f;
+			m_pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
+			m_pArrow->Transform()->SetRelativeScale(Vec3(0.45f));
+			m_pArrow->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pArrow->Transform()->SetRelativePos(vSpawnPos);
+		}
+		else if (KEY_RELEASE(KEY::RBTN))
+		{
+			// 공격에 따른 에너지 소모
+			Stat CurStat = GetOwnerScript()->GetStat();
+			CurStat.Energy -= 1;
+			GetOwnerScript()->SetStat(CurStat);
+
 			// Player 업그레이드 수치를 가져와 계수를 곱해 Arrow의 최종데미지를 정함.
 			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 40.f;
-			CGameObject* pArrow = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Arrow.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
-			pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
-			pArrow->GetScript<CMagic_ArrowScript>()->SetStartPos(vSpawnPos);
-			pArrow->GetScript<CMagic_ArrowScript>()->SetDamage(fDamage);
-			pArrow->Transform()->SetRelativeRot(m_vAttackDir);
-			pArrow->Transform()->SetRelativeScale(Vec3(0.8f));
-			pArrow->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 20.f;
+			m_pArrow->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pArrow->Transform()->SetRelativeScale(Vec3(0.8f));
+			m_pArrow->SetLifeSpan(2.f);
+
+			m_pArrow->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+
+			m_pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
+			m_pArrow->GetScript<CMagic_ArrowScript>()->SetStartPos(vSpawnPos);
+			m_pArrow->GetScript<CMagic_ArrowScript>()->SetDamage(fDamage);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+		}
+		else
+		{
+			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
+			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 20.f;
+			CalcDir();
+			m_pArrow->Transform()->SetRelativeRot(m_vAttackDir);
+			m_pArrow->Transform()->SetRelativePos(vSpawnPos);
 		}
 	}
 	else
@@ -59,6 +93,7 @@ void CPlyMagic_Arrow::tick()
 void CPlyMagic_Arrow::Exit()
 {
 	GetOwner()->GetChild()[1]->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+	m_pArrow = nullptr;
 }
 
 void CPlyMagic_Arrow::CalcDir()

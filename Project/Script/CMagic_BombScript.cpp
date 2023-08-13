@@ -3,6 +3,7 @@
 #include "CStateScript.h"
 #include <Engine/CRenderMgr.h>
 #include "CGameCameraScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 CMagic_BombScript::CMagic_BombScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_BOMBSCRIPT)
@@ -21,7 +22,7 @@ CMagic_BombScript::~CMagic_BombScript()
 void CMagic_BombScript::begin()
 {
 	int a = 1;
-	Vec4 Color = Vec4(0.2f, 0.2f, 1.f, 1.f);
+	Vec4 Color = Vec4(0.5f, 0.5f, 1.f, 1.f);
 	MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
 	MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
 }
@@ -60,8 +61,11 @@ void CMagic_BombScript::BeginOverlap(CCollider3D* _Other)
 			Destroy();
 			// 히트 이펙트 추가할 것
 			CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(5.f, 1000.f, 0.3f);
+
+			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
 		}
 	}
+
 }
 
 void CMagic_BombScript::EndOverlap(CCollider3D* _Other)

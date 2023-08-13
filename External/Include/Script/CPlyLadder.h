@@ -8,6 +8,7 @@ private:
     float   m_fStartYPos;
     float   m_fLadderHeight;
     float   m_fStartDelay;
+    float   m_fGroundCheckDelay;
     bool    m_bEnd;
 
 public:

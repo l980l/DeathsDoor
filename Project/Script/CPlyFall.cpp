@@ -21,7 +21,7 @@ void CPlyFall::tick()
 	if (Diff.y > -0.2f )
 		m_fTimeToIdle += DT;
 
-	if(m_fTimeToIdle > 0.3f)
+	if(m_fTimeToIdle > 0.1f)
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 }
 

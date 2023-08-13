@@ -15,6 +15,7 @@ private:
     float                m_fFallCheckTime;
     UINT                 m_imoney;
     UINT                 m_iUpgrade[(UINT)PLAYER_UPGRADE::END];
+    bool                 m_bEditorMode;
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -32,6 +33,7 @@ public:
     UINT GetUpgrade(PLAYER_UPGRADE _Upgrade) { return m_iUpgrade[(UINT)_Upgrade]; }
     void ChangeMagicState();
     void FallCheck();
+    void EditorMode();
 
 private:
     void SetMagicType();

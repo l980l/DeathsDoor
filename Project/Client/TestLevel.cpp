@@ -67,17 +67,17 @@ void CreateTestLevel()
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::MAINCAMERA);
 
-	CGameObject* pSubCam = new CGameObject;
-	pSubCam->SetName(L"SubCamera");
-	
-	pSubCam->AddComponent(new CTransform);
-	pSubCam->AddComponent(new CCamera);
-	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pSubCam->Camera()->SetCameraIndex(2);
-	pSubCam->Camera()->SetLayerMaskAll(false);
-	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
-	
-	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
+	//CGameObject* pSubCam = new CGameObject;
+	//pSubCam->SetName(L"SubCamera");
+	//
+	//pSubCam->AddComponent(new CTransform);
+	//pSubCam->AddComponent(new CCamera);
+	//pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pSubCam->Camera()->SetCameraIndex(2);
+	//pSubCam->Camera()->SetLayerMaskAll(false);
+	//pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
+	//
+	//SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 	
 	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
@@ -141,7 +141,7 @@ void CreateTestLevel()
 	PlayerStat.HP = 4;
 	PlayerStat.Speed = 150.f;
 	PlayerStat.Spell_Power = 40.f;
-	PlayerStat.Energy = 0;
+	PlayerStat.Energy = 4;
 	PlayerStat.Max_Energy = 4;
 
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
@@ -219,13 +219,15 @@ void CreateTestLevel()
 	pObject->Collider3D()->SetDebugShape(true);
 	pObject->Collider3D()->SetOffsetScale(Vec3(300.f));
 
-	SpawnGameObject(pObject, Vec3(2500.f, 500.f, 3000.f), (int)LAYER::ANCHOR);
+	SpawnGameObject(pObject, Vec3(3500.f, 0.f, 3500.f), (int)LAYER::ANCHOR);
 
 	pObject = new CGameObject;
 	pObject->SetName(L"Ladder");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CCollider3D);
 	pObject->AddComponent(new CLadderScript);
+
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
 
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pObject->Collider3D()->SetAbsolute(true);
@@ -289,6 +291,20 @@ void CreateTestLevel()
 	pEnergyIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pEnergyIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
 	SpawnGameObject(pEnergyIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+
+	//CGameObject* pFire = new CGameObject;
+	//pFire->SetName(L"Fire");
+	//pFire->AddComponent(new CTransform);
+	//pFire->AddComponent(new CCollider3D);
+	//pFire->AddComponent(new CParticleSystem);
+	//pFire->AddComponent(new CMagic_FireScript);
+	//
+	//pFire->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	//
+	//pFire->ParticleSystem()->SetTex(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\particle\\Fire2.png"));
+	//pFire->ParticleSystem()->AnimationModule(56, 8, Vec2(0.f), Vec2(256.f), Vec2(0.f));
+	//
+	//SpawnGameObject(pFire, Vec3(1000.f), (int)LAYER::PLAYERPROJECTILE);
 
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bomb.fbx");
 	//pObject = pMeshData->Instantiate();
@@ -480,51 +496,6 @@ void CreateTestLevel()
 	//pFloor->GetRenderComponent()->SetDynamicShadow(true);
 	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
-
-
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_L.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Slash_L");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CSlashScript);
-	//
-	//pObject->Transform()->SetRelativeScale(Vec3(0.f));
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-	//
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Player\\Slash_R.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Slash_R");
-	//pObject->AddComponent(new CCollider3D);
-	//pObject->AddComponent(new CSlashScript);
-	//
-	//pObject->Transform()->SetRelativeScale(Vec3(0.f));
-	//pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-
-	//CGameObject* pObj = new CGameObject;
-	//pObj->AddComponent(new CTransform);
-	//pObj->AddComponent(new CCollider3D);
-	//pObj->SetName(L"Cube");
-	//
-	//pObj->Collider3D()->SetAbsolute(true);
-	//pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::CUBE);
-	//pObj->Collider3D()->SetOffsetScale(Vec3(500.f));
-	//pObj->Collider3D()->SetDebugShape(true);
-	//
-	//SpawnGameObject(pObj, Vec3(3000.f, 500.f, 2500.f), (int)LAYER::MONSTER);
-	//
-	//pObj = new CGameObject;
-	//pObj->AddComponent(new CTransform);
-	//pObj->AddComponent(new CCollider3D);
-	//pObj->SetName(L"Sphere");
-	//
-	//pObj->Collider3D()->SetAbsolute(true);
-	//pObj->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	//pObj->Collider3D()->SetOffsetScale(Vec3(100.f));
-	//pObj->Collider3D()->SetDebugShape(true);
-	//
-	//SpawnGameObject(pObj, Vec3(0.f), (int)LAYER::ANCHOR);
 
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
