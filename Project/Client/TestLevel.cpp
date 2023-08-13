@@ -67,6 +67,17 @@ void CreateTestLevel()
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
 
+	CGameObject* pSubCam = new CGameObject;
+	pSubCam->SetName(L"SubCamera");
+
+	pSubCam->AddComponent(new CTransform);
+	pSubCam->AddComponent(new CCamera);
+	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pSubCam->Camera()->SetCameraIndex(2);
+	pSubCam->Camera()->SetLayerMaskAll(false);
+	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
+
+	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 	
 	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
@@ -221,17 +232,6 @@ void CreateTestLevel()
 	pObject->GetScript<CLadderScript>()->SetHeight(500.f);
 
 	SpawnGameObject(pObject, Vec3(2500.f, 500.f, 3000.f), (int)LAYER::LADDER);
-	CGameObject* pSubCam = new CGameObject;
-	pSubCam->SetName(L"SubCamera");
-
-	pSubCam->AddComponent(new CTransform);
-	pSubCam->AddComponent(new CCamera);
-	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pSubCam->Camera()->SetCameraIndex(2);
-	pSubCam->Camera()->SetLayerMaskAll(false);
-	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
-
-	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 
 	CGameObject* pArrowIcon = new CGameObject;
 	pArrowIcon->SetName(L"ArrowIcon");
