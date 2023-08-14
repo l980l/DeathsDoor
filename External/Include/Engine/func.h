@@ -29,6 +29,7 @@ Vec3 DecomposeRotMat(const Matrix& _matRot);
 
 float GetDistance(Vec3 _Vec1, Vec3 _Vec2);
 
+
 // Target의 prevpos와 worldpos를 넣으면 이동하는 각도를 알려줌.
 // z축은 y로 계산하여 방향을 알려줌.
 float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree = false);

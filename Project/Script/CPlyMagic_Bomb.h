@@ -4,7 +4,7 @@ class CPlyMagic_Bomb :
     public CState
 {
     Vec3            m_vAttackDir;
-    CGameObject*    m_Bomb;
+    CGameObject*    m_pBomb;
 
 public:
     virtual void Enter() override;

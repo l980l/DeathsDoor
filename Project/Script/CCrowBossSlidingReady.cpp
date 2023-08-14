@@ -7,8 +7,6 @@
 
 CCrowBossSlidingReady::CCrowBossSlidingReady()
 	: m_vecHook{}
-	, m_bThrowmany(false)
-	, m_bThrowReady(true)
 	, m_tChainPatern()
 	, m_iThrowCount(0)
 {
@@ -49,10 +47,21 @@ void CCrowBossSlidingReady::Enter()
 
 	GetOwner()->Animator3D()->Play(4, false);
 
-	// ===========================================
-	// 테스트 용으로 패턴 고정 중, 추후 랜덤으로 수정할 것
-	// ===========================================
-	m_tChainPatern = CHAINPATERN::SPREAD;
+	// 화면 안에 있다면 ONE 밖이라면 CROSS, SPREAD 중 랜덤지정
+	if (vDiff.x > 700.f || vDiff.y > 400.f)
+	{
+		srand(unsigned int(time(0)));
+
+		if(rand() % 2)
+			m_tChainPatern = CHAINPATERN::CROSS;
+		else
+			m_tChainPatern = CHAINPATERN::SPREAD;
+
+	}
+	else
+	{
+		m_tChainPatern = CHAINPATERN::ONE;
+	}
 
 	// Hooking State에 HookObj 등록
 	CCrowBossSliding* pSlidingState = (CCrowBossSliding*)GetOwnerScript()->FindState(L"Sliding");
@@ -60,6 +69,8 @@ void CCrowBossSlidingReady::Enter()
 	{
 		pSlidingState->SetHook(m_vecHook);
 		m_vecHook[i]->GetScript<CBossChainScript>()->SetSlidingScript(pSlidingState);
+		if (CHAINPATERN::ONE != m_tChainPatern)
+			pSlidingState->SetPatern(m_tChainPatern);
 	}
 
 	ThrowHook();
@@ -71,15 +82,13 @@ void CCrowBossSlidingReady::tick()
 
 void CCrowBossSlidingReady::Exit()
 {
-	m_bThrowmany = false;
-	m_bThrowReady = true;
 	m_tChainPatern = {};
 	m_iThrowCount = 0;
 }
 
 void CCrowBossSlidingReady::ThrowHook()
 {
-	Vec3 vPlayerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
+	Vec3 vPlayerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetRelativePos();
 	if(CHAINPATERN::ONE == m_tChainPatern)
 	{
 		m_iThrowCount = 1;
@@ -88,7 +97,7 @@ void CCrowBossSlidingReady::ThrowHook()
 		Vec3 vDir = vPlayerPos - vCurPos;
 		vDir.y = 0.f;
 		vDir.Normalize();
-		float YRot = GetDir(Vec3(vCurPos), vPlayerPos);
+		float YRot = GetDir(vCurPos, vPlayerPos);
 		m_vecHook[0]->Transform()->SetRelativePos(vCurPos);
 		m_vecHook[0]->Transform()->SetRelativeRot(Vec3(0.f, YRot, 0.f));
 		m_vecHook[0]->GetScript<CBossChainScript>()->SetThrowStartPos(vCurPos);
@@ -102,10 +111,10 @@ void CCrowBossSlidingReady::ThrowHook()
 		m_iThrowCount = 2;
 
 		vector<Vec3> vecThrowPos, vecThrowDir = {};
-		Vec3 vHrzThrowPos = Vec3(vPlayerPos.x - 1000.f, vPlayerPos.y, vPlayerPos.z);
+		Vec3 vHrzThrowPos = Vec3(vPlayerPos.x - 1500.f, vPlayerPos.y, vPlayerPos.z);
 		Vec3 vHrzDir = vPlayerPos - vHrzThrowPos;
 		vHrzDir.Normalize();
-		Vec3 vVtThrowPos = Vec3(vPlayerPos.x, vPlayerPos.y, vPlayerPos.z - 800.f);
+		Vec3 vVtThrowPos = Vec3(vPlayerPos.x, vPlayerPos.y, vPlayerPos.z - 1500.f);
 		Vec3 vVtDir = vPlayerPos - vVtThrowPos;
 		vVtDir.Normalize();
 
@@ -115,37 +124,70 @@ void CCrowBossSlidingReady::ThrowHook()
 		vecThrowPos.push_back(vVtThrowPos);
 		vecThrowDir.push_back(vVtDir);
 
-		for (int i = 0; i < 2; ++i)
+
+		for (int i = 0; i < m_iThrowCount; ++i)
 		{
+			float YRot = 0;
+			if (0 == i)
+				YRot = GetDir(vHrzThrowPos, vPlayerPos);
+			else
+				YRot = GetDir(vVtThrowPos, vPlayerPos);
+
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowStartPos(vecThrowPos[i]);
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowDir(vecThrowDir[i]);
-			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowRot(Vec3(0.f, GetDir(Vec3(0.f), vecThrowPos[i]), 0.f));
+			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowRot(Vec3(0.f, YRot, 0.f));
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowDistance(3500.f);
-			m_vecHook[i]->GetScript<CBossChainScript>()->Active(true, true, 0.7f * i);
+			m_vecHook[i]->GetScript<CBossChainScript>()->Active(true, true, 0.5f * i);
 		}
+
 	}
 	else if (CHAINPATERN::SPREAD == m_tChainPatern)
 	{
 		m_iThrowCount = 5;
 
-		for (int i = 0; i < 5; ++i)
+		Vec3 vThrowDir;
+		float X, Z;
+		for (int i = 0; i < m_iThrowCount; ++i)
 		{
-			float X = 300.f * i;
-			float Z = 700.f;
-			if (1 == i % 2)
+			switch (i)
 			{
-				X *= -1.f;
-				Z *= -1.f;
+			case 0:
+				X = -300.f;
+				Z = -1500.f; 
+				vThrowDir = Vec3(0.5f, 0.f, 5.f).Normalize();
+				break;
+			case 1:
+				X = 300.f;
+				Z = 1500.f;
+				vThrowDir = -Vec3(0.5f, 0.f, 5.f).Normalize();
+				break;
+			case 2:
+				X = -600.f;
+				Z = -1500.f;
+				vThrowDir = Vec3(0.5f, 0.f, 5.f).Normalize();
+				break;
+			case 3:
+				X = 600.f;
+				Z = 1500.f;
+				vThrowDir = -Vec3(0.5f, 0.f, 5.f).Normalize();
+				break;
+			case 4:
+				X = -900.f;
+				Z = -1500.f;
+				vThrowDir = Vec3(0.5f, 0.f, 5.f).Normalize();
+				break;
 			}
-
+			
 			Vec3 vDiff = Vec3(X, 0.f, Z);
-			Vec3 vThrowPos = vPlayerPos - vDiff;
-			Vec3 vThrowDir = vPlayerPos - vThrowPos;
+			Vec3 vThrowPos = vPlayerPos + vDiff;
+			vThrowPos.y = 0;
+			float YRot = GetDir(Vec3(0.f), vThrowDir);
+
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowStartPos(vThrowPos);
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowDir(vThrowDir);
-			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowRot(Vec3(0.f, GetDir(Vec3(0.f), vThrowPos), 0.f));
+			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowRot(Vec3(0.f, YRot, 0.f));
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowDistance(3500.f);
-			m_vecHook[i]->GetScript<CBossChainScript>()->Active(true, true, 0.7f * i);
+			m_vecHook[i]->GetScript<CBossChainScript>()->Active(true, true, 0.5f * i);
 		}
 	}
 }

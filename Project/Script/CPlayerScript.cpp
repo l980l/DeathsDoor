@@ -8,7 +8,7 @@
 #include "CStateScript.h"
 #include "PlayerStates.h"
 #include "CPlayerWeaponScript.h"
-#include "CLevelSaveLoadInScript.h"
+#include "CLadderScript.h"
 
 #include <Engine\CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -19,6 +19,7 @@ CPlayerScript::CPlayerScript()
 	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
+	, m_imoney(0)
 	, m_iUpgrade{}
 {
 }
@@ -61,22 +62,18 @@ void CPlayerScript::tick()
 	// 숫자 1~4로 우클릭으로 사용하는 마법 효과 변경
 	SetMagicType();
 
+	// Fall 상태 체크
+	FallCheck();
 	// Sword(Child0)과 Bow(Child1)에 Emissive효과 부여
 	int a = 1;
 	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 	GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
-
-	if (KEY_TAP(KEY::ESC))
-	{
-		CLevelSaveLoadInScript script;
-		Vec3 camPos = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera")->Transform()->GetWorldPos();
-		camPos += Vec3(0.f, 0.f, 100.f);
-		CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->Transform()->SetRelativePos(camPos);
-	}
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
+	if (m_bEditorMode)
+		return;
 	// 아래는 피격 관련으로 무적이라면 return;
 	if (m_bInvincible)
 		return;
@@ -94,6 +91,26 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 		else
 		{
 			ChangeState(L"Hit");
+		}
+
+	}
+}
+
+void CPlayerScript::OnOverlap(CCollider3D* _Other)
+{
+	if ((int)LAYER::LADDER == _Other->GetOwner()->GetLayerIndex())
+	{
+		if (KEY_TAP(KEY::E))
+		{	
+			// 사다리가 바라보고 있는 방향, 위치로 플레이어를 고정시킴
+			Vec3 vLadderRot = _Other->GetOwner()->Transform()->GetXZDir();
+			GetOwner()->Transform()->SetRelativeRot(Vec3(XM_PI * 1.5f, vLadderRot.y, 0.f));
+			Vec3 vLadderPos = _Other->GetOwner()->Transform()->GetRelativePos();
+			GetOwner()->Rigidbody()->SetRigidPos(vLadderPos);
+
+			ChangeState(L"Ladder");
+			CPlyLadder* pLadderState =  (CPlyLadder*)GetOwner()->GetScript<CStateScript>()->FindState(L"Ladder");
+			pLadderState->SetHeight(_Other->GetOwner()->GetScript<CLadderScript>()->GetHeight());
 		}
 	}
 }
@@ -137,6 +154,44 @@ void CPlayerScript::ChangeMagicState()
 		ChangeState(L"Hook");
 		break;
 	}
+}
+
+void CPlayerScript::FallCheck()
+{
+	if (m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Dead")
+		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit"))
+	{
+		if (abs((Transform()->GetRelativePos() - Transform()->GetPrevPos()).y) > 0.2f)
+		{
+			m_fFallCheckTime += DT;
+			if (m_fFallCheckTime > 0.15f)
+			{
+				ChangeState(L"Fall");
+				m_fFallCheckTime = 0.f;
+			}
+		}
+	}
+}
+
+void CPlayerScript::EditorMode()
+{
+	if (KEY_TAP(KEY::Q))
+	{
+		Stat CurStat = m_pStateScript->GetStat();
+		CurStat.Energy = CurStat.Max_Energy;
+		m_pStateScript->SetStat(CurStat);
+	}
+	if (KEY_TAP(KEY::R))
+	{
+		Stat CurStat = m_pStateScript->GetStat();
+		CurStat.HP = CurStat.Max_HP;
+		m_pStateScript->SetStat(CurStat);
+	}
+	if (KEY_TAP(KEY::F))
+	{
+		m_bEditorMode = m_bEditorMode ? true : false;
+	}
+
 }
 
 void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)

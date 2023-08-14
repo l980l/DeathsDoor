@@ -13,6 +13,8 @@
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 
+#define CAMERASHAKE(range, speed, term) CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(range, speed, term)
+
 #define MAX_LAYER 32
 #define MAX_MIP 8
 
@@ -387,4 +389,11 @@ enum class PLAYER_UPGRADE
 	Haste,
 	Magic,
 	END,
+};
+
+enum class CHAINPATERN
+{
+	ONE,
+	CROSS,
+	SPREAD,
 };

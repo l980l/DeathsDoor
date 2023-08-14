@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlyRun.h"
 #include "CPlayerScript.h"
+#include "CSoundScript.h"
 
 CPlyRun::CPlyRun()
 	: m_fSpeed(0.f)
@@ -8,6 +9,8 @@ CPlyRun::CPlyRun()
 	, m_fRotDelay(0.f)
 	, m_fRot(0.f)
 	, m_bIce(false)
+	, m_fStepSoundDelay(0.f)
+	, m_bStepSoundOrder(false)
 {
 }
 
@@ -59,6 +62,7 @@ void CPlyRun::tick()
 void CPlyRun::Exit()
 {
 	m_fTimeToIdle = 0.f;
+	m_fStepSoundDelay = 0.f;
 	GetOwner()->Rigidbody()->ClearForce();
 }
 
@@ -93,6 +97,19 @@ void CPlyRun::Move()
 		GetOwner()->Rigidbody()->AddForce(Velocity * DT);
 	else
 		GetOwner()->Rigidbody()->SetVelocity(Velocity);
+
+	m_fStepSoundDelay += DT;
+
+	if (m_fStepSoundDelay > 0.3f)
+	{
+		wstring wstrSoundFilePath;
+		if (m_bStepSoundOrder)
+			wstrSoundFilePath = L"Sound\\Player\\GrassFootStepL.mp3";
+		else
+			wstrSoundFilePath = L"Sound\\Player\\GrassFootStepR.mp3";
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.1f);
+	}
 }
 
 void CPlyRun::BeginOverlap(CCollider3D* _Other)

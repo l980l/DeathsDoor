@@ -164,7 +164,12 @@ void InspectorUI::tick()
 
 int InspectorUI::render_update()
 {
-	
+	if (m_pTargetObj && !m_pTargetObj->IsDead())
+	{
+		int iLayer = m_pTargetObj->GetLayerIndex();
+		ImGui::InputInt("LayerIndex", &iLayer, -1, -1, ImGuiInputTextFlags_ReadOnly);
+	}
+
 	return TRUE;
 }
 

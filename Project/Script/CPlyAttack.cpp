@@ -3,6 +3,7 @@
 #include "CPlayerScript.h"
 #include "CPlyWpAttack.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 #include <Engine/CDevice.h>
 
@@ -40,13 +41,13 @@ CPlyAttack::~CPlyAttack()
 
 void CPlyAttack::Enter()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
 	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
 	m_fSlashStartTime = GlobalData.tAccTime;
 	CalcDir();
 	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 80.f;
 	Slash();
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyAttack::tick()
@@ -91,21 +92,20 @@ void CPlyAttack::tick()
 			m_fAcctime = 0.f;
 		}
 	}
-	else if (m_fDelay * 0.8f > m_fAcctime > m_fDelay * 0.3f)
+	else if(m_fAcctime > m_fDelay * 0.8f)
 	{
-		if (KEY_TAP(KEY::SPACE))
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-	}
-	else if (m_fAcctime > m_fDelay * 0.8f)
-	{
-		if (KEY_TAP(KEY::SPACE))
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-
 		SetSlashScale(false, SLASH::LEFT);
 		SetSlashScale(false, SLASH::RIGHT);
 		GetOwner()->Rigidbody()->ClearForce();
-	}
 
+		if (KEY_TAP(KEY::SPACE))
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+	}
+	else
+	{
+		if (KEY_TAP(KEY::SPACE))
+			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+	}
 }
 
 void CPlyAttack::Exit()
@@ -117,7 +117,6 @@ void CPlyAttack::Exit()
 	m_vMouseDir = {};
 	SetSlashScale(false, SLASH::LEFT);
 	SetSlashScale(false, SLASH::RIGHT);
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyAttack::CalcDir()
@@ -166,6 +165,23 @@ void CPlyAttack::Slash()
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &m_fSlashStartTime);
 		m_pSlash[(UINT)SLASH::LEFT]->MeshRender()->GetMaterial(0)->SetTexParam(TEX_6, NoiseTextue.Get());
 	}
+
+	wstring wstrSoundFilePath;
+	switch (m_iAttackCount)
+	{
+	case 0:
+		wstrSoundFilePath = L"Sound\\Player\\SwordSwing1.ogg";
+		break;
+	case 1:
+		wstrSoundFilePath = L"Sound\\Player\\SwordSwing2.ogg";
+		break;
+	case 2:
+		wstrSoundFilePath = L"Sound\\Player\\SwordSwing3.ogg";
+		break;
+	}
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.1f);
 }
 
 void CPlyAttack::SetSlashScale(bool _bOn, SLASH _tDir)

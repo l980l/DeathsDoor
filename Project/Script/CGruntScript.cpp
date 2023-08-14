@@ -71,8 +71,8 @@ void CGruntScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
-		NewStat.Max_HP = 300;
-		NewStat.HP = 300;
+		NewStat.Max_HP = 200;
+		NewStat.HP = 200;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
 		NewStat.Speed = 150.f;
@@ -83,6 +83,13 @@ void CGruntScript::begin()
 void CGruntScript::tick()
 {
 	CMonsterScript::tick();
+
+	// HP가 0 이하면 사망.
+	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
+	{
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+			m_pStateScript->ChangeState(L"Death");
+	}
 	
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
@@ -103,18 +110,6 @@ void CGruntScript::tick()
 
 void CGruntScript::BeginOverlap(CCollider3D* _Other)
 {
-	// PlayerProjectile Layer의 물체와 충돌한 경우.
-	if (_Other->GetOwner()->GetLayerIndex() == 4)
-	{
-
-	}
-
-	// HP가 0 이하면 사망.
-	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
-	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"Death");
-	}
 }
 
 void CGruntScript::OnOverlap(CCollider3D* _Other)

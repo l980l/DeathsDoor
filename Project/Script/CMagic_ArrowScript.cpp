@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CMagic_ArrowScript.h"
 #include "CStateScript.h"
+#include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 CMagic_ArrowScript::CMagic_ArrowScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_ARROWSCRIPT)
@@ -39,7 +41,13 @@ void CMagic_ArrowScript::BeginOverlap(CCollider3D* _Other)
 			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
 			CurStat.HP -= m_fDamage;
 			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
+			_Other->GetOwner()->GetScript<CMonsterScript>()->SetLastHitTime();
 			Destroy();
+
+			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos() + m_vDir * 40.f, 0.2f);
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\ArrowHitEnemy.ogg", 1, 0.1f);
 		}
 	}
 	 // 터지는 효과 등 나오게 할 것

@@ -3,6 +3,7 @@
 #include "CPlyMagic_Hook.h"
 #include "CPlyMagic_Hooking.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 CMagic_HookScript::CMagic_HookScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT)
@@ -49,6 +50,9 @@ void CMagic_HookScript::begin()
 		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(VEC4_0, &ChainColor);
 	}
 	Active(m_bActive);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCharge.ogg", 1, 0.1f);
 }
 
 void CMagic_HookScript::tick()
@@ -107,10 +111,7 @@ void CMagic_HookScript::Active(bool _bActive)
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
-			float XRot = m_vAttackDir.x + XM_PI / 4.f;
-			if (XRot > XM_PI)
-				XRot = XM_2PI - XRot;
-			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XRot, m_vAttackDir.y + XM_PI / 2.f, 0.f));
+			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XM_PI * 0.5f, m_vAttackDir.y + XM_PI / 2.f, 0.f));
 		}
 	}
 	else if(!m_bActive)
@@ -146,6 +147,11 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 				m_bSnatch = true;
 				m_fTime = 0.f;
 			}
+
+			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
+
+			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCollision.ogg", 1, 0.1f);
 		}
 	}
 }
@@ -176,7 +182,7 @@ void CMagic_HookScript::PaveChain()
 			for (int i = 0; i < ChainCount; ++i)
 			{
 				if(i < ActiveChain)
-					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(2.f, 2.f, 2.f));
+					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(3.f, 3.f, 3.f));
 				else
 					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
 			}

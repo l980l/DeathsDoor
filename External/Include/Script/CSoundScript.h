@@ -5,18 +5,21 @@ class CSoundScript :
     public CScript
 {
 private:
-    Ptr<CSound>     pSound;
-    float                    m_volume;
-    int                       m_idx;
+    Ptr<CSound>     m_pSound;
+    float           m_fVolume;
+    int             m_iIdx;
+
 public:
     virtual void begin() override;
     virtual void tick() override;
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     Ptr<CSound> AddSound(wstring _filename,int _repeat, float _volume = 0.5f);
-    void SetIndex(int _idx) { m_idx = _idx; }
-    int GetIndex() { return m_idx; }
+    void SetIndex(int _iIdx) { m_iIdx = _iIdx; }
+    int GetIndex() { return m_iIdx; }
+
     CLONE(CSoundScript);
+
 public:
     CSoundScript();
     ~CSoundScript();

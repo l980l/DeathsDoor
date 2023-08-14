@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CBazookaDeath.h"
 #include "CBazookaScript.h"
+#include "CPlayerScript.h"
 
 void CBazookaDeath::Enter()
 {
@@ -13,12 +14,17 @@ void CBazookaDeath::Enter()
 
 void CBazookaDeath::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
+	
 	if (m_bStartPaperBurn)
 		m_fPaperBurnTime += DT;
 
 	// 지금까지 흐른 시간이 3초 이상이면 Destory.
-	if (m_fPaperBurnTime > 3.f)
+	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+	{
+		GetOwner()->GetScript<CBazookaScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
 		GetOwnerScript()->Destroy();
+	}
 }
 
 void CBazookaDeath::Exit()

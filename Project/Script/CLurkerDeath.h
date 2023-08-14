@@ -6,6 +6,7 @@ class CLurkerDeath :
 private:
     bool    m_bStartPaperBurn;
     float   m_fPaperBurnTime;
+    float   m_fTime;
 
 public:
     virtual void Enter() override;
