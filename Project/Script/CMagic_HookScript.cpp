@@ -56,7 +56,7 @@ void CMagic_HookScript::begin()
 	Active(m_bActive);
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCharge.ogg", 1, 0.1);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCharge.ogg", 1, 0.1f);
 }
 
 void CMagic_HookScript::tick()

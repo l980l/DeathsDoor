@@ -53,7 +53,7 @@ CWaterCameraScript::CWaterCameraScript()
 	, m_fYOffset(480.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fWaterHeight, "WaterHeight");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fYOffset, "m_YfTest");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fYOffset, "m_YOffset");
 }
 
 CWaterCameraScript::~CWaterCameraScript()

@@ -131,11 +131,11 @@ CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScrip
 
 CBazookaGasGrenadeScript::~CBazookaGasGrenadeScript()
 {
-	if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
+	/*if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
 	{
 		DestroyObject(m_GasBulletParticle);
 		m_GasBulletParticle = nullptr;
-	}
+	}*/
 
 	if (m_GasCenterParticle && !m_GasCenterParticle->IsDead())
 	{
