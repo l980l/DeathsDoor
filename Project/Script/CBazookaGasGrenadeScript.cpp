@@ -9,8 +9,6 @@ void CBazookaGasGrenadeScript::begin()
 	m_GasBulletParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos());
 	m_GasBulletParticle->ParticleSystem()->SetEmissive(true);
 
-	GetOwner()->AddChild(m_GasBulletParticle);
-
 	m_fBulletTime = 0.f;
 }
 
@@ -28,6 +26,7 @@ void CBazookaGasGrenadeScript::tick()
 			float fSpeed = 550.f;
 			Velocity *= fSpeed;
 
+			m_GasBulletParticle->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
 			GetOwner()->Rigidbody()->SetVelocity(Velocity);
 		}
 
@@ -131,11 +130,11 @@ CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScrip
 
 CBazookaGasGrenadeScript::~CBazookaGasGrenadeScript()
 {
-	/*if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
+	if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
 	{
 		DestroyObject(m_GasBulletParticle);
 		m_GasBulletParticle = nullptr;
-	}*/
+	}
 
 	if (m_GasCenterParticle && !m_GasCenterParticle->IsDead())
 	{
