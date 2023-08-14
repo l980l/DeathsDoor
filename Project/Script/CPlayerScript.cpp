@@ -9,6 +9,8 @@
 #include "PlayerStates.h"
 #include "CPlayerWeaponScript.h"
 #include "CLadderScript.h"
+#include "CLevelSaveLoadInScript.h"
+#include "CGameCameraScript.h"
 
 #include <Engine\CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -61,7 +63,7 @@ void CPlayerScript::tick()
 {
 	// 숫자 1~4로 우클릭으로 사용하는 마법 효과 변경
 	SetMagicType();
-
+	EditorMode();
 	// Fall 상태 체크
 	FallCheck();
 	// Sword(Child0)과 Bow(Child1)에 Emissive효과 부여
@@ -93,6 +95,8 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 			ChangeState(L"Hit");
 		}
 
+		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetWorldPos(), 0.3f);
+		CAMERASHAKE(3.f, 800.f, 0.1f);
 	}
 }
 
@@ -189,7 +193,7 @@ void CPlayerScript::EditorMode()
 	}
 	if (KEY_TAP(KEY::F))
 	{
-		m_bEditorMode = m_bEditorMode ? true : false;
+		m_bEditorMode = m_bEditorMode ? false : true;
 	}
 
 }

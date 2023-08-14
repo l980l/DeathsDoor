@@ -103,6 +103,9 @@
     <Filter Include="Script\02. Script\Boss">
       <UniqueIdentifier>{d7c2fd1c-6b70-42e9-a2d7-c4472e169baf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\01. State\02. Player\00. Player\Attack">
+      <UniqueIdentifier>{a7ecf320-a158-4176-be6f-7c8b0c28e292}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -960,9 +963,6 @@
     </Filter>
     <Filter Include="Script\01. State\02. Player\00. Player">
       <UniqueIdentifier>{9edb90ed-b5fc-4de4-b308-63d1273cee44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\01. State\02. Player\00. Player\Attack">
-      <UniqueIdentifier>{a7ecf320-a158-4176-be6f-7c8b0c28e292}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\01. State\02. Player\00. Player\Dance">
       <UniqueIdentifier>{786b9d53-16b4-4596-a3ef-84d667336e81}</UniqueIdentifier>

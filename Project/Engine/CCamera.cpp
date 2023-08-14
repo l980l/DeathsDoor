@@ -339,7 +339,8 @@ void CCamera::render()
 	}
 
 	// MainCam
-	else if(CRenderMgr::GetInst()->GetMainCam() == this)
+	else if(CRenderMgr::GetInst()->GetCams()[0] == this
+		|| CRenderMgr::GetInst()->GetCams()[1] == this)
 	{
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
 		render_deferred();
