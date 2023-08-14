@@ -7,11 +7,12 @@ void CGruntDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(13, false);
 	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGruntDeath::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
+	
 	// 애니메이션이 끝난 경우 사망 Paperburn 효과 주기.
 	if (GetOwner()->Animator3D()->IsFinish())
 	{

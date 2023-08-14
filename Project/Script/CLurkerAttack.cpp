@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CLurkerAttack.h"
 #include "CLurkerScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CLurkerAttack::Enter()
 {
@@ -31,6 +32,12 @@ void CLurkerAttack::tick()
 		Velocity *= fSpeed * 30.f * DT;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
+
+		// 공격 충돌체 프리펩
+		CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
+
+		MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+		MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
 	}
 
 	// 애니메이션이 끝나면 Notify로 다시 변경.
