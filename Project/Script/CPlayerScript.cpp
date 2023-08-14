@@ -92,6 +92,7 @@ void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 		{
 			ChangeState(L"Hit");
 		}
+
 	}
 }
 
@@ -176,7 +177,9 @@ void CPlayerScript::EditorMode()
 {
 	if (KEY_TAP(KEY::Q))
 	{
-		m_bEditorMode = m_bEditorMode ? true : false;
+		Stat CurStat = m_pStateScript->GetStat();
+		CurStat.Energy = CurStat.Max_Energy;
+		m_pStateScript->SetStat(CurStat);
 	}
 	if (KEY_TAP(KEY::R))
 	{
@@ -184,6 +187,11 @@ void CPlayerScript::EditorMode()
 		CurStat.HP = CurStat.Max_HP;
 		m_pStateScript->SetStat(CurStat);
 	}
+	if (KEY_TAP(KEY::F))
+	{
+		m_bEditorMode = m_bEditorMode ? true : false;
+	}
+
 }
 
 void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)

@@ -68,17 +68,17 @@ void CreateTestLevel()
 
 	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::MAINCAMERA);
 
-	//CGameObject* pSubCam = new CGameObject;
-	//pSubCam->SetName(L"SubCamera");
-	//
-	//pSubCam->AddComponent(new CTransform);
-	//pSubCam->AddComponent(new CCamera);
-	//pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	//pSubCam->Camera()->SetCameraIndex(2);
-	//pSubCam->Camera()->SetLayerMaskAll(false);
-	//pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
-	//
-	//SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
+	CGameObject* pSubCam = new CGameObject;
+	pSubCam->SetName(L"SubCamera");
+	
+	pSubCam->AddComponent(new CTransform);
+	pSubCam->AddComponent(new CCamera);
+	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pSubCam->Camera()->SetCameraIndex(2);
+	pSubCam->Camera()->SetLayerMaskAll(false);
+	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
+	
+	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 	
 	// 광원 추가
 	CGameObject* pLightObj = new CGameObject;
@@ -293,6 +293,17 @@ void CreateTestLevel()
 	pEnergyIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
 	SpawnGameObject(pEnergyIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
+
+	CGameObject* pSoundMgr = new CGameObject;
+	pSoundMgr->SetName(L"SoundUI");
+	pSoundMgr->AddComponent(new CTransform);
+	pSoundMgr->AddComponent(new CMeshRender);
+	pSoundMgr->AddComponent(new CSoundScript);
+
+	pSoundMgr->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pSoundMgr->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+
+	SpawnGameObject(pSoundMgr, Vec3(0.f), (int)LAYER::DEFAULT);
 	//CGameObject* pFire = new CGameObject;
 	//pFire->SetName(L"Fire");
 	//pFire->AddComponent(new CTransform);
