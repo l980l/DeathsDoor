@@ -14,9 +14,8 @@ private:
     bool            m_bSendDeadTime;        // 사망시간을 이미 보냈는지. 
     float           m_fDeathTime;           // 사망 시각.
     float           m_fLastHitTime;         // 마지막으로 피격된 시각.
-
-
-    int             m_iTemp;
+    bool            m_bFixPos;              // 위치 고정 여부.
+    Vec3            m_vFixedPos;            // 고정 위치.
 
 public:
     CGameObject*    GetPlayer() { return m_pPlayer; }
@@ -25,6 +24,7 @@ public:
     bool            GetPaperBurnEffect() const { return m_bPaperBurnEffect;}
     void            SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value;}
     void            SetLastHitTime() { m_fLastHitTime = GlobalData.tAccTime; }
+    void            SetFixPosition(bool _bool);
 
 public:
     virtual void begin() override;
