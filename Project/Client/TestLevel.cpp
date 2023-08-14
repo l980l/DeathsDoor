@@ -146,7 +146,7 @@ void CreateTestLevel()
 	PlayerStat.Max_Energy = 4;
 
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(-3000, 2000.f, -1000), 20.f, pPlayer);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 1200.f, 2500.f), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
