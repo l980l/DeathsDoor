@@ -16,9 +16,7 @@ CBossChainScript::CBossChainScript()
 	, m_fChainSpacing(50.f)
 	, m_fDelay(0.f)
 	, m_bActive(false)
-	, m_bRetrieve(false)
 	, m_bMulti(false)
-	, m_iActiveCount(0)
 {
 }
 
@@ -57,15 +55,13 @@ void CBossChainScript::tick()
 
 	PaveChain();
 
-	// 회수 시에는 거리에 따른 사슬 설정만 하게 함.
-	if (m_bRetrieve)
-		return;
-
 	// 돌아오는 도중에 시작지점과 가까이 왔다면 Hook 종료	
 	if (m_fDistancetoTarget >= m_fThrowDistance)
 	{
 		if (m_bMulti)
+		{
 			m_pSlidingScript->AddTargetPos(GetOwner()->Transform()->GetWorldPos(), m_vThrowStartPos);
+		}
 		else
 			m_pSlidingScript->AddTargetPos(GetOwner()->Transform()->GetWorldPos());
 		m_pChainScript->HookArrive();
@@ -86,6 +82,7 @@ void CBossChainScript::Active(bool _bActive, bool _bMulti, float _fDelay = 0)
 	m_bActive = _bActive;
 	if (m_bActive)
 	{
+		m_bMulti = _bMulti;
 		Transform()->SetRelativePos(m_vThrowStartPos);
 		Transform()->SetRelativeRot(Vec3(XM_PI * 0.5f, m_vThrownRot.y, 0.f));
 		Transform()->SetRelativeScale(Vec3(1.2f));
@@ -93,7 +90,7 @@ void CBossChainScript::Active(bool _bActive, bool _bMulti, float _fDelay = 0)
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vThrowStartPos + (m_vThrownDir * m_fChainSpacing * i));
-			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XM_PI, m_vThrownRot.y + XM_PI / 2.f, 0.f));
+			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XM_PI, m_vThrownRot.y - XM_PI / 2.f, 0.f));
 		}
 	}
 	else
@@ -113,36 +110,23 @@ void CBossChainScript::PaveChain()
 {
 	int ChainCount = (int)m_vecChain.size();
 	// 체인 1개보다 Hook이 멀리 나가면 Chain을 거리만큼 보이게 함.
-	if(!m_bRetrieve)
+	if (m_fDistancetoTarget >= m_fChainSpacing)
 	{
-		if (m_fDistancetoTarget >= m_fChainSpacing)
-		{
-			int m_iActiveCount = m_fDistancetoTarget / m_fChainSpacing;
-			if (m_iActiveCount > ChainCount)
-				m_iActiveCount = ChainCount;
+		int ActiveChain = m_fDistancetoTarget / m_fChainSpacing;
+		if (ActiveChain > ChainCount)
+			ActiveChain = ChainCount;
 
-			for (int i = 0; i < ChainCount; ++i)
-			{
-				if (i < m_iActiveCount)
-					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(5.f, 5.f, 5.f));
-				else
-					m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
-			}
-		}
-		else
+		for (int i = 0; i < ChainCount; ++i)
 		{
-			for (int i = 0; i < ChainCount; ++i)
-			{
+			if (i < ActiveChain)
+				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(5.f, 5.f, 5.f));
+			else
 				m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
-			}
 		}
 	}
 	else
 	{
-		int ActiveCount = ChainCount - m_fDistancetoTarget / m_fChainSpacing;
-		if (m_iActiveCount < 0)
-			m_iActiveCount = 0;
-		for (int i = ActiveCount;  i >= m_iActiveCount; --i)
+		for (int i = 0; i < ChainCount; ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
 		}

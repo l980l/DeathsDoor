@@ -7,10 +7,13 @@ private:
     Stat m_stat;
     bool recognizeCheck;
     bool onCollision;
+    bool isHit;
+    Vec3 playerPos;
 public:
     virtual void begin() override;
     virtual void tick() override;
-
+private:
+    Vec3 GetDir(Vec3 _start, Vec3 _target);
 public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;

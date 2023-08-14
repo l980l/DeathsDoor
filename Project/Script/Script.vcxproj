@@ -161,7 +161,7 @@ call CodeGen.exe</Command>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -228,6 +228,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CFenseScript.h" />
     <ClInclude Include="CFireIconScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
+    <ClInclude Include="CGhostHit.h" />
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
     <ClInclude Include="CGrimKnightBackStep2.h" />
@@ -281,6 +282,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CKnightSpinAttack.h" />
     <ClInclude Include="CKnightSpinAttackCombo.h" />
     <ClInclude Include="CKnightWalk.h" />
+    <ClInclude Include="CLadderScript.h" />
     <ClInclude Include="CLurkerAttack.h" />
     <ClInclude Include="CLurkerBackMove.h" />
     <ClInclude Include="CLurkerBackStep.h" />
@@ -343,6 +345,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CrowBossStates.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CSlashScript.h" />
+    <ClInclude Include="CSoundScript.h" />
     <ClInclude Include="CSpawnDoorScript.h" />
     <ClInclude Include="CSpawnMgr.h" />
     <ClInclude Include="CSpeed.h" />
@@ -408,6 +411,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CFenseScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
+    <ClCompile Include="CGhostHit.cpp" />
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
     <ClCompile Include="CGrimKnightBackStep2.cpp" />
@@ -461,6 +465,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CKnightSpinAttack.cpp" />
     <ClCompile Include="CKnightSpinAttackCombo.cpp" />
     <ClCompile Include="CKnightWalk.cpp" />
+    <ClCompile Include="CLadderScript.cpp" />
     <ClCompile Include="CLurkerAttack.cpp" />
     <ClCompile Include="CLurkerBackMove.cpp" />
     <ClCompile Include="CLurkerBackStep.cpp" />
@@ -522,6 +527,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPower.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CSlashScript.cpp" />
+    <ClCompile Include="CSoundScript.cpp" />
     <ClCompile Include="CSpawnDoorScript.cpp" />
     <ClCompile Include="CSpawnMgr.cpp" />
     <ClCompile Include="CSpeed.cpp" />

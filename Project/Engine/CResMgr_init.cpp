@@ -723,7 +723,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);//mask
 
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
 
 	// Param
 	pShader->AddTexParam(TEX_0, "Output Texture");

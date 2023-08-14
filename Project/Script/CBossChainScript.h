@@ -19,9 +19,7 @@ private:
     float                   m_fChainSpacing;        // 체인 당 차지하는 공간
     float                   m_fDelay;
     bool                    m_bActive;
-    bool                    m_bRetrieve;
     bool                    m_bMulti;
-    int                     m_iActiveCount;
 
 private:
     void SetSlidingScript(CCrowBossSliding* _pSlidingScript) { m_pSlidingScript = _pSlidingScript; }
@@ -37,6 +35,9 @@ public:
     void SetThrowDistance(float _fDist) { m_fThrowDistance = _fDist; }
     void SetThrowStartPos(Vec3 _vStartPos) { m_vThrowStartPos = _vStartPos; }
     void Active(bool _bActive, bool _bMulti, float _fDelay);
+
+    vector<CGameObject*>& GetChain() { return m_vecChain; }
+    Vec3 GetThrowDir() { return m_vThrownDir; }
 
     void PaveChain();
     void Clear();

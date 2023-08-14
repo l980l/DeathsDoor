@@ -27,6 +27,7 @@ CHookIconScript
 CHPIconScript
 CHUDScript
 CKnightScript
+CLadderScript
 CLoadLevelThreadScript
 CLurkerScript
 CMagic_ArrowScript
@@ -41,6 +42,7 @@ CPlayerScript
 CPlayerWeaponScript
 CRoomScript
 CSlashScript
+CSoundScript
 CSpawnDoorScript
 CStateScript
 CTrapScript

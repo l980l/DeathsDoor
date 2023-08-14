@@ -4,7 +4,8 @@ class CPlyMagic_Arrow :
     public CState
 {
 private:
-    Vec3  m_vAttackDir;
+    Vec3            m_vAttackDir;
+    CGameObject*    m_pArrow;
 
 public:
     virtual void Enter() override;

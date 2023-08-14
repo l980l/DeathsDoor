@@ -9,10 +9,11 @@ private:
     bool recognizeCheck;
     bool retrace;
     bool onCollision;
+    int m_hitCount;
 
 public:
     void SetOnCollision(bool onCol) { onCollision = onCol; }
-
+    int GetHitCount() { return m_hitCount; }
 public:
     virtual void begin() override;
     virtual void tick() override;

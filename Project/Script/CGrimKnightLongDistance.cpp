@@ -2,6 +2,11 @@
 #include "CGrimKnightLongDistance.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CGrimKnightScript.h"
+#include "CGhostScript.h"
+#include "CStateScript.h"
+#include "CSoundScript.h"
+#include <Engine/CRigidbody.h>
+#include <Engine/CPhysXMgr.h>
 
 void CGrimKnightLongDistance::tick()
 {
@@ -18,9 +23,18 @@ void CGrimKnightLongDistance::Enter()
 	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(7, false);
 	
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBullet.ogg", 1, 0.1);
+
 	//Ghost prefab »ý¼º
 	CLevelSaveLoadInScript script;
-	//script.SpawnPrefab(L"prefab\\Ghost.prefab", 5, GetOwner()->Transform()->GetWorldPos(), 5.f);
+	CGameObject* pGhost = script.SpawnandReturnPrefab(L"prefab\\Ghost.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 5.f);
+	pGhost->AddComponent(new CGhostScript);
+	pGhost->AddComponent(new CStateScript);
+	pGhost->AddComponent(new CRigidbody);
+	pGhost->MeshRender()->SetDynamicShadow(true);
+	pGhost->MeshRender()->SetFrustumCheck(false);
+	CPhysXMgr::GetInst()->CreateSphere(GetOwner()->Transform()->GetWorldPos(), 30.f, pGhost);
 }
 
 void CGrimKnightLongDistance::Exit()

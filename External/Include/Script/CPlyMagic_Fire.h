@@ -3,7 +3,8 @@
 class CPlyMagic_Fire :
     public CState
 {
-    Vec3  m_vAttackDir;
+    Vec3            m_vAttackDir;
+    CGameObject*    m_pFire;
 
 public:
     virtual void Enter() override;

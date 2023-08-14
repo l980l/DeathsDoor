@@ -19,7 +19,7 @@ void CPlyWpHit::tick()
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		if (GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::HIT)
-			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT_IDLE, false);
+			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT_RECOVER, false);
 	}
 }
 

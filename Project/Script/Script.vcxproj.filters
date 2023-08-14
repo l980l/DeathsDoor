@@ -40,6 +40,15 @@
     <Filter Include="Script\01. State\01. Monster\Bazooka\State">
       <UniqueIdentifier>{fa63c74d-a161-46a1-ba1b-fb90d439596e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\01. State\01. Monster\Lurker\State">
+      <UniqueIdentifier>{6277ee95-c39b-45ea-8255-3ddb46dcadb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\Grunt\State">
+      <UniqueIdentifier>{1552e4b6-c05b-4bce-a41d-a905bc5155b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\01. State\01. Monster\CrowBoss\State">
+      <UniqueIdentifier>{9285e7aa-16f1-4dc7-b8b0-61d05f647ed9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Script\02. Script">
       <UniqueIdentifier>{c0d4cd92-3234-4c04-8869-42723f7c3784}</UniqueIdentifier>
     </Filter>
@@ -58,14 +67,23 @@
     <Filter Include="Script\02. Script\Interection_Obj\Anchor">
       <UniqueIdentifier>{86f05edf-4b98-48bd-8120-711bab6cc757}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\01. Monster\Lurker\State">
-      <UniqueIdentifier>{6277ee95-c39b-45ea-8255-3ddb46dcadb5}</UniqueIdentifier>
+    <Filter Include="Script\02. Script\Interection_Obj\Fense">
+      <UniqueIdentifier>{95d16417-1984-4d06-8f69-6e11bef36dbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\01. Monster\Grunt\State">
-      <UniqueIdentifier>{1552e4b6-c05b-4bce-a41d-a905bc5155b7}</UniqueIdentifier>
+    <Filter Include="Script\02. Script\Interection_Obj\HitStone">
+      <UniqueIdentifier>{187a1b40-0b68-45e6-8d98-e3aa6ec036bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\01. State\01. Monster\CrowBoss\State">
-      <UniqueIdentifier>{9285e7aa-16f1-4dc7-b8b0-61d05f647ed9}</UniqueIdentifier>
+    <Filter Include="Script\02. Script\HUD">
+      <UniqueIdentifier>{e4d812ec-98ca-4a41-ba8e-4ae16ebbefe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\HUD\Icon">
+      <UniqueIdentifier>{f933abf3-1699-4dbf-8d08-5ca4d84c2d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\UI">
+      <UniqueIdentifier>{2c442aed-a2be-49bf-a0cb-396db61a61b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr">
+      <UniqueIdentifier>{aba3f16f-2ab0-4ebd-accf-5adf297e4a3a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\02. Script\SpawnMgr\SpawnDoor">
       <UniqueIdentifier>{58386487-ac43-4d10-8541-b74b01ae8844}</UniqueIdentifier>
@@ -73,20 +91,17 @@
     <Filter Include="Script\02. Script\SpawnMgr\Enter">
       <UniqueIdentifier>{82c4a778-7a70-4862-b253-ac9bca68d1d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\HUD">
-      <UniqueIdentifier>{e4d812ec-98ca-4a41-ba8e-4ae16ebbefe0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\Interection_Obj\Fense">
-      <UniqueIdentifier>{95d16417-1984-4d06-8f69-6e11bef36dbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\Interection_Obj\HitStone">
-      <UniqueIdentifier>{187a1b40-0b68-45e6-8d98-e3aa6ec036bb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\02. Script\SpawnMgr\Wall">
       <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\HUD\Icon">
-      <UniqueIdentifier>{f933abf3-1699-4dbf-8d08-5ca4d84c2d02}</UniqueIdentifier>
+    <Filter Include="Script\02. Script\Monster">
+      <UniqueIdentifier>{3c153b05-d550-4045-b97f-4395314bc487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\NPC">
+      <UniqueIdentifier>{43d4753e-516e-4d82-bb21-8b2fcb5e71a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Boss">
+      <UniqueIdentifier>{d7c2fd1c-6b70-42e9-a2d7-c4472e169baf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -487,6 +502,11 @@
     <ClInclude Include="CCrowBossWalk.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
+    <ClInclude Include="CLadderScript.h">
+      <Filter>Script\02. Script\Interection_Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="CGhostHit.h" />
+    <ClInclude Include="CSoundScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -865,6 +885,11 @@
     <ClCompile Include="CCrowBossWalk.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
+    <ClCompile Include="CLadderScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostHit.cpp" />
+    <ClCompile Include="CSoundScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Script">
@@ -929,9 +954,6 @@
     </Filter>
     <Filter Include="Script\01. State\01. Monster\Bat">
       <UniqueIdentifier>{18f640c1-771b-447c-a686-7627c9088843}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\UI">
-      <UniqueIdentifier>{2c442aed-a2be-49bf-a0cb-396db61a61b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\Brazier">
       <UniqueIdentifier>{3760826e-c18f-42c4-860e-934cc9647c38}</UniqueIdentifier>
@@ -1031,18 +1053,6 @@
     </Filter>
     <Filter Include="Script\01. State\02. Player\00. Player\Walk">
       <UniqueIdentifier>{d4ea49f6-0639-4feb-8fd0-c5a8fb5963e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\SpawnMgr">
-      <UniqueIdentifier>{aba3f16f-2ab0-4ebd-accf-5adf297e4a3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\Monster">
-      <UniqueIdentifier>{3c153b05-d550-4045-b97f-4395314bc487}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\NPC">
-      <UniqueIdentifier>{43d4753e-516e-4d82-bb21-8b2fcb5e71a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\02. Script\Boss">
-      <UniqueIdentifier>{d7c2fd1c-6b70-42e9-a2d7-c4472e169baf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

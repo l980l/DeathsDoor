@@ -8,7 +8,6 @@ private:
     vector<CGameObject*>    m_vecChain;
     Vec3                    m_vHookPos;
     Vec3                    m_vDir;
-    bool                    m_bAttack;
 
 public:
     virtual void Enter() override;

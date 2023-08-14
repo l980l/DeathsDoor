@@ -30,6 +30,7 @@
 #include "CHPIconScript.h"
 #include "CHUDScript.h"
 #include "CKnightScript.h"
+#include "CLadderScript.h"
 #include "CLoadLevelThreadScript.h"
 #include "CLurkerScript.h"
 #include "CMagic_ArrowScript.h"
@@ -44,6 +45,7 @@
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
 #include "CSlashScript.h"
+#include "CSoundScript.h"
 #include "CSpawnDoorScript.h"
 #include "CStateScript.h"
 #include "CTrapScript.h"
@@ -82,6 +84,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CHPIconScript");
 	_vec.push_back(L"CHUDScript");
 	_vec.push_back(L"CKnightScript");
+	_vec.push_back(L"CLadderScript");
 	_vec.push_back(L"CLoadLevelThreadScript");
 	_vec.push_back(L"CLurkerScript");
 	_vec.push_back(L"CMagic_ArrowScript");
@@ -96,6 +99,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
 	_vec.push_back(L"CSlashScript");
+	_vec.push_back(L"CSoundScript");
 	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
 	_vec.push_back(L"CTrapScript");
@@ -164,6 +168,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CHUDScript;
 	if (L"CKnightScript" == _strScriptName)
 		return new CKnightScript;
+	if (L"CLadderScript" == _strScriptName)
+		return new CLadderScript;
 	if (L"CLoadLevelThreadScript" == _strScriptName)
 		return new CLoadLevelThreadScript;
 	if (L"CLurkerScript" == _strScriptName)
@@ -192,6 +198,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CRoomScript;
 	if (L"CSlashScript" == _strScriptName)
 		return new CSlashScript;
+	if (L"CSoundScript" == _strScriptName)
+		return new CSoundScript;
 	if (L"CSpawnDoorScript" == _strScriptName)
 		return new CSpawnDoorScript;
 	if (L"CStateScript" == _strScriptName)
@@ -298,6 +306,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::KNIGHTSCRIPT:
 		return new CKnightScript;
 		break;
+	case (UINT)SCRIPT_TYPE::LADDERSCRIPT:
+		return new CLadderScript;
+		break;
 	case (UINT)SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return new CLoadLevelThreadScript;
 		break;
@@ -339,6 +350,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SLASHSCRIPT:
 		return new CSlashScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SOUNDSCRIPT:
+		return new CSoundScript;
 		break;
 	case (UINT)SCRIPT_TYPE::SPAWNDOORSCRIPT:
 		return new CSpawnDoorScript;
@@ -482,6 +496,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CKnightScript";
 		break;
 
+	case SCRIPT_TYPE::LADDERSCRIPT:
+		return L"CLadderScript";
+		break;
+
 	case SCRIPT_TYPE::LOADLEVELTHREADSCRIPT:
 		return L"CLoadLevelThreadScript";
 		break;
@@ -536,6 +554,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SLASHSCRIPT:
 		return L"CSlashScript";
+		break;
+
+	case SCRIPT_TYPE::SOUNDSCRIPT:
+		return L"CSoundScript";
 		break;
 
 	case SCRIPT_TYPE::SPAWNDOORSCRIPT:
