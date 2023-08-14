@@ -7,11 +7,12 @@ void CLurkerDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(6, false);
 	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CLurkerDeath::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
+	
 	m_fTime += DT;
 
 	float fPlayRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();

@@ -7,11 +7,12 @@ void CCrowBossDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(7, false);
 	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CCrowBossDeath::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
+	
 	// 애니메이션이 끝난 경우 사망 Paperburn 효과 주기.
 	if (GetOwner()->Animator3D()->IsFinish())
 	{

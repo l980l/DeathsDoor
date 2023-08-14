@@ -10,11 +10,12 @@ void CBazookaDeath::Enter()
 	// 몬스터 사망시 현재까지 흐른 시간을 저장.
 	m_bStartPaperBurn = true;
 	GetOwner()->Animator3D()->SetStop(true);
-	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CBazookaDeath::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
+	
 	if (m_bStartPaperBurn)
 		m_fPaperBurnTime += DT;
 
