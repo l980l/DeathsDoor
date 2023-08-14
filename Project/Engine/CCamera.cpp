@@ -338,7 +338,9 @@ void CCamera::render()
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->OMSet();
 	}
 
-	else
+	// MainCam
+	else if(CRenderMgr::GetInst()->GetCams()[0] == this
+		|| CRenderMgr::GetInst()->GetCams()[1] == this)
 	{
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::DEFERRED)->OMSet();
 		render_deferred();
@@ -377,6 +379,12 @@ void CCamera::render()
 		render_postprocess();
 
 		// UI
+		//render_ui();
+	}
+
+	// UI Cam
+	else
+	{
 		render_ui();
 	}
 }

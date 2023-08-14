@@ -56,7 +56,6 @@ void CPlyWalk::tick()
 
 void CPlyWalk::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
 	m_fTimeToIdle = 0.f;
 }
 

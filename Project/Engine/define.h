@@ -13,6 +13,8 @@
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 
+#define CAMERASHAKE(range, speed, term) CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(range, speed, term)
+
 #define MAX_LAYER 32
 #define MAX_MIP 8
 

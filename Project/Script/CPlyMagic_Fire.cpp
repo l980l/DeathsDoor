@@ -48,6 +48,12 @@ void CPlyMagic_Fire::tick()
 		}
 		else if (KEY_RELEASE(KEY::RBTN))
 		{
+			// 공격에 따른 에너지 소모
+			Stat CurStat = GetOwnerScript()->GetStat();
+			CurStat.Energy -= 1;
+			GetOwnerScript()->SetStat(CurStat);
+
+
 			// Player 업그레이드 수치를 가져와 계수를 곱해 Fire의 최종데미지를 정함.
 			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
 			fDamage *= 1.3f;
@@ -58,12 +64,12 @@ void CPlyMagic_Fire::tick()
 			m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
 			m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);
 			m_pFire->GetScript<CMagic_FireScript>()->SetStartPos(vSpawnPos);
-			m_pFire->SetLifeSpan(3.f);
+			m_pFire->SetLifeSpan(2.f);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 
 			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.1f);
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 1.f);
 		}
 		else
 		{
