@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CCrowBossStomp.h"
 #include "CCrowBossScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CCrowBossStomp::Enter()
 {
@@ -15,6 +16,12 @@ void CCrowBossStomp::Enter()
 
 void CCrowBossStomp::tick()
 {
+	// 공격 충돌체 프리펩
+	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
+
+	MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+	MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
+
 	// 애니메이션 재생시간동안 플레이어의 위치까지 도달하기 위한 Velocity.
 	Vec3 Velocity = m_Dir * (m_fDistance / (float)GetOwner()->Animator3D()->GetCurClipTimeLength());
 	Velocity *= DT;

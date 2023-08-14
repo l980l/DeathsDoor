@@ -29,7 +29,18 @@ void CBazzokaLongDistance::tick()
 {
 	// 애니메이션이 끝나면 Move로 다시 변경.
 	if (GetOwner()->Animator3D()->IsFinish())
-		ChangeState(L"Move");
+	{
+		float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
+	
+		// 공격범위 이내면 Aim 상태로.
+		if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
+		{
+			ChangeState(L"Aim");
+		}
+
+		else
+			ChangeState(L"Move");
+	}
 }
 
 void CBazzokaLongDistance::Exit()

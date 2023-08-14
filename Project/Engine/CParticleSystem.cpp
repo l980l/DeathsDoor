@@ -92,14 +92,12 @@ CParticleSystem::~CParticleSystem()
 
 	if (nullptr != m_RWBuffer)
 	{
-		m_RWBuffer = {};
 		delete m_RWBuffer;
 		m_RWBuffer = nullptr;
 	}
 
 	if (nullptr != m_ModuleDataBuffer)
 	{
-		m_ModuleDataBuffer = {};
 		delete m_ModuleDataBuffer;
 		m_ModuleDataBuffer = nullptr;
 	}
