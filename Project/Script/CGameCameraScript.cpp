@@ -66,7 +66,7 @@ void CGameCameraScript::tick()
 			CurTargetPos.x += m_vDistance.x;
 			CurTargetPos.y += m_vDistance.y;
 			CurTargetPos.z -= m_vDistance.z;
-			Transform()->SetRelativePos(CurTargetPos);
+			Transform()->SetRelativePos(CurTargetPos + m_vOffset);
 			Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
 		}
 		
@@ -80,7 +80,7 @@ void CGameCameraScript::tick()
 			CurTargetPos.x += CurTargetXZDir.x * 600.f;
 			CurTargetPos.y += 100.f;
 			CurTargetPos.z += CurTargetXZDir.z * 600.f;
-			Transform()->SetRelativePos(CurTargetPos);
+			Transform()->SetRelativePos(CurTargetPos + m_vOffset);
 
 			Vec3 CurTargetRot;
 			CurTargetRot.y = XM_2PI - m_pTarget->Transform()->GetRelativeRot().y;
