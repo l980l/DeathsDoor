@@ -28,6 +28,7 @@ void CPlyRun::tick()
 {
 	if (KEY_TAP(KEY::V))
 		m_bIce = m_bIce ? false : true;
+
 	Move();
 
 	// 가만히 있다면(이전 프레임과 위치 차이가 없다면) Idle 전환시간 +

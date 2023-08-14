@@ -40,7 +40,7 @@ void CPlyMagic_Fire::tick()
 			// Player 업그레이드 수치를 가져와 계수를 곱해 Bomb의 최종데미지를 정함.
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;;
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 50.f, CurPos.z) - vDir * 40.f;;
 			m_pFire = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Fire.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
 			m_pFire->Transform()->SetRelativeScale(Vec3(0.45f));
 			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
@@ -59,7 +59,7 @@ void CPlyMagic_Fire::tick()
 			fDamage *= 1.3f;
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;
+			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 50.f, CurPos.z) - vDir * 40.f;
 			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
 			m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
 			m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);

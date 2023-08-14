@@ -90,7 +90,7 @@ void CBossChainScript::Active(bool _bActive, bool _bMulti, float _fDelay = 0)
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vThrowStartPos + (m_vThrownDir * m_fChainSpacing * i));
-			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XM_PI, m_vThrownRot.y - XM_PI / 2.f, 0.f));
+			m_vecChain[i]->Transform()->SetRelativeRot(Vec3((Vec3(XM_PI / 2.f + m_vThrownRot.x, XM_PI / 2.f + m_vThrownRot.y, m_vThrownRot.z), 0.f)));
 		}
 	}
 	else
