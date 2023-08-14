@@ -74,7 +74,14 @@ void CCrowBossScript::begin()
 void CCrowBossScript::tick()
 {
 	CMonsterScript::tick();
-	
+
+	// HP가 0 이하면 사망.
+	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
+	{
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+			m_pStateScript->ChangeState(L"Death");
+	}
+
 	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
 	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
 
@@ -97,13 +104,6 @@ void CCrowBossScript::tick()
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)
 {
-	// HP가 0 이하면 사망.
-	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
-	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"Death");
-	}
-
 	// 피격시 까마귀 머리 생성.
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::PLAYERPROJECTILE)
 	{
