@@ -88,6 +88,38 @@ void CGhostScript::BeginOverlap(CCollider3D* _Other)
 		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
 		GetOwner()->SetLifeSpan(0.f);
 	}
+	else if (L"GrimKnight" == _Other->GetOwner()->GetName() && isHit == true)
+	{
+		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		grimStat.HP -= 50;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
+		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		GetOwner()->SetLifeSpan(0.f);
+	}
+	else if (L"Grunt" == _Other->GetOwner()->GetName() && isHit == true)
+	{
+		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		grimStat.HP -= 50;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
+		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		GetOwner()->SetLifeSpan(0.f);
+	}
+	else if (L"Lurker" == _Other->GetOwner()->GetName() && isHit == true)
+	{
+		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		grimStat.HP -= 50;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
+		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		GetOwner()->SetLifeSpan(0.f);
+	}
+	else if (L"Bat" == _Other->GetOwner()->GetName() && isHit == true)
+	{
+		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		grimStat.HP -= 50;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
+		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		GetOwner()->SetLifeSpan(0.f);
+	}
 	
 }
 

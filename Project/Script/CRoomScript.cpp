@@ -48,20 +48,22 @@ void CRoomScript::begin()
 
 void CRoomScript::tick()
 {
-	if(m_bActive)
+	/*if(m_bActive)
 	{
 		if(m_iRemainGimmik == 0 && m_iRemainMst == 0)
 			CSpawnMgr::GetInst()->SetFence(m_iRoomNum, true);
-	}
+	}*/
 	//현재 웨이브의 몬스토 수가 남은 수보다 
 	vector<CGameObject*> vecMonster = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::MONSTER)->GetParentObject();
 	if (vecMonster.size() > m_prevMonsterNum)
 	{
 		m_bSpawn = true;
 	}
-	if (m_iCurWaveNum == m_iMaxWaveNum - 1)
+	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && m_bSpawn)
 	{
-		SetLifeSpan(0.f);
+		CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);//내린다
+		GetOwner()->SetLifeSpan(0.f);
+
 	}
 	if (vecMonster.size() == m_prevMonsterNum && m_bSpawn)
 	{

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CFenseScript.h"
 #include "CSpawnMgr.h"
+#include <Engine/CPhysXMgr.h>
 
 CFenseScript::CFenseScript() :
 	CScript(SCRIPT_TYPE::FENSESCRIPT)
@@ -22,17 +23,25 @@ void CFenseScript::tick()
 		Vec3 vCurPos = Transform()->GetWorldPos();
 		if (m_bOpen)
 		{
-			Transform()->SetRelativePos(vCurPos.x, vCurPos.y + 50.f * DT, vCurPos.z);
+			Transform()->SetRelativePos(vCurPos.x, vCurPos.y + 100.f * DT, vCurPos.z);
 		}
-		else
+		else if(m_bClose)
 		{
-			Transform()->SetRelativePos(vCurPos.x, vCurPos.y - 50.f * DT, vCurPos.z);
+			GetOwner()->SetLifeSpan(0.f);
+			/*CPhysXMgr::GetInst()->ReleaseStatic(rStatic);
+			Transform()->SetRelativePos(vCurPos.x, vCurPos.y - 100.f * DT, vCurPos.z);*/
 		}
 		m_fMoveDistance = (m_vStartPos - Transform()->GetWorldPos()).Length();
-		if (m_fMoveDistance > 100.f)
+		if (m_fMoveDistance > 200.f && m_bOpen)
+		{
+			GetOwner()->AddComponent(new CRigidbody);
+			rStatic = CPhysXMgr::GetInst()->CreateStaticCube(Vec3(GetOwner()->Transform()->GetWorldPos()), Vec3(100.f, 100.f, 100.f), GetOwner());
+			m_bOpen = false;
+		}
+		if (m_fMoveDistance > 200.f && m_bClose)
 		{
 			m_bClose = false;
-			m_bOpen = false;
+			
 		}
 	}
 }

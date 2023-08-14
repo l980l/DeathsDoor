@@ -8,7 +8,7 @@ class CFenseScript :
     bool    m_bOpen;
     bool    m_bClose;
     float    m_fMoveDistance;
-
+    physx::PxRigidStatic* rStatic;
 public:
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
     virtual void begin() override;

@@ -37,6 +37,7 @@ void CGrimKnightScript::begin()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
+
 	// 상태 설정
 	if (nullptr == m_pStateScript)
 	{
@@ -87,6 +88,11 @@ void CGrimKnightScript::tick()
 		recognizeCheck = true;
 		m_pStateScript->ChangeState(L"Trace");
 	}
+	
+	if (m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardBreak"))
+	{
+		m_hitCount = 0;
+	}
 
 	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	float dir = GetSmoothDir(GetOwner(), m_pPlayer);
@@ -120,30 +126,17 @@ void CGrimKnightScript::BeginOverlap(CCollider3D* _Other)
 		m_pStateScript->ChangeState(L"Attack");
 		onCollision = true;
 	}
-	if (L"Slash_R" == _Other->GetName()&& m_pStateScript->GetCurState()->GetName() == L"GuardStay")
+	if (L"Slash_R" == _Other->GetOwner()->GetName())
 	{
-		m_hitCount++;
+		if(m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardStay"))
+			m_hitCount++;
 	}
-	else if (L"Slash_L" == _Other->GetName() && m_pStateScript->GetCurState()->GetName() == L"GuardStay")
+	else if (L"Slash_L" == _Other->GetOwner()->GetName())
 	{
-		m_hitCount++;
+		if(m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardStay"))
+			m_hitCount++;
 	}
-	else if (L"Arrow" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Fire" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Bomb" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Hook" == _Other->GetName())
-	{
-		//체력--
-	}
+
 	else if (L"Ghost" == _Other->GetName())
 	{
 		//체력--

@@ -59,6 +59,7 @@ void CreateTestLevel()
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 
 	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
 	NewLevel->SetName(L"Castle");
@@ -67,6 +68,56 @@ void CreateTestLevel()
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
 	CEventMgr::GetInst()->AddEvent(evn);
+
+	Ptr<CMeshData> pMeshData = nullptr;
+	CGameObject* pPlayer = nullptr;
+	CGameObject* pObject = nullptr;
+
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
+	pPlayer = pMeshData->Instantiate();
+	pPlayer->SetName(L"Player");
+	pPlayer->AddComponent(new CPlayerScript);
+	pPlayer->AddComponent(new CStateScript);
+	pPlayer->AddComponent(new CCollider3D);
+	pPlayer->AddComponent(new CRigidbody);
+
+	pPlayer->Transform()->SetRelativeScale(Vec3(40.f, 40.f, 40.f));
+	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+
+	pPlayer->MeshRender()->SetDynamicShadow(true);
+	pPlayer->MeshRender()->SetFrustumCheck(false);
+
+	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
+
+	Stat PlayerStat;
+	PlayerStat.Attack = 50.f;
+	PlayerStat.Attack_Speed = 0.4f;
+	PlayerStat.HP = 4;
+	PlayerStat.Speed = 150.f;
+	PlayerStat.Spell_Power = 40.f;
+	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(1800.f, 1000.f, 270.f), 20.f, pPlayer);
+	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
+	CGameObject* pSword = pMeshData->Instantiate();
+	pSword->SetName(L"Sword");
+	pSword->AddComponent(new CPlayerWeaponScript);
+	pSword->AddComponent(new CStateScript);
+	pSword->MeshRender()->SetDynamicShadow(true);
+	pSword->MeshRender()->SetFrustumCheck(false);
+	pPlayer->AddChild(pSword);
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
+	CGameObject* pBow = pMeshData->Instantiate();
+	pBow->SetName(L"Bow");
+	pBow->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+	pBow->MeshRender()->SetDynamicShadow(true);
+	pBow->MeshRender()->SetFrustumCheck(false);
+	pPlayer->AddChild(pBow);*/
+
 	return;
 	CGameObject* pSubCam = new CGameObject;
 	pSubCam->SetName(L"SubCamera");
@@ -208,9 +259,8 @@ void CreateTestLevel()
 	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
 
-	Ptr<CMeshData> pMeshData = nullptr;
-	CGameObject* pPlayer = nullptr;
-	CGameObject* pObject = nullptr;
+
+
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\GrimKnight.fbx");
 	CGameObject* gKnight = pMeshData->Instantiate();
@@ -226,7 +276,7 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(1200, 500.f, 3500.f), 20.f, gKnight);
 	SpawnGameObject(gKnight, Vec3(1200.f, 500.f, 3500.f), (int)LAYER::MONSTER);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
 	pPlayer = pMeshData->Instantiate();
 	pPlayer->SetName(L"Player");
 	pPlayer->AddComponent(new CPlayerScript);
@@ -269,7 +319,7 @@ void CreateTestLevel()
 	pBow->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
 	pBow->MeshRender()->SetDynamicShadow(true);
 	pBow->MeshRender()->SetFrustumCheck(false);
-	pPlayer->AddChild(pBow);
+	pPlayer->AddChild(pBow);*/
 
 	/*CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 	CGameObject* pFloor = new CGameObject;
