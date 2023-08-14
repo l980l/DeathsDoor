@@ -3,6 +3,10 @@
 class CCrowBossCutScene :
     public CState
 {
+private:
+    float   m_fTime;
+    bool    m_bCameraShake;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

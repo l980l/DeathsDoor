@@ -2,6 +2,8 @@
 #include "CCrowBossStomp.h"
 #include "CCrowBossScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CGameCameraScript.h"
+#include <Engine/CRenderMgr.h>
 
 void CCrowBossStomp::Enter()
 {
@@ -12,10 +14,23 @@ void CCrowBossStomp::Enter()
 
 	if(!m_fDistance)
 		m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
+
+	m_fTime = 0.f;
+	m_bCameraShake = false;
 }
 
 void CCrowBossStomp::tick()
 {
+	// Camera Shake
+	m_fTime += DT;
+	float fRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
+
+	if (!m_bCameraShake && fRatio >= 0.8f)
+	{
+		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.1f);
+		m_bCameraShake = true;
+	}
+
 	// 공격 충돌체 프리펩
 	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
 
@@ -42,6 +57,8 @@ void CCrowBossStomp::Exit()
 
 CCrowBossStomp::CCrowBossStomp() :
 	m_fDistance(0.f)
+	, m_fTime(0.f)
+	, m_bCameraShake(false)
 {
 }
 
