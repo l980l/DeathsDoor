@@ -19,7 +19,10 @@ CPhysXMgr::~CPhysXMgr()
     if(m_Dispatcher != nullptr)
         m_Dispatcher->release();
     if (m_Scene != nullptr)
+    {
+        m_Scene->fetchResults(false);
         m_Scene->release();
+    }
     if (m_Material != nullptr)
         m_Material->release();
     if (m_Physics != nullptr)

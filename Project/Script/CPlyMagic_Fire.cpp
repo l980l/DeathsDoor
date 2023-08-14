@@ -64,7 +64,7 @@ void CPlyMagic_Fire::tick()
 			m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
 			m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);
 			m_pFire->GetScript<CMagic_FireScript>()->SetStartPos(vSpawnPos);
-			m_pFire->SetLifeSpan(3.f);
+			m_pFire->SetLifeSpan(2.f);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 

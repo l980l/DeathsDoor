@@ -11,6 +11,7 @@ CSoundScript::CSoundScript() :
 
 CSoundScript::~CSoundScript()
 {
+	m_pSound = nullptr;
 }
 void CSoundScript::begin()
 {
