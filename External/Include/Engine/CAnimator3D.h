@@ -46,7 +46,7 @@ public:
     void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }
     void Play(int _iClipIdx, bool _bRepeat);                    // 현재 Clip을 변경하는 함수.
     int GetCurClip() { return m_iCurClip; }                     // 현재 Cilp 인덱스를 반환하는 함수.
-    int GetClipSize() { return m_vecClipUpdateTime.size(); }    // 전체 Clip 개수를 반환하는 함수.
+    int GetClipSize() { return (int)m_vecClipUpdateTime.size(); }    // 전체 Clip 개수를 반환하는 함수.
 
     CStructuredBuffer* GetFinalBoneMat() { return m_pBoneFinalMatBuffer; }
     UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }

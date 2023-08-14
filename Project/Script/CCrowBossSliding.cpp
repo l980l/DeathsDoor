@@ -2,6 +2,7 @@
 #include "CCrowBossSliding.h"
 #include "CCrowBossScript.h"
 #include "CBossChainScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 CCrowBossSliding::CCrowBossSliding()
 	: m_qStartPos{}
@@ -39,6 +40,12 @@ void CCrowBossSliding::Enter()
 
 void CCrowBossSliding::tick()
 {
+	// 공격 충돌체 프리펩
+	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
+
+	MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+	MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
+
 	SlidingToTargetPos();
 
 	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
