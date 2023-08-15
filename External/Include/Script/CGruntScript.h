@@ -8,12 +8,10 @@ private:
     Vec3    m_PlayerPos;
     Vec3    m_MonsterToPlayerDir;
     float   m_fPlayerDistance;
-
     float   m_fAttackRange;     // 공격 범위. 
-
     int     m_iNailAttackCount;  // 손톱 공격 횟수. 2회시 점프 공격.
-
     bool    m_bStarePlayer;
+    float   m_fPrevHP;          // 이전 HP. HP가 줄었을 때, 데미지 사운드를 재생하기 위해 사용.
 
 public:
     Vec3 GetPlayerPos() { return m_PlayerPos; }

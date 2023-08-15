@@ -2,6 +2,7 @@
 #include "CGruntNailAttack.h"
 #include "CGruntScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 void CGruntNailAttack::Enter()
 {
@@ -51,6 +52,10 @@ void CGruntNailAttack::Exit()
 {
 	GetOwner()->Rigidbody()->ClearForce();
 	m_fTime = 0.f;
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\GruntMeleeAttack3.ogg", 1, 0.1f);
 }
 
 CGruntNailAttack::CGruntNailAttack() :

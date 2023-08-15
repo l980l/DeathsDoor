@@ -2,6 +2,7 @@
 #include "CGruntJumpAttack.h"
 #include "CGruntScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 void CGruntJumpAttack::Enter()
 {
@@ -14,6 +15,10 @@ void CGruntJumpAttack::Enter()
 	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CGruntScript>()->GetPlayerPos());
 	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
 	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\Grunt_JumpAttack1.ogg", 1, 0.1f);
 }
 
 void CGruntJumpAttack::tick()
