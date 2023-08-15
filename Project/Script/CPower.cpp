@@ -23,7 +23,7 @@ void CPower::tick()
 
 void CPower::Enter()
 {
-	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI_Power.png"));
+	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Power.png", L"texture\\BankUI_Power.png", 0));
 }
 
 void CPower::Exit()

@@ -515,7 +515,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(20.f, 20.f, 0.f));
-        mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_plus.png"));
+        mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_plus.png", L"texture\\HUD\\n_plus.png", 0));
         
     }
     {
@@ -524,7 +524,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-        mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\icon_soul_white.png"));
+        mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\icon_soul_white.png", L"texture\\HUD\\icon_soul_white.png", 0));
 
     }
     {
@@ -533,7 +533,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 0.f));
-        mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_x.png"));
+        mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_x.png", L"texture\\HUD\\n_x.png", 0));
      
     }
     Vec3 textpos;
@@ -554,7 +554,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_1.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_1.png", L"texture\\HUD\\n_1.png", 0));
 
         }
         else if (num == 2)
@@ -564,7 +564,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_2.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_2.png", L"texture\\HUD\\n_2.png", 0));
 
         }
         else if (num == 3)
@@ -574,7 +574,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_3.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_3.png", L"texture\\HUD\\n_3.png", 0));
 
         }
         else if (num == 4)
@@ -584,7 +584,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_4.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_4.png", L"texture\\HUD\\n_4.png", 0));
 
         }
         else if (num == 5)
@@ -594,7 +594,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_5.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_5.png", L"texture\\HUD\\n_5.png", 0));
 
         }
         else if (num == 6)
@@ -604,7 +604,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_6.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_6.png", L"texture\\HUD\\n_6.png", 0));
         }
         else if (num == 7)
         {
@@ -613,7 +613,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_7.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_7.png", L"texture\\HUD\\n_7.png", 0));
         }
         else if (num == 8)
         {
@@ -622,7 +622,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_8.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_8.png", L"texture\\HUD\\n_8.png", 0));
         }
         else if (num == 9)
         {
@@ -631,7 +631,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_9.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_9.png", L"texture\\HUD\\n_9.png", 0));
         }
         else if (num == 0)
         {
@@ -640,7 +640,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_0.png", L"texture\\HUD\\n_0.png", 0));
         }
 
         Money = Money % digit;// 100%3 ¾Ë
@@ -656,7 +656,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
                 mText->MeshRender()->GetDynamicMaterial(0);
                 mText->Transform()->SetRelativeRot(rot);
                 mText->Transform()->SetRelativeScale(scale);
-                mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
+                mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_0.png", L"texture\\HUD\\n_0.png", 0));
             }
         }
     }
@@ -683,7 +683,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_1.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_1.png", L"texture\\HUD\\n_1.png", 0));
         }
         else if (num == 2)
         {
@@ -692,7 +692,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_2.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_2.png", L"texture\\HUD\\n_2.png", 0));
         }
         else if (num == 3)
         {
@@ -701,7 +701,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_3.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_3.png", L"texture\\HUD\\n_3.png", 0));
         }
         else if (num == 4)
         {
@@ -710,7 +710,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_4.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_4.png", L"texture\\HUD\\n_4.png", 0));
         }
         else if (num == 5)
         {
@@ -719,7 +719,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_5.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_5.png", L"texture\\HUD\\n_5.png", 0));
         }
         else if (num == 6)
         {
@@ -728,7 +728,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_6.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_6.png", L"texture\\HUD\\n_6.png", 0));
         }
         else if (num == 7)
         {
@@ -737,7 +737,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_7.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_7.png", L"texture\\HUD\\n_7.png", 0));
         }
         else if (num == 8)
         {
@@ -746,7 +746,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_8.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_8.png", L"texture\\HUD\\n_8.png", 0));
         }
         else if (num == 9)
         {
@@ -755,7 +755,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_9.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_9.png", L"texture\\HUD\\n_9.png", 0));
         }
         else if (num == 0)
         {
@@ -764,7 +764,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
-            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
+            mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_0.png", L"texture\\HUD\\n_0.png", 0));
         }
 
         MoneyTotal = MoneyTotal % digit;// 100%3 ¾Ë
@@ -780,7 +780,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
                 mText->MeshRender()->GetDynamicMaterial(0);
                 mText->Transform()->SetRelativeRot(rot);
                 mText->Transform()->SetRelativeScale(scale);
-                mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\n_0.png"));
+                mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_0.png", L"texture\\HUD\\n_0.png", 0));
             }
         }
     }

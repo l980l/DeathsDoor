@@ -23,7 +23,7 @@ void CMagic::tick()
 
 void CMagic::Enter()
 {
-	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI_Magic.png"));
+	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Magic.png", L"texture\\BankUI_Magic.png", 0));
 }
 
 void CMagic::Exit()
