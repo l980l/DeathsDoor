@@ -12,11 +12,25 @@ CMonsterScript::CMonsterScript(UINT SCRIPT_TYPE) :
 	, m_bSendDeadTime(false)
 	, m_fDeathTime(0.f)
 	, m_fLastHitTime(-3.f)
+	, m_bFixPos(false)
 {
 }
 
 CMonsterScript::~CMonsterScript()
 {
+}
+
+void CMonsterScript::SetFixPosition(bool _bool)
+{
+	// 이전에 false였던 경우만 새로운 위치를 받아두게 함.
+	if (!m_bFixPos && _bool)
+	{
+		m_vFixedPos = Transform()->GetWorldPos();
+		m_bFixPos = true;
+	}
+
+	else if(!_bool)
+		m_bFixPos = false;
 }
 
 void CMonsterScript::begin()
@@ -46,6 +60,12 @@ void CMonsterScript::begin()
 
 void CMonsterScript::tick()
 {
+	if (m_bFixPos)
+	{
+		Rigidbody()->ClearForce();
+		Rigidbody()->SetRigidPos(m_vFixedPos);
+	}
+
 	//if (!abs(m_pStateScript->GetStat().HP - m_pStateScript->GetStat().Max_HP) <= 0.001f)
 	{
 		int iMtrlCount = MeshRender()->GetMtrlCount();

@@ -10,6 +10,7 @@ CLadderScript::CLadderScript()
 {
 	//if (nullptr == m_pInterectionImage)
 	//	m_pInterectionImage = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\LadderImage.prefab", (int)LAYER::DEFAULT, Vec3(0.f));
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fHeight, "Height");
 }
 
 CLadderScript::~CLadderScript()

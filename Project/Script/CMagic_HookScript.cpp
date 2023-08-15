@@ -46,9 +46,11 @@ void CMagic_HookScript::begin()
 	Vec4 ChainColor = Vec4(0.6f, 1.f, 0.6f, 1.f);
 	for (size_t i = 0; i < m_vecChain.size(); ++i)
 	{
-		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(INT_1, &a);
-		m_vecChain[i]->GetRenderComponent()->GetMaterial(0)->SetScalarParam(VEC4_0, &ChainColor);
+		Vec4 ChainPerColor = ChainColor * ((float)(i + 10.f) / (float)m_vecChain.size());
+		m_vecChain[i]->GetRenderComponent()->GetDynamicMaterial(0)->SetScalarParam(INT_1, &a);
+		m_vecChain[i]->GetRenderComponent()->GetDynamicMaterial(0)->SetScalarParam(VEC4_0, &ChainPerColor);
 	}
+
 	Active(m_bActive);
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
@@ -111,7 +113,7 @@ void CMagic_HookScript::Active(bool _bActive)
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vStartPos + (m_vThrownDir * m_fChainSpacing * i));
-			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XM_PI * 0.5f, m_vAttackDir.y + XM_PI / 2.f, 0.f));
+			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(XM_PI / 2.f + m_vAttackDir.x, XM_PI / 2.f + m_vAttackDir.y, m_vAttackDir.z));
 		}
 	}
 	else if(!m_bActive)
