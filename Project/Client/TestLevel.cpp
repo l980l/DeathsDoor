@@ -61,13 +61,28 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
+	// Main Camera Object 생성
+	CGameObject* pMainCam = new CGameObject;
+	pMainCam->SetName(L"MainCamera");
+
+	pMainCam->AddComponent(new CTransform);
+	pMainCam->AddComponent(new CCamera);
+	pMainCam->AddComponent(new CGameCameraScript);
+
+	//pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
+	//pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	//pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+
+	//SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
+
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_BOSS);
+	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 
-	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\CastleBoss.lv", LEVEL_STATE::STOP);
-	NewLevel->SetName(L"CASTLE_BOSS");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_BOSS);
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"CASTLE_FIELD");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
@@ -82,17 +97,6 @@ void CreateTestLevel()
 	CGameObject* pObject = nullptr;
 	CGameObject* pKnight = nullptr;
 	
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Banker.fbx");
-	pKnight = pMeshData->Instantiate();
-	pKnight->SetName(L"Banker");
-	pKnight->AddComponent(new CBankNPCScript);
-	pKnight->AddComponent(new CCollider3D);
-	pKnight->Transform()->SetRelativeScale(Vec3(0.35f, 0.35f, 0.35f));
-	pKnight->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	pKnight->MeshRender()->SetDynamicShadow(true);
-	pKnight->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pKnight, Vec3(2000.f,900.f,2000.f), (int)LAYER::NPC);
-
 	CGameObject* pSoundMgr = new CGameObject;
 	pSoundMgr->SetName(L"SoundUI");
 	pSoundMgr->AddComponent(new CTransform);
@@ -221,20 +225,7 @@ void CreateTestLevel()
 
 
 
-	// Main Camera Object 생성
-	CGameObject* pMainCam = new CGameObject;
-	pMainCam->SetName(L"MainCamera");
-
-	pMainCam->AddComponent(new CTransform);
-	pMainCam->AddComponent(new CCamera);
-	pMainCam->AddComponent(new CGameCameraScript);
-
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
-	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-
-	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
+	
 
 
 	// 광원 추가
@@ -255,92 +246,93 @@ void CreateTestLevel()
 
 	SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
 
-	// SkyBox 추가
-	CGameObject* pSkyBox = new CGameObject;
-	pSkyBox->SetName(L"SkyBox");
+	//// SkyBox 추가
+	//CGameObject* pSkyBox = new CGameObject;
+	//pSkyBox->SetName(L"SkyBox");
 
-	pSkyBox->AddComponent(new CTransform);
-	pSkyBox->AddComponent(new CSkyBox);
+	//pSkyBox->AddComponent(new CTransform);
+	//pSkyBox->AddComponent(new CSkyBox);
 
-	pSkyBox->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
-	pSkyBox->Transform()->SetRelativeRot(Vec3(0.f, XM_PI / 2.f, 0.f));
+	//pSkyBox->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
+	//pSkyBox->Transform()->SetRelativeRot(Vec3(0.f, XM_PI / 2.f, 0.f));
 
-	pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::CUBE);
-	pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
+	//pSkyBox->SkyBox()->SetType(SKYBOX_TYPE::CUBE);
+	//pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
 
-	SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
-
-
+	//SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 
 
 
-	/*CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+
+
 	CGameObject* pFloor = new CGameObject;
-	pFloor->SetName(L"Floor");
 	pFloor->AddComponent(new CTransform);
 	pFloor->AddComponent(new CMeshRender);
-	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+
+	pFloor->Transform()->SetRelativeScale(50000.f, 10.f, 50000.f);
+	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
 	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Deaths_Door\\CrowBossMapFloor.png"));
-	pFloor->Transform()->SetRelativeScale(10000000.f, 10000000.f, 10000000.f);
-	pFloor->Transform()->SetRelativeRot(XM_PIDIV2, 0.f, 0.f);
-	SpawnGameObject(pFloor, Vec3(3000.f, 1.f, 3000.f), (int)LAYER::DEFAULT);*/
+	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
+	pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
+	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
 
-	 //Wind 
-	CGameObject* pWind = new CGameObject;
-	pWind->SetName(L"Wind");
-	pWind->AddComponent(new CTransform);
-	pWind->AddComponent(new CMeshRender);
-	pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
-	pWind->MeshRender()->SetFrustumCheck(false);
-	
-	SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
+	// //Wind 
+	//CGameObject* pWind = new CGameObject;
+	//pWind->SetName(L"Wind");
+	//pWind->AddComponent(new CTransform);
+	//pWind->AddComponent(new CMeshRender);
+	//pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
+	//pWind->MeshRender()->SetFrustumCheck(false);
+	//
+	//SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 
-	// Water 
-	CGameObject* pWater = new CGameObject;
-	pWater->SetName(L"Water");
-	pWater->AddComponent(new CTransform);
-	pWater->AddComponent(new CMeshRender);
-	pWater->AddComponent(new CWaterScript);
-	pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-	pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
-	pWater->MeshRender()->SetFrustumCheck(false);
+	//// Water 
+	//CGameObject* pWater = new CGameObject;
+	//pWater->SetName(L"Water");
+	//pWater->AddComponent(new CTransform);
+	//pWater->AddComponent(new CMeshRender);
+	//pWater->AddComponent(new CWaterScript);
+	//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+	//pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+	//pWater->MeshRender()->SetFrustumCheck(false);
 
-	SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+	//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
 
-	// Water Camera Object 생성
-	CGameObject* pWaterCam = new CGameObject;
-	pWaterCam->SetName(L"WaterCamera");
+	//// Water Camera Object 생성
+	//CGameObject* pWaterCam = new CGameObject;
+	//pWaterCam->SetName(L"WaterCamera");
 
-	pWaterCam->AddComponent(new CTransform);
-	pWaterCam->AddComponent(new CCamera);
-	pWaterCam->AddComponent(new CWaterCameraScript);
+	//pWaterCam->AddComponent(new CTransform);
+	//pWaterCam->AddComponent(new CCamera);
+	//pWaterCam->AddComponent(new CWaterCameraScript);
 
-	pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pWaterCam->Camera()->SetCameraIndex(1);
-	pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-	pWaterCam->Camera()->SetWaterCamera(true);
+	//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	//pWaterCam->Camera()->SetCameraIndex(1);
+	//pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+	//pWaterCam->Camera()->SetWaterCamera(true);
 
-	SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
+	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
-	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
+	//CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"Hall_SIMPLE");
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"Hall_SIMPLE");
 	pObject = pMeshData->Instantiate();
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
+	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);*/
 
-	delete pObject;
+	//delete pObject;
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"hall");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Map");
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"hall");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Map");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
 
 
