@@ -24,7 +24,7 @@ void CSpeed::tick()
 
 void CSpeed::Enter()
 {
-	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI_Speed.png"));
+	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Speed.png", L"texture\\BankUI_Speed.png", 0));
 }
 
 void CSpeed::Exit()

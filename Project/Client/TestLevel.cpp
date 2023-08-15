@@ -41,6 +41,7 @@
 #include <Script\CEnergyIconScript.h>
 #include <Script/CSoundScript.h>
 #include <Script/CLevelChangeDoorScript.h>
+#include <Script/CCursorScript.h>
 
 #include <Engine/CDetourMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -290,11 +291,22 @@ void CreateTestLevel()
 	pSoundMgr->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
 
 	SpawnGameObject(pSoundMgr, Vec3(0.f), (int)LAYER::DEFAULT);
+
+
+
+	pObject = new CGameObject;
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CCursorScript);
 	
+	pObject->Transform()->SetRelativeScale(Vec3(70.f));
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+
+	SpawnGameObject(pObject, Vec3(0.f), (int)LAYER::UI);
 
 	// ======================
 	// Map
-	// 
 	// ======================
 
 	/*CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);

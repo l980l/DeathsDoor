@@ -24,7 +24,7 @@ void CBankerFrameScript::begin()
 	Vec3 rot = (Vec3(0.f, -62.f, 0.f) / 180.f) * XM_PI;
 	GetOwner()->Transform()->SetRelativeRot(rot);
 
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
 }
 
 void CBankerFrameScript::tick()
@@ -35,7 +35,7 @@ void CBankerFrameScript::tick()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
 
 	if (KEY_TAP(KEY::ESC))
 	{
