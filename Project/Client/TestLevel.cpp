@@ -42,6 +42,7 @@
 #include <Script/CSoundScript.h>
 #include <Script/CLevelChangeDoorScript.h>
 #include <Script/CCursorScript.h>
+#include <Engine/CEventMgr.h>
 
 #include <Engine/CDetourMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -51,6 +52,26 @@
 
 void CreateTestLevel()
 {
+	// 충돌 시킬 레이어 짝 지정
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LEVELCHANGEDOOR));
+
+	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
+	//NewLevel->SetName(L"Hall");
+	//NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
+	//tEvent evn = {};
+	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	//evn.wParam = (DWORD_PTR)NewLevel;
+	//evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+	//CEventMgr::GetInst()->AddEvent(evn);
+	//
+	//return;
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -180,7 +201,7 @@ void CreateTestLevel()
 	pObject->Collider3D()->SetOffsetScale(Vec3(150.f));
 	pObject->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 
-	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::DEFAULT);
+	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::LEVELCHANGEDOOR);
 
 	//pObject = new CGameObject;
 	//pObject->SetName(L"MouseAim");
@@ -295,6 +316,7 @@ void CreateTestLevel()
 
 
 	pObject = new CGameObject;
+	pObject->SetName(L"Cursor");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCursorScript);
@@ -336,12 +358,7 @@ void CreateTestLevel()
 	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
-	// 충돌 시킬 레이어 짝 지정
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
+	
+
 }

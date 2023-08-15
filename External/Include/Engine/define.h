@@ -315,7 +315,7 @@ enum class LAYER
 	ANCHOR,
 	BRAIZER,
 	NPC, 
-	MAGIC_FIRE,
+	LEVELCHANGEDOOR,
 
 	UI = 31,
 };
