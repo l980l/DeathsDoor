@@ -23,8 +23,7 @@ void CLoadingThread::Run()
 {
 	// Level 불러오기
 	CLevel* pLoadedLevel = CLevelSaveLoadInScript::Stop(m_LevelPath, LEVEL_STATE::STOP);
-
+	pLoadedLevel->SetLevelType((int)g_tNextLevel);
 	m_LoadLevelThreadScript->SetLoadLevel(pLoadedLevel);
-
 	m_bLoadComplete = true;
 }
