@@ -22,7 +22,7 @@ void CBankerFrameScript::begin()
 
 	GetOwner()->Transform()->SetRelativeScale(Vec3(1682.f, 980.f, 1.f));
 
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
 }
 
 void CBankerFrameScript::tick()
@@ -33,7 +33,7 @@ void CBankerFrameScript::tick()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
 
 	if (KEY_TAP(KEY::ESC))
 	{

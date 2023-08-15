@@ -23,7 +23,7 @@ void CHookIconScript::begin()
 
 	Transform()->SetRelativePos(Vec3(-651.f, 208.f, 0.f));
 	Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HookDA.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HookDA.png", L"texture\\HUD\\HookDA.png", 0));
 }
 
 void CHookIconScript::tick()

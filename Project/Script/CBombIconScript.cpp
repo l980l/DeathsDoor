@@ -23,7 +23,7 @@ void CBombIconScript::begin()
 
 	Transform()->SetRelativePos(Vec3(-595.f, 265.f, 0.f));
 	Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\BombDA.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\BombDA.png", L"texture\\HUD\\BombDA.png", 0));
 }
 
 void CBombIconScript::tick()

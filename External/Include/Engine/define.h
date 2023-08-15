@@ -373,6 +373,8 @@ enum class PLAYERANIM_TYPE
 	END,
 };
 
+extern LEVEL_TYPE g_tNextLevel;
+
 enum class PLAYER_MAGIC
 {
 	ARROW,

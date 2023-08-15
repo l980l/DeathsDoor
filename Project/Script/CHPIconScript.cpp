@@ -29,19 +29,19 @@ void CHPIconScript::begin()
 
 	if (hp == 4)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_4.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_4.png", L"texture\\HUD\\HP_4.png", 0));
 	}
 	else if (hp == 3)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_3.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_3.png", L"texture\\HUD\\HP_3.png", 0));
 	}
 	else if (hp == 2)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_2.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_2.png", L"texture\\HUD\\HP_2.png", 0));
 	}
 	else if (hp == 1)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_1.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_1.png", L"texture\\HUD\\HP_1.png", 0));
 	}
 }
 
@@ -61,18 +61,18 @@ void CHPIconScript::tick()
 
 	if (hp == 4)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_4.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_4.png", L"texture\\HUD\\HP_4.png", 0));
 	}
 	else if (hp == 3)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_3.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_3.png", L"texture\\HUD\\HP_3.png", 0));
 	}
 	else if (hp == 2)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_2.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_2.png", L"texture\\HUD\\HP_2.png", 0));
 	}
 	else if (hp == 1)
 	{
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\HP_1.png"));
+		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HP_1.png", L"texture\\HUD\\HP_1.png", 0));
 	}
 }

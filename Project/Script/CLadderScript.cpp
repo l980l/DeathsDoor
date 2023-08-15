@@ -40,3 +40,13 @@ void CLadderScript::EndOverlap(CCollider3D* _Other)
 	//	m_pInterectionImage->Transform()->SetRelativeScale(Vec3(0.f));
 	//}
 }
+
+void CLadderScript::SaveToLevelFile(FILE* _FILE)
+{
+	fwrite(&m_fHeight, sizeof(float), 1, _FILE);
+}
+
+void CLadderScript::LoadFromLevelFile(FILE* _FILE)
+{
+	fread(&m_fHeight, sizeof(float), 1, _FILE);
+}

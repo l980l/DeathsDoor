@@ -13,6 +13,7 @@ CMagic_BombScript::CMagic_BombScript()
 	, m_vDir{}
 	, m_bThrow(false)
 	, m_fPrevDirRatio(0.f)
+	, m_bCollided(false)
 {
 }
 
@@ -31,7 +32,19 @@ void CMagic_BombScript::begin()
 void CMagic_BombScript::tick()
 {
 	Rigidbody()->SetGravity(0.f);
-	if(m_bThrow)
+
+	if (m_bCollided)
+	{
+		GetOwner()->Rigidbody()->ClearForce();
+		m_fAffterCollided += DT;
+		float fScale = 10.f * (1.f - m_fAffterCollided / 2.f)  * cos(m_fAffterCollided);
+
+		if (m_fAffterCollided > 2.f)
+			Destroy();
+
+		GetOwner()->Transform()->SetRelativeScale(Vec3(fScale));
+	}
+	else if(m_bThrow)
 	{
 		Vec3 vCurVelocity = Rigidbody()->GetVelocity();
 		vCurVelocity.Normalize();
@@ -39,10 +52,12 @@ void CMagic_BombScript::tick()
 		if (m_fPrevDirRatio && abs(m_fPrevDirRatio - CurVelocityRatio) > 0.0001f)
 		{
 			// 방향이 바뀌면(벽이나 기타 피직스 물체에 부딪힘) 히트 이펙트 및 삭제
-			Destroy();
+			m_bCollided = true;
+
+			Collider3D()->SetOffsetScale(Vec3(500.f));
+
 			CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(5.f, 1000.f, 0.3f);
-			// 히트 이펙트 추가할 것
-		
+			// 히트 이펙트 추가할 것		
 		}
 		m_fPrevDirRatio = CurVelocityRatio;
 		Vec3 Velocity = m_vDir * m_fSpeed;
@@ -59,9 +74,13 @@ void CMagic_BombScript::BeginOverlap(CCollider3D* _Other)
 			Stat CurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
 			CurStat.HP -= m_fDamage;
 			_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
-			Destroy();
+
+			m_bCollided = true;
+
+			Collider3D()->SetOffsetScale(Vec3(500.f));
+
 			// 히트 이펙트 추가할 것
-			CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(5.f, 1000.f, 0.3f);
+			CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(5.f, 1000.f, 0.5f);
 
 			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
 

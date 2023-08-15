@@ -29,7 +29,7 @@ void CAttackSpeed::tick()
 
 void CAttackSpeed::Enter()
 {
-	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\BankUI_AttackSpeed.png"));
+	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_AttackSpeed.png", L"texture\\BankUI_AttackSpeed.png", 0));
 }
 
 void CAttackSpeed::Exit()

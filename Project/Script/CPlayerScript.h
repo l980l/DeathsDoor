@@ -16,6 +16,7 @@ private:
     UINT                 m_imoney;
     UINT                 m_iUpgrade[(UINT)PLAYER_UPGRADE::END];
     bool                 m_bEditorMode;
+
 public:
     virtual void begin() override;
     virtual void tick() override;
