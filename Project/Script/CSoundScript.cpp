@@ -22,7 +22,7 @@ void CSoundScript::begin()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\VolumeUI.png"));
+	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\VolumeUI.png", L"texture\\HUD\\VolumeUI.png",0));
 	
 	LEVEL_TYPE uLevelType = (LEVEL_TYPE)CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
 	switch (uLevelType)

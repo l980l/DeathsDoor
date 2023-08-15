@@ -61,6 +61,10 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
+	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+
 	// Main Camera Object 생성
 	CGameObject* pMainCam = new CGameObject;
 	pMainCam->SetName(L"MainCamera");
@@ -69,18 +73,16 @@ void CreateTestLevel()
 	pMainCam->AddComponent(new CCamera);
 	pMainCam->AddComponent(new CGameCameraScript);
 
-	//pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	//pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
-	//pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	//pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
+	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
 
-	//SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 0);
+	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::MAINCAMERA);
 
-	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
-	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+	
 
-	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
+	/*CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
 	NewLevel->SetName(L"CASTLE_FIELD");
 	NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 	tEvent evn = {};
@@ -90,7 +92,7 @@ void CreateTestLevel()
 	CEventMgr::GetInst()->AddEvent(evn);
 
 
-	return;
+	return;*/
 
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr;
