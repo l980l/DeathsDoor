@@ -16,6 +16,10 @@ void CCrowBossCutScene::Enter()
 	
 	m_fTime = 0.f;
 	m_bCameraShake = false;
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Scream.ogg", 1, 0.1f);
 }
 
 void CCrowBossCutScene::tick()
@@ -29,10 +33,6 @@ void CCrowBossCutScene::tick()
 	{
 		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.5f);
 		m_bCameraShake = true;
-
-		// Sound
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Scream.ogg", 1, 0.1f);
 	}
 
 

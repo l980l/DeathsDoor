@@ -13,6 +13,7 @@ CCrowBossScript::CCrowBossScript() :
 	, m_fPlayerDistance(0.f)
 	, m_bStarePlayer(false)
 	, m_fPrevHP(0.f)
+	, m_pCrowBossFeather(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_bDetect, "Detect");
 }
@@ -22,6 +23,7 @@ CCrowBossScript::CCrowBossScript(const CCrowBossScript& _Other) :
 	, m_fPlayerDistance(0.f)
 	, m_bStarePlayer(false)
 	, m_fPrevHP(0.f)
+	, m_pCrowBossFeather(nullptr)
 {
 }
 
@@ -68,12 +70,14 @@ void CCrowBossScript::begin()
 		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 150.f;
+		NewStat.Speed = 110.f;
 		m_pStateScript->SetStat(NewStat);
 
 		// ÀÌÀü HP
 		m_fPrevHP = NewStat.Max_HP;
 	}
+
+	m_pCrowBossFeather = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\CrowBossFeather.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos());
 }
 
 void CCrowBossScript::tick()
@@ -114,6 +118,8 @@ void CCrowBossScript::tick()
 
 		m_fPrevHP = fCurHP;
 	}
+
+	m_pCrowBossFeather->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
 }
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)

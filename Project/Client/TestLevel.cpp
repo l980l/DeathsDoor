@@ -482,7 +482,7 @@ void CreateTestLevel()
 	// Map
 	// ======================
 
-	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
+	/*CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
 	pObject = pMeshData->Instantiate();
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
@@ -494,19 +494,19 @@ void CreateTestLevel()
 	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);*/
 
-	//CGameObject* pFloor = new CGameObject;
-	//pFloor->AddComponent(new CTransform);
-	//pFloor->AddComponent(new CMeshRender);
-	//
-	//pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
-	//pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	//pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	//pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
-	//pFloor->GetRenderComponent()->SetFrustumCheck(false);
-	//pFloor->GetRenderComponent()->SetDynamicShadow(true);
-	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
+	CGameObject* pFloor = new CGameObject;
+	pFloor->AddComponent(new CTransform);
+	pFloor->AddComponent(new CMeshRender);
+	
+	pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
+	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
+	pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
 	// 충돌 시킬 레이어 짝 지정
