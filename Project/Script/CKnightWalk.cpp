@@ -3,6 +3,7 @@
 
 void CKnightWalk::tick()
 {
+
 }
 
 void CKnightWalk::Enter()

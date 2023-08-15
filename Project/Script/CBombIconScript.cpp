@@ -28,21 +28,28 @@ void CBombIconScript::begin()
 
 void CBombIconScript::tick()
 {
-	
-
-	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
-	UINT magicState = pScript->GetUseMagic();
-	if (magicState == (UINT)PLAYER_MAGIC::BOMB)
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 	{
-		Transform()->SetRelativePos(Vec3(-587.f, 265.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(116.f, 100.f, 0.f));
-
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\BombActive.png", L"texture\\HUD\\BombActive.png", 0));
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
 	}
 	else
 	{
-		Transform()->SetRelativePos(Vec3(-595.f, 265.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\BombDA.png", L"texture\\HUD\\BombDA.png", 0));
+		CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
+		UINT magicState = pScript->GetUseMagic();
+		if (magicState == (UINT)PLAYER_MAGIC::BOMB)
+		{
+			Transform()->SetRelativePos(Vec3(-587.f, 265.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(116.f, 100.f, 0.f));
+
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\BombActive.png", L"texture\\HUD\\BombActive.png",0));
+		}
+		else
+		{
+			Transform()->SetRelativePos(Vec3(-595.f, 265.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\BombDA.png", L"texture\\HUD\\BombDA.png",0));
+		}
 	}
+
+	
 }

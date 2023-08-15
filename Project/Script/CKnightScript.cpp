@@ -62,14 +62,14 @@ void CKnightScript::begin()
 	/*GetOwner()->Rigidbody()->SetMass(1.f);
 	GetOwner()->Rigidbody()->SetFriction(1.f);
 	GetOwner()->Rigidbody()->SetFrictionScale(1.f);*/
-	GetOwner()->Rigidbody()->SetVelocityLimit(100.f);
+	GetOwner()->Rigidbody()->SetVelocityLimit(150.f);
 
 	// 초기 스탯 설정.
-	m_stat.HP = 300;
-	m_stat.Max_HP = 300;
+	m_stat.HP = 1000;
+	m_stat.Max_HP = 1000;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
-	m_stat.Speed = 100;
+	m_stat.Speed = 150;
 	m_pStateScript->SetStat(m_stat);
 
 

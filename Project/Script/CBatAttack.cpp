@@ -25,7 +25,7 @@ void CBatAttack::tick()
 void CBatAttack::Enter()
 {
 	GetOwner()->Animator3D()->Play(2, false); 
-	CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\BatAttack.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	//CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\BatAttack.prefab", 3, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CBatAttack::Exit()

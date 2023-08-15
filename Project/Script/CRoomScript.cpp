@@ -14,6 +14,8 @@ CRoomScript::CRoomScript()
 	, m_vecWave{}
 	, m_bActive(false)
 	,m_bSpawn(false)
+	, m_bLastWave(false)
+	, m_bWaveStart(false)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNum");
 }
@@ -28,6 +30,8 @@ CRoomScript::CRoomScript(const CRoomScript& _Other)
 	, m_vecWave()
 	, m_bActive(false)
 	, m_bSpawn(false)
+	, m_bLastWave(false)
+	, m_bWaveStart(false)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNum");
 }
@@ -44,32 +48,43 @@ void CRoomScript::begin()
 {
 	vector<CGameObject*> vecMonster = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::MONSTER)->GetParentObject();
 	m_prevMonsterNum = vecMonster.size();
+	m_bWaveStart = false;
 }
 
 void CRoomScript::tick()
 {
-	if(m_bActive)
-	{
-		if(m_iRemainGimmik == 0 && m_iRemainMst == 0)
-			CSpawnMgr::GetInst()->SetFence(m_iRoomNum, true);
-	}
-	//현재 웨이브의 몬스토 수가 남은 수보다 
+	if (m_iMaxWaveNum == 0)
+		return;
+
 	vector<CGameObject*> vecMonster = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::MONSTER)->GetParentObject();
 	if (vecMonster.size() > m_prevMonsterNum)
 	{
-		m_bSpawn = true;
+		m_bSpawn = true;//이전 몬스터 수 보다 많아지면 true
 	}
-	if (m_iCurWaveNum == m_iMaxWaveNum - 1)
+	if (m_bSpawn)
 	{
-		SetLifeSpan(0.f);
+		m_bWaveStart = true;
 	}
-	if (vecMonster.size() == m_prevMonsterNum && m_bSpawn)
+	
+	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && vecMonster.size() == m_prevMonsterNum && m_bLastWave)
+	{
+		CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);//내린다
+		GetOwner()->SetLifeSpan(0.f);
+	}
+
+	if (vecMonster.size() == m_prevMonsterNum && m_bWaveStart && m_bLastWave == false)
 	{
 		++m_iCurWaveNum;
 		SpawnMst();
+		m_bWaveStart = false;
 		m_bSpawn = false;
 	}
-	
+	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && (vecMonster.size() > m_prevMonsterNum))
+	{
+		//마지막 웨이브가 스폰이 되었다
+		m_bLastWave = true;
+	}
+
 }
 
 void CRoomScript::SpawnMst()
@@ -78,7 +93,7 @@ void CRoomScript::SpawnMst()
 	CLevelSaveLoadInScript script;
 	for (size_t i = 0; i < m_vecWave[m_iCurWaveNum].size(); ++i)
 	{
-		CGameObject* pdoor = script.SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", 0, m_vecWave[m_iCurWaveNum][i].SpawnPos);
+		CGameObject* pdoor = script.SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", 8, m_vecWave[m_iCurWaveNum][i].SpawnPos);
 		pdoor->AddComponent(new CSpawnDoorScript);
 		pdoor->GetScript<CSpawnDoorScript>()->SetSpawnMst(m_vecWave[m_iCurWaveNum][i].PrefabName);
 		pdoor->GetScript<CSpawnDoorScript>()->SetDelay(1.f);
@@ -88,7 +103,6 @@ void CRoomScript::SpawnMst()
 		
 	}
 	m_iRemainMst = (int)m_vecWave[m_iCurWaveNum].size();
-	
 }
 
 void CRoomScript::SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo)

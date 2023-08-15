@@ -3,12 +3,15 @@
 #include "CKnightScript.h"
 #include "CPlayerScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 void CKnightDeath::tick()
 {
     // 애니메이션이 끝난 경우 사망 Paperburn 효과 주기.
     if (GetOwner()->Animator3D()->IsFinish())
     {
+        CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+        Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightDeath.ogg", 1, 0.2);
         GetOwner()->GetScript<CKnightScript>()->SetPaperBurnEffect(true);
         m_bStartPaperBurn = true;
     }
@@ -18,6 +21,7 @@ void CKnightDeath::tick()
 
     if (m_fPaperBurnTime > 3.f && GetOwner()->IsDead() == false)
     {
+        
         GetOwner()->GetScript<CKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
         CLevelSaveLoadInScript script;
         script.MoneyCount(600);

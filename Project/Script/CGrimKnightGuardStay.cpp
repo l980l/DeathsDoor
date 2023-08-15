@@ -8,6 +8,7 @@ void CGrimKnightGuardStay::tick()
 {
 	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	//5번 공격 받으면 Guard Break
+	int a = GetOwner()->GetScript<CGrimKnightScript>()->GetHitCount();
 	if (GetOwner()->GetScript<CGrimKnightScript>()->GetHitCount() >= 5)
 	{
 		ChangeState(L"GuardBreak");
@@ -50,8 +51,12 @@ float CGrimKnightGuardStay::GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 void CGrimKnightGuardStay::Enter()
 {
 	Stat grimStat = GetOwnerScript()->GetStat();
-	Stat playerStat = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
-	grimStat.HP += playerStat.Attack * 5;//플레이어 공격력의 5배를 주었다 (임시)
+	m_remainHP = grimStat.HP;
+	m_remainMaxHP = grimStat.Max_HP;
+	grimStat.HP += 9999;
+	grimStat.Max_HP += 9999;
+	GetOwnerScript()->SetStat(grimStat);
+	
 	GetOwnerScript()->SetStat(grimStat);
 	GetOwner()->Animator3D()->Play(12, true);
 
@@ -61,20 +66,10 @@ void CGrimKnightGuardStay::Enter()
 
 void CGrimKnightGuardStay::Exit()
 {
-}
-
-void CGrimKnightGuardStay::BeginOverlap(CCollider2D* _Other)
-{
-	
-
-}
-
-void CGrimKnightGuardStay::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightGuardStay::EndOverlap(CCollider2D* _Other)
-{
+	Stat grimStat = GetOwnerScript()->GetStat();
+	grimStat.HP = m_remainHP;
+	grimStat.Max_HP = m_remainMaxHP;
+	GetOwnerScript()->SetStat(grimStat);
 }
 
 CGrimKnightGuardStay::CGrimKnightGuardStay()

@@ -13,6 +13,8 @@ private:
     vector<SpawnInfo>   m_vecWave[2];   // 스폰 정보를 담은 Wave vector
     bool                m_bActive;      // 활성 여부
     bool                m_bSpawn;
+    bool                m_bLastWave;
+    bool                m_bWaveStart;
 
 public:
     virtual void begin() override;

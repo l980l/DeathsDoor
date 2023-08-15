@@ -31,7 +31,7 @@ void CPlyMagic_Fire::tick()
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		// 에너지가 부족하다면 Idle로 돌아가게 함.
-		if (2 > GetOwnerScript()->GetStat().Energy)
+		if (1 > GetOwnerScript()->GetStat().Energy)
 		{
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 		}

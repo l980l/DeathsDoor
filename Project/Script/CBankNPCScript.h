@@ -3,6 +3,8 @@
 class CBankNPCScript :
     public CScript
 {
+private:
+    CGameObject* talksign;
 public:
     virtual void begin() override;
     virtual void tick() override;

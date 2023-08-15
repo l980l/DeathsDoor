@@ -5,14 +5,12 @@ class CGrimKnightGuardStay :
 {
 private:
     int     m_hitCount;
+    int     m_remainHP;
+    int     m_remainMaxHP;
 public:
     virtual void tick() override;
     virtual void Enter() override;
     virtual void Exit() override;
-
-    virtual void BeginOverlap(CCollider2D* _Other);
-    virtual void OnOverlap(CCollider2D* _Other);
-    virtual void EndOverlap(CCollider2D* _Other);
 
 private:
     Vec3 vector_cross(Vec3 a, Vec3 b) {

@@ -29,11 +29,9 @@ void CArrowIconScript::begin()
 
 void CArrowIconScript::tick()
 {
-	if (KEY_TAP(KEY::F))
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 	{
-		CLevelSaveLoadInScript script;
-		script.MoneyCount(300);
-
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
 	}
 	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
 	UINT magicState = pScript->GetUseMagic();

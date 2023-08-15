@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CKnightJumpAttack2.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 void CKnightJumpAttack2::tick()
 {
@@ -17,6 +18,8 @@ void CKnightJumpAttack2::Enter()
 	GetOwner()->Animator3D()->Play(14, false);
 	CLevelSaveLoadInScript script;
 	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1);
 }
 
 void CKnightJumpAttack2::Exit()

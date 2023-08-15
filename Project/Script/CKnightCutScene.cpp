@@ -3,6 +3,13 @@
 
 void CKnightCutScene::tick()
 {
+	m_fTime += DT;
+	float fRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
+	if (!m_bCameraShake && fRatio >= 0.8f)
+	{
+		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.1f);
+		m_bCameraShake = true;
+	}
 }
 
 void CKnightCutScene::Enter()

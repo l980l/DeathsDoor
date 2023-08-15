@@ -52,6 +52,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 테스트 용 레벨 생성
     CreateTestLevel();
 
+    #ifdef _DEBUG
+#else
+    ShowCursor(false);
+#endif
+
     // 메세지 루프
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
     MSG msg;

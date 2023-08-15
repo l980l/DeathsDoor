@@ -28,21 +28,28 @@ void CHookIconScript::begin()
 
 void CHookIconScript::tick()
 {
-
-
-	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
-	UINT magicState = pScript->GetUseMagic();
-	if (magicState == (UINT)PLAYER_MAGIC::HOOK)
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 	{
-		Transform()->SetRelativePos(Vec3(-651.f, 199.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(100, 116.f, 0.f));
-
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HookActive.png", L"texture\\HUD\\HookActive.png", 0));
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
 	}
 	else
 	{
-		Transform()->SetRelativePos(Vec3(-651.f, 208.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HookDA.png", L"texture\\HUD\\HookDA.png", 0));
+		CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
+		UINT magicState = pScript->GetUseMagic();
+		if (magicState == (UINT)PLAYER_MAGIC::HOOK)
+		{
+			Transform()->SetRelativePos(Vec3(-651.f, 199.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(100, 116.f, 0.f));
+
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HookActive.png", L"texture\\HUD\\HookActive.png",0));
+		}
+		else
+		{
+			Transform()->SetRelativePos(Vec3(-651.f, 208.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\HookDA.png", L"texture\\HUD\\HookDA.png",0));
+		}
 	}
+
+	
 }

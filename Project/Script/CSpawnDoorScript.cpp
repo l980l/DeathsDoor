@@ -27,8 +27,8 @@ void CSpawnDoorScript::tick()
 	if (m_fDelay <= 0.f && m_bSpawn == false)
 	{
 		CLevelSaveLoadInScript script;
-		CGameObject* pMonster = script.SpawnandReturnPrefab(m_strSpawnMstName, (int)LAYER::MONSTER, Transform()->GetWorldPos());
-		pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos());
+		CGameObject* pMonster = script.SpawnandReturnPrefab(m_strSpawnMstName, (int)LAYER::MONSTER, GetOwner()->Transform()->GetWorldPos());
+		pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos()); //rigidbody global pos setup
 		SetLifeSpan(1.5f);
 		m_bSpawn = true;
 		

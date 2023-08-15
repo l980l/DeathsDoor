@@ -42,6 +42,7 @@
 #include <Script/CSoundScript.h>
 #include <Script/CLevelChangeDoorScript.h>
 #include <Script/CCursorScript.h>
+#include <Engine/CEventMgr.h>
 
 #include <Engine/CDetourMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -51,6 +52,26 @@
 
 void CreateTestLevel()
 {
+	// 충돌 시킬 레이어 짝 지정
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LEVELCHANGEDOOR));
+
+	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
+	//NewLevel->SetName(L"Hall");
+	//NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
+	//tEvent evn = {};
+	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	//evn.wParam = (DWORD_PTR)NewLevel;
+	//evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+	//CEventMgr::GetInst()->AddEvent(evn);
+	//
+	//return;
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -148,7 +169,7 @@ void CreateTestLevel()
 	PlayerStat.Max_Energy = 4;
 
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	CPhysXMgr::GetInst()->CreateSphere(Vec3(2500.f, 1200.f, 2500.f), 20.f, pPlayer);
+	CPhysXMgr::GetInst()->CreateSphere(Vec3(2400, 2000.f, 2400), 20.f, pPlayer);
 	SpawnGameObject(pPlayer, Vec3(0.f, 500.f, 0.f), (int)LAYER::PLAYER);
 
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
@@ -173,14 +194,14 @@ void CreateTestLevel()
 	pObject->SetName(L"ShortcutDoor");
 	pObject->AddComponent(new CCollider3D);
 	pObject->AddComponent(new CLevelChangeDoorScript);
-	
+
 	pObject->Transform()->SetRelativeScale(Vec3(120.f));
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pObject->Collider3D()->SetAbsolute(true);
 	pObject->Collider3D()->SetOffsetScale(Vec3(150.f));
 	pObject->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
-	
-	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::DEFAULT);
+
+	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::LEVELCHANGEDOOR);
 
 	//pObject = new CGameObject;
 	//pObject->SetName(L"MouseAim");
@@ -295,10 +316,11 @@ void CreateTestLevel()
 
 
 	pObject = new CGameObject;
+	pObject->SetName(L"Cursor");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCursorScript);
-	
+
 	pObject->Transform()->SetRelativeScale(Vec3(70.f));
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
@@ -309,39 +331,34 @@ void CreateTestLevel()
 	// Map
 	// ======================
 
-	/*CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
+	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
 	pObject = pMeshData->Instantiate();
 	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 
 	delete pObject;
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss.fbx");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Map");
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);*/
+	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 
-	CGameObject* pFloor = new CGameObject;
-	pFloor->AddComponent(new CTransform);
-	pFloor->AddComponent(new CMeshRender);
-	
-	pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
-	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
-	pFloor->GetRenderComponent()->SetFrustumCheck(false);
-	pFloor->GetRenderComponent()->SetDynamicShadow(true);
-	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
+	//CGameObject* pFloor = new CGameObject;
+	//pFloor->AddComponent(new CTransform);
+	//pFloor->AddComponent(new CMeshRender);
+	//
+	//pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
+	//pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	//pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	//pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
+	//pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	//pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
-	// 충돌 시킬 레이어 짝 지정
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::FALLAREA));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LADDER));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
-	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
+	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
+	
+
 }

@@ -20,9 +20,7 @@ void CBankerFrameScript::begin()
 		MeshRender()->GetDynamicMaterial(i);
 	}
 
-	GetOwner()->Transform()->SetRelativeScale(Vec3(1913.f, 982.f, 1.f));
-	Vec3 rot = (Vec3(0.f, -62.f, 0.f) / 180.f) * XM_PI;
-	GetOwner()->Transform()->SetRelativeRot(rot);
+	GetOwner()->Transform()->SetRelativeScale(Vec3(1682.f, 980.f, 1.f));
 
 	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
 }
