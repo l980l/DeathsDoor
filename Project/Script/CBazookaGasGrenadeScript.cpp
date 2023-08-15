@@ -14,7 +14,7 @@ void CBazookaGasGrenadeScript::begin()
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\PlagueBoyFire1.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyFire1.ogg", 1, 0.1f);
 }
 
 void CBazookaGasGrenadeScript::tick()
@@ -58,7 +58,7 @@ void CBazookaGasGrenadeScript::tick()
 
 				// Sound
 				CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-				Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\PlagueBoyExplosion1.ogg", 1, 0.1f);
+				Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyExplosion1.ogg", 1, 0.1f);
 			}
 		}
 

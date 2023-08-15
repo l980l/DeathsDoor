@@ -120,7 +120,8 @@ void CGruntScript::tick()
 	{
 		// Sound
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\Grunt_Backstep1.ogg", 1, 0.1f);
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_Backstep1.ogg", 1, 0.1f);
+		m_fPrevHP = fCurHP;
 	}
 }
 

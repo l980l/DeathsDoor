@@ -18,7 +18,7 @@ void CGruntJumpAttack::Enter()
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\Grunt_JumpAttack1.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_JumpAttack1.ogg", 1, 0.1f);
 }
 
 void CGruntJumpAttack::tick()

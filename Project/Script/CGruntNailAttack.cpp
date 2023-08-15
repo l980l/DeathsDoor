@@ -55,7 +55,7 @@ void CGruntNailAttack::Exit()
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\GruntMeleeAttack3.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grunt\\GruntMeleeAttack3.ogg", 1, 0.1f);
 }
 
 CGruntNailAttack::CGruntNailAttack() :

@@ -108,7 +108,8 @@ void CBazookaScript::tick()
 	{
 		// Sound
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\PlagueBoyStep.ogg", 1, 0.1f);
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyStep.ogg", 1, 0.1f);
+		m_fPrevHP = fCurHP;
 	}
 }
 

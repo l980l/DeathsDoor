@@ -101,6 +101,7 @@ void CLurkerScript::tick()
 		// Sound
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
 		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerTakeDamage1.ogg", 1, 0.1f);
+		m_fPrevHP = fCurHP;
 	}
 }
 

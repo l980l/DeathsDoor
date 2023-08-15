@@ -14,7 +14,7 @@ void CBazookaDeath::Enter()
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\PlagueBoyDeath.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyDeath.ogg", 1, 0.1f);
 }
 
 void CBazookaDeath::tick()

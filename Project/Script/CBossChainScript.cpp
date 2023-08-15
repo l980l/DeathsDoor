@@ -2,6 +2,7 @@
 #include "CBossChainScript.h"
 #include "CCrowBossSlidingReady.h"
 #include "CCrowBossSliding.h"
+#include "CSoundScript.h"
 
 CBossChainScript::CBossChainScript()
 	: CScript((UINT)SCRIPT_TYPE::BOSSCHAINSCRIPT)
@@ -17,6 +18,7 @@ CBossChainScript::CBossChainScript()
 	, m_fDelay(0.f)
 	, m_bActive(false)
 	, m_bMulti(false)
+	, m_bSound(false)
 {
 }
 
@@ -46,6 +48,13 @@ void CBossChainScript::tick()
 	{
 		m_fDelay -= DT;
 		return;
+	}
+
+	if (!m_bSound)
+	{
+		// Sound
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Chain1.ogg", 1, 0.1f);
 	}
 
 	Vec3 vCurPos = Transform()->GetRelativePos();
@@ -141,4 +150,5 @@ void CBossChainScript::Clear()
 	m_fThrowDistance = 0.f;
 	m_fDistancetoTarget = 0.f;
 	m_bActive = false;
+	m_bSound = false;
 }
