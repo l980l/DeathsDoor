@@ -28,6 +28,7 @@ CHPIconScript
 CHUDScript
 CKnightScript
 CLadderScript
+CLevelChangeDoorScript
 CLoadLevelThreadScript
 CLurkerScript
 CMagic_ArrowScript

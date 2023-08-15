@@ -283,6 +283,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CKnightSpinAttackCombo.h" />
     <ClInclude Include="CKnightWalk.h" />
     <ClInclude Include="CLadderScript.h" />
+    <ClInclude Include="CLevelChangeDoorScript.h" />
     <ClInclude Include="CLurkerAttack.h" />
     <ClInclude Include="CLurkerBackMove.h" />
     <ClInclude Include="CLurkerBackStep.h" />
@@ -466,6 +467,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CKnightSpinAttackCombo.cpp" />
     <ClCompile Include="CKnightWalk.cpp" />
     <ClCompile Include="CLadderScript.cpp" />
+    <ClCompile Include="CLevelChangeDoorScript.cpp" />
     <ClCompile Include="CLurkerAttack.cpp" />
     <ClCompile Include="CLurkerBackMove.cpp" />
     <ClCompile Include="CLurkerBackStep.cpp" />

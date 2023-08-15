@@ -29,5 +29,9 @@ void CSlashScript::BeginOverlap(CCollider3D* _Other)
 		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetWorldPos(), 0.2f);
 
 		CAMERASHAKE(3.f, 800.f, 0.1f);
+
+		Stat CurPlyStat = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
+		CurPlyStat.Energy += 1;
+		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->SetStat(CurPlyStat);
 	}
 }

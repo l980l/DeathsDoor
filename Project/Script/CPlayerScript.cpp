@@ -107,13 +107,13 @@ void CPlayerScript::OnOverlap(CCollider3D* _Other)
 		if (KEY_TAP(KEY::E))
 		{	
 			// 사다리가 바라보고 있는 방향, 위치로 플레이어를 고정시킴
-			Vec3 vLadderRot = _Other->GetOwner()->Transform()->GetXZDir();
+			Vec3 vLadderRot = _Other->GetOwner()->Transform()->GetRelativeRot();
 			GetOwner()->Transform()->SetRelativeRot(Vec3(XM_PI * 1.5f, vLadderRot.y, 0.f));
 			Vec3 vLadderPos = _Other->GetOwner()->Transform()->GetRelativePos();
 			GetOwner()->Rigidbody()->SetRigidPos(vLadderPos);
 
 			ChangeState(L"Ladder");
-			CPlyLadder* pLadderState =  (CPlyLadder*)GetOwner()->GetScript<CStateScript>()->FindState(L"Ladder");
+			CPlyLadder* pLadderState =  (CPlyLadder*)m_pStateScript->FindState(L"Ladder");
 			pLadderState->SetHeight(_Other->GetOwner()->GetScript<CLadderScript>()->GetHeight());
 		}
 	}
@@ -163,9 +163,10 @@ void CPlayerScript::ChangeMagicState()
 void CPlayerScript::FallCheck()
 {
 	if (m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Dead")
-		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit"))
+		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit")
+		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Ladder"))
 	{
-		if (abs((Transform()->GetRelativePos() - Transform()->GetPrevPos()).y) > 0.2f)
+		if ((Transform()->GetPrevPos().y - Transform()->GetRelativePos().y) > 100.f * DT)
 		{
 			m_fFallCheckTime += DT;
 			if (m_fFallCheckTime > 0.15f)

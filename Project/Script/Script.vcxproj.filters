@@ -106,6 +106,12 @@
     <Filter Include="Script\01. State\02. Player\00. Player\Attack">
       <UniqueIdentifier>{a7ecf320-a158-4176-be6f-7c8b0c28e292}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\Ladder">
+      <UniqueIdentifier>{3c618c1c-1673-4979-9a57-00d27b83ef4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\LevelChangeDoor">
+      <UniqueIdentifier>{58edbec2-57dc-4a55-a720-e7b6e2c2b8a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCameraMoveScript.h">
@@ -505,11 +511,14 @@
     <ClInclude Include="CCrowBossWalk.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
-    <ClInclude Include="CLadderScript.h">
-      <Filter>Script\02. Script\Interection_Obj</Filter>
-    </ClInclude>
     <ClInclude Include="CGhostHit.h" />
     <ClInclude Include="CSoundScript.h" />
+    <ClInclude Include="CLadderScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelChangeDoorScript.h">
+      <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -888,11 +897,14 @@
     <ClCompile Include="CCrowBossWalk.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
-    <ClCompile Include="CLadderScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj</Filter>
-    </ClCompile>
     <ClCompile Include="CGhostHit.cpp" />
     <ClCompile Include="CSoundScript.cpp" />
+    <ClCompile Include="CLadderScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelChangeDoorScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Script">
