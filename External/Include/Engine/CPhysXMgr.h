@@ -5,20 +5,37 @@
 #include "CGameObject.h"
 
 // PhysX Library
-#pragma comment(lib, "PhysX//PhysX_64")
-#pragma comment(lib, "PhysX//PhysXCommon_64")
-#pragma comment(lib, "PhysX//PhysXFoundation_64")
+#ifdef _DEBUG
+#pragma comment(lib, "PhysX//debug//PhysX_64")
+#pragma comment(lib, "PhysX//debug//PhysXCommon_64")
+#pragma comment(lib, "PhysX//debug//PhysXFoundation_64")
 
-#pragma comment(lib, "PhysX//LowLevel_static_64")
-#pragma comment(lib, "PhysX//LowLevelAABB_static_64")
-#pragma comment(lib, "PhysX//LowLevelDynamics_static_64")
-#pragma comment(lib, "PhysX//PhysXCharacterKinematic_static_64")
-#pragma comment(lib, "PhysX//PhysXCooking_64")
-#pragma comment(lib, "PhysX//PhysXExtensions_static_64")
-#pragma comment(lib, "PhysX//PhysXPvdSDK_static_64")
-#pragma comment(lib, "PhysX//PhysXTask_static_64")
-#pragma comment(lib, "PhysX//PhysXVehicle_static_64")
-#pragma comment(lib, "PhysX//SceneQuery_static_64")
+#pragma comment(lib, "PhysX//debug//LowLevel_static_64")
+#pragma comment(lib, "PhysX//debug//LowLevelAABB_static_64")
+#pragma comment(lib, "PhysX//debug//LowLevelDynamics_static_64")
+#pragma comment(lib, "PhysX//debug//PhysXCharacterKinematic_static_64")
+#pragma comment(lib, "PhysX//debug//PhysXCooking_64")
+#pragma comment(lib, "PhysX//debug//PhysXExtensions_static_64")
+#pragma comment(lib, "PhysX//debug//PhysXPvdSDK_static_64")
+#pragma comment(lib, "PhysX//debug//PhysXTask_static_64")
+#pragma comment(lib, "PhysX//debug//PhysXVehicle_static_64")
+#pragma comment(lib, "PhysX//debug//SceneQuery_static_64")
+#else 
+#pragma comment(lib, "PhysX//release//PhysX_64")
+#pragma comment(lib, "PhysX//release//PhysXCommon_64")
+#pragma comment(lib, "PhysX//release//PhysXFoundation_64")
+
+#pragma comment(lib, "PhysX//release//LowLevel_static_64")
+#pragma comment(lib, "PhysX//release//LowLevelAABB_static_64")
+#pragma comment(lib, "PhysX//release//LowLevelDynamics_static_64")
+#pragma comment(lib, "PhysX//release//PhysXCharacterKinematic_static_64")
+#pragma comment(lib, "PhysX//release//PhysXCooking_64")
+#pragma comment(lib, "PhysX//release//PhysXExtensions_static_64")
+#pragma comment(lib, "PhysX//release//PhysXPvdSDK_static_64")
+#pragma comment(lib, "PhysX//release//PhysXTask_static_64")
+#pragma comment(lib, "PhysX//release//PhysXVehicle_static_64")
+#pragma comment(lib, "PhysX//release//SceneQuery_static_64")
+#endif
 
 using namespace physx;
 

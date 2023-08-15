@@ -20,7 +20,6 @@ CLevelMgr::~CLevelMgr()
 void CLevelMgr::init()
 {
 	m_pCurLevel = new CLevel;
-	m_pCurLevel->m_iLevel_type = (int)LEVEL_TYPE::CASTLE_FIELD;
 	m_pCurLevel->ChangeState(LEVEL_STATE::STOP);
 	
 }
@@ -31,7 +30,7 @@ void CLevelMgr::tick()
 
 	if (LEVEL_STATE::PLAY == m_pCurLevel->GetState())
 	{
-		m_pCurLevel->tick();		
+		m_pCurLevel->tick();
 	}
 
 	m_pCurLevel->finaltick();

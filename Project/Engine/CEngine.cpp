@@ -68,9 +68,10 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 	CLevelMgr::GetInst()->init();
 
+	CPhysXMgr::GetInst()->init();
+
 	CDetourMgr::GetInst()->init();
 
-	CPhysXMgr::GetInst()->init();
 	
 
 

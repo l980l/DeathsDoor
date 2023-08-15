@@ -26,6 +26,9 @@ void CPlyRun::Enter()
 
 void CPlyRun::tick()
 {
+	if (KEY_TAP(KEY::V))
+		m_bIce = m_bIce ? false : true;
+
 	Move();
 
 	// 가만히 있다면(이전 프레임과 위치 차이가 없다면) Idle 전환시간 +
@@ -51,7 +54,6 @@ void CPlyRun::tick()
 	else if (m_fTimeToIdle >= 0.02f)
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Walk");
-		GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	}
 	else if (KEY_TAP(KEY::SPACE))
 	{
@@ -63,7 +65,8 @@ void CPlyRun::Exit()
 {
 	m_fTimeToIdle = 0.f;
 	m_fStepSoundDelay = 0.f;
-	GetOwner()->Rigidbody()->ClearForce();
+	if(!m_bIce)
+		GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyRun::Move()
@@ -94,13 +97,13 @@ void CPlyRun::Move()
 	Velocity *= m_fSpeed;
 
 	if (m_bIce)
-		GetOwner()->Rigidbody()->AddForce(Velocity * DT);
+		GetOwner()->Rigidbody()->AddForce(Velocity * DT * 15.f);
 	else
 		GetOwner()->Rigidbody()->SetVelocity(Velocity);
 
 	m_fStepSoundDelay += DT;
 
-	if (m_fStepSoundDelay > 0.3f)
+	if (m_fStepSoundDelay > 0.15f)
 	{
 		wstring wstrSoundFilePath;
 		if (m_bStepSoundOrder)
@@ -108,7 +111,8 @@ void CPlyRun::Move()
 		else
 			wstrSoundFilePath = L"Sound\\Player\\GrassFootStepR.mp3";
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.1f);
+		Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1,1.f);
+		m_fStepSoundDelay = 0.f;
 	}
 }
 

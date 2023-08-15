@@ -10,6 +10,7 @@ CLadderScript::CLadderScript()
 {
 	//if (nullptr == m_pInterectionImage)
 	//	m_pInterectionImage = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\LadderImage.prefab", (int)LAYER::DEFAULT, Vec3(0.f));
+	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fHeight, "Height");
 }
 
 CLadderScript::~CLadderScript()
@@ -38,4 +39,14 @@ void CLadderScript::EndOverlap(CCollider3D* _Other)
 	//{
 	//	m_pInterectionImage->Transform()->SetRelativeScale(Vec3(0.f));
 	//}
+}
+
+void CLadderScript::SaveToLevelFile(FILE* _FILE)
+{
+	fwrite(&m_fHeight, sizeof(float), 1, _FILE);
+}
+
+void CLadderScript::LoadFromLevelFile(FILE* _FILE)
+{
+	fread(&m_fHeight, sizeof(float), 1, _FILE);
 }

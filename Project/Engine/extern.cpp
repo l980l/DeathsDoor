@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "global.h"
+#include "struct.h"
 
-tTransform g_transform = {};
-tGlobal GlobalData = {};
-
-
+tTransform	g_transform = {};
+tGlobal		GlobalData = {};
+Stat		g_tPlayerStat = {};
+LEVEL_TYPE	g_tNextLevel;
 
 extern const char* RES_TYPE_STR[(UINT)RES_TYPE::END] =
 {

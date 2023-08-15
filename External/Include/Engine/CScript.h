@@ -11,17 +11,6 @@
 
 #include "CGameObject.h"
 #include "components.h"
-struct Stat
-{
-    int     Max_HP;
-    int     HP;
-    int     Max_Energy;
-    int     Energy;
-    float   Speed;
-    int     Attack;
-    float   Attack_Speed;
-    int     Spell_Power;
-};
 
 enum class SCRIPT_PARAM
 {

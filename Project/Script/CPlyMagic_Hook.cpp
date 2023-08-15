@@ -50,7 +50,7 @@ void CPlyMagic_Hook::Enter()
 	m_pHook->GetScript<CMagic_HookScript>()->SetHookingScript(pHookingState);
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCharge.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotCharge.ogg", 1, 1.f);
 }
 
 void CPlyMagic_Hook::tick()
@@ -87,7 +87,7 @@ void CPlyMagic_Hook::tick()
 			m_pHook->Transform()->SetRelativeRot(m_vAttackDir);
 
 			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotFire.ogg", 1, 0.1f);
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\HookShotFire.ogg", 1, 1.f);
 		}
 	}
 }

@@ -3,6 +3,7 @@
 #include "CStateScript.h"
 #include "CMonsterScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include <Engine/CRenderMgr.h>
 
 CSlashScript::CSlashScript()
 	: CScript((UINT)SCRIPT_TYPE::SLASHSCRIPT)
@@ -25,7 +26,12 @@ void CSlashScript::BeginOverlap(CCollider3D* _Other)
 		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(CurStat);
 		_Other->GetOwner()->GetScript<CMonsterScript>()->SetLastHitTime();
 
-		Vec3 Dir = GetOwner()->Transform()->GetXZDir();
 		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetWorldPos(), 0.2f);
+
+		CAMERASHAKE(3.f, 800.f, 0.1f);
+
+		Stat CurPlyStat = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
+		CurPlyStat.Energy += 1;
+		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->SetStat(CurPlyStat);
 	}
 }

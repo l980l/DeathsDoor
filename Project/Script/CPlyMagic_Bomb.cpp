@@ -22,7 +22,7 @@ void CPlyMagic_Bomb::Enter()
 	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_BOMB, false);
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombCharge.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombCharge.ogg", 1, 1.f);
 }
 
 void CPlyMagic_Bomb::tick()
@@ -68,10 +68,10 @@ void CPlyMagic_Bomb::tick()
 			m_pBomb->GetScript<CMagic_BombScript>()->SetDamege(fDamage);
 			m_pBomb->GetScript<CMagic_BombScript>()->SetDir(vDir);
 			m_pBomb->GetScript<CMagic_BombScript>()->SetThrow();
-			m_pBomb->SetLifeSpan(3.f);
+			m_pBomb->SetLifeSpan(2.f);
 
 			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombFire.ogg", 1, 0.1f);
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\BombFire.ogg", 1, 1.f);
 		}
 		 else
 		{
