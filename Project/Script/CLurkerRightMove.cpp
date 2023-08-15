@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "CLurkerRightMove.h"
 #include "CLurkerScript.h"
+#include "CSoundScript.h"
 
 void CLurkerRightMove::Enter()
 {
 	GetOwner()->Animator3D()->Play(8, true);
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerStep4.ogg", 1, 0.1f);
 }
 
 void CLurkerRightMove::tick()

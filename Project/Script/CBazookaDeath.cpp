@@ -2,6 +2,7 @@
 #include "CBazookaDeath.h"
 #include "CBazookaScript.h"
 #include "CPlayerScript.h"
+#include "CSoundScript.h"
 
 void CBazookaDeath::Enter()
 {
@@ -10,6 +11,10 @@ void CBazookaDeath::Enter()
 	// 몬스터 사망시 현재까지 흐른 시간을 저장.
 	m_bStartPaperBurn = true;
 	GetOwner()->Animator3D()->SetStop(true);
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\PlagueBoyDeath.ogg", 1, 0.1f);
 }
 
 void CBazookaDeath::tick()

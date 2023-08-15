@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CLurkerNotify.h"
 #include "CLurkerScript.h"
+#include "CSoundScript.h"
 
 void CLurkerNotify::Enter()
 {
@@ -67,7 +68,9 @@ void CLurkerNotify::tick()
 		if (GetOwner()->Animator3D()->IsFinish())
 			m_bNotifyAnimEnd = true;
 
-		// 애니메이션 재생 시간 동안 플레이어를 바라보도록 회전해야 함.
+		// Sound
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerDodge1.ogg", 1, 0.1f);
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "CBazookaScript.h"
 #include "CStateScript.h"
 #include "BazookaStates.h"
+#include "CSoundScript.h"
 
 #include <Engine/CDetourMgr.h>
 
@@ -12,6 +13,7 @@ CBazookaScript::CBazookaScript() :
 	, m_fRunAwayRange(600.f)
 	, m_fAttackRange(1000.f)
 	, m_bStarePlayer(false)
+	, m_fPrevHP(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMeleeRange, "MeleeRange");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRunAwayRange, "RunAwayRange");
@@ -25,6 +27,7 @@ CBazookaScript::CBazookaScript(const CBazookaScript& _Other)
 	, m_fRunAwayRange(_Other.m_fRunAwayRange)
 	, m_fAttackRange(_Other.m_fAttackRange)
 	, m_bStarePlayer(false)
+	, m_fPrevHP(0.f)
 {
 }
 
@@ -60,11 +63,14 @@ void CBazookaScript::begin()
 		// 초기 스탯 설정.
 		Stat NewStat;
 		NewStat.Max_HP = 300;
-		NewStat.HP = 300;
+		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
 		NewStat.Speed = 100.f;
 		m_pStateScript->SetStat(NewStat);
+
+		// 이전 HP
+		m_fPrevHP = NewStat.Max_HP;
 	}
 }
 
@@ -93,6 +99,16 @@ void CBazookaScript::tick()
 		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
 		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
 		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+	}
+
+	float fCurHP = m_pStateScript->GetStat().HP;
+
+	// 체력이 줄었다면.
+	if (m_fPrevHP < fCurHP)
+	{
+		// Sound
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\PlagueBoyStep.ogg", 1, 0.1f);
 	}
 }
 

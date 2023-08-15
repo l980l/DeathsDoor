@@ -49,10 +49,10 @@ void CSoundScript::BeginOverlap(CCollider3D* _Other)
 {
 }
 
-Ptr<CSound> CSoundScript::AddSound(wstring _filename, int _repeat, float _volume)
+Ptr<CSound> CSoundScript::AddSound(wstring _filename, int _repeat, float _volume, bool _bOverlap)
 {
 	m_pSound = CResMgr::GetInst()->FindRes<CSound>(_filename);
-	m_pSound->Play(_repeat, _volume);
+	m_pSound->Play(_repeat, _volume, -1, _bOverlap);
 	return m_pSound;
 }
 
