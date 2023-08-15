@@ -31,7 +31,14 @@ void CEnergyIconScript::begin()
 
 void CEnergyIconScript::tick()
 {
-
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
+	{
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
+	}
+	else
+	{
+		Transform()->SetRelativePos(Vec3(-465.f, 319.f, 0.f));
+	}
 
 	Stat playerStatus = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
 	int energy = playerStatus.Energy;

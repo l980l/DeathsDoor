@@ -234,7 +234,7 @@ enum class EVENT_TYPE
 
 	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress
 
-	LEVEL_CHANGE,	
+	LEVEL_CHANGE,	// wParam : Level, LParam : LEVEL_TYPE
 };
 
 

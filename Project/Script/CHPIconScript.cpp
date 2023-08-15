@@ -47,7 +47,14 @@ void CHPIconScript::begin()
 
 void CHPIconScript::tick()
 {
-
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
+	{
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
+	}
+	else
+	{
+		Transform()->SetRelativePos(Vec3(-444.f, 367.f, 0.f));
+	}
 
 	Stat playerStatus = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
 	int hp = playerStatus.HP;

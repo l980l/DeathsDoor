@@ -56,6 +56,6 @@ void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 	}
 	
 	m_pCurLevel = _NextLevel;
-	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
-	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+	CPhysXMgr::GetInst()->ChangeLevel(((LEVEL_TYPE)m_pCurLevel->GetLevelType()));
+	CDetourMgr::GetInst()->ChangeLevel(((LEVEL_TYPE)m_pCurLevel->GetLevelType()));
 }

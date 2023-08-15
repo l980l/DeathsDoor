@@ -29,25 +29,27 @@ void CArrowIconScript::begin()
 
 void CArrowIconScript::tick()
 {
-	if (KEY_TAP(KEY::F))
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 	{
-		CLevelSaveLoadInScript script;
-		script.MoneyCount(300);
-
-	}
-	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
-	UINT magicState = pScript->GetUseMagic();
-	if (magicState == (UINT)PLAYER_MAGIC::ARROW)
-	{
-		Transform()->SetRelativePos(Vec3(-652.f, 331.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(100.f, 116.f, 0.f));
-		
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\ArrowActive.png"));
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
 	}
 	else
 	{
-		Transform()->SetRelativePos(Vec3(-652.f, 323.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\ArrowDA.png"));
+		CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
+		UINT magicState = pScript->GetUseMagic();
+		if (magicState == (UINT)PLAYER_MAGIC::ARROW)
+		{
+			Transform()->SetRelativePos(Vec3(-652.f, 331.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(100.f, 116.f, 0.f));
+
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\ArrowActive.png"));
+		}
+		else
+		{
+			Transform()->SetRelativePos(Vec3(-652.f, 323.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\ArrowDA.png"));
+		}
 	}
+
 }

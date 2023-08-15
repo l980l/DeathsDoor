@@ -29,21 +29,28 @@ void CFireIconScript::begin()
 
 void CFireIconScript::tick()
 {
-
-
-	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
-	UINT magicState = pScript->GetUseMagic();
-	if (magicState == (UINT)PLAYER_MAGIC::FIRE)
+	if (CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 	{
-		Transform()->SetRelativePos(Vec3(-717.f, 265.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(116, 100.f, 0.f));
-
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\FireActive.png"));
+		Transform()->SetRelativePos(Vec3(-1000.f, 0.f, 0.f));
 	}
 	else
 	{
-		Transform()->SetRelativePos(Vec3(-709.f, 265.f, 0.f));
-		Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
-		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\FireDA.png"));
+		CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
+		UINT magicState = pScript->GetUseMagic();
+		if (magicState == (UINT)PLAYER_MAGIC::FIRE)
+		{
+			Transform()->SetRelativePos(Vec3(-717.f, 265.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(116, 100.f, 0.f));
+
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\FireActive.png"));
+		}
+		else
+		{
+			Transform()->SetRelativePos(Vec3(-709.f, 265.f, 0.f));
+			Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\FireDA.png"));
+		}
 	}
+
+	
 }

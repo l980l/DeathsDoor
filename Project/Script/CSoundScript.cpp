@@ -22,8 +22,35 @@ void CSoundScript::begin()
 		MeshRender()->GetDynamicMaterial(i);
 	}
 	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\HUD\\VolumeUI.png"));
-	//pSound = CResMgr::GetInst()->FindRes<CSound>(L"Sound\\BGM\\DeathsDoorPiano.mp3");
-	//idx = pSound->PlayBGM(0, 0.5f);
+	
+	LEVEL_TYPE uLevelType = (LEVEL_TYPE)CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
+	switch (uLevelType)
+	{
+	case LEVEL_TYPE::CASTLE_FIELD:
+		AddSound(L"Sound\\BGM\\Stage1_Castle\\Graveyard.mp3", 0, 0.1);
+		break;
+	case LEVEL_TYPE::CASTLE_BOSS:
+		AddSound(L"Sound\\BGM\\Stage1_Castle\\CastleBoss.mp3", 0, 0.1);
+		break;
+	case LEVEL_TYPE::FOREST_FIELD:
+		AddSound(L"Sound\\BGM\\Stage2_Frog\\SwampField.mp3", 0, 0.1);
+		break;
+	case LEVEL_TYPE::ICE_FIELD:
+		AddSound(L"Sound\\BGM\\Stage3_Frozen\\Frozen.mp3", 0, 0.1);
+		break;
+	case LEVEL_TYPE::ICE_BOSS:
+		AddSound(L"Sound\\BGM\\Stage3_Frozen\\CrowBossMap.mp3", 0, 0.1);
+		break;
+	case LEVEL_TYPE::HALL:
+		AddSound(L"Sound\\BGM\\HallofDoors\\HallOfDoors.mp3", 0, 0.1);
+		break;
+	case LEVEL_TYPE::LOADING:
+		break;
+	case LEVEL_TYPE::END:
+		break;
+	default:
+		break;
+	}
 	
 }
 

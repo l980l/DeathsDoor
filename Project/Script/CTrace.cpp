@@ -70,7 +70,12 @@ void CTrace::tick()
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
 		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1);
 	}
-	
+	else if (GetOwner()->GetName() == L"Knight")
+	{
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\PoshKnightPreStep1.ogg",1, 0.2);
+	}
+
 }
 
 void CTrace::Enter()

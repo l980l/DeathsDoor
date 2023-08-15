@@ -30,28 +30,35 @@ void CBankNPCScript::BeginOverlap(CCollider3D* _Other)
 	CLevelSaveLoadInScript script;
 	if (!CLevelMgr::GetInst()->FindObjectByName(L"Talk"))
 	{
-		CGameObject* BankUIFrame = script.SpawnandReturnPrefab(L"prefab\\Talk.prefab", 0, Vec3(1151.f, 1000.f, 3830.f));
-		BankUIFrame->Transform()->SetRelativeScale(81.f, 38.f, 1.f);
-		Vec3 rot = (Vec3(45.f, -59.f, 0.f) / 180.f) * XM_PI;
-		BankUIFrame->Transform()->SetRelativeRot(rot);
+		talksign = script.SpawnandReturnPrefab(L"prefab\\Talk.prefab", 31, Vec3(0.f, 0.f, 0.f));
+		talksign->Transform()->SetRelativeScale(81.f, 38.f, 1.f);
+		int mtrlCount = talksign->MeshRender()->GetMtrlCount();
+		for (int i = 0; i < mtrlCount; ++i)
+		{
+			talksign->MeshRender()->GetDynamicMaterial(i);
+		}
 	}
 }
 
 void CBankNPCScript::OnOverlap(CCollider3D* _Other)
 {
+	CLevelSaveLoadInScript script;
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
+		
 		if (KEY_TAP(KEY::E)&& LEVEL_STATE::PLAY == CLevelMgr::GetInst()->GetCurLevel()->GetState())
 		{
+			talksign->SetLifeSpan(0.f);
+
 			//상점 Frame & Upgrade 스텟 spawn
-			CLevelSaveLoadInScript script;
+			
 			if (!CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 			{
-				CGameObject* BankUIFrame = script.SpawnandReturnPrefab(L"prefab\\BankUIFrame.prefab", 0, Vec3(1367.f, 1365.f, 3698.f));
+				CGameObject* BankUIFrame = script.SpawnandReturnPrefab(L"prefab\\BankUIFrame.prefab", 31, Vec3(0.f,0.f,100.f));
 			}
 			if (!CLevelMgr::GetInst()->FindObjectByName(L"BankUIUpgrade"))
 			{
-				CGameObject* BankUIUpgrade = script.SpawnandReturnPrefab(L"prefab\\BankUIUpgrade.prefab", 0, Vec3(1367.f, 1365.f, 3696.f));
+				CGameObject* BankUIUpgrade = script.SpawnandReturnPrefab(L"prefab\\BankUIUpgrade.prefab", 31, Vec3(0.f, 0.f, 0.f));
 			}
 
 			//Main Cam 각도 변경
@@ -60,19 +67,19 @@ void CBankNPCScript::OnOverlap(CCollider3D* _Other)
 			Vec3 rot = (Vec3(8.f, -62.f, 0.f) / 180.f) * XM_PI;
 			mainCam->Transform()->SetRelativeRot(rot);
 		}
-		/*if (KEY_TAP(KEY::ESC))
+		if (KEY_TAP(KEY::ESC))
 		{
 			CGameObject* UIFrame = CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame");
 			UIFrame->SetLifeSpan(0.f);
 			CGameObject* UIUpgrade = CLevelMgr::GetInst()->FindObjectByName(L"BankUIUpgrade");
 			UIUpgrade->SetLifeSpan(0.f);
-		}*/
+		}
 	}
 
 }
 
 void CBankNPCScript::EndOverlap(CCollider3D* _Other)
 {
-	CGameObject* Message = CLevelMgr::GetInst()->FindObjectByName(L"Talk");
-	Message->SetLifeSpan(0.f);
+	//CGameObject* Message = CLevelMgr::GetInst()->FindObjectByName(L"Talk");
+	//Message->SetLifeSpan(0.f);
 }

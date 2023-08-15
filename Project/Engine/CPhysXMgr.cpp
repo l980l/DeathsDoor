@@ -253,7 +253,6 @@ physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeSc
     const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
 
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
-    m_vecDynamicObject.push_back(_Object);
     physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
     m_Scene->addActor(*Static);
     Static->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
@@ -285,7 +284,7 @@ void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
         }
     }
     // 아무것도 삭제하지 못했다면 assert
-    assert(nullptr);
+   // assert(nullptr);
 }
 
 void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
@@ -381,19 +380,23 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
     switch (_tType)
     {
     case LEVEL_TYPE::CASTLE_FIELD:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"Castle_Simple");
+        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Simple.fbx");
         break;
     case LEVEL_TYPE::CASTLE_BOSS:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"Castle_Boss_SIMPLE");
+        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss_Simple.fbx");
         break;
     case LEVEL_TYPE::FOREST_FIELD:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Forest_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"Forest_Simple");
         break;
     case LEVEL_TYPE::ICE_FIELD:
-        CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"Ice_Simple");
+        //CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
     case LEVEL_TYPE::HALL:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"Hall_SIMPLE");
+        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall_Simple.fbx");
         break;
     }
 
