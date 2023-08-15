@@ -136,7 +136,7 @@ void CreateTestLevel()
 	PlayerStat.Speed = 150.f;
 	PlayerStat.Spell_Power = 40.f;
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	Vec3 playerpos = Vec3(1700.f, 900.f, 1500.f);
+	Vec3 playerpos = Vec3(0.f, 0.f, 0.f);
 	CPhysXMgr::GetInst()->CreateSphere(playerpos, 20.f, pPlayer);
 	SpawnGameObject(pPlayer, playerpos, (int)LAYER::PLAYER);
 
@@ -270,14 +270,14 @@ void CreateTestLevel()
 	CGameObject* pFloor = new CGameObject;
 	pFloor->AddComponent(new CTransform);
 	pFloor->AddComponent(new CMeshRender);
-
+	pFloor->SetName(L"Floor");
 	pFloor->Transform()->SetRelativeScale(50000.f, 10.f, 50000.f);
 	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
 	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
 	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
 	pFloor->GetRenderComponent()->SetFrustumCheck(false);
 	pFloor->GetRenderComponent()->SetDynamicShadow(true);
-	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
+	SpawnGameObject(pFloor, Vec3(0.f,0.f,0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
 
