@@ -23,7 +23,7 @@ void CAttackSpeed::tick()
 
 	if (KEY_TAP(KEY::ENTER))
 	{
-		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::Dexterity);
 	}
 }
 

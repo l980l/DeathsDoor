@@ -62,9 +62,9 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LEVELCHANGEDOOR));
 
-	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
-	//NewLevel->SetName(L"Hall");
-	//NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
+	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\CastleBoss.lv", LEVEL_STATE::STOP);
+	//NewLevel->SetName(L"CastleBoss");
+	//NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_BOSS);
 	//tEvent evn = {};
 	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	//evn.wParam = (DWORD_PTR)NewLevel;
@@ -189,19 +189,6 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ShortcutDoor.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"ShortcutDoor");
-	pObject->AddComponent(new CCollider3D);
-	pObject->AddComponent(new CLevelChangeDoorScript);
-
-	pObject->Transform()->SetRelativeScale(Vec3(120.f));
-	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pObject->Collider3D()->SetAbsolute(true);
-	pObject->Collider3D()->SetOffsetScale(Vec3(150.f));
-	pObject->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
-
-	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::LEVELCHANGEDOOR);
 
 	//pObject = new CGameObject;
 	//pObject->SetName(L"MouseAim");
@@ -246,6 +233,10 @@ void CreateTestLevel()
 	pObject->GetScript<CLadderScript>()->SetHeight(500.f);
 
 	SpawnGameObject(pObject, Vec3(2000.f, 550.f, 3000.f), (int)LAYER::LADDER);
+
+	//==========================
+	// UI
+	//==========================
 
 	CGameObject* pArrowIcon = new CGameObject;
 	pArrowIcon->SetName(L"ArrowIcon");
@@ -327,35 +318,50 @@ void CreateTestLevel()
 
 	SpawnGameObject(pObject, Vec3(0.f), (int)LAYER::UI);
 
+
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ShortcutDoor.fbx");
+	CGameObject* pShortcutDoor = pMeshData->Instantiate();
+	pShortcutDoor->SetName(L"ShortcutDoor");
+	pShortcutDoor->AddComponent(new CCollider3D);
+	pShortcutDoor->AddComponent(new CLevelChangeDoorScript);
+	
+	pShortcutDoor->Transform()->SetRelativeScale(Vec3(120.f));
+	pShortcutDoor->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pShortcutDoor->Collider3D()->SetAbsolute(true);
+	pShortcutDoor->Collider3D()->SetOffsetScale(Vec3(150.f));
+	pShortcutDoor->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+	
+	SpawnGameObject(pShortcutDoor, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::LEVELCHANGEDOOR);
+
 	// ======================
 	// Map
 	// ======================
 
-	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
-	pObject = pMeshData->Instantiate();
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
-
-	delete pObject;
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Map");
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
-
-	//CGameObject* pFloor = new CGameObject;
-	//pFloor->AddComponent(new CTransform);
-	//pFloor->AddComponent(new CMeshRender);
+	//CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
+	//pObject = pMeshData->Instantiate();
+	//CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);
 	//
-	//pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
-	//pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	//pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	//pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
-	//pFloor->GetRenderComponent()->SetFrustumCheck(false);
-	//pFloor->GetRenderComponent()->SetDynamicShadow(true);
-	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
+	//delete pObject;
+	//
+	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
+	//pObject = pMeshData->Instantiate();
+	//pObject->SetName(L"Map");
+	//pObject->MeshRender()->SetDynamicShadow(true);
+	//pObject->MeshRender()->SetFrustumCheck(false);
+	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+
+	CGameObject* pFloor = new CGameObject;
+	pFloor->AddComponent(new CTransform);
+	pFloor->AddComponent(new CMeshRender);
+	
+	pFloor->Transform()->SetRelativeScale(50000.f, 10.f , 50000.f);
+	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"textur\CrowBossMapFloor.png"));
+	pFloor->GetRenderComponent()->SetFrustumCheck(false);
+	pFloor->GetRenderComponent()->SetDynamicShadow(true);
+	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
 	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));

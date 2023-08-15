@@ -24,6 +24,11 @@ CBossChainScript::CBossChainScript()
 
 CBossChainScript::~CBossChainScript()
 {
+	for (size_t i = 0; i < m_vecChain.size(); ++i)
+	{
+		if (nullptr != m_vecChain[i])
+			m_vecChain[i]->SetLifeSpan(0.f);
+	}
 }
 
 void CBossChainScript::begin()
@@ -99,7 +104,7 @@ void CBossChainScript::Active(bool _bActive, bool _bMulti, float _fDelay = 0)
 		for (size_t i = 0; i < m_vecChain.size(); ++i)
 		{
 			m_vecChain[i]->Transform()->SetRelativePos(m_vThrowStartPos + (m_vThrownDir * m_fChainSpacing * i));
-			m_vecChain[i]->Transform()->SetRelativeRot(Vec3((Vec3(XM_PI / 2.f + m_vThrownRot.x, XM_PI / 2.f + m_vThrownRot.y, m_vThrownRot.z), 0.f)));
+			m_vecChain[i]->Transform()->SetRelativeRot(Vec3(m_vThrownRot.x, XM_PI / 2.f + m_vThrownRot.y, m_vThrownRot.z));
 		}
 	}
 	else

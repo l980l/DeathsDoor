@@ -40,7 +40,7 @@ void CMagic_HookScript::Clear()
 void CMagic_HookScript::begin()
 {
 	int a = 1;
-	Vec4 Color = Vec4(0.2f, 0.5f, 0.2f, 1.f);
+	Vec4 Color = Vec4(0.2f, 1.f, 0.2f, 1.f);
 	MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
 	MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, &Color);
 	Vec4 ChainColor = Vec4(0.6f, 1.f, 0.6f, 1.f);

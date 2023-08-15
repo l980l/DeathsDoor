@@ -181,7 +181,7 @@ void CPlyAttack::Slash()
 	}
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 1.f);
+	Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.5f);
 }
 
 void CPlyAttack::SetSlashScale(bool _bOn, SLASH _tDir)

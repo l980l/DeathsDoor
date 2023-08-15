@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CMagic.h"
+#include "CPlayerScript.h"
 
 CMagic::CMagic()
 {
@@ -18,6 +19,10 @@ void CMagic::tick()
 	if (KEY_TAP(KEY::DOWN))
 	{
 		ChangeState(L"Power");
+	}
+	if (KEY_TAP(KEY::ENTER))
+	{
+		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::Magic);
 	}
 }
 
