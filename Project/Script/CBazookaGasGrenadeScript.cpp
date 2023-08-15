@@ -2,6 +2,7 @@
 #include "CBazookaGasGrenadeScript.h"
 #include "CLevelSaveLoadInScript.h"
 #include <Engine/CPhysXMgr.h>
+#include "CSoundScript.h"
 
 void CBazookaGasGrenadeScript::begin()
 {
@@ -10,6 +11,10 @@ void CBazookaGasGrenadeScript::begin()
 	m_GasBulletParticle->ParticleSystem()->SetEmissive(true);
 
 	m_fBulletTime = 0.f;
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyFire1.ogg", 1, 0.1f);
 }
 
 void CBazookaGasGrenadeScript::tick()
@@ -50,6 +55,10 @@ void CBazookaGasGrenadeScript::tick()
 				DestroyObject(m_GasBulletParticle);
 				m_GasBulletParticle = nullptr;
 				m_iState = 1;
+
+				// Sound
+				CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+				Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyExplosion1.ogg", 1, 0.1f);
 			}
 		}
 

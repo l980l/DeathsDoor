@@ -2,6 +2,7 @@
 #include "CCrowBossCutScene.h"
 #include "CCrowBossScript.h"
 #include "CGameCameraScript.h"
+#include "CSoundScript.h"
 
 #include <Engine/CRenderMgr.h>
 
@@ -15,6 +16,10 @@ void CCrowBossCutScene::Enter()
 	
 	m_fTime = 0.f;
 	m_bCameraShake = false;
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Scream.ogg", 1, 0.1f);
 }
 
 void CCrowBossCutScene::tick()

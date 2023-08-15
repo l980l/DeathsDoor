@@ -2,6 +2,7 @@
 #include "CLurkerScript.h"
 #include "CStateScript.h"
 #include "LurkerStates.h"
+#include "CSoundScript.h"
 
 #include <Engine/CDetourMgr.h>
 
@@ -11,6 +12,7 @@ CLurkerScript::CLurkerScript() :
 	, m_fBackStepRange(250.f)
 	, m_fAttackRange(500.f)
 	, m_bStarePlayer(false)
+	, m_fPrevHP(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fBackStepRange, "BackStepRange");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
@@ -19,8 +21,10 @@ CLurkerScript::CLurkerScript() :
 CLurkerScript::CLurkerScript(const CLurkerScript& _Other) :
 	CMonsterScript((UINT)SCRIPT_TYPE::LURKERSCRIPT)
 	, m_fPlayerDistance(_Other.m_fPlayerDistance)
+	, m_fBackStepRange(_Other.m_fBackStepRange)
 	, m_fAttackRange(_Other.m_fAttackRange)
 	, m_bStarePlayer(false)
+	, m_fPrevHP(0.f)
 {
 }
 
@@ -51,11 +55,14 @@ void CLurkerScript::begin()
 		// 초기 스탯 설정.
 		Stat NewStat;
 		NewStat.Max_HP = 150;
-		NewStat.HP = 150;
+		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
 		NewStat.Speed = 100.f;
 		m_pStateScript->SetStat(NewStat);
+
+		// 이전 HP
+		m_fPrevHP = NewStat.Max_HP;
 	}
 }
 
@@ -84,6 +91,17 @@ void CLurkerScript::tick()
 		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
 		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
 		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+	}
+
+	float fCurHP = m_pStateScript->GetStat().HP;
+
+	// 체력이 줄었다면.
+	if (m_fPrevHP < fCurHP)
+	{
+		// Sound
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerTakeDamage1.ogg", 1, 0.1f);
+		m_fPrevHP = fCurHP;
 	}
 }
 

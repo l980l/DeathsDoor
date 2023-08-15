@@ -20,6 +20,7 @@ private:
     float                   m_fDelay;
     bool                    m_bActive;
     bool                    m_bMulti;
+    bool                    m_bSound;               // Sound 재생 여부.
 
 private:
     void SetSlidingScript(CCrowBossSliding* _pSlidingScript) { m_pSlidingScript = _pSlidingScript; }
