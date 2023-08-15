@@ -5,8 +5,9 @@
 
 CLevelChangeDoorScript::CLevelChangeDoorScript()
 	: CScript((UINT)SCRIPT_TYPE::LEVELCHANGEDOORSCRIPT)
-	, m_tChangeLevel()
+	, m_iChangeLevel(-1)
 {
+	AddScriptParam(SCRIPT_PARAM::INT, &m_iChangeLevel, "Type");
 }
 
 CLevelChangeDoorScript::~CLevelChangeDoorScript()
@@ -16,7 +17,7 @@ CLevelChangeDoorScript::~CLevelChangeDoorScript()
 void CLevelChangeDoorScript::begin()
 {
 	Vec4 Color = Vec4(0.f);
-	switch (m_tChangeLevel)
+	switch ((LEVEL_TYPE)m_iChangeLevel)
 	{
 	case LEVEL_TYPE::CASTLE_FIELD:
 		Color = Vec4(0.1f, 0.1f, 0.1f, 0.05f);
@@ -50,38 +51,11 @@ void CLevelChangeDoorScript::OnOverlap(CCollider3D* _Other)
 	{
 		if (KEY_TAP(KEY::E))
 		{
-			wstring wstrChangeLevelFilePath;
-			wstring wstrLevelName;
-			switch (m_tChangeLevel)
-			{
-			case LEVEL_TYPE::HALL:
-				wstrChangeLevelFilePath = L"Level\\Hall.lv";
-				wstrLevelName = L"HALL";
-				break;
-			case LEVEL_TYPE::CASTLE_FIELD:
-				wstrChangeLevelFilePath = L"Level\\Castle.lv";
-				wstrLevelName = L"CASTLE";
-				break;
-			case LEVEL_TYPE::CASTLE_BOSS:
-				wstrChangeLevelFilePath = L"Level\\Castle_Boss.lv";
-				wstrLevelName = L"CASTLE_BOSS";
-				break;
-			case LEVEL_TYPE::FOREST_FIELD:
-				wstrChangeLevelFilePath = L"Level\\Forest.lv";
-				wstrLevelName = L"FOREST";
-				break;
-			case LEVEL_TYPE::ICE_FIELD:
-				wstrChangeLevelFilePath = L"Level\\Ice.lv";
-				wstrLevelName = L"ICE";
-				break;
-			case LEVEL_TYPE::ICE_BOSS:
-				wstrChangeLevelFilePath = L"Level\\Ice_Boss.lv";
-				wstrLevelName = L"ICE_BOSS";
-				break;
-			}
-			CLevel* NewLevel = CLevelSaveLoadInScript::Stop(wstrChangeLevelFilePath, LEVEL_STATE::STOP);
-			NewLevel->SetName(wstrLevelName);
-			NewLevel->SetLevelType((int)m_tChangeLevel);
+			g_tNextLevel = (LEVEL_TYPE)m_iChangeLevel;
+
+			CLevel* NewLevel = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
+			NewLevel->SetName(L"LevelLoading");
+			NewLevel->SetLevelType(m_iChangeLevel);
 			tEvent evn = {};
 			evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 			evn.wParam = (DWORD_PTR)NewLevel;
@@ -89,4 +63,14 @@ void CLevelChangeDoorScript::OnOverlap(CCollider3D* _Other)
 			CEventMgr::GetInst()->AddEvent(evn);
 		}
 	}
+}
+
+void CLevelChangeDoorScript::SaveToLevelFile(FILE* _FILE)
+{
+	fwrite(&m_iChangeLevel, sizeof(int), 1, _FILE);
+}
+
+void CLevelChangeDoorScript::LoadFromLevelFile(FILE* _FILE)
+{
+	fread(&m_iChangeLevel, sizeof(int), 1, _FILE);
 }

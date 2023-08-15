@@ -167,9 +167,24 @@ void CreateTestLevel()
 	pBow->MeshRender()->SetFrustumCheck(false);
 	pPlayer->AddChild(pBow);
 
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ShortcutDoor.fbx");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"ShortcutDoor");
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\ShortcutDoor.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"ShortcutDoor");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CLevelChangeDoorScript);
+	
+	pObject->Transform()->SetRelativeScale(Vec3(120.f));
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetAbsolute(true);
+	pObject->Collider3D()->SetOffsetScale(Vec3(150.f));
+	pObject->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+	
+	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::DEFAULT);
+
+	//pObject = new CGameObject;
+	//pObject->SetName(L"MouseAim");
+	//pObject->AddComponent(new CTransform);
+	//pObject->AddComponent(new CMeshRender);
 	//pObject->AddComponent(new CCollider3D);
 	//pObject->AddComponent(new CLevelChangeDoorScript);
 	//

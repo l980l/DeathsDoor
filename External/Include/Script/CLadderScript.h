@@ -19,6 +19,9 @@ public:
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
 
+    virtual void SaveToLevelFile(FILE* _File) override;
+    virtual void LoadFromLevelFile(FILE* _FILE) override;
+
     CLONE(CLadderScript);
 
 public:

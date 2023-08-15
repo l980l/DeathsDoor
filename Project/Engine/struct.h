@@ -336,4 +336,16 @@ struct SpawnInfo
 	Vec3	SpawnPos;
 };
 
+struct Stat
+{
+	int     Max_HP;
+	int     HP;
+	int     Max_Energy;
+	int     Energy;
+	float   Speed;
+	int     Attack;
+	float   Attack_Speed;
+	int     Spell_Power;
+};
 
+extern Stat g_tPlayerStat;

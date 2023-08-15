@@ -9,6 +9,8 @@ private:
     Vec3    m_vDir;
     bool    m_bThrow;
     float   m_fPrevDirRatio;
+    bool    m_bCollided;
+    float   m_fAffterCollided;
 
 public:
     virtual void begin() override;
