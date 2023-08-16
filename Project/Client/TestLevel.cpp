@@ -69,33 +69,28 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ITEM));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
-	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
-	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-	pCurLevel->SetLevelType((int)LEVEL_TYPE::FOREST_FIELD);
-	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_FIELD);
-	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_FIELD);
 
-	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
-	NewLevel->SetName(L"HALL");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Start.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"START");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::START);
+
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
 	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
 	CEventMgr::GetInst()->AddEvent(evn);
 	
-	
 	//Player Status setting
-		g_tPlayerStat.Attack = 300.f;
-		g_tPlayerStat.Attack_Speed = 0.4f;
-		g_tPlayerStat.Energy = 0;
-		g_tPlayerStat.Max_Energy = 4;
-		g_tPlayerStat.HP = 4;
-		g_tPlayerStat.Max_HP = 4;
-		g_tPlayerStat.Speed = 500.f;
-		g_tPlayerStat.Spell_Power = 40.f;
+	g_tPlayerStat.Attack = 50.f;
+	g_tPlayerStat.Attack_Speed = 0.4f;
+	g_tPlayerStat.Energy = 4;
+	g_tPlayerStat.Max_Energy = 4;
+	g_tPlayerStat.HP = 4;
+	g_tPlayerStat.Max_HP = 4;
+	g_tPlayerStat.Speed = 150.f;
+	g_tPlayerStat.Spell_Power = 40.f;
 	//=============================
-		return;
+	return;
 	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\gimic\\Anchor.fbx");
 	pObject = pMeshData->Instantiate();
 	pObject->SetName(L"Anchor");
