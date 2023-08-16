@@ -75,9 +75,9 @@ void CreateTestLevel()
 	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_FIELD);
 	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_FIELD);
 
-	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
-	NewLevel->SetName(L"HALL");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Start.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"Start");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::START);
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
