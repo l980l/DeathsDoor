@@ -519,6 +519,7 @@
     <ClInclude Include="CLevelChangeDoorScript.h">
       <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
     </ClInclude>
+    <ClInclude Include="CStartSceneUIScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
@@ -905,6 +906,7 @@
     <ClCompile Include="CLevelChangeDoorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
     </ClCompile>
+    <ClCompile Include="CStartSceneUIScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Script">

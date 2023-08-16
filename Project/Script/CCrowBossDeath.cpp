@@ -3,6 +3,7 @@
 #include "CCrowBossScript.h"
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CCrowBossDeath::Enter()
 {
@@ -34,6 +35,8 @@ void CCrowBossDeath::tick()
 	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
 	{
 		GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)30000);
+		CLevelSaveLoadInScript LSL;
+		LSL.MoneyCount((UINT)30000);
 		GetOwnerScript()->Destroy();
 
 		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->ChangeState(L"Dance");

@@ -45,6 +45,7 @@ CRoomScript
 CSlashScript
 CSoundScript
 CSpawnDoorScript
+CStartSceneUIScript
 CStateScript
 CTrapScript
 CWallScript
