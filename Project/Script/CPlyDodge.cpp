@@ -19,7 +19,7 @@ void CPlyDodge::Enter()
 	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\PlayerRoll.ogg", 1, 0.1f);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\PlayerRoll.ogg", 1, 0.5f);
 }
 
 void CPlyDodge::tick()

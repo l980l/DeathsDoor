@@ -345,8 +345,7 @@ void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 
 void CPhysXMgr::Clear()
 {
-    // Level 초기화에 호출될 전체 피직스 초기화
-    
+    // Level 초기화에 호출될 전체 피직스 초기화   
 
     if(!m_vecDynamicActor.empty())
     {
@@ -384,29 +383,30 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
     {
     case LEVEL_TYPE::CASTLE_FIELD:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"Castle_Simple");
-        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Simple.fbx");
         break;
     case LEVEL_TYPE::CASTLE_BOSS:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"Castle_Boss_SIMPLE");
-        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss_Simple.fbx");
         break;
     case LEVEL_TYPE::FOREST_FIELD:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"Forest_Simple");
         break;
     case LEVEL_TYPE::ICE_FIELD:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"Ice_Simple");
-        //CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
     case LEVEL_TYPE::HALL:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"Hall_SIMPLE");
-        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall_Simple.fbx");
         break;
+    case LEVEL_TYPE::ICE_BOSS:
+        CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+        break;
+    case LEVEL_TYPE::LOADING:
+        return;
     }
 
-    if(_tType != LEVEL_TYPE::ICE_BOSS)
+    if (LEVEL_TYPE::ICE_BOSS != _tType)
     {
         CGameObject* pMap = pMeshData->Instantiate();
-        ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
+        ConvertStatic(Vec3(0.f), pMap);
         delete pMap;
     }
 }

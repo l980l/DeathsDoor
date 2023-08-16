@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CPower.h"
+#include "CPlayerScript.h"
 
 CPower::CPower()
 {
@@ -18,6 +19,10 @@ void CPower::tick()
 	if (KEY_TAP(KEY::DOWN))
 	{
 		ChangeState(L"AttackSpeed");
+	}
+	if (KEY_TAP(KEY::ENTER))
+	{
+		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::Strength);
 	}
 }
 

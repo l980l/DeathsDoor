@@ -14,10 +14,6 @@ CLevelChangeDoorScript::~CLevelChangeDoorScript()
 {
 }
 
-void CLevelChangeDoorScript::begin()
-{
-}
-
 void CLevelChangeDoorScript::OnOverlap(CCollider3D* _Other)
 {
 	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::PLAYER)
