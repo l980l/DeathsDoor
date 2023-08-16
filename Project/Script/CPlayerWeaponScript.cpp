@@ -22,6 +22,7 @@ void CPlayerWeaponScript::begin()
 		m_pStateScript->AddState(L"Walk", new CPlyWpWalk);
 		m_pStateScript->AddState(L"Run", new CPlyWpRun);
 		m_pStateScript->AddState(L"Dodge", new CPlyWpDodge);
+		m_pStateScript->AddState(L"Dance", new CPlyWpDance);
 		m_pStateScript->AddState(L"Fall", new CPlyWpFall);
 		m_pStateScript->AddState(L"Hit", new CPlyWpHit);
 		m_pStateScript->AddState(L"Dead", new CPlyWpDead);

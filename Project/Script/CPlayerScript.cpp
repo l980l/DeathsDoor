@@ -47,6 +47,7 @@ void CPlayerScript::begin()
 		m_pStateScript->AddState(L"Walk", new CPlyWalk);
 		m_pStateScript->AddState(L"Run", new CPlyRun);
 		m_pStateScript->AddState(L"Dodge", new CPlyDodge);
+		m_pStateScript->AddState(L"Dance", new CPlyDance);
 		m_pStateScript->AddState(L"Fall", new CPlyFall);
 		m_pStateScript->AddState(L"Hit", new CPlyHit);
 		m_pStateScript->AddState(L"Dead", new CPlyDead);

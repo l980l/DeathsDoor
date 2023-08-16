@@ -34,6 +34,8 @@ void CCrowBossDeath::tick()
 	{
 		GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)30000);
 		GetOwnerScript()->Destroy();
+
+		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->ChangeState(L"Dance");
 	}
 }
 
