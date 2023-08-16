@@ -62,6 +62,7 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::MONSTERPROJECTILE));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::ITEM));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::NPC));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LEVELCHANGEDOOR));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::MONSTER, ((int)LAYER::MONSTERPROJECTILE));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTERPROJECTILE));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
@@ -71,12 +72,12 @@ void CreateTestLevel()
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
 	pCurLevel->SetLevelType((int)LEVEL_TYPE::FOREST_FIELD);
-	/*CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_BOSS);
-	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_BOSS);*/
+	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_FIELD);
+	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_FIELD);
 
-	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Forest.lv", LEVEL_STATE::STOP);
-	NewLevel->SetName(L"FOREST_FIELD");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::FOREST_FIELD);
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"HALL");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
@@ -85,23 +86,26 @@ void CreateTestLevel()
 	
 	
 	//Player Status setting
-		g_tPlayerStat.Attack = 100.f;
+		g_tPlayerStat.Attack = 300.f;
 		g_tPlayerStat.Attack_Speed = 0.4f;
 		g_tPlayerStat.Energy = 0;
 		g_tPlayerStat.Max_Energy = 4;
 		g_tPlayerStat.HP = 4;
 		g_tPlayerStat.Max_HP = 4;
-		g_tPlayerStat.Speed = 300.f;
+		g_tPlayerStat.Speed = 500.f;
 		g_tPlayerStat.Spell_Power = 40.f;
 	//=============================
-
-	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\gimic\\PUZZLE_STONE.fbx");
+		return;
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\gimic\\Anchor.fbx");
 	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Gimmik");
+	pObject->SetName(L"Anchor");
+	Vec3 rot = (Vec3(250.f, 0.f, 0.f) / 180.f) * XM_PI;
+	pObject->Transform()->SetRelativeRot(rot);
+	pObject->Transform()->SetRelativeScale(Vec3(3.f, 3.f, 3.f));
 	pObject->MeshRender()->SetDynamicShadow(true);
 	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(4417.f, 500.f, 7016.f), (int)LAYER::ITEM);*/
-	return;
+	SpawnGameObject(pObject, Vec3(4600.f, 542.f, 685.f), (int)LAYER::ANCHOR);
+	//return;
 	//Ice_Boss
 	// 
 	 //Main Camera 
@@ -159,7 +163,7 @@ void CreateTestLevel()
 		pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
 
 
-		Vec3 playerpos = Vec3(700.f, 500.f, 1300.f);
+		Vec3 playerpos = Vec3(5200.f, 600.f, 500.f);
 		CPhysXMgr::GetInst()->CreateSphere(playerpos, 20.f, pPlayer);
 		SpawnGameObject(pPlayer, playerpos, (int)LAYER::PLAYER);
 
@@ -338,7 +342,7 @@ void CreateTestLevel()
 		//SpawnGameObject(pFloor, Vec3(0.f, -10.f, 0.f), (int)LAYER::GROUND);
 		//CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 	
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"Forest");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"Ice");
 		pObject = pMeshData->Instantiate();
 		pObject->SetName(L"Map");
 		pObject->MeshRender()->SetDynamicShadow(true);
@@ -364,34 +368,34 @@ void CreateTestLevel()
 	
 	// Water 
 	{
-		CGameObject* pWater = new CGameObject;
-		pWater->SetName(L"Water");
-		pWater->AddComponent(new CTransform);
-		pWater->AddComponent(new CMeshRender);
-		pWater->AddComponent(new CWaterScript);
-		pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-		pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
-		pWater->MeshRender()->SetFrustumCheck(false);
-		SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+		//CGameObject* pWater = new CGameObject;
+		//pWater->SetName(L"Water");
+		//pWater->AddComponent(new CTransform);
+		//pWater->AddComponent(new CMeshRender);
+		//pWater->AddComponent(new CWaterScript);
+		//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+		//pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+		//pWater->MeshRender()->SetFrustumCheck(false);
+		//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
 	}
 	
 	//Water Camera
 	{
-		CGameObject* pWaterCam = new CGameObject;
-		pWaterCam->SetName(L"WaterCamera");
+		//CGameObject* pWaterCam = new CGameObject;
+		//pWaterCam->SetName(L"WaterCamera");
 
-		pWaterCam->AddComponent(new CTransform);
-		pWaterCam->AddComponent(new CCamera);
-		pWaterCam->AddComponent(new CWaterCameraScript);
+		//pWaterCam->AddComponent(new CTransform);
+		//pWaterCam->AddComponent(new CCamera);
+		//pWaterCam->AddComponent(new CWaterCameraScript);
 
-		pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-		pWaterCam->Camera()->SetCameraIndex(1);
-		pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-		pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-		pWaterCam->Camera()->SetWaterCamera(true);
+		//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		//pWaterCam->Camera()->SetCameraIndex(1);
+		//pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+		//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+		//pWaterCam->Camera()->SetWaterCamera(true);
 
-		SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
+		//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
 	}
 	
