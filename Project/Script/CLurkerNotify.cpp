@@ -67,10 +67,6 @@ void CLurkerNotify::tick()
 	{
 		if (GetOwner()->Animator3D()->IsFinish())
 			m_bNotifyAnimEnd = true;
-
-		// Sound
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerDodge1.ogg", 1, 0.1f);
 	}
 }
 
