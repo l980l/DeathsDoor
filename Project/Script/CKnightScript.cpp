@@ -65,8 +65,8 @@ void CKnightScript::begin()
 	GetOwner()->Rigidbody()->SetVelocityLimit(150.f);
 
 	// 초기 스탯 설정.
-	m_stat.HP = 1000;
-	m_stat.Max_HP = 1000;
+	m_stat.HP = 400;
+	m_stat.Max_HP = 400;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
 	m_stat.Speed = 150;
@@ -102,7 +102,6 @@ void CKnightScript::tick()
 	{
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
-		SetLifeSpan(0.5f);
 	}
 }
 

@@ -105,7 +105,7 @@ void CPhysXMgr::tick()
     m_Scene->simulate(1.f / 120.f);
     m_fUpdateTime += DT;
 
-    if(m_fUpdateTime > 0.1f)
+    if(m_fUpdateTime > 0.1f && !m_vecDynamicActor.empty() && !m_vecDynamicObject.empty())
     {
         m_Scene->fetchResults(true);
         m_fUpdateTime = 0.f;

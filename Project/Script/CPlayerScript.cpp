@@ -21,7 +21,7 @@ CPlayerScript::CPlayerScript()
 	, m_iCurMagic(0)
 	, m_bInvincible(false)
 	, m_pSword(nullptr)
-	, m_imoney(0)
+	, m_imoney(2000)
 	, m_iUpgrade{}
 {
 }
