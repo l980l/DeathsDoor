@@ -401,7 +401,9 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
     case LEVEL_TYPE::LOADING:
+    case LEVEL_TYPE::START:
         return;
+
     }
 
     if (LEVEL_TYPE::ICE_BOSS != _tType)
