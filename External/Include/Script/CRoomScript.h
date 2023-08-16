@@ -15,7 +15,7 @@ private:
     bool                m_bSpawn;
     bool                m_bLastWave;
     bool                m_bWaveStart;
-
+    bool                m_bStoneHit;
 public:
     virtual void begin() override;
     virtual void tick() override;

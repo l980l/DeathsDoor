@@ -50,6 +50,10 @@
 
 void CreateTestLevel()
 {
+	Ptr<CMeshData> pMeshData = nullptr;
+	CGameObject* pPlayer = nullptr;
+	CGameObject* pObject = nullptr;
+	CGameObject* pKnight = nullptr;
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
@@ -90,6 +94,13 @@ void CreateTestLevel()
 		g_tPlayerStat.Speed = 300.f;
 		g_tPlayerStat.Spell_Power = 40.f;
 	//=============================
+
+	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\gimic\\PUZZLE_STONE.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Gimmik");
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+	SpawnGameObject(pObject, Vec3(4417.f, 500.f, 7016.f), (int)LAYER::ITEM);*/
 	return;
 	//Ice_Boss
 	// 
@@ -125,10 +136,7 @@ void CreateTestLevel()
 		SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 	}
 
-	Ptr<CMeshData> pMeshData = nullptr;
-	CGameObject* pPlayer = nullptr;
-	CGameObject* pObject = nullptr;
-	CGameObject* pKnight = nullptr;
+
 
 	//Player
 	{
@@ -387,12 +395,7 @@ void CreateTestLevel()
 
 	}
 	
-	//pMeshData = CResMgr::GetInst()->LoadFBX(L"hall");
-	//pObject = pMeshData->Instantiate();
-	//pObject->SetName(L"Map");
-	//pObject->MeshRender()->SetDynamicShadow(true);
-	//pObject->MeshRender()->SetFrustumCheck(false);
-	//SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+
 
 
 

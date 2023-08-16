@@ -3,6 +3,7 @@
 #include "CSpawnDoorScript.h"
 #include "CSpawnMgr.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CHitStoneScript.h"
 
 CRoomScript::CRoomScript()
 	: CScript((UINT)SCRIPT_TYPE::ROOMSCRIPT)
@@ -32,6 +33,7 @@ CRoomScript::CRoomScript(const CRoomScript& _Other)
 	, m_bSpawn(false)
 	, m_bLastWave(false)
 	, m_bWaveStart(false)
+	, m_bStoneHit(false)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNum");
 }
@@ -55,7 +57,15 @@ void CRoomScript::tick()
 {
 	if (m_iMaxWaveNum == 0)
 		return;
-
+	if (CLevelMgr::GetInst()->FindObjectByName(L"Gimmik"))
+	{
+		m_bStoneHit = CLevelMgr::GetInst()->FindObjectByName(L"Gimmik")->GetScript<CHitStoneScript>()->CheckStoneHit();
+	}
+	else
+	{
+		m_bStoneHit = true;
+	}
+	
 	vector<CGameObject*> vecMonster = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::MONSTER)->GetParentObject();
 	if (vecMonster.size() > m_prevMonsterNum)
 	{
@@ -66,7 +76,7 @@ void CRoomScript::tick()
 		m_bWaveStart = true;
 	}
 	
-	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && vecMonster.size() == m_prevMonsterNum && m_bLastWave)
+	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && vecMonster.size() == m_prevMonsterNum && m_bLastWave&& m_bStoneHit)
 	{
 		CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);//³»¸°´Ù
 		GetOwner()->SetLifeSpan(0.f);
