@@ -170,7 +170,6 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     m_vecDynamicObject.push_back(_Object);
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
     m_Scene->addActor(*dynamic);
-    dynamic->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     // Obj의 Rigidbody에 정보 세팅
     _Object->Rigidbody()->SetSpawnPos(_vSpawnPos);
