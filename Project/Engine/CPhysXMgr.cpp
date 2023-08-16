@@ -401,4 +401,11 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
     }
+
+    if (LEVEL_TYPE::ICE_BOSS != _tType)
+    {
+        CGameObject* pMap = pMeshData->Instantiate();
+        ConvertStatic(Vec3(0.f), pMap);
+        delete pMap;
+    }
 }
