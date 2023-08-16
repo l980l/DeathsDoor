@@ -43,9 +43,10 @@ void CPlyDead::tick()
 		{
 			// 사망 텍스쳐 출력 시간이 끝나면 현재레벨을 다시 시작함.
 			int iCurLevelType = CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
+			g_tNextLevel = (LEVEL_TYPE)iCurLevelType;
 			CLevel* NewLevel = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
 			NewLevel->SetName(L"LevelLoading");
-			NewLevel->SetLevelType(iCurLevelType);
+			NewLevel->SetLevelType((int)LEVEL_TYPE::LOADING);
 			tEvent evn = {};
 			evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 			evn.wParam = (DWORD_PTR)NewLevel;
@@ -53,6 +54,9 @@ void CPlyDead::tick()
 			CEventMgr::GetInst()->AddEvent(evn);
 
 			m_pDeathTex->SetLifeSpan(0.f);
+
+			g_tPlayerStat.HP = g_tPlayerStat.Max_HP;
+			g_tPlayerStat.Energy = g_tPlayerStat.Max_Energy;
 		}
 	}
 	// 사망 글씨로 화면이 덮히면서 Hall Level에서 다시 입장
@@ -61,5 +65,6 @@ void CPlyDead::tick()
 
 void CPlyDead::Exit()
 {
+	m_fTimetoStartPoint = 0.f;
 	m_pDeathTex = nullptr;
 }

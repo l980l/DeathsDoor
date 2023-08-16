@@ -52,7 +52,6 @@
 
 void CreateTestLevel()
 {
-
 	Stat PlayerStat;
 	PlayerStat.Attack = 50.f;
 	PlayerStat.Attack_Speed = 0.4f;
@@ -63,6 +62,7 @@ void CreateTestLevel()
 	PlayerStat.Max_Energy = 4;
 
 	g_tPlayerStat = PlayerStat;
+
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));

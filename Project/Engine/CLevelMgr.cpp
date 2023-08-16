@@ -49,6 +49,20 @@ void CLevelMgr::FindObjectByName(const wstring& _strName, vector<CGameObject*>& 
 
 void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 {
+	if (g_tPlayerStat.HP == 0)
+	{
+		Stat PlayerStat;
+		PlayerStat.Attack = 50.f;
+		PlayerStat.Attack_Speed = 0.4f;
+		PlayerStat.HP = 4;
+		PlayerStat.Speed = 150.f;
+		PlayerStat.Spell_Power = 40.f;
+		PlayerStat.Energy = 4;
+		PlayerStat.Max_Energy = 4;
+
+		g_tPlayerStat = PlayerStat;
+	}
+
 	if (nullptr != m_pCurLevel)
 	{
 		delete m_pCurLevel;
