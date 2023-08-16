@@ -3,6 +3,7 @@
 #include "CGruntScript.h"
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CGruntDeath::Enter()
 {
@@ -33,6 +34,8 @@ void CGruntDeath::tick()
 	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
 	{
 		GetOwner()->GetScript<CGruntScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)500);
+		CLevelSaveLoadInScript LSL;
+		LSL.MoneyCount((UINT)500);
 		GetOwnerScript()->Destroy();
 	}
 }

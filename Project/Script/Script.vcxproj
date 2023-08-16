@@ -350,6 +350,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CSpawnDoorScript.h" />
     <ClInclude Include="CSpawnMgr.h" />
     <ClInclude Include="CSpeed.h" />
+    <ClInclude Include="CStartSceneUIScript.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
@@ -533,6 +534,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CSpawnDoorScript.cpp" />
     <ClCompile Include="CSpawnMgr.cpp" />
     <ClCompile Include="CSpeed.cpp" />
+    <ClCompile Include="CStartSceneUIScript.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />

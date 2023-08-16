@@ -48,6 +48,7 @@
 #include "CSlashScript.h"
 #include "CSoundScript.h"
 #include "CSpawnDoorScript.h"
+#include "CStartSceneUIScript.h"
 #include "CStateScript.h"
 #include "CTrapScript.h"
 #include "CWallScript.h"
@@ -103,6 +104,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CSlashScript");
 	_vec.push_back(L"CSoundScript");
 	_vec.push_back(L"CSpawnDoorScript");
+	_vec.push_back(L"CStartSceneUIScript");
 	_vec.push_back(L"CStateScript");
 	_vec.push_back(L"CTrapScript");
 	_vec.push_back(L"CWallScript");
@@ -206,6 +208,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSoundScript;
 	if (L"CSpawnDoorScript" == _strScriptName)
 		return new CSpawnDoorScript;
+	if (L"CStartSceneUIScript" == _strScriptName)
+		return new CStartSceneUIScript;
 	if (L"CStateScript" == _strScriptName)
 		return new CStateScript;
 	if (L"CTrapScript" == _strScriptName)
@@ -363,6 +367,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SPAWNDOORSCRIPT:
 		return new CSpawnDoorScript;
+		break;
+	case (UINT)SCRIPT_TYPE::STARTSCENEUISCRIPT:
+		return new CStartSceneUIScript;
 		break;
 	case (UINT)SCRIPT_TYPE::STATESCRIPT:
 		return new CStateScript;
@@ -573,6 +580,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SPAWNDOORSCRIPT:
 		return L"CSpawnDoorScript";
+		break;
+
+	case SCRIPT_TYPE::STARTSCENEUISCRIPT:
+		return L"CStartSceneUIScript";
 		break;
 
 	case SCRIPT_TYPE::STATESCRIPT:

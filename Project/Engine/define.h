@@ -336,6 +336,7 @@ enum class LEVEL_TYPE
 	ICE_BOSS,
 	HALL,
 	LOADING,
+	START,
 	END
 };
 

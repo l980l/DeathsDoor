@@ -3,7 +3,8 @@
 
 class CCameraMoveScript :
     public CScript
-{private:
+{
+private:
     float m_fCamSpeed;
 
 public:
