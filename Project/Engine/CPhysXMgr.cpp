@@ -403,10 +403,10 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         break;
     }
 
-
-    if(_tType != LEVEL_TYPE::ICE_BOSS)
+    if (LEVEL_TYPE::ICE_BOSS != _tType)
     {
-      pMeshData = 
+        CGameObject* pMap = pMeshData->Instantiate();
+        ConvertStatic(Vec3(0.f), pMap);
+        delete pMap;
     }
-
 }
