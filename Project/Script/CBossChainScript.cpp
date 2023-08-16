@@ -63,7 +63,6 @@ void CBossChainScript::tick()
 
 		m_bSound = true;
 	}
-
 	Vec3 vCurPos = Transform()->GetRelativePos();
 	Vec3 vDiff = m_vThrowStartPos - vCurPos;
 	vDiff.y = 0.f;

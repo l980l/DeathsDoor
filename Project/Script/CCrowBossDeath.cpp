@@ -8,6 +8,7 @@ void CCrowBossDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(7, false);
 	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+	GetOwner()->GetScript<CCrowBossScript>()->DestoryFeather();
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
