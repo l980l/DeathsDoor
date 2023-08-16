@@ -65,18 +65,17 @@ void CRoomScript::tick()
 	{
 		m_bStoneHit = true;
 	}
-	
 	vector<CGameObject*> vecMonster = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::MONSTER)->GetParentObject();
 	if (vecMonster.size() > m_prevMonsterNum)
 	{
-		m_bSpawn = true;//이전 몬스터 수 보다 많아지면 true
+		m_bSpawn = true;//이전 몬스터 수 보다 많아지면 	if (m_bSpawn)
 	}
-	if (m_bSpawn)
+	if(m_bSpawn)
 	{
 		m_bWaveStart = true;
 	}
-	
-	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && vecMonster.size() == m_prevMonsterNum && m_bLastWave&& m_bStoneHit)
+
+	if (m_iCurWaveNum == m_iMaxWaveNum - 1 && vecMonster.size() == m_prevMonsterNum && m_bLastWave && m_bStoneHit)
 	{
 		CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);//내린다
 		GetOwner()->SetLifeSpan(0.f);
@@ -94,8 +93,9 @@ void CRoomScript::tick()
 		//마지막 웨이브가 스폰이 되었다
 		m_bLastWave = true;
 	}
-
 }
+
+
 
 void CRoomScript::SpawnMst()
 {

@@ -65,18 +65,6 @@ void CBankUpgradeScript::tick()
 		evn.wParam = (DWORD_PTR)this->GetOwner();
 		CEventMgr::GetInst()->AddEvent(evn);
 	}
-	//if (KEY_TAP(KEY::SPACE))
-	//{
-	//	CLevelSaveLoadInScript script;
-	//	CGameObject* Icon = new CGameObject;
-	//	Icon->AddComponent(new CTransform);
-	//	Icon->AddComponent(new CMeshRender);
-	//	Icon->Transform()->SetRelativeScale(Vec3(0, 0, 0));
-	//	Icon->Transform()->SetRelativeRot(Vec3(0, 0, 0));
-	///*	CGameObject* Icon = script.SpawnandReturnPrefab(L"prefab\\UgradeIcon.prefab", 0, Vec3(0, 0, 0));
-	//	Icon->Transform()->SetRelativeScale(0,0,0);
-	//	Icon->Transform()->SetRelativeRot(0,0,0);*/
-	//}
 }
 
 void CBankUpgradeScript::BeginOverlap(CCollider3D* _Other)
