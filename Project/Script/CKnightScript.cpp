@@ -39,7 +39,7 @@ void CKnightScript::begin()
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
 		m_pStateScript->AddState(L"Idle", new CKnightIdle);
-		m_pStateScript->AddState(L"Trace", new CTrace);
+		m_pStateScript->AddState(L"Trace", new CKnightWalk);
 		m_pStateScript->AddState(L"RunAttack", new CKnightRunAttack);
 		m_pStateScript->AddState(L"CutScene", new CKnightCutScene);
 		m_pStateScript->AddState(L"JumpReady", new CKnightJumpReady);
@@ -111,31 +111,6 @@ void CKnightScript::BeginOverlap(CCollider3D* _Other)
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
 		m_pStateScript->ChangeState(L"RunAttack");
-	}
-	if (L"Sword" == _Other->GetName())
-	{
-		//체력--
-		//m_stat.HP -= SwordDamage
-	}
-	else if (L"Arrow" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Fire" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Bomb" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Hook" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Ghost" == _Other->GetName())
-	{
-		//체력--
 	}
 }
 

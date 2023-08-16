@@ -8,6 +8,7 @@ void CCrowBossDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(7, false);
 	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+	GetOwner()->GetScript<CCrowBossScript>()->DestoryFeather();
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
@@ -34,6 +35,8 @@ void CCrowBossDeath::tick()
 	{
 		GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)30000);
 		GetOwnerScript()->Destroy();
+
+		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->ChangeState(L"Dance");
 	}
 }
 

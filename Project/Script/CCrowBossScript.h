@@ -18,6 +18,14 @@ public:
 
     bool GetStarePlayer() { return m_bStarePlayer; }
     void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
+    void DestoryFeather() 
+    { 
+        if (m_pCrowBossFeather) 
+        {
+            m_pCrowBossFeather->SetLifeSpan(0.f);
+            m_pCrowBossFeather = nullptr;
+        }
+    }
 
 public:
     virtual void begin() override;

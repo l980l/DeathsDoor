@@ -1249,7 +1249,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 	
 	AddRes(pShader->GetKey(), pShader);
 }
