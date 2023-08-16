@@ -52,6 +52,17 @@
 
 void CreateTestLevel()
 {
+
+	Stat PlayerStat;
+	PlayerStat.Attack = 50.f;
+	PlayerStat.Attack_Speed = 0.4f;
+	PlayerStat.HP = 4;
+	PlayerStat.Speed = 150.f;
+	PlayerStat.Spell_Power = 40.f;
+	PlayerStat.Energy = 4;
+	PlayerStat.Max_Energy = 4;
+
+	g_tPlayerStat = PlayerStat;
 	// 충돌 시킬 레이어 짝 지정
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, (int)LAYER::MONSTER);
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::GROUND));
@@ -62,16 +73,16 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LEVELCHANGEDOOR));
 
-	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\CastleBoss.lv", LEVEL_STATE::STOP);
-	//NewLevel->SetName(L"CastleBoss");
-	//NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_BOSS);
-	//tEvent evn = {};
-	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-	//evn.wParam = (DWORD_PTR)NewLevel;
-	//evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
-	//CEventMgr::GetInst()->AddEvent(evn);
-	//
-	//return;
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Ice_Boss.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"Ice_Boss");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::ICE_BOSS);
+	tEvent evn = {};
+	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	evn.wParam = (DWORD_PTR)NewLevel;
+	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+	CEventMgr::GetInst()->AddEvent(evn);
+	
+	return;
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -158,15 +169,6 @@ void CreateTestLevel()
 	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
 	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
-
-	Stat PlayerStat;
-	PlayerStat.Attack = 50.f;
-	PlayerStat.Attack_Speed = 0.4f;
-	PlayerStat.HP = 4;
-	PlayerStat.Speed = 150.f;
-	PlayerStat.Spell_Power = 40.f;
-	PlayerStat.Energy = 4;
-	PlayerStat.Max_Energy = 4;
 
 	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
 	CPhysXMgr::GetInst()->CreateSphere(Vec3(2400, 2000.f, 2400), 20.f, pPlayer);
