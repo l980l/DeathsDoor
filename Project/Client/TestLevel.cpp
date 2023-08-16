@@ -1,3 +1,109 @@
+//#include "pch.h"
+//#include "TestLevel.h"
+//
+//#include <Engine\CLevelMgr.h>
+//#include <Engine\CLevel.h>
+//#include <Engine\CLayer.h>
+//#include <Engine\CGameObject.h>
+//#include <Engine\components.h>
+//
+//#include <Engine\CResMgr.h>
+//#include <Engine\CCollisionMgr.h>
+//
+//#include <Script\CPlayerScript.h>
+//#include <Script\CStateScript.h>
+//#include <Script\CMonsterScript.h>
+//#include <Script\CCameraMoveScript.h>
+//#include <Script\CPlayerWeaponScript.h>
+//#include <Script\CGameCameraScript.h>
+//#include <Script\CMagic_ArrowScript.h>
+//#include <Script\CMagic_BombScript.h>
+//#include <Script\CMagic_FireScript.h>
+//#include <Script\CMagic_HookScript.h>
+//#include <Engine/CPhysXMgr.h>
+//#include <Script/CBatScript.h>
+//#include <Script\CGruntScript.h>
+//#include <Script/CLurkerScript.h>
+//#include <Script\CBazookaScript.h>
+//#include <Script/CMainLightScript.h>
+//#include <Script/CWaterCameraScript.h>
+//#include <Script/CCrowBossScript.h>
+//#include <Script/CSlashScript.h>
+//#include <Script/CMonsterDetectRangeScript.h>
+//#include <Script/CBossChainScript.h>
+//#include <Script/CWaterScript.h>
+//#include <Script/CLadderScript.h>
+//#include <Script\CArrowIconScript.h>
+//#include <Script\CFireIconScript.h>
+//#include <Script\CBombIconScript.h>
+//#include <Script\CHookIconScript.h>
+//#include <Script\CHPIconScript.h>
+//#include <Script\CEnergyIconScript.h>
+//#include <Script/CSoundScript.h>
+//#include <Script/CLevelChangeDoorScript.h>
+//#include <Script/CCursorScript.h>
+//#include <Engine/CEventMgr.h>
+//
+//#include <Engine/CDetourMgr.h>
+//#include <Engine/CPhysXMgr.h>
+//
+//#include "CLevelSaveLoad.h"
+//
+//
+//void CreateTestLevel()
+//{
+//	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
+//	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+//	pCurLevel->SetLevelType((int)LEVEL_TYPE::LOADING);
+//
+//	// Main Camera Object 생성
+//	CGameObject* pMainCam = new CGameObject;
+//	pMainCam->SetName(L"MainCamera");
+//
+//	pMainCam->AddComponent(new CTransform);
+//	pMainCam->AddComponent(new CCamera);
+//
+//	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+//	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
+//	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+//	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+//
+//	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), 10);
+//
+//
+//	// 광원 추가
+//	CGameObject* pLightObj = new CGameObject;
+//	pLightObj->SetName(L"Light");
+//
+//	pLightObj->AddComponent(new CTransform);
+//	pLightObj->AddComponent(new CLight3D);
+//
+//	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+//	pLightObj->Light3D()->SetLightDirection(Vec3(1.f, -1.f, 1.f));
+//
+//	pLightObj->Light3D()->SetRadius(500.f);
+//	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
+//	//pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
+//	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
+//
+//	SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
+//
+//
+//	// LoadingUI 
+//	CGameObject* pLoadingUI = new CGameObject;
+//	pLoadingUI->SetName(L"LoadingUI");
+//	pLoadingUI->AddComponent(new CTransform);
+//	pLoadingUI->AddComponent(new CMeshRender);
+//	pLoadingUI->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+//	pLoadingUI->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"FlickerMtrl"), 0);
+//	pLoadingUI->Transform()->SetRelativeScale(300.f, 300.f, 0.f);
+//	pLoadingUI->MeshRender()->SetFrustumCheck(false);
+//	pLoadingUI->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture/Deaths_Door/dd_icon_loading.png").Get());
+//	SpawnGameObject(pLoadingUI, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
+//
+//
+//}
+
 #include "pch.h"
 #include "TestLevel.h"
 
@@ -62,16 +168,16 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYER, ((int)LAYER::LEVELCHANGEDOOR));
 
-	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Hall.lv", LEVEL_STATE::STOP);
-	//NewLevel->SetName(L"Hall");
-	//NewLevel->SetLevelType((int)LEVEL_TYPE::HALL);
-	//tEvent evn = {};
-	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-	//evn.wParam = (DWORD_PTR)NewLevel;
-	//evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
-	//CEventMgr::GetInst()->AddEvent(evn);
-	//
-	//return;
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"LLL");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::LOADING);
+	tEvent evn = {};
+	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	evn.wParam = (DWORD_PTR)NewLevel;
+	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+	CEventMgr::GetInst()->AddEvent(evn);
+	
+	return;
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
@@ -198,10 +304,10 @@ void CreateTestLevel()
 	pObject->Transform()->SetRelativeScale(Vec3(120.f));
 	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
 	pObject->Collider3D()->SetAbsolute(true);
-	pObject->Collider3D()->SetOffsetScale(Vec3(150.f));
+	pObject->Collider3D()->SetOffsetScale(Vec3(400.f));
 	pObject->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 
-	SpawnGameObject(pObject, Vec3(2500.f, 1000.f, 2500.f), (int)LAYER::LEVELCHANGEDOOR);
+	SpawnGameObject(pObject, Vec3(2500.f, 650.f, 2500.f), (int)LAYER::LEVELCHANGEDOOR);
 
 	//pObject = new CGameObject;
 	//pObject->SetName(L"MouseAim");
@@ -358,7 +464,5 @@ void CreateTestLevel()
 	//SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
-	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
-	
-
+	//CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
 }

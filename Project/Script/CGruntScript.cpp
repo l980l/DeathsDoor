@@ -78,7 +78,7 @@ void CGruntScript::begin()
 		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 150.f;
+		NewStat.Speed = 130.f;
 		m_pStateScript->SetStat(NewStat);
 
 		// ְְּü HP
