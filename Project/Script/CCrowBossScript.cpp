@@ -119,7 +119,8 @@ void CCrowBossScript::tick()
 		m_fPrevHP = fCurHP;
 	}
 
-	m_pCrowBossFeather->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
+	if(nullptr != m_pCrowBossFeather)
+		m_pCrowBossFeather->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
 }
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)

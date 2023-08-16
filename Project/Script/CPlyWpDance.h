@@ -3,6 +3,8 @@
 class CPlyWpDance :
     public CState
 {
+private:
+    float m_fCameraZoomIn;
 public:
     virtual void tick() override;
     virtual void Enter() override;

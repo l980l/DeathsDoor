@@ -366,7 +366,7 @@ void CreateTestLevel()
 	SpawnGameObject(pFloor, Vec3(0.f), (int)LAYER::GROUND);
 	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 
-	CLevelSaveLoad::SpawnPrefab(L"prefab\\CrowBoss.prefab", (int)LAYER::MONSTER, Vec3(0.f));
+	CLevelSaveLoad::SpawnPrefab(L"prefab\\Knight.prefab", (int)LAYER::MONSTER, Vec3(0.f));
 
 
 }
