@@ -103,7 +103,7 @@ void CPlyRun::Move()
 
 	m_fStepSoundDelay += DT;
 
-	if (m_fStepSoundDelay > 0.15f)
+	if (m_fStepSoundDelay > 0.31f)
 	{
 		wstring wstrSoundFilePath;
 		if (m_bStepSoundOrder)
@@ -111,7 +111,7 @@ void CPlyRun::Move()
 		else
 			wstrSoundFilePath = L"Sound\\Player\\GrassFootStepR.mp3";
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1,1.f);
+		Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.3f);
 		m_fStepSoundDelay = 0.f;
 	}
 }

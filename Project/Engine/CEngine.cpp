@@ -72,7 +72,10 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 	CDetourMgr::GetInst()->init();
 
-	
+
+#ifdef _NDEBUG
+	ShowCursor(false);
+#endif
 
 
 	return S_OK;

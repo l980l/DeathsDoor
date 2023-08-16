@@ -69,7 +69,7 @@ void CPlyMagic_Fire::tick()
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 
 			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 1.f);
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.5f);
 		}
 		else
 		{
