@@ -66,7 +66,7 @@ void CCrowBossScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
-		NewStat.Max_HP = 1500;
+		NewStat.Max_HP = 1000;
 		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
