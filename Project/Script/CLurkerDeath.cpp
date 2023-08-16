@@ -2,11 +2,15 @@
 #include "CLurkerDeath.h"
 #include "CLurkerScript.h"
 #include "CPlayerScript.h"
+#include "CSoundScript.h"
 
 void CLurkerDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(6, false);
 	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerDeath1.ogg", 1, 0.1f);
 }
 
 void CLurkerDeath::tick()

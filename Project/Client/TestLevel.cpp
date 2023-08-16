@@ -44,6 +44,8 @@
 #include <Script\CKnightScript.h>
 #include <Script\CSoundScript.h>
 #include <Script\CBankNPCScript.h>
+#include <Script\CBankNPCScript.h>
+#include <Script\CMonsterDetectRangeScript.h>
 #include <Engine/CDetourMgr.h>
 
 void CreateTestLevel()
@@ -59,197 +61,246 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::MONSTER, ((int)LAYER::MONSTERPROJECTILE));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTERPROJECTILE));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ANCHOR));
+	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::ITEM));
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	pCurLevel->ChangeState(LEVEL_STATE::STOP);
-	pCurLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+	pCurLevel->SetLevelType((int)LEVEL_TYPE::FOREST_FIELD);
+	/*CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_BOSS);
+	CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::ICE_BOSS);*/
 
-	// Main Camera Object 생성
-	CGameObject* pMainCam = new CGameObject;
-	pMainCam->SetName(L"MainCamera");
-
-	pMainCam->AddComponent(new CTransform);
-	pMainCam->AddComponent(new CCamera);
-	pMainCam->AddComponent(new CGameCameraScript);
-
-	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
-	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-
-	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::MAINCAMERA);
-
-	
-
-	/*CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
-	NewLevel->SetName(L"CASTLE_FIELD");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Forest.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"FOREST_FIELD");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::FOREST_FIELD);
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 	evn.wParam = (DWORD_PTR)NewLevel;
 	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
 	CEventMgr::GetInst()->AddEvent(evn);
+	
+	
+	//Player Status setting
+		g_tPlayerStat.Attack = 100.f;
+		g_tPlayerStat.Attack_Speed = 0.4f;
+		g_tPlayerStat.Energy = 0;
+		g_tPlayerStat.Max_Energy = 4;
+		g_tPlayerStat.HP = 4;
+		g_tPlayerStat.Max_HP = 4;
+		g_tPlayerStat.Speed = 300.f;
+		g_tPlayerStat.Spell_Power = 40.f;
+	//=============================
+	return;
+	//Ice_Boss
+	// 
+	 //Main Camera 
+	{
+		CGameObject* pMainCam = new CGameObject;
+		pMainCam->SetName(L"MainCamera");
 
+		pMainCam->AddComponent(new CTransform);
+		pMainCam->AddComponent(new CCamera);
+		pMainCam->AddComponent(new CGameCameraScript);
 
-	return;*/
+		pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
+		pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+		pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+
+		SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::MAINCAMERA);
+
+	}
+	//SubCamera
+	{
+		CGameObject* pSubCam = new CGameObject;
+		pSubCam->SetName(L"SubCamera");
+
+		pSubCam->AddComponent(new CTransform);
+		pSubCam->AddComponent(new CCamera);
+		pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		pSubCam->Camera()->SetCameraIndex(2);
+		pSubCam->Camera()->SetLayerMaskAll(false);
+		pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
+
+		SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
+	}
 
 	Ptr<CMeshData> pMeshData = nullptr;
 	CGameObject* pPlayer = nullptr;
 	CGameObject* pObject = nullptr;
 	CGameObject* pKnight = nullptr;
+
+	//Player
+	{
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
+		pPlayer = pMeshData->Instantiate();
+		pPlayer->SetName(L"Player");
+		pPlayer->AddComponent(new CPlayerScript);
+		pPlayer->AddComponent(new CStateScript);
+		pPlayer->AddComponent(new CCollider3D);
+		pPlayer->AddComponent(new CRigidbody);
+
+		pPlayer->Transform()->SetRelativeScale(Vec3(40.f, 40.f, 40.f));
+		pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+
+		pPlayer->MeshRender()->SetDynamicShadow(true);
+		pPlayer->MeshRender()->SetFrustumCheck(false);
+
+		pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+		pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
+		pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
+
+
+		Vec3 playerpos = Vec3(700.f, 500.f, 1300.f);
+		CPhysXMgr::GetInst()->CreateSphere(playerpos, 20.f, pPlayer);
+		SpawnGameObject(pPlayer, playerpos, (int)LAYER::PLAYER);
+
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
+		CGameObject* pSword = pMeshData->Instantiate();
+		pSword->SetName(L"Sword");
+		pSword->AddComponent(new CPlayerWeaponScript);
+		pSword->AddComponent(new CStateScript);
+		pSword->MeshRender()->SetDynamicShadow(true);
+		pSword->MeshRender()->SetFrustumCheck(false);
+		pPlayer->AddChild(pSword);
+
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
+		CGameObject* pBow = pMeshData->Instantiate();
+		pBow->SetName(L"Bow");
+		pBow->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
+		pBow->MeshRender()->SetDynamicShadow(true);
+		pBow->MeshRender()->SetFrustumCheck(false);
+		pPlayer->AddChild(pBow);
+	}
 	
-	CGameObject* pSoundMgr = new CGameObject;
-	pSoundMgr->SetName(L"SoundUI");
-	pSoundMgr->AddComponent(new CTransform);
-	pSoundMgr->AddComponent(new CMeshRender);
-	pSoundMgr->AddComponent(new CSoundScript);
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Lurker.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Lurker");
+	pObject->AddComponent(new CCollider3D);
+	pObject->AddComponent(new CRigidbody);
+	pObject->AddComponent(new CLurkerScript);
+	pObject->AddComponent(new CStateScript);
+	
+	pObject->Transform()->SetRelativeScale(0.4f, 0.4f, 0.4f);
+	pObject->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+	pObject->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pObject->Collider3D()->SetOffsetScale(Vec3(30.f, 30.f, 30.f));
+	
+	pObject->MeshRender()->SetDynamicShadow(true);
+	pObject->MeshRender()->SetFrustumCheck(false);
+	
+	CGameObject* pDetect = new CGameObject;
+	pDetect->SetName(L"MonsterDetectRange");
+	pDetect->AddComponent(new CTransform);
+	pDetect->AddComponent(new CCollider3D);
+	pDetect->AddComponent(new CMonsterDetectRangeScript);
+	
+	pDetect->Collider3D()->SetAbsolute(true);
+	pDetect->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
+	pDetect->Collider3D()->SetOffsetScale(Vec3(400.f, 400.f, 400.f));
+	
+	pObject->AddChild(pDetect);
+	Vec3 lurkerpos = Vec3(2500.f, 500.f, 5000.f);
+	CPhysXMgr::GetInst()->CreateSphere(lurkerpos, 20.f, pObject);
+	SpawnGameObject(pObject, lurkerpos, (int)LAYER::MONSTER);
 
-	pSoundMgr->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pSoundMgr->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-
-	SpawnGameObject(pSoundMgr, Vec3(0.f), (int)LAYER::DEFAULT);
-
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
-	pPlayer = pMeshData->Instantiate();
-	pPlayer->SetName(L"Player");
-	pPlayer->AddComponent(new CPlayerScript);
-	pPlayer->AddComponent(new CStateScript);
-	pPlayer->AddComponent(new CCollider3D);
-	pPlayer->AddComponent(new CRigidbody);
-
-	pPlayer->Transform()->SetRelativeScale(Vec3(40.f, 40.f, 40.f));
-	pPlayer->Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-
-	pPlayer->MeshRender()->SetDynamicShadow(true);
-	pPlayer->MeshRender()->SetFrustumCheck(false);
-
-	pPlayer->Collider3D()->SetCollider3DType(COLLIDER3D_TYPE::SPHERE);
-	pPlayer->Collider3D()->SetOffsetScale(Vec3(1.f, 1.f, 1.f));
-	pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
-
-	Stat PlayerStat;
-	PlayerStat.Attack = 50.f;
-	PlayerStat.Attack_Speed = 0.4f;
-	PlayerStat.HP = 4;
-	PlayerStat.Speed = 150.f;
-	PlayerStat.Spell_Power = 40.f;
-	pPlayer->GetScript<CStateScript>()->SetStat(PlayerStat);
-	Vec3 playerpos = Vec3(0.f, 0.f, 0.f);
-	CPhysXMgr::GetInst()->CreateSphere(playerpos, 20.f, pPlayer);
-	SpawnGameObject(pPlayer, playerpos, (int)LAYER::PLAYER);
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowSword.fbx");
-	CGameObject* pSword = pMeshData->Instantiate();
-	pSword->SetName(L"Sword");
-	pSword->AddComponent(new CPlayerWeaponScript);
-	pSword->AddComponent(new CStateScript);
-	pSword->MeshRender()->SetDynamicShadow(true);
-	pSword->MeshRender()->SetFrustumCheck(false);
-	pPlayer->AddChild(pSword);
-
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Bow.fbx");
-	CGameObject* pBow = pMeshData->Instantiate();
-	pBow->SetName(L"Bow");
-	pBow->Transform()->SetRelativeScale(0.f, 0.f, 0.f);
-	pBow->MeshRender()->SetDynamicShadow(true);
-	pBow->MeshRender()->SetFrustumCheck(false);
-	pPlayer->AddChild(pBow);
 
 	//return;
-	CGameObject* pSubCam = new CGameObject;
-	pSubCam->SetName(L"SubCamera");
+	//SoundUI
+	{
+		CGameObject* pSoundMgr = new CGameObject;
+		pSoundMgr->SetName(L"SoundUI");
+		pSoundMgr->AddComponent(new CTransform);
+		pSoundMgr->AddComponent(new CMeshRender);
+		pSoundMgr->AddComponent(new CSoundScript);
 
-	pSubCam->AddComponent(new CTransform);
-	pSubCam->AddComponent(new CCamera);
-	pSubCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	pSubCam->Camera()->SetCameraIndex(2);
-	pSubCam->Camera()->SetLayerMaskAll(false);
-	pSubCam->Camera()->SetLayerMask(31, true);// UI Layer 는 렌더링하지 않는다.
+		pSoundMgr->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pSoundMgr->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
 
-	SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
+		SpawnGameObject(pSoundMgr, Vec3(0.f), (int)LAYER::DEFAULT);
+	}
 
+	//HUD Icons
+	{
+		CGameObject* pArrowIcon = new CGameObject;
+		pArrowIcon->SetName(L"ArrowIcon");
+		pArrowIcon->AddComponent(new CTransform);
+		pArrowIcon->AddComponent(new CMeshRender);
+		pArrowIcon->AddComponent(new CArrowIconScript);
+		pArrowIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pArrowIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+		SpawnGameObject(pArrowIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
-	CGameObject* pArrowIcon = new CGameObject;
-	pArrowIcon->SetName(L"ArrowIcon");
-	pArrowIcon->AddComponent(new CTransform);
-	pArrowIcon->AddComponent(new CMeshRender);
-	pArrowIcon->AddComponent(new CArrowIconScript);
-	pArrowIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pArrowIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-	SpawnGameObject(pArrowIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+		CGameObject* pFireIcon = new CGameObject;
+		pFireIcon->SetName(L"FireIcon");
+		pFireIcon->AddComponent(new CTransform);
+		pFireIcon->AddComponent(new CMeshRender);
+		pFireIcon->AddComponent(new CFireIconScript);
+		pFireIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pFireIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+		SpawnGameObject(pFireIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
-	CGameObject* pFireIcon = new CGameObject;
-	pFireIcon->SetName(L"FireIcon");
-	pFireIcon->AddComponent(new CTransform);
-	pFireIcon->AddComponent(new CMeshRender);
-	pFireIcon->AddComponent(new CFireIconScript);
-	pFireIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pFireIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-	SpawnGameObject(pFireIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+		CGameObject* pBombIcon = new CGameObject;
+		pBombIcon->SetName(L"BombIcon");
+		pBombIcon->AddComponent(new CTransform);
+		pBombIcon->AddComponent(new CMeshRender);
+		pBombIcon->AddComponent(new CBombIconScript);
+		pBombIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pBombIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+		SpawnGameObject(pBombIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
-	CGameObject* pBombIcon = new CGameObject;
-	pBombIcon->SetName(L"BombIcon");
-	pBombIcon->AddComponent(new CTransform);
-	pBombIcon->AddComponent(new CMeshRender);
-	pBombIcon->AddComponent(new CBombIconScript);
-	pBombIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pBombIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-	SpawnGameObject(pBombIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+		CGameObject* pHookIcon = new CGameObject;
+		pHookIcon->SetName(L"HookIcon");
+		pHookIcon->AddComponent(new CTransform);
+		pHookIcon->AddComponent(new CMeshRender);
+		pHookIcon->AddComponent(new CHookIconScript);
+		pHookIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pHookIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+		SpawnGameObject(pHookIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
-	CGameObject* pHookIcon = new CGameObject;
-	pHookIcon->SetName(L"HookIcon");
-	pHookIcon->AddComponent(new CTransform);
-	pHookIcon->AddComponent(new CMeshRender);
-	pHookIcon->AddComponent(new CHookIconScript);
-	pHookIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pHookIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-	SpawnGameObject(pHookIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+		CGameObject* pHPIcon = new CGameObject;
+		pHPIcon->SetName(L"HPIcon");
+		pHPIcon->AddComponent(new CTransform);
+		pHPIcon->AddComponent(new CMeshRender);
+		pHPIcon->AddComponent(new CHPIconScript);
+		pHPIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pHPIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+		SpawnGameObject(pHPIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
 
-	CGameObject* pHPIcon = new CGameObject;
-	pHPIcon->SetName(L"HPIcon");
-	pHPIcon->AddComponent(new CTransform);
-	pHPIcon->AddComponent(new CMeshRender);
-	pHPIcon->AddComponent(new CHPIconScript);
-	pHPIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pHPIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-	SpawnGameObject(pHPIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+		CGameObject* pEnergyIcon = new CGameObject;
+		pEnergyIcon->SetName(L"EnergyIcon");
+		pEnergyIcon->AddComponent(new CTransform);
+		pEnergyIcon->AddComponent(new CMeshRender);
+		pEnergyIcon->AddComponent(new CEnergyIconScript);
+		pEnergyIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pEnergyIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
+		SpawnGameObject(pEnergyIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+	}
+	
+	// Light 3D
+	{
+		CGameObject* pLightObj = new CGameObject;
+		pLightObj->SetName(L"Light");
 
-	CGameObject* pEnergyIcon = new CGameObject;
-	pEnergyIcon->SetName(L"EnergyIcon");
-	pEnergyIcon->AddComponent(new CTransform);
-	pEnergyIcon->AddComponent(new CMeshRender);
-	pEnergyIcon->AddComponent(new CEnergyIconScript);
-	pEnergyIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pEnergyIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-	SpawnGameObject(pEnergyIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
+		pLightObj->AddComponent(new CTransform);
+		pLightObj->AddComponent(new CLight3D);
+		pLightObj->AddComponent(new CMainLightScript);
 
+		pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+		pLightObj->Light3D()->SetLightDirection(Vec3(1.f, -1.f, 1.f));
 
+		pLightObj->Light3D()->SetRadius(500.f);
+		pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
+		//pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
+		pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
 
+		SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
+	}
 	
 
-
-	// 광원 추가
-	CGameObject* pLightObj = new CGameObject;
-	pLightObj->SetName(L"Light");
-
-	pLightObj->AddComponent(new CTransform);
-	pLightObj->AddComponent(new CLight3D);
-	pLightObj->AddComponent(new CMainLightScript);
-
-	pLightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-	pLightObj->Light3D()->SetLightDirection(Vec3(1.f, -1.f, 1.f));
-
-	pLightObj->Light3D()->SetRadius(500.f);
-	pLightObj->Light3D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
-	//pLightObj->Light3D()->SetLightSpecular(Vec3(0.3f, 0.3f, 0.3f));
-	pLightObj->Light3D()->SetLightAmbient(Vec3(0.15f, 0.15f, 0.15f));
-
-	SpawnGameObject(pLightObj, -pLightObj->Light3D()->GetLightDirection() * 1000.f, (int)LAYER::DEFAULT);
-
-	//// SkyBox 추가
-	//CGameObject* pSkyBox = new CGameObject;
+	// SkyBox
+	{
+		//CGameObject* pSkyBox = new CGameObject;
 	//pSkyBox->SetName(L"SkyBox");
 
 	//pSkyBox->AddComponent(new CTransform);
@@ -262,73 +313,80 @@ void CreateTestLevel()
 	//pSkyBox->SkyBox()->SetSkyTexture(CResMgr::GetInst()->FindRes<CTexture>(L"texture\\skybox\\SkyWater.dds"));
 
 	//SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
+	}
+	
+	//Map
+	{
+		//CGameObject* pFloor = new CGameObject;
+		//pFloor->AddComponent(new CTransform);
+		//pFloor->AddComponent(new CMeshRender);
+		//pFloor->SetName(L"Floor");
+		//pFloor->Transform()->SetRelativeScale(50000.f, 10.f, 50000.f);//Scale
+		//pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+		//pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
+		//pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
+		//pFloor->GetRenderComponent()->SetFrustumCheck(false);
+		//pFloor->GetRenderComponent()->SetDynamicShadow(true);
+		//SpawnGameObject(pFloor, Vec3(0.f, -10.f, 0.f), (int)LAYER::GROUND);
+		//CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+	
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"Forest");
+		pObject = pMeshData->Instantiate();
+		pObject->SetName(L"Map");
+		pObject->MeshRender()->SetDynamicShadow(true);
+		pObject->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pObject, Vec3(0.f, 0.f, 0.f), (int)LAYER::GROUND);
 
 
+	}
+	//Detour, PhysX -> gets Level Type from the level and gets the navi mesh .bin files & PhysX simple map files
 
+	//Wind 
+	{
+		//CGameObject* pWind = new CGameObject;
+		//pWind->SetName(L"Wind");
+		//pWind->AddComponent(new CTransform);
+		//pWind->AddComponent(new CMeshRender);
+		//pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		//pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
+		//pWind->MeshRender()->SetFrustumCheck(false);
+		//
+		//SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
+	}
+	
+	// Water 
+	{
+		CGameObject* pWater = new CGameObject;
+		pWater->SetName(L"Water");
+		pWater->AddComponent(new CTransform);
+		pWater->AddComponent(new CMeshRender);
+		pWater->AddComponent(new CWaterScript);
+		pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+		pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+		pWater->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+	}
+	
+	//Water Camera
+	{
+		CGameObject* pWaterCam = new CGameObject;
+		pWaterCam->SetName(L"WaterCamera");
 
+		pWaterCam->AddComponent(new CTransform);
+		pWaterCam->AddComponent(new CCamera);
+		pWaterCam->AddComponent(new CWaterCameraScript);
 
-	CGameObject* pFloor = new CGameObject;
-	pFloor->AddComponent(new CTransform);
-	pFloor->AddComponent(new CMeshRender);
-	pFloor->SetName(L"Floor");
-	pFloor->Transform()->SetRelativeScale(50000.f, 10.f, 50000.f);
-	pFloor->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	pFloor->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std3D_DeferredMtrl"), 0);
-	pFloor->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\CrowBossMapFloor.png"));
-	pFloor->GetRenderComponent()->SetFrustumCheck(false);
-	pFloor->GetRenderComponent()->SetDynamicShadow(true);
-	SpawnGameObject(pFloor, Vec3(0.f,0.f,0.f), (int)LAYER::GROUND);
-	CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+		pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		pWaterCam->Camera()->SetCameraIndex(1);
+		pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+		pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+		pWaterCam->Camera()->SetWaterCamera(true);
 
+		SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
 
-	// //Wind 
-	//CGameObject* pWind = new CGameObject;
-	//pWind->SetName(L"Wind");
-	//pWind->AddComponent(new CTransform);
-	//pWind->AddComponent(new CMeshRender);
-	//pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
-	//pWind->MeshRender()->SetFrustumCheck(false);
-	//
-	//SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
-
-	//// Water 
-	//CGameObject* pWater = new CGameObject;
-	//pWater->SetName(L"Water");
-	//pWater->AddComponent(new CTransform);
-	//pWater->AddComponent(new CMeshRender);
-	//pWater->AddComponent(new CWaterScript);
-	//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-	//pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
-	//pWater->MeshRender()->SetFrustumCheck(false);
-
-	//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
-
-	//// Water Camera Object 생성
-	//CGameObject* pWaterCam = new CGameObject;
-	//pWaterCam->SetName(L"WaterCamera");
-
-	//pWaterCam->AddComponent(new CTransform);
-	//pWaterCam->AddComponent(new CCamera);
-	//pWaterCam->AddComponent(new CWaterCameraScript);
-
-	//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	//pWaterCam->Camera()->SetCameraIndex(1);
-	//pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-	//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-	//pWaterCam->Camera()->SetWaterCamera(true);
-
-	//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
-
-	//CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_BOSS);
-
-	/*pMeshData = CResMgr::GetInst()->LoadFBX(L"Hall_SIMPLE");
-	pObject = pMeshData->Instantiate();
-	CPhysXMgr::GetInst()->ConvertStatic(Vec3(0.f, 0.f, 0.f), pObject);*/
-
-	//delete pObject;
-
+	}
+	
 	//pMeshData = CResMgr::GetInst()->LoadFBX(L"hall");
 	//pObject = pMeshData->Instantiate();
 	//pObject->SetName(L"Map");

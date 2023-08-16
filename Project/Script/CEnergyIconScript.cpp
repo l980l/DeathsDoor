@@ -44,7 +44,7 @@ void CEnergyIconScript::tick()
 	int energy = playerStatus.Energy;
 	CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
 	UINT magicType = pScript->GetUseMagic();
-	if (energy == 4 && magicType == (UINT)PLAYER_MAGIC::HOOK)//´Ù »¡°­
+	if (energy >= 4 && magicType == (UINT)PLAYER_MAGIC::HOOK)//´Ù »¡°­
 	{
 		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\EG4r0w.png", L"texture\\HUD\\EG4r0w.png", 0));
 	}
@@ -95,5 +95,9 @@ void CEnergyIconScript::tick()
 	else if (energy == 0)
 	{
 		MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\EGempty.png", L"texture\\HUD\\EGempty.png", 0));
+	}
+	else if (energy < 0)
+	{
+		energy = 0;
 	}
 }

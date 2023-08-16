@@ -3,6 +3,7 @@
 #include "CStateScript.h"
 #include "CrowBossStates.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 #include <Engine/CDetourMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -11,15 +12,18 @@ CCrowBossScript::CCrowBossScript() :
 	CMonsterScript((UINT)SCRIPT_TYPE::CROWBOSSSCRIPT)
 	, m_fPlayerDistance(0.f)
 	, m_bStarePlayer(false)
+	, m_fPrevHP(0.f)
+	, m_pCrowBossFeather(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_bDetect, "Detect");
-	AddScriptParam(SCRIPT_PARAM::INT, &m_Test, "m_Test");
 }
 
 CCrowBossScript::CCrowBossScript(const CCrowBossScript& _Other) :
 	CMonsterScript((UINT)SCRIPT_TYPE::CROWBOSSSCRIPT)
 	, m_fPlayerDistance(0.f)
 	, m_bStarePlayer(false)
+	, m_fPrevHP(0.f)
+	, m_pCrowBossFeather(nullptr)
 {
 }
 
@@ -63,12 +67,17 @@ void CCrowBossScript::begin()
 		// 초기 스탯 설정.
 		Stat NewStat;
 		NewStat.Max_HP = 1500;
-		NewStat.HP = 1500;
+		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 150.f;
+		NewStat.Speed = 110.f;
 		m_pStateScript->SetStat(NewStat);
+
+		// 이전 HP
+		m_fPrevHP = NewStat.Max_HP;
 	}
+
+	m_pCrowBossFeather = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\CrowBossFeather.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos());
 }
 
 void CCrowBossScript::tick()
@@ -98,8 +107,19 @@ void CCrowBossScript::tick()
 		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 	}
 
-	if(m_Test)
-		m_pStateScript->ChangeState(L"CutScene");
+	float fCurHP = m_pStateScript->GetStat().HP;
+
+	// 체력이 줄었다면.
+	if (m_fPrevHP < fCurHP)
+	{
+		// Sound
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_TakeDamage1.ogg", 1, 0.1f);
+
+		m_fPrevHP = fCurHP;
+	}
+
+	m_pCrowBossFeather->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
 }
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)

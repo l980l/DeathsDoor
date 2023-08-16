@@ -24,7 +24,7 @@ void CGrimKnightMelee::Exit()
 {
 	//공격 prefab 생성
 	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"prefab\\HitEffect.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
 void CGrimKnightMelee::BeginOverlap(CCollider2D* _Other)

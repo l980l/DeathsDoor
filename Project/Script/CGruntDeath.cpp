@@ -2,11 +2,16 @@
 #include "CGruntDeath.h"
 #include "CGruntScript.h"
 #include "CPlayerScript.h"
+#include "CSoundScript.h"
 
 void CGruntDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(13, false);
 	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_DashAttackVoice2.ogg", 1, 0.1f);
 }
 
 void CGruntDeath::tick()

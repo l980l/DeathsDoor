@@ -2,6 +2,7 @@
 #include "CCrowBossJump.h"
 #include "CCrowBossScript.h"
 #include "CCrowBossStomp.h"
+#include "CSoundScript.h"
 
 void CCrowBossJump::Enter()
 {
@@ -10,6 +11,10 @@ void CCrowBossJump::Enter()
 	m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
 
 	m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Jump2.ogg", 1, 0.1f);
 }
 
 void CCrowBossJump::tick()

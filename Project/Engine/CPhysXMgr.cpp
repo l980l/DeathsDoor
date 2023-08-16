@@ -4,6 +4,7 @@
 #include "components.h"
 #include "CMeshData.h"
 #include "CResMgr.h"
+#include "CLevelMgr.h"
 
 CPhysXMgr::CPhysXMgr()
     : m_vecDynamicObject{}
@@ -405,8 +406,6 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
 
     if(_tType != LEVEL_TYPE::ICE_BOSS)
     {
-        CGameObject* pMap = pMeshData->Instantiate();
-        ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
-        delete pMap;
+      
     }
 }

@@ -3,6 +3,7 @@
 #include "CCrowBossScript.h"
 #include "CBossChainScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 CCrowBossSliding::CCrowBossSliding()
 	: m_qStartPos{}
@@ -36,6 +37,10 @@ void CCrowBossSliding::Enter()
 
 	float YRot = GetDir(vStartPos, vTargetPos);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, YRot, 0.f);
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrowChainDash1.ogg", 1, 0.1f);
 }
 
 void CCrowBossSliding::tick()
@@ -160,6 +165,10 @@ void CCrowBossSliding::ArriveToTarget()
 			GetOwner()->Rigidbody()->SetRigidPos(vStartPos);
 			m_qStartPos.pop();
 		}
+
+		// Sound
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrowChainDash1.ogg", 1, 0.1f);
 
 		Vec3 vTargetPos = m_qTargetPos.front();
 		m_vDirtoTarget = vTargetPos - vStartPos;

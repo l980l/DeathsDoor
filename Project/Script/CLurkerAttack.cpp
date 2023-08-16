@@ -2,6 +2,7 @@
 #include "CLurkerAttack.h"
 #include "CLurkerScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CSoundScript.h"
 
 void CLurkerAttack::Enter()
 {
@@ -16,6 +17,10 @@ void CLurkerAttack::Enter()
 	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CLurkerScript>()->GetPlayerPos());
 	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
 	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+
+	// Sound
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerAttack1.ogg", 1, 0.1f);
 }
 
 void CLurkerAttack::tick()

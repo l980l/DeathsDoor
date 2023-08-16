@@ -124,7 +124,6 @@ void CCrowBossSlidingReady::ThrowHook()
 		vecThrowPos.push_back(vVtThrowPos);
 		vecThrowDir.push_back(vVtDir);
 
-
 		for (int i = 0; i < m_iThrowCount; ++i)
 		{
 			float YRot = 0;
@@ -139,7 +138,6 @@ void CCrowBossSlidingReady::ThrowHook()
 			m_vecHook[i]->GetScript<CBossChainScript>()->SetThrowDistance(3500.f);
 			m_vecHook[i]->GetScript<CBossChainScript>()->Active(true, true, 0.5f * i);
 		}
-
 	}
 	else if (CHAINPATERN::SPREAD == m_tChainPatern)
 	{
