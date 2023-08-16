@@ -74,7 +74,7 @@ void CGruntScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
-		NewStat.Max_HP = 200;
+		NewStat.Max_HP = 100;
 		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
