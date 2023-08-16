@@ -14,6 +14,7 @@
 
 #include <Engine\CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
+#include <Engine/CEventMgr.h>
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
@@ -199,7 +200,21 @@ void CPlayerScript::EditorMode()
 	{
 		m_bEditorMode = m_bEditorMode ? false : true;
 	}
-
+	// 끼임 탈출
+	if (KEY_TAP(KEY::T))
+	{
+		// 사망 텍스쳐 출력 시간이 끝나면 현재레벨을 다시 시작함.
+		int iCurLevelType = CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
+		g_tNextLevel = (LEVEL_TYPE)iCurLevelType;
+		CLevel* NewLevel = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
+		NewLevel->SetName(L"LevelLoading");
+		NewLevel->SetLevelType((int)LEVEL_TYPE::LOADING);
+		tEvent evn = {};
+		evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+		evn.wParam = (DWORD_PTR)NewLevel;
+		evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+		CEventMgr::GetInst()->AddEvent(evn);
+	}
 }
 
 void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
