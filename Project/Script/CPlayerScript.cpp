@@ -35,6 +35,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::begin()
 {
 	GetOwner()->GetScript<CStateScript>()->SetStat(g_tPlayerStat);
+
 	if (nullptr == m_pSword)
 	{
 		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();

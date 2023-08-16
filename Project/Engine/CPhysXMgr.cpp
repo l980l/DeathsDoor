@@ -346,8 +346,7 @@ void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 
 void CPhysXMgr::Clear()
 {
-    // Level 초기화에 호출될 전체 피직스 초기화
-    
+    // Level 초기화에 호출될 전체 피직스 초기화   
 
     if(!m_vecDynamicActor.empty())
     {
@@ -401,6 +400,8 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
     case LEVEL_TYPE::ICE_BOSS:
         CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
+    case LEVEL_TYPE::LOADING:
+        return;
     }
 
     if (LEVEL_TYPE::ICE_BOSS != _tType)

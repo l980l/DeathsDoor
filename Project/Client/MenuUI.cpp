@@ -173,11 +173,8 @@ int MenuUI::render_update()
             }
             else if (ImGui::MenuItem("Stop", nullptr, nullptr, StopEnable))
             {
-
                 CurLevel->ChangeState(LEVEL_STATE::STOP);
-                CPhysXMgr::GetInst()->Clear();
                 CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\Temp.lv", LEVEL_STATE::STOP);
-
                 tEvent evn = {};
                 evn.Type = EVENT_TYPE::LEVEL_CHANGE;
                 evn.wParam = DWORD_PTR(pNewLevel);
