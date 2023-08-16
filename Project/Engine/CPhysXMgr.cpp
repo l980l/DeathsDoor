@@ -402,4 +402,11 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
         break;
     }
+
+
+    if(_tType != LEVEL_TYPE::ICE_BOSS)
+    {
+      pMeshData = 
+    }
+
 }
