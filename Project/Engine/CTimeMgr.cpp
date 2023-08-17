@@ -60,7 +60,7 @@ void CTimeMgr::render()
 
 	if (1.f <= m_fTime)
 	{		
-		swprintf_s(szBuff, L"FPS : %d, DT : %f", m_iCallCount, m_fDeltaTime);
+		//swprintf_s(szBuff, L"FPS : %d, DT : %f", m_iCallCount, m_fDeltaTime);
 		//SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);	
 
 		m_fTime = 0.f;
