@@ -4,11 +4,10 @@ class CTrapScript :
     public CScript
 {
 private:
-    int m_itrapNum;
-    bool m_bTrapped;
+    int m_iTrapNum;
 
 private:
-    void SetTrapNum(int _trapNum) { m_itrapNum = _trapNum; }
+    void SetTrapNum(int _trapNum) { m_iTrapNum = _trapNum; }
 public:
     virtual void begin() override;
     virtual void tick() override;

@@ -147,7 +147,7 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 		}
 		else if (curLevel->GetLevelType() == (int)LEVEL_TYPE::FOREST_FIELD)
 		{
-			if (GetOwner()->GetName() == L"Trap1" && m_bTrapped == false)
+			if (GetOwner()->GetName() == L"Trap1")
 			{
 				CGameObject* door = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(5942.f, 549.f, 3636.f));
 				door->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));

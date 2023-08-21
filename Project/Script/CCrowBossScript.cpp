@@ -47,18 +47,14 @@ void CCrowBossScript::begin()
 	if (nullptr == m_pStateScript)
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
-		m_pStateScript->AddState(L"Walk",			new CCrowBossWalk);
 		m_pStateScript->AddState(L"Stomp",			new CCrowBossStomp);
 		m_pStateScript->AddState(L"StandingDeath",	new CCrowBossStandingDeath);
-		m_pStateScript->AddState(L"Spitting",		new CCrowBossSpitting);
 		m_pStateScript->AddState(L"Sliding",		new CCrowBossSliding);
 		m_pStateScript->AddState(L"SlidingReady",	new CCrowBossSlidingReady);
 		m_pStateScript->AddState(L"Run",			new CCrowBossRun);
 		m_pStateScript->AddState(L"RightSpin",		new CCrowBossRightSpin);
-		m_pStateScript->AddState(L"LeftSpin",		new CCrowBossLeftSpin);
 		m_pStateScript->AddState(L"Jump",			new CCrowBossJump);
 		m_pStateScript->AddState(L"Idle",			new CCrowBossIdle);
-		m_pStateScript->AddState(L"GuidedBullet",	new CCrowBossGuidedBullet);
 		m_pStateScript->AddState(L"Death",			new CCrowBossDeath);
 		m_pStateScript->AddState(L"CutScene",		new CCrowBossCutScene);
 		m_pStateScript->AddState(L"BatBullet",		new CCrowBossBatBullet);

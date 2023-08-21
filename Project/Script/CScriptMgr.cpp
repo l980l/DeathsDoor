@@ -18,7 +18,6 @@
 #include "CCursorScript.h"
 #include "CEnterScript.h"
 #include "CFenceScript.h"
-#include "CFenseScript.h"
 #include "CFireIconScript.h"
 #include "CGameCameraScript.h"
 #include "CGhostScript.h"
@@ -72,7 +71,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCursorScript");
 	_vec.push_back(L"CEnterScript");
 	_vec.push_back(L"CFenceScript");
-	_vec.push_back(L"CFenseScript");
 	_vec.push_back(L"CFireIconScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGhostScript");
@@ -144,8 +142,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CEnterScript;
 	if (L"CFenceScript" == _strScriptName)
 		return new CFenceScript;
-	if (L"CFenseScript" == _strScriptName)
-		return new CFenseScript;
 	if (L"CFireIconScript" == _strScriptName)
 		return new CFireIconScript;
 	if (L"CGameCameraScript" == _strScriptName)
@@ -269,9 +265,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::FENCESCRIPT:
 		return new CFenceScript;
-		break;
-	case (UINT)SCRIPT_TYPE::FENSESCRIPT:
-		return new CFenseScript;
 		break;
 	case (UINT)SCRIPT_TYPE::FIREICONSCRIPT:
 		return new CFireIconScript;
@@ -446,10 +439,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::FENCESCRIPT:
 		return L"CFenceScript";
-		break;
-
-	case SCRIPT_TYPE::FENSESCRIPT:
-		return L"CFenseScript";
 		break;
 
 	case SCRIPT_TYPE::FIREICONSCRIPT:

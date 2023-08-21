@@ -45,7 +45,7 @@ void CRoomScript::begin()
 
 void CRoomScript::tick()
 {
-
+}
 
 void CRoomScript::SpawnMst()
 {

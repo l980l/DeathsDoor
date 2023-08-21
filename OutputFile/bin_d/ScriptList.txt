@@ -15,7 +15,6 @@ CCrowHeadScript
 CCursorScript
 CEnterScript
 CFenceScript
-CFenseScript
 CFireIconScript
 CGameCameraScript
 CGhostScript

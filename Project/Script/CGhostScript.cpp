@@ -7,15 +7,21 @@
 #include "CGhostHit.h"
 #include <Engine/CPhysXMgr.h>
 
-CGhostScript::CGhostScript()		:
-	CMonsterScript((UINT)SCRIPT_TYPE::GHOSTSCRIPT),
-	isHit(false)
+CGhostScript::CGhostScript()		
+	: CMonsterScript((UINT)SCRIPT_TYPE::GHOSTSCRIPT)
+	, m_bRecognizeCheck(false)
+	, m_bOnCollision(false)
+	, m_bIsHit(false)
+	, m_vPlayerPos{}
 {
 }
 
-CGhostScript::CGhostScript(const CGhostScript& _Other)	:
-	CMonsterScript((UINT)SCRIPT_TYPE::GHOSTSCRIPT),
-	isHit(false)
+CGhostScript::CGhostScript(const CGhostScript& _Other)	
+	: CMonsterScript((UINT)SCRIPT_TYPE::GHOSTSCRIPT)
+	, m_bRecognizeCheck(_Other.m_bRecognizeCheck)
+	, m_bOnCollision(false)
+	, m_bIsHit(false)
+	, m_vPlayerPos(_Other.m_vPlayerPos)
 {
 }
 
@@ -42,13 +48,13 @@ void CGhostScript::begin()
 		m_pStateScript->ChangeState(L"Trace");
 	}
 
-
 	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 
 	// 초기 스탯 설정.
-	m_stat.Attack = 1;
-	m_stat.Speed = 300;
-	m_pStateScript->SetStat(m_stat);
+	Stat initStat;
+	initStat.Attack = 1;
+	initStat.Speed = 300;
+	m_pStateScript->SetStat(initStat);
 
 	SetLifeSpan(10.f);
 }
@@ -61,10 +67,10 @@ void CGhostScript::tick()
 Vec3 CGhostScript::GetDir(Vec3 _start, Vec3 _target)
 {
 	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
-	Vec3 CurPos = _start;
+	Vec3 vCurPos = _start;
 	Vec2 vDefault = Vec2(0.f, -1.f);
-	Vec3 TargetPos = _target;
-	Vec3 vDir = TargetPos - CurPos;
+	Vec3 vTargetPos = _target;
+	Vec3 vDir = vTargetPos - vCurPos;
 	vDir.y = 0;
 	vDir.Normalize();
 
@@ -73,54 +79,29 @@ Vec3 CGhostScript::GetDir(Vec3 _start, Vec3 _target)
 
 void CGhostScript::BeginOverlap(CCollider3D* _Other)
 {
-	CLevelSaveLoadInScript script;
-	if (L"Slash_R" == _Other->GetOwner()->GetName()|| L"Slash_L" == _Other->GetOwner()->GetName() && isHit == false)
+	
+	if (L"Slash_R" == _Other->GetOwner()->GetName() || L"Slash_L" == _Other->GetOwner()->GetName() && m_bIsHit == false)
 	{
 		//player가 바라 보는 방향으로 이동
-		isHit = true;
+		m_bIsHit = true;
 		m_pStateScript->ChangeState(L"GhostHit");
 	}
-	if (L"Player" == _Other->GetOwner()->GetName() && isHit ==false)
+	if (L"Player" == _Other->GetOwner()->GetName() && m_bIsHit ==false)
 	{
 		//player damage & dead
 
 		//script.SpawnPrefab(L"prefab\\")
-		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
 		GetOwner()->SetLifeSpan(0.f);
 	}
-	else if (L"GrimKnight" == _Other->GetOwner()->GetName() && isHit == true)
+	else if (_Other->GetOwner()->GetScript<CMonsterScript>() && m_bIsHit == true)
 	{
-		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		grimStat.HP -= 50;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
-		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		Stat tCurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
+		tCurStat.HP -= 50;
+		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(tCurStat);
+		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
 		GetOwner()->SetLifeSpan(0.f);
-	}
-	else if (L"Grunt" == _Other->GetOwner()->GetName() && isHit == true)
-	{
-		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		grimStat.HP -= 50;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
-		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
-		GetOwner()->SetLifeSpan(0.f);
-	}
-	else if (L"Lurker" == _Other->GetOwner()->GetName() && isHit == true)
-	{
-		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		grimStat.HP -= 50;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
-		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
-		GetOwner()->SetLifeSpan(0.f);
-	}
-	else if (L"Bat" == _Other->GetOwner()->GetName() && isHit == true)
-	{
-		Stat grimStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		grimStat.HP -= 50;
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(grimStat);
-		script.SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
-		GetOwner()->SetLifeSpan(0.f);
-	}
-	
+	}	
 }
 
 void CGhostScript::OnOverlap(CCollider3D* _Other)

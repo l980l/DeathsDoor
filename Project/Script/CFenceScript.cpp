@@ -3,7 +3,7 @@
 #include <Engine/CPhysXMgr.h>
 
 CFenceScript::CFenceScript()
-	: CScript((UINT)SCRIPT_TYPE::WALLSCRIPT)
+	: CScript((UINT)SCRIPT_TYPE::FENCESCRIPT)
 	, m_iRoomNum(-1)
 	, m_vStartPos{}
 	, m_fMoveDistance(0.f)
@@ -27,18 +27,19 @@ void CFenceScript::tick()
 	float fFenceDir = 0.f;
 
 	if (m_bOpen)
-		fFenceDir = 50.f * DT;
+		fFenceDir = 100.f * DT;
 	else
-		fFenceDir = -50.f * DT;
+		fFenceDir = -100.f * DT;
+	vCurPos.y += fFenceDir;
 
-	Transform()->SetRelativePos(vCurPos.x, vCurPos.y + fFenceDir, vCurPos.z);
+	Transform()->SetRelativePos(vCurPos);
 
 	// 일정 거리 이상 이동했다면 false
 	m_fMoveDistance = (m_vStartPos - Transform()->GetWorldPos()).Length();
-	if (m_fMoveDistance > 100.f)
+	if (m_fMoveDistance > 200.f)
 	{
-		CPhysXMgr::GetInst()->CreateStaticCube(vCurPos, Vec3(100.f), GetOwner());
 		m_bActive = false;
+		GetOwner()->SetLifeSpan(0.5f);
 	}
 }
 
@@ -47,10 +48,12 @@ void CFenceScript::ActivateFence(bool _bOpen)
 	m_bActive = true;
 	m_bOpen = _bOpen;
 	m_vStartPos = Transform()->GetWorldPos();
+	if(!Rigidbody())
+		GetOwner()->AddComponent(new CRigidbody);
 	if (_bOpen)
-		CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(500.f), GetOwner());
+		CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(50.f), GetOwner());
 	else
-		CPhysXMgr::GetInst()->ReleaseStatic(Rigidbody()->GetRigidStatic());
+		CPhysXMgr::GetInst()->ReleaseStatic(m_pStatic);
 }
 
 void CFenceScript::SaveToLevelFile(FILE* _File)

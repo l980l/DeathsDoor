@@ -9,13 +9,9 @@
 
 
 
-CKnightScript::CKnightScript() :
-	CMonsterScript((UINT)SCRIPT_TYPE::KNIGHTSCRIPT)
-{
-}
-
-CKnightScript::CKnightScript(const CKnightScript& _Other) :
-	CMonsterScript((UINT)SCRIPT_TYPE::KNIGHTSCRIPT)
+CKnightScript::CKnightScript() 
+	: CMonsterScript((UINT)SCRIPT_TYPE::KNIGHTSCRIPT)
+	, m_bRecognizeCheck(false)
 {
 }
 
@@ -58,23 +54,17 @@ void CKnightScript::begin()
 		m_pStateScript->ChangeState(L"Idle");
 	}
 
-	//Rigidbody 질량, 마찰, 마찰계수, 제한 속도 재 설정
-	/*GetOwner()->Rigidbody()->SetMass(1.f);
-	GetOwner()->Rigidbody()->SetFriction(1.f);
-	GetOwner()->Rigidbody()->SetFrictionScale(1.f);*/
+	//Rigidbody 제한 속도 설정
 	GetOwner()->Rigidbody()->SetVelocityLimit(150.f);
 
 	// 초기 스탯 설정.
-	m_stat.HP = 400;
-	m_stat.Max_HP = 400;
-	m_stat.Attack = 1;
-	m_stat.Attack_Speed = 10;
-	m_stat.Speed = 150;
-	m_pStateScript->SetStat(m_stat);
-
-
-	recognizeCheck = false;
-	onCollision = false;
+	Stat initStat;
+	initStat.HP = 400;
+	initStat.Max_HP = 400;
+	initStat.Attack = 1;
+	initStat.Attack_Speed = 10;
+	initStat.Speed = 150;
+	m_pStateScript->SetStat(initStat);
 }
 
 void CKnightScript::tick()
@@ -82,15 +72,15 @@ void CKnightScript::tick()
 	CMonsterScript::tick();
 	//Player방향을 바라보기
 	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	float dir = GetSmoothDir(GetOwner(), m_pPlayer);
-	Vec3 curDir = GetOwner()->Transform()->GetRelativeRot();
-	GetOwner()->Transform()->SetRelativeRot(curDir.x, dir, 0.f);
+	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
+	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
 
 	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
-		recognizeCheck == false)
+		m_bRecognizeCheck == false)
 	{
 		m_pStateScript->ChangeState(L"Trace");
-		recognizeCheck = true;
+		m_bRecognizeCheck = true;
 	}
 	else if (GetDetect() && m_pStateScript->FindState(L"SpinAttackCombo") == m_pStateScript->GetCurState())
 	{

@@ -4,11 +4,12 @@ class CFenceScript :
     public CScript
 {
 private:
-    int     m_iRoomNum;
-    Vec3    m_vStartPos;
-    float   m_fMoveDistance;
-    bool    m_bActive;
-    bool    m_bOpen;
+    int                     m_iRoomNum;
+    physx::PxRigidStatic*   m_pStatic;
+    Vec3                    m_vStartPos;
+    float                   m_fMoveDistance;
+    bool                    m_bActive;
+    bool                    m_bOpen;
 
 public:
     virtual void tick() override;

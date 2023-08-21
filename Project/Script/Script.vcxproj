@@ -217,6 +217,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCrowBossStandingDeath.h" />
     <ClInclude Include="CCrowBossStomp.h" />
     <ClInclude Include="CCrowHeadScript.h" />
+    <ClInclude Include="CFenceScript.h" />
     <ClInclude Include="CMPIconScript.h" />
     <ClInclude Include="CEnterScript.h" />
     <ClInclude Include="CFireIconScript.h" />
@@ -225,17 +226,13 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGhostScript.h" />
     <ClInclude Include="CGrimKnightBackStep.h" />
     <ClInclude Include="CGrimKnightBackStep2.h" />
-    <ClInclude Include="CGrimKnightChase.h" />
     <ClInclude Include="CGrimKnightDeath.h" />
     <ClInclude Include="CGrimKnightGuard.h" />
     <ClInclude Include="CGrimKnightGuardBreak.h" />
     <ClInclude Include="CGrimKnightGuardStay.h" />
-    <ClInclude Include="CGrimKnightHit.h" />
     <ClInclude Include="CGrimKnightIdle.h" />
-    <ClInclude Include="CGrimKnightLeftSpin.h" />
     <ClInclude Include="CGrimKnightLongDistance.h" />
     <ClInclude Include="CGrimKnightMelee.h" />
-    <ClInclude Include="CGrimKnightRightSpin.h" />
     <ClInclude Include="CGrimKnightScript.h" />
     <ClInclude Include="CGrimKnightSpinDown.h" />
     <ClInclude Include="CGrimKnightSpinUp.h" />
@@ -347,12 +344,14 @@ call CodeGen.exe</Command>
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CTrapScript.h" />
-    <ClInclude Include="CWallScript.h" />
+    <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
     <ClInclude Include="CWaterScript.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GrimKnightStates.h" />
     <ClInclude Include="GruntStates.h" />
+    <ClInclude Include="KnightStates.h" />
     <ClInclude Include="LurkerStates.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -394,6 +393,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCrowBossStandingDeath.cpp" />
     <ClCompile Include="CCrowBossStomp.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
+    <ClCompile Include="CFenceScript.cpp" />
     <ClCompile Include="CMPIconScript.cpp" />
     <ClCompile Include="CEnterScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
@@ -402,17 +402,13 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGhostScript.cpp" />
     <ClCompile Include="CGrimKnightBackStep.cpp" />
     <ClCompile Include="CGrimKnightBackStep2.cpp" />
-    <ClCompile Include="CGrimKnightChase.cpp" />
     <ClCompile Include="CGrimKnightDeath.cpp" />
     <ClCompile Include="CGrimKnightGuard.cpp" />
     <ClCompile Include="CGrimKnightGuardBreak.cpp" />
     <ClCompile Include="CGrimKnightGuardStay.cpp" />
-    <ClCompile Include="CGrimKnightHit.cpp" />
     <ClCompile Include="CGrimKnightIdle.cpp" />
-    <ClCompile Include="CGrimKnightLeftSpin.cpp" />
     <ClCompile Include="CGrimKnightLongDistance.cpp" />
     <ClCompile Include="CGrimKnightMelee.cpp" />
-    <ClCompile Include="CGrimKnightRightSpin.cpp" />
     <ClCompile Include="CGrimKnightScript.cpp" />
     <ClCompile Include="CGrimKnightSpinDown.cpp" />
     <ClCompile Include="CGrimKnightSpinUp.cpp" />
@@ -523,7 +519,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CTrapScript.cpp" />
-    <ClCompile Include="CWallScript.cpp" />
+    <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />
     <ClCompile Include="CWaterScript.cpp" />

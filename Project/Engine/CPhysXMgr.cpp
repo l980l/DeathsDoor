@@ -254,7 +254,6 @@ physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeSc
     physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
     m_Scene->addActor(*Static);
     m_vecStaticActor.push_back(Static);
-    _Object->Rigidbody()->SetRigidbody(Static, false);
 
     return Static;
 }

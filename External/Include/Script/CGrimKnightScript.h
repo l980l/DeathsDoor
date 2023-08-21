@@ -5,15 +5,14 @@ class CGrimKnightScript :
     public CMonsterScript
 {
 private:
-    Stat m_stat;
-    bool recognizeCheck;
-    bool retrace;
-    bool onCollision;
-    int m_hitCount;
+    bool m_bRecognizeCheck;
+    bool m_bRetrace;
+    bool m_bOnCollision;
+    int  m_iHitCount;
 
 public:
-    void SetOnCollision(bool onCol) { onCollision = onCol; }
-    int GetHitCount() { return m_hitCount; }
+    void SetOnCollision(bool onCol) { m_bOnCollision = onCol; }
+    int GetHitCount() { return m_iHitCount; }
 public:
     virtual void begin() override;
     virtual void tick() override;
