@@ -67,9 +67,6 @@
     <Filter Include="Script\02. Script\Interection_Obj\Anchor">
       <UniqueIdentifier>{86f05edf-4b98-48bd-8120-711bab6cc757}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\Interection_Obj\Fense">
-      <UniqueIdentifier>{95d16417-1984-4d06-8f69-6e11bef36dbd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\HitStone">
       <UniqueIdentifier>{187a1b40-0b68-45e6-8d98-e3aa6ec036bb}</UniqueIdentifier>
     </Filter>
@@ -91,9 +88,6 @@
     <Filter Include="Script\02. Script\SpawnMgr\Enter">
       <UniqueIdentifier>{82c4a778-7a70-4862-b253-ac9bca68d1d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\SpawnMgr\Wall">
-      <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\02. Script\Monster">
       <UniqueIdentifier>{3c153b05-d550-4045-b97f-4395314bc487}</UniqueIdentifier>
     </Filter>
@@ -111,6 +105,12 @@
     </Filter>
     <Filter Include="Script\02. Script\Interection_Obj\LevelChangeDoor">
       <UniqueIdentifier>{58edbec2-57dc-4a55-a720-e7b6e2c2b8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr\Fence">
+      <UniqueIdentifier>{67c43bdd-7ece-4664-a4d3-004f37cc125d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\SpawnMgr\Trap">
+      <UniqueIdentifier>{f332b6ca-959c-4750-bdb1-72c82acf7c69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -393,11 +393,8 @@
     <ClInclude Include="CSpawnDoorScript.h">
       <Filter>Script\02. Script\SpawnMgr\SpawnDoor</Filter>
     </ClInclude>
-    <ClInclude Include="CWallScript.h">
-      <Filter>Script\02. Script\SpawnMgr\Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="CFenseScript.h">
-      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    <ClInclude Include="CFenceScript.h">
+      <Filter>Script\02. Script\SpawnMgr\Fence</Filter>
     </ClInclude>
     <ClInclude Include="CHitStoneScript.h">
       <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
@@ -429,7 +426,6 @@
     <ClInclude Include="CWaterScript.h">
       <Filter>Script\02. Script</Filter>
     </ClInclude>
-    <ClInclude Include="CTrapScript.h" />
     <ClInclude Include="CSlashScript.h">
       <Filter>Script\02. Script\Player</Filter>
     </ClInclude>
@@ -518,6 +514,9 @@
     </ClInclude>
     <ClInclude Include="CLevelChangeDoorScript.h">
       <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="CTrapScript.h">
+      <Filter>Script\02. Script\SpawnMgr\Trap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -782,11 +781,8 @@
     <ClCompile Include="CSpawnDoorScript.cpp">
       <Filter>Script\02. Script\SpawnMgr\SpawnDoor</Filter>
     </ClCompile>
-    <ClCompile Include="CWallScript.cpp">
-      <Filter>Script\02. Script\SpawnMgr\Wall</Filter>
-    </ClCompile>
-    <ClCompile Include="CFenseScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj\Fense</Filter>
+    <ClCompile Include="CFenceScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr\Fence</Filter>
     </ClCompile>
     <ClCompile Include="CHitStoneScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\HitStone</Filter>
@@ -818,7 +814,6 @@
     <ClCompile Include="CWaterScript.cpp">
       <Filter>Script\02. Script</Filter>
     </ClCompile>
-    <ClCompile Include="CTrapScript.cpp" />
     <ClCompile Include="CSlashScript.cpp">
       <Filter>Script\02. Script\Player</Filter>
     </ClCompile>
@@ -904,6 +899,9 @@
     </ClCompile>
     <ClCompile Include="CLevelChangeDoorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTrapScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr\Trap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

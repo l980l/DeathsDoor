@@ -1,30 +1,29 @@
 #pragma once
 #include <Engine/CScript.h>
-class CWallScript :
+class CFenceScript :
     public CScript
 {
 private:
     int     m_iRoomNum;
-    Vec3     m_vStartPos;
+    Vec3    m_vStartPos;
+    float   m_fMoveDistance;
+    bool    m_bActive;
     bool    m_bOpen;
-    bool    m_bClose;
-    float    m_fMoveDistance;
 
 public:
     virtual void tick() override;
 
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
-    void CloseDoor();
-    void OpenDoor();
+    void ActivateFence(bool _bOpen);
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;
 
-    CLONE(CWallScript);
+    CLONE(CFenceScript);
 
 public:
-    CWallScript();
-    ~CWallScript();
+    CFenceScript();
+    ~CFenceScript();
 
     friend class CSpawnMgr;
 };

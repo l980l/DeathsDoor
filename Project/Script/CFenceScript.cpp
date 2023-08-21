@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CFenceScript.h"
+#include <Engine/CPhysXMgr.h>
 
 CFenceScript::CFenceScript()
 	: CScript((UINT)SCRIPT_TYPE::WALLSCRIPT)
@@ -36,6 +37,7 @@ void CFenceScript::tick()
 	m_fMoveDistance = (m_vStartPos - Transform()->GetWorldPos()).Length();
 	if (m_fMoveDistance > 100.f)
 	{
+		CPhysXMgr::GetInst()->CreateStaticCube(vCurPos, Vec3(100.f), GetOwner());
 		m_bActive = false;
 	}
 }
@@ -45,6 +47,10 @@ void CFenceScript::ActivateFence(bool _bOpen)
 	m_bActive = true;
 	m_bOpen = _bOpen;
 	m_vStartPos = Transform()->GetWorldPos();
+	if (_bOpen)
+		CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(500.f), GetOwner());
+	else
+		CPhysXMgr::GetInst()->ReleaseStatic(Rigidbody()->GetRigidStatic());
 }
 
 void CFenceScript::SaveToLevelFile(FILE* _File)

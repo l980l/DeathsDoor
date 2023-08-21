@@ -18,6 +18,7 @@
 #include "CCursorScript.h"
 #include "CEnergyIconScript.h"
 #include "CEnterScript.h"
+#include "CFenceScript.h"
 #include "CFenseScript.h"
 #include "CFireIconScript.h"
 #include "CGameCameraScript.h"
@@ -50,7 +51,6 @@
 #include "CSpawnDoorScript.h"
 #include "CStateScript.h"
 #include "CTrapScript.h"
-#include "CWallScript.h"
 #include "CWaterCameraScript.h"
 #include "CWaterScript.h"
 
@@ -73,6 +73,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCursorScript");
 	_vec.push_back(L"CEnergyIconScript");
 	_vec.push_back(L"CEnterScript");
+	_vec.push_back(L"CFenceScript");
 	_vec.push_back(L"CFenseScript");
 	_vec.push_back(L"CFireIconScript");
 	_vec.push_back(L"CGameCameraScript");
@@ -105,7 +106,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CSpawnDoorScript");
 	_vec.push_back(L"CStateScript");
 	_vec.push_back(L"CTrapScript");
-	_vec.push_back(L"CWallScript");
 	_vec.push_back(L"CWaterCameraScript");
 	_vec.push_back(L"CWaterScript");
 }
@@ -146,6 +146,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CEnergyIconScript;
 	if (L"CEnterScript" == _strScriptName)
 		return new CEnterScript;
+	if (L"CFenceScript" == _strScriptName)
+		return new CFenceScript;
 	if (L"CFenseScript" == _strScriptName)
 		return new CFenseScript;
 	if (L"CFireIconScript" == _strScriptName)
@@ -210,8 +212,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CStateScript;
 	if (L"CTrapScript" == _strScriptName)
 		return new CTrapScript;
-	if (L"CWallScript" == _strScriptName)
-		return new CWallScript;
 	if (L"CWaterCameraScript" == _strScriptName)
 		return new CWaterCameraScript;
 	if (L"CWaterScript" == _strScriptName)
@@ -273,6 +273,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ENTERSCRIPT:
 		return new CEnterScript;
+		break;
+	case (UINT)SCRIPT_TYPE::FENCESCRIPT:
+		return new CFenceScript;
 		break;
 	case (UINT)SCRIPT_TYPE::FENSESCRIPT:
 		return new CFenseScript;
@@ -370,9 +373,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::TRAPSCRIPT:
 		return new CTrapScript;
 		break;
-	case (UINT)SCRIPT_TYPE::WALLSCRIPT:
-		return new CWallScript;
-		break;
 	case (UINT)SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return new CWaterCameraScript;
 		break;
@@ -453,6 +453,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ENTERSCRIPT:
 		return L"CEnterScript";
+		break;
+
+	case SCRIPT_TYPE::FENCESCRIPT:
+		return L"CFenceScript";
 		break;
 
 	case SCRIPT_TYPE::FENSESCRIPT:
@@ -581,10 +585,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TRAPSCRIPT:
 		return L"CTrapScript";
-		break;
-
-	case SCRIPT_TYPE::WALLSCRIPT:
-		return L"CWallScript";
 		break;
 
 	case SCRIPT_TYPE::WATERCAMERASCRIPT:

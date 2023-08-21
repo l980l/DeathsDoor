@@ -225,7 +225,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCrowHeadScript.h" />
     <ClInclude Include="CEnergyIconScript.h" />
     <ClInclude Include="CEnterScript.h" />
-    <ClInclude Include="CFenseScript.h" />
     <ClInclude Include="CFireIconScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CGhostHit.h" />
@@ -354,7 +353,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CTrapScript.h" />
-    <ClInclude Include="CWallScript.h" />
+    <ClInclude Include="CFenceScript.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
     <ClInclude Include="CWaterScript.h" />
@@ -409,7 +408,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCrowHeadScript.cpp" />
     <ClCompile Include="CEnergyIconScript.cpp" />
     <ClCompile Include="CEnterScript.cpp" />
-    <ClCompile Include="CFenseScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CGhostHit.cpp" />
@@ -537,7 +535,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CTrapScript.cpp" />
-    <ClCompile Include="CWallScript.cpp" />
+    <ClCompile Include="CFenceScript.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />
     <ClCompile Include="CWaterScript.cpp" />

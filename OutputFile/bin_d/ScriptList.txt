@@ -15,6 +15,7 @@ CCrowHeadScript
 CCursorScript
 CEnergyIconScript
 CEnterScript
+CFenceScript
 CFenseScript
 CFireIconScript
 CGameCameraScript
@@ -47,6 +48,5 @@ CSoundScript
 CSpawnDoorScript
 CStateScript
 CTrapScript
-CWallScript
 CWaterCameraScript
 CWaterScript

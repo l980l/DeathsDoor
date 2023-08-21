@@ -13,7 +13,7 @@ private:
 
 public:
     virtual void begin() override;
-    virtual void tick() override;
+    virtual void tick() override {};
 
 public:
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }

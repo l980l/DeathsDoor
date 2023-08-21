@@ -17,12 +17,14 @@ CRigidbody::~CRigidbody()
 {
 }
 
-void CRigidbody::SetRigidbody(void* _pRigidbody)
+void CRigidbody::SetRigidbody(void* _pRigidbody, bool _bDynamic)
 {
 	if (nullptr != m_PxRigidbody)
 		assert(nullptr);
-
-	m_PxRigidbody = (physx::PxRigidDynamic *)_pRigidbody;
+    if (_bDynamic)
+        m_PxRigidbody = (physx::PxRigidDynamic*)_pRigidbody;
+    else
+        m_PxRigidStatic = (physx::PxRigidStatic*)_pRigidbody;
 }
 
 void CRigidbody::SetShapeType(PxGeometryType::Enum _ShapeInfo)

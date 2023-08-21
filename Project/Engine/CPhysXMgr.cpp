@@ -258,9 +258,8 @@ physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeSc
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
     physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
     m_Scene->addActor(*Static);
-    Static->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     m_vecStaticActor.push_back(Static);
-    _Object->Rigidbody()->SetRigidbody(Static);
+    _Object->Rigidbody()->SetRigidbody(Static, false);
 
     return Static;
 }

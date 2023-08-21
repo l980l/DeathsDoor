@@ -15,23 +15,21 @@ CEnterScript::~CEnterScript()
 
 void CEnterScript::begin()
 {
-	CSpawnMgr::GetInst()->RegisterFence(m_iRoomNum, GetOwner());
-}
-
-void CEnterScript::tick()
-{
 }
 
 void CEnterScript::BeginOverlap(CColiider3D* _Other)
 {
-	CSpawnMgr::GetInst()->SetFence(m_iRoomNum, false);
-	SetLifeSpan(0.f);
+	CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, false);
+	GetOwner()->DeleteComponent(COMPONENT_TYPE::COLLIDER3D);
+	Destroy();
 }
 
 void CEnterScript::SaveToLevelFile(FILE* _File)
 {
+	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
 }
 
 void CEnterScript::LoadFromLevelFile(FILE* _File)
 {
+	fread(&m_iRoomNum, sizeof(int), 1, _File);
 }
