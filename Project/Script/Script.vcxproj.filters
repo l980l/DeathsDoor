@@ -117,9 +117,6 @@
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
@@ -128,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CGravityScript.h">
-      <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="CState.h">
       <Filter>Script\01. State</Filter>
@@ -453,14 +447,25 @@
     <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CBazookaScript.h">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="CBossChainScript.h">
       <Filter>Script\02. Script\Boss</Filter>
     </ClInclude>
     <ClInclude Include="CrowBossStates.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CGhostHit.h" />
+    <ClInclude Include="CSoundScript.h" />
+    <ClInclude Include="CLadderScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelChangeDoorScript.h">
+      <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="CTrapScript.h">
+      <Filter>Script\02. Script\SpawnMgr\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="CBazookaScript.h">
+      <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CCrowBossBatBullet.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
@@ -471,16 +476,10 @@
     <ClInclude Include="CCrowBossDeath.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
-    <ClInclude Include="CCrowBossGuidedBullet.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
     <ClInclude Include="CCrowBossIdle.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
     <ClInclude Include="CCrowBossJump.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CCrowBossLeftSpin.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
     <ClInclude Include="CCrowBossRightSpin.h">
@@ -495,35 +494,15 @@
     <ClInclude Include="CCrowBossSlidingReady.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
-    <ClInclude Include="CCrowBossSpitting.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
     <ClInclude Include="CCrowBossStandingDeath.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
     <ClInclude Include="CCrowBossStomp.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
-    <ClInclude Include="CCrowBossWalk.h">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClInclude>
-    <ClInclude Include="CGhostHit.h" />
-    <ClInclude Include="CSoundScript.h" />
-    <ClInclude Include="CLadderScript.h">
-      <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
-    </ClInclude>
-    <ClInclude Include="CLevelChangeDoorScript.h">
-      <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
-    </ClInclude>
-    <ClInclude Include="CTrapScript.h">
-      <Filter>Script\02. Script\SpawnMgr\Trap</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -534,9 +513,6 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CGravityScript.cpp">
-      <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CState.cpp">
       <Filter>Script\01. State</Filter>
@@ -841,11 +817,22 @@
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
-    <ClCompile Include="CBazookaScript.cpp">
-      <Filter>Script\02. Script\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="CBossChainScript.cpp">
       <Filter>Script\02. Script\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostHit.cpp" />
+    <ClCompile Include="CSoundScript.cpp" />
+    <ClCompile Include="CLadderScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelChangeDoorScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTrapScript.cpp">
+      <Filter>Script\02. Script\SpawnMgr\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="CBazookaScript.cpp">
+      <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CCrowBossBatBullet.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
@@ -856,16 +843,10 @@
     <ClCompile Include="CCrowBossDeath.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
-    <ClCompile Include="CCrowBossGuidedBullet.cpp">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClCompile>
     <ClCompile Include="CCrowBossIdle.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
     <ClCompile Include="CCrowBossJump.cpp">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CCrowBossLeftSpin.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
     <ClCompile Include="CCrowBossRightSpin.cpp">
@@ -880,28 +861,11 @@
     <ClCompile Include="CCrowBossSlidingReady.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
-    <ClCompile Include="CCrowBossSpitting.cpp">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClCompile>
     <ClCompile Include="CCrowBossStandingDeath.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
     <ClCompile Include="CCrowBossStomp.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CCrowBossWalk.cpp">
-      <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
-    </ClCompile>
-    <ClCompile Include="CGhostHit.cpp" />
-    <ClCompile Include="CSoundScript.cpp" />
-    <ClCompile Include="CLadderScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
-    </ClCompile>
-    <ClCompile Include="CLevelChangeDoorScript.cpp">
-      <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
-    </ClCompile>
-    <ClCompile Include="CTrapScript.cpp">
-      <Filter>Script\02. Script\SpawnMgr\Trap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1138,13 +1102,7 @@
     <ClInclude Include="CBatAttack.h">
       <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
-    <ClInclude Include="CBatChase.h">
-      <Filter>Script\01. State\01. Monster\Bat</Filter>
-    </ClInclude>
     <ClInclude Include="CBatDeath.h">
-      <Filter>Script\01. State\01. Monster\Bat</Filter>
-    </ClInclude>
-    <ClInclude Include="CBatHit.h">
       <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClInclude>
     <ClInclude Include="CBatIdle.h">
@@ -1527,13 +1485,7 @@
     <ClCompile Include="CBatAttack.cpp">
       <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClCompile>
-    <ClCompile Include="CBatChase.cpp">
-      <Filter>Script\01. State\01. Monster\Bat</Filter>
-    </ClCompile>
     <ClCompile Include="CBatDeath.cpp">
-      <Filter>Script\01. State\01. Monster\Bat</Filter>
-    </ClCompile>
-    <ClCompile Include="CBatHit.cpp">
       <Filter>Script\01. State\01. Monster\Bat</Filter>
     </ClCompile>
     <ClCompile Include="CBatIdle.cpp">

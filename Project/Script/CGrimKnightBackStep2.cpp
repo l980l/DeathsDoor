@@ -1,6 +1,14 @@
 #include "pch.h"
 #include "CGrimKnightBackStep2.h"
 
+CGrimKnightBackStep2::CGrimKnightBackStep2()
+{
+}
+
+CGrimKnightBackStep2::~CGrimKnightBackStep2()
+{
+}
+
 void CGrimKnightBackStep2::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -28,13 +36,5 @@ void CGrimKnightBackStep2::OnOverlap(CCollider2D* _Other)
 }
 
 void CGrimKnightBackStep2::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightBackStep2::CGrimKnightBackStep2()
-{
-}
-
-CGrimKnightBackStep2::~CGrimKnightBackStep2()
 {
 }
