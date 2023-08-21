@@ -76,9 +76,6 @@
     <Filter Include="Script\02. Script\HUD">
       <UniqueIdentifier>{e4d812ec-98ca-4a41-ba8e-4ae16ebbefe0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\02. Script\HUD\Icon">
-      <UniqueIdentifier>{f933abf3-1699-4dbf-8d08-5ca4d84c2d02}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\02. Script\UI">
       <UniqueIdentifier>{2c442aed-a2be-49bf-a0cb-396db61a61b0}</UniqueIdentifier>
     </Filter>
@@ -112,14 +109,41 @@
     <Filter Include="Script\02. Script\Interection_Obj\LevelChangeDoor">
       <UniqueIdentifier>{58edbec2-57dc-4a55-a720-e7b6e2c2b8a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script\02. Script\UI\Camera">
+      <UniqueIdentifier>{91bce8f9-1988-4890-a643-ee062c41a76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\UI\Light">
+      <UniqueIdentifier>{0d5ca3b2-7e58-4cd1-8f21-8feda68b5a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Monster\Projectile">
+      <UniqueIdentifier>{cb8e3d31-e861-4848-9315-180dc5640950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\Interection_Obj\Trap">
+      <UniqueIdentifier>{213e46e3-7bce-4a02-a61f-9b44b85905b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\UI\StartSceen">
+      <UniqueIdentifier>{05e5a255-8d8b-490e-8113-50c8ad0b1150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\03. Manager">
+      <UniqueIdentifier>{0acae77f-3e94-4018-aee2-e65f00176a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\03. Manager\UIMgr">
+      <UniqueIdentifier>{e4435d2e-5965-49ec-b73a-721eba814809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\02. Script\NPC\Icon">
+      <UniqueIdentifier>{949a5fda-d8bc-41b2-ae8f-9d39c0227613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\03. Manager\UIMgr\Icon">
+      <UniqueIdentifier>{f933abf3-1699-4dbf-8d08-5ca4d84c2d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\03. Manager\UIMgr\Icon\HPMPUI">
+      <UniqueIdentifier>{55791bed-c730-49fe-b82e-dfcc10f1597b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\03. Manager\UIMgr\Icon\MagicUI">
+      <UniqueIdentifier>{62d21174-8db5-4ce7-b51f-1dfb28073f11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CCameraMoveScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
@@ -128,9 +152,6 @@
     </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CGravityScript.h">
-      <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="CState.h">
       <Filter>Script\01. State</Filter>
@@ -174,9 +195,6 @@
     <ClInclude Include="BazookaStates.h">
       <Filter>Script\01. State\01. Monster\Bazooka\State</Filter>
     </ClInclude>
-    <ClInclude Include="CStateScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script\02. Script\Player</Filter>
     </ClInclude>
@@ -185,9 +203,6 @@
     </ClInclude>
     <ClInclude Include="GruntStates.h">
       <Filter>Script\01. State\01. Monster\Grunt</Filter>
-    </ClInclude>
-    <ClInclude Include="CGameCameraScript.h">
-      <Filter>Script\02. Script</Filter>
     </ClInclude>
     <ClInclude Include="CMagic_ArrowScript.h">
       <Filter>Script\02. Script\Player\Magic</Filter>
@@ -300,9 +315,6 @@
     <ClInclude Include="GruntStates.h">
       <Filter>Script\01. State\01. Monster\Grunt\State</Filter>
     </ClInclude>
-    <ClInclude Include="CWaterCameraScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
     <ClInclude Include="CPlyMagic_Hook.h">
       <Filter>Script\01. State\02. Player\00. Player\Magic\Hook</Filter>
     </ClInclude>
@@ -405,9 +417,6 @@
     <ClInclude Include="CMoneyCountScript.h">
       <Filter>Script\02. Script\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="CMainLightScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
     <ClInclude Include="CBatScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
@@ -426,33 +435,11 @@
     <ClInclude Include="CBazookaGasGrenadeScript.h">
       <Filter>Script\02. Script\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="CWaterScript.h">
-      <Filter>Script\02. Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CTrapScript.h" />
     <ClInclude Include="CSlashScript.h">
       <Filter>Script\02. Script\Player</Filter>
     </ClInclude>
     <ClInclude Include="CHUDScript.h">
       <Filter>Script\02. Script\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="CHPIconScript.h">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClInclude>
-    <ClInclude Include="CArrowIconScript.h">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClInclude>
-    <ClInclude Include="CBombIconScript.h">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClInclude>
-    <ClInclude Include="CEnergyIconScript.h">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClInclude>
-    <ClInclude Include="CFireIconScript.h">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClInclude>
-    <ClInclude Include="CHookIconScript.h">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
     </ClInclude>
     <ClInclude Include="CCursorScript.h">
       <Filter>Script\02. Script\UI</Filter>
@@ -511,23 +498,80 @@
     <ClInclude Include="CCrowBossWalk.h">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClInclude>
-    <ClInclude Include="CGhostHit.h" />
-    <ClInclude Include="CSoundScript.h" />
     <ClInclude Include="CLadderScript.h">
       <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
     </ClInclude>
     <ClInclude Include="CLevelChangeDoorScript.h">
       <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
     </ClInclude>
-    <ClInclude Include="CStartSceneUIScript.h" />
+    <ClInclude Include="CGameCameraScript.h">
+      <Filter>Script\02. Script\UI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainLightScript.h">
+      <Filter>Script\02. Script\UI\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaterCameraScript.h">
+      <Filter>Script\02. Script\UI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Script\02. Script\UI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CGhostHit.h">
+      <Filter>Script\02. Script\Monster\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="CTrapScript.h">
+      <Filter>Script\02. Script\Interection_Obj\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="CStartSceneUIScript.h">
+      <Filter>Script\02. Script\UI\StartSceen</Filter>
+    </ClInclude>
+    <ClInclude Include="CStateScript.h">
+      <Filter>Script\02. Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaterScript.h">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CSoundScript.h">
+      <Filter>Script\03. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIMgr.h">
+      <Filter>Script\03. Manager\UIMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpeed.h">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CMagic.h">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CPower.h">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackSpeed.h">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="CArrowIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBombIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CFireIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon\HPMPUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon\HPMPUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CHookIconScript.h">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
@@ -536,9 +580,6 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CGravityScript.cpp">
-      <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CState.cpp">
       <Filter>Script\01. State</Filter>
@@ -582,14 +623,8 @@
     <ClCompile Include="CMonsterDetectRangeScript.cpp">
       <Filter>Script\01. State\01. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CStateScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script\02. Script\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="CGameCameraScript.cpp">
-      <Filter>Script\02. Script</Filter>
     </ClCompile>
     <ClCompile Include="CMagic_ArrowScript.cpp">
       <Filter>Script\02. Script\Player\Magic</Filter>
@@ -689,9 +724,6 @@
     </ClCompile>
     <ClCompile Include="CMagic_HookScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
-    <ClCompile Include="CWaterCameraScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
     <ClCompile Include="CPlyMagic_Hook.cpp">
       <Filter>Script\01. State\02. Player\00. Player\Magic\Hook</Filter>
     </ClCompile>
@@ -795,9 +827,6 @@
     <ClCompile Include="CMoneyCountScript.cpp">
       <Filter>Script\02. Script\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="CMainLightScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
     <ClCompile Include="CBatScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
@@ -816,33 +845,11 @@
     <ClCompile Include="CBazookaGasGrenadeScript.cpp">
       <Filter>Script\02. Script\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="CWaterScript.cpp">
-      <Filter>Script\02. Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CTrapScript.cpp" />
     <ClCompile Include="CSlashScript.cpp">
       <Filter>Script\02. Script\Player</Filter>
     </ClCompile>
     <ClCompile Include="CHUDScript.cpp">
       <Filter>Script\02. Script\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="CArrowIconScript.cpp">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClCompile>
-    <ClCompile Include="CBombIconScript.cpp">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClCompile>
-    <ClCompile Include="CEnergyIconScript.cpp">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClCompile>
-    <ClCompile Include="CFireIconScript.cpp">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClCompile>
-    <ClCompile Include="CHookIconScript.cpp">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
-    </ClCompile>
-    <ClCompile Include="CHPIconScript.cpp">
-      <Filter>Script\02. Script\HUD\Icon</Filter>
     </ClCompile>
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Script\02. Script\UI</Filter>
@@ -898,15 +905,78 @@
     <ClCompile Include="CCrowBossWalk.cpp">
       <Filter>Script\01. State\01. Monster\CrowBoss\State</Filter>
     </ClCompile>
-    <ClCompile Include="CGhostHit.cpp" />
-    <ClCompile Include="CSoundScript.cpp" />
     <ClCompile Include="CLadderScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\Ladder</Filter>
     </ClCompile>
     <ClCompile Include="CLevelChangeDoorScript.cpp">
       <Filter>Script\02. Script\Interection_Obj\LevelChangeDoor</Filter>
     </ClCompile>
-    <ClCompile Include="CStartSceneUIScript.cpp" />
+    <ClCompile Include="CGameCameraScript.cpp">
+      <Filter>Script\02. Script\UI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainLightScript.cpp">
+      <Filter>Script\02. Script\UI\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaterCameraScript.cpp">
+      <Filter>Script\02. Script\UI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Script\02. Script\UI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhostHit.cpp">
+      <Filter>Script\02. Script\Monster\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="CTrapScript.cpp">
+      <Filter>Script\02. Script\Interection_Obj\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="CStartSceneUIScript.cpp">
+      <Filter>Script\02. Script\UI\StartSceen</Filter>
+    </ClCompile>
+    <ClCompile Include="CStateScript.cpp">
+      <Filter>Script\02. Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaterScript.cpp">
+      <Filter>Script\02. Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundScript.cpp">
+      <Filter>Script\03. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIMgr.cpp">
+      <Filter>Script\03. Manager\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CMagic.cpp">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CPower.cpp">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpeed.cpp">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackSpeed.cpp">
+      <Filter>Script\02. Script\NPC\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBombIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CFireIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CHookIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon\MagicUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon\HPMPUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMPIconScript.cpp">
+      <Filter>Script\03. Manager\UIMgr\Icon\HPMPUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Script">
@@ -1073,9 +1143,6 @@
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
@@ -1084,9 +1151,6 @@
     </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CGravityScript.h">
-      <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="CLevelSaveLoadInScript.h">
       <Filter>LevelSaveLoad</Filter>
@@ -1261,18 +1325,6 @@
     </ClInclude>
     <ClInclude Include="CrowBossStates.h">
       <Filter>Script\01. State\01. Monster\CrowBoss</Filter>
-    </ClInclude>
-    <ClInclude Include="CSpeed.h">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CPower.h">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CMagic.h">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CAttackSpeed.h">
-      <Filter>Script\02. Script\UI</Filter>
     </ClInclude>
     <ClInclude Include="CBankerFrameScript.h">
       <Filter>Script\02. Script\UI</Filter>
@@ -1468,9 +1520,6 @@
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
@@ -1479,9 +1528,6 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CGravityScript.cpp">
-      <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CLevelSaveLoadInScript.cpp">
       <Filter>LevelSaveLoad</Filter>
@@ -1641,18 +1687,6 @@
     </ClCompile>
     <ClCompile Include="CKnightWalk.cpp">
       <Filter>Script\01. State\01. Monster\Knight</Filter>
-    </ClCompile>
-    <ClCompile Include="CSpeed.cpp">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CPower.cpp">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CMagic.cpp">
-      <Filter>Script\02. Script\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CAttackSpeed.cpp">
-      <Filter>Script\02. Script\UI</Filter>
     </ClCompile>
     <ClCompile Include="CBankerFrameScript.cpp">
       <Filter>Script\02. Script\UI</Filter>

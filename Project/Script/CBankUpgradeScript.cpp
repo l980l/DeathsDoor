@@ -10,12 +10,10 @@
 #include "CStateScript.h"
 #include "CPlayerScript.h"
 
-CBankUpgradeScript::CBankUpgradeScript()	:
-	CScript(SCRIPT_TYPE::BANKUPGRADESCRIPT),
-	m_Power(0),
-	m_ASpeed(0),
-	m_Speed(0),
-	m_Magic(0)
+CBankUpgradeScript::CBankUpgradeScript()	
+	: CScript(SCRIPT_TYPE::BANKUPGRADESCRIPT)
+	, m_pPlayer(nullptr)
+	, m_pStateScript(nullptr)
 {
 }
 
@@ -44,15 +42,6 @@ void CBankUpgradeScript::begin()
 		m_pStateScript->ChangeState(L"Power");
 	}
 	GetOwner()->Transform()->SetRelativeScale(Vec3(1682.f, 980.f, 1.f));
-
-	//플레이어의 능력치 받아오기
-	m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	CStateScript* script = m_pPlayer->GetScript<CStateScript>();
-	Stat playerStatus = script->GetStat();
-	m_Power = playerStatus.Attack;
-	m_ASpeed = playerStatus.Attack_Speed;
-	m_Speed = playerStatus.Speed;
-	m_Magic = playerStatus.Spell_Power;
 }
 
 void CBankUpgradeScript::tick()
@@ -60,10 +49,7 @@ void CBankUpgradeScript::tick()
 
 	if (KEY_TAP(KEY::ESC))
 	{
-		tEvent evn = {};
-		evn.Type = EVENT_TYPE::DELETE_OBJECT;
-		evn.wParam = (DWORD_PTR)this->GetOwner();
-		CEventMgr::GetInst()->AddEvent(evn);
+		Destroy();
 	}
 }
 

@@ -146,3 +146,6 @@ CAttackSpeed.h
 CSpeed.h
 CMagic.h
 CBankerScript.h
+
+CUIMgr.h
+CIconScript.h

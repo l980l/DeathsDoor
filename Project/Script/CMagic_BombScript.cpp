@@ -14,6 +14,7 @@ CMagic_BombScript::CMagic_BombScript()
 	, m_bThrow(false)
 	, m_fPrevDirRatio(0.f)
 	, m_bCollided(false)
+	, m_bCollidable(false)
 {
 }
 
@@ -67,6 +68,8 @@ void CMagic_BombScript::tick()
 
 void CMagic_BombScript::BeginOverlap(CCollider3D* _Other)
 {
+	if (!m_bCollidable)
+		return;
 	if (_Other->GetOwner()->GetScript<CStateScript>())
 	{
 		if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)

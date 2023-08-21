@@ -3,6 +3,7 @@
 #include "CStateScript.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CSoundScript.h"
+#include "CMonsterScript.h"
 
 CMagic_ArrowScript::CMagic_ArrowScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_ARROWSCRIPT)
@@ -10,6 +11,7 @@ CMagic_ArrowScript::CMagic_ArrowScript()
 	, m_vDir{}
 	, m_fSpeed(2000.f)
 	, m_fDamage(0.f)
+	, m_bCollidable(false)
 {
 }
 
@@ -34,6 +36,8 @@ void CMagic_ArrowScript::tick()
 
 void CMagic_ArrowScript::BeginOverlap(CCollider3D* _Other)
 {
+	if (!m_bCollidable)
+		return;
 	if (_Other->GetOwner()->GetScript<CStateScript>())
 	{
 		if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::MONSTER)

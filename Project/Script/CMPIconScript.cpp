@@ -4,7 +4,7 @@
 #include "CPlayerScript.h"
 
 CMPIconScript::CMPIconScript() :
-	CIconScript(SCRIPT_TYPE::ENERGYICONSCRIPT)
+	CIconScript(SCRIPT_TYPE::MPICONSCRIPT)
 {
 }
 

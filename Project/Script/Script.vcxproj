@@ -223,7 +223,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCrowBossStomp.h" />
     <ClInclude Include="CCrowBossWalk.h" />
     <ClInclude Include="CCrowHeadScript.h" />
-    <ClInclude Include="CEnergyIconScript.h" />
+    <ClInclude Include="CMPIconScript.h" />
     <ClInclude Include="CEnterScript.h" />
     <ClInclude Include="CFenseScript.h" />
     <ClInclude Include="CFireIconScript.h" />
@@ -265,6 +265,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CHookIconScript.h" />
     <ClInclude Include="CHPIconScript.h" />
     <ClInclude Include="CHUDScript.h" />
+    <ClInclude Include="CIconScript.h" />
     <ClInclude Include="CKnightChopAttack.h" />
     <ClInclude Include="CKnightChopAttackCombo.h" />
     <ClInclude Include="CKnightChopAttackComboEnd.h" />
@@ -305,11 +306,9 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMonsterDetectRangeScript.h" />
     <ClInclude Include="CCursorScript.h" />
     <ClInclude Include="CPlayerWeaponScript.h" />
-    <ClInclude Include="CGravityScript.h" />
     <ClInclude Include="CLevelSaveLoadInScript.h" />
     <ClInclude Include="CLoadingThread.h" />
     <ClInclude Include="CLoadLevelThreadScript.h" />
-    <ClInclude Include="CMissileScript.h" />
     <ClInclude Include="CMonsterScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CPlyAttack.h" />
@@ -355,6 +354,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CTrapScript.h" />
+    <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CWallScript.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
@@ -408,7 +408,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCrowBossStomp.cpp" />
     <ClCompile Include="CCrowBossWalk.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
-    <ClCompile Include="CEnergyIconScript.cpp" />
+    <ClCompile Include="CMPIconScript.cpp" />
     <ClCompile Include="CEnterScript.cpp" />
     <ClCompile Include="CFenseScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
@@ -450,6 +450,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CHookIconScript.cpp" />
     <ClCompile Include="CHPIconScript.cpp" />
     <ClCompile Include="CHUDScript.cpp" />
+    <ClCompile Include="CIconScript.cpp" />
     <ClCompile Include="CKnightChopAttack.cpp" />
     <ClCompile Include="CKnightChopAttackCombo.cpp" />
     <ClCompile Include="CKnightChopAttackComboEnd.cpp" />
@@ -490,11 +491,9 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMonsterDetectRangeScript.cpp" />
     <ClCompile Include="CCursorScript.cpp" />
     <ClCompile Include="CPlayerWeaponScript.cpp" />
-    <ClCompile Include="CGravityScript.cpp" />
     <ClCompile Include="CLevelSaveLoadInScript.cpp" />
     <ClCompile Include="CLoadingThread.cpp" />
     <ClCompile Include="CLoadLevelThreadScript.cpp" />
-    <ClCompile Include="CMissileScript.cpp" />
     <ClCompile Include="CMonsterScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CPlyAttack.cpp" />
@@ -539,6 +538,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CTrapScript.cpp" />
+    <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CWallScript.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />

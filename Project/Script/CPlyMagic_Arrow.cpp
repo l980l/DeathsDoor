@@ -5,6 +5,7 @@
 #include "CPlayerScript.h"
 #include "CMagic_ArrowScript.h"
 #include "CSoundScript.h"
+#include "CUIMgr.h"
 
 CPlyMagic_Arrow::CPlyMagic_Arrow()
 	: m_vAttackDir{}
@@ -36,7 +37,7 @@ void CPlyMagic_Arrow::tick()
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		// 에너지가 부족하다면 Idle로 돌아가게 함.
-		if (1 > GetOwnerScript()->GetStat().Energy)
+		if (1 > GetOwnerScript()->GetStat().MP)
 		{
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");			
 		}
@@ -55,11 +56,11 @@ void CPlyMagic_Arrow::tick()
 		{
 			// 공격에 따른 에너지 소모
 			Stat CurStat = GetOwnerScript()->GetStat();
-			CurStat.Energy -= 1;
+			CurStat.MP -= 1;
 			GetOwnerScript()->SetStat(CurStat);
 
 			// Player 업그레이드 수치를 가져와 계수를 곱해 Arrow의 최종데미지를 정함.
-			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
+			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::MAGIC));
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) + vDir * 20.f;
@@ -72,6 +73,7 @@ void CPlyMagic_Arrow::tick()
 			m_pArrow->GetScript<CMagic_ArrowScript>()->SetDir(vDir);
 			m_pArrow->GetScript<CMagic_ArrowScript>()->SetStartPos(vSpawnPos);
 			m_pArrow->GetScript<CMagic_ArrowScript>()->SetDamage(fDamage);
+			m_pArrow->GetScript<CMagic_ArrowScript>()->SetCollidable();
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 

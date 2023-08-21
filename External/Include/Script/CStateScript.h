@@ -11,20 +11,12 @@ private:
     CState* m_pCurState;    // ÇöÀç State
     Stat                    m_tStat;
 
-
 public:
     virtual void begin() override;
     virtual void tick() override;
 
     Stat GetStat() { return m_tStat; }
-    void SetStat(Stat _tStat)
-    {
-        if (L"Player" == GetOwner()->GetName())
-        {
-            g_tPlayerStat = _tStat;
-        }
-        m_tStat = _tStat;
-    }
+    void SetStat(Stat _tStat);
 
     void AddState(const wstring& _strKey, CState* _pState);
     CState* GetCurState() { return m_pCurState; }

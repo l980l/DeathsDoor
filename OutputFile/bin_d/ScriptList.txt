@@ -13,13 +13,11 @@ CCameraMoveScript
 CCrowBossScript
 CCrowHeadScript
 CCursorScript
-CEnergyIconScript
 CEnterScript
 CFenseScript
 CFireIconScript
 CGameCameraScript
 CGhostScript
-CGravityScript
 CGrimKnightScript
 CGruntScript
 CHitStoneScript
@@ -36,9 +34,9 @@ CMagic_BombScript
 CMagic_FireScript
 CMagic_HookScript
 CMainLightScript
-CMissileScript
 CMoneyCountScript
 CMonsterDetectRangeScript
+CMPIconScript
 CPlayerScript
 CPlayerWeaponScript
 CRoomScript

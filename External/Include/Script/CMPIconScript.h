@@ -1,6 +1,6 @@
 #pragma once
 #include "CIconScript.h"
-class CArrowIconScript :
+class CMPIconScript :
     public CIconScript
 {
 private:
@@ -8,12 +8,12 @@ private:
 public:
     virtual void begin() override;
     virtual void tick() override;
-    virtual void MagicActive(bool _bActive) override;
+    virtual void SetMP(int _iCurMP, PLAYER_MAGIC iCurMagic) override;
 
-    CLONE(CArrowIconScript);
+    CLONE(CMPIconScript);
 
 public:
-    CArrowIconScript();
-    ~CArrowIconScript();
+    CMPIconScript();
+    ~CMPIconScript();
 };
 

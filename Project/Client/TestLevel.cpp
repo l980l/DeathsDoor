@@ -40,7 +40,7 @@
 #include <Script\CBombIconScript.h>
 #include <Script\CHookIconScript.h>
 #include <Script\CHPIconScript.h>
-#include <Script\CEnergyIconScript.h>
+#include <Script\CMPIconScript.h>
 #include <Script\CKnightScript.h>
 #include <Script\CSoundScript.h>
 #include <Script\CBankNPCScript.h>
@@ -70,39 +70,29 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
 
-	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Start.lv", LEVEL_STATE::STOP);
-	NewLevel->SetName(L"START");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::START);
-
-	tEvent evn = {};
-	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-	evn.wParam = (DWORD_PTR)NewLevel;
-	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
-	CEventMgr::GetInst()->AddEvent(evn);
-	
+	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Start.lv", LEVEL_STATE::PLAY);
+	//NewLevel->SetName(L"START");
+	//NewLevel->SetLevelType((int)LEVEL_TYPE::START);
+	//
+	//tEvent evn = {};
+	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	//evn.wParam = (DWORD_PTR)NewLevel;
+	//evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+	//CEventMgr::GetInst()->AddEvent(evn);
+	//
 	//Player Status setting
 	g_tPlayerStat.Attack = 50.f;
 	g_tPlayerStat.Attack_Speed = 0.4f;
-	g_tPlayerStat.Energy = 4;
-	g_tPlayerStat.Max_Energy = 4;
+	g_tPlayerStat.MP= 4;
+	g_tPlayerStat.Max_MP= 4;
 	g_tPlayerStat.HP = 4;
 	g_tPlayerStat.Max_HP = 4;
 	g_tPlayerStat.Speed = 150.f;
 	g_tPlayerStat.Spell_Power = 40.f;
 	//=============================
-	return;
-	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\gimic\\Anchor.fbx");
-	pObject = pMeshData->Instantiate();
-	pObject->SetName(L"Anchor");
-	Vec3 rot = (Vec3(250.f, 0.f, 0.f) / 180.f) * XM_PI;
-	pObject->Transform()->SetRelativeRot(rot);
-	pObject->Transform()->SetRelativeScale(Vec3(3.f, 3.f, 3.f));
-	pObject->MeshRender()->SetDynamicShadow(true);
-	pObject->MeshRender()->SetFrustumCheck(false);
-	SpawnGameObject(pObject, Vec3(4600.f, 542.f, 685.f), (int)LAYER::ANCHOR);
 	//return;
-	//Ice_Boss
-	// 
+
+
 	 //Main Camera 
 	{
 		CGameObject* pMainCam = new CGameObject;
@@ -135,8 +125,6 @@ void CreateTestLevel()
 		SpawnGameObject(pSubCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::SUBCAMERA);
 	}
 
-
-
 	//Player
 	{
 		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\CrowPlayer.fbx");
@@ -158,7 +146,7 @@ void CreateTestLevel()
 		pPlayer->Collider3D()->SetOffsetPos(Vec3(0.f, 0.f, 1.f));
 
 
-		Vec3 playerpos = Vec3(5200.f, 600.f, 500.f);
+		Vec3 playerpos = Vec3(2500.f, 1000.f, 3000.f);
 		CPhysXMgr::GetInst()->CreateSphere(playerpos, 20.f, pPlayer);
 		SpawnGameObject(pPlayer, playerpos, (int)LAYER::PLAYER);
 
@@ -211,8 +199,6 @@ void CreateTestLevel()
 	CPhysXMgr::GetInst()->CreateSphere(lurkerpos, 20.f, pObject);
 	SpawnGameObject(pObject, lurkerpos, (int)LAYER::MONSTER);
 
-
-	//return;
 	//SoundUI
 	{
 		CGameObject* pSoundMgr = new CGameObject;
@@ -226,64 +212,7 @@ void CreateTestLevel()
 
 		SpawnGameObject(pSoundMgr, Vec3(0.f), (int)LAYER::DEFAULT);
 	}
-
-	//HUD Icons
-	{
-		CGameObject* pArrowIcon = new CGameObject;
-		pArrowIcon->SetName(L"ArrowIcon");
-		pArrowIcon->AddComponent(new CTransform);
-		pArrowIcon->AddComponent(new CMeshRender);
-		pArrowIcon->AddComponent(new CArrowIconScript);
-		pArrowIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pArrowIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-		SpawnGameObject(pArrowIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
-
-		CGameObject* pFireIcon = new CGameObject;
-		pFireIcon->SetName(L"FireIcon");
-		pFireIcon->AddComponent(new CTransform);
-		pFireIcon->AddComponent(new CMeshRender);
-		pFireIcon->AddComponent(new CFireIconScript);
-		pFireIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pFireIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-		SpawnGameObject(pFireIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
-
-		CGameObject* pBombIcon = new CGameObject;
-		pBombIcon->SetName(L"BombIcon");
-		pBombIcon->AddComponent(new CTransform);
-		pBombIcon->AddComponent(new CMeshRender);
-		pBombIcon->AddComponent(new CBombIconScript);
-		pBombIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pBombIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-		SpawnGameObject(pBombIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
-
-		CGameObject* pHookIcon = new CGameObject;
-		pHookIcon->SetName(L"HookIcon");
-		pHookIcon->AddComponent(new CTransform);
-		pHookIcon->AddComponent(new CMeshRender);
-		pHookIcon->AddComponent(new CHookIconScript);
-		pHookIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pHookIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-		SpawnGameObject(pHookIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
-
-		CGameObject* pHPIcon = new CGameObject;
-		pHPIcon->SetName(L"HPIcon");
-		pHPIcon->AddComponent(new CTransform);
-		pHPIcon->AddComponent(new CMeshRender);
-		pHPIcon->AddComponent(new CHPIconScript);
-		pHPIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pHPIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-		SpawnGameObject(pHPIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
-
-		CGameObject* pEnergyIcon = new CGameObject;
-		pEnergyIcon->SetName(L"EnergyIcon");
-		pEnergyIcon->AddComponent(new CTransform);
-		pEnergyIcon->AddComponent(new CMeshRender);
-		pEnergyIcon->AddComponent(new CEnergyIconScript);
-		pEnergyIcon->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		pEnergyIcon->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"), 0);
-		SpawnGameObject(pEnergyIcon, Vec3(0.f, 0.f, 0.f), (int)LAYER::UI);
-	}
-	
+		
 	// Light 3D
 	{
 		CGameObject* pLightObj = new CGameObject;
@@ -321,6 +250,7 @@ void CreateTestLevel()
 
 	//SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 	}
+
 	
 	//Map
 	{
@@ -335,9 +265,12 @@ void CreateTestLevel()
 		//pFloor->GetRenderComponent()->SetFrustumCheck(false);
 		//pFloor->GetRenderComponent()->SetDynamicShadow(true);
 		//SpawnGameObject(pFloor, Vec3(0.f, -10.f, 0.f), (int)LAYER::GROUND);
+		//
 		//CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 	
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"Ice");
+		CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
 		pObject = pMeshData->Instantiate();
 		pObject->SetName(L"Map");
 		pObject->MeshRender()->SetDynamicShadow(true);
