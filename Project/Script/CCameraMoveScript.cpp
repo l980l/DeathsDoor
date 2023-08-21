@@ -71,15 +71,12 @@ void CCameraMoveScript::Camera2DMove()
 void CCameraMoveScript::Camera3DMove()
 {
 	CLevel* curlevel = CLevelMgr::GetInst()->GetCurLevel();
-#ifdef _DEBUG
-#else
+
 	LEVEL_STATE curState = curlevel->GetState();
-	if (curState == LEVEL_STATE::STOP)
-	{
-		curlevel->ChangeState(LEVEL_STATE::PLAY);
-	}
-#endif
-	
+	//if (curState == LEVEL_STATE::STOP)
+	//{
+	//	curlevel->ChangeState(LEVEL_STATE::PLAY);
+	//}
 	
 
 	Vec3 vPos = Transform()->GetRelativePos();

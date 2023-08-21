@@ -15,6 +15,10 @@ void CPlyIdle::tick()
 
 	GetOwner()->Rigidbody()->ClearForce();
 
+	// 상점 이용 중이라 이동이 막혀있다면 상태를 전환하지 않음.
+	if (!GetOwner()->GetScript<CPlayerScript>()->IsAbleMove())
+		return;
+
 	if (KEY_TAP(KEY::LBTN))
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
@@ -26,7 +30,7 @@ void CPlyIdle::tick()
 	// 이동키를 눌렀다면 Walk 상태로 전환
 	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::D))
 	{
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
+		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
 	}	
 	else if (KEY_TAP(KEY::SPACE))
 	{

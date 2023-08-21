@@ -3,6 +3,7 @@
 #include "CBazookaScript.h"
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CBazookaDeath::Enter()
 {
@@ -28,6 +29,8 @@ void CBazookaDeath::tick()
 	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
 	{
 		GetOwner()->GetScript<CBazookaScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
+		CLevelSaveLoadInScript LSL;
+		LSL.MoneyCount((UINT)600);
 		GetOwnerScript()->Destroy();
 	}
 }

@@ -60,8 +60,9 @@ void CBossChainScript::tick()
 		// Sound
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
 		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Chain1.ogg", 1, 0.1f);
-	}
 
+		m_bSound = true;
+	}
 	Vec3 vCurPos = Transform()->GetRelativePos();
 	Vec3 vDiff = m_vThrowStartPos - vCurPos;
 	vDiff.y = 0.f;

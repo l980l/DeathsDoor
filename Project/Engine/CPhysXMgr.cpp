@@ -4,12 +4,16 @@
 #include "components.h"
 #include "CMeshData.h"
 #include "CResMgr.h"
+#include "CLevelMgr.h"
+
+#include <chrono>
+#include <thread>
 
 CPhysXMgr::CPhysXMgr()
     : m_vecDynamicObject{}
     , m_vecDynamicActor{}
     , m_vecStaticActor{}
-    , m_fUpdateTime(0.f)
+    , m_fFecthDelay(0.f)
 {
 }
 
@@ -20,7 +24,6 @@ CPhysXMgr::~CPhysXMgr()
         m_Dispatcher->release();
     if (m_Scene != nullptr)
     {
-        m_Scene->fetchResults(false);
         m_Scene->release();
     }
     if (m_Material != nullptr)
@@ -87,45 +90,38 @@ void CPhysXMgr::init()
 
     // Create material (물리 객체 표면의 마찰력, 반탄력 등 설정)
     m_Material = m_Physics->createMaterial(10.f, 5.f, 0.f);
-
-   // PxCreatePlane
-   // 지면 평면 생성, PxPlane(0, 1, 0, 0)는 평면의 방정식을 나타내는데, 이 경우 y축을 따라 위쪽을 향하는 수평 평면을 나타냄
-   // *mMaterial는 이 평면의 물리적 속성(마찰력, 반발력 등)을 정의하는 물질을 나타냄.
-   //physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(0.f, 1.f, 0.f, 0.f), *m_Material);
-   //m_Scene->addActor(*groundPlane);
-    //// 동적 물체 생성, #1 위치, #2 물체 모양, #3 속도(기본값 0)
-    //CreateDynamic(PxTransform(PxVec3(0, 40, 100)), PxSphereGeometry(10), PxVec3(0, -50, -100));
 }
 
 void CPhysXMgr::tick()
 {
     // Run simulation
-    // 시뮬레이션은 120hz로 하고 결과값을 0.1초마다 가져옴
-    m_Scene->simulate(1.f / 120.f);
-    m_fUpdateTime += DT;
+    m_Scene->simulate(DT);
+   if(m_Scene->fetchResults(true))
+   {
+       // 결과값을 가져와 Rigidbody를 사용하는 obj의 위치값에 적용시켜줌.
+       // 현재 Scean의 중력이 매우 약하게 적용되므로 Velocity 300까지 중력 대신 아래로 밀어줌
+       for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
+       {
+           if (nullptr == m_vecDynamicActor[i])
+               continue;
+           PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
 
-    if(m_fUpdateTime > 0.1f)
-    {
-        m_Scene->fetchResults(true);
-        m_fUpdateTime = 0.f;
-    }
-    else
-        m_Scene->fetchResults(false);
+           if (Velo.y > -300.f)
+               m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT * 100.f);
+           Vec3 vPos = m_vecDynamicObject[i]->Transform()->GetWorldPos();
+           PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
+           Vec3 Diff = Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z) - vPos;
+           //if (abs(Diff.x) > abs(Velo.x * DT))
+           //    Diff.x = Velo.x * DT;
+           //if (abs(Diff.y) > abs(Velo.y * DT))
+           //    Diff.y = Velo.y * DT;
+           //if (abs(Diff.z) > abs(Velo.z * DT))
+           //    Diff.z = Velo.z * DT;
 
-    // 결과값을 가져와 Rigidbody를 사용하는 obj의 위치값에 적용시켜줌.
-    // 현재 Scean의 중력이 매우 약하게 적용되므로 Velocity 300까지 중력 대신 아래로 밀어줌
-    for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
-    {
-        if (nullptr == m_vecDynamicActor[i])
-            continue;
-        PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
-
-        if(abs(Velo.y) < 300.f)
-            m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT);
-
-        PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
-        m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
-    };
+           PxVec3 vVelocity = m_vecDynamicActor[i]->getLinearVelocity();
+           m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
+       };
+   }
 }
 
 void CPhysXMgr::finaltick()
@@ -169,7 +165,6 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     m_vecDynamicObject.push_back(_Object);
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
     m_Scene->addActor(*dynamic);
-    dynamic->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
     m_vecDynamicActor.push_back(dynamic);
     // Obj의 Rigidbody에 정보 세팅
     _Object->Rigidbody()->SetSpawnPos(_vSpawnPos);
@@ -344,8 +339,7 @@ void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 
 void CPhysXMgr::Clear()
 {
-    // Level 초기화에 호출될 전체 피직스 초기화
-    
+    // Level 초기화에 호출될 전체 피직스 초기화   
 
     if(!m_vecDynamicActor.empty())
     {
@@ -382,30 +376,33 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
     switch (_tType)
     {
     case LEVEL_TYPE::CASTLE_FIELD:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"Castle_Simple");
-        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
         break;
     case LEVEL_TYPE::CASTLE_BOSS:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"Castle_Boss_SIMPLE");
-        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle_Boss_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_SIMPLE.fbx");
         break;
     case LEVEL_TYPE::FOREST_FIELD:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"Forest_Simple");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_Simple.fbx");
         break;
     case LEVEL_TYPE::ICE_FIELD:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"Ice_Simple");
-        //CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Ice_Simple.fbx");
         break;
     case LEVEL_TYPE::HALL:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"Hall_SIMPLE");
-        //pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall_Simple.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Hall_SIMPLE.fbx");
         break;
+    case LEVEL_TYPE::ICE_BOSS:
+        CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
+        break;
+    case LEVEL_TYPE::LOADING:
+    case LEVEL_TYPE::START:
+        return;
+
     }
 
-    if(_tType != LEVEL_TYPE::ICE_BOSS)
+    if (LEVEL_TYPE::ICE_BOSS != _tType)
     {
         CGameObject* pMap = pMeshData->Instantiate();
-        ConvertStatic(Vec3(0.f, 0.f, 0.f), pMap);
+        ConvertStatic(Vec3(0.f), pMap);
         delete pMap;
     }
 }

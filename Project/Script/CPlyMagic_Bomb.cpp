@@ -6,6 +6,7 @@
 #include "CMagic_BombScript.h"
 #include <Engine/CPhysXMgr.h>
 #include "CSoundScript.h"
+#include "CUIMgr.h"
 
 CPlyMagic_Bomb::CPlyMagic_Bomb()
 	: m_vAttackDir{}
@@ -36,7 +37,7 @@ void CPlyMagic_Bomb::tick()
 	if (GetOwner()->Animator3D()->IsFinish() && GetOwner()->Animator3D()->GetCurClip() == (int)PLAYERANIM_TYPE::MAGIC_BOMB)
 	{
 		// 에너지가 부족하다면 Idle로 돌아가게 함.
-		if (2 > GetOwnerScript()->GetStat().Energy)
+		if (2 > GetOwnerScript()->GetStat().MP)
 		{
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 		}
@@ -54,7 +55,7 @@ void CPlyMagic_Bomb::tick()
 		{
 			// 공격에 따른 에너지 소모
 			Stat CurStat = GetOwnerScript()->GetStat();
-			CurStat.Energy -= 2;
+			CurStat.MP -= 2;
 			GetOwnerScript()->SetStat(CurStat);
 
 			// 폭탄 준비 애니메이션이 끝났다면 머리 위에 폭탄을 생성함.
@@ -62,12 +63,13 @@ void CPlyMagic_Bomb::tick()
 			// 폭탄을 생성한 상태에서 우클릭 Release하면 폭탄 던지는 애니메이션 Play 및 폭탄에 속도를 줌.
 			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_BOMB_FINISH, false);
 
-			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
+			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::MAGIC));
 			fDamage *= 2.5f;
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
 			m_pBomb->GetScript<CMagic_BombScript>()->SetDamege(fDamage);
 			m_pBomb->GetScript<CMagic_BombScript>()->SetDir(vDir);
 			m_pBomb->GetScript<CMagic_BombScript>()->SetThrow();
+			m_pBomb->GetScript<CMagic_BombScript>()->SetCollidable();
 			m_pBomb->SetLifeSpan(2.f);
 
 			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();

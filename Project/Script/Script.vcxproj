@@ -217,7 +217,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCrowBossStandingDeath.h" />
     <ClInclude Include="CCrowBossStomp.h" />
     <ClInclude Include="CCrowHeadScript.h" />
-    <ClInclude Include="CEnergyIconScript.h" />
+    <ClInclude Include="CMPIconScript.h" />
     <ClInclude Include="CEnterScript.h" />
     <ClInclude Include="CFireIconScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
@@ -258,6 +258,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CHookIconScript.h" />
     <ClInclude Include="CHPIconScript.h" />
     <ClInclude Include="CHUDScript.h" />
+    <ClInclude Include="CIconScript.h" />
     <ClInclude Include="CKnightChopAttack.h" />
     <ClInclude Include="CKnightChopAttackCombo.h" />
     <ClInclude Include="CKnightChopAttackComboEnd.h" />
@@ -341,11 +342,12 @@ call CodeGen.exe</Command>
     <ClInclude Include="CSpawnDoorScript.h" />
     <ClInclude Include="CSpawnMgr.h" />
     <ClInclude Include="CSpeed.h" />
+    <ClInclude Include="CStartSceneUIScript.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateScript.h" />
     <ClInclude Include="CTrace.h" />
     <ClInclude Include="CTrapScript.h" />
-    <ClInclude Include="CFenceScript.h" />
+    <ClInclude Include="CWallScript.h" />
     <ClInclude Include="CWaterCameraScript.h" />
     <ClInclude Include="CRoomScript.h" />
     <ClInclude Include="CWaterScript.h" />
@@ -392,7 +394,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCrowBossStandingDeath.cpp" />
     <ClCompile Include="CCrowBossStomp.cpp" />
     <ClCompile Include="CCrowHeadScript.cpp" />
-    <ClCompile Include="CEnergyIconScript.cpp" />
+    <ClCompile Include="CMPIconScript.cpp" />
     <ClCompile Include="CEnterScript.cpp" />
     <ClCompile Include="CFireIconScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
@@ -433,6 +435,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CHookIconScript.cpp" />
     <ClCompile Include="CHPIconScript.cpp" />
     <ClCompile Include="CHUDScript.cpp" />
+    <ClCompile Include="CIconScript.cpp" />
     <ClCompile Include="CKnightChopAttack.cpp" />
     <ClCompile Include="CKnightChopAttackCombo.cpp" />
     <ClCompile Include="CKnightChopAttackComboEnd.cpp" />
@@ -515,11 +518,12 @@ call CodeGen.exe</Command>
     <ClCompile Include="CSpawnDoorScript.cpp" />
     <ClCompile Include="CSpawnMgr.cpp" />
     <ClCompile Include="CSpeed.cpp" />
+    <ClCompile Include="CStartSceneUIScript.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateScript.cpp" />
     <ClCompile Include="CTrace.cpp" />
     <ClCompile Include="CTrapScript.cpp" />
-    <ClCompile Include="CFenceScript.cpp" />
+    <ClCompile Include="CWallScript.cpp" />
     <ClCompile Include="CWaterCameraScript.cpp" />
     <ClCompile Include="CRoomScript.cpp" />
     <ClCompile Include="CWaterScript.cpp" />

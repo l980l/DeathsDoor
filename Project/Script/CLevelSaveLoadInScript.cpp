@@ -68,6 +68,8 @@ int CLevelSaveLoadInScript::Play(const wstring& _LevelPath, CLevel* _Level)
 
 CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
 {
+    CPhysXMgr::GetInst()->Clear();
+
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
     strPath += _LevelPath;//상대경로
 

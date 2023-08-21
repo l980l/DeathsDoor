@@ -20,8 +20,7 @@ CLevelMgr::~CLevelMgr()
 void CLevelMgr::init()
 {
 	m_pCurLevel = new CLevel;
-	m_pCurLevel->ChangeState(LEVEL_STATE::STOP);
-	
+	m_pCurLevel->ChangeState(LEVEL_STATE::STOP);	
 }
 
 void CLevelMgr::tick()
@@ -31,9 +30,13 @@ void CLevelMgr::tick()
 	if (LEVEL_STATE::PLAY == m_pCurLevel->GetState())
 	{
 		m_pCurLevel->tick();
+
+		CPhysXMgr::GetInst()->tick();
 	}
 
 	m_pCurLevel->finaltick();
+
+	CPhysXMgr::GetInst()->finaltick();
 }
 
 
@@ -49,6 +52,20 @@ void CLevelMgr::FindObjectByName(const wstring& _strName, vector<CGameObject*>& 
 
 void CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 {
+	if (g_tPlayerStat.HP == 0)
+	{
+		Stat PlayerStat;
+		PlayerStat.Attack = 50.f;
+		PlayerStat.Attack_Speed = 0.4f;
+		PlayerStat.HP = 4;
+		PlayerStat.Speed = 150.f;
+		PlayerStat.Spell_Power = 40.f;
+		PlayerStat.MP = 4;
+		PlayerStat.Max_MP = 4;
+
+		g_tPlayerStat = PlayerStat;
+	}
+
 	if (nullptr != m_pCurLevel)
 	{
 		delete m_pCurLevel;

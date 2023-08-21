@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "CBankerFrameScript.h"
+#include "CStateScript.h"
 #include <Engine/CEventMgr.h>
 
 CBankerFrameScript::CBankerFrameScript() :
-	CScript(SCRIPT_TYPE::BANKERFRAMESCRIPT)
+	CScript(SCRIPT_TYPE::BANKERFRAMESCRIPT),
+	m_count(0)
 {
 }
 
@@ -33,7 +35,31 @@ void CBankerFrameScript::tick()
 	{
 		MeshRender()->GetDynamicMaterial(i);
 	}
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
+
+	if (KEY_TAP(KEY::RIGHT))
+	{
+		m_count++;
+		if (m_count == 1)
+		{
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_1.png", L"texture\\BankUI_1.png", 0));
+		}
+		else if (m_count == 2)
+		{
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_2.png", L"texture\\BankUI_2.png", 0));
+		}
+		else if (m_count == 3)
+		{
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_3.png", L"texture\\BankUI_3.png", 0));
+		}
+		else if (m_count == 4)
+		{
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_4.png", L"texture\\BankUI_4.png", 0));
+		}
+		else if (m_count == 5)
+		{
+			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_5.png", L"texture\\BankUI_5.png", 0));
+		}
+	}
 
 	if (KEY_TAP(KEY::ESC))
 	{

@@ -82,14 +82,14 @@ void CRigidbody::ClearForce()
 
 void CRigidbody::AddVelocity(Vec3 _vVelocity)
 {
-    physx::PxVec3 AddVelocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    physx::PxVec3 AddVelocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z) * 5.f;
     physx::PxVec3 LinearVelocity = m_PxRigidbody->getLinearVelocity();
     m_PxRigidbody->setLinearVelocity(AddVelocity + LinearVelocity);
 }
 
 void CRigidbody::SetVelocity(Vec3 _vVelocity)
 {
-    const physx::PxVec3& Velocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    const physx::PxVec3& Velocity = physx::PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z) * 5.f;
     physx::PxVec3 LinearVelocity = m_PxRigidbody->getLinearVelocity();
     physx::PxVec3 CurVelocity = physx::PxVec3(Velocity.x, LinearVelocity.y, Velocity.z);
     m_PxRigidbody->setLinearVelocity(CurVelocity);

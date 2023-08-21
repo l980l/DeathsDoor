@@ -4,6 +4,7 @@
 #include "CPlyMagic_Hooking.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CSoundScript.h"
+#include "CMonsterScript.h"
 
 CMagic_HookScript::CMagic_HookScript()
 	: CScript((UINT)SCRIPT_TYPE::MAGIC_HOOKSCRIPT)
@@ -18,6 +19,7 @@ CMagic_HookScript::CMagic_HookScript()
 	, m_bSnatch(false)
 	, m_bReturn(false)
 	, m_bActive(false)
+	, m_bCollidable(false)
 {	
 }
 
@@ -145,6 +147,8 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 				m_pHookingScript->SetHookedPos(CurPos);
 				m_bSnatch = true;
 				m_fTime = 0.f;
+				if(_Other->GetOwner()->GetScript<CMonsterScript>())
+					_Other->GetOwner()->GetScript<CMonsterScript>()->SetFixPosition(true);
 			}
 
 			CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.2f);
@@ -157,6 +161,8 @@ void CMagic_HookScript::BeginOverlap(CCollider3D* _Other)
 
 void CMagic_HookScript::EndOverlap(CCollider3D* _Other)
 {
+	if (_Other->GetOwner()->GetScript<CMonsterScript>())
+		_Other->GetOwner()->GetScript<CMonsterScript>()->SetFixPosition(false);
 }
 
 void CMagic_HookScript::PaveChain()

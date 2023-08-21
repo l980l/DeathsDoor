@@ -22,6 +22,11 @@ void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
 	_NewObject->Transform()->SetRelativePos(_vWorldPos);
 
+	if (_NewObject->Rigidbody())
+	{
+		_NewObject->Rigidbody()->SetRigidPos(_vWorldPos);
+	}
+
 	tEvent evn = {};
 
 	evn.Type = EVENT_TYPE::CREATE_OBJECT;

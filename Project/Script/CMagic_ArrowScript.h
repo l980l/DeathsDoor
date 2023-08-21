@@ -8,11 +8,13 @@ private:
     Vec3    m_vDir;
     float   m_fSpeed;
     float   m_fDamage;
+    bool    m_bCollidable;
 
 public:
     void SetStartPos(Vec3 _vPos) { m_vStartPos = _vPos; }
     void SetDir(Vec3 _vDir) { m_vDir = _vDir.Normalize(); m_vDir.y = 0.f; }
     void SetDamage(float _fDamage) { m_fDamage = _fDamage; }
+    void SetCollidable() {m_bCollidable = true; }
     virtual void begin() override;
     virtual void tick() override;
 

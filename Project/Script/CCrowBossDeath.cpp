@@ -3,11 +3,13 @@
 #include "CCrowBossScript.h"
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CCrowBossDeath::Enter()
 {
 	GetOwner()->Animator3D()->Play(7, false);
 	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+	GetOwner()->GetScript<CCrowBossScript>()->DestoryFeather();
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
@@ -33,7 +35,11 @@ void CCrowBossDeath::tick()
 	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
 	{
 		GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)30000);
+		CLevelSaveLoadInScript LSL;
+		LSL.MoneyCount((UINT)30000);
 		GetOwnerScript()->Destroy();
+
+		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->ChangeState(L"Dance");
 	}
 }
 

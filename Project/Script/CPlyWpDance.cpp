@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CPlyWpDance.h"
+#include <Engine/CRenderMgr.h>
+#include "CGameCameraScript.h"
 
 CPlyWpDance::CPlyWpDance()
 {
@@ -17,6 +19,13 @@ void CPlyWpDance::Enter()
 
 void CPlyWpDance::tick()
 {
+	m_fCameraZoomIn += DT;
+
+	if(m_fCameraZoomIn <= 5.f)
+	{
+		CRenderMgr::GetInst()->GetMainCam()->SetScale(0.6f + 0.6f * (m_fCameraZoomIn / 5.f));
+		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(true);
+	}
 }
 
 void CPlyWpDance::Exit()

@@ -180,6 +180,6 @@ void CCrowBossSliding::ArriveToTarget()
 		if (CHAINPATERN::ONE == m_tChainPatern)
 			ChangeState(L"SlidingReady");
 		else
-			ChangeState(L"RightSpin");
+			ChangeState(L"Jump");
 	}
 }

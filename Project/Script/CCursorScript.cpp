@@ -17,7 +17,8 @@ CCursorScript::~CCursorScript()
 
 void CCursorScript::begin()
 {
-	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\Cursor.png", L"texture\\Cursor.png", 0));
+	//ShowCursor(false);
+	MeshRender()->GetDynamicMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\Cursor.png", L"texture\\Cursor.png", 0));
 }
 
 void CCursorScript::tick()

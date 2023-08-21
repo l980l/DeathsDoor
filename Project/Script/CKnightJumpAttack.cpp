@@ -3,6 +3,8 @@
 #include "CSoundScript.h"
 #include <Engine/CLevelMgr.h>
 #include <Engine/CGameObject.h>
+#include <Engine/CRenderMgr.h>
+#include "CGameCameraScript.h"
 
 void CKnightJumpAttack::tick()
 {

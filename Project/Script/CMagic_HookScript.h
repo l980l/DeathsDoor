@@ -20,6 +20,7 @@ private:
     bool                    m_bSnatch;              // 낚아챔 유무
     bool                    m_bReturn;              // 낚아채지 못하고 돌아오는 중
     bool                    m_bActive;
+    bool                    m_bCollidable;
     
 private:
     void SetHookScript(CPlyMagic_Hook* _pHookScript) {if(nullptr == m_pHookScript) m_pHookScript = _pHookScript; }

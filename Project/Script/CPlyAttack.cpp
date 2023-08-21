@@ -43,7 +43,7 @@ void CPlyAttack::Enter()
 {
 	GetOwner()->Rigidbody()->ClearForce();
 	m_fDelay = GetOwnerScript()->GetStat().Attack_Speed;
-	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Strength);
+	m_fRange = 40.f + 4.f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::ATTACK);
 	m_fSlashStartTime = GlobalData.tAccTime;
 	CalcDir();
 	m_vSlashPos = GetOwner()->Transform()->GetWorldPos() + Vec3(0.f, 20.f, 0.f) - m_vMouseDir * 80.f;

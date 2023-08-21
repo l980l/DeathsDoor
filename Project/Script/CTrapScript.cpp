@@ -37,7 +37,7 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 			if (GetOwner()->GetName() == L"Trap1")
 			{
 				GetOwner()->GetScript<CRoomScript>()->SetRoomNum(1);
-				GetOwner()->GetScript<CRoomScript>()->SetWaveCount(2);//최대 웨이브 수
+				GetOwner()->GetScript<CRoomScript>()->SetWaveCount(1);//최대 웨이브 수
 				
 				vector<SpawnInfo> wave0 = {};
 				SpawnInfo info;
@@ -54,27 +54,27 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 				info.SpawnPos = Vec3(1941.f, 630.f, 2442.f);
 				wave0.push_back(info);
 
-				vector<SpawnInfo> wave1;
-				info.PrefabName = L"prefab\\Bat.prefab";
-				info.SpawnPos = Vec3(2299.f, 630.f, 3074.f);
-				wave1.push_back(info);
-				info.PrefabName = L"prefab\\Bat.prefab";
-				info.SpawnPos = Vec3(1889.f, 630.f, 2680.f);
-				wave1.push_back(info);
-				info.PrefabName = L"prefab\\Bat.prefab";
-				info.SpawnPos = Vec3(1574.f, 630.f, 3047.f);
-				wave1.push_back(info);
-				info.PrefabName = L"prefab\\Bat.prefab";
-				info.SpawnPos = Vec3(1940.f, 630.f, 3440.f);
-				wave1.push_back(info);
+				//vector<SpawnInfo> wave1;
+				//info.PrefabName = L"prefab\\Bat.prefab";
+				//info.SpawnPos = Vec3(2299.f, 630.f, 3074.f);
+				//wave1.push_back(info);
+				//info.PrefabName = L"prefab\\Bat.prefab";
+				//info.SpawnPos = Vec3(1889.f, 630.f, 2680.f);
+				//wave1.push_back(info);
+				//info.PrefabName = L"prefab\\Bat.prefab";
+				//info.SpawnPos = Vec3(1574.f, 630.f, 3047.f);
+				//wave1.push_back(info);
+				//info.PrefabName = L"prefab\\Bat.prefab";
+				//info.SpawnPos = Vec3(1940.f, 630.f, 3440.f);
+				//wave1.push_back(info);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[0].PrefabName, wave0[0].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[1].PrefabName, wave0[1].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[2].PrefabName, wave0[2].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(0, wave0[3].PrefabName, wave0[3].SpawnPos);
-				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[0].PrefabName, wave1[0].SpawnPos);
+				/*GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[0].PrefabName, wave1[0].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[1].PrefabName, wave1[1].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[2].PrefabName, wave1[2].SpawnPos);
-				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[3].PrefabName, wave1[3].SpawnPos);
+				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[3].PrefabName, wave1[3].SpawnPos);*/
 				
 				CSpawnMgr::GetInst()->RegisterWave(1, GetOwner()->GetScript<CRoomScript>());
 				CSpawnMgr::GetInst()->SpawnMonster(1);
@@ -147,7 +147,7 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 		}
 		else if (curLevel->GetLevelType() == (int)LEVEL_TYPE::FOREST_FIELD)
 		{
-			if (GetOwner()->GetName() == L"Trap1")
+			if (GetOwner()->GetName() == L"Trap1" && m_bTrapped == false)
 			{
 				CGameObject* door = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Fence.prefab", (int)LAYER::ITEM, Vec3(5942.f, 549.f, 3636.f));
 				door->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));

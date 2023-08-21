@@ -39,7 +39,7 @@ void CKnightScript::begin()
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
 		m_pStateScript->AddState(L"Idle", new CKnightIdle);
-		m_pStateScript->AddState(L"Trace", new CTrace);
+		m_pStateScript->AddState(L"Trace", new CKnightWalk);
 		m_pStateScript->AddState(L"RunAttack", new CKnightRunAttack);
 		m_pStateScript->AddState(L"CutScene", new CKnightCutScene);
 		m_pStateScript->AddState(L"JumpReady", new CKnightJumpReady);
@@ -65,8 +65,8 @@ void CKnightScript::begin()
 	GetOwner()->Rigidbody()->SetVelocityLimit(150.f);
 
 	// 초기 스탯 설정.
-	m_stat.HP = 1000;
-	m_stat.Max_HP = 1000;
+	m_stat.HP = 400;
+	m_stat.Max_HP = 400;
 	m_stat.Attack = 1;
 	m_stat.Attack_Speed = 10;
 	m_stat.Speed = 150;
@@ -102,7 +102,6 @@ void CKnightScript::tick()
 	{
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
-		SetLifeSpan(0.5f);
 	}
 }
 
@@ -111,31 +110,6 @@ void CKnightScript::BeginOverlap(CCollider3D* _Other)
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
 		m_pStateScript->ChangeState(L"RunAttack");
-	}
-	if (L"Sword" == _Other->GetName())
-	{
-		//체력--
-		//m_stat.HP -= SwordDamage
-	}
-	else if (L"Arrow" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Fire" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Bomb" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Hook" == _Other->GetName())
-	{
-		//체력--
-	}
-	else if (L"Ghost" == _Other->GetName())
-	{
-		//체력--
 	}
 }
 

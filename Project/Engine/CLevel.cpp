@@ -37,8 +37,6 @@ void CLevel::tick()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i]->tick();
-
-		CPhysXMgr::GetInst()->tick();
 	}
 }
 
@@ -48,8 +46,6 @@ void CLevel::finaltick()
 	{
 		m_arrLayer[i]->finaltick();
 	}
-
-	CPhysXMgr::GetInst()->finaltick();
 }
 
 CLayer* CLevel::FindLayerByName(const wstring& _strName)

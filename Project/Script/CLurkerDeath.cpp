@@ -3,6 +3,7 @@
 #include "CLurkerScript.h"
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
+#include "CLevelSaveLoadInScript.h"
 
 void CLurkerDeath::Enter()
 {
@@ -36,6 +37,8 @@ void CLurkerDeath::tick()
 	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
 	{
 		GetOwner()->GetScript<CLurkerScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)200);
+		CLevelSaveLoadInScript LSL;
+		LSL.MoneyCount((UINT)200);
 		GetOwnerScript()->Destroy();
 	}
 }

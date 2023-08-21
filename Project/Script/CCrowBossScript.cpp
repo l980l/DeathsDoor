@@ -66,7 +66,7 @@ void CCrowBossScript::begin()
 
 		// 초기 스탯 설정.
 		Stat NewStat;
-		NewStat.Max_HP = 1500;
+		NewStat.Max_HP = 500;
 		NewStat.HP = NewStat.Max_HP;
 		NewStat.Attack = 50.f;
 		NewStat.Attack_Speed = 1.f;
@@ -119,7 +119,8 @@ void CCrowBossScript::tick()
 		m_fPrevHP = fCurHP;
 	}
 
-	m_pCrowBossFeather->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
+	if(nullptr != m_pCrowBossFeather)
+		m_pCrowBossFeather->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
 }
 
 void CCrowBossScript::BeginOverlap(CCollider3D* _Other)

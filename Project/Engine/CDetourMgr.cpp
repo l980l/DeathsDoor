@@ -73,7 +73,7 @@ void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 		LoadNavMeshFromBinFile("Navi\\Ice.bin");
 		break;
 	case LEVEL_TYPE::ICE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
+		//LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::HALL:
 		LoadNavMeshFromBinFile("Navi\\Hall.bin");
