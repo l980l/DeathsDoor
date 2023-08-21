@@ -14,7 +14,7 @@ CRoomScript::CRoomScript()
 	, m_iMaxWaveNum(0)
 	, m_vecWave{}
 	, m_bActive(false)
-	,m_bSpawn(false)
+	, m_bSpawn(false)
 	, m_bLastWave(false)
 	, m_bWaveStart(false)
 {
@@ -50,6 +50,15 @@ void CRoomScript::begin()
 {
 	vector<CGameObject*> vecMonster = CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::MONSTER)->GetParentObject();
 	m_prevMonsterNum = vecMonster.size();
+	m_bWaveStart = false;
+	m_iRoomNum = -1;
+	m_iRemainMst = -1;
+	m_iRemainGimmik = -1;
+	m_iCurWaveNum = 0;
+	m_iMaxWaveNum = 0;
+	m_bActive = false;
+	m_bSpawn = false;
+	m_bLastWave = false;
 	m_bWaveStart = false;
 }
 

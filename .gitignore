@@ -372,3 +372,4 @@ FodyWeavers.xsd
 /OutputFile/bin_d/imgui.ini
 /Project/Client/TestLevel.cpp
 /Project/Client/TestLevel.h
+!/OutputFile/bin/content/prefab

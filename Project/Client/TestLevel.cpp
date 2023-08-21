@@ -88,11 +88,11 @@ void CreateTestLevel()
 	//Player Status setting
 		g_tPlayerStat.Attack = 300.f;
 		g_tPlayerStat.Attack_Speed = 0.4f;
-		g_tPlayerStat.Energy = 0;
+		g_tPlayerStat.Energy = 4;
 		g_tPlayerStat.Max_Energy = 4;
 		g_tPlayerStat.HP = 4;
 		g_tPlayerStat.Max_HP = 4;
-		g_tPlayerStat.Speed = 500.f;
+		g_tPlayerStat.Speed = 150.f;
 		g_tPlayerStat.Spell_Power = 40.f;
 	//=============================
 		return;
