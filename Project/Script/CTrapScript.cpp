@@ -10,6 +10,7 @@
 
 CTrapScript::CTrapScript() :
 	CScript(SCRIPT_TYPE::TRAPSCRIPT)
+	, m_iTrapNum(-1)
 {
 }
 
@@ -76,7 +77,7 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[2].PrefabName, wave1[2].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[3].PrefabName, wave1[3].SpawnPos);*/
 				
-				CSpawnMgr::GetInst()->RegisterWave(1, GetOwner()->GetScript<CRoomScript>());
+				CSpawnMgr::GetInst()->RegisterRoom(1, GetOwner()->GetScript<CRoomScript>());
 				CSpawnMgr::GetInst()->SpawnMonster(1);
 				
 				//trapped 되었으면 fence를 오픈하고 rigidbody PhysX설정해준다
@@ -132,7 +133,7 @@ void CTrapScript::BeginOverlap(CCollider3D* _Other)
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[1].PrefabName, wave1[1].SpawnPos);
 				GetOwner()->GetScript<CRoomScript>()->AddWaveMst(1, wave1[2].PrefabName, wave1[2].SpawnPos);
 
-				CSpawnMgr::GetInst()->RegisterWave(2, GetOwner()->GetScript<CRoomScript>());
+				CSpawnMgr::GetInst()->RegisterRoom(2, GetOwner()->GetScript<CRoomScript>());
 				CSpawnMgr::GetInst()->SpawnMonster(2);
 
 				//trapped 되었으면 fence를 오픈하고 rigidbody PhysX설정해준다

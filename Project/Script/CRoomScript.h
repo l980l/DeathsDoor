@@ -14,7 +14,6 @@ private:
     int                     m_iCurWaveNum;      // 현재 Wave
     int                     m_iMaxWaveNum;      // 최대 Wave
     vector<SpawnInfo>       m_vecWave[2];       // 스폰 정보를 담은 Wave vector
-    vector<CFenceScript*>    m_vecFence;         // 각 번호를 가진 fence obj
     bool                    m_bActive;          // 활성 여부
 
 public:
@@ -25,7 +24,6 @@ private:
     void SpawnMst();
 
 public:
-    void RegisterFence(CFenceScript* _pFence) { m_vecFence.push_back(_pFence); }
     void ActivateFence(bool _bOpen);
     void SetWaveCount(int _iWaveCount) { m_iMaxWaveNum = _iWaveCount; }
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
@@ -34,7 +32,6 @@ public:
     void ReduceGimmickCount();
     vector<SpawnInfo>& GetWaveInfo(int _iWaveNum) { return m_vecWave[_iWaveNum]; }
     void AddWaveMst(int _iWavwNum, wstring _wstrPrefName, Vec3 _vSpawnPos);
-    virtual void BeginOverlap(CCollider2D* _Other) override;
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;

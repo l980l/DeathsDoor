@@ -8,6 +8,7 @@ private:
 
 private:
     void SetTrapNum(int _trapNum) { m_iTrapNum = _trapNum; }
+
 public:
     virtual void begin() override;
     virtual void tick() override;

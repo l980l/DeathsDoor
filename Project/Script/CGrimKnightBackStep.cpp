@@ -3,12 +3,12 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 
-void CGrimKnightBackStep::tick()
+CGrimKnightBackStep::CGrimKnightBackStep()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"BackStep2");
-	}
+}
+
+CGrimKnightBackStep::~CGrimKnightBackStep()
+{
 }
 
 void CGrimKnightBackStep::Enter()
@@ -23,26 +23,14 @@ void CGrimKnightBackStep::Enter()
 	GetOwner()->Rigidbody()->AddVelocity(dir * 150);
 }
 
+void CGrimKnightBackStep::tick()
+{
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"BackStep2");
+	}
+}
+
 void CGrimKnightBackStep::Exit()
-{
-}
-
-void CGrimKnightBackStep::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightBackStep::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightBackStep::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightBackStep::CGrimKnightBackStep()
-{
-}
-
-CGrimKnightBackStep::~CGrimKnightBackStep()
 {
 }

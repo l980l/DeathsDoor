@@ -105,7 +105,7 @@ void CBatScript::tick()
 void CBatScript::BeginOverlap(CCollider3D* _Other)
 {
 	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면 Hit
-	if (L"Player" == _Other->GetOwner()->GetName())
+	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex())
 	{
 		m_pStateScript->ChangeState(L"BatAttack");
 	}

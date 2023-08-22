@@ -26,7 +26,9 @@ public:
     void            SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value;}
     void            SetLastHitTime() { m_fLastHitTime = GlobalData.tAccTime; }
     void            SpawnByDoor() { m_bSpawnByDoor = true; }
-    void            SetFixPosition(bool _bFixPos) { m_bFixPos = _bFixPos; }
+    void            SetFixPosition(bool _bFixPos) { m_bFixPos = _bFixPos;
+    m_vFixedPos = Transform()->GetWorldPos();
+    }
 
 public:
     virtual void begin() override;

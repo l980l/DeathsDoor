@@ -3,13 +3,12 @@
 #include "CLevelSaveLoadInScript.h"
 #include "CSoundScript.h"
 
-void CKnightJumpAttack2::tick()
+CKnightJumpAttack2::CKnightJumpAttack2()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"JumpFinish");
-	}
+}
 
+CKnightJumpAttack2::~CKnightJumpAttack2()
+{
 }
 
 void CKnightJumpAttack2::Enter()
@@ -22,26 +21,15 @@ void CKnightJumpAttack2::Enter()
 	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1);
 }
 
+void CKnightJumpAttack2::tick()
+{
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"JumpFinish");
+	}
+
+}
+
 void CKnightJumpAttack2::Exit()
-{
-}
-
-void CKnightJumpAttack2::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightJumpAttack2::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightJumpAttack2::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CKnightJumpAttack2::CKnightJumpAttack2()
-{
-}
-
-CKnightJumpAttack2::~CKnightJumpAttack2()
 {
 }

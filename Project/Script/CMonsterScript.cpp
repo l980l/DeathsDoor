@@ -80,6 +80,9 @@ void CMonsterScript::tick()
 
 		mtrl->SetScalarParam(INT_3, &HitEffect);
 	}
+
+	if (m_bFixPos)
+		Rigidbody()->SetRigidPos(m_vFixedPos);
 }
 
 void CMonsterScript::BeginOverlap(CCollider3D* _Other)

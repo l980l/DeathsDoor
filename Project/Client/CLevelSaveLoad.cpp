@@ -393,8 +393,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
                 CPhysXMgr::GetInst()->CreateSphere(vSpawnPos, vRigidScale.x, pObject);
                 break;
             }
-        }
-        
+        }        
     }
 
     // 스크립트   

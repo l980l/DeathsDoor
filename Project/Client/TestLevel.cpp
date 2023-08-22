@@ -47,6 +47,7 @@
 #include <Script\CBankNPCScript.h>
 #include <Script\CMonsterDetectRangeScript.h>
 #include <Engine/CDetourMgr.h>
+#include <Script/CFenceScript.h>
 
 void CreateTestLevel()
 {
@@ -251,6 +252,13 @@ void CreateTestLevel()
 	//SpawnGameObject(pSkyBox, Vec3(0.f, 0.f, 0.f), 0);
 	}
 
+	pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\gimic\\Fence.fbx");
+	pObject = pMeshData->Instantiate();
+	pObject->SetName(L"Fence");
+	pObject->AddComponent(new CFenceScript);
+	pObject->GetScript<CFenceScript>()->SetRoomNum(0);
+
+	SpawnGameObject(pObject, Vec3(3800.f, 500.f, 1200.f), (int)LAYER::DEFAULT);
 	
 	//Map
 	{
@@ -268,6 +276,7 @@ void CreateTestLevel()
 		//
 		//CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 	
+		CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
 		CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
 
 		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");

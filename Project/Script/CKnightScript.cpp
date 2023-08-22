@@ -8,7 +8,6 @@
 #include "KnightStates.h"
 
 
-
 CKnightScript::CKnightScript() 
 	: CMonsterScript((UINT)SCRIPT_TYPE::KNIGHTSCRIPT)
 	, m_bRecognizeCheck(false)
@@ -97,7 +96,7 @@ void CKnightScript::tick()
 
 void CKnightScript::BeginOverlap(CCollider3D* _Other)
 {
-	if (L"Player" == _Other->GetOwner()->GetName())
+	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex())
 	{
 		m_pStateScript->ChangeState(L"RunAttack");
 	}

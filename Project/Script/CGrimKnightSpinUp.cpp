@@ -1,6 +1,14 @@
 #include "pch.h"
 #include "CGrimKnightSpinUp.h"
 
+CGrimKnightSpinUp::CGrimKnightSpinUp()
+{
+}
+
+CGrimKnightSpinUp::~CGrimKnightSpinUp()
+{
+}
+
 void CGrimKnightSpinUp::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -16,25 +24,5 @@ void CGrimKnightSpinUp::Enter()
 }
 
 void CGrimKnightSpinUp::Exit()
-{
-}
-
-void CGrimKnightSpinUp::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightSpinUp::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightSpinUp::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightSpinUp::CGrimKnightSpinUp()
-{
-}
-
-CGrimKnightSpinUp::~CGrimKnightSpinUp()
 {
 }

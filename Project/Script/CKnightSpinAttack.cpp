@@ -2,14 +2,12 @@
 #include "CKnightSpinAttack.h"
 #include "CLevelSaveLoadInScript.h"
 
-void CKnightSpinAttack::tick()
+CKnightSpinAttack::CKnightSpinAttack()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"Trace");
-	}
+}
 
-	
+CKnightSpinAttack::~CKnightSpinAttack()
+{
 }
 
 void CKnightSpinAttack::Enter()
@@ -20,26 +18,16 @@ void CKnightSpinAttack::Enter()
 	script.SpawnPrefab(L"prefab\\SpinAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }
 
+void CKnightSpinAttack::tick()
+{
+	if (GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"Trace");
+	}
+
+	
+}
+
 void CKnightSpinAttack::Exit()
-{
-}
-
-void CKnightSpinAttack::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightSpinAttack::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightSpinAttack::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CKnightSpinAttack::CKnightSpinAttack()
-{
-}
-
-CKnightSpinAttack::~CKnightSpinAttack()
 {
 }

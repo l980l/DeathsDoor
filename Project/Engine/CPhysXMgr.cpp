@@ -1,13 +1,8 @@
 #include "pch.h"
 #include "CPhysXMgr.h"
-#include "CTimeMgr.h"
 #include "components.h"
-#include "CMeshData.h"
+#include "CTimeMgr.h"
 #include "CResMgr.h"
-#include "CLevelMgr.h"
-
-#include <chrono>
-#include <thread>
 
 CPhysXMgr::CPhysXMgr()
     : m_vecDynamicObject{}

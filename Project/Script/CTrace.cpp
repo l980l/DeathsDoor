@@ -15,7 +15,22 @@ CTrace::CTrace()
 }
 
 CTrace::~CTrace()
-{}
+{
+}
+
+void CTrace::Enter()
+{
+	if (L"Bat" == GetOwner()->GetName())
+	{
+		Stat status = GetOwnerScript()->GetStat();
+		GetOwner()->Animator3D()->Play(3, true);
+	}
+	else if (L"GrimKnight" == GetOwner()->GetName())
+	{
+		Stat status = GetOwnerScript()->GetStat();
+		GetOwner()->Animator3D()->Play(6, true);
+	}
+}
 
 void CTrace::tick()
 {
@@ -73,33 +88,7 @@ void CTrace::tick()
 
 }
 
-void CTrace::Enter()
-{
-	if (L"Bat" == GetOwner()->GetName())
-	{
-		Stat status = GetOwnerScript()->GetStat();
-		GetOwner()->Animator3D()->Play(3, true);
-	}
-	else if (L"GrimKnight" == GetOwner()->GetName())
-	{
-		Stat status = GetOwnerScript()->GetStat();
-		GetOwner()->Animator3D()->Play(6, true);
-	}
-}
-
 void CTrace::Exit()
 {
 	GetOwner()->Rigidbody()->ClearForce();
-}
-
-void CTrace::BeginOverlap(CCollider3D* _Other)
-{
-}
-
-void CTrace::OnOverlap(CCollider3D* _Other)
-{
-}
-
-void CTrace::EndOverlap(CCollider3D* _Other)
-{
 }

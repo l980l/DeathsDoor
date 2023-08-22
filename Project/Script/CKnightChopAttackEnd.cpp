@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "CKnightChopAttackEnd.h"
 
-void CKnightChopAttackEnd::tick()
+CKnightChopAttackEnd::CKnightChopAttackEnd()
+{
+}
+
+CKnightChopAttackEnd::~CKnightChopAttackEnd()
 {
 }
 
@@ -11,26 +15,10 @@ void CKnightChopAttackEnd::Enter()
 	GetOwner()->Animator3D()->Play(9, false);
 }
 
+void CKnightChopAttackEnd::tick()
+{
+}
+
 void CKnightChopAttackEnd::Exit()
-{
-}
-
-void CKnightChopAttackEnd::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightChopAttackEnd::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightChopAttackEnd::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CKnightChopAttackEnd::CKnightChopAttackEnd()
-{
-}
-
-CKnightChopAttackEnd::~CKnightChopAttackEnd()
 {
 }

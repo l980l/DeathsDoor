@@ -34,7 +34,6 @@ public:
     void ReduceGimmickCount();
     vector<SpawnInfo>& GetWaveInfo(int _iWaveNum) { return m_vecWave[_iWaveNum]; }
     void AddWaveMst(int _iWavwNum, wstring _wstrPrefName, Vec3 _vSpawnPos);
-    virtual void BeginOverlap(CCollider2D* _Other) override;
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;

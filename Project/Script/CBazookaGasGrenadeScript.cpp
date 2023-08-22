@@ -4,6 +4,49 @@
 #include <Engine/CPhysXMgr.h>
 #include "CSoundScript.h"
 
+CBazookaGasGrenadeScript::CBazookaGasGrenadeScript() :
+	CScript((UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT)
+	, m_iState(0)
+	, m_GasBulletParticle(nullptr)
+	, m_GasCenterParticle(nullptr)
+	, m_GasRoundParticle(nullptr)
+	, m_fBulletTime(0.f)
+	, m_fGasTime(0.f)
+{
+}
+
+CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScript& _Other) :
+	CScript((UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT)
+	, m_iState(0)
+	, m_GasBulletParticle(nullptr)
+	, m_GasCenterParticle(nullptr)
+	, m_GasRoundParticle(nullptr)
+	, m_fBulletTime(0.f)
+	, m_fGasTime(0.f)
+{
+}
+
+CBazookaGasGrenadeScript::~CBazookaGasGrenadeScript()
+{
+	if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
+	{
+		DestroyObject(m_GasBulletParticle);
+		m_GasBulletParticle = nullptr;
+	}
+
+	if (m_GasCenterParticle && !m_GasCenterParticle->IsDead())
+	{
+		DestroyObject(m_GasCenterParticle);
+		m_GasCenterParticle = nullptr;
+	}
+
+	if (m_GasRoundParticle && !m_GasRoundParticle->IsDead())
+	{
+		DestroyObject(m_GasRoundParticle);
+		m_GasRoundParticle = nullptr;
+	}
+}
+
 void CBazookaGasGrenadeScript::begin()
 {
 	// °¡½ºÅº ÆÄÆ¼Å¬ ÇÁ¸®Æé.
@@ -100,11 +143,6 @@ void CBazookaGasGrenadeScript::tick()
 
 void CBazookaGasGrenadeScript::BeginOverlap(CCollider3D* _Other)
 {
-	// Player¿Í ºÎµúÈù °æ¿ì µ¥¹ÌÁö.
-	if (_Other->GetOwner() == CLevelMgr::GetInst()->FindObjectByName(L"Player"))
-	{
-		
-	}
 }
 
 void CBazookaGasGrenadeScript::OnOverlap(CCollider3D* _Other)
@@ -113,47 +151,4 @@ void CBazookaGasGrenadeScript::OnOverlap(CCollider3D* _Other)
 
 void CBazookaGasGrenadeScript::EndOverlap(CCollider3D* _Other)
 {
-}
-
-CBazookaGasGrenadeScript::CBazookaGasGrenadeScript() :
-	CScript((UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT)
-	, m_iState(0)
-	, m_GasBulletParticle(nullptr)
-	, m_GasCenterParticle(nullptr)
-	, m_GasRoundParticle(nullptr)
-	, m_fBulletTime(0.f)
-	, m_fGasTime(0.f)
-{
-}
-
-CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScript& _Other) :
-	CScript((UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT)
-	, m_iState(0)
-	, m_GasBulletParticle(nullptr)
-	, m_GasCenterParticle(nullptr)
-	, m_GasRoundParticle(nullptr)
-	, m_fBulletTime(0.f)
-	, m_fGasTime(0.f)
-{
-}
-
-CBazookaGasGrenadeScript::~CBazookaGasGrenadeScript()
-{
-	if (m_GasBulletParticle && !m_GasBulletParticle->IsDead())
-	{
-		DestroyObject(m_GasBulletParticle);
-		m_GasBulletParticle = nullptr;
-	}
-
-	if (m_GasCenterParticle && !m_GasCenterParticle->IsDead())
-	{
-		DestroyObject(m_GasCenterParticle);
-		m_GasCenterParticle = nullptr;
-	}
-
-	if (m_GasRoundParticle && !m_GasRoundParticle->IsDead())
-	{
-		DestroyObject(m_GasRoundParticle);
-		m_GasRoundParticle = nullptr;
-	}
 }

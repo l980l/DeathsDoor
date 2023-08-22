@@ -3,7 +3,7 @@
 #include "CPlayerScript.h"
 
 CSpeed::CSpeed()	:
-	b_check(false)
+	m_bCheck(false)
 {
 
 }
@@ -33,7 +33,7 @@ void CSpeed::tick()
 		int currentMoney = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->GetMoneyCount();
 		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->AddMoney(-600);
 		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::SPEED);
-		b_check = true;
+		m_bCheck = true;
 	}
 }
 

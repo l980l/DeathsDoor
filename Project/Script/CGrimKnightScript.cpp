@@ -113,22 +113,16 @@ void CGrimKnightScript::tick()
 void CGrimKnightScript::BeginOverlap(CCollider3D* _Other)
 {
 	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면
-	if (L"Player" == _Other->GetOwner()->GetName() && m_bOnCollision == false)
+	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex() && m_bOnCollision == false)
 	{
 		m_pStateScript->ChangeState(L"Attack");
 		m_bOnCollision = true;
 	}
-	if (L"Slash_R" == _Other->GetOwner()->GetName())
+	if ((int)LAYER::PLAYERPROJECTILE == _Other->GetOwner()->GetLayerIndex())
 	{
 		if(m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardStay"))
 			m_iHitCount++;
 	}
-	else if (L"Slash_L" == _Other->GetOwner()->GetName())
-	{
-		if(m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardStay"))
-			m_iHitCount++;
-	}
-
 	else if (L"Ghost" == _Other->GetName())
 	{
 		//체력--

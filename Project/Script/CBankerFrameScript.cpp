@@ -5,7 +5,7 @@
 
 CBankerFrameScript::CBankerFrameScript() :
 	CScript(SCRIPT_TYPE::BANKERFRAMESCRIPT),
-	m_count(0)
+	m_iCount(0)
 {
 }
 
@@ -38,24 +38,24 @@ void CBankerFrameScript::tick()
 
 	if (KEY_TAP(KEY::RIGHT))
 	{
-		m_count++;
-		if (m_count == 1)
+		m_iCount++;
+		if (m_iCount == 1)
 		{
 			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_1.png", L"texture\\BankUI_1.png", 0));
 		}
-		else if (m_count == 2)
+		else if (m_iCount == 2)
 		{
 			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_2.png", L"texture\\BankUI_2.png", 0));
 		}
-		else if (m_count == 3)
+		else if (m_iCount == 3)
 		{
 			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_3.png", L"texture\\BankUI_3.png", 0));
 		}
-		else if (m_count == 4)
+		else if (m_iCount == 4)
 		{
 			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_4.png", L"texture\\BankUI_4.png", 0));
 		}
-		else if (m_count == 5)
+		else if (m_iCount == 5)
 		{
 			MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_5.png", L"texture\\BankUI_5.png", 0));
 		}
@@ -68,16 +68,4 @@ void CBankerFrameScript::tick()
 		evn.wParam = (DWORD_PTR)this->GetOwner();
 		CEventMgr::GetInst()->AddEvent(evn);
 	}
-}
-
-void CBankerFrameScript::BeginOverlap(CCollider3D* _Other)
-{
-}
-
-void CBankerFrameScript::OnOverlap(CCollider3D* _Other)
-{
-}
-
-void CBankerFrameScript::EndOverlap(CCollider3D* _Other)
-{
 }

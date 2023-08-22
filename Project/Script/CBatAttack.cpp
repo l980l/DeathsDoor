@@ -3,7 +3,7 @@
 #include "CLevelSaveLoadInScript.h"
 
 CBatAttack::CBatAttack()	:
-	m_time(0.f)
+	m_fTime(0.f)
 {
 }
 
@@ -13,13 +13,13 @@ CBatAttack::~CBatAttack()
 
 void CBatAttack::tick()
 {
-	m_time += DT;
-	if (m_time >= 1.f)
+	m_fTime += DT;
+	if (m_fTime >= 1.f)
 	{
 		ChangeState(L"BatIdle");
-		m_time = 0.f;
+		m_fTime = 0.f;
 	}
-	m_time;
+	m_fTime;
 }
 
 void CBatAttack::Enter()
@@ -31,16 +31,4 @@ void CBatAttack::Enter()
 void CBatAttack::Exit()
 {
 	
-}
-
-void CBatAttack::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatAttack::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatAttack::EndOverlap(CCollider2D* _Other)
-{
 }

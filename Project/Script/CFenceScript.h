@@ -12,6 +12,7 @@ private:
     bool                    m_bOpen;
 
 public:
+    virtual void begin() override;
     virtual void tick() override;
 
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }

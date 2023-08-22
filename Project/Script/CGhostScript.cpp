@@ -86,7 +86,7 @@ void CGhostScript::BeginOverlap(CCollider3D* _Other)
 		m_bIsHit = true;
 		m_pStateScript->ChangeState(L"GhostHit");
 	}
-	if (L"Player" == _Other->GetOwner()->GetName() && m_bIsHit ==false)
+	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex() && m_bIsHit ==false)
 	{
 		//player damage & dead
 

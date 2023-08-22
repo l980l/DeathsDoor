@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "CKnightIdle.h"
 
-void CKnightIdle::tick()
+CKnightIdle::CKnightIdle()
+{
+}
+
+CKnightIdle::~CKnightIdle()
 {
 }
 
@@ -11,26 +15,10 @@ void CKnightIdle::Enter()
 	GetOwner()->Animator3D()->Play(0, false);
 }
 
+void CKnightIdle::tick()
+{
+}
+
 void CKnightIdle::Exit()
-{
-}
-
-void CKnightIdle::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightIdle::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightIdle::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CKnightIdle::CKnightIdle()
-{
-}
-
-CKnightIdle::~CKnightIdle()
 {
 }

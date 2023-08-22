@@ -4,6 +4,33 @@
 #include "CGrimKnightScript.h"
 #include <Engine/CKeyMgr.h>
 
+CGrimKnightGuardStay::CGrimKnightGuardStay()
+	: m_iHitCount(0)
+	, m_iPrevHP(0)
+	, m_iOriginMaxHP(0)
+{
+}
+
+CGrimKnightGuardStay::~CGrimKnightGuardStay()
+{
+}
+
+void CGrimKnightGuardStay::Enter()
+{
+	Stat grimStat = GetOwnerScript()->GetStat();
+	m_iPrevHP = grimStat.HP;
+	m_iOriginMaxHP = grimStat.Max_HP;
+	grimStat.HP += 9999;
+	grimStat.Max_HP += 9999;
+	GetOwnerScript()->SetStat(grimStat);
+
+	GetOwnerScript()->SetStat(grimStat);
+	GetOwner()->Animator3D()->Play(12, true);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldPrep.ogg", 1, 0.1);
+}
+
 void CGrimKnightGuardStay::tick()
 {
 	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
@@ -48,34 +75,10 @@ float CGrimKnightGuardStay::GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 	return angle;
 }
 
-void CGrimKnightGuardStay::Enter()
-{
-	Stat grimStat = GetOwnerScript()->GetStat();
-	m_remainHP = grimStat.HP;
-	m_remainMaxHP = grimStat.Max_HP;
-	grimStat.HP += 9999;
-	grimStat.Max_HP += 9999;
-	GetOwnerScript()->SetStat(grimStat);
-	
-	GetOwnerScript()->SetStat(grimStat);
-	GetOwner()->Animator3D()->Play(12, true);
-
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldPrep.ogg", 1, 0.1);
-}
-
 void CGrimKnightGuardStay::Exit()
 {
 	Stat grimStat = GetOwnerScript()->GetStat();
-	grimStat.HP = m_remainHP;
-	grimStat.Max_HP = m_remainMaxHP;
+	grimStat.HP = m_iPrevHP;
+	grimStat.Max_HP = m_iOriginMaxHP;
 	GetOwnerScript()->SetStat(grimStat);
-}
-
-CGrimKnightGuardStay::CGrimKnightGuardStay()
-{
-}
-
-CGrimKnightGuardStay::~CGrimKnightGuardStay()
-{
 }

@@ -24,13 +24,13 @@ void CLevelChangeDoorScript::OnOverlap(CCollider3D* _Other)
 				return;
 			g_tNextLevel = (LEVEL_TYPE)m_iChangeLevel;
 
-			CLevel* NewLevel = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
-			NewLevel->SetName(L"LevelLoading");
-			NewLevel->SetLevelType(m_iChangeLevel);
+			CLevel* pNewLevel = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
+			pNewLevel->SetName(L"Level\\LLL.lv");
+			pNewLevel->SetLevelType(m_iChangeLevel);
 			tEvent evn = {};
 			evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-			evn.wParam = (DWORD_PTR)NewLevel;
-			evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+			evn.wParam = (DWORD_PTR)pNewLevel;
+			evn.lParam = (DWORD_PTR)pNewLevel->GetLevelType();
 			CEventMgr::GetInst()->AddEvent(evn);
 		}
 	}

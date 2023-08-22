@@ -4,7 +4,7 @@
 
 CSpawnMgr::CSpawnMgr()
 	: m_iCurRoomNum(-1)
-	, m_mapWave{}
+	, m_mapRoom{}
 {
 }
 CSpawnMgr::~CSpawnMgr()
@@ -14,31 +14,36 @@ CSpawnMgr::~CSpawnMgr()
 void CSpawnMgr::RegisterFence(int _iRoomNum, CFenceScript* _pDoor)
 {
 	assert(_iRoomNum != -1);
-	m_mapWave.find(_iRoomNum)->second->RegisterFence(_pDoor);
+	m_map.find(_iRoomNum)->second->RegisterFence(_pDoor);
 }
 
-void CSpawnMgr::RegisterWave(int _iRoomNum, CRoomScript* _pWave)
+void CSpawnMgr::RegisterRoom(int _iRoomNum, CRoomScript* _pWave)
 {
 	assert(_iRoomNum != -1);
-	m_mapWave.insert(make_pair(_iRoomNum, _pWave));
+	m_mapRoom.insert(make_pair(_iRoomNum, _pWave));
 }
 
 void CSpawnMgr::SpawnMonster(int _iRoomNum)
 {
-	m_mapWave.find(m_iCurRoomNum)->second->SpawnMst();
+	assert(_iRoomNum != -1);
+	m_mapRoom.find(m_iCurRoomNum)->second->SpawnMst();
 }
 
 void CSpawnMgr::ActivateFence(int _iRoomNum, bool _bOpen)
-{ 
-	m_mapWave[_iRoomNum]->ActivateFence(_bOpen);
+{
+	assert(_iRoomNum != -1);
+	m_iCurRoomNum = _iRoomNum;
+	m_mapRoom[_iRoomNum]->ActivateFence(_bOpen);
 }
 
 void CSpawnMgr::ReduceMonsterCount()
 {
-	m_mapWave.find(m_iCurRoomNum)->second->ReduceMonsterCount();
+	assert(m_iCurRoomNum != -1);
+	m_mapRoom.find(m_iCurRoomNum)->second->ReduceMonsterCount();
 }
 
 void CSpawnMgr::ReduceGimmickCount()
 {
-	m_mapWave.find(m_iCurRoomNum)->second->ReduceGimmickCount();
+	assert(m_iCurRoomNum != -1);
+	m_mapRoom.find(m_iCurRoomNum)->second->ReduceGimmickCount();
 }

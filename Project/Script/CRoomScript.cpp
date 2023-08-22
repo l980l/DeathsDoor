@@ -41,6 +41,7 @@ CRoomScript::~CRoomScript()
 
 void CRoomScript::begin()
 {
+	CSpawnMgr::GetInst()->RegisterRoom(m_iRoomNum, this);
 }
 
 void CRoomScript::tick()
@@ -87,7 +88,6 @@ void CRoomScript::ReduceMonsterCount()
 			if (m_iCurWaveNum < m_iMaxWaveNum)
 			{
 				SpawnMst();
-				m_iRemainMst = 0;
 			}
 		}
 	}
@@ -124,16 +124,9 @@ void CRoomScript::AddWaveMst(int _iWavwNum, wstring _wstrPrefName, Vec3 _vSpawnP
 	m_vecWave[_iWavwNum].push_back(Info);
 }
 
-void CRoomScript::BeginOverlap(CCollider2D* _Other)
-{
-	GetOwner()->DeleteComponent(COMPONENT_TYPE::COLLIDER3D);
-	CSpawnMgr::GetInst()->SpawnMonster(m_iRoomNum);
-	CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, false);
-}
-
 void CRoomScript::SaveToLevelFile(FILE* _File)
 {
-	/*fwrite(&m_iRoomNum, sizeof(int), 1, _File);
+	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
 	fwrite(&m_iMaxWaveNum, sizeof(int), 1, _File);
 	for (size_t i = 0; i < 3; ++i)
 	{
@@ -147,12 +140,12 @@ void CRoomScript::SaveToLevelFile(FILE* _File)
 			fwrite(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
 			fwrite(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
-	}*/
+	}
 }
 
 void CRoomScript::LoadFromLevelFile(FILE* _File)
 {
-	/*fread(&m_iRoomNum, sizeof(int), 1, _File);
+	fread(&m_iRoomNum, sizeof(int), 1, _File);
 	fread(&m_iMaxWaveNum, sizeof(int), 1, _File);
 	for (size_t i = 0; i < 3; ++i)
 	{
@@ -166,5 +159,5 @@ void CRoomScript::LoadFromLevelFile(FILE* _File)
 			fread(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
 			fread(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
-	}*/
+	}
 }

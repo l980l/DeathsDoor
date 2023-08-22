@@ -8,6 +8,14 @@
 #include <Engine/CRigidbody.h>
 #include <Engine/CPhysXMgr.h>
 
+CGrimKnightLongDistance::CGrimKnightLongDistance()
+{
+}
+
+CGrimKnightLongDistance::~CGrimKnightLongDistance()
+{
+}
+
 void CGrimKnightLongDistance::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -38,25 +46,5 @@ void CGrimKnightLongDistance::Enter()
 }
 
 void CGrimKnightLongDistance::Exit()
-{
-}
-
-void CGrimKnightLongDistance::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightLongDistance::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightLongDistance::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightLongDistance::CGrimKnightLongDistance()
-{
-}
-
-CGrimKnightLongDistance::~CGrimKnightLongDistance()
 {
 }

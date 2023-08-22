@@ -1,19 +1,27 @@
 #include "pch.h"
 #include "CFenceScript.h"
 #include <Engine/CPhysXMgr.h>
+#include "CSpawnMgr.h"
 
 CFenceScript::CFenceScript()
 	: CScript((UINT)SCRIPT_TYPE::FENCESCRIPT)
 	, m_iRoomNum(-1)
+	, m_pStatic(nullptr)
 	, m_vStartPos{}
 	, m_fMoveDistance(0.f)
 	, m_bActive(false)
 	, m_bOpen(false)
 {
+	AddScriptParam(SCRIPT_PARAM::INT, &m_iRoomNum, "RoomNumber");
 }
 
 CFenceScript::~CFenceScript()
 {
+}
+
+void CFenceScript::begin()
+{
+	CSpawnMgr::GetInst()->RegisterFence(m_iRoomNum, this);
 }
 
 void CFenceScript::tick()

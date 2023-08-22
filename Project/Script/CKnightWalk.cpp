@@ -15,6 +15,9 @@ void CKnightWalk::Enter()
 {
 	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(1, true);
+
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\PoshKnightPreStep1.ogg", 1, 0.2f);
 }
 
 void CKnightWalk::tick()
@@ -26,10 +29,6 @@ void CKnightWalk::tick()
 	Velocity *= fSpeed;
 
 	GetOwner()->Rigidbody()->SetVelocity(Velocity);
-
-
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\PoshKnightPreStep1.ogg", 1, 0.2);
 }
 
 void CKnightWalk::Exit()
