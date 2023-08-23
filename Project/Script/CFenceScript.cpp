@@ -33,7 +33,6 @@ void CFenceScript::tick()
 	// Open이라면 아래로 Close라면 위로 방향을 줌
 	Vec3 vCurPos = Transform()->GetWorldPos();
 	float fFenceDir = 0.f;
-
 	if (m_bOpen)
 		fFenceDir = 100.f * DT;
 	else

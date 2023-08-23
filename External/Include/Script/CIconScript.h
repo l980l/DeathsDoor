@@ -3,8 +3,6 @@
 class CIconScript :
     public CScript
 {
-private:
-
 public:
     virtual void MagicActive(bool _bActive) {};
     virtual void SetHP(int iCurHP) {};

@@ -24,7 +24,6 @@ private:
     void SpawnMst();
 
 public:
-    void ActivateFence(bool _bOpen);
     void SetWaveCount(int _iWaveCount) { m_iMaxWaveNum = _iWaveCount; }
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
     void SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo);

@@ -4,14 +4,14 @@ class CSpeed :
     public CState
 {
 private:
-    bool b_check;
+    bool m_bCheck;
 public:
     virtual void tick() override;
     virtual void Enter() override;
     virtual void Exit() override;
 
-    bool GetSpeedCheck() { return b_check; }
-    void SetSpeedCheck(bool _check) { b_check = _check; }
+    bool GetSpeedCheck() { return m_bCheck; }
+    void SetSpeedCheck(bool _check) { m_bCheck = _check; }
     CLONE(CSpeed);
 
 public:

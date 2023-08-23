@@ -8,7 +8,7 @@ class CStateScript :
 {
 private:
     map<wstring, CState*>   m_mapState;     // 전체 State 
-    CState* m_pCurState;    // 현재 State
+    CState*                 m_pCurState;    // 현재 State
     Stat                    m_tStat;
 
 public:

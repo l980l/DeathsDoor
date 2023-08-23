@@ -17,13 +17,13 @@
 #include "CScriptMgr.h"
 
 
-int CLevelSaveLoadInScript::Play(const wstring& _LevelPath, CLevel* _Level)
+int CLevelSaveLoadInScript::Play(const wstring& _strLevelPath, CLevel* _pLevel)
 {
-    if (_Level->GetState() != LEVEL_STATE::STOP)
+    if (_pLevel->GetState() != LEVEL_STATE::STOP)
         return E_FAIL;
 
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    strPath += _LevelPath;
+    strPath += _strLevelPath;
 
     FILE* pFile = nullptr;
 
@@ -33,15 +33,15 @@ int CLevelSaveLoadInScript::Play(const wstring& _LevelPath, CLevel* _Level)
         return E_FAIL;
 
     // 레벨 이름 저장
-    SaveWString(_Level->GetName(), pFile);
+    SaveWString(_pLevel->GetName(), pFile);
 
-    int level_type = _Level->GetLevelType();
+    int level_type = _pLevel->GetLevelType();
     fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
-        CLayer* pLayer = _Level->GetLayer(i);
+        CLayer* pLayer = _pLevel->GetLayer(i);
 
         // 레이어 이름 저장
         SaveWString(pLayer->GetName(), pFile);
@@ -66,7 +66,7 @@ int CLevelSaveLoadInScript::Play(const wstring& _LevelPath, CLevel* _Level)
     return S_OK;
 }
 
-CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
+CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _tState)
 {
     CPhysXMgr::GetInst()->Clear();
 
@@ -114,14 +114,14 @@ CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _sta
 
     fclose(pFile);
 
-    pNewLevel->ChangeState(_state);
+    pNewLevel->ChangeState(_tState);
 
     return pNewLevel;
 }
 
-int CLevelSaveLoadInScript::SaveLevel(CLevel* _Level)
+int CLevelSaveLoadInScript::SaveLevel(CLevel* _pLevel)
 {
-    if (_Level->GetState() != LEVEL_STATE::STOP) //stop상태일 때만 저장
+    if (_pLevel->GetState() != LEVEL_STATE::STOP) //stop상태일 때만 저장
         return E_FAIL;
 
     OPENFILENAME ofn = {};
@@ -154,15 +154,15 @@ int CLevelSaveLoadInScript::SaveLevel(CLevel* _Level)
         return E_FAIL;
 
     // 레벨 이름 저장
-    SaveWString(_Level->GetName(), pFile);
+    SaveWString(_pLevel->GetName(), pFile);
 
-    int iLevel_type = _Level->GetLevelType();
+    int iLevel_type = _pLevel->GetLevelType();
     fwrite(&iLevel_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
-        CLayer* pLayer = _Level->GetLayer(i);
+        CLayer* pLayer = _pLevel->GetLayer(i);
 
         // 레이어 이름 저장
         SaveWString(pLayer->GetName(), pFile);
@@ -185,10 +185,10 @@ int CLevelSaveLoadInScript::SaveLevel(CLevel* _Level)
     return S_OK;
 }
 
-int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
+int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _pObject, FILE* _File)
 {
     // 이름
-    SaveWString(_Object->GetName(), _File);
+    SaveWString(_pObject->GetName(), _File);
 
     // 컴포넌트
     for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
@@ -200,7 +200,7 @@ int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
             break;
         }
 
-        CComponent* Com = _Object->GetComponent((COMPONENT_TYPE)i);
+        CComponent* Com = _pObject->GetComponent((COMPONENT_TYPE)i);
         if (nullptr == Com)
             continue;
 
@@ -212,7 +212,7 @@ int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
     }
 
     // 스크립트   
-    const vector<CScript*>& vecScript = _Object->GetScripts();
+    const vector<CScript*>& vecScript = _pObject->GetScripts();
     size_t ScriptCount = vecScript.size();
     fwrite(&ScriptCount, sizeof(size_t), 1, _File);
 
@@ -225,7 +225,7 @@ int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
 
 
     // 자식 오브젝트
-    const vector<CGameObject*>& vecChild = _Object->GetChild();
+    const vector<CGameObject*>& vecChild = _pObject->GetChild();
     size_t ChildCount = vecChild.size();
     fwrite(&ChildCount, sizeof(size_t), 1, _File);
 
@@ -237,7 +237,7 @@ int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _Object, FILE* _File)
     return 0;
 }
 
-CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _state)
+CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _tState)
 {
     OPENFILENAME ofn = {};
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
@@ -302,7 +302,7 @@ CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _state)
 
     fclose(pFile);
 
-    pNewLevel->ChangeState(_state);
+    pNewLevel->ChangeState(_tState);
 
     return pNewLevel;
 }
@@ -462,10 +462,10 @@ CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
     return pNewObj;
 }
 
-void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
+void CLevelSaveLoadInScript::SpawnPrefab(wstring _Relativepath, int _iIdx, Vec3 _vWorldPos, float _fTime)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    wstring relativepath = _relativepath;
+    wstring relativepath = _Relativepath;
     strFolderpath += relativepath;
 
     FILE* pFile = nullptr;
@@ -474,15 +474,15 @@ void CLevelSaveLoadInScript::SpawnPrefab(wstring _relativepath, int ind, Vec3 _v
     CGameObject* NewGameObject = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
-    SpawnGameObject(NewGameObject, _vWorldPos, ind);
-    if (time >= 0.f)
-        NewGameObject->SetLifeSpan(time);
+    SpawnGameObject(NewGameObject, _vWorldPos, _iIdx);
+    if (_fTime >= 0.f)
+        NewGameObject->SetLifeSpan(_fTime);
     fclose(pFile);
 }
-CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
+CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _Relativepath, int _iIdx, Vec3 _vWorldPos, float _fTime)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    wstring relativepath = _relativepath;
+    wstring relativepath = _Relativepath;
     strFolderpath += relativepath;
 
     FILE* pFile = nullptr;
@@ -491,9 +491,9 @@ CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _relativepath,
     CGameObject* newPrefab = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
-    SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time >= 0.f)
-        newPrefab->SetLifeSpan(time);
+    SpawnGameObject(newPrefab, _vWorldPos, _iIdx);
+    if (_fTime >= 0.f)
+        newPrefab->SetLifeSpan(_fTime);
     fclose(pFile);
     return newPrefab;
 }
@@ -788,12 +788,12 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
     }
 }
 
-void CLevelSaveLoadInScript::AddChild(CGameObject* _owner, CGameObject* _child)
+void CLevelSaveLoadInScript::AddChild(CGameObject* _pOwner, CGameObject* _pChild)
 {
     tEvent evn = {};
     evn.Type = EVENT_TYPE::ADD_CHILD;
-    evn.wParam = (DWORD_PTR)_owner;
-    evn.lParam = (DWORD_PTR)_child;
+    evn.wParam = (DWORD_PTR)_pOwner;
+    evn.lParam = (DWORD_PTR)_pChild;
     CEventMgr::GetInst()->AddEvent(evn);
 }
 

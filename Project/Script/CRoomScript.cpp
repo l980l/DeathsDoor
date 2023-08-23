@@ -53,24 +53,16 @@ void CRoomScript::SpawnMst()
 	//현재 웨이브의 몬스터 수를 확인해서 스폰하고 m_iRemainMst에 수 표시
 	for (size_t i = 0; i < m_vecWave[m_iCurWaveNum].size(); ++i)
 	{
-		CGameObject* pdoor = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", 8, m_vecWave[m_iCurWaveNum][i].SpawnPos);
-		pdoor->AddComponent(new CSpawnDoorScript);
-		pdoor->GetScript<CSpawnDoorScript>()->SetSpawnMst(m_vecWave[m_iCurWaveNum][i].PrefabName);
-		pdoor->GetScript<CSpawnDoorScript>()->SetDelay(1.f);
+		CGameObject* pSpawnDoor = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\DoorPink.prefab", 8, m_vecWave[m_iCurWaveNum][i].SpawnPos);
+		pSpawnDoor->AddComponent(new CSpawnDoorScript);
+		pSpawnDoor->GetScript<CSpawnDoorScript>()->SetSpawnMst(m_vecWave[m_iCurWaveNum][i].PrefabName);
+		pSpawnDoor->GetScript<CSpawnDoorScript>()->SetDelay(1.f);
 		int a = 1;
-		pdoor->MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
-		pdoor->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.6f,0.1f,0.2f,0.7f));		
+		pSpawnDoor->MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
+		pSpawnDoor->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.6f,0.1f,0.2f,0.7f));
 	}
 	++m_iCurWaveNum;
 	m_iRemainMst = (int)m_vecWave[m_iCurWaveNum].size();
-}
-
-void CRoomScript::ActivateFence(bool _bOpen)
-{
-	for (size_t i = 0; i < m_vecFence.size(); ++i)
-	{
-		m_vecFence[i]->ActivateFence(_bOpen);
-	}
 }
 
 void CRoomScript::SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo)
@@ -86,18 +78,13 @@ void CRoomScript::ReduceMonsterCount()
 		if (0 <= m_iRemainMst)
 		{
 			if (m_iCurWaveNum < m_iMaxWaveNum)
-			{
 				SpawnMst();
-			}
 		}
 	}
 	if (m_iRemainMst <= 0 && m_iRemainGimmik <= 0
 		&& m_iCurWaveNum == m_iMaxWaveNum)
 	{
-		for (size_t i = 0; i < m_vecFence.size(); ++i)
-		{
-			m_vecFence[i]->ActivateFence(false);
-		}
+		CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, true);
 	}
 }
 
@@ -108,10 +95,7 @@ void CRoomScript::ReduceGimmickCount()
 	if (m_iRemainMst <= 0 && m_iRemainGimmik <= 0
 		&& m_iCurWaveNum == m_iMaxWaveNum)
 	{
-		for (size_t i = 0; i < m_vecFence.size(); ++i)
-		{
-			m_vecFence[i]->ActivateFence(false);
-		}
+		CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, true);
 	}
 }
 
@@ -128,7 +112,7 @@ void CRoomScript::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
 	fwrite(&m_iMaxWaveNum, sizeof(int), 1, _File);
-	for (size_t i = 0; i < 3; ++i)
+	for (size_t i = 0; i < m_iMaxWaveNum; ++i)
 	{
 		size_t size = m_vecWave[i].size();
 		fwrite(&size, sizeof(size_t), 1, _File);
@@ -147,7 +131,7 @@ void CRoomScript::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_iRoomNum, sizeof(int), 1, _File);
 	fread(&m_iMaxWaveNum, sizeof(int), 1, _File);
-	for (size_t i = 0; i < 3; ++i)
+	for (size_t i = 0; i < m_iMaxWaveNum; ++i)
 	{
 		size_t  size = 0;
 		fread(&size, sizeof(size_t), 1, _File);
