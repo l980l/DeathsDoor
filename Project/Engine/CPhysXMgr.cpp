@@ -90,7 +90,7 @@ void CPhysXMgr::init()
 void CPhysXMgr::tick()
 {
     // Run simulation
-    m_Scene->simulate(DT);
+   m_Scene->simulate(DT);
    if(m_Scene->fetchResults(true))
    {
        // 결과값을 가져와 Rigidbody를 사용하는 obj의 위치값에 적용시켜줌.
@@ -102,17 +102,9 @@ void CPhysXMgr::tick()
            PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
 
            if (Velo.y > -300.f)
-               m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT * 100.f);
-           Vec3 vPos = m_vecDynamicObject[i]->Transform()->GetWorldPos();
-           PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
-           Vec3 Diff = Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z) - vPos;
-           //if (abs(Diff.x) > abs(Velo.x * DT))
-           //    Diff.x = Velo.x * DT;
-           //if (abs(Diff.y) > abs(Velo.y * DT))
-           //    Diff.y = Velo.y * DT;
-           //if (abs(Diff.z) > abs(Velo.z * DT))
-           //    Diff.z = Velo.z * DT;
+               m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT * 200.f);
 
+           PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
            PxVec3 vVelocity = m_vecDynamicActor[i]->getLinearVelocity();
            m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
        };
@@ -340,9 +332,7 @@ void CPhysXMgr::Clear()
         for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
         {
             if (nullptr != m_vecDynamicActor[i])
-            {
                 m_Scene->removeActor(*m_vecDynamicActor[i]);
-            }
         }
     }
 
@@ -351,10 +341,7 @@ void CPhysXMgr::Clear()
         for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
         {
             if (nullptr != m_vecStaticActor[i])
-            {
-                //m_vecStaticActor[i]->release();
                 m_Scene->removeActor(*m_vecStaticActor[i]);
-            }
         }
     }
 
@@ -390,9 +377,9 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
     case LEVEL_TYPE::LOADING:
     case LEVEL_TYPE::START:
         return;
-
     }
 
+    // Ice_Boss Map은 fbx를 사용하지 않고 Plane을 깔기 때문에 MeshData 및 pMap을 건들 필요가 없음.
     if (LEVEL_TYPE::ICE_BOSS != _tType)
     {
         CGameObject* pMap = pMeshData->Instantiate();
