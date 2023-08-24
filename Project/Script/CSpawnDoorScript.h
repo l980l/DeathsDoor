@@ -16,6 +16,7 @@ public:
     virtual void tick() override;
     void SetSpawnMst(wstring _strSpawnNum) { m_strSpawnMstName = _strSpawnNum; }
     void SetDelay(float _Delay) { m_fDelay = _Delay; }
+
     CLONE(CSpawnDoorScript);
 public:
     CSpawnDoorScript();

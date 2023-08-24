@@ -23,15 +23,3 @@ void CBatRecognize::Enter()
 void CBatRecognize::Exit()
 {
 }
-
-void CBatRecognize::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatRecognize::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatRecognize::EndOverlap(CCollider2D* _Other)
-{
-}

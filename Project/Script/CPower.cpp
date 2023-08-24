@@ -10,6 +10,11 @@ CPower::~CPower()
 {
 }
 
+void CPower::Enter()
+{
+	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Power.png", L"texture\\BankUI_Power.png", 0));
+}
+
 void CPower::tick()
 {
 	if (KEY_TAP(KEY::UP))
@@ -22,27 +27,10 @@ void CPower::tick()
 	}
 	if (KEY_TAP(KEY::ENTER))
 	{
-		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::Strength);
+		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::ATTACK);
 	}
 }
 
-void CPower::Enter()
-{
-	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Power.png", L"texture\\BankUI_Power.png", 0));
-}
-
 void CPower::Exit()
-{
-}
-
-void CPower::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CPower::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CPower::EndOverlap(CCollider2D* _Other)
 {
 }

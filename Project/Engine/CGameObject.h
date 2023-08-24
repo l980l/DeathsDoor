@@ -49,6 +49,7 @@ public:
 
 public:
     void AddComponent(CComponent* _Component);
+    void DeleteComponent(COMPONENT_TYPE _Type);
     void AddChild(CGameObject* _Object);
     void AddChild(CGameObject* _Object, int _iLayer);
 

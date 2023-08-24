@@ -46,10 +46,7 @@ void CSoundScript::begin()
 		AddSound(L"Sound\\BGM\\HallofDoors\\HallOfDoors.mp3", 0, 0.1);
 		break;
 	case LEVEL_TYPE::LOADING:
-		break;
 	case LEVEL_TYPE::END:
-		break;
-	default:
 		break;
 	}
 	

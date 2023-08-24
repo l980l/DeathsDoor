@@ -2,11 +2,12 @@
 #include <Engine/CSingleton.h>
 
 class CRoomScript;
+class CFenceScript;
 
-struct DoorInfo
+struct FenceInfo
 {
-    int          RoomNum;
-    CGameObject* Obj;
+    int             RoomNum;
+    CFenceScript*   Fence;
 };
 
 class CSpawnMgr :
@@ -14,16 +15,17 @@ class CSpawnMgr :
 {
     SINGLE(CSpawnMgr);
 private:
-    int                     m_iCurRoomNum;  // 현재 활성시킬 방의 번호
-    vector<DoorInfo>        m_vecFence;        // 각 번호를 가진 fence obj
-    map<int, CRoomScript*>  m_mapWave;
+    int                     m_iCurRoomNum;     // 현재 활성화 된 방의 번호
+    map<int, CRoomScript*>  m_mapRoom;
+    vector<FenceInfo>       m_vecFence;         // 각 번호를 가진 fence obj
+
 public:
-    void RegisterFence(int _iRoomNum, CGameObject* _pDoor);
-    void RegisterWave(int _iRoomNum, CRoomScript* _pWave);
+    void RegisterFence(int _iRoomNum, CFenceScript* _pFence);
+    void RegisterRoom(int _iRoomNum, CRoomScript* _pRoom);
     void SpawnMonster(int _iRoomNum);
-    void SetFence(int _iRoomNum, bool _bOpen);
-    void DeleteDoor(CGameObject* _pDoor);
+    void ActivateFence(int _iRoomNum, bool _bOpen);
 
-
+    void ReduceMonsterCount();
+    void ReduceGimmickCount();
 };
 

@@ -32,7 +32,7 @@ void CPlyMagic_Hooking::tick()
 	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
 	Vec3 DifftoHooked = m_vHookPos - vPlayerPos;
 	DifftoHooked.y = 0.f;
-	if (DifftoHooked.Length() < 30.f)
+	if (DifftoHooked.Length() < 10.f)
 	{
 		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 	}

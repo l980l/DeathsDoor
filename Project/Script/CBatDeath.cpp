@@ -41,15 +41,3 @@ void CBatDeath::Enter()
 void CBatDeath::Exit()
 {
 }
-
-void CBatDeath::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatDeath::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatDeath::EndOverlap(CCollider2D* _Other)
-{
-}

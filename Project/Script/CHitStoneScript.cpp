@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "CHitStoneScript.h"
 
-CHitStoneScript::CHitStoneScript() :
-	CScript(SCRIPT_TYPE::HITSTONESCRIPT),
-	b_hit(false),
-	b_move(false)
+CHitStoneScript::CHitStoneScript() 
+	: CScript(SCRIPT_TYPE::HITSTONESCRIPT)
+	, m_bHit(false)
+	, m_bMove(false)
+	, m_fMoveDistance(0.f)
+	, m_vStartPos{}
 {
 }
 
@@ -19,22 +21,22 @@ void CHitStoneScript::begin()
 void CHitStoneScript::tick()
 {
 	Vec3 vCurPos = Transform()->GetWorldPos();
-	if (b_hit && !b_move)
+	if (m_bHit && !m_bMove)
 	{
 		Transform()->SetRelativePos(vCurPos.x, vCurPos.y - 100.f * DT, vCurPos.z);
 	}
 	m_fMoveDistance = (m_vStartPos - Transform()->GetWorldPos()).Length();
-	if (m_fMoveDistance > 100.f && b_hit)
+	if (m_fMoveDistance > 100.f && m_bHit)
 	{
-		b_move = true;
+		m_bMove = true;
 	}
 }
 
 void CHitStoneScript::BeginOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetName() == L"Arrow")
+	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::PLAYERPROJECTILE)
 	{
-		b_hit = true;
+		m_bHit = true;
 		m_vStartPos = Transform()->GetWorldPos();
 	}
 }

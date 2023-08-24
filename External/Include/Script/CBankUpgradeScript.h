@@ -6,12 +6,8 @@ class CBankUpgradeScript :
 	public CScript
 {
 private:
-    CGameObject* m_pPlayer;
-    CStateScript* m_pStateScript;
-    int m_Power;
-    int m_ASpeed;
-    int m_Speed;
-    int m_Magic;
+    CGameObject*    m_pPlayer;
+    CStateScript*   m_pStateScript;
 
 public:
     virtual void begin() override;

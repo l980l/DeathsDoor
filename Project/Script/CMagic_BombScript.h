@@ -11,6 +11,7 @@ private:
     float   m_fPrevDirRatio;
     bool    m_bCollided;
     float   m_fAffterCollided;
+    bool    m_bCollidable;
 
 public:
     virtual void begin() override;
@@ -22,6 +23,7 @@ public:
         m_fPrevDirRatio = m_vDir.x / m_vDir.z;
     }
     void SetThrow() { m_bThrow = true; }
+    void SetCollidable() { m_bCollidable = true; }
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;

@@ -5,6 +5,26 @@
 #include "CGameCameraScript.h"
 #include <Engine/CRenderMgr.h>
 
+CKnightChopAttack::CKnightChopAttack()
+{
+}
+
+CKnightChopAttack::~CKnightChopAttack()
+{
+}
+
+void CKnightChopAttack::Enter()
+{
+
+	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->Animator3D()->Play(8, false);
+	CLevelSaveLoadInScript script;
+	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1);
+
+}
+
 void CKnightChopAttack::tick()
 {
 	m_fTime += DT;
@@ -16,38 +36,6 @@ void CKnightChopAttack::tick()
 	}
 }
 
-void CKnightChopAttack::Enter()
-{
-	
-	Stat status = GetOwnerScript()->GetStat();
-	GetOwner()->Animator3D()->Play(8, false);
-	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1);
-
-}
-
 void CKnightChopAttack::Exit()
-{
-}
-
-void CKnightChopAttack::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightChopAttack::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightChopAttack::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CKnightChopAttack::CKnightChopAttack()
-{
-}
-
-CKnightChopAttack::~CKnightChopAttack()
 {
 }

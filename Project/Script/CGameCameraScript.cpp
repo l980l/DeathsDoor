@@ -61,7 +61,6 @@ void CGameCameraScript::tick()
 		// CutScene이 아닌 경우. 타겟의 머리위에서 찍음.
 		if (!m_bCutSceneView)
 		{
-
 			Vec3 CurTargetPos = m_pTarget->Transform()->GetWorldPos();
 			CurTargetPos.x += m_vDistance.x;
 			CurTargetPos.y += m_vDistance.y;

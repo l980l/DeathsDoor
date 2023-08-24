@@ -4,11 +4,10 @@ class CGhostScript :
     public CMonsterScript
 {
 private:
-    Stat m_stat;
-    bool recognizeCheck;
-    bool onCollision;
-    bool isHit;
-    Vec3 playerPos;
+    bool m_bRecognizeCheck;
+    bool m_bOnCollision;
+    bool m_bIsHit;
+    Vec3 m_vPlayerPos;
 public:
     virtual void begin() override;
     virtual void tick() override;

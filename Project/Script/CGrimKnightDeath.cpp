@@ -43,15 +43,3 @@ void CGrimKnightDeath::Enter()
 void CGrimKnightDeath::Exit()
 {
 }
-
-void CGrimKnightDeath::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightDeath::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightDeath::EndOverlap(CCollider2D* _Other)
-{
-}

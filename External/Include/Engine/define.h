@@ -387,10 +387,10 @@ enum class PLAYER_MAGIC
 
 enum class PLAYER_UPGRADE
 {
-	Strength,
-	Dexterity,
-	Haste,
-	Magic,
+	ATTACK,
+	ATK_SPEED,
+	SPEED,
+	MAGIC,
 	END,
 };
 

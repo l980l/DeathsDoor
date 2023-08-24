@@ -11,11 +11,12 @@ private:
     CStateScript*        m_pStateScript;
     CPlayerWeaponScript* m_pSword;
     UINT                 m_iCurMagic;
-    bool                 m_bInvincible;
-    float                m_fFallCheckTime;
     UINT                 m_imoney;
-    UINT                 m_iUpgrade[(UINT)PLAYER_UPGRADE::END];
+    UINT                 m_arrUpgrade[(UINT)PLAYER_UPGRADE::END];
+    float                m_fFallCheckTime;
+    bool                 m_bInvincible;
     bool                 m_bEditorMode;
+    bool                 m_bDisableMove;
 
 public:
     virtual void begin() override;
@@ -31,10 +32,16 @@ public:
     UINT GetMoneyCount() { return m_imoney; }
     UINT AddMoney(UINT _iAddMoney) { m_imoney += _iAddMoney; return m_imoney; }
     void Upgrade(PLAYER_UPGRADE _Type);
-    UINT GetUpgrade(PLAYER_UPGRADE _Upgrade) { return m_iUpgrade[(UINT)_Upgrade]; }
+    UINT GetUpgrade(PLAYER_UPGRADE _Upgrade) { return m_arrUpgrade[(UINT)_Upgrade]; }
     void ChangeMagicState();
     void FallCheck();
     void EditorMode();
+    void SetMoveAble(bool _bAble) { m_bDisableMove = _bAble ? false : true; }
+    bool IsAbleMove() 
+    {
+        bool bAble = m_bDisableMove ? false : true;
+        return bAble;
+    }
 
 private:
     void SetMagicType();

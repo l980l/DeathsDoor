@@ -16,6 +16,7 @@ private:
     float           m_fLastHitTime;         // 마지막으로 피격된 시각.
     bool            m_bFixPos;              // 위치 고정 여부.
     Vec3            m_vFixedPos;            // 고정 위치.
+    bool            m_bSpawnByDoor;
 
 public:
     CGameObject*    GetPlayer() { return m_pPlayer; }
@@ -24,7 +25,10 @@ public:
     bool            GetPaperBurnEffect() const { return m_bPaperBurnEffect;}
     void            SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value;}
     void            SetLastHitTime() { m_fLastHitTime = GlobalData.tAccTime; }
-    void            SetFixPosition(bool _bool);
+    void            SpawnByDoor() { m_bSpawnByDoor = true; }
+    void            SetFixPosition(bool _bFixPos) { m_bFixPos = _bFixPos;
+    m_vFixedPos = Transform()->GetWorldPos();
+    }
 
 public:
     virtual void begin() override;

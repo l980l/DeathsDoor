@@ -8,23 +8,15 @@ class CStateScript :
 {
 private:
     map<wstring, CState*>   m_mapState;     // 전체 State 
-    CState* m_pCurState;    // 현재 State
+    CState*                 m_pCurState;    // 현재 State
     Stat                    m_tStat;
-
 
 public:
     virtual void begin() override;
     virtual void tick() override;
 
     Stat GetStat() { return m_tStat; }
-    void SetStat(Stat _tStat)
-    {
-        if (L"Player" == GetOwner()->GetName())
-        {
-            g_tPlayerStat = _tStat;
-        }
-        m_tStat = _tStat;
-    }
+    void SetStat(Stat _tStat);
 
     void AddState(const wstring& _strKey, CState* _pState);
     CState* GetCurState() { return m_pCurState; }

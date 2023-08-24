@@ -340,8 +340,8 @@ struct Stat
 {
 	int     Max_HP;
 	int     HP;
-	int     Max_Energy;
-	int     Energy;
+	int     Max_MP;
+	int     MP;
 	float   Speed;
 	int     Attack;
 	float   Attack_Speed;

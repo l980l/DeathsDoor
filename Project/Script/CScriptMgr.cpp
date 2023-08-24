@@ -16,13 +16,11 @@
 #include "CCrowBossScript.h"
 #include "CCrowHeadScript.h"
 #include "CCursorScript.h"
-#include "CEnergyIconScript.h"
 #include "CEnterScript.h"
-#include "CFenseScript.h"
+#include "CFenceScript.h"
 #include "CFireIconScript.h"
 #include "CGameCameraScript.h"
 #include "CGhostScript.h"
-#include "CGravityScript.h"
 #include "CGrimKnightScript.h"
 #include "CGruntScript.h"
 #include "CHitStoneScript.h"
@@ -39,9 +37,9 @@
 #include "CMagic_FireScript.h"
 #include "CMagic_HookScript.h"
 #include "CMainLightScript.h"
-#include "CMissileScript.h"
 #include "CMoneyCountScript.h"
 #include "CMonsterDetectRangeScript.h"
+#include "CMPIconScript.h"
 #include "CPlayerScript.h"
 #include "CPlayerWeaponScript.h"
 #include "CRoomScript.h"
@@ -51,7 +49,6 @@
 #include "CStartSceneUIScript.h"
 #include "CStateScript.h"
 #include "CTrapScript.h"
-#include "CWallScript.h"
 #include "CWaterCameraScript.h"
 #include "CWaterScript.h"
 
@@ -72,13 +69,11 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCrowBossScript");
 	_vec.push_back(L"CCrowHeadScript");
 	_vec.push_back(L"CCursorScript");
-	_vec.push_back(L"CEnergyIconScript");
 	_vec.push_back(L"CEnterScript");
-	_vec.push_back(L"CFenseScript");
+	_vec.push_back(L"CFenceScript");
 	_vec.push_back(L"CFireIconScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CGhostScript");
-	_vec.push_back(L"CGravityScript");
 	_vec.push_back(L"CGrimKnightScript");
 	_vec.push_back(L"CGruntScript");
 	_vec.push_back(L"CHitStoneScript");
@@ -95,9 +90,9 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMagic_FireScript");
 	_vec.push_back(L"CMagic_HookScript");
 	_vec.push_back(L"CMainLightScript");
-	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMoneyCountScript");
 	_vec.push_back(L"CMonsterDetectRangeScript");
+	_vec.push_back(L"CMPIconScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CPlayerWeaponScript");
 	_vec.push_back(L"CRoomScript");
@@ -107,7 +102,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CStartSceneUIScript");
 	_vec.push_back(L"CStateScript");
 	_vec.push_back(L"CTrapScript");
-	_vec.push_back(L"CWallScript");
 	_vec.push_back(L"CWaterCameraScript");
 	_vec.push_back(L"CWaterScript");
 }
@@ -144,20 +138,16 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCrowHeadScript;
 	if (L"CCursorScript" == _strScriptName)
 		return new CCursorScript;
-	if (L"CEnergyIconScript" == _strScriptName)
-		return new CEnergyIconScript;
 	if (L"CEnterScript" == _strScriptName)
 		return new CEnterScript;
-	if (L"CFenseScript" == _strScriptName)
-		return new CFenseScript;
+	if (L"CFenceScript" == _strScriptName)
+		return new CFenceScript;
 	if (L"CFireIconScript" == _strScriptName)
 		return new CFireIconScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
 	if (L"CGhostScript" == _strScriptName)
 		return new CGhostScript;
-	if (L"CGravityScript" == _strScriptName)
-		return new CGravityScript;
 	if (L"CGrimKnightScript" == _strScriptName)
 		return new CGrimKnightScript;
 	if (L"CGruntScript" == _strScriptName)
@@ -190,12 +180,12 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMagic_HookScript;
 	if (L"CMainLightScript" == _strScriptName)
 		return new CMainLightScript;
-	if (L"CMissileScript" == _strScriptName)
-		return new CMissileScript;
 	if (L"CMoneyCountScript" == _strScriptName)
 		return new CMoneyCountScript;
 	if (L"CMonsterDetectRangeScript" == _strScriptName)
 		return new CMonsterDetectRangeScript;
+	if (L"CMPIconScript" == _strScriptName)
+		return new CMPIconScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CPlayerWeaponScript" == _strScriptName)
@@ -214,8 +204,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CStateScript;
 	if (L"CTrapScript" == _strScriptName)
 		return new CTrapScript;
-	if (L"CWallScript" == _strScriptName)
-		return new CWallScript;
 	if (L"CWaterCameraScript" == _strScriptName)
 		return new CWaterCameraScript;
 	if (L"CWaterScript" == _strScriptName)
@@ -272,14 +260,11 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::CURSORSCRIPT:
 		return new CCursorScript;
 		break;
-	case (UINT)SCRIPT_TYPE::ENERGYICONSCRIPT:
-		return new CEnergyIconScript;
-		break;
 	case (UINT)SCRIPT_TYPE::ENTERSCRIPT:
 		return new CEnterScript;
 		break;
-	case (UINT)SCRIPT_TYPE::FENSESCRIPT:
-		return new CFenseScript;
+	case (UINT)SCRIPT_TYPE::FENCESCRIPT:
+		return new CFenceScript;
 		break;
 	case (UINT)SCRIPT_TYPE::FIREICONSCRIPT:
 		return new CFireIconScript;
@@ -289,9 +274,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GHOSTSCRIPT:
 		return new CGhostScript;
-		break;
-	case (UINT)SCRIPT_TYPE::GRAVITYSCRIPT:
-		return new CGravityScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GRIMKNIGHTSCRIPT:
 		return new CGrimKnightScript;
@@ -341,14 +323,14 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::MAINLIGHTSCRIPT:
 		return new CMainLightScript;
 		break;
-	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
-		return new CMissileScript;
-		break;
 	case (UINT)SCRIPT_TYPE::MONEYCOUNTSCRIPT:
 		return new CMoneyCountScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return new CMonsterDetectRangeScript;
+		break;
+	case (UINT)SCRIPT_TYPE::MPICONSCRIPT:
+		return new CMPIconScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -376,9 +358,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::TRAPSCRIPT:
 		return new CTrapScript;
-		break;
-	case (UINT)SCRIPT_TYPE::WALLSCRIPT:
-		return new CWallScript;
 		break;
 	case (UINT)SCRIPT_TYPE::WATERCAMERASCRIPT:
 		return new CWaterCameraScript;
@@ -454,16 +433,12 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CCursorScript";
 		break;
 
-	case SCRIPT_TYPE::ENERGYICONSCRIPT:
-		return L"CEnergyIconScript";
-		break;
-
 	case SCRIPT_TYPE::ENTERSCRIPT:
 		return L"CEnterScript";
 		break;
 
-	case SCRIPT_TYPE::FENSESCRIPT:
-		return L"CFenseScript";
+	case SCRIPT_TYPE::FENCESCRIPT:
+		return L"CFenceScript";
 		break;
 
 	case SCRIPT_TYPE::FIREICONSCRIPT:
@@ -476,10 +451,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GHOSTSCRIPT:
 		return L"CGhostScript";
-		break;
-
-	case SCRIPT_TYPE::GRAVITYSCRIPT:
-		return L"CGravityScript";
 		break;
 
 	case SCRIPT_TYPE::GRIMKNIGHTSCRIPT:
@@ -546,16 +517,16 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CMainLightScript";
 		break;
 
-	case SCRIPT_TYPE::MISSILESCRIPT:
-		return L"CMissileScript";
-		break;
-
 	case SCRIPT_TYPE::MONEYCOUNTSCRIPT:
 		return L"CMoneyCountScript";
 		break;
 
 	case SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT:
 		return L"CMonsterDetectRangeScript";
+		break;
+
+	case SCRIPT_TYPE::MPICONSCRIPT:
+		return L"CMPIconScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
@@ -592,10 +563,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TRAPSCRIPT:
 		return L"CTrapScript";
-		break;
-
-	case SCRIPT_TYPE::WALLSCRIPT:
-		return L"CWallScript";
 		break;
 
 	case SCRIPT_TYPE::WATERCAMERASCRIPT:

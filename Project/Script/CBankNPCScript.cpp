@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "CBankNPCScript.h"
 #include "CLevelSaveLoadInScript.h"
+#include "CPlayerScript.h"
 
 CBankNPCScript::CBankNPCScript()		:
 	CScript(SCRIPT_TYPE::BANKNPCSCRIPT)
+	, m_pTalkSign(nullptr)
 {
 }
 
@@ -13,11 +15,10 @@ CBankNPCScript::~CBankNPCScript()
 
 void CBankNPCScript::begin()
 {
-	int iMtrlCount = MeshRender()->GetMtrlCount();
-
-	for (int i = 0; i < iMtrlCount; ++i)
+	if (nullptr == m_pTalkSign)
 	{
-		MeshRender()->GetDynamicMaterial(i);
+		m_pTalkSign = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Talk.prefab", 31, Vec3(0.f, 0.f, 0.f));
+		m_pTalkSign->MeshRender()->GetDynamicMaterial(0);
 	}
 }
 
@@ -27,38 +28,31 @@ void CBankNPCScript::tick()
 
 void CBankNPCScript::BeginOverlap(CCollider3D* _Other)
 {
-	CLevelSaveLoadInScript script;
-	if (!CLevelMgr::GetInst()->FindObjectByName(L"Talk"))
-	{
-		talksign = script.SpawnandReturnPrefab(L"prefab\\Talk.prefab", 31, Vec3(0.f, 0.f, 0.f));
-		talksign->Transform()->SetRelativeScale(81.f, 38.f, 1.f);
-		int mtrlCount = talksign->MeshRender()->GetMtrlCount();
-		for (int i = 0; i < mtrlCount; ++i)
-		{
-			talksign->MeshRender()->GetDynamicMaterial(i);
-		}
-	}
+	m_pTalkSign->Transform()->SetRelativeScale(81.f, 38.f, 1.f);		
 }
 
 void CBankNPCScript::OnOverlap(CCollider3D* _Other)
 {
-	CLevelSaveLoadInScript script;
 	if (L"Player" == _Other->GetOwner()->GetName())
 	{
 		
-		if (KEY_TAP(KEY::E)&& LEVEL_STATE::PLAY == CLevelMgr::GetInst()->GetCurLevel()->GetState())
+		if (KEY_TAP(KEY::E) && LEVEL_STATE::PLAY == CLevelMgr::GetInst()->GetCurLevel()->GetState())
 		{
-			talksign->SetLifeSpan(0.f);
+			// 상점 이용 시 Player의 이동을 막음.
+			_Other->GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+			_Other->GetOwner()->GetScript<CPlayerScript>()->SetMoveAble(false);
+
+			m_pTalkSign->Transform()->SetRelativeScale(Vec3(0.f));
 
 			//상점 Frame & Upgrade 스텟 spawn
 			
 			if (!CLevelMgr::GetInst()->FindObjectByName(L"BankUIFrame"))
 			{
-				CGameObject* BankUIFrame = script.SpawnandReturnPrefab(L"prefab\\BankUIFrame.prefab", 31, Vec3(0.f,0.f,100.f));
+				CGameObject* BankUIFrame = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\BankUIFrame.prefab", (int)LAYER::UI, Vec3(0.f, 0.f, 100.f));
 			}
 			if (!CLevelMgr::GetInst()->FindObjectByName(L"BankUIUpgrade"))
 			{
-				CGameObject* BankUIUpgrade = script.SpawnandReturnPrefab(L"prefab\\BankUIUpgrade.prefab", 31, Vec3(0.f, 0.f, 0.f));
+				CGameObject* BankUIUpgrade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\BankUIUpgrade.prefab", (int)LAYER::UI, Vec3(0.f));
 			}
 
 			//Main Cam 각도 변경
@@ -73,6 +67,9 @@ void CBankNPCScript::OnOverlap(CCollider3D* _Other)
 			UIFrame->SetLifeSpan(0.f);
 			CGameObject* UIUpgrade = CLevelMgr::GetInst()->FindObjectByName(L"BankUIUpgrade");
 			UIUpgrade->SetLifeSpan(0.f);
+			
+			// Player의 이동제한 해제
+			_Other->GetOwner()->GetScript<CPlayerScript>()->SetMoveAble(true);
 		}
 	}
 
@@ -80,6 +77,5 @@ void CBankNPCScript::OnOverlap(CCollider3D* _Other)
 
 void CBankNPCScript::EndOverlap(CCollider3D* _Other)
 {
-	//CGameObject* Message = CLevelMgr::GetInst()->FindObjectByName(L"Talk");
-	//Message->SetLifeSpan(0.f);
+	m_pTalkSign->Transform()->SetRelativeScale(Vec3(0.f));
 }

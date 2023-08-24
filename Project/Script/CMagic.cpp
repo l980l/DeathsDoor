@@ -10,6 +10,11 @@ CMagic::~CMagic()
 {
 }
 
+void CMagic::Enter()
+{
+	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Magic.png", L"texture\\BankUI_Magic.png", 0));
+}
+
 void CMagic::tick()
 {
 	if (KEY_TAP(KEY::UP))
@@ -22,27 +27,10 @@ void CMagic::tick()
 	}
 	if (KEY_TAP(KEY::ENTER))
 	{
-		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::Magic);
+		CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->Upgrade(PLAYER_UPGRADE::MAGIC);
 	}
 }
 
-void CMagic::Enter()
-{
-	GetOwner()->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI_Magic.png", L"texture\\BankUI_Magic.png", 0));
-}
-
 void CMagic::Exit()
-{
-}
-
-void CMagic::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CMagic::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CMagic::EndOverlap(CCollider2D* _Other)
 {
 }

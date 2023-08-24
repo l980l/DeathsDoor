@@ -5,6 +5,7 @@
 #include "CPlayerScript.h"
 #include "CMagic_FireScript.h"
 #include "CSoundScript.h"
+#include "CUIMgr.h"
 
 CPlyMagic_Fire::CPlyMagic_Fire()
 	: m_vAttackDir{}
@@ -31,7 +32,7 @@ void CPlyMagic_Fire::tick()
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		// 에너지가 부족하다면 Idle로 돌아가게 함.
-		if (1 > GetOwnerScript()->GetStat().Energy)
+		if (1 > GetOwnerScript()->GetStat().MP)
 		{
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 		}
@@ -50,12 +51,11 @@ void CPlyMagic_Fire::tick()
 		{
 			// 공격에 따른 에너지 소모
 			Stat CurStat = GetOwnerScript()->GetStat();
-			CurStat.Energy -= 1;
+			CurStat.MP -= 1;
 			GetOwnerScript()->SetStat(CurStat);
 
-
 			// Player 업그레이드 수치를 가져와 계수를 곱해 Fire의 최종데미지를 정함.
-			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::Magic));
+			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::MAGIC));
 			fDamage *= 1.3f;
 			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
@@ -64,12 +64,13 @@ void CPlyMagic_Fire::tick()
 			m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
 			m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);
 			m_pFire->GetScript<CMagic_FireScript>()->SetStartPos(vSpawnPos);
+			m_pFire->GetScript<CMagic_FireScript>()->SetCollidable();
 			m_pFire->SetLifeSpan(2.f);
 
 			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 
 			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.5f);
+			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.2f);
 		}
 		else
 		{

@@ -6,9 +6,7 @@ class CKnightScript :
     public CMonsterScript
 {
 private:
-    Stat m_stat;
-    bool recognizeCheck;
-    bool onCollision;
+    bool m_bRecognizeCheck;
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -23,7 +21,6 @@ public:
 
 public:
     CKnightScript();
-    CKnightScript(const CKnightScript& _Other);
     ~CKnightScript();
 };
 

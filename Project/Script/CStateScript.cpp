@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CStateScript.h"
-
+#include "CUIMgr.h"
+#include "CPlayerScript.h"
 #include "CState.h"
 
 CStateScript::CStateScript()
@@ -10,8 +11,8 @@ CStateScript::CStateScript()
 {
 	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.HP, "HP");
 	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Max_HP, "MaxHP");
-	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Energy, "Energy");
-	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Max_Energy, "MaxEnergy");
+	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.MP, "MP");
+	AddScriptParam(SCRIPT_PARAM::INT, &m_tStat.Max_MP, "MaxMP");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_tStat.Speed, "Speed");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_tStat.Attack, "Attack");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_tStat.Attack_Speed, "Attack_Speed");
@@ -34,6 +35,16 @@ void CStateScript::tick()
 	m_pCurState->tick(); // 오브젝트의 현재 state tick을 돌려준다.
 }
 
+void CStateScript::SetStat(Stat _tStat)
+{
+	if (L"Player" == GetOwner()->GetName())
+	{
+		g_tPlayerStat = _tStat;
+		CUIMgr::GetInst()->SetHP(_tStat.HP);
+		CUIMgr::GetInst()->SetMP(_tStat.MP, GetOwner()->GetScript<CPlayerScript>()->GetUseMagic());
+	}
+	m_tStat = _tStat;
+}
 void CStateScript::AddState(const wstring& _strKey, CState* _pState)
 {
 	if (FindState(_strKey))

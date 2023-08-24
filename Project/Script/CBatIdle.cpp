@@ -58,15 +58,3 @@ void CBatIdle::Enter()
 void CBatIdle::Exit()
 {
 }
-
-void CBatIdle::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatIdle::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CBatIdle::EndOverlap(CCollider2D* _Other)
-{
-}

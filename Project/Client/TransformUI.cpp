@@ -3,9 +3,14 @@
 
 #include <Engine\CGameObject.h>
 #include <Engine\CTransform.h>
+#include <Script/CRoomScript.h>
+#include <Engine/CRenderMgr.h>
 
 TransformUI::TransformUI()
 	: ComponentUI("##Transform", COMPONENT_TYPE::TRANSFORM)	
+	, m_bShowEdieWave(false)
+	, m_wstrPrefabName{}
+	, m_vSpawnPos{}
 {
 	SetName("Transform");
 }
@@ -70,5 +75,88 @@ int TransformUI::render_update()
 		ImGui::SliderInt("##Absolute", &istate, 0, 1, curstate.c_str());
 	}
 
+	static bool bShow;
+	if(GetTarget()->GetScript<CRoomScript>())
+	{
+		ImGui::Checkbox("##WaveEditor", &m_bShowEdieWave);
+		if (m_bShowEdieWave)
+		{
+			SetSize(0.f, 500.f);
+			ShowWaveEditor();
+		}
+		else
+			SetSize(0.f, 150.f);
+
+	}
+
 	return TRUE;
+}
+
+void TransformUI::ShowWaveEditor()
+{
+
+	CRoomScript* pWave = GetTarget()->GetScript<CRoomScript>();
+
+	if (ImGui::Button("Bat       "))
+		m_wstrPrefabName = L"prefab\\Bat.prefab";
+	ImGui::SameLine();
+	if (ImGui::Button("Lurker    "))
+		m_wstrPrefabName = L"prefab\\Lurker.prefab";
+	ImGui::SameLine();
+	if (ImGui::Button("Grunt     "))
+		m_wstrPrefabName = L"prefab\\Grunt.prefab";
+	if (ImGui::Button("Bazooka   "))
+		m_wstrPrefabName = L"prefab\\Bazooka.prefab";
+	ImGui::SameLine();
+	if (ImGui::Button("GrimKnight"))
+		m_wstrPrefabName = L"prefab\\GrimKnight.prefab";
+	ImGui::SameLine();
+	if (ImGui::Button("Knight    "))
+		m_wstrPrefabName = L"prefab\\Knight.prefab";
+	if (ImGui::Button("CrowBoss  "))
+		m_wstrPrefabName = L"prefab\\CrowBoss.prefab";
+
+	ImGui::Text("SpawnPos");
+	ImGui::InputFloat3("##SpawnPos", m_vSpawnPos);
+
+	ImGui::Text("Wave Num");
+	ImGui::SameLine();
+	static int WaveNum = 0;
+	ImGui::InputInt("##WaveNum", &WaveNum);
+
+	ImGui::Text("Max  Num");
+	ImGui::SameLine();
+	static int MaxWaveNum = 0;
+	ImGui::InputInt("##MaxWaveNum", &MaxWaveNum);
+
+	if (ImGui::Button("ADD Mst", ImVec2(60.f, 20.f)))
+		pWave->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);
+
+	vector<SpawnInfo> Wave0 = pWave->GetWaveInfo(0);
+	vector<SpawnInfo> Wave1 = pWave->GetWaveInfo(1);
+
+	vector<SpawnInfo> WaveInfo;
+	switch (WaveNum)
+	{
+	case 0:
+		WaveInfo = Wave0;
+		break;
+	case 1:
+		WaveInfo = Wave1;
+		break;
+	}
+
+	for (size_t i = 0; i < WaveInfo.size(); ++i)
+	{
+		wstring wstrPrefName = WaveInfo[i].PrefabName;
+		string strPrefName = string(wstrPrefName.begin(), wstrPrefName.end());
+
+		string Count;
+		Count = std::to_string(i);
+		ImGui::Text(strPrefName.c_str());
+		string label = "##";
+		label += Count;
+		ImGui::InputFloat3(label.c_str(), &WaveInfo[i].SpawnPos.x);
+	}
+
 }

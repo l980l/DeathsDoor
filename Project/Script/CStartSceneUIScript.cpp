@@ -4,6 +4,15 @@
 #include <Engine/CKeyMgr.h>
 #include <Engine\CEventMgr.h>
 
+CStartSceneUIScript::CStartSceneUIScript() :
+	CScript(SCRIPT_TYPE::STARTSCENEUISCRIPT)
+{
+}
+
+CStartSceneUIScript::~CStartSceneUIScript()
+{
+}
+
 void CStartSceneUIScript::tick()
 {
 	if (KEY_TAP(KEY::LBTN))
@@ -19,13 +28,4 @@ void CStartSceneUIScript::tick()
 		evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
 		CEventMgr::GetInst()->AddEvent(evn);
 	}
-}
-
-CStartSceneUIScript::CStartSceneUIScript() :
-	CScript(SCRIPT_TYPE::STARTSCENEUISCRIPT)
-{
-}
-
-CStartSceneUIScript::~CStartSceneUIScript()
-{
 }

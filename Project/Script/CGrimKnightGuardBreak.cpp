@@ -2,6 +2,14 @@
 #include "CGrimKnightGuardBreak.h"
 #include "CSoundScript.h"
 
+CGrimKnightGuardBreak::CGrimKnightGuardBreak()
+{
+}
+
+CGrimKnightGuardBreak::~CGrimKnightGuardBreak()
+{
+}
+
 void CGrimKnightGuardBreak::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -19,25 +27,5 @@ void CGrimKnightGuardBreak::Enter()
 }
 
 void CGrimKnightGuardBreak::Exit()
-{
-}
-
-void CGrimKnightGuardBreak::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightGuardBreak::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightGuardBreak::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightGuardBreak::CGrimKnightGuardBreak()
-{
-}
-
-CGrimKnightGuardBreak::~CGrimKnightGuardBreak()
 {
 }

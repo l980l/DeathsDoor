@@ -6,6 +6,16 @@
 #include <Engine/CRenderMgr.h>
 #include "CGameCameraScript.h"
 
+CKnightJumpAttack::CKnightJumpAttack()
+	: m_fTime(0.f)
+	, m_bCameraShake(false)
+{
+}
+
+CKnightJumpAttack::~CKnightJumpAttack()
+{
+}
+
 void CKnightJumpAttack::tick()
 {
 	m_fTime += DT;
@@ -31,25 +41,5 @@ void CKnightJumpAttack::Enter()
 }
 
 void CKnightJumpAttack::Exit()
-{
-}
-
-void CKnightJumpAttack::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightJumpAttack::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CKnightJumpAttack::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CKnightJumpAttack::CKnightJumpAttack()
-{
-}
-
-CKnightJumpAttack::~CKnightJumpAttack()
 {
 }

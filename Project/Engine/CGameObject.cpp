@@ -183,6 +183,12 @@ void CGameObject::AddComponent(CComponent* _Component)
 	}
 }
 
+void CGameObject::DeleteComponent(COMPONENT_TYPE _Type)
+{
+	delete m_arrCom[(UINT)_Type];
+	m_arrCom[(UINT)_Type] = nullptr;
+}
+
 void CGameObject::AddChild(CGameObject* _Object)
 {
 	if (_Object->m_Parent)

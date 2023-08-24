@@ -4,6 +4,14 @@
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
 
+CGrimKnightMelee::CGrimKnightMelee()
+{
+}
+
+CGrimKnightMelee::~CGrimKnightMelee()
+{
+}
+
 void CGrimKnightMelee::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -25,31 +33,4 @@ void CGrimKnightMelee::Exit()
 	//공격 prefab 생성
 	CLevelSaveLoadInScript script;
 	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
-}
-
-void CGrimKnightMelee::BeginOverlap(CCollider2D* _Other)
-{
-	/*if (_Other->GetOwner()->GetName() == L"Player")
-	{
-		Stat playerStat= _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
-		playerStat.HP -= 1;
-		
-		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(playerStat);
-	}*/
-}
-
-void CGrimKnightMelee::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightMelee::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightMelee::CGrimKnightMelee()
-{
-}
-
-CGrimKnightMelee::~CGrimKnightMelee()
-{
 }

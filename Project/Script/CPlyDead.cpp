@@ -42,7 +42,7 @@ void CPlyDead::tick()
 		if (m_fTimetoStartPoint <= 0.f)
 		{
 			g_tPlayerStat.HP = g_tPlayerStat.Max_HP;
-			g_tPlayerStat.Energy = g_tPlayerStat.Max_Energy;
+			g_tPlayerStat.MP = g_tPlayerStat.Max_MP;
 
 			// 사망 텍스쳐 출력 시간이 끝나면 현재레벨을 다시 시작함.
 			int iCurLevelType = CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();

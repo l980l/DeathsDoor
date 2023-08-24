@@ -3,6 +3,14 @@
 #include "CLevelSaveLoadInScript.h"
 #include "CSoundScript.h"
 
+CGrimKnightSpinDown::CGrimKnightSpinDown()
+{
+}
+
+CGrimKnightSpinDown::~CGrimKnightSpinDown()
+{
+}
+
 void CGrimKnightSpinDown::tick()
 {
 	
@@ -27,24 +35,4 @@ void CGrimKnightSpinDown::Exit()
 	CLevelSaveLoadInScript script;
 	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 	
-}
-
-void CGrimKnightSpinDown::BeginOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightSpinDown::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGrimKnightSpinDown::EndOverlap(CCollider2D* _Other)
-{
-}
-
-CGrimKnightSpinDown::CGrimKnightSpinDown()
-{
-}
-
-CGrimKnightSpinDown::~CGrimKnightSpinDown()
-{
 }
