@@ -276,10 +276,10 @@ void CreateTestLevel()
 		//
 		//CPhysXMgr::GetInst()->CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
 	
-		CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
-		CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
+		CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::HALL);
+		CPhysXMgr::GetInst()->ChangeLevel(LEVEL_TYPE::HALL);
 
-		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Castle.fbx");
+		pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\Map\\Hall.fbx");
 		pObject = pMeshData->Instantiate();
 		pObject->SetName(L"Map");
 		pObject->MeshRender()->SetDynamicShadow(true);
