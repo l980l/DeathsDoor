@@ -114,6 +114,8 @@ void CRoomScript::SaveToLevelFile(FILE* _File)
 	fwrite(&m_iMaxWaveCount, sizeof(int), 1, _File);
 	for (size_t i = 0; i < m_vecWave->size(); ++i)
 	{
+		size_t WaveSize = m_vecWave[i].size();
+		fwrite(&WaveSize, sizeof(size_t), 1, _File);
 		for (size_t j = 0; j < m_vecWave[i].size(); ++j)
 		{
 			SaveWString(m_vecWave[i][j].PrefabName, _File);
@@ -126,12 +128,15 @@ void CRoomScript::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_iRoomNum, sizeof(int), 1, _File);
 	fread(&m_iMaxWaveCount, sizeof(int), 1, _File);
-	for (size_t i = 0; i < m_vecWave->size(); ++i)
+	for (size_t i = 0; i < m_iMaxWaveCount; ++i)
 	{
+		size_t WaveSize = 0;
+		fread(&WaveSize, sizeof(size_t), 1, _File);
+		m_vecWave[i].resize(WaveSize);
 		for (size_t j = 0; j < m_vecWave[i].size(); ++j)
 		{
 			LoadWString(m_vecWave[i][j].PrefabName, _File);
-			fread(m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
+			fread(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
 	}
 }
