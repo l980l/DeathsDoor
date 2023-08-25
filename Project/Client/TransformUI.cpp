@@ -78,6 +78,8 @@ int TransformUI::render_update()
 	static bool bShow;
 	if(GetTarget()->GetScript<CRoomScript>())
 	{
+		ImGui::Text("WaveEditor");
+		ImGui::SameLine();
 		ImGui::Checkbox("##WaveEditor", &m_bShowEdieWave);
 		if (m_bShowEdieWave)
 		{
