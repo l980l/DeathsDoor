@@ -15,6 +15,7 @@
 #include <Engine/CPhysXMgr.h>
 #include <Engine/CEventMgr.h>
 #include "CUIMgr.h"
+#include <Engine/CDetourMgr.h>
 
 CPlayerScript::CPlayerScript()
 	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
@@ -28,6 +29,7 @@ CPlayerScript::CPlayerScript()
 	, m_bEditorMode(false)
 	, m_bDisableMove(false)
 {
+	CDetourMgr::GetInst()->RegisterPlayer(GetOwner());
 }
 
 CPlayerScript::~CPlayerScript()

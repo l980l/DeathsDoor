@@ -132,23 +132,11 @@ void TransformUI::ShowWaveEditor()
 	if (ImGui::Button("ADD Mst", ImVec2(60.f, 20.f)))
 		pWave->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);
 
-	vector<SpawnInfo> Wave0 = pWave->GetWaveInfo(0);
-	vector<SpawnInfo> Wave1 = pWave->GetWaveInfo(1);
+	vector<SpawnInfo> Wave = pWave->GetWaveInfo(WaveNum);
 
-	vector<SpawnInfo> WaveInfo;
-	switch (WaveNum)
+	for (size_t i = 0; i < Wave.size(); ++i)
 	{
-	case 0:
-		WaveInfo = Wave0;
-		break;
-	case 1:
-		WaveInfo = Wave1;
-		break;
-	}
-
-	for (size_t i = 0; i < WaveInfo.size(); ++i)
-	{
-		wstring wstrPrefName = WaveInfo[i].PrefabName;
+		wstring wstrPrefName = Wave[i].PrefabName;
 		string strPrefName = string(wstrPrefName.begin(), wstrPrefName.end());
 
 		string Count;
@@ -156,7 +144,8 @@ void TransformUI::ShowWaveEditor()
 		ImGui::Text(strPrefName.c_str());
 		string label = "##";
 		label += Count;
-		ImGui::InputFloat3(label.c_str(), &WaveInfo[i].SpawnPos.x);
+		if (ImGui::InputFloat3(label.c_str(), &Wave[i].SpawnPos.x))
+			pWave->SetWaveInfo(WaveNum, Wave);
 	}
 
 }
