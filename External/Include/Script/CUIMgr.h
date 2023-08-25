@@ -24,6 +24,7 @@ public:
     void ActiveMagic(int _tUpgradeType);
     void SetHP(int _iCurHP);
     void SetMP(int _iCurMP, int _iCurMagic);
+    void CreateUI();
     
     CLONE(CUIMgr);
 };

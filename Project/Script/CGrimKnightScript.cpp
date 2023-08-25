@@ -67,17 +67,26 @@ void CGrimKnightScript::tick()
 {
 	CMonsterScript::tick();
 
-	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
-	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
-	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
-
 	if (m_pStateScript->GetStat().HP <= 0)
 	{
 		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState()
 			&& m_pStateScript->FindState(L"GuardStay") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
 	}
+
+	if (m_iHitCount >= 5 && m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardStay"))
+	{
+		m_pStateScript->ChangeState(L"GuardBreak");
+		m_iHitCount = 0;
+	}
+}
+
+void CGrimKnightScript::CalcDir()
+{
+	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
+	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
 }
 
 void CGrimKnightScript::BeginOverlap(CCollider3D* _Other)

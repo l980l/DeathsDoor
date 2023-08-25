@@ -169,7 +169,7 @@ void CreateTestLevel()
 		pPlayer->AddChild(pBow);
 	}
 	
-	pObject = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab\\Bat.prefab", (int)LAYER::MONSTER, Vec3(2000.f, 500.f, 2200.f));
+	pObject = CLevelSaveLoad::SpawnandReturnPrefab(L"prefab\\GrimKnight.prefab", (int)LAYER::MONSTER, Vec3(2000.f, 500.f, 2200.f));
 	
 	//SoundUI
 	{

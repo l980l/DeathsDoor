@@ -27,5 +27,7 @@ public:
 
     void ReduceMonsterCount();
     void ReduceGimmickCount();
+
+    void Clear();
 };
 

@@ -13,6 +13,7 @@
 #include "commdlg.h"
 
 #include <Script\CScriptMgr.h>
+#include <Script/CSpawnMgr.h>
 
 int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
 {
@@ -66,6 +67,7 @@ int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
 CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
 {
     CPhysXMgr::GetInst()->Clear();
+    CSpawnMgr::GetInst()->Clear();
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
     strPath += _LevelPath;//상대경로
 

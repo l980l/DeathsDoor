@@ -15,6 +15,7 @@
 #include <Engine/CPhysXMgr.h>
 
 #include "CScriptMgr.h"
+#include "CSpawnMgr.h"
 
 
 int CLevelSaveLoadInScript::Play(const wstring& _strLevelPath, CLevel* _pLevel)
@@ -69,6 +70,7 @@ int CLevelSaveLoadInScript::Play(const wstring& _strLevelPath, CLevel* _pLevel)
 CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _tState)
 {
     CPhysXMgr::GetInst()->Clear();
+    CSpawnMgr::GetInst()->Clear();
 
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
     strPath += _LevelPath;//상대경로
