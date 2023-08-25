@@ -7,7 +7,7 @@
 
 CTrace::CTrace()
 	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(1.f)
+	, m_fRenewal_Trace(0.3f)
 	, m_vActualPath{}
 	, m_iActualPathCount(0)
 	, m_iCurrentPathIndex(0)
@@ -87,6 +87,12 @@ void CTrace::tick()
 		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1);
 	}
 
+	if (GetOwner()->GetName() == L"Bat")
+	{
+		if ((GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos()
+			- GetOwner()->Transform()->GetWorldPos()).Length() < 100.f)
+			ChangeState(L"Attack");
+	}
 }
 
 void CTrace::Exit()

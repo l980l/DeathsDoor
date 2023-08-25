@@ -1,28 +1,21 @@
 #include "pch.h"
 #include "CGrimKnightScript.h"
+#include "GrimKnightStates.h"
 #include "CPlayerScript.h"
 
 #include <Engine/CGameObject.h>
-#include<Engine/CRigidbody.h>
+#include <Engine/CRigidbody.h>
+#include <Engine/CSound.h>
 #include "CTrace.h"
 #include "CStateScript.h"
 #include "CSoundScript.h"
-#include <Engine/CSound.h>
-#include "GrimKnightStates.h"
 
-
-
-CGrimKnightScript::CGrimKnightScript()	:
-	CMonsterScript((UINT)SCRIPT_TYPE::GRIMKNIGHTSCRIPT)
+CGrimKnightScript::CGrimKnightScript()	
+	: CMonsterScript((UINT)SCRIPT_TYPE::GRIMKNIGHTSCRIPT)
 	, m_bRecognizeCheck(false)
 	, m_bRetrace(false)
 	, m_bOnCollision(false)
 	, m_iHitCount(0)
-{
-}
-
-CGrimKnightScript::CGrimKnightScript(const CGrimKnightScript& _Other) :
-	CMonsterScript((UINT)SCRIPT_TYPE::GRIMKNIGHTSCRIPT)
 {
 }
 
@@ -62,50 +55,27 @@ void CGrimKnightScript::begin()
 		m_pStateScript->ChangeState(L"Idle");
 	}
 
-	//Rigidbody 질량, 마찰, 마찰계수, 제한 속도 재 설정
-	GetOwner()->Rigidbody()->SetVelocityLimit(200.f);
-
 	// 초기 스탯 설정.
-	Stat initStat;
-	initStat.HP = 300;
-	initStat.Max_HP = 300;
-	initStat.Attack = 1;
-	initStat.Attack_Speed = 10;
-	initStat.Speed = 300;
-	m_pStateScript->SetStat(initStat);
+	Stat tInitStat;
+	tInitStat.HP = 300;
+	tInitStat.Max_HP = 300;
+	tInitStat.Speed = 150.f;
+	m_pStateScript->SetStat(tInitStat);
 }
 
 void CGrimKnightScript::tick()
 {
 	CMonsterScript::tick();
-	//최초 플레이어 탐지 -> 추적
-	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
-		m_bRecognizeCheck == false)
-	{
-		m_bRecognizeCheck = true;
-		m_pStateScript->ChangeState(L"Trace");
-	}
-	
-	if (m_pStateScript->GetCurState() == m_pStateScript->FindState(L"GuardBreak"))
-	{
-		m_iHitCount = 0;
-	}
 
 	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
 	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
 	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
 
-	if (GetDetect() && m_pStateScript->FindState(L"LongDistance") == m_pStateScript->GetCurState()
-		&& !m_bRecognizeCheck)
-	{
-		m_pStateScript->ChangeState(L"Trace");
-	}
-
-	//2.HP가 0 이면 Death
 	if (m_pStateScript->GetStat().HP <= 0)
 	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState()
+			&& m_pStateScript->FindState(L"GuardStay") != m_pStateScript->GetCurState())
 			m_pStateScript->ChangeState(L"Death");
 	}
 }

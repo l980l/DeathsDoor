@@ -5,6 +5,7 @@ class CBatIdle :
 {
 private:
     float m_fTime;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

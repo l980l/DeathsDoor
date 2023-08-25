@@ -11,9 +11,13 @@ CGrimKnightSpinDown::~CGrimKnightSpinDown()
 {
 }
 
-void CGrimKnightSpinDown::tick()
+void CGrimKnightSpinDown::Enter()
 {
-	
+	GetOwner()->Animator3D()->Play(1, false);
+}
+
+void CGrimKnightSpinDown::tick()
+{	
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
@@ -22,17 +26,8 @@ void CGrimKnightSpinDown::tick()
 	}
 }
 
-void CGrimKnightSpinDown::Enter()
-{
-	Stat status = GetOwnerScript()->GetStat();
-	GetOwner()->Animator3D()->Play(1, false);
-	
-	
-}
-
 void CGrimKnightSpinDown::Exit()
 {
-	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
 	
 }

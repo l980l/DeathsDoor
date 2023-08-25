@@ -29,7 +29,6 @@ public:
 
 public:
     CGrimKnightScript();
-    CGrimKnightScript(const CGrimKnightScript& _Other);
     ~CGrimKnightScript();
 };
 

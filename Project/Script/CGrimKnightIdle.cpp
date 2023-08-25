@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CGrimKnightIdle.h"
+#include "CMonsterScript.h"
 
 CGrimKnightIdle::CGrimKnightIdle()
 {
@@ -9,14 +10,15 @@ CGrimKnightIdle::~CGrimKnightIdle()
 {
 }
 
-void CGrimKnightIdle::tick()
-{
-}
-
 void CGrimKnightIdle::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(0, true);
+}
+
+void CGrimKnightIdle::tick()
+{
+	if (GetOwner()->GetScript<CMonsterScript>()->GetDetect())
+		ChangeState(L"LongDistance");
 }
 
 void CGrimKnightIdle::Exit()
