@@ -16,10 +16,9 @@ void CBatIdle::tick()
 
 	CBatScript* batscript = GetOwner()->GetScript<CBatScript>();
 	bool check = batscript->GetRecognizeCheck();
-	if (check /*&& m_fTime >=1.f*/)
+	if (check)
 	{
 		ChangeState(L"BatAttack");
-		//m_fTime = 0.f;
 	}
 	else
 	{
@@ -46,6 +45,8 @@ void CBatIdle::tick()
 		}
 		else if (1.6f <= m_fTime)
 			m_fTime = 0.f;
+
+		GetOwner()->Transform()->CalcDir();
 	}
 	
 }

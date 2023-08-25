@@ -47,8 +47,6 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	//ChangeLevel(LEVEL_TYPE::CASTLE_FIELD);
-	//ChangeLevel((LEVEL_TYPE)CLevelMgr::GetInst()->GetCurLevel()->GetLevelType());
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
@@ -139,6 +137,18 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 	}
 
 	fclose(fp);
+}
+
+void CDetourMgr::RegisterPlayer(CGameObject* _pPlayer)
+{
+	if (nullptr == m_pPlayer)
+		m_pPlayer = _pPlayer;
+}
+
+void CDetourMgr::DeletePlayer()
+{
+	if (nullptr != m_pPlayer)
+		m_pPlayer = nullptr;
 }
 
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
