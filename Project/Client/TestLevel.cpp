@@ -71,16 +71,16 @@ void CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck((int)LAYER::PLAYERPROJECTILE, ((int)LAYER::MONSTER));
 
 
-	//CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Start.lv", LEVEL_STATE::PLAY);
-	//NewLevel->SetName(L"START");
-	//NewLevel->SetLevelType((int)LEVEL_TYPE::START);
-	//
-	//tEvent evn = {};
-	//evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-	//evn.wParam = (DWORD_PTR)NewLevel;
-	//evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
-	//CEventMgr::GetInst()->AddEvent(evn);
-	//
+	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Test\\Castle.lv", LEVEL_STATE::STOP);
+	NewLevel->SetName(L"Castle");
+	NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
+	
+	tEvent evn = {};
+	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+	evn.wParam = (DWORD_PTR)NewLevel;
+	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
+	CEventMgr::GetInst()->AddEvent(evn);
+	
 	//Player Status setting
 	g_tPlayerStat.Attack = 50.f;
 	g_tPlayerStat.Attack_Speed = 0.4f;
@@ -91,7 +91,7 @@ void CreateTestLevel()
 	g_tPlayerStat.Speed = 150.f;
 	g_tPlayerStat.Spell_Power = 40.f;
 	//=============================
-	//return;
+	return;
 
 
 	 //Main Camera 

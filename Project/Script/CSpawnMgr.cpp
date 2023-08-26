@@ -37,6 +37,8 @@ void CSpawnMgr::ActivateFence(int _iRoomNum, bool _bOpen)
 {
 	assert(_iRoomNum != -1);
 	m_iCurRoomNum = _iRoomNum;
+	if (!_bOpen)
+		SpawnMonster(_iRoomNum);
 	for (auto& iter : m_vecFence)
 	{
 		if (_iRoomNum == iter.RoomNum)

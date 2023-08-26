@@ -20,8 +20,6 @@ void CEnterScript::begin()
 void CEnterScript::BeginOverlap(CCollider3D* _Other)
 {
 	CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, false);
-	CSpawnMgr::GetInst()->SpawnMonster(m_iRoomNum);
-	GetOwner()->DeleteComponent(COMPONENT_TYPE::COLLIDER3D);
 	Destroy();
 }
 
