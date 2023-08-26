@@ -112,7 +112,7 @@ void CRoomScript::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
 	fwrite(&m_iMaxWaveCount, sizeof(int), 1, _File);
-	for (size_t i = 0; i < m_vecWave->size(); ++i)
+	for (size_t i = 0; i < m_iMaxWaveCount; ++i)
 	{
 		size_t WaveSize = m_vecWave[i].size();
 		fwrite(&WaveSize, sizeof(size_t), 1, _File);

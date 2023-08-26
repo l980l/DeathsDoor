@@ -73,7 +73,7 @@ void CreateTestLevel()
 
 	CLevel* NewLevel = CLevelSaveLoad::Stop(L"Level\\Castle.lv", LEVEL_STATE::STOP);
 	NewLevel->SetName(L"Castle");
-	NewLevel->SetLevelType((int)LEVEL_TYPE::START);
+	NewLevel->SetLevelType((int)LEVEL_TYPE::CASTLE_FIELD);
 	
 	tEvent evn = {};
 	evn.Type = EVENT_TYPE::LEVEL_CHANGE;
