@@ -24,7 +24,7 @@ private:
     void SpawnMst();
 
 public:
-    void SetWaveCount(int _iWaveCount) { m_iMaxWaveCount = _iWaveCount; }
+    void SetWaveCount(int _iWaveCount) { m_iMaxWaveCount = _iWaveCount; m_vecWave->resize(m_iMaxWaveCount); }
     void SetRoomNum(int _iRoomNum) { m_iRoomNum = _iRoomNum; }
     void SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo);
     void ReduceMonsterCount();
