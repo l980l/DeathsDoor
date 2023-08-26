@@ -13,38 +13,16 @@
 #include "CMPIconScript.h"
 
 CUIMgr::CUIMgr()
-	: m_arrMagicUI{}
-	, m_arrHPMPUI{}
+	: m_arrMagicUI{nullptr,}
+	, m_arrHPMPUI{nullptr,}
 	, m_bActive(false)
 	, m_pFrameUI(nullptr)
 {
-	wstring wstrPrefabName;
-	for (int i = 0; i < (UINT)PLAYER_MAGIC::END; ++i)
-	{
-		switch ((PLAYER_MAGIC)i)
-		{
-		case PLAYER_MAGIC::ARROW:
-			wstrPrefabName = L"prefab\\Arrow_Icon.prefab";
-			break;
-		case PLAYER_MAGIC::FIRE:
-			wstrPrefabName = L"prefab\\Fire_Icon.prefab";
-			break;
-		case PLAYER_MAGIC::BOMB:
-			wstrPrefabName = L"prefab\\Bomb_Icon.prefab";
-			break;
-		case PLAYER_MAGIC::HOOK:
-			wstrPrefabName = L"prefab\\Hook_Icon.prefab";
-			break;
-		}
-		m_arrMagicUI[i] = CLevelSaveLoadInScript::SpawnandReturnPrefab(wstrPrefabName, (int)LAYER::UI, Vec3(0.f));
-	}
-	m_arrHPMPUI[(UINT)HUDUI::HP] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\HP_Icon.prefab", (int)LAYER::UI, Vec3(0.f));
-	m_arrHPMPUI[(UINT)HUDUI::MP] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MP_Icon.prefab", (int)LAYER::UI, Vec3(0.f));
+	CreateUI();
 }
 
 CUIMgr::~CUIMgr()
 {
-
 }
 
 void CUIMgr::UpgradePlayer(PLAYER_UPGRADE _tUpgradeType)
@@ -78,10 +56,41 @@ void CUIMgr::ActiveMagic(int _iCurMagic)
 
 void CUIMgr::SetHP(int _iCurHP)
 {
+	if(!m_arrHPMPUI[(UINT)HUDUI::HP]->GetScript<CHPIconScript>())
+		CreateUI();
 	m_arrHPMPUI[(UINT)HUDUI::HP]->GetScript<CHPIconScript>()->SetHP(_iCurHP);
 }
 
 void CUIMgr::SetMP(int _iCurMP, int _iCurMagic)
 {
+	if (!m_arrHPMPUI[(UINT)HUDUI::MP]->GetScript<CMPIconScript>())
+	CreateUI();
 	m_arrHPMPUI[(UINT)HUDUI::MP]->GetScript<CMPIconScript>()->SetMP(_iCurMP, (PLAYER_MAGIC)_iCurMagic);
+}
+
+void CUIMgr::CreateUI()
+{
+	wstring wstrPrefabName;
+	for (int i = 0; i < (UINT)PLAYER_MAGIC::END; ++i)
+	{
+		switch ((PLAYER_MAGIC)i)
+		{
+		case PLAYER_MAGIC::ARROW:
+			wstrPrefabName = L"prefab\\Arrow_Icon.prefab";
+			break;
+		case PLAYER_MAGIC::FIRE:
+			wstrPrefabName = L"prefab\\Fire_Icon.prefab";
+			break;
+		case PLAYER_MAGIC::BOMB:
+			wstrPrefabName = L"prefab\\Bomb_Icon.prefab";
+			break;
+		case PLAYER_MAGIC::HOOK:
+			wstrPrefabName = L"prefab\\Hook_Icon.prefab";
+			break;
+		}
+		m_arrMagicUI[i] = CLevelSaveLoadInScript::SpawnandReturnPrefab(wstrPrefabName, (int)LAYER::UI, Vec3(0.f));
+	}
+		m_arrHPMPUI[(UINT)HUDUI::HP] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\HP_Icon.prefab", (int)LAYER::UI, Vec3(0.f));
+
+		m_arrHPMPUI[(UINT)HUDUI::MP] = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MP_Icon.prefab", (int)LAYER::UI, Vec3(0.f));
 }

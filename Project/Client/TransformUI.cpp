@@ -100,23 +100,23 @@ void TransformUI::ShowWaveEditor()
 	CRoomScript* pWave = GetTarget()->GetScript<CRoomScript>();
 
 	if (ImGui::Button("Bat       "))
-		m_wstrPrefabName = L"prefab\\Bat.prefab";
+		m_wstrPrefabName = L"Bat";
 	ImGui::SameLine();
 	if (ImGui::Button("Lurker    "))
-		m_wstrPrefabName = L"prefab\\Lurker.prefab";
+		m_wstrPrefabName = L"Lurker";
 	ImGui::SameLine();
 	if (ImGui::Button("Grunt     "))
-		m_wstrPrefabName = L"prefab\\Grunt.prefab";
+		m_wstrPrefabName = L"Grunt";
 	if (ImGui::Button("Bazooka   "))
-		m_wstrPrefabName = L"prefab\\Bazooka.prefab";
+		m_wstrPrefabName = L"Bazooka";
 	ImGui::SameLine();
 	if (ImGui::Button("GrimKnight"))
-		m_wstrPrefabName = L"prefab\\GrimKnight.prefab";
+		m_wstrPrefabName = L"GrimKnight";
 	ImGui::SameLine();
 	if (ImGui::Button("Knight    "))
-		m_wstrPrefabName = L"prefab\\Knight.prefab";
+		m_wstrPrefabName = L"Knight";
 	if (ImGui::Button("CrowBoss  "))
-		m_wstrPrefabName = L"prefab\\CrowBoss.prefab";
+		m_wstrPrefabName = L"CrowBoss";
 
 	ImGui::Text("SpawnPos");
 	ImGui::InputFloat3("##SpawnPos", m_vSpawnPos);
@@ -129,7 +129,8 @@ void TransformUI::ShowWaveEditor()
 	ImGui::Text("Max  Num");
 	ImGui::SameLine();
 	static int MaxWaveNum = 0;
-	ImGui::InputInt("##MaxWaveNum", &MaxWaveNum);
+	if (ImGui::InputInt("##MaxWaveNum", &MaxWaveNum))
+		pWave->SetWaveCount(MaxWaveNum);
 
 	if (ImGui::Button("ADD Mst", ImVec2(60.f, 20.f)))
 		pWave->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);

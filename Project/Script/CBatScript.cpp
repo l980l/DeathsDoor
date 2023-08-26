@@ -23,6 +23,7 @@ void CBatScript::begin()
 {
 	CMonsterScript::begin();
 
+	Transform()->SetRelativeScale(Vec3(0.35f));
 	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
@@ -35,26 +36,20 @@ void CBatScript::begin()
 	if (nullptr == m_pStateScript)
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
-		m_pStateScript->AddState(L"BatIdle", new CBatIdle);
-		m_pStateScript->AddState(L"BatRecognize", new CBatRecognize);
-		m_pStateScript->AddState(L"BatTrace", new CTrace);
-		m_pStateScript->AddState(L"BatAttack", new CBatAttack);
-		m_pStateScript->AddState(L"BatDeath", new CBatDeath);
-
-		m_pStateScript->ChangeState(L"BatIdle");
+		m_pStateScript->AddState(L"Idle", new CBatIdle);
+		m_pStateScript->AddState(L"Recognize", new CBatRecognize);
+		m_pStateScript->AddState(L"Trace", new CTrace);
+		m_pStateScript->AddState(L"Attack", new CBatAttack);
+		m_pStateScript->AddState(L"Death", new CBatDeath);
+		m_pStateScript->ChangeState(L"Idle");
 	}
 
-	//Rigidbody 질량, 마찰, 마찰계수, 제한 속도 재 설정
-	GetOwner()->Rigidbody()->SetVelocityLimit(100.f);
-
 	// 초기 스탯 설정.
-	Stat initStat;
-	initStat.HP = 100;
-	initStat.Max_HP = 100;
-	initStat.Attack = 1;
-	initStat.Attack_Speed = 10;
-	initStat.Speed = 200;
-	m_pStateScript->SetStat(initStat);
+	Stat tInitStat;
+	tInitStat.HP = 100;
+	tInitStat.Max_HP = 100;
+	tInitStat.Speed = 70.f;
+	m_pStateScript->SetStat(tInitStat);
 }
 
 void CBatScript::tick()
@@ -69,46 +64,16 @@ void CBatScript::tick()
 		MeshRender()->GetDynamicMaterial(i);
 	}
 
-	if (m_bRecognizeCheck)
-	{
-		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
-		Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
-	}
-
-	//1.Player를 탐지했다면 Idle->exit()에서 Recognize --->Trace
-	if (GetDetect()&& m_pStateScript->FindState(L"BatIdle") == m_pStateScript->GetCurState()&&
-		m_bRecognizeCheck == false)
-	{
-		if (m_pStateScript->FindState(L"BatRecognize") != m_pStateScript->GetCurState())
-		{
-			m_pStateScript->ChangeState(L"BatRecognize");
-			m_bRecognizeCheck = true;
-		}
-	}
-	Vec3 PlayerPos = GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos();
-	float fDistance = GetDistance(PlayerPos, GetOwner()->Transform()->GetWorldPos());
-	if (fDistance > 100.f)
-	{
-		if (m_pStateScript->FindState(L"BatTrace") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"BatTrace");
-	}
 	//2.HP가 0 이면 Death
 	if (m_pStateScript->GetStat().HP <= 0)
 	{
-		if (m_pStateScript->FindState(L"BatDeath") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"BatDeath");
+		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+			m_pStateScript->ChangeState(L"Death");
 	}
 }
 
 void CBatScript::BeginOverlap(CCollider3D* _Other)
 {
-	//4.검, 화살, 불, 폭탄, 갈고리와 충돌하면 Hit
-	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex())
-	{
-		m_pStateScript->ChangeState(L"BatAttack");
-	}
 }
 
 void CBatScript::SaveToLevelFile(FILE* _File)

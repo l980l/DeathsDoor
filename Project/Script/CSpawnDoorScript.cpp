@@ -31,7 +31,10 @@ void CSpawnDoorScript::tick()
 		m_fDelay -= DT;
 	else if(m_fDelay <= 0.f)
 	{
-		CGameObject* pMonster = CLevelSaveLoadInScript::SpawnandReturnPrefab(m_strSpawnMstName, (int)LAYER::MONSTER, GetOwner()->Transform()->GetWorldPos());
+		wstring SpawnName = L"prefab\\";
+		SpawnName += m_strSpawnMstName;
+		SpawnName += L".prefab";
+		CGameObject* pMonster = CLevelSaveLoadInScript::SpawnandReturnPrefab(SpawnName, (int)LAYER::MONSTER, GetOwner()->Transform()->GetWorldPos());
 		pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos()); //rigidbody global pos setup
 		pMonster->GetScript<CMonsterScript>()->SpawnByDoor();
 

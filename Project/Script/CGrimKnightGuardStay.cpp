@@ -20,11 +20,7 @@ void CGrimKnightGuardStay::Enter()
 	Stat grimStat = GetOwnerScript()->GetStat();
 	m_iPrevHP = grimStat.HP;
 	m_iOriginMaxHP = grimStat.Max_HP;
-	grimStat.HP += 9999;
-	grimStat.Max_HP += 9999;
-	GetOwnerScript()->SetStat(grimStat);
 
-	GetOwnerScript()->SetStat(grimStat);
 	GetOwner()->Animator3D()->Play(12, true);
 
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();

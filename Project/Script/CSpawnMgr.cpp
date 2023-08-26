@@ -55,3 +55,10 @@ void CSpawnMgr::ReduceGimmickCount()
 	assert(m_iCurRoomNum != -1);
 	m_mapRoom.find(m_iCurRoomNum)->second->ReduceGimmickCount();
 }
+
+void CSpawnMgr::Clear()
+{
+	m_iCurRoomNum = -1;
+	m_mapRoom.clear();
+	m_vecFence.clear();
+}

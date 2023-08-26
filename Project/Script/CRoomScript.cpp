@@ -11,7 +11,7 @@ CRoomScript::CRoomScript()
 	, m_iRemainMst(-1)
 	, m_iRemainGimmik(-1)
 	, m_iCurWaveNum(0)
-	, m_iMaxWaveNum(0)
+	, m_iMaxWaveCount(0)
 	, m_vecWave{}
 	, m_bActive(false)
 {
@@ -24,7 +24,7 @@ CRoomScript::CRoomScript(const CRoomScript& _Other)
 	, m_iRemainMst(-1)
 	, m_iRemainGimmik(-1)
 	, m_iCurWaveNum(0)
-	, m_iMaxWaveNum(_Other.m_iMaxWaveNum)
+	, m_iMaxWaveCount(_Other.m_iMaxWaveCount)
 	, m_vecWave()
 	, m_bActive(false)
 {
@@ -77,12 +77,12 @@ void CRoomScript::ReduceMonsterCount()
 		--m_iRemainMst;
 		if (0 <= m_iRemainMst)
 		{
-			if (m_iCurWaveNum < m_iMaxWaveNum)
+			if (m_iCurWaveNum < m_iMaxWaveCount)
 				SpawnMst();
 		}
 	}
 	if (m_iRemainMst <= 0 && m_iRemainGimmik <= 0
-		&& m_iCurWaveNum == m_iMaxWaveNum)
+		&& m_iCurWaveNum == m_iMaxWaveCount)
 	{
 		CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, true);
 	}
@@ -93,7 +93,7 @@ void CRoomScript::ReduceGimmickCount()
 	if(m_iRemainGimmik > 0)
 		--m_iRemainGimmik;
 	if (m_iRemainMst <= 0 && m_iRemainGimmik <= 0
-		&& m_iCurWaveNum == m_iMaxWaveNum)
+		&& m_iCurWaveNum == m_iMaxWaveCount)
 	{
 		CSpawnMgr::GetInst()->ActivateFence(m_iRoomNum, true);
 	}
@@ -111,18 +111,15 @@ void CRoomScript::AddWaveMst(int _iWavwNum, wstring _wstrPrefName, Vec3 _vSpawnP
 void CRoomScript::SaveToLevelFile(FILE* _File)
 {
 	fwrite(&m_iRoomNum, sizeof(int), 1, _File);
-	fwrite(&m_iMaxWaveNum, sizeof(int), 1, _File);
-	for (size_t i = 0; i < m_iMaxWaveNum; ++i)
+	fwrite(&m_iMaxWaveCount, sizeof(int), 1, _File);
+	for (size_t i = 0; i < m_vecWave->size(); ++i)
 	{
-		size_t size = m_vecWave[i].size();
-		fwrite(&size, sizeof(size_t), 1, _File);
-
-		for (size_t j = 0; j < size; ++j)
+		size_t WaveSize = m_vecWave[i].size();
+		fwrite(&WaveSize, sizeof(size_t), 1, _File);
+		for (size_t j = 0; j < m_vecWave[i].size(); ++j)
 		{
-			size_t NameLength = m_vecWave[i][j].PrefabName.length();
-			fwrite(&NameLength, sizeof(size_t), 1, _File);
-			fwrite(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
-			fwrite(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
+			SaveWString(m_vecWave[i][j].PrefabName, _File);
+			fwrite(m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
 	}
 }
@@ -130,17 +127,15 @@ void CRoomScript::SaveToLevelFile(FILE* _File)
 void CRoomScript::LoadFromLevelFile(FILE* _File)
 {
 	fread(&m_iRoomNum, sizeof(int), 1, _File);
-	fread(&m_iMaxWaveNum, sizeof(int), 1, _File);
-	for (size_t i = 0; i < m_iMaxWaveNum; ++i)
+	fread(&m_iMaxWaveCount, sizeof(int), 1, _File);
+	for (size_t i = 0; i < m_iMaxWaveCount; ++i)
 	{
-		size_t  size = 0;
-		fread(&size, sizeof(size_t), 1, _File);
-		m_vecWave[i].resize(size);
-		for (size_t j = 0; j < size; ++j)
+		size_t WaveSize = 0;
+		fread(&WaveSize, sizeof(size_t), 1, _File);
+		m_vecWave[i].resize(WaveSize);
+		for (size_t j = 0; j < m_vecWave[i].size(); ++j)
 		{
-			size_t NameLength = 0;
-			fread(&NameLength, sizeof(size_t), 1, _File);
-			fread(&m_vecWave[i][j].PrefabName, sizeof(wstring) * NameLength, 1, _File);
+			LoadWString(m_vecWave[i][j].PrefabName, _File);
 			fread(&m_vecWave[i][j].SpawnPos, sizeof(Vec3), 1, _File);
 		}
 	}

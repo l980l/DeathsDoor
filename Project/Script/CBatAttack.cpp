@@ -2,8 +2,9 @@
 #include "CBatAttack.h"
 #include "CLevelSaveLoadInScript.h"
 
-CBatAttack::CBatAttack()	:
-	m_fTime(0.f)
+CBatAttack::CBatAttack()	
+	: m_fTime(0.f)
+	, m_bAttack(false)
 {
 }
 
@@ -11,24 +12,27 @@ CBatAttack::~CBatAttack()
 {
 }
 
+void CBatAttack::Enter()
+{
+	GetOwner()->Animator3D()->Play(2, false);	
+}
+
 void CBatAttack::tick()
 {
 	m_fTime += DT;
-	if (m_fTime >= 1.f)
+	if(!m_bAttack && m_fTime >= 0.7f)
 	{
-		ChangeState(L"BatIdle");
-		m_fTime = 0.f;
+		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\BatAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+		m_bAttack = true;
 	}
-	m_fTime;
-}
-
-void CBatAttack::Enter()
-{
-	GetOwner()->Animator3D()->Play(2, false); 
-	CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\BatAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	else if (m_fTime >= 1.f && GetOwner()->Animator3D()->IsFinish())
+	{
+		ChangeState(L"Idle");
+	}
 }
 
 void CBatAttack::Exit()
 {
-	
+	m_fTime = 0.f;
+	m_bAttack = false;
 }
