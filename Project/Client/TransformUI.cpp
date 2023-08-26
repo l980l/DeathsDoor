@@ -7,7 +7,7 @@
 #include <Engine/CRenderMgr.h>
 
 TransformUI::TransformUI()
-	: ComponentUI("##Transform", COMPONENT_TYPE::TRANSFORM)	
+	: ComponentUI("##Transform", COMPONENT_TYPE::TRANSFORM)
 	, m_bShowEdieWave(false)
 	, m_wstrPrefabName{}
 	, m_vSpawnPos{}
@@ -58,7 +58,7 @@ int TransformUI::render_update()
 	// Rotation
 	ImGui::Text("Rotation ");
 	ImGui::SameLine();
-	if (ImGui::DragFloat3("##Relative Rotation",vRotation))
+	if (ImGui::DragFloat3("##Relative Rotation", vRotation))
 	{
 		vRotation = (vRotation / 180.f) * XM_PI;
 		GetTarget()->Transform()->SetRelativeRot(vRotation);
@@ -76,10 +76,8 @@ int TransformUI::render_update()
 	}
 
 	static bool bShow;
-	if(GetTarget()->GetScript<CRoomScript>())
+	if (GetTarget()->GetScript<CRoomScript>())
 	{
-		ImGui::Text("WaveEditor");
-		ImGui::SameLine();
 		ImGui::Checkbox("##WaveEditor", &m_bShowEdieWave);
 		if (m_bShowEdieWave)
 		{
@@ -126,11 +124,11 @@ void TransformUI::ShowWaveEditor()
 	static int WaveNum = 0;
 	ImGui::InputInt("##WaveNum", &WaveNum);
 
-	ImGui::Text("WaveCount");
+	ImGui::Text("Max  Num");
 	ImGui::SameLine();
-	static int WaveCount = 0;
-	if (ImGui::InputInt("##WaveCount", &WaveCount))
-		pWave->SetWaveCount(WaveCount);
+	static int MaxWaveNum = 0;
+	if (ImGui::InputInt("##MaxWaveNum", &MaxWaveNum))
+		pWave->SetWaveCount(MaxWaveNum);
 
 	if (ImGui::Button("ADD Mst", ImVec2(60.f, 20.f)))
 		pWave->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);
