@@ -126,11 +126,11 @@ void TransformUI::ShowWaveEditor()
 	static int WaveNum = 0;
 	ImGui::InputInt("##WaveNum", &WaveNum);
 
-	ImGui::Text("Max  Num");
+	ImGui::Text("WaveCount");
 	ImGui::SameLine();
-	static int MaxWaveNum = 0;
-	if (ImGui::InputInt("##MaxWaveNum", &MaxWaveNum))
-		pWave->SetWaveCount(MaxWaveNum);
+	static int WaveCount = 0;
+	if (ImGui::InputInt("##WaveCount", &WaveCount))
+		pWave->SetWaveCount(WaveCount);
 
 	if (ImGui::Button("ADD Mst", ImVec2(60.f, 20.f)))
 		pWave->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);

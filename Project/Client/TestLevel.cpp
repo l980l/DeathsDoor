@@ -80,7 +80,7 @@ void CreateTestLevel()
 	evn.wParam = (DWORD_PTR)NewLevel;
 	evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
 	CEventMgr::GetInst()->AddEvent(evn);
-	//
+
 	//Player Status setting
 	g_tPlayerStat.Attack = 50.f;
 	g_tPlayerStat.Attack_Speed = 0.4f;
@@ -264,48 +264,47 @@ void CreateTestLevel()
 
 	//Wind 
 	{
-		//CGameObject* pWind = new CGameObject;
-		//pWind->SetName(L"Wind");
-		//pWind->AddComponent(new CTransform);
-		//pWind->AddComponent(new CMeshRender);
-		//pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		//pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
-		//pWind->MeshRender()->SetFrustumCheck(false);
-		//
-		//SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
+		CGameObject* pWind = new CGameObject;
+		pWind->SetName(L"Wind");
+		pWind->AddComponent(new CTransform);
+		pWind->AddComponent(new CMeshRender);
+		pWind->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pWind->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl"), 0);
+		pWind->MeshRender()->SetFrustumCheck(false);
+		
+		SpawnGameObject(pWind, Vec3(400.f, 500.f, 1000.f), (int)LAYER::DEFAULT);
 	}
 	
 	// Water 
 	{
-		//CGameObject* pWater = new CGameObject;
-		//pWater->SetName(L"Water");
-		//pWater->AddComponent(new CTransform);
-		//pWater->AddComponent(new CMeshRender);
-		//pWater->AddComponent(new CWaterScript);
-		//pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		//pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
-		//pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
-		//pWater->MeshRender()->SetFrustumCheck(false);
-		//SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
+		CGameObject* pWater = new CGameObject;
+		pWater->SetName(L"Water");
+		pWater->AddComponent(new CTransform);
+		pWater->AddComponent(new CMeshRender);
+		pWater->AddComponent(new CWaterScript);
+		pWater->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		pWater->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"WaterMtrl"), 0);
+		pWater->Transform()->SetRelativeScale(1600.f, 1000.f, 0.f);
+		pWater->MeshRender()->SetFrustumCheck(false);
+		SpawnGameObject(pWater, Vec3(4000.f, 520, 4000.f), (int)LAYER::DEFAULT);
 	}
 	
 	//Water Camera
 	{
-		//CGameObject* pWaterCam = new CGameObject;
-		//pWaterCam->SetName(L"WaterCamera");
+		CGameObject* pWaterCam = new CGameObject;
+		pWaterCam->SetName(L"WaterCamera");
 
-		//pWaterCam->AddComponent(new CTransform);
-		//pWaterCam->AddComponent(new CCamera);
-		//pWaterCam->AddComponent(new CWaterCameraScript);
+		pWaterCam->AddComponent(new CTransform);
+		pWaterCam->AddComponent(new CCamera);
+		pWaterCam->AddComponent(new CWaterCameraScript);
 
-		//pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-		//pWaterCam->Camera()->SetCameraIndex(1);
-		//pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
-		//pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
-		//pWaterCam->Camera()->SetWaterCamera(true);
+		pWaterCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		pWaterCam->Camera()->SetCameraIndex(1);
+		pWaterCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+		pWaterCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+		pWaterCam->Camera()->SetWaterCamera(true);
 
-		//SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), 10);
-
+		SpawnGameObject(pWaterCam, Vec3(0.f, 0.f, 0.f), (int)LAYER::DEFAULT);
 	}
 	
 
