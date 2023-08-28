@@ -8,8 +8,8 @@
 CRoomScript::CRoomScript()
 	: CScript((UINT)SCRIPT_TYPE::ROOMSCRIPT)
 	, m_iRoomNum(-1)
-	, m_iRemainMst(-1)
-	, m_iRemainGimmik(-1)
+	, m_iRemainMst(0)
+	, m_iRemainGimmik(0)
 	, m_iCurWaveNum(0)
 	, m_iMaxWaveCount(0)
 	, m_vecWave{}
@@ -60,9 +60,9 @@ void CRoomScript::SpawnMst()
 		int a = 1;
 		pSpawnDoor->MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &a);
 		pSpawnDoor->MeshRender()->GetMaterial(0)->SetScalarParam(VEC4_0, Vec4(0.6f,0.1f,0.2f,0.7f));
+		++m_iRemainMst;
 	}
 	++m_iCurWaveNum;
-	m_iRemainMst = (int)m_vecWave[m_iCurWaveNum].size();
 }
 
 void CRoomScript::SetWaveInfo(int _iWaveNum, vector<SpawnInfo> _mapInfo)
@@ -75,12 +75,14 @@ void CRoomScript::ReduceMonsterCount()
 	if(m_iRemainMst > 0)
 	{
 		--m_iRemainMst;
-		if (0 <= m_iRemainMst)
+		if (0 == m_iRemainMst)
 		{
 			if (m_iCurWaveNum < m_iMaxWaveCount)
 				SpawnMst();
 		}
 	}
+
+
 	if (m_iRemainMst <= 0 && m_iRemainGimmik <= 0
 		&& m_iCurWaveNum == m_iMaxWaveCount)
 	{

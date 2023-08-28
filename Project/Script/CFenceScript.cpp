@@ -34,19 +34,19 @@ void CFenceScript::tick()
 	Vec3 vCurPos = Transform()->GetWorldPos();
 	float fFenceDir = 0.f;
 	if (m_bOpen)
-		fFenceDir = 100.f * DT;
+		fFenceDir = -150.f * DT;
 	else
-		fFenceDir = -100.f * DT;
+		fFenceDir = 150.f * DT;
 	vCurPos.y += fFenceDir;
 
 	Transform()->SetRelativePos(vCurPos);
 
 	// 일정 거리 이상 이동했다면 false
 	m_fMoveDistance = (m_vStartPos - Transform()->GetWorldPos()).Length();
-	if (m_fMoveDistance > 200.f)
+	if (m_fMoveDistance > 800.f * Transform()->GetRelativeScale().x)
 	{
 		m_bActive = false;
-		GetOwner()->SetLifeSpan(0.5f);
+		m_fMoveDistance = 0.f;
 	}
 }
 
@@ -58,9 +58,9 @@ void CFenceScript::ActivateFence(bool _bOpen)
 	if(!Rigidbody())
 		GetOwner()->AddComponent(new CRigidbody);
 	if (_bOpen)
-		CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(50.f), GetOwner());
-	else
 		CPhysXMgr::GetInst()->ReleaseStatic(m_pStatic);
+	else
+		CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(500.f * Transform()->GetRelativeScale().x), GetOwner());
 }
 
 void CFenceScript::SaveToLevelFile(FILE* _File)

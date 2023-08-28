@@ -29,6 +29,9 @@ void CTrace::Enter()
 	{
 		Stat status = GetOwnerScript()->GetStat();
 		GetOwner()->Animator3D()->Play(6, true);
+
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1);
 	}
 }
 
@@ -81,13 +84,8 @@ void CTrace::tick()
 		}
 	}
 	//sound
-	if (GetOwner()->GetName() == L"GrimKnight")
-	{
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1);
-	}
-
-	if (GetOwner()->GetName() == L"Bat")
+	if (GetOwner()->GetName() == L"GrimKnight"
+		|| GetOwner()->GetName() == L"Bat")
 	{
 		if ((GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos()
 			- GetOwner()->Transform()->GetWorldPos()).Length() < 100.f)
