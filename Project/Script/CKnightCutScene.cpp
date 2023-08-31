@@ -15,7 +15,6 @@ CKnightCutScene::~CKnightCutScene()
 
 void CKnightCutScene::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(4, false);
 }
 

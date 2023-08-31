@@ -4,8 +4,11 @@
 #include "CLevelSaveLoadInScript.h"
 #include "CGameCameraScript.h"
 #include <Engine/CRenderMgr.h>
+#include "CKnightScript.h"
 
 CKnightChopAttack::CKnightChopAttack()
+	: m_fTime(0.f)
+	, m_bCameraShake(false)
 {
 }
 
@@ -15,14 +18,11 @@ CKnightChopAttack::~CKnightChopAttack()
 
 void CKnightChopAttack::Enter()
 {
-
-	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->GetScript<CKnightScript>()->SetDirtoPlayer();
 	GetOwner()->Animator3D()->Play(8, false);
-	CLevelSaveLoadInScript script;
-	script.SpawnPrefab(L"prefab\\JumpAttack.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 0.2f);
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1);
-
+	CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1f);
 }
 
 void CKnightChopAttack::tick()

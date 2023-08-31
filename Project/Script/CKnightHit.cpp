@@ -11,8 +11,6 @@ CKnightHit::~CKnightHit()
 
 void CKnightHit::Enter()
 {
-	//ÇÇ°Ý ½Ã Crack
-
 }
 
 void CKnightHit::tick()

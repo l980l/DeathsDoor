@@ -3,6 +3,7 @@
 #include "CSoundScript.h"
 #include "CGameCameraScript.h"
 #include <Engine/CRenderMgr.h>
+#include "CKnightScript.h"
 
 CKnightChopAttackCombo::CKnightChopAttackCombo()
 	: m_fTime(0.f)
@@ -16,10 +17,10 @@ CKnightChopAttackCombo::~CKnightChopAttackCombo()
 
 void CKnightChopAttackCombo::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->GetScript<CKnightScript>()->SetDirtoPlayer();
 	GetOwner()->Animator3D()->Play(10, false);
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam2.ogg", 3, 0.1);
+	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam2.ogg", 3, 0.1f);
 }
 
 void CKnightChopAttackCombo::tick()

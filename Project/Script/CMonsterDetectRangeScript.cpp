@@ -4,7 +4,6 @@
 
 CMonsterDetectRangeScript::CMonsterDetectRangeScript()
 	: CScript((UINT)SCRIPT_TYPE::MONSTERDETECTRANGESCRIPT)
-	, m_bDetect(false)
 {
 }
 
@@ -23,12 +22,9 @@ void CMonsterDetectRangeScript::tick()
 void CMonsterDetectRangeScript::BeginOverlap(CCollider3D* _Other)
 {
 	// Player¿Í ºÎµúÈù °æ¿ì¿¡¸¸.
-	if (_Other->GetOwner() == CLevelMgr::GetInst()->FindObjectByName(L"Player"))
+	if (_Other->GetOwner()->GetLayerIndex()	== (int)LAYER::PLAYER)
 	{
-		m_bDetect = true;
-		
 		GetOwner()->GetParent()->GetScript<CMonsterScript>()->SetDetect(true);
-
 		Destroy();
 	}
 }

@@ -97,13 +97,13 @@ void CGruntScript::tick()
 			m_pStateScript->ChangeState(L"Death");
 	}
 	
-	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
-	m_fPlayerDistance = GetDistance(m_PlayerPos, GetOwner()->Transform()->GetWorldPos());
+	m_vPlayerPos = GetPlayer()->Transform()->GetWorldPos();
+	m_fPlayerDistance = GetDistance(m_vPlayerPos, GetOwner()->Transform()->GetWorldPos());
 	
-	m_MonsterToPlayerDir = m_PlayerPos - Transform()->GetWorldPos();
-	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
-	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
-	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
+	m_vMonsterToPlayerDir = m_vPlayerPos - Transform()->GetWorldPos();
+	m_vMonsterToPlayerDir.x /= m_fPlayerDistance;
+	m_vMonsterToPlayerDir.y /= m_fPlayerDistance;
+	m_vMonsterToPlayerDir.z /= m_fPlayerDistance;
 
 	// 플레이어를 바라보는 경우.
 	if (m_bStarePlayer)

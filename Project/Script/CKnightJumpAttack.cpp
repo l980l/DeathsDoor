@@ -5,6 +5,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CRenderMgr.h>
 #include "CGameCameraScript.h"
+#include "CKnightScript.h"
 
 CKnightJumpAttack::CKnightJumpAttack()
 	: m_fTime(0.f)
@@ -14,6 +15,14 @@ CKnightJumpAttack::CKnightJumpAttack()
 
 CKnightJumpAttack::~CKnightJumpAttack()
 {
+}
+
+void CKnightJumpAttack::Enter()
+{
+	GetOwner()->GetScript<CKnightScript>()->SetDirtoPlayer();
+	GetOwner()->Animator3D()->Play(7, false);
+	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1f);
 }
 
 void CKnightJumpAttack::tick()
@@ -29,15 +38,6 @@ void CKnightJumpAttack::tick()
 	{
 		ChangeState(L"JumpAttack2");
 	}
-}
-
-void CKnightJumpAttack::Enter()
-{
-	Stat status = GetOwnerScript()->GetStat();
-	GetOwner()->Animator3D()->Play(7, false);
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1);
-	
 }
 
 void CKnightJumpAttack::Exit()

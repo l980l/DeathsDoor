@@ -21,22 +21,20 @@ void CGrimKnightLongDistance::tick()
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		ChangeState(L"Trace");
-		CGrimKnightScript* gScript = GetOwner()->GetScript< CGrimKnightScript>();
-		gScript->SetOnCollision(false);
+		CGrimKnightScript* pScript= GetOwner()->GetScript< CGrimKnightScript>();
+		pScript->SetOnCollision(false);
 	}
 }
 
 void CGrimKnightLongDistance::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(7, false);
 	
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBullet.ogg", 1, 0.1);
+	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBullet.ogg", 1, 0.1f);
 
 	//Ghost prefab »ý¼º
-	CLevelSaveLoadInScript script;
-	CGameObject* pGhost = script.SpawnandReturnPrefab(L"prefab\\Ghost.prefab", 6, GetOwner()->Transform()->GetWorldPos(), 5.f);
+	CGameObject* pGhost = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Ghost.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 5.f);
 	pGhost->AddComponent(new CGhostScript);
 	pGhost->AddComponent(new CStateScript);
 	pGhost->AddComponent(new CRigidbody);

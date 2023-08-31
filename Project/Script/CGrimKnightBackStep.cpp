@@ -17,10 +17,9 @@ void CGrimKnightBackStep::Enter()
 	GetOwner()->Animator3D()->Play(9, false);
 
 	//플레이어 반대 방향으로 이동
-	CGameObject* player = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	Vec3 playerPos = player->Transform()->GetWorldPos();
-	Vec3 dir = (GetOwner()->Transform()->GetWorldPos() - playerPos).Normalize();
-	GetOwner()->Rigidbody()->AddVelocity(dir * 150);
+	Vec3 vPlayerPos = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
+	Vec3 vDir = (GetOwner()->Transform()->GetWorldPos() - vPlayerPos).Normalize();
+	GetOwner()->Rigidbody()->SetVelocity(vDir * 150.f);
 }
 
 void CGrimKnightBackStep::tick()
@@ -33,4 +32,5 @@ void CGrimKnightBackStep::tick()
 
 void CGrimKnightBackStep::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }

@@ -11,7 +11,6 @@ CKnightSpinAttackCombo::~CKnightSpinAttackCombo()
 
 void CKnightSpinAttackCombo::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(13, false);
 }
 

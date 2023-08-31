@@ -3,6 +3,9 @@
 class CKnightWalk :
     public CState
 {
+private:
+    float m_fWalkSoundDelay;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

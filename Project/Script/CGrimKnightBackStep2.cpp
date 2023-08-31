@@ -11,7 +11,6 @@ CGrimKnightBackStep2::~CGrimKnightBackStep2()
 
 void CGrimKnightBackStep2::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(10, false);
 }
 

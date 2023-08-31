@@ -18,19 +18,19 @@ CGrimKnightGuardStay::~CGrimKnightGuardStay()
 
 void CGrimKnightGuardStay::Enter()
 {
-	Stat grimStat = GetOwnerScript()->GetStat();
-	m_iPrevHP = grimStat.HP;
-	m_iOriginMaxHP = grimStat.Max_HP;
+	Stat tPrevStat = GetOwnerScript()->GetStat();
+	m_iPrevHP = tPrevStat.HP;
+	m_iOriginMaxHP = tPrevStat.Max_HP;
 
 	GetOwner()->Animator3D()->Play(12, true);
 
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldPrep.ogg", 1, 0.1);
+	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldPrep.ogg", 1, 0.1f);
 }
 
 void CGrimKnightGuardStay::tick()
 {
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 	//5번 공격 받으면 Guard Break
 	int a = GetOwner()->GetScript<CGrimKnightScript>()->GetHitCount();
 	if (GetOwner()->GetScript<CGrimKnightScript>()->GetHitCount() >= 5)
@@ -45,8 +45,8 @@ void CGrimKnightGuardStay::tick()
 
 void CGrimKnightGuardStay::Exit()
 {
-	Stat grimStat = GetOwnerScript()->GetStat();
-	grimStat.HP = m_iPrevHP;
-	grimStat.Max_HP = m_iOriginMaxHP;
-	GetOwnerScript()->SetStat(grimStat);
+	Stat tCurStat = GetOwnerScript()->GetStat();
+	tCurStat.HP = m_iPrevHP;
+	tCurStat.Max_HP = m_iOriginMaxHP;
+	GetOwnerScript()->SetStat(tCurStat);
 }

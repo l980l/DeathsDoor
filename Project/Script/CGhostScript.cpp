@@ -43,18 +43,17 @@ void CGhostScript::begin()
 	{
 		m_pStateScript = GetOwner()->GetScript<CStateScript>();
 		m_pStateScript->AddState(L"Trace", new CTrace);
-		m_pStateScript->AddState(L"GhostHit", new CGhostHit);
-		
+		m_pStateScript->AddState(L"GhostHit", new CGhostHit);		
 		m_pStateScript->ChangeState(L"Trace");
 	}
 
 	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 
 	// 초기 스탯 설정.
-	Stat initStat;
-	initStat.Attack = 1;
-	initStat.Speed = 300;
-	m_pStateScript->SetStat(initStat);
+	Stat tInitStat;
+	tInitStat.Attack = 1;
+	tInitStat.Speed = 300;
+	m_pStateScript->SetStat(tInitStat);
 
 	SetLifeSpan(10.f);
 }
@@ -88,10 +87,7 @@ void CGhostScript::BeginOverlap(CCollider3D* _Other)
 	}
 	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex() && m_bIsHit ==false)
 	{
-		//player damage & dead
-
-		//script.SpawnPrefab(L"prefab\\")
-		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\GhostDead.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos(), 0.5f);
 		GetOwner()->SetLifeSpan(0.f);
 	}
 	else if (_Other->GetOwner()->GetScript<CMonsterScript>() && m_bIsHit == true)
@@ -99,7 +95,7 @@ void CGhostScript::BeginOverlap(CCollider3D* _Other)
 		Stat tCurStat = _Other->GetOwner()->GetScript<CStateScript>()->GetStat();
 		tCurStat.HP -= 50;
 		_Other->GetOwner()->GetScript<CStateScript>()->SetStat(tCurStat);
-		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\GhostDead.prefab", 0, GetOwner()->Transform()->GetWorldPos(), 0.5f);
+		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\GhostDead.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos(), 0.5f);
 		GetOwner()->SetLifeSpan(0.f);
 	}	
 }

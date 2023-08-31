@@ -36,8 +36,8 @@ void CGrimKnightDeath::Enter()
 	// 몬스터 사망시 현재까지 흐른 시간을 저장.
 	m_bStartPaperBurn = true;
 
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceLastHit.ogg", 1, 0.1);
+	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceLastHit.ogg", 1, 0.1f);
 }
 
 void CGrimKnightDeath::Exit()

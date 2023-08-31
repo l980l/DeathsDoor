@@ -10,6 +10,10 @@ CKnightJumpReady::~CKnightJumpReady()
 {
 }
 
+void CKnightJumpReady::Enter()
+{
+	GetOwner()->Animator3D()->Play(5, false);
+}
 void CKnightJumpReady::tick()
 {
 	if (GetOwner()->Animator3D()->IsFinish())
@@ -18,11 +22,6 @@ void CKnightJumpReady::tick()
 	}
 }
 
-void CKnightJumpReady::Enter()
-{
-	Stat status = GetOwnerScript()->GetStat();
-	GetOwner()->Animator3D()->Play(5, false);
-}
 
 void CKnightJumpReady::Exit()
 {

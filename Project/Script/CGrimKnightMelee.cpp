@@ -16,7 +16,7 @@ void CGrimKnightMelee::Enter()
 {
 	GetOwner()->Animator3D()->Play(8, false);
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBite.ogg", 1, 0.1);
+	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBite.ogg", 1, 0.1f);
 }
 
 void CGrimKnightMelee::tick()

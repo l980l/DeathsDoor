@@ -4,6 +4,7 @@
 #include <Engine/CDetourMgr.h>
 
 CKnightWalk::CKnightWalk()
+	: m_fWalkSoundDelay(0.f)
 {
 }
 
@@ -22,6 +23,14 @@ void CKnightWalk::Enter()
 
 void CKnightWalk::tick()
 {
+	m_fWalkSoundDelay = 0.f;
+	if (m_fWalkSoundDelay > 1.f)
+	{
+		m_fWalkSoundDelay = 0.f;
+		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\PoshKnightPreStep1.ogg", 1, 0.2f);
+
+	}
 	Vec3 m_Dir = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetRelativePos() - GetOwner()->Transform()->GetRelativePos();
 	m_Dir.Normalize();
 	Vec3 Velocity = m_Dir;

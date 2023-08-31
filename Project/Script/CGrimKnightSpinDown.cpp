@@ -20,8 +20,8 @@ void CGrimKnightSpinDown::tick()
 {	
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceTwirlSlam.ogg", 1, 0.1);
+		CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceTwirlSlam.ogg", 1, 0.1f);
 		ChangeState(L"SpinUp");
 	}
 }

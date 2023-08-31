@@ -22,16 +22,14 @@ void CTrace::Enter()
 {
 	if (L"Bat" == GetOwner()->GetName())
 	{
-		Stat status = GetOwnerScript()->GetStat();
 		GetOwner()->Animator3D()->Play(3, true);
 	}
 	else if (L"GrimKnight" == GetOwner()->GetName())
 	{
-		Stat status = GetOwnerScript()->GetStat();
 		GetOwner()->Animator3D()->Play(6, true);
 
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1);
+		CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceStep1.ogg", 1, 0.1f);
 	}
 }
 
@@ -63,29 +61,28 @@ void CTrace::tick()
 			return;
 		}
 		// 현재 오브젝트 위치		
-		Vec3 currentPos = GetOwner()->Transform()->GetWorldPos();
+		Vec3 vCurrentPos = GetOwner()->Transform()->GetWorldPos();
 
 		// 이동할 방향 벡터 계산 및 정규화
-		Vec3 direction = targetPos - currentPos;
-		direction.Normalize();
+		Vec3 vDirection = targetPos - vCurrentPos;
+		vDirection.Normalize();
 
 		// 새로운 위치 계산
-		Vec3 newPos = currentPos + direction * fSpeed * DT;
-		direction.y = 0.f;
+		Vec3 newPos = vCurrentPos + vDirection * fSpeed * DT;
+		vDirection.y = 0.f;
 
-		GetOwner()->Rigidbody()->SetVelocity(direction * fSpeed);
+		GetOwner()->Rigidbody()->SetVelocity(vDirection * fSpeed);
 		GetOwner()->Transform()->CalcDir();
 
 		// 만약 타겟 위치에 도달했다면, 다음 경로 인덱스.
-		float distanceToTarget = (targetPos - currentPos).Length();
+		float distanceToTarget = (targetPos - vCurrentPos).Length();
 		if (distanceToTarget < 50.f)
 		{
 			++m_iCurrentPathIndex;
 		}
 	}
 	//sound
-	if (GetOwner()->GetName() == L"GrimKnight"
-		|| GetOwner()->GetName() == L"Bat")
+	if (GetOwner()->GetName() == L"GrimKnight" || GetOwner()->GetName() == L"Bat")
 	{
 		if ((GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos()
 			- GetOwner()->Transform()->GetWorldPos()).Length() < 100.f)

@@ -4,18 +4,18 @@ class CBazookaGasGrenadeScript :
     public CScript
 {
 private:
-    Vec3            m_ShotDir;
-    Vec3            m_PrevVelocity;
+    Vec3            m_vShotDir;
+    Vec3            m_vPrevVelocity;
     int             m_iState;       // 0: 날아가는 중. 1: 땅에 떨어져서 퍼지는 중.
-    CGameObject*    m_GasBulletParticle;
-    CGameObject*    m_GasCenterParticle;
-    CGameObject*    m_GasRoundParticle;
+    CGameObject*    m_pGasBulletParticle;
+    CGameObject*    m_pGasCenterParticle;
+    CGameObject*    m_pGasRoundParticle;
     float           m_fBulletTime;
     float           m_fGasTime;
 
 public:
-    void SetShotDir(Vec3 _ShotDir) { m_ShotDir = _ShotDir; }
-    Vec3 GetShotDir() { return m_ShotDir; }
+    void SetShotDir(Vec3 _ShotDir) { m_vShotDir = _ShotDir; }
+    Vec3 GetShotDir() { return m_vShotDir; }
 
 public:
     virtual void begin() override;

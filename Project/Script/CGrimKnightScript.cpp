@@ -27,6 +27,7 @@ void CGrimKnightScript::begin()
 {
 	CMonsterScript::begin();
 
+
 	// 동적 재질 생성.
 	int iMtrlCount = MeshRender()->GetMtrlCount();
 
@@ -54,7 +55,8 @@ void CGrimKnightScript::begin()
 
 		m_pStateScript->ChangeState(L"Idle");
 	}
-
+	if(nullptr == m_pPlayer)
+		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	// 초기 스탯 설정.
 	Stat tInitStat;
 	tInitStat.HP = 300;
@@ -83,7 +85,6 @@ void CGrimKnightScript::tick()
 
 void CGrimKnightScript::CalcDir()
 {
-	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
 	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
 	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
 	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);

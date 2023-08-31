@@ -5,6 +5,7 @@
 #include "CLevelSaveLoadInScript.h"
 #include <Engine/CRenderMgr.h>
 #include <Engine/CCamera.h>
+#include "CGameCameraScript.h"
 
 CSlashScript::CSlashScript()
 	: CScript((UINT)SCRIPT_TYPE::SLASHSCRIPT)
@@ -31,8 +32,8 @@ void CSlashScript::BeginOverlap(CCollider3D* _Other)
 
 		CAMERASHAKE(3.f, 800.f, 0.1f);
 
-		Stat CurPlyStat = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
-		CurPlyStat.MP += 1;
-		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->SetStat(CurPlyStat);
+		Stat tCurPlyStat = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->GetStat();
+		tCurPlyStat.MP += 1;
+		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CStateScript>()->SetStat(tCurPlyStat);
 	}
 }

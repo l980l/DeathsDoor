@@ -58,8 +58,8 @@ void CBossChainScript::tick()
 	if (!m_bSound)
 	{
 		// Sound
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Chain1.ogg", 1, 0.1f);
+		CSoundScript*pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+		Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Chain1.ogg", 1, 0.1f);
 
 		m_bSound = true;
 	}

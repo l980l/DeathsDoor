@@ -25,6 +25,6 @@ void CGrimKnightGuard::tick()
 
 void CGrimKnightGuard::Exit()
 {
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldSlam.ogg", 1, 0.1);
+	CSoundScript*pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceShieldSlam.ogg", 1, 0.1f);
 }

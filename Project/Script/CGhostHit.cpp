@@ -11,33 +11,20 @@ CGhostHit::~CGhostHit()
 {
 }
 
-void CGhostHit::tick()
-{
-	GetOwner()->Rigidbody()->SetVelocity(-Dir * 600.f);
-}
-
 void CGhostHit::Enter()
 {
-	playerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
-	Dir = playerPos - GetOwner()->Transform()->GetWorldPos();
-	Dir.y = 0;
-	Dir.Normalize();
+	Vec3 vPlayerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
+	vDir = vPlayerPos - GetOwner()->Transform()->GetWorldPos();
+	vDir.y = 0;
+	vDir.Normalize();
+}
+
+void CGhostHit::tick()
+{
+	GetOwner()->Rigidbody()->SetVelocity(-vDir * 600.f);
 }
 
 void CGhostHit::Exit()
 {
 	
-}
-
-void CGhostHit::BeginOverlap(CCollider2D* _Other)
-{
-	
-}
-
-void CGhostHit::OnOverlap(CCollider2D* _Other)
-{
-}
-
-void CGhostHit::EndOverlap(CCollider2D* _Other)
-{
 }

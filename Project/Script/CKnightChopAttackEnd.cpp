@@ -11,7 +11,6 @@ CKnightChopAttackEnd::~CKnightChopAttackEnd()
 
 void CKnightChopAttackEnd::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
 	GetOwner()->Animator3D()->Play(9, false);
 }
 

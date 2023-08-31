@@ -6,6 +6,7 @@
 #include "CStateScript.h"
 
 #include "KnightStates.h"
+#include <Engine/CDetourMgr.h>
 
 
 CKnightScript::CKnightScript() 
@@ -53,27 +54,19 @@ void CKnightScript::begin()
 		m_pStateScript->ChangeState(L"Idle");
 	}
 
-	//Rigidbody 제한 속도 설정
-	GetOwner()->Rigidbody()->SetVelocityLimit(150.f);
-
 	// 초기 스탯 설정.
-	Stat initStat;
-	initStat.HP = 400;
-	initStat.Max_HP = 400;
-	initStat.Attack = 1;
-	initStat.Attack_Speed = 10;
-	initStat.Speed = 150;
-	m_pStateScript->SetStat(initStat);
+	Stat tInitStat;
+	tInitStat.HP = 400;
+	tInitStat.Max_HP = 400;
+	tInitStat.Attack = 1;
+	tInitStat.Attack_Speed = 10;
+	tInitStat.Speed = 150;
+	m_pStateScript->SetStat(tInitStat);
 }
 
 void CKnightScript::tick()
 {
 	CMonsterScript::tick();
-	//Player방향을 바라보기
-	m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
-	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
-	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
 
 	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
 		m_bRecognizeCheck == false)
@@ -96,10 +89,6 @@ void CKnightScript::tick()
 
 void CKnightScript::BeginOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex())
-	{
-		m_pStateScript->ChangeState(L"RunAttack");
-	}
 }
 
 void CKnightScript::SaveToLevelFile(FILE* _File)
@@ -108,4 +97,11 @@ void CKnightScript::SaveToLevelFile(FILE* _File)
 
 void CKnightScript::LoadFromLevelFile(FILE* _File)
 {
+}
+
+void CKnightScript::SetDirtoPlayer()
+{
+	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
+	vCurDir.y = CDetourMgr::GetInst()->GetDirtoTarget(GetOwner()->Transform()->GetWorldPos());
+	GetOwner()->Transform()->SetRelativeRot(vCurDir);
 }

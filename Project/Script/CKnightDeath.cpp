@@ -19,8 +19,8 @@ CKnightDeath::~CKnightDeath()
 void CKnightDeath::Enter()
 {
     GetOwner()->Animator3D()->Play(3, false);
-    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-    Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightDeath.ogg", 1, 0.2);
+    CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Knight\\KnightDeath.ogg", 1, 0.2f);
 }
 
 void CKnightDeath::tick()
@@ -40,8 +40,8 @@ void CKnightDeath::tick()
         GetOwner()->GetScript<CKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
         CLevelSaveLoadInScript script;
         script.MoneyCount(600);
-        CGameObject* pdoor = script.SpawnandReturnPrefab(L"prefab\\LevelChangeDoor.prefab",(int)LAYER::LEVELCHANGEDOOR,GetOwner()->Transform()->GetWorldPos());
-        pdoor->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::HALL);
+        CGameObject* pDoor = script.SpawnandReturnPrefab(L"prefab\\LevelChangeDoor.prefab",(int)LAYER::LEVELCHANGEDOOR,GetOwner()->Transform()->GetWorldPos());
+        pDoor->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::HALL);
         GetOwnerScript()->Destroy();
     }
 }

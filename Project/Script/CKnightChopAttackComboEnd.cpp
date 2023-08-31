@@ -2,6 +2,7 @@
 #include "CKnightChopAttackComboEnd.h"
 #include "CGameCameraScript.h"
 #include <Engine/CRenderMgr.h>
+#include "CKnightScript.h"
 
 CKnightChopAttackComboEnd::CKnightChopAttackComboEnd()
 	: m_fTime(0.f)
@@ -15,7 +16,7 @@ CKnightChopAttackComboEnd::~CKnightChopAttackComboEnd()
 
 void CKnightChopAttackComboEnd::Enter()
 {
-	Stat status = GetOwnerScript()->GetStat();
+	GetOwner()->GetScript<CKnightScript>()->SetDirtoPlayer();
 	GetOwner()->Animator3D()->Play(11, false);
 }
 
