@@ -26,7 +26,9 @@ private:
 
 public:
 	Vtx* GetVtxSysMem() { return (Vtx*)m_pVtxSys; }
+	UINT GetVtxCount() { return m_VtxCount; }
 	UINT GetSubsetCount() { return (UINT)m_vecIdxInfo.size(); }
+	tIndexInfo& GetIdxInfo(UINT _idx) { return m_vecIdxInfo[_idx]; }
 
 	const vector<tMTBone>* GetBones() { return &m_vecBones; }
 	UINT GetBoneCount() { return (UINT)m_vecBones.size(); }
@@ -57,11 +59,12 @@ public:
 
 	void render(UINT _iSubset);
 	void render_particle(UINT _iParticleCount);
-
+	void render_instancing(UINT _iSubset);
 
 
 private:	
 	void UpdateData(UINT _iSubset);
+	void UpdateData_Inst(UINT _iSubset);
 
 public:
 	CMesh(bool _bEngine = false);

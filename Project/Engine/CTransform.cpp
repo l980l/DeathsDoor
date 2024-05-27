@@ -3,6 +3,7 @@
 
 #include "CDevice.h"
 #include "CConstBuffer.h"
+#include "CTimeMgr.h"
 
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
@@ -31,10 +32,9 @@ void CTransform::finaltick()
 	m_matRelativeRot *= XMMatrixRotationY(m_vRelativeRot.y);
 	m_matRelativeRot *= XMMatrixRotationZ(m_vRelativeRot.z);
 
-
 	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
-
 	
+
 	m_matWorld = m_matWorldScale * m_matRelativeRot	 * matTranslation;
 
 	Vec3 vDefaultDir[3] = {
@@ -92,6 +92,40 @@ void CTransform::UpdateData()
 
 	pTransformBuffer->SetData(&g_transform);
 	pTransformBuffer->UpdateData();
+}
+
+void CTransform::CalcDir()
+{
+	if (m_vPrevPos == m_matWorld.Translation())
+		return;
+
+	Vec3 vCurPos = m_matWorld.Translation();
+	float PrevDir = m_vRelativeRot.y;
+	float Rot = GetDir(m_vPrevPos, vCurPos);
+	float Diff = Rot - PrevDir;
+
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot);
+	}
+	else
+		Diff = (Rot - PrevDir);
+
+	if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = XMConvertToRadians(360.f * 3.f * DT);
+		if (bnegative)
+			Diff *= -1.f;
+	}
+	m_vRelativeRot.y = PrevDir + Diff;
 }
 
 

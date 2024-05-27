@@ -4,7 +4,7 @@
 #include "CDevice.h"
 #include "CPathMgr.h"
 #include "CFBXLoader.h"
-
+#include "CInstancingBuffer.h"
 
 
 CMesh::CMesh(bool _bEngine)
@@ -74,6 +74,7 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	pMesh->m_VB = pVB;
 	pMesh->m_tVBDesc = tVtxDesc;
 	pMesh->m_pVtxSys = pSys;
+	pMesh->m_VtxCount = iVtxCount;
 
 	// 인덱스 정보
 	UINT iIdxBufferCount = (UINT)container->vecIdx.size();
@@ -196,8 +197,6 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	}
 
 	return pMesh;
-
-	return pMesh;
 }
 
 void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount)
@@ -255,7 +254,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	IndexInfo.pIdxSysMem = new UINT[IndexInfo.iIdxCount];
 	memcpy(IndexInfo.pIdxSysMem, _IdxSysMem, sizeof(UINT) * IndexInfo.iIdxCount);
 
-	m_vecIdxInfo.push_back(IndexInfo);	
+	m_vecIdxInfo.push_back(IndexInfo);
 }
 
 
@@ -333,13 +332,11 @@ int CMesh::Save(const wstring& _strRelativePath)
 
 	fclose(pFile);
 
-
 	return S_OK;
 }
 
 int CMesh::Load(const wstring& _strFilePath)
 {
-
 	// 읽기모드로 파일열기
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
@@ -355,12 +352,14 @@ int CMesh::Load(const wstring& _strFilePath)
 	SetRelativePath(strRelativePath);
 
 	// 정점데이터
-	UINT iByteSize = 0;
+	int iByteSize = 0;
 	fread(&iByteSize, sizeof(int), 1, pFile);
 
 	m_pVtxSys = (Vtx*)malloc(iByteSize);
 	fread(m_pVtxSys, 1, iByteSize, pFile);
 
+	UINT iVtxCount = (UINT)iByteSize / (UINT)(sizeof(Vtx));
+	m_VtxCount = iVtxCount;
 
 	D3D11_BUFFER_DESC tDesc = {};
 	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -490,6 +489,19 @@ void CMesh::UpdateData(UINT _iSubset)
 	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[_iSubset].pIB.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
+void CMesh::UpdateData_Inst(UINT _iSubset)
+{
+	if (_iSubset >= m_vecIdxInfo.size())
+		assert(nullptr);
+
+	ID3D11Buffer* arrBuffer[2] = { m_VB.Get(), CInstancingBuffer::GetInst()->GetBuffer().Get() };
+	UINT		  iStride[2] = { sizeof(Vtx), sizeof(tInstancingData) };
+	UINT		  iOffset[2] = { 0, 0 };
+
+	CONTEXT->IASetVertexBuffers(0, 2, arrBuffer, iStride, iOffset);
+	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[_iSubset].pIB.Get(), DXGI_FORMAT_R32_UINT, 0);
+}
+
 
 void CMesh::render(UINT _iSubset)
 {
@@ -503,4 +515,12 @@ void CMesh::render_particle(UINT _iParticleCount)
 
 	// 인스턴싱
 	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[0].iIdxCount, _iParticleCount, 0, 0, 0);
+}
+
+void CMesh::render_instancing(UINT _iSubset)
+{
+	UpdateData_Inst(_iSubset);
+
+	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[_iSubset].iIdxCount
+		, CInstancingBuffer::GetInst()->GetInstanceCount(), 0, 0, 0);
 }

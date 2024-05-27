@@ -194,6 +194,38 @@ struct tWeight_4
 };
 
 
+// ===========
+// Instancing
+// ===========
+union uInstID
+{
+	struct {
+		UINT iMesh;
+		WORD iMtrl;
+		WORD iMtrlIdx;
+	};
+	ULONG64 llID;
+};
+
+class CGameObject;
+struct tInstObj
+{
+	CGameObject* pObj;
+	UINT		 iMtrlIdx;
+};
+
+struct tInstancingData
+{
+	Matrix matWorld;
+	Matrix matWV;
+	Matrix matWVP;
+	int    iRowIdx;
+};
+
+
+
+
+
 // Material °è¼ö
 struct tMtrlData
 {
@@ -298,5 +330,22 @@ struct tGlobal
 
 extern tGlobal GlobalData;
 
+struct SpawnInfo
+{
+	wstring PrefabName;
+	Vec3	SpawnPos;
+};
 
+struct Stat
+{
+	int     Max_HP;
+	int     HP;
+	int     Max_MP;
+	int     MP;
+	float   Speed;
+	int     Attack;
+	float   Attack_Speed;
+	int     Spell_Power;
+};
 
+extern Stat g_tPlayerStat;

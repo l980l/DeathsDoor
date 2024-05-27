@@ -111,7 +111,31 @@ int MeshRenderUI::render_update()
 		// 항목 선택시 호출받을 델리게이트 등록
 		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&MeshRenderUI::SelectMaterial);
 	}
-
+	/*int datai0 = 0;
+	int datai1 = 0;
+	int datai2 = 0;
+	float dataf0 = 0.f;
+	float dataf1 = 0.f;
+	float dataf2 = 0.f;
+	GetTarget()->MeshRender()->GetMaterial(0)->GetScalarParam(INT_0, &datai0);
+	GetTarget()->MeshRender()->GetMaterial(0)->GetScalarParam(INT_1, &datai1);
+	GetTarget()->MeshRender()->GetMaterial(0)->GetScalarParam(INT_2, &datai2);
+	GetTarget()->MeshRender()->GetMaterial(0)->GetScalarParam(FLOAT_0, &dataf0);
+	GetTarget()->MeshRender()->GetMaterial(0)->GetScalarParam(FLOAT_1, &dataf1);
+	GetTarget()->MeshRender()->GetMaterial(0)->GetScalarParam(FLOAT_2, &dataf2);
+	ImGui::InputInt("INT_0", &datai0);
+	ImGui::InputInt("INT_1", &datai1);
+	ImGui::InputInt("INT_2", &datai2);
+	ImGui::InputFloat("FLOAT_0", &dataf0);
+	ImGui::InputFloat("FLOAT_1", &dataf1);
+	ImGui::InputFloat("FLOAT_2", &dataf2);
+	GetTarget()->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &datai0);
+	GetTarget()->MeshRender()->GetMaterial(0)->SetScalarParam(INT_1, &datai1);
+	GetTarget()->MeshRender()->GetMaterial(0)->SetScalarParam(INT_2, &datai2);
+	GetTarget()->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_0, &dataf0);
+	GetTarget()->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_1, &dataf1);
+	GetTarget()->MeshRender()->GetMaterial(0)->SetScalarParam(FLOAT_2, &dataf2);*/
+	
 	return TRUE;
 }
 

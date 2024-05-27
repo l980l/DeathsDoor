@@ -20,6 +20,6 @@ public:
 
 
 	//Prefab 생성
-	void SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time);
-	CGameObject* SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos);
+	static void SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time = -1);
+	static CGameObject* SpawnandReturnPrefab(wstring _relativepath, int idx, Vec3 _vWorldPos, float time = -1);
 };

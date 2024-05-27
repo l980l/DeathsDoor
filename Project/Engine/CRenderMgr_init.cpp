@@ -4,7 +4,7 @@
 #include "CResMgr.h"
 #include "CDevice.h"
 #include "CStructuredBuffer.h"
-
+#include "CResMgr.h"
 #include "CMRT.h"
 
 
@@ -113,6 +113,27 @@ void CRenderMgr::init()
 
         m_MRT[(UINT)MRT_TYPE::LIGHT] = new CMRT;
         m_MRT[(UINT)MRT_TYPE::LIGHT]->Create(arrRTTex, arrClear, nullptr);
+    }
+
+    // =============
+    // WaterCamera Texture
+    // =============
+    {
+        Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
+
+        Ptr<CTexture> arrRTTex[8] = {
+              CResMgr::GetInst()->CreateTexture(L"WaterCameraTex"
+                , (UINT)vRenderResolution.x, (UINT)vRenderResolution.y
+                , DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE
+                , D3D11_USAGE_DEFAULT),
+        };
+
+        Vec4          arrClear[8] = { Vec4(0.f, 0.f, 0.f, 0.f) , };
+
+        Ptr<CTexture> DSTex = nullptr;
+
+        m_MRT[(UINT)MRT_TYPE::WATER] = new CMRT;
+        m_MRT[(UINT)MRT_TYPE::WATER]->Create(arrRTTex, arrClear, DSTex);
     }
 
     // =============

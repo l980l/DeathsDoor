@@ -37,9 +37,9 @@ void CLandScape::CreateMesh()
 	Vtx v;
 	vector<Vtx> vecVtx;
 
-	for (int i = 0; i <= m_iFaceZ; ++i)
+	for (UINT i = 0; i <= m_iFaceZ; ++i)
 	{
-		for (int j = 0; j <= m_iFaceX; ++j)
+		for (UINT j = 0; j <= m_iFaceX; ++j)
 		{
 			v.vPos = Vec3((float)j, 0.f, (float)i);
 			v.vUV = Vec2((float)j, (float)m_iFaceZ - i);
@@ -54,9 +54,9 @@ void CLandScape::CreateMesh()
 
 	vector<UINT> vecIdx;
 
-	for (int i = 0; i < m_iFaceZ; ++i)
+	for (UINT i = 0; i < m_iFaceZ; ++i)
 	{
-		for (int j = 0; j < m_iFaceX; ++j)
+		for (UINT j = 0; j < m_iFaceX; ++j)
 		{
 			// 0
 			// | \

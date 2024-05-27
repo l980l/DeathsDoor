@@ -676,8 +676,33 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.clear();
 }
 
+
 void CResMgr::CreateDefaultGraphicsShader()
 {
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"POSITION", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"COLOR", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32_FLOAT,		"TEXCOORD", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"TANGENT", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"NORMAL", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32_FLOAT,		"BINORMAL", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"BLENDWEIGHT", 0, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"BLENDINDICES", 0, 0);
+
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 1);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 2);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WORLD", 1, 3);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 1);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 2);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WV", 1, 3);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 0);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 1);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 2);
+	AddInputLayout(DXGI_FORMAT_R32G32B32A32_FLOAT,	"WVP", 1, 3);
+	AddInputLayout(DXGI_FORMAT_R32_UINT,			"ROWINDEX", 1, 0);
+
+
 	Ptr<CGraphicsShader> pShader = nullptr;
 
 	// ============================
@@ -694,11 +719,11 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);//cull none
 	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::MASK);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);//mask
 
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
 
 	// Param
 	pShader->AddTexParam(TEX_0, "Output Texture");
@@ -724,7 +749,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::MASK);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);//Mask
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 
@@ -787,11 +812,13 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
-	// Param
+	// Param	
 	pShader->AddTexParam(TEX_0, "Output Texture");
 	pShader->AddTexParam(TEX_1, "Normal Texture");
 
 	AddRes(pShader->GetKey(), pShader);
+
+
 
 
 	// =================
@@ -860,6 +887,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 
 	AddRes(pShader->GetKey(), pShader);
+
 
 	// ============================
 	// ParticleRender
@@ -945,6 +973,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 
 	AddRes(pShader->GetKey(), pShader);
+
+
 
 	// ============================
 	// GrayShader
@@ -1141,12 +1171,94 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UNDEFINED);
 
 	AddRes<CGraphicsShader>(L"DepthMapShader", pShader);
+
+
+	// ============================
+	// WindShader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : POSTPROCESS
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"WindShader");
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_WindShader");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_WindShader");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	AddRes(pShader->GetKey(), pShader);
+
+
+	// ============================
+	// WaterShader
+	// RasterizerState      : CULL_BACK
+	// BlendState           : Mask
+	// DepthStencilState    : Less
+	//
+	// Parameter
+	// g_tex_0              : Output Texture
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"WaterShader");
+	pShader->CreateVertexShader(L"shader\\water.fx", "VS_Water");
+	pShader->CreatePixelShader(L"shader\\water.fx", "PS_Water");
+	/*pShader->CreateVertexShader(L"shader\\std3d_deferred.fx", "VS_Std3D_Deferred");
+	pShader->CreatePixelShader(L"shader\\std3d_deferred.fx", "PS_Std3D_Deferred");*/
+
+	pShader->SetRSType(RS_TYPE::CULL_FRONT);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::MASK);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
+
+	// Param
+	pShader->AddTexParam(TEX_0, "Output Texture");
+	pShader->AddTexParam(TEX_1, "Normal Texture");
+
+	AddRes(pShader->GetKey(), pShader);
+
+	// ============================
+	// GaussianBlurShader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : DOMAIN_LIGHT
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"GaussianBlurShader");
+	pShader->CreateVertexShader(L"shader\\gaussianblur.fx", "VS_GaussianBlur");
+	pShader->CreatePixelShader(L"shader\\gaussianblur.fx", "PS_GaussianBlur");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
+	AddRes(pShader->GetKey(), pShader);
+
+	// ============================
+	// FlickerShader
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_TEST_NO_WRITE
+	// BS_TYPE : DEFAULT	 
+	// Domain : DOMAIN_UI
+	// ============================
+	pShader = new CGraphicsShader;
+	pShader->SetKey(L"FlickerShader");
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Flicker");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Flicker");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+	
+	AddRes(pShader->GetKey(), pShader);
 }
 
 
 #include "CSetColorShader.h"
 #include "CParticleUpdateShader.h"
 #include "CAnimation3DShader.h"
+#include "CCopyBoneShader.h"
 
 void CResMgr::CreateDefaultComputeShader()
 {
@@ -1168,6 +1280,12 @@ void CResMgr::CreateDefaultComputeShader()
 	pCS = new CAnimation3DShader(256, 1, 1);
 	pCS->SetKey(L"Animation3DUpdateCS");
 	pCS->CreateComputeShader(L"shader\\animation3d.fx", "CS_Animation3D");
+	AddRes(pCS->GetKey(), pCS);
+
+	// Animation Matrix Update ½¦ÀÌ´õ
+	pCS = new CCopyBoneShader(1024, 1, 1);
+	pCS->SetKey(L"CopyBoneCS");
+	pCS->CreateComputeShader(L"shader\\copybone.fx", "CS_CopyBoneMatrix");
 	AddRes(pCS->GetKey(), pCS);
 }
 
@@ -1295,4 +1413,24 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DepthMapShader"));
 	AddRes<CMaterial>(L"DepthMapMtrl", pMtrl);
+
+	// Wind Material
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"WindShader"));
+	AddRes<CMaterial>(L"WindMtrl", pMtrl);
+
+	// Water Material
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"WaterShader"));
+	AddRes(L"WaterMtrl", pMtrl);
+
+	// GaussianBlurMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"GaussianBlurShader"));
+	AddRes(L"GaussianBlurMtrl", pMtrl);
+
+	// FlickerMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"FlickerShader"));
+	AddRes(L"FlickerMtrl", pMtrl);
 }

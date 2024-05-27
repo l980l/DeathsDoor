@@ -13,6 +13,8 @@
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 
+#define CAMERASHAKE(range, speed, term) CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(range, speed, term)
+
 #define MAX_LAYER 32
 #define MAX_MIP 8
 
@@ -27,6 +29,7 @@ enum class MRT_TYPE
 	DECAL,
 	LIGHT,
 	SHADOW,
+	WATER,
 	END,
 };
 
@@ -231,7 +234,7 @@ enum class EVENT_TYPE
 
 	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress
 
-	LEVEL_CHANGE,	
+	LEVEL_CHANGE,	// wParam : Level, LParam : LEVEL_TYPE
 };
 
 
@@ -242,6 +245,7 @@ enum class SHAPE_TYPE
 	CUBE,
 	SPHERE,
 	FRUSTUM,
+	CAPSULE,
 	END,
 };
 
@@ -297,14 +301,21 @@ enum class PARTICLE_MODULE
 enum class LAYER
 {
 	DEFAULT,
-	TILE,
+	MAINCAMERA,
+	SUBCAMERA,
 	PLAYER,
 	MONSTER,
 	PLAYERPROJECTILE,
 	MONSTERPROJECTILE,
 	WALL,
 	ITEM,
-	BLANK,
+	GROUND,
+	FALLAREA,
+	LADDER, 
+	ANCHOR,
+	BRAIZER,
+	NPC, 
+	LEVELCHANGEDOOR,
 
 	UI = 31,
 };
@@ -324,5 +335,68 @@ enum class LEVEL_TYPE
 	ICE_FIELD,
 	ICE_BOSS,
 	HALL,
+	LOADING,
+	START,
 	END
+};
+
+enum class PLAYERANIM_TYPE
+{
+	IDLE,
+	LADDER_DOWN,
+	LADDER_UP,
+	LADDER_FINISH,
+	FALL,
+	HOOK,
+	HOOKING,
+	MAGIC_FIRE,
+	MAGIC_BOMB,
+	MAGIC_BOMB_FINISH,
+	GETITEM,
+	DANCE,
+	PICKITEM,
+	SLASH_R,
+	SLASH_L,
+	WALK,
+	RUN,
+	CHARGE_L,
+	CHARGE_R,
+	CHARGE_MAX_R,
+	DODGE,
+	DODGE_SLASH,
+	HIT,
+	HIT_RECOVER,
+	HIT_IDLE,
+	CHARGE_MAX_L,
+	CHARGE_ATTACK_R,
+	CHARGE_ATTACK_L,
+	ARROW,
+	END,
+};
+
+extern LEVEL_TYPE g_tNextLevel;
+
+enum class PLAYER_MAGIC
+{
+	ARROW,
+	FIRE,
+	BOMB,
+	HOOK,
+	END,
+};
+
+enum class PLAYER_UPGRADE
+{
+	ATTACK,
+	ATK_SPEED,
+	SPEED,
+	MAGIC,
+	END,
+};
+
+enum class CHAINPATERN
+{
+	ONE,
+	CROSS,
+	SPREAD,
 };

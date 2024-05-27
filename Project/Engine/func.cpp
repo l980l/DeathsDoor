@@ -9,6 +9,10 @@
 #include "CRenderMgr.h"
 #include "ptr.h"
 #include "CResMgr.h"
+#include "CKeyMgr.h"
+#include "CDevice.h"
+#include "CRigidbody.h"
+#include "CTimeMgr.h"
 
 
 
@@ -17,6 +21,11 @@
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
 	_NewObject->Transform()->SetRelativePos(_vWorldPos);
+
+	if (_NewObject->Rigidbody())
+	{
+		_NewObject->Rigidbody()->SetRigidPos(_vWorldPos);
+	}
 
 	tEvent evn = {};
 
@@ -314,4 +323,243 @@ Vec3 DecomposeRotMat(const Matrix& _matRot)
 		}
 	}
 	return vNewRot;
+}
+
+float GetDistance(Vec3 _Vec1, Vec3 _Vec2)
+{
+	float a, b, c;
+	a = _Vec1.x - _Vec2.x;
+	b = _Vec1.y - _Vec2.y;
+	c = _Vec1.z - _Vec2.z;
+
+	return sqrt(a*a + b*b + c*c);
+}
+
+float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
+{
+	// 아래축을 기준으로 CurPos에서 TargetPos를 바라보는 angle 반환
+	Vec3 CurPos = _vStart;
+	Vec2 vDefault = Vec2(0.f, -1.f);
+	Vec3 TargetPos = _vTarget;
+	Vec2 vDir = Vec2(TargetPos.x - CurPos.x, TargetPos.z - CurPos.z);
+	vDir.Normalize();
+	float angle = (float)acos(vDir.Dot(vDefault));
+
+	if (vDir.x > 0.f)
+		angle = XM_2PI - angle;
+
+	if (angle > XM_PI)
+		angle = angle - XM_2PI;
+	else if (angle < -XM_PI)
+		angle = angle + XM_2PI;
+
+	if(_degree)
+		angle *= (180.f / XM_PI);
+
+	return angle;
+}
+
+float GetSmoothDir(CGameObject* _pStartObject
+	, CGameObject* _pTargetObj, float _degree)
+{
+	Vec3 vOwnerPos = _pStartObject->Transform()->GetWorldPos();
+	Vec3 vTargetPos = _pTargetObj->Transform()->GetWorldPos();
+	Vec3 vPrevDir = _pStartObject->Transform()->GetRelativeRot();
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vOwnerPos, vTargetPos);
+	float Diff = Rot - PrevDir;
+
+	if (Diff > XM_PI)
+		Diff = -(XM_2PI - Rot + PrevDir);
+	else if (Diff < -XM_PI)
+		Diff = (XM_2PI - PrevDir + Rot);
+	else
+		Diff = (Rot - PrevDir);
+
+	if (abs(Diff) > XMConvertToRadians(360.f * DT))
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = XMConvertToRadians(360.f * DT);
+		if (bnegative)
+			Diff *= -1.f;
+	}
+
+	return PrevDir + Diff;
+}
+
+float GetSmoothDir(Vec3 _vStart, Vec3 _vTarget, Vec3 _vPrevDir, float _degree)
+{
+	Vec3 vOwnerPos = _vStart;
+	Vec3 vTargetPos = _vTarget;
+	Vec3 vPrevDir = _vPrevDir;
+	float PrevDir = vPrevDir.y;
+	float Rot = GetDir(vOwnerPos, vTargetPos);
+	float Diff = Rot - PrevDir;
+
+	if (Diff > XM_PI)
+	{
+		Diff = -(XM_2PI - Rot + PrevDir) * (180.f / XM_PI);
+	}
+	else if (Diff < -XM_PI)
+	{
+		Diff = (XM_2PI - PrevDir + Rot) * (180.f / XM_PI);
+	}
+	else
+		Diff = (Rot - PrevDir) * (180.f / XM_PI);
+
+	if (abs(Diff) > 0.1f)
+	{
+		bool bnegative = false;
+		if (Diff < 0)
+			bnegative = true;
+
+		Diff = bnegative ? -_degree / 180.f * XM_PI : _degree / 180.f * XM_PI;
+	}
+
+	return PrevDir + Diff;
+}
+
+void AddForceCentertoMouseDir(CGameObject* _pProjectile)
+{
+	Vec2 vCursorPos = CKeyMgr::GetInst()->GetMousePos();
+	vCursorPos -= CDevice::GetInst()->GetRenderResolution() / 2.f;
+	Vec3 vMousePos = Vec3(vCursorPos.x, 0.f, -vCursorPos.y);
+	float fRot = GetDir(Vec3(0.f, 0.f, 0.f), vMousePos);
+	_pProjectile->Transform()->SetRelativeRot(XM_PI * 1.5f, fRot, 0.f);
+
+	Vec3 AttackDir = Vec3(0.f, 0.f, 0.f);
+	AttackDir = Vec3(0.f, 0.f, 0.f) - vMousePos;
+	AttackDir.Normalize();
+	AttackDir *= 500.f;
+	AttackDir.y = 0.f;
+	_pProjectile->Rigidbody()->SetVelocity(-AttackDir);
+}
+
+int GetSizeofFormat(DXGI_FORMAT _eFormat)
+{
+	int iRetByte = 0;
+	switch (_eFormat)
+	{
+	case DXGI_FORMAT_R32G32B32A32_TYPELESS:
+	case DXGI_FORMAT_R32G32B32A32_FLOAT:
+	case DXGI_FORMAT_R32G32B32A32_UINT:
+	case DXGI_FORMAT_R32G32B32A32_SINT:
+		iRetByte = 128;
+		break;
+
+	case DXGI_FORMAT_R32G32B32_TYPELESS:
+	case DXGI_FORMAT_R32G32B32_FLOAT:
+	case DXGI_FORMAT_R32G32B32_UINT:
+	case DXGI_FORMAT_R32G32B32_SINT:
+		iRetByte = 96;
+		break;
+	case DXGI_FORMAT_R16G16B16A16_TYPELESS:
+	case DXGI_FORMAT_R16G16B16A16_FLOAT:
+	case DXGI_FORMAT_R16G16B16A16_UNORM:
+	case DXGI_FORMAT_R16G16B16A16_UINT:
+	case DXGI_FORMAT_R16G16B16A16_SNORM:
+	case DXGI_FORMAT_R16G16B16A16_SINT:
+	case DXGI_FORMAT_R32G32_TYPELESS:
+	case DXGI_FORMAT_R32G32_FLOAT:
+	case DXGI_FORMAT_R32G32_UINT:
+	case DXGI_FORMAT_R32G32_SINT:
+	case DXGI_FORMAT_R32G8X24_TYPELESS:
+	case DXGI_FORMAT_D32_FLOAT_S8X24_UINT:
+	case DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS:
+	case DXGI_FORMAT_X32_TYPELESS_G8X24_UINT:
+		iRetByte = 64;
+		break;
+	case DXGI_FORMAT_R10G10B10A2_TYPELESS:
+	case DXGI_FORMAT_R10G10B10A2_UNORM:
+	case DXGI_FORMAT_R10G10B10A2_UINT:
+	case DXGI_FORMAT_R11G11B10_FLOAT:
+	case DXGI_FORMAT_R8G8B8A8_TYPELESS:
+	case DXGI_FORMAT_R8G8B8A8_UNORM:
+	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+	case DXGI_FORMAT_R8G8B8A8_UINT:
+	case DXGI_FORMAT_R8G8B8A8_SNORM:
+	case DXGI_FORMAT_R8G8B8A8_SINT:
+	case DXGI_FORMAT_R16G16_TYPELESS:
+	case DXGI_FORMAT_R16G16_FLOAT:
+	case DXGI_FORMAT_R16G16_UNORM:
+	case DXGI_FORMAT_R16G16_UINT:
+	case DXGI_FORMAT_R16G16_SNORM:
+	case DXGI_FORMAT_R16G16_SINT:
+	case DXGI_FORMAT_R32_TYPELESS:
+	case DXGI_FORMAT_D32_FLOAT:
+	case DXGI_FORMAT_R32_FLOAT:
+	case DXGI_FORMAT_R32_UINT:
+	case DXGI_FORMAT_R32_SINT:
+	case DXGI_FORMAT_R24G8_TYPELESS:
+	case DXGI_FORMAT_D24_UNORM_S8_UINT:
+	case DXGI_FORMAT_R24_UNORM_X8_TYPELESS:
+	case DXGI_FORMAT_X24_TYPELESS_G8_UINT:
+	case DXGI_FORMAT_B8G8R8A8_UNORM:
+	case DXGI_FORMAT_B8G8R8X8_UNORM:
+		iRetByte = 32;
+		break;
+	case DXGI_FORMAT_R8G8_TYPELESS:
+	case DXGI_FORMAT_R8G8_UNORM:
+	case DXGI_FORMAT_R8G8_UINT:
+	case DXGI_FORMAT_R8G8_SNORM:
+	case DXGI_FORMAT_R8G8_SINT:
+	case DXGI_FORMAT_R16_TYPELESS:
+	case DXGI_FORMAT_R16_FLOAT:
+	case DXGI_FORMAT_D16_UNORM:
+	case DXGI_FORMAT_R16_UNORM:
+	case DXGI_FORMAT_R16_UINT:
+	case DXGI_FORMAT_R16_SNORM:
+	case DXGI_FORMAT_R16_SINT:
+	case DXGI_FORMAT_B5G6R5_UNORM:
+	case DXGI_FORMAT_B5G5R5A1_UNORM:
+		iRetByte = 16;
+		break;
+	case DXGI_FORMAT_R8_TYPELESS:
+	case DXGI_FORMAT_R8_UNORM:
+	case DXGI_FORMAT_R8_UINT:
+	case DXGI_FORMAT_R8_SNORM:
+	case DXGI_FORMAT_R8_SINT:
+	case DXGI_FORMAT_A8_UNORM:
+		iRetByte = 8;
+		break;
+		// Compressed format; http://msdn2.microsoft.com/en-us/library/bb694531(VS.85).aspx
+	case DXGI_FORMAT_BC2_TYPELESS:
+	case DXGI_FORMAT_BC2_UNORM:
+	case DXGI_FORMAT_BC2_UNORM_SRGB:
+	case DXGI_FORMAT_BC3_TYPELESS:
+	case DXGI_FORMAT_BC3_UNORM:
+	case DXGI_FORMAT_BC3_UNORM_SRGB:
+	case DXGI_FORMAT_BC5_TYPELESS:
+	case DXGI_FORMAT_BC5_UNORM:
+	case DXGI_FORMAT_BC5_SNORM:
+		iRetByte = 128;
+		break;
+		// Compressed format; http://msdn2.microsoft.com/en-us/library/bb694531(VS.85).aspx
+	case DXGI_FORMAT_R1_UNORM:
+	case DXGI_FORMAT_BC1_TYPELESS:
+	case DXGI_FORMAT_BC1_UNORM:
+	case DXGI_FORMAT_BC1_UNORM_SRGB:
+	case DXGI_FORMAT_BC4_TYPELESS:
+	case DXGI_FORMAT_BC4_UNORM:
+	case DXGI_FORMAT_BC4_SNORM:
+		iRetByte = 64;
+		break;
+		// Compressed format; http://msdn2.microsoft.com/en-us/library/bb694531(VS.85).aspx
+	case DXGI_FORMAT_R9G9B9E5_SHAREDEXP:
+		iRetByte = 32;
+		break;
+		// These are compressed, but bit-size information is unclear.
+	case DXGI_FORMAT_R8G8_B8G8_UNORM:
+	case DXGI_FORMAT_G8R8_G8B8_UNORM:
+		iRetByte = 32;
+		break;
+	case DXGI_FORMAT_UNKNOWN:
+	default:
+		return -1;
+	}
+
+	return iRetByte / 8;
 }

@@ -47,12 +47,11 @@ CDetourMgr::~CDetourMgr()
 
 void CDetourMgr::init()
 {
-	ChangeLevel(LEVEL_TYPE::HALL);
 }
 
 void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 {
-	if(nullptr != m_pNaviMesh)
+	if (nullptr != m_pNaviMesh)
 		delete m_pNaviMesh;
 	m_pNaviMesh = nullptr;
 	m_pPlayer = nullptr;
@@ -60,22 +59,22 @@ void CDetourMgr::ChangeLevel(LEVEL_TYPE _LevelType)
 	switch (_LevelType)
 	{
 	case LEVEL_TYPE::CASTLE_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Navi.bin");
 		break;
 	case LEVEL_TYPE::CASTLE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Castle_Boss_Navi.bin");
 		break;
 	case LEVEL_TYPE::FOREST_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Forest_Navi.bin");
 		break;
 	case LEVEL_TYPE::ICE_FIELD:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Ice.bin");
 		break;
 	case LEVEL_TYPE::ICE_BOSS:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		//LoadNavMeshFromBinFile("Navi\\Castle_Map.bin");
 		break;
 	case LEVEL_TYPE::HALL:
-		LoadNavMeshFromBinFile("Navi\\all_tiles_navmesh.bin");
+		LoadNavMeshFromBinFile("Navi\\Hall.bin");
 		break;
 	}
 }
@@ -140,12 +139,33 @@ void CDetourMgr::LoadNavMeshFromBinFile(const char* path)
 	fclose(fp);
 }
 
+void CDetourMgr::RegisterPlayer(CGameObject* _pPlayer)
+{
+	if (nullptr == m_pPlayer)
+		m_pPlayer = _pPlayer;
+}
+
+void CDetourMgr::DeletePlayer()
+{
+	if (nullptr != m_pPlayer)
+		m_pPlayer = nullptr;
+}
+
 Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
+{	
+	if (nullptr == m_pPlayer)
+	{
+		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+	}
+
+	return GetPathtoTarget(_vStartPos, m_pPlayer->Transform()->GetWorldPos(), ActualPathCount);
+}
+
+Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* ActualPathCount)
 {
 	if (nullptr == m_pNaviMesh)
 		assert(nullptr);
-	if (nullptr == m_pPlayer)
-		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+
 	float actualPath[256 * 3] = { 0.f, };
 	for (int i = 0; i < 256 * 3; i++)
 		actualPath[i] = 0.0f;
@@ -161,26 +181,17 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	startpos[2] = -_vStartPos.z;
 
 	float endpos[3] = {};
-	Vec3 vEndPos = m_pPlayer->Transform()->GetWorldPos();
+	Vec3 vEndPos = _vTargetPos;
 	endpos[0] = vEndPos.x;
 	endpos[1] = vEndPos.y;
 	endpos[2] = -vEndPos.z;
 
 	dtPolyRef startRef, endRef;
-	float polyPickExt[3] = { 3000,3000,3000 }; // 범위를 제한하기 위한 벡터
+	float polyPickExt[3] = { 30000,30000,30000 }; // 범위를 제한하기 위한 벡터
 
 	dtQueryFilter filter;
-	filter.setIncludeFlags(0xFFFF); // Include all polygons in pathfinding.
-	filter.setExcludeFlags(0); // Exclude none of the polygons.
-
-
-	// 땅, 벽, 물 같은 Mesh 종류에 따라 넘을 수 있는 정도를 설정하는 필터값
-	// 현재 사용 불가능
-	//// Set cost for area. Area values are usually defined in the Recast/Detour code.
-	//// Let's assume that 1 is ground, 2 is water, and 3 is a wall.
-	//filter.setAreaCost(1, 1.0f); // Set cost for ground area.
-	//filter.setAreaCost(2, 10.0f); // Set high cost for water area.
-	//filter.setAreaCost(3, FLT_MAX); // Set infinite cost for wall area.
+	filter.setIncludeFlags(0xFFFF); // 길찾기에 사용될 모든 폴리곤 참조.
+	filter.setExcludeFlags(0); // 폴리곤을 제외하지 않음.
 
 	navQuery->findNearestPoly(startpos, polyPickExt, &filter, &startRef, 0);
 	navQuery->findNearestPoly(endpos, polyPickExt, &filter, &endRef, 0);
@@ -210,4 +221,16 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, int* ActualPathCount)
 	}
 
 	return Path;
+}
+
+float CDetourMgr::GetDirtoTarget(Vec3 _vStartPos)
+{
+	Vec3 vPlayerPos = m_pPlayer->Transform()->GetWorldPos();
+	
+	return GetDir(vPlayerPos, _vStartPos);;
+}
+
+float CDetourMgr::GetSmoothDirtoTarget(CGameObject* _pStartObj, float _fdegree)
+{
+	return GetSmoothDir(_pStartObj, m_pPlayer, _fdegree);
 }

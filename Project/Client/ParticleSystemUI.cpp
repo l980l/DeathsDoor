@@ -13,6 +13,7 @@ ParticleSystemUI::ParticleSystemUI()
 	: ComponentUI("##ParticleSystemUI", COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_pParticleSystem(nullptr)
 	, m_tModuleData{}
+	, m_iEmissive(0)
 {
 	SetName("ParticleSysyem");
 }
@@ -58,12 +59,21 @@ int ParticleSystemUI::render_update()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	ModuleOnOff("Add Velocity", "##Add_Velocity", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
-	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY])
-		AddVelocityModule();
+	// Emissive 여부
+	bool bEmissive = GetTarget()->ParticleSystem()->GetEmissive();
+	ImGui::Checkbox("Emissive", &bEmissive);
+	if (bEmissive)
+		m_iEmissive = 1;
+	else
+		m_iEmissive = 0;
+	GetTarget()->ParticleSystem()->SetEmissive(m_iEmissive);
 
 	ImGui::NewLine();
 	ImGui::Separator();
+
+	ModuleOnOff("Velocity", "##Velocity_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
+	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ADD_VELOCITY])
+		AddVelocityModule();
 
 	ModuleOnOff("Drag        ", "##Drag_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG]);
 	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::DRAG])
@@ -79,14 +89,9 @@ int ParticleSystemUI::render_update()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	ModuleOnOff("VelocityAlignment", "##Velocity_Alignment", m_tModuleData.VelocityAlignment);
-
-	ImGui::NewLine();
-	ImGui::Separator();
-
-	ModuleOnOff("VelocityScale", "##Velocity_Scale", m_tModuleData.VelocityScale);
-	if (1 == m_tModuleData.VelocityScale)
-		VelocityScaleModule();
+	ModuleOnOff("Render", "##Render_Module", m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER]);
+	if (1 == m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER])
+		RenderModule();
 
 	ImGui::NewLine();
 	ImGui::Separator();
@@ -194,6 +199,12 @@ void ParticleSystemUI::SpawnModule()
 	string SpawnType[2] = { "BOX", "SPHERE" };
 	string TypeName = SpawnType[m_tModuleData.SpawnShapeType];
 	ImGui::SliderInt("##Spawn_ShapeType", &m_tModuleData.SpawnShapeType, 0, 1, TypeName.c_str());
+
+	ImGui::Text("Space       ");
+	ImGui::SameLine();
+	string SpaceType[2] = { "World", "Local" };
+	string SpaceName = SpaceType[m_tModuleData.Space];
+	ImGui::SliderInt("##Spawn_Space", &m_tModuleData.Space, 0, 1, SpaceName.c_str());
 
 	if (0 == m_tModuleData.SpawnShapeType)
 	{
@@ -416,8 +427,16 @@ void ParticleSystemUI::RandomForceModule()
 	ImGui::DragFloat("##Noise_Force", &m_tModuleData.fNoiseForce);
 }
 
-void ParticleSystemUI::VelocityScaleModule()
+void ParticleSystemUI::RenderModule()
 {
+	ImGui::Text("Velocity Alignment    ");
+	ImGui::SameLine();
+	ImGui::DragInt("##Velocity_Alignment", &m_tModuleData.VelocityAlignment);
+
+	ImGui::Text("Velocity Scale    ");
+	ImGui::SameLine();
+	ImGui::DragInt("##Velocity_Scale", &m_tModuleData.VelocityScale);
+
 	ImGui::Text("MaxScale    ");
 	ImGui::SameLine();
 	ImGui::DragFloat3("##MaxVelocityScale", &m_tModuleData.vMaxVelocityScale.x);
@@ -425,6 +444,11 @@ void ParticleSystemUI::VelocityScaleModule()
 	ImGui::Text("MaxSpeed    ");
 	ImGui::SameLine();
 	ImGui::DragFloat("##MaxSpeed", &m_tModuleData.vMaxSpeed);
+}
+
+void ParticleSystemUI::VelocityScaleModule()
+{
+
 }
 
 void ParticleSystemUI::AnimationModule()
@@ -506,6 +530,7 @@ void ParticleSystemUI::SaveParticle()
 		wchar_t szNum[50] = {};
 		size_t iFrmCount = m_tModuleData.AddVelocityType;
 		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwrite(&m_iEmissive, sizeof(int), 1, pFile); 
 		fwprintf_s(pFile, L"[AddVelocityType]\n");
 		fwprintf_s(pFile, szNum);
 		fwprintf_s(pFile, L"\n\n");
@@ -581,6 +606,12 @@ void ParticleSystemUI::SaveParticle()
 		fwprintf_s(pFile, szNum);
 		fwprintf_s(pFile, L"\n\n");
 
+		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ANIMATION];
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[ModuleCheck=ANIMATION]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
 		iFrmCount = m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::SCALE_CHANGE];
 		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
 		fwprintf_s(pFile, L"[ModuleCheck=SCALE_CHANGE]\n");
@@ -642,6 +673,33 @@ void ParticleSystemUI::SaveParticle()
 		fwprintf_s(pFile, L"[vMaxVelocityScale]\n");
 		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vMaxVelocityScale.x, m_tModuleData.vMaxVelocityScale.y, m_tModuleData.vMaxVelocityScale.z, m_tModuleData.vMaxVelocityScale.w);
 		fwprintf_s(pFile, L"\n\n");
+
+		//Animation module members
+		iFrmCount = m_tModuleData.iFrmCount;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[FrmCount]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		iFrmCount = m_tModuleData.iXCount;
+		_itow_s((int)iFrmCount, szNum, 50, 10);//정수를 문자열로 변환
+		fwprintf_s(pFile, L"[XCount]\n");
+		fwprintf_s(pFile, szNum);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[LeftTop]\n");
+		fwprintf_s(pFile, L"%.2f %.2f \n", m_tModuleData.vLeftTop.x, m_tModuleData.vLeftTop.y);
+		fwprintf_s(pFile, L"\n\n");
+		
+		fwprintf_s(pFile, L"[Slice]\n");
+		fwprintf_s(pFile, L"%.2f %.2f \n", m_tModuleData.vSlice.x, m_tModuleData.vSlice.y);
+		fwprintf_s(pFile, L"\n\n");
+
+		fwprintf_s(pFile, L"[Offset]\n");
+		fwprintf_s(pFile, L"%.2f %.2f \n", m_tModuleData.vOffset.x, m_tModuleData.vOffset.y);
+		fwprintf_s(pFile, L"\n\n");
+
+
 		fwprintf_s(pFile, L"[vSpawnColor]\n");
 		fwprintf_s(pFile, L"%.2f %.2f %.2f %.2f\n", m_tModuleData.vSpawnColor.x, m_tModuleData.vSpawnColor.y, m_tModuleData.vSpawnColor.z, m_tModuleData.vSpawnColor.w);
 		fwprintf_s(pFile, L"\n\n");
@@ -711,6 +769,8 @@ void ParticleSystemUI::LoadParticle()
 		wstring strTextureRelativePath;
 		while (true)
 		{
+			fread(&m_iEmissive, sizeof(int), 1, pFile);
+			GetTarget()->ParticleSystem()->SetEmissive(m_iEmissive);
 			wchar_t szBuffer[256] = {};
 			fwscanf_s(pFile, L"%s", szBuffer, 256);//문자열 변수를 만들어 문자열을 읽게 할 건데
 
@@ -804,6 +864,11 @@ void ParticleSystemUI::LoadParticle()
 				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::RENDER]);
 			}
 
+			else if (!wcscmp(szBuffer, L"[ModuleCheck=ANIMATION]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.ModuleCheck[(UINT)PARTICLE_MODULE::ANIMATION]);
+			}
+
 			else if (!wcscmp(szBuffer, L"[OffsetAngle]"))
 			{
 				fwscanf_s(pFile, L"%f", &m_tModuleData.OffsetAngle);
@@ -862,6 +927,28 @@ void ParticleSystemUI::LoadParticle()
 			else if (!wcscmp(szBuffer, L"[vMaxSpeed]"))
 			{
 				fwscanf_s(pFile, L"%f", &m_tModuleData.vMaxSpeed);
+			}
+
+			else if (!wcscmp(szBuffer, L"[FrmCount]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.iFrmCount);
+			}
+
+			else if (!wcscmp(szBuffer, L"[XCount]"))
+			{
+				fwscanf_s(pFile, L"%d", &m_tModuleData.iXCount);
+			}
+			else if (!wcscmp(szBuffer, L"[LeftTop]"))
+			{
+				fwscanf_s(pFile, L"%f%f", &m_tModuleData.vLeftTop.x, &m_tModuleData.vLeftTop.y);
+			}
+			else if (!wcscmp(szBuffer, L"[Slice]"))
+			{
+				fwscanf_s(pFile, L"%f%f", &m_tModuleData.vSlice.x, &m_tModuleData.vSlice.y);
+			}
+			else if (!wcscmp(szBuffer, L"[Offset]"))
+			{
+				fwscanf_s(pFile, L"%f%f", &m_tModuleData.vOffset.x, &m_tModuleData.vOffset.y);
 			}
 
 			else if (!wcscmp(szBuffer, L"[vMaxVelocityScale]"))

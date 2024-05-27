@@ -50,9 +50,6 @@ void CMeshRender::render()
 	}
 	
 
-	// 재질 업데이트
-	GetMaterial()->UpdateData();
-
 	// 렌더
 	UINT iSubsetCount = GetMesh()->GetSubsetCount();
 

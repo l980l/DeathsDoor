@@ -51,7 +51,7 @@ InspectorUI::InspectorUI()
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetSize(0.f, 80.f);
+	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetSize(0.f, 200.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
@@ -106,6 +106,7 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetSize(0.f, 210.f);
 	AddChildUI(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
 
+
 	// RenderComponentUI
 	m_RenComUI = new RenderComponentUI;
 	m_RenComUI->SetSize(0.f, 200.f);
@@ -157,12 +158,18 @@ void InspectorUI::init()
 
 void InspectorUI::tick()
 {
-	
+	if (m_pTargetObj && m_pTargetObj->IsDead())
+		SetTargetObject(nullptr);
 }
 
 int InspectorUI::render_update()
 {
-	
+	if (m_pTargetObj && !m_pTargetObj->IsDead())
+	{
+		int iLayer = m_pTargetObj->GetLayerIndex();
+		ImGui::InputInt("LayerIndex", &iLayer, -1, -1, ImGuiInputTextFlags_ReadOnly);
+	}
+
 	return TRUE;
 }
 
@@ -208,10 +215,11 @@ void InspectorUI::SetTargetObject(CGameObject* _Target)
 
 			m_vecScriptUI.push_back(UI);
 			AddChildUI(UI);
-			UI->SetActive(true);			
+			UI->SetSize(0.f, 200.f);
+			UI->SetActive(true);
 		}
 	}
-
+	
 	// ScriptUI 반복문 돌면서 오브젝트의 스크립트수 만큼만 활성화 시킨다.
 	for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
 	{

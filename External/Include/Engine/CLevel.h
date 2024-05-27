@@ -10,6 +10,7 @@ class CLevel :
 private:
     CLayer*         m_arrLayer[MAX_LAYER];
     LEVEL_STATE     m_State;
+    int             m_iLevel_type;
 
 public:
     void begin();
@@ -28,6 +29,8 @@ public:
     
     void ChangeState(LEVEL_STATE _State);
     LEVEL_STATE GetState() { return m_State; }
+    int GetLevelType() { return m_iLevel_type; }
+    void SetLevelType(int _level_type) { m_iLevel_type = _level_type; }
 
 private:
     // 등록된 GameObject 제거

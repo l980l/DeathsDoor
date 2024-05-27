@@ -6,6 +6,7 @@ class CPlyWalk :
 private:
     float   m_fSpeed;
     float   m_fTimeToIdle;
+    bool    m_bIce;
 
 public:
     virtual void tick() override;
@@ -14,9 +15,9 @@ public:
 
     void Move();
 
-    virtual void BeginOverlap(CCollider2D* _Other);
-    virtual void OnOverlap(CCollider2D* _Other);
-    virtual void EndOverlap(CCollider2D* _Other);
+    virtual void BeginOverlap(CCollider3D* _Other);
+    virtual void OnOverlap(CCollider3D* _Other);
+    virtual void EndOverlap(CCollider3D* _Other);
 
     CLONE(CPlyWalk);
 

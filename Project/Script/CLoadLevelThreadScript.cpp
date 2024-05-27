@@ -22,7 +22,27 @@ void CLoadLevelThreadScript::begin()
 {
 	m_LoadingThread = CThreadMgr::GetInst()->Create<CLoadingThread>("Loading");
 
-	m_LoadingThread->SetLoadingLevelPath(L"Level\\TestLevel.lv");
+	switch (g_tNextLevel)
+	{
+	case LEVEL_TYPE::CASTLE_FIELD:
+		m_LoadingThread->SetLoadingLevelPath(L"Level\\Castle.lv");
+		break;
+	case LEVEL_TYPE::CASTLE_BOSS:
+		m_LoadingThread->SetLoadingLevelPath(L"Level\\Castle_Boss.lv");
+		break;
+	case LEVEL_TYPE::FOREST_FIELD:
+		m_LoadingThread->SetLoadingLevelPath(L"Level\\Forest.lv");
+		break;
+	case LEVEL_TYPE::ICE_FIELD:
+		m_LoadingThread->SetLoadingLevelPath(L"Level\\Ice.lv");
+		break;
+	case LEVEL_TYPE::ICE_BOSS:
+		m_LoadingThread->SetLoadingLevelPath(L"Level\\Ice_Boss.lv");
+		break;
+	case LEVEL_TYPE::HALL:
+		m_LoadingThread->SetLoadingLevelPath(L"Level\\Hall.lv");
+		break;
+	}
 
 	m_LoadingThread->SetLoadLevelThreadScript(this);
 
@@ -55,6 +75,7 @@ void CLoadLevelThreadScript::tick()
 		tEvent evn = {};
 		evn.Type = EVENT_TYPE::LEVEL_CHANGE;
 		evn.wParam = (DWORD_PTR)m_LoadLevel;
+		evn.lParam = (DWORD_PTR)m_LoadLevel->GetLevelType();
 
 		CEventMgr::GetInst()->AddEvent(evn);
 

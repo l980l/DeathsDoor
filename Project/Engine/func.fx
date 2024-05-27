@@ -182,6 +182,32 @@ static float GaussianFilter[5][5] =
     0.003f,  0.0133f, 0.0219f, 0.0133f, 0.003f,
 };
 
+float4 Fade_In_Out(float4 _Color, uint _Idx, float _Time)
+{
+    // 1 원본 0 검정
+    static float fRatio = 1.0f;
+
+   // 페이드 아웃
+
+    if (0 == _Idx)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                fRatio -= sin(_Time) * GaussianFilter[i][j];
+            }
+        }
+    }
+   // 페이드 인
+    else if (1 == _Idx)
+    {
+        fRatio -= cos(_Time);
+    }
+
+    return _Color * fRatio;
+}
+
 void GaussianSample(in Texture2D _NoiseTex, float2 _vResolution, float _NomalizedThreadID, out float3 _vOut)
 {
     float2 vUV = float2(_NomalizedThreadID, 0.5f);       

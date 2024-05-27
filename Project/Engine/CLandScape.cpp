@@ -147,6 +147,11 @@ void CLandScape::render()
 	m_pCrossBuffer->Clear();
 }
 
+void CLandScape::render(UINT _iSubset)
+{
+	render();
+}
+
 void CLandScape::render_depthmap()
 {
 	CRenderComponent::render_depthmap();

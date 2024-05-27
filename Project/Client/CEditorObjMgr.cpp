@@ -26,7 +26,9 @@ CEditorObjMgr::~CEditorObjMgr()
 void CEditorObjMgr::init()
 {
 	// 디버그 쉐이프 생성
-	m_DebugShape[(UINT)SHAPE_TYPE::RECT] = new CGameObjectEx;
+	m_DebugShape[(UINT)
+		
+	SHAPE_TYPE::RECT] = new CGameObjectEx;
 	m_DebugShape[(UINT)SHAPE_TYPE::RECT]->AddComponent(new CTransform);
 	m_DebugShape[(UINT)SHAPE_TYPE::RECT]->AddComponent(new CMeshRender);
 	m_DebugShape[(UINT)SHAPE_TYPE::RECT]->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh_Debug"));
@@ -79,7 +81,6 @@ void CEditorObjMgr::progress()
 	vector<tDebugShapeInfo>& vecInfo = CRenderMgr::GetInst()->GetDebugShapeInfo();
 	m_DebugShapeInfo.insert(m_DebugShapeInfo.end(), vecInfo.begin(), vecInfo.end());
 	vecInfo.clear();
-
 
 	tick();
 

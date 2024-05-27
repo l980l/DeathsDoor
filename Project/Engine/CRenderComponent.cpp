@@ -124,6 +124,17 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial(UINT _idx)
 }
 
 
+ULONG64 CRenderComponent::GetInstID(UINT _iMtrlIdx)
+{
+	if (m_pMesh == NULL || m_vecMtrls[_iMtrlIdx].pCurMtrl == NULL)
+		return 0;
+
+	uInstID id{ (UINT)m_pMesh->GetID(), (WORD)m_vecMtrls[_iMtrlIdx].pCurMtrl->GetID(), (WORD)_iMtrlIdx };
+	return id.llID;
+}
+
+
+
 void CRenderComponent::SaveToLevelFile(FILE* _File)
 {
 	//// 이거 대체 왜 저장함????? 
@@ -138,8 +149,9 @@ void CRenderComponent::SaveToLevelFile(FILE* _File)
 	for (UINT i = 0; i < iMtrlCount; ++i)
 	{
 		SaveResRef(m_vecMtrls[i].pSharedMtrl.Get(), _File);
+		SaveResRef(m_vecMtrls[i].pSharedMtrl->GetTexParam(TEX_0).Get(), _File);
 	}
-
+	
 	fwrite(&m_bDynamicShadow, 1, 1, _File);
 	fwrite(&m_bFrustumCheck, 1, 1, _File);
 	fwrite(&m_fBounding, 1, 1, _File);
@@ -157,7 +169,10 @@ void CRenderComponent::LoadFromLevelFile(FILE* _File)
 	{
 		Ptr<CMaterial> pMtrl;
 		LoadResRef(pMtrl, _File);
+		Ptr<CTexture> pTex;
+		LoadResRef(pTex, _File);
 		m_vecMtrls.resize(iMtrlCount);
+		pMtrl->SetTexParam(TEX_0, pTex);
 		SetMaterial(pMtrl, i);
 	}
 

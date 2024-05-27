@@ -6,7 +6,7 @@
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT)
-	, m_fCamSpeed(500.f)
+	, m_fCamSpeed(1000.f)
 {
 }
 
@@ -70,6 +70,16 @@ void CCameraMoveScript::Camera2DMove()
 
 void CCameraMoveScript::Camera3DMove()
 {
+	CLevel* curlevel = CLevelMgr::GetInst()->GetCurLevel();
+
+	LEVEL_STATE curState = curlevel->GetState();
+	
+	// 이걸 여기다가 박아뒀네 ㅋㅋ
+	//if (curState == LEVEL_STATE::STOP)
+	//{
+	//	curlevel->ChangeState(LEVEL_STATE::PLAY);
+	//}
+
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRot();
 

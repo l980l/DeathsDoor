@@ -12,12 +12,12 @@
 #include "CGameObject.h"
 #include "components.h"
 
-
 enum class SCRIPT_PARAM
 {
     INT,
     FLOAT,
     VEC2,
+    VEC3,
     VEC4,
 };
 

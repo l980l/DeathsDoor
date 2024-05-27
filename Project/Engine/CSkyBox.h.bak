@@ -18,7 +18,7 @@ private:
 
 public:
     void SetType(SKYBOX_TYPE _Type);
-    void SetSkyTexture(Ptr<CTexture> _SkyTex) { m_SkyTex = _SkyTex; }
+    void SetSkyTexture(Ptr<CTexture> _SkyTex) { m_SkyTex = _SkyTex;}
 
     SKYBOX_TYPE GetType() { return m_Type; }
     Ptr<CTexture> GetSkyTex() { return m_SkyTex; }

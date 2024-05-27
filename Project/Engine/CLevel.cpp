@@ -5,6 +5,7 @@
 #include "CGameObject.h"
 
 #include "CRenderMgr.h"
+#include "CPhysXMgr.h"
 
 CLevel::CLevel()
 	: m_arrLayer{}
@@ -84,6 +85,7 @@ void CLevel::ChangeState(LEVEL_STATE _State)
 	else
 	{
 		CRenderMgr::GetInst()->SetRenderFunc(false);
+		
 	}
 }
 

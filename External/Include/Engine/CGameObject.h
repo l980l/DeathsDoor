@@ -23,8 +23,6 @@ class CScript;
 
 #define GET_COMPONENT(Type, TYPE) C##Type* Type() const { return (C##Type*)m_arrCom[(UINT)COMPONENT_TYPE::TYPE]; }
 
-
-
 class CGameObject :
     public CEntity
 {
@@ -41,7 +39,7 @@ private:
     float                   m_LifeTime;
     float                   m_CurLifeTime;
     bool                    m_bLifeSpan;
-
+    
 public:
     void begin();       // 레벨이 시작될 때 호출 or 시작 된 레벨에 합류할 때
     void tick();        
@@ -51,7 +49,9 @@ public:
 
 public:
     void AddComponent(CComponent* _Component);
+    void DeleteComponent(COMPONENT_TYPE _Type);
     void AddChild(CGameObject* _Object);
+    void AddChild(CGameObject* _Object, int _iLayer);
 
     CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
     const vector<CGameObject*>& GetChild() { return m_vecChild; }
@@ -100,6 +100,7 @@ public:
 private:
     void DisconnectFromParent();
     void ChangeToChildType();
+    void ChangeToChildType(int _iLayer);
     void AddParentList();
 
 

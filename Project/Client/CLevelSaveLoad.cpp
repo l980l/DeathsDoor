@@ -9,9 +9,11 @@
 #include <Engine\components.h>
 #include <Engine\CScript.h>
 #include <Engine/CPrefab.h>
+#include <Engine/CPhysXMgr.h>
 #include "commdlg.h"
 
 #include <Script\CScriptMgr.h>
+#include <Script/CSpawnMgr.h>
 
 int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
 {
@@ -31,6 +33,8 @@ int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
     // 레벨 이름 저장
     SaveWString(_Level->GetName(), pFile);
 
+    int level_type = _Level->GetLevelType();
+    fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -62,6 +66,8 @@ int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
 
 CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
 {
+    CPhysXMgr::GetInst()->Clear();
+    CSpawnMgr::GetInst()->Clear();
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
     strPath += _LevelPath;//상대경로
 
@@ -78,7 +84,10 @@ CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
     wstring strLevelName;
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
-
+    
+    int level_type = 0;
+    fread(&level_type, sizeof(int), 1, pFile);
+    NewLevel->SetLevelType(level_type);
 
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
@@ -145,6 +154,8 @@ int CLevelSaveLoad::SaveLevel(CLevel* _Level)
     // 레벨 이름 저장
     SaveWString(_Level->GetName(), pFile);
 
+    int level_type = _Level->GetLevelType();
+    fwrite(&level_type, sizeof(int), 1, pFile);
 
     // 레벨의 레이어들을 저장
     for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -262,6 +273,9 @@ CLevel* CLevelSaveLoad::LoadLevel(LEVEL_STATE _state)
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
 
+    int level_type = 0;
+    fread(&level_type, sizeof(int), 1, pFile);
+    NewLevel->SetLevelType(level_type);
 
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
@@ -356,12 +370,33 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
         case COMPONENT_TYPE::DECAL:
             Component = new CDecal;
             break;
+        case COMPONENT_TYPE::RIGIDBODY:
+            Component = new CRigidbody;
+            break;
         }
 
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
+        if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
+        {
+            CRigidbody* RigidbodyComponent = (CRigidbody*)Component;
+            PxGeometryType::Enum Type = RigidbodyComponent->GetShapeType();
+            Vec3 vSpawnPos = RigidbodyComponent->SetSpawnPos();
+            Vec3 vRigidScale = RigidbodyComponent->GetRigidScale(); 
+            switch (Type)
+            {
+            case PxGeometryType::Enum::eBOX:
+                CPhysXMgr::GetInst()->CreateCube(vSpawnPos, vRigidScale, pObject);
+                break;
+            case PxGeometryType::Enum::eCAPSULE:
+                CPhysXMgr::GetInst()->CreateCapsule(vSpawnPos, vRigidScale.x, vRigidScale.y, pObject);
+                break;
+            case PxGeometryType::Enum::eSPHERE:
+                CPhysXMgr::GetInst()->CreateSphere(vSpawnPos, vRigidScale.x, pObject);
+                break;
+            }
+        }        
     }
-
 
     // 스크립트   
     size_t ScriptCount = 0;
@@ -420,45 +455,41 @@ CGameObject* CLevelSaveLoad::LoadPrefab(const wstring& _strRelativePath)
     CGameObject* pNewObj = CLevelSaveLoad::LoadGameObject(pFile);
     fclose(pFile);
 
-    //pPrefab->RegisterProtoObject(pNewObj);//*
-
-    //CResMgr::GetInst()->AddRes<CPrefab>(_strRelativePath, pPrefab);
-
-
-
     return pNewObj;
 }
 
-void CLevelSaveLoad::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos, float time)
+void CLevelSaveLoad::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
-    CGameObject* newPrefab = LoadGameObject(pFile);
+
+    CGameObject* newObject = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
-    SpawnGameObject(newPrefab, _vWorldPos, ind);
-    if (time != 0)
-        newPrefab->SetLifeSpan(time);
+    SpawnGameObject(newObject, _vWorldPos, ind);
+    if (time >= 0.f)
+        newObject->SetLifeSpan(time);
     fclose(pFile);
 }
-CGameObject* CLevelSaveLoad::SpawnPrefab(wstring _relativepath, Vec3 _vWorldPos)
+CGameObject* CLevelSaveLoad::SpawnandReturnPrefab(wstring _relativepath, int idx, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
     wstring relativepath = _relativepath;
     strFolderpath += relativepath;
+
     FILE* pFile = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
-    int ind = 0;
-    fread(&ind, sizeof(int), 1, pFile);
-    CGameObject* newPrefab = LoadGameObject(pFile);
+
+    CGameObject* newObject = LoadGameObject(pFile);
     Vec3 prefpos = _vWorldPos;
 
-    SpawnGameObject(newPrefab, _vWorldPos, ind);
+    SpawnGameObject(newObject, _vWorldPos, idx);
+    if (time >= 0.f)
+        newObject->SetLifeSpan(time);
     fclose(pFile);
-    return newPrefab;
+    return newObject;
 }
