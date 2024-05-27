@@ -20,6 +20,7 @@ void CGrimKnightBackStep2::tick()
 	{
 		ChangeState(L"LongDistance");
 	}
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGrimKnightBackStep2::Exit()

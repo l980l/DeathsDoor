@@ -16,7 +16,6 @@ CKnightJumpAttack2::~CKnightJumpAttack2()
 
 void CKnightJumpAttack2::Enter()
 {
-	GetOwner()->GetScript<CKnightScript>()->SetDirtoPlayer();
 	GetOwner()->Animator3D()->Play(14, false);
 }
 
@@ -42,4 +41,5 @@ void CKnightJumpAttack2::Exit()
 {
 	m_fDelay = 0.f;
 	m_bAttack = false;
+	GetOwner()->Rigidbody()->ClearForce();
 }

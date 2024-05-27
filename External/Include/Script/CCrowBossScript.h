@@ -4,16 +4,16 @@ class CCrowBossScript :
     public CMonsterScript
 {
 private:
-    Vec3            m_PlayerPos;
-    Vec3            m_MonsterToPlayerDir;
+    Vec3            m_vPlayerPos;
+    Vec3            m_vMonsterToPlayerDir;
     float           m_fPlayerDistance;
     bool            m_bStarePlayer;
     float           m_fPrevHP;          // 이전 HP. HP가 줄었을 때, 데미지 사운드를 재생하기 위해 사용.
     CGameObject*    m_pCrowBossFeather;
 
 public:
-    Vec3 GetPlayerPos() { return m_PlayerPos; }
-    Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }
+    Vec3 GetPlayerPos() { return m_vPlayerPos; }
+    Vec3 GetMonsterToPlayerDir() { return m_vMonsterToPlayerDir; }
     float GetPlayerDistance() { return m_fPlayerDistance; }
 
     bool GetStarePlayer() { return m_bStarePlayer; }

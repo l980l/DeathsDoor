@@ -37,10 +37,10 @@ void CGrimKnightGuardStay::tick()
 	{
 		ChangeState(L"GuardBreak");
 	}
-		
-	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
-	vCurDir.y = CDetourMgr::GetInst()->GetDirtoTarget(GetOwner()->Transform()->GetWorldPos());
-	GetOwner()->Transform()->SetRelativeRot(vCurDir);
+
+	float fDir = GetSmoothDir(GetOwner(), GetOwner()->GetScript<CMonsterScript>()->GetPlayer());
+	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 }
 
 void CGrimKnightGuardStay::Exit()

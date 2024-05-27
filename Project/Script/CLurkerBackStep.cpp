@@ -7,7 +7,7 @@ void CLurkerBackStep::Enter()
 {
 	GetOwner()->Animator3D()->Play(4, false);
 	m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
-	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+	GetOwner()->Rigidbody()->SetVelocityLimit(800.f);
 
 	// Sound
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();

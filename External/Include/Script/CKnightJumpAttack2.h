@@ -3,6 +3,10 @@
 class CKnightJumpAttack2 :
     public CState
 {
+private:
+    float   m_fDelay;
+    bool    m_bAttack;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;

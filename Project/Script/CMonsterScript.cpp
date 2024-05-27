@@ -47,6 +47,8 @@ void CMonsterScript::begin()
 		Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
 		mtrl->SetTexParam(TEX_6, NoiseTextue.Get());
 	}
+
+	Rigidbody()->SetMass(50000.f);
 }
 
 void CMonsterScript::tick()

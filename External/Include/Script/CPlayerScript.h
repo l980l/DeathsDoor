@@ -36,7 +36,7 @@ public:
     void ChangeMagicState();
     void FallCheck();
     void EditorMode();
-    void SetMoveAble(bool _bAble) { m_bDisableMove = _bAble ? false : true; }
+    void SetMovable(bool _bAble) { m_bDisableMove = _bAble ? false : true; }
     bool IsAbleMove() 
     {
         bool bAble = m_bDisableMove ? false : true;

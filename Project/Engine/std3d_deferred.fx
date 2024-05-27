@@ -167,10 +167,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
             float fGrey = (vNoiseTextureColor.r + vNoiseTextureColor.g + vNoiseTextureColor.b) / 3.f;
             
             //threshold on sin time
-            float thresh = (1.f - (g_AccTime - fFirstTime) * 0.5f)
-            +0.5f;
-            float thresh2 = ((1.f - (g_AccTime - fFirstTime) + 0.1f) * 0.5f)
-            +0.5f;
+            float thresh1 = (1.f - (g_AccTime - fFirstTime) * 0.5f) + 0.5f;
+            float thresh2 = ((1.f - (g_AccTime - fFirstTime) + 0.1f) * 0.5f) + 0.5f;
     
             if (fGrey > thresh2)
             {
@@ -181,7 +179,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in) : SV_Target
                 vEmissiveColor = float4(vObjectColor.rgb, 1.f);
             }
     
-            if (fGrey > thresh)
+            if (fGrey > thresh1)
             {
                 vObjectColor.r = 0.f;
                 vObjectColor.g = 0.f;

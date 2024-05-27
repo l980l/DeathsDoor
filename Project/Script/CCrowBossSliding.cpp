@@ -102,7 +102,7 @@ void CCrowBossSliding::AddTargetPos(Vec3 _vTargetPos, Vec3 _vStartPos)
 
 void CCrowBossSliding::SlidingToTargetPos()
 {
-	Vec3 vVelocity = m_vDirtoTarget * 1600.f;
+	Vec3 vVelocity = m_vDirtoTarget * 1200.f;
 	GetOwner()->Rigidbody()->SetVelocity(vVelocity);
 	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, acos(Vec2(0.f, -1.f).Dot(Vec2(-m_vDirtoTarget.x, m_vDirtoTarget.z))), 0.f);
 

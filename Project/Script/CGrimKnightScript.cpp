@@ -61,7 +61,7 @@ void CGrimKnightScript::begin()
 	Stat tInitStat;
 	tInitStat.HP = 300;
 	tInitStat.Max_HP = 300;
-	tInitStat.Speed = 150.f;
+	tInitStat.Speed = 120.f;
 	m_pStateScript->SetStat(tInitStat);
 }
 
@@ -85,7 +85,7 @@ void CGrimKnightScript::tick()
 
 void CGrimKnightScript::CalcDir()
 {
-	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
+	float fDir =  180.f - GetSmoothDir(GetOwner(), m_pPlayer);
 	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
 	GetOwner()->Transform()->SetRelativeRot(vCurDir.x, fDir, 0.f);
 }

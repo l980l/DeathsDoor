@@ -73,6 +73,9 @@ void CCrowBossScript::begin()
 		m_fPrevHP = NewStat.Max_HP;
 	}
 
+	Rigidbody()->SetRigidPos({0.f, 0.f, 1500.f});
+	Rigidbody()->SetMass(50000.f);
+
 	m_pCrowBossFeather = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\CrowBossFeather.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos());
 }
 

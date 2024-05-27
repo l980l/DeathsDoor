@@ -51,15 +51,18 @@ void CKnightScript::begin()
 		m_pStateScript->AddState(L"Hit", new CKnightHit);
 		m_pStateScript->AddState(L"Death", new CKnightDeath);
 
-		m_pStateScript->ChangeState(L"Idle");
+		//m_pStateScript->ChangeState(L"Idle");
+		m_pStateScript->ChangeState(L"Trace");
 	}
+
+	Rigidbody()->SetRigidPos({3075.f, 935.f, 2702.f});
 
 	// 초기 스탯 설정.
 	Stat tInitStat;
 	tInitStat.HP = 400;
 	tInitStat.Max_HP = 400;
 	tInitStat.Attack = 1;
-	tInitStat.Attack_Speed = 10;
+	tInitStat.Attack_Speed = 5;
 	tInitStat.Speed = 150;
 	m_pStateScript->SetStat(tInitStat);
 }

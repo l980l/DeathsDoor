@@ -19,7 +19,6 @@ CKnightJumpAttack::~CKnightJumpAttack()
 
 void CKnightJumpAttack::Enter()
 {
-	GetOwner()->GetScript<CKnightScript>()->SetDirtoPlayer();
 	GetOwner()->Animator3D()->Play(7, false);
 	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
 	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Knight\\KnightSlam1.ogg", 1, 0.1f);
@@ -42,4 +41,5 @@ void CKnightJumpAttack::tick()
 
 void CKnightJumpAttack::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }

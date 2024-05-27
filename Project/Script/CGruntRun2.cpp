@@ -24,7 +24,7 @@ void CGruntRun2::tick()
 	// 공격 범위에 들어온 경우. 손톱 공격 횟수에 따라 공격 패턴을 정한다.
 	if (fDistance < GetOwner()->GetScript<CGruntScript>()->GetAttackRange())
 	{
-		if (m_fCoolTime > 0.5f)
+		if (m_fCoolTime > 0.75f)
 		{
 			if (GetOwner()->GetScript<CGruntScript>()->GetNailAttackCount() < 2)
 			{

@@ -16,6 +16,8 @@ void CGrimKnightGuardBreak::tick()
 	{
 		ChangeState(L"BackStep1");
 	}
+
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGrimKnightGuardBreak::Enter()

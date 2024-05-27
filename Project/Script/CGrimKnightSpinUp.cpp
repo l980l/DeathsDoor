@@ -12,6 +12,7 @@ CGrimKnightSpinUp::~CGrimKnightSpinUp()
 void CGrimKnightSpinUp::Enter()
 {
 	GetOwner()->Animator3D()->Play(2, false);
+
 }
 
 void CGrimKnightSpinUp::tick()
@@ -20,6 +21,7 @@ void CGrimKnightSpinUp::tick()
 	{
 		ChangeState(L"Guard");
 	}
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGrimKnightSpinUp::Exit()

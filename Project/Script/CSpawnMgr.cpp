@@ -48,7 +48,7 @@ void CSpawnMgr::ActivateFence(int _iRoomNum, bool _bOpen)
 
 void CSpawnMgr::ReduceMonsterCount()
 {
-	assert(m_iCurRoomNum != -1);
+	//assert(m_iCurRoomNum != -1);
 	m_mapRoom.find(m_iCurRoomNum)->second->ReduceMonsterCount();
 }
 

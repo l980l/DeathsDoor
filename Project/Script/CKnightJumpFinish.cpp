@@ -27,4 +27,5 @@ void CKnightJumpFinish::tick()
 
 void CKnightJumpFinish::Exit()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 }

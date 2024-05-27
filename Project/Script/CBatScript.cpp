@@ -48,7 +48,7 @@ void CBatScript::begin()
 	Stat tInitStat;
 	tInitStat.HP = 100;
 	tInitStat.Max_HP = 100;
-	tInitStat.Speed = 70.f;
+	tInitStat.Speed = 100.f;
 	m_pStateScript->SetStat(tInitStat);
 }
 

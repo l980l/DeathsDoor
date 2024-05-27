@@ -5,6 +5,7 @@ class CKnightWalk :
 {
 private:
     float m_fWalkSoundDelay;
+    bool m_bAttackOrder;
 
 public:
     virtual void tick() override;

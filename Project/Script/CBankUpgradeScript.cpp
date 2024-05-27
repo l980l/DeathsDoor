@@ -41,7 +41,7 @@ void CBankUpgradeScript::begin()
 
 		m_pStateScript->ChangeState(L"Power");
 	}
-	GetOwner()->Transform()->SetRelativeScale(Vec3(1682.f, 980.f, 1.f));
+	GetOwner()->Transform()->SetRelativeScale(Vec3(2600.f, 700.f, 1.f));
 }
 
 void CBankUpgradeScript::tick()

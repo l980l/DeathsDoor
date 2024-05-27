@@ -21,7 +21,7 @@ void CGhostHit::Enter()
 
 void CGhostHit::tick()
 {
-	GetOwner()->Rigidbody()->SetVelocity(-vDir * 600.f);
+	GetOwner()->Rigidbody()->AddVelocity(-vDir * 1200.f * DT);
 }
 
 void CGhostHit::Exit()

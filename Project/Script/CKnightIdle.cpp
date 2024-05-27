@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CKnightIdle.h"
+#include "CMonsterScript.h"
 
 CKnightIdle::CKnightIdle()
 {
@@ -16,6 +17,8 @@ void CKnightIdle::Enter()
 
 void CKnightIdle::tick()
 {
+	if (GetOwner()->GetScript<CMonsterScript>()->IsDetect())
+		ChangeState(L"Trace");
 }
 
 void CKnightIdle::Exit()

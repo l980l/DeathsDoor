@@ -3,7 +3,7 @@
 #include "CPlayerScript.h"
 
 CPlyLadder::CPlyLadder()
-	: m_fSpeed(80.f)
+	: m_fSpeed(200.f)
 	, m_fStartYPos(0.f)
 	, m_fLadderHeight(0.f)
 	, m_fStartDelay(0.5f)

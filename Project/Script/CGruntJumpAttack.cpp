@@ -10,7 +10,7 @@ void CGruntJumpAttack::Enter()
 
 	// 공격 방향은 처음에만 지정해야 함. 
 	m_Dir = GetOwner()->GetScript<CGruntScript>()->GetMonsterToPlayerDir();
-	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+	GetOwner()->Rigidbody()->SetVelocityLimit(1000.f);
 
 	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CGruntScript>()->GetPlayerPos());
 	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
@@ -37,7 +37,7 @@ void CGruntJumpAttack::tick()
 	{
 		Vec3 Velocity = m_Dir;
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * 30.f * DT;
+		Velocity *= fSpeed * 60.f * DT;
 
 		GetOwner()->Rigidbody()->AddVelocity(Velocity);
 	}

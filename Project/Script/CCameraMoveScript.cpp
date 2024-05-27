@@ -73,11 +73,12 @@ void CCameraMoveScript::Camera3DMove()
 	CLevel* curlevel = CLevelMgr::GetInst()->GetCurLevel();
 
 	LEVEL_STATE curState = curlevel->GetState();
+	
+	// 이걸 여기다가 박아뒀네 ㅋㅋ
 	//if (curState == LEVEL_STATE::STOP)
 	//{
 	//	curlevel->ChangeState(LEVEL_STATE::PLAY);
 	//}
-	
 
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vRot = Transform()->GetRelativeRot();

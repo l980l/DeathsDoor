@@ -10,6 +10,7 @@
 #include "CLadderScript.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CGameCameraScript.h"
+#include "CWaterScript.h"
 
 #include <Engine\CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
@@ -26,10 +27,9 @@ CPlayerScript::CPlayerScript()
 	, m_arrUpgrade{}
 	, m_fFallCheckTime(0.f)
 	, m_bInvincible(false)
-	, m_bEditorMode(false)
+	, m_bEditorMode(true)
 	, m_bDisableMove(false)
 {
-	CDetourMgr::GetInst()->RegisterPlayer(GetOwner());
 }
 
 CPlayerScript::~CPlayerScript()
@@ -40,7 +40,7 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-
+	CDetourMgr::GetInst()->RegisterPlayer(GetOwner());
 	if (nullptr == m_pSword)
 	{
 		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
@@ -72,6 +72,31 @@ void CPlayerScript::begin()
 		pCursor->SetName(L"Cursor");
 	}
 	m_pStateScript->ChangeState(L"Idle");
+
+	int tCurLevelType = CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
+	Vec3 vStartPos = {};
+	switch (LEVEL_TYPE(tCurLevelType))
+	{
+	case LEVEL_TYPE::CASTLE_FIELD:
+		vStartPos = { 2020.f, 550.f, 664.f };
+		break;
+	case LEVEL_TYPE::CASTLE_BOSS:
+		vStartPos = { 1655.f, 950.f, 1400.f };
+		break;
+	case LEVEL_TYPE::FOREST_FIELD:
+		vStartPos = { 1000.f, 500.f, 350.f };
+		break;
+	case LEVEL_TYPE::ICE_FIELD:
+		vStartPos = { 4451.f, 570.f, 661.f };
+		break;
+	case LEVEL_TYPE::ICE_BOSS:
+		vStartPos = { 0.f, 0.f, 0.f };
+		break;
+	case LEVEL_TYPE::HALL:
+		vStartPos = { 1164.f, 450.f, 392.f };
+		break;
+	}
+	Rigidbody()->SetRigidPos(vStartPos);
 
 	// Sword(Child0)과 Bow(Child1)에 Emissive효과 부여
 	int a = 1;
@@ -197,7 +222,7 @@ void CPlayerScript::FallCheck()
 		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit")
 		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Ladder"))
 	{
-		if ((Transform()->GetPrevPos().y - Transform()->GetRelativePos().y) > 100.f * DT)
+		if ((Transform()->GetPrevPos().y - Transform()->GetRelativePos().y) > 70.f * DT)
 		{
 			m_fFallCheckTime += DT;
 			if (m_fFallCheckTime > 0.15f)

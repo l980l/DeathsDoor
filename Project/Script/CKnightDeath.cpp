@@ -40,10 +40,13 @@ void CKnightDeath::tick()
         GetOwner()->GetScript<CKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
         CLevelSaveLoadInScript script;
         script.MoneyCount(600);
-        CGameObject* pDoor = script.SpawnandReturnPrefab(L"prefab\\LevelChangeDoor.prefab",(int)LAYER::LEVELCHANGEDOOR,GetOwner()->Transform()->GetWorldPos());
+        CGameObject* pDoor = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\LevelChangeDoor.prefab",(int)LAYER::LEVELCHANGEDOOR,Vec3(3200.f, 1200.f, 2880.f));
+        pDoor->Transform()->SetRelativePos(Vec3(3200.f, 1050.f, 2880.f));
+        pDoor->Transform()->SetRelativeRot({ 0.f, 45.f, 0.f });
         pDoor->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::HALL);
         GetOwnerScript()->Destroy();
     }
+    GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CKnightDeath::Exit()

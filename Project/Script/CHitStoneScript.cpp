@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CHitStoneScript.h"
+#include "CSpawnMgr.h"
+#include <Engine/CDetourMgr.h>
 
 CHitStoneScript::CHitStoneScript() 
 	: CScript(SCRIPT_TYPE::HITSTONESCRIPT)
@@ -16,6 +18,7 @@ CHitStoneScript::~CHitStoneScript()
 
 void CHitStoneScript::begin()
 {
+	CDetourMgr::GetInst()->ChangeLevel(LEVEL_TYPE::FOREST_FIELD);
 }
 
 void CHitStoneScript::tick()
@@ -38,6 +41,8 @@ void CHitStoneScript::BeginOverlap(CCollider3D* _Other)
 	{
 		m_bHit = true;
 		m_vStartPos = Transform()->GetWorldPos();
+		GetOwner()->DeleteComponent(COMPONENT_TYPE::COLLIDER3D);
+		CSpawnMgr::GetInst()->ActivateFence(1, true);
 	}
 }
 

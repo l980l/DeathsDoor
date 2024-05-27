@@ -38,8 +38,8 @@ void CSpawnDoorScript::tick()
 		pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos()); //rigidbody global pos setup
 		pMonster->GetScript<CMonsterScript>()->SpawnByDoor();
 
-		// 페이퍼번을 주고 사라질 것
-		SetLifeSpan(1.5f);
+		// 페이퍼번을 주고 사라질 것v
+		SetLifeSpan(0.2f);
 		m_bSpawn = true;
 	}
 }

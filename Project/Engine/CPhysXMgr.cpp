@@ -8,7 +8,6 @@ CPhysXMgr::CPhysXMgr()
     : m_vecDynamicObject{}
     , m_vecDynamicActor{}
     , m_vecStaticActor{}
-    , m_fFecthDelay(0.f)
 {
 }
 
@@ -64,7 +63,7 @@ void CPhysXMgr::init()
     // Mesh를 가져오는 것을 cook이라고 함.
     physx::PxCookingParams mParam(m_ToleranceScale);
     mParam.meshWeldTolerance = 0.001f;
-    mParam.meshPreprocessParams = physx::PxMeshPreprocessingFlags(physx::PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH); // Disable mesh cleaning
+    mParam.meshPreprocessParams = physx::PxMeshPreprocessingFlags(physx::PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH);
     m_Cooking = PxCreateCooking(PX_PHYSICS_VERSION, *m_Foundation, mParam);
 
     // Create scene
@@ -190,13 +189,13 @@ physx::PxRigidDynamic* CPhysXMgr::CreateSphere(Vec3 _vSpawnPos, float _fRadius, 
 physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object)
 {
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
-    // Mesh의 정점 정보를 넣어줌
+    // Mesh의 정점 정보를 넣어준다
     Ptr<CMesh> pMesh = _Object->GetRenderComponent()->GetMesh();
     PxTriangleMeshDesc  meshDesc;
     meshDesc.points.count = pMesh->GetVtxCount();
     meshDesc.points.stride = sizeof(Vtx);
     meshDesc.points.data = pMesh->GetVtxSysMem();
-    // Mesh의 Idx 버퍼 정보를 넣어줌
+    // Mesh의 Idx 버퍼 정보를 넣어준다
     meshDesc.triangles.count = pMesh->GetIdxInfo(0).iIdxCount / 3;;
     meshDesc.triangles.stride = 3 * sizeof(UINT);
     meshDesc.triangles.data = pMesh->GetIdxInfo(0).pIdxSysMem;
@@ -206,7 +205,6 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     PxDefaultMemoryOutputStream  writeBuffer;
     PxTriangleMeshCookingResult::Enum  result;
     bool  state = m_Cooking->cookTriangleMesh(meshDesc, writeBuffer, &result);
-    // 실패한다면 null 반환
     if (!state)
         assert(NULL);
     PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
@@ -219,7 +217,7 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     // Mesh 정보와 Mtrl을 통해 전달받은 Mesh 모양 Shape을 생성해 Actor를 생성해 입혀줌.
     PxRigidStatic* pActor = m_Physics->createRigidStatic(SpawnPos);
     pActor->attachShape(*meshShape);
-    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// 씬에 해당 액터 추가
+    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());
     // Scean에 Actor 등록
     m_Scene->addActor(*pActor);
     m_vecStaticActor.push_back(pActor);
@@ -227,7 +225,6 @@ physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Ob
     tMesh->release();
 
     return pActor;
-
 }
 
 physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object)
@@ -266,8 +263,6 @@ void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
             return;
         }
     }
-    // 아무것도 삭제하지 못했다면 assert
-   // assert(nullptr);
 }
 
 void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
@@ -360,7 +355,7 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
         break;
     case LEVEL_TYPE::CASTLE_BOSS:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_SIMPLE.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
         break;
     case LEVEL_TYPE::FOREST_FIELD:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_Simple.fbx");
@@ -369,7 +364,7 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Ice_Simple.fbx");
         break;
     case LEVEL_TYPE::HALL:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Hall_SIMPLE.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Hall_Simple.fbx");
         break;
     case LEVEL_TYPE::ICE_BOSS:
         CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));

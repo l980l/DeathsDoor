@@ -19,7 +19,7 @@ void CGrimKnightBackStep::Enter()
 	//플레이어 반대 방향으로 이동
 	Vec3 vPlayerPos = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
 	Vec3 vDir = (GetOwner()->Transform()->GetWorldPos() - vPlayerPos).Normalize();
-	GetOwner()->Rigidbody()->SetVelocity(vDir * 150.f);
+	GetOwner()->Rigidbody()->AddVelocity(vDir * 150.f);
 }
 
 void CGrimKnightBackStep::tick()

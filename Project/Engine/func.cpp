@@ -359,7 +359,8 @@ float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree)
 	return angle;
 }
 
-float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _degree)
+float GetSmoothDir(CGameObject* _pStartObject
+	, CGameObject* _pTargetObj, float _degree)
 {
 	Vec3 vOwnerPos = _pStartObject->Transform()->GetWorldPos();
 	Vec3 vTargetPos = _pTargetObj->Transform()->GetWorldPos();
@@ -369,13 +370,9 @@ float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _
 	float Diff = Rot - PrevDir;
 
 	if (Diff > XM_PI)
-	{
 		Diff = -(XM_2PI - Rot + PrevDir);
-	}
 	else if (Diff < -XM_PI)
-	{
 		Diff = (XM_2PI - PrevDir + Rot);
-	}
 	else
 		Diff = (Rot - PrevDir);
 

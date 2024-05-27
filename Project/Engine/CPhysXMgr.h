@@ -65,8 +65,6 @@ private:
     vector<physx::PxRigidDynamic*>      m_vecDynamicActor;
     vector<physx::PxRigidStatic*>       m_vecStaticActor;
 
-    float                               m_fFecthDelay;
-
 public:
     void init();
     void tick();

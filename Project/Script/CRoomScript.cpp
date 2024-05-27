@@ -82,7 +82,6 @@ void CRoomScript::ReduceMonsterCount()
 		}
 	}
 
-
 	if (m_iRemainMst <= 0 && m_iRemainGimmik <= 0
 		&& m_iCurWaveNum == m_iMaxWaveCount)
 	{

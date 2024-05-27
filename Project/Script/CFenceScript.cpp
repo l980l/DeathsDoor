@@ -60,7 +60,7 @@ void CFenceScript::ActivateFence(bool _bOpen)
 	if (_bOpen)
 		CPhysXMgr::GetInst()->ReleaseStatic(m_pStatic);
 	else
-		CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(500.f * Transform()->GetRelativeScale().x), GetOwner());
+		m_pStatic = CPhysXMgr::GetInst()->CreateStaticCube(m_vStartPos, Vec3(500.f * Transform()->GetRelativeScale().x), GetOwner());
 }
 
 void CFenceScript::SaveToLevelFile(FILE* _File)

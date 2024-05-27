@@ -16,8 +16,9 @@ void CLurkerTrace::tick()
 
 	// 공격 범위에 들어온 경우. 
 	if (fDistance < GetOwner()->GetScript<CLurkerScript>()->GetAttackRange())
+	{
 		ChangeState(L"Notify");
-
+	}
 	else
 	{
 		float fSpeed = GetOwnerScript()->GetStat().Speed;
@@ -70,7 +71,7 @@ void CLurkerTrace::tick()
 
 void CLurkerTrace::Exit()
 {
-	GetOwner()->Rigidbody()->SetVelocity(Vec3(0.f));
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CLurkerTrace::BeginOverlap(CCollider3D* _Other)

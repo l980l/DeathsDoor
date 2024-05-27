@@ -190,8 +190,8 @@ Vec3* CDetourMgr::GetPathtoTarget(Vec3 _vStartPos, Vec3 _vTargetPos, int* Actual
 	float polyPickExt[3] = { 30000,30000,30000 }; // 범위를 제한하기 위한 벡터
 
 	dtQueryFilter filter;
-	filter.setIncludeFlags(0xFFFF); // Include all polygons in pathfinding.
-	filter.setExcludeFlags(0); // Exclude none of the polygons.
+	filter.setIncludeFlags(0xFFFF); // 길찾기에 사용될 모든 폴리곤 참조.
+	filter.setExcludeFlags(0); // 폴리곤을 제외하지 않음.
 
 	navQuery->findNearestPoly(startpos, polyPickExt, &filter, &startRef, 0);
 	navQuery->findNearestPoly(endpos, polyPickExt, &filter, &endRef, 0);

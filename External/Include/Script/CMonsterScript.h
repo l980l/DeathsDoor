@@ -19,6 +19,7 @@ private:
     bool            m_bSpawnByDoor;
 
 public:
+    bool            IsDetect() { return m_bDetect; }
     CGameObject*    GetPlayer() { return m_pPlayer; }
     bool            GetDetect() { return m_bDetect; }
     void            SetDetect(bool _bDetect) { m_bDetect = _bDetect; }

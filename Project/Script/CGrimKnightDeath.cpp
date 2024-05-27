@@ -17,6 +17,7 @@ CGrimKnightDeath::~CGrimKnightDeath()
 
 void CGrimKnightDeath::tick()
 {
+	GetOwner()->Rigidbody()->ClearForce();
 	if (m_bStartPaperBurn)
 		m_fPaperBurnTime += DT;
 

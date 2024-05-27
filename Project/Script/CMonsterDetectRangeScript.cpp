@@ -13,6 +13,7 @@ CMonsterDetectRangeScript::~CMonsterDetectRangeScript()
 
 void CMonsterDetectRangeScript::begin()
 {
+	GetOwner()->Collider3D()->SetOffsetScale({ 3000.f, 3000.f, 3000.f });
 }
 
 void CMonsterDetectRangeScript::tick()

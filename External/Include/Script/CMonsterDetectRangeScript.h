@@ -4,9 +4,6 @@
 class CMonsterDetectRangeScript :
     public CScript
 {
-private:
-    bool           m_bDetect;
-
 public:
     virtual void begin() override;
     virtual void tick() override;

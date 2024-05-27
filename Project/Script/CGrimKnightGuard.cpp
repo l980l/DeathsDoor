@@ -21,6 +21,9 @@ void CGrimKnightGuard::tick()
 	{		
 		ChangeState(L"GuardStay");
 	}
+
+
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGrimKnightGuard::Exit()

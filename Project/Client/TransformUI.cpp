@@ -8,7 +8,7 @@
 
 TransformUI::TransformUI()
 	: ComponentUI("##Transform", COMPONENT_TYPE::TRANSFORM)	
-	, m_bShowEdieWave(false)
+	, m_bShowEdieWave(true)
 	, m_wstrPrefabName{}
 	, m_vSpawnPos{}
 {
@@ -75,18 +75,20 @@ int TransformUI::render_update()
 		ImGui::SliderInt("##Absolute", &istate, 0, 1, curstate.c_str());
 	}
 
-	static bool bShow;
 	if(GetTarget()->GetScript<CRoomScript>())
 	{
-		ImGui::Checkbox("##WaveEditor", &m_bShowEdieWave);
-		if (m_bShowEdieWave)
+		if(ImGui::Checkbox("##WaveEditor", &m_bShowEdieWave))
 		{
-			SetSize(0.f, 500.f);
-			ShowWaveEditor();
+			if (m_bShowEdieWave)
+			{
+				SetSize(0.f, 500.f);
+			}
+			else
+				SetSize(0.f, 150.f);
 		}
-		else
-			SetSize(0.f, 150.f);
 
+		if (m_bShowEdieWave)
+			ShowWaveEditor();
 	}
 
 	return TRUE;
@@ -94,8 +96,7 @@ int TransformUI::render_update()
 
 void TransformUI::ShowWaveEditor()
 {
-
-	CRoomScript* pWave = GetTarget()->GetScript<CRoomScript>();
+	CRoomScript* Room = GetTarget()->GetScript<CRoomScript>();
 
 	if (ImGui::Button("Bat       "))
 		m_wstrPrefabName = L"Bat";
@@ -128,12 +129,12 @@ void TransformUI::ShowWaveEditor()
 	ImGui::SameLine();
 	static int MaxWaveNum = 0;
 	if (ImGui::InputInt("##MaxWaveNum", &MaxWaveNum))
-		pWave->SetWaveCount(MaxWaveNum);
+		Room->SetWaveCount(MaxWaveNum);
 
 	if (ImGui::Button("ADD Mst", ImVec2(60.f, 20.f)))
-		pWave->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);
+		Room->AddWaveMst(WaveNum, m_wstrPrefabName, m_vSpawnPos);
 
-	vector<SpawnInfo> Wave = pWave->GetWaveInfo(WaveNum);
+	vector<SpawnInfo> Wave = Room->GetWaveInfo(WaveNum);
 
 	for (size_t i = 0; i < Wave.size(); ++i)
 	{
@@ -146,7 +147,7 @@ void TransformUI::ShowWaveEditor()
 		string label = "##";
 		label += Count;
 		if (ImGui::InputFloat3(label.c_str(), &Wave[i].SpawnPos.x))
-			pWave->SetWaveInfo(WaveNum, Wave);
+			Room->SetWaveInfo(WaveNum, Wave);
 	}
 
 }

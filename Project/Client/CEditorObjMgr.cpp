@@ -82,7 +82,6 @@ void CEditorObjMgr::progress()
 	m_DebugShapeInfo.insert(m_DebugShapeInfo.end(), vecInfo.begin(), vecInfo.end());
 	vecInfo.clear();
 
-
 	tick();
 
 	render();

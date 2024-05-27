@@ -331,7 +331,7 @@ void CCamera::render()
 	if (m_bWaterCamera)
 	{
 		CRenderMgr::GetInst()->MRT_Clear(MRT_TYPE::WATER);
-		// Water MRT에 랜더
+		// Water Texture에 랜더
 		CRenderMgr::GetInst()->GetMRT(MRT_TYPE::WATER)->OMSet();
 		render_deferred();
 		render_water();

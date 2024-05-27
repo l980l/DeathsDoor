@@ -22,7 +22,7 @@ void CBankerFrameScript::begin()
 		MeshRender()->GetDynamicMaterial(i);
 	}
 
-	GetOwner()->Transform()->SetRelativeScale(Vec3(1682.f, 980.f, 1.f));
+	GetOwner()->Transform()->SetRelativeScale(Vec3(2600.f, 700.f, 1.f));
 
 	MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\BankUI.png", L"texture\\BankUI.png", 0));
 }

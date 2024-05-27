@@ -4,12 +4,12 @@ class CHUDScript :
     public CScript
 {
 private:
-    UINT     m_pMagicType;
-    int         m_pMaxHP;
-    int         m_pHP;
-    int         m_pMaxEnergy;
-    int         m_pEnergy;
-    int         m_pMoney;
+    UINT        m_iMagicType;
+    int         m_iMaxHP;
+    int         m_iHP;
+    int         m_iMaxEnergy;
+    int         m_iEnergy;
+    int         m_iMoney;
 public:
     virtual void begin() override;
     virtual void tick() override;

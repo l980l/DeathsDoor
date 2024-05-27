@@ -17,11 +17,11 @@ void CBazzokaLongDistance::Enter()
 	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", (int)LAYER::MONSTERPROJECTILE, vSpawnPos, 6.f);
 	pGasGrenade->Rigidbody()->SetRigidPos(vSpawnPos);
 
-	// 45도 각도로 날릴때 가장 멀리 나간다고 가정. 
+	// 발사 방향 정하기.
 	Vec3 Dir = GetOwner()->GetScript<CBazookaScript>()->GetMonsterToPlayerDir();
-	float xzDir = sqrtf(Dir.x * Dir.x + Dir.z * Dir.z);
-	Dir.y = (GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance() / GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())* xzDir;
 	Dir.Normalize();
+	float xzDir = sqrtf(Dir.x * Dir.x + Dir.z * Dir.z);
+	Dir.y = (GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance() / GetOwner()->GetScript<CBazookaScript>()->GetAttackRange()) * xzDir;
 	pGasGrenade->GetScript<CBazookaGasGrenadeScript>()->SetShotDir(Dir);
 }
 

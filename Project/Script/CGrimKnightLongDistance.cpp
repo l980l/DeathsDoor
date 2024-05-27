@@ -18,6 +18,9 @@ CGrimKnightLongDistance::~CGrimKnightLongDistance()
 
 void CGrimKnightLongDistance::tick()
 {
+
+	GetOwner()->Rigidbody()->ClearForce();
+
 	if (GetOwner()->Animator3D()->IsFinish())
 	{
 		ChangeState(L"Trace");
@@ -41,6 +44,13 @@ void CGrimKnightLongDistance::Enter()
 	pGhost->MeshRender()->SetDynamicShadow(true);
 	pGhost->MeshRender()->SetFrustumCheck(false);
 	CPhysXMgr::GetInst()->CreateSphere(GetOwner()->Transform()->GetWorldPos(), 30.f, pGhost);
+
+
+	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos());
+	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
+	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+
+	GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CGrimKnightLongDistance::Exit()

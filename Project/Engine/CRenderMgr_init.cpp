@@ -116,7 +116,7 @@ void CRenderMgr::init()
     }
 
     // =============
-    // WaterCamera MRT
+    // WaterCamera Texture
     // =============
     {
         Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
