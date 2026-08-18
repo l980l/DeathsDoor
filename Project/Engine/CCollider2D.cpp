@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CCollider2D.h"
 
 #include "CScript.h"
@@ -6,12 +6,12 @@
 
 
 CCollider2D::CCollider2D()
-	: CComponent(COMPONENT_TYPE::COLLIDER2D)
-	, m_Shape(COLLIDER2D_TYPE::RECT)
-	, m_bAbsolute(false)
-	, m_iCollisionCount(0)
+    : CComponent(COMPONENT_TYPE::COLLIDER2D)
+    , m_bAbsolute(false)
+    , m_Shape(COLLIDER2D_TYPE::RECT)
+    , m_iCollisionCount(0)
 {
-	SetName(L"Collider2D");
+    SetName(L"Collider2D");
 }
 
 CCollider2D::~CCollider2D()
@@ -21,84 +21,77 @@ CCollider2D::~CCollider2D()
 
 void CCollider2D::finaltick()
 {
-	// √Êµπ »∏ºˆ∞° ¿Ωºˆ¿Œ ∞ÊøÏ
-	assert(0 <= m_iCollisionCount);
+    // Ï∂©Îèå ÌöåÏàòÍ∞Ä ÏùåÏàòÏù∏ Í≤ΩÏö∞
+    assert(0 <= m_iCollisionCount);
 
-	m_matCollider2D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
-	m_matCollider2D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
+    m_matCollider2D = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
+    m_matCollider2D *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
 
-	const Matrix& matWorld = Transform()->GetWorldMat();
+    const Matrix& matWorld = Transform()->GetWorldMat();
 
-	if (m_bAbsolute)
-	{
-		Matrix matParentScaleInv = XMMatrixInverse(nullptr, Transform()->GetWorldScaleMat());
-		m_matCollider2D = m_matCollider2D * matParentScaleInv * matWorld;
-	}
-	else
-	{
-		// √Êµπ√º ø˘µÂ * ø¿∫Í¡ß∆Æ ø˘µÂ
-		m_matCollider2D *= matWorld;
-	}
-	
-	// DebugShape ø‰√ª
-	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	if (0 < m_iCollisionCount)
-		vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+    if (m_bAbsolute)
+    {
+        Matrix matParentScaleInv = XMMatrixInverse(nullptr, Transform()->GetWorldScaleMat());
+        m_matCollider2D          = m_matCollider2D * matParentScaleInv * matWorld;
+    }
+    else
+    {
+        // Ï∂©ÎèåÏ≤¥ ÏõîÎìú * Ïò§Î∏åÏ†ùÌä∏ ÏõîÎìú
+        m_matCollider2D *= matWorld;
+    }
 
-	if (COLLIDER2D_TYPE::CIRCLE == m_Shape)
-		DrawDebugCircle(m_matCollider2D, vColor, 0.f);	
-	else	
-		DrawDebugRect(m_matCollider2D, vColor, 0.f);	
+    // DebugShape ÏöîÏ≤≠
+    Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+    if (0 < m_iCollisionCount)
+        vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+
+    if (COLLIDER2D_TYPE::CIRCLE == m_Shape)
+        DrawDebugCircle(m_matCollider2D, vColor, 0.f);
+    else
+        DrawDebugRect(m_matCollider2D, vColor, 0.f);
 }
-
 
 
 void CCollider2D::BeginOverlap(CCollider2D* _Other)
 {
-	m_iCollisionCount += 1;
+    m_iCollisionCount += 1;
 
-	// Script »£√‚
-	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
-	for (size_t i = 0; i < vecScript.size(); ++i)
-	{
-		vecScript[i]->BeginOverlap(_Other);
-	}
+    // Script Ìò∏Ï∂ú
+    const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+    for (size_t i = 0; i < vecScript.size(); ++i)
+        vecScript[i]->BeginOverlap(_Other);
 }
 
 void CCollider2D::OnOverlap(CCollider2D* _Other)
 {
-	// Script »£√‚
-	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
-	for (size_t i = 0; i < vecScript.size(); ++i)
-	{
-		vecScript[i]->OnOverlap(_Other);
-	}
+    // Script Ìò∏Ï∂ú
+    const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+    for (size_t i = 0; i < vecScript.size(); ++i)
+        vecScript[i]->OnOverlap(_Other);
 }
 
 void CCollider2D::EndOverlap(CCollider2D* _Other)
 {
-	m_iCollisionCount -= 1;
+    m_iCollisionCount -= 1;
 
-	// Script »£√‚
-	const vector<CScript*>& vecScript = GetOwner()->GetScripts();
-	for (size_t i = 0; i < vecScript.size(); ++i)
-	{
-		vecScript[i]->EndOverlap(_Other);
-	}
+    // Script Ìò∏Ï∂ú
+    const vector<CScript*>& vecScript = GetOwner()->GetScripts();
+    for (size_t i = 0; i < vecScript.size(); ++i)
+        vecScript[i]->EndOverlap(_Other);
 }
 
 void CCollider2D::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_vOffsetPos, sizeof(Vec3), 1, _File);
-	fwrite(&m_vOffsetScale, sizeof(Vec3), 1, _File);
-	fwrite(&m_bAbsolute, sizeof(bool), 1, _File);
-	fwrite(&m_Shape, sizeof(UINT), 1, _File);
+    fwrite(&m_vOffsetPos, sizeof(Vec3), 1, _File);
+    fwrite(&m_vOffsetScale, sizeof(Vec3), 1, _File);
+    fwrite(&m_bAbsolute, sizeof(bool), 1, _File);
+    fwrite(&m_Shape, sizeof(UINT), 1, _File);
 }
 
 void CCollider2D::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_vOffsetPos, sizeof(Vec3), 1, _File);
-	fread(&m_vOffsetScale, sizeof(Vec3), 1, _File);
-	fread(&m_bAbsolute, sizeof(bool), 1, _File);
-	fread(&m_Shape, sizeof(UINT), 1, _File);
+    fread(&m_vOffsetPos, sizeof(Vec3), 1, _File);
+    fread(&m_vOffsetScale, sizeof(Vec3), 1, _File);
+    fread(&m_bAbsolute, sizeof(bool), 1, _File);
+    fread(&m_Shape, sizeof(UINT), 1, _File);
 }

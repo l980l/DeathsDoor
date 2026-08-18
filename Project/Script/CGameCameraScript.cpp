@@ -1,30 +1,30 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGameCameraScript.h"
 
 CGameCameraScript::CGameCameraScript()
-	: CScript((UINT)SCRIPT_TYPE::GAMECAMERASCRIPT)
-	, m_pTarget(nullptr)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::GAMECAMERASCRIPT))
+    , m_pTarget(nullptr)
     , m_fMoveTime(0.f)
     , m_fPrevMoveTime(0.f)
     , m_fDiffer(0.f)
     , m_fTargetScale(0.f)
     , m_fPrevScale(0.f)
-	, m_vDistance(0.f, 2000.f, 2000.f)
-	, m_vOffset{}
-	, m_fAccTime(0.f)
-	, m_fMaxTime(0.f)
-	, m_fRange(0.f)
-	, m_fShakeSpeed(0.f)
-	, m_fShakeDir(0.f)
-	, m_bCamShake(false)
-	, m_bCutSceneView(false)
+    , m_vDistance(0.f, 2000.f, 2000.f)
+    , m_vOffset{}
+    , m_fAccTime(0.f)
+    , m_fMaxTime(0.f)
+    , m_fRange(0.f)
+    , m_fShakeSpeed(0.f)
+    , m_fShakeDir(0.f)
+    , m_bCamShake(false)
+    , m_bCutSceneView(false)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMoveTime, "MoveTime");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevMoveTime, "PrevMoveTime");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fDiffer, "Differ");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fTargetScale, "TargetScale");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevScale, "PrevScale");
-	AddScriptParam(SCRIPT_PARAM::VEC3, &m_vDistance, "Distance");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMoveTime, "MoveTime");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevMoveTime, "PrevMoveTime");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fDiffer, "Differ");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fTargetScale, "TargetScale");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fPrevScale, "PrevScale");
+    AddScriptParam(SCRIPT_PARAM::VEC3, &m_vDistance, "Distance");
 }
 
 CGameCameraScript::~CGameCameraScript()
@@ -33,62 +33,62 @@ CGameCameraScript::~CGameCameraScript()
 
 void CGameCameraScript::begin()
 {
-	if (nullptr == m_pTarget)
-		m_pTarget = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
-	Camera()->SetScale(0.6f);
+    if (nullptr == m_pTarget)
+        m_pTarget = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+    Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
+    Camera()->SetScale(0.6f);
 }
 
 void CGameCameraScript::tick()
 {
-	if (m_fMoveTime != 0.f)
-	{
-		m_fMoveTime -= DT;
-		float CurScale = Camera()->GetScale();
-		CurScale + (m_fDiffer * DT);
-		Camera()->SetScale(CurScale);
+    if (m_fMoveTime != 0.f)
+    {
+        m_fMoveTime    -= DT;
+        float CurScale = Camera()->GetScale();
+        CurScale += (m_fDiffer * DT);
+        Camera()->SetScale(CurScale);
 
-		if (m_fMoveTime <= 0.f && m_fPrevMoveTime != 0.f)
-		{
-			m_fMoveTime = m_fPrevMoveTime;
-			m_fPrevMoveTime = 0.f;
-			m_fDiffer = m_fPrevScale - CurScale / m_fMoveTime;
-		}
-	}
-	
-	else
-	{
-		// CutSceneÀÌ ¾Æ´Ñ °æ¿ì. Å¸°ÙÀÇ ¸Ó¸®À§¿¡¼­ ÂïÀ½.
-		if (!m_bCutSceneView)
-		{
-			Vec3 CurTargetPos = m_pTarget->Transform()->GetWorldPos();
-			CurTargetPos.x += m_vDistance.x;
-			CurTargetPos.y += m_vDistance.y;
-			CurTargetPos.z -= m_vDistance.z;
-			Transform()->SetRelativePos(CurTargetPos + m_vOffset);
-			Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
-		}
-		
-		// CutSceneÀÎ °æ¿ì. Å¸°ÙÀ» Á¤¸é¿¡¼­ ÂïÀ½. È¸ÀüµÈ °÷ÀÇ ¹æÇâÀ¸·Î ÀÏÁ¤ °Å¸®¸¸Å­ ÀÌµ¿ÇÏ°í, Ä«¸Þ¶óÀÇ ¹æÇâÀº ¹Ý´ë ¹æÇâÀ¸·Î Áà¾ß ÇÔ. 
-		else
-		{
-			Vec3 CurTargetPos = m_pTarget->Transform()->GetWorldPos();
-			Vec3 CurTargetScale = m_pTarget->Transform()->GetRelativeScale();
-			Vec3 CurTargetXZDir = m_pTarget->Transform()->GetXZDir();
+        if (m_fMoveTime <= 0.f && m_fPrevMoveTime != 0.f)
+        {
+            m_fMoveTime     = m_fPrevMoveTime;
+            m_fPrevMoveTime = 0.f;
+            m_fDiffer       = m_fPrevScale - CurScale / m_fMoveTime;
+        }
+    }
 
-			CurTargetPos.x += CurTargetXZDir.x * 600.f;
-			CurTargetPos.y += 100.f;
-			CurTargetPos.z += CurTargetXZDir.z * 600.f;
-			Transform()->SetRelativePos(CurTargetPos + m_vOffset);
+    else
+    {
+        // CutSceneì´ ì•„ë‹Œ ê²½ìš°. íƒ€ê²Ÿì˜ ë¨¸ë¦¬ìœ„ì—ì„œ ì°ìŒ.
+        if (!m_bCutSceneView)
+        {
+            Vec3 CurTargetPos = m_pTarget->Transform()->GetWorldPos();
+            CurTargetPos.x    += m_vDistance.x;
+            CurTargetPos.y    += m_vDistance.y;
+            CurTargetPos.z    -= m_vDistance.z;
+            Transform()->SetRelativePos(CurTargetPos + m_vOffset);
+            Transform()->SetRelativeRot(XM_PI / 4.f, 0.f, 0.f);
+        }
 
-			Vec3 CurTargetRot;
-			CurTargetRot.y = XM_2PI - m_pTarget->Transform()->GetRelativeRot().y;
+        // CutSceneì¸ ê²½ìš°. íƒ€ê²Ÿì„ ì •ë©´ì—ì„œ ì°ìŒ. íšŒì „ëœ ê³³ì˜ ë°©í–¥ìœ¼ë¡œ ì¼ì • ê±°ë¦¬ë§Œí¼ ì´ë™í•˜ê³ , ì¹´ë©”ë¼ì˜ ë°©í–¥ì€ ë°˜ëŒ€ ë°©í–¥ìœ¼ë¡œ ì¤˜ì•¼ í•¨. 
+        else
+        {
+            Vec3 CurTargetPos   = m_pTarget->Transform()->GetWorldPos();
+            Vec3 CurTargetScale = m_pTarget->Transform()->GetRelativeScale();
+            Vec3 CurTargetXZDir = m_pTarget->Transform()->GetXZDir();
 
-			Transform()->SetRelativeRot(CurTargetRot);
-		}
-	}
+            CurTargetPos.x += CurTargetXZDir.x * 600.f;
+            CurTargetPos.y += 100.f;
+            CurTargetPos.z += CurTargetXZDir.z * 600.f;
+            Transform()->SetRelativePos(CurTargetPos + m_vOffset);
 
-	ShackCamera();
+            Vec3 CurTargetRot;
+            CurTargetRot.y = XM_2PI - m_pTarget->Transform()->GetRelativeRot().y;
+
+            Transform()->SetRelativeRot(CurTargetRot);
+        }
+    }
+
+    ShackCamera();
 }
 
 void CGameCameraScript::BeginOverlap(CCollider3D* _Other)
@@ -101,58 +101,54 @@ void CGameCameraScript::EndOverlap(CCollider3D* _Other)
 
 void CGameCameraScript::SetMoveCamera(float _vTargetScale, float _fTime)
 {
-	m_fPrevScale = Camera()->GetScale();
-	m_fDiffer = Camera()->GetScale() - _vTargetScale;
-	m_fMoveTime = _fTime;
-	m_fPrevMoveTime = _fTime;
-	m_fDiffer /= m_fMoveTime;
+    m_fPrevScale    = Camera()->GetScale();
+    m_fDiffer       = Camera()->GetScale() - _vTargetScale;
+    m_fMoveTime     = _fTime;
+    m_fPrevMoveTime = _fTime;
+    m_fDiffer       /= m_fMoveTime;
 }
 
 void CGameCameraScript::CameraShake(float _fRange, float _fShackSpeed, float _fTerm)
 {
-	m_fAccTime = 0.f;
-	m_fMaxTime = _fTerm;
-	m_fRange = _fRange;
-	m_fShakeSpeed = _fShackSpeed;
-	m_fShakeDir = 1.f;
-	m_bCamShake = true;
+    m_fAccTime    = 0.f;
+    m_fMaxTime    = _fTerm;
+    m_fRange      = _fRange;
+    m_fShakeSpeed = _fShackSpeed;
+    m_fShakeDir   = 1.f;
+    m_bCamShake   = true;
 }
 
 void CGameCameraScript::ShackCamera()
 {
-	if (!m_bCamShake)
-		return;
+    if (!m_bCamShake)
+        return;
 
-	m_fAccTime += DT;
+    m_fAccTime += DT;
 
-	if (m_fMaxTime <= m_fAccTime)
-	{
-		m_bCamShake = false;
-		m_vOffset = Vec2(0.f, 0.f);
-	}
+    if (m_fMaxTime <= m_fAccTime)
+    {
+        m_bCamShake = false;
+        m_vOffset   = Vec2(0.f, 0.f);
+    }
 
-	m_vOffset.x += DT * m_fShakeSpeed * m_fShakeDir;
-	m_fShakeSpeed -= m_fShakeSpeed * m_fMaxTime * DT;
-	if (m_fRange < fabsf(m_vOffset.x))
-	{
-		m_vOffset.x = m_fRange * m_fShakeDir;
-		m_fShakeDir *= -1;
-	}
+    m_vOffset.x   += DT * m_fShakeSpeed * m_fShakeDir;
+    m_fShakeSpeed -= m_fShakeSpeed * m_fMaxTime * DT;
+    if (m_fRange < fabsf(m_vOffset.x))
+    {
+        m_vOffset.x = m_fRange * m_fShakeDir;
+        m_fShakeDir *= -1;
+    }
 }
 
 void CGameCameraScript::SetCutSceneView(bool _bCutSceneView)
 {
-	m_bCutSceneView = _bCutSceneView;
+    m_bCutSceneView = _bCutSceneView;
 
-	// CutScene ¸ðµå ÀÏ¶§´Â PERSPECTIVE·Î.
-	if (_bCutSceneView)
-	{
-		Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-	}
+    // CutScene ëª¨ë“œ ì¼ë•ŒëŠ” PERSPECTIVEë¡œ.
+    if (_bCutSceneView)
+        Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
 
-	// Normal ¸ðµå ÀÏ¶§´Â ORTHOGRAPHIC·Î.
-	else
-	{
-		Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-	}
+        // Normal ëª¨ë“œ ì¼ë•ŒëŠ” ORTHOGRAPHICë¡œ.
+    else
+        Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 }

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SkyBoxUI.h"
 
-#include <Engine\CResMgr.h>
+#include <Engine/CResMgr.h>
 
 #include "ImGuiMgr.h"
 #include "ListUI.h"
@@ -10,10 +10,10 @@
 #include "ParamUI.h"
 
 SkyBoxUI::SkyBoxUI()
-	: ComponentUI("##SkyBox", COMPONENT_TYPE::SKYBOX)
-	, m_iType(0)
+    : ComponentUI("##SkyBox", COMPONENT_TYPE::SKYBOX)
+    , m_iType(0)
 {
-	SetName("SkyBox");
+    SetName("SkyBox");
 }
 
 SkyBoxUI::~SkyBoxUI()
@@ -22,64 +22,61 @@ SkyBoxUI::~SkyBoxUI()
 
 int SkyBoxUI::render_update()
 {
-	if (FALSE == ComponentUI::render_update())
-		return FALSE;
+    if (FALSE == ComponentUI::render_update())
+        return FALSE;
 
-	m_iType = (int)GetTarget()->SkyBox()->GetType();
+    m_iType = static_cast<int>(GetTarget()->SkyBox()->GetType());
 
-	string strType[2] = { "Sphere", "Cube" };
-	string strTypeName = strType[m_iType];
-	ImGui::Text("Type  ");
-	ImGui::SameLine();
-	ImGui::SliderInt("##Type", &m_iType, 0, 1, strTypeName.c_str());
+    string strType[2]  = {"Sphere", "Cube"};
+    string strTypeName = strType[m_iType];
+    ImGui::Text("Type  ");
+    ImGui::SameLine();
+    ImGui::SliderInt("##Type", &m_iType, 0, 1, strTypeName.c_str());
 
 
-	// TEX_Param Texture Ãâ·Â 
-	Ptr<CTexture> pTEX = GetTarget()->SkyBox()->GetSkyTex();
+    // TEX_Param Texture ï¿½ï¿½ï¿½ 
+    Ptr<CTexture> pTEX = GetTarget()->SkyBox()->GetSkyTex();
 
-	ImGui::Spacing();
-	ImGui::Text("SkyTex");
-	ImGui::SameLine();
+    ImGui::Spacing();
+    ImGui::Text("SkyTex");
+    ImGui::SameLine();
 
-	// Sphere´Â Tex¸¦ Ãâ·Â
-	// CubeÀÇ °æ¿ì dds¶ó¼­ Ãâ·ÂÀÌ ¾î·Á¿ì¹Ç·Î ÀÌ¸§¸¸ Ãâ·Â
-	if (SKYBOX_TYPE::SPHERE == (SKYBOX_TYPE)m_iType)
-	{
-		ImGui::Image((ImTextureID)pTEX->GetSRV().Get(), ImVec2(75.f, 75.f));
-	}
-	else
-	{
-		wstring wstrTexName = pTEX->GetKey();
-		string strSkyTexName = string(wstrTexName.begin(), wstrTexName.end());
-		ImGui::Text(strSkyTexName.c_str());
-	}
+    // Sphereï¿½ï¿½ Texï¿½ï¿½ ï¿½ï¿½ï¿½
+    // Cubeï¿½ï¿½ ï¿½ï¿½ï¿½ ddsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    if (SKYBOX_TYPE::SPHERE == static_cast<SKYBOX_TYPE>(m_iType))
+    {
+        ImGui::Image(pTEX->GetSRV().Get(), ImVec2(75.f, 75.f));
+    }
+    else
+    {
+        wstring wstrTexName   = pTEX->GetKey();
+        string  strSkyTexName = string(wstrTexName.begin(), wstrTexName.end());
+        ImGui::Text(strSkyTexName.c_str());
+    }
 
-	ImGui::SameLine();
+    ImGui::SameLine();
 
-	if (ImGui::Button("##TextureSelectBtn", ImVec2(18.f, 18.f)))
-	{
-		const map<wstring, Ptr<CRes>>& AllTex = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
+    if (ImGui::Button("##TextureSelectBtn", ImVec2(18.f, 18.f)))
+    {
+        const map<wstring, Ptr<CRes>>& AllTex = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
 
-		ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
-		pListUI->SetModal(false);
-		pListUI->Reset("Texture List", ImVec2(300.f, 500.f));
-		for (const auto& pair : AllTex)
-		{
-			pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
-		}
-		pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&SkyBoxUI::SelectTexture);
-	}
+        ListUI* pListUI = static_cast<ListUI*>(ImGuiMgr::GetInst()->FindUI("##List"));
+        pListUI->SetModal(false);
+        pListUI->Reset("Texture List", ImVec2(300.f, 500.f));
+        for (const auto& pair : AllTex)
+            pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
+        pListUI->AddDynamic_Select(this, static_cast<UI_DELEGATE_1>(&SkyBoxUI::SelectTexture));
+    }
 
-	GetTarget()->SkyBox()->SetType((SKYBOX_TYPE)m_iType);
+    GetTarget()->SkyBox()->SetType(static_cast<SKYBOX_TYPE>(m_iType));
 
-	return TRUE;
+    return TRUE;
 }
 
 void SkyBoxUI::SelectTexture(DWORD_PTR _Key)
 {
-	string strKey = (char*)_Key;
-	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
+    string        strKey = (char*)_Key;
+    Ptr<CTexture> pTex   = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
 
-	GetTarget()->SkyBox()->SetSkyTexture(pTex);
-
+    GetTarget()->SkyBox()->SetSkyTexture(pTex);
 }

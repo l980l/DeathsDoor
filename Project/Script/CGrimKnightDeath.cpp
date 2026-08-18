@@ -1,13 +1,13 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGrimKnightDeath.h"
 #include "CGrimKnightScript.h"
 #include "CSoundScript.h"
 #include "CPlayerScript.h"
 #include "CLevelSaveLoadInScript.h"
 
-CGrimKnightDeath::CGrimKnightDeath()		:
-	m_bStartPaperBurn(false),
-	m_fPaperBurnTime(0.f)
+CGrimKnightDeath::CGrimKnightDeath() :
+    m_bStartPaperBurn(false),
+    m_fPaperBurnTime(0.f)
 {
 }
 
@@ -17,27 +17,27 @@ CGrimKnightDeath::~CGrimKnightDeath()
 
 void CGrimKnightDeath::tick()
 {
-	if (m_bStartPaperBurn)
-		m_fPaperBurnTime += DT;
+    if (m_bStartPaperBurn)
+        m_fPaperBurnTime += DT;
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f && GetOwner()->IsDead() == false)
-	{
-		GetOwner()->GetScript<CGrimKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
-		CLevelSaveLoadInScript script;
-		script.MoneyCount(600);
-		GetOwnerScript()->Destroy();
-	}
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f && GetOwner()->IsDead() == false)
+    {
+        GetOwner()->GetScript<CGrimKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(600);
+        CLevelSaveLoadInScript script;
+        script.MoneyCount(600);
+        GetOwnerScript()->Destroy();
+    }
 }
 
 void CGrimKnightDeath::Enter()
 {
-	GetOwner()->GetScript<CGrimKnightScript>()->SetPaperBurnEffect(true);
-	// ¸ó½ºÅÍ »ç¸Á½Ã ÇöÀç±îÁö Èå¸¥ ½Ã°£À» ÀúÀå.
-	m_bStartPaperBurn = true;
+    GetOwner()->GetScript<CGrimKnightScript>()->SetPaperBurnEffect(true);
+    // ëª¬ìŠ¤í„° ì‚¬ë§ì‹œ í˜„ìž¬ê¹Œì§€ íë¥¸ ì‹œê°„ì„ ì €ìž¥.
+    m_bStartPaperBurn = true;
 
-	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceLastHit.ogg", 1, 0.1f);
+    CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound       = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceLastHit.ogg", 1, 0.1f);
 }
 
 void CGrimKnightDeath::Exit()

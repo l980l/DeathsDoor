@@ -1,72 +1,66 @@
-#pragma once
+ï»¿#pragma once
 
 #include "ptr.h"
 #include "CTexture.h"
 
 class CConstBuffer;
+
 class CDevice
-	: public CSingleton<CDevice>
+    : public CSingleton<CDevice>
 {
-private:
-	HWND							m_hWnd;
+    HWND m_hWnd;
 
-	ComPtr<ID3D11Device>			m_Device;		// GPU ¸Ş¸ğ¸® ÇÒ´ç
-	ComPtr<ID3D11DeviceContext>		m_Context;		// GPU Á¦¾î, ·»´õ¸µ, µ¿ÀÛ ¼öÇà
+    ComPtr<ID3D11Device>        m_Device;  // GPU ë©”ëª¨ë¦¬ í• ë‹¹
+    ComPtr<ID3D11DeviceContext> m_Context; // GPU ì œì–´, ë Œë”ë§, ë™ì‘ ìˆ˜í–‰
 
-	ComPtr<IDXGISwapChain>			m_SwapChain;
+    ComPtr<IDXGISwapChain> m_SwapChain;
 
-	// ÀÌÁ¦´Â MRT¿¡¼­ Clear ¹× OMSetÀ» ÇÏ¹Ç·Î ¸â¹ö·Î RT ¹× DST¸¦ °¡Áú ÇÊ¿ä°¡ ¾øÀ½.
+    // ì´ì œëŠ” MRTì—ì„œ Clear ë° OMSetì„ í•˜ë¯€ë¡œ ë©¤ë²„ë¡œ RT ë° DSTë¥¼ ê°€ì§ˆ í•„ìš”ê°€ ì—†ìŒ.
 
-	// Sampler
-	ComPtr<ID3D11SamplerState>		m_Sampler[2];
+    // Sampler
+    ComPtr<ID3D11SamplerState> m_Sampler[2];
 
-	// RasterizerState
-	ComPtr<ID3D11RasterizerState>	m_RSState[(UINT)RS_TYPE::END];
+    // RasterizerState
+    ComPtr<ID3D11RasterizerState> m_RSState[static_cast<UINT>(RS_TYPE::END)];
 
-	// DepthStencilState
-	ComPtr<ID3D11DepthStencilState>	m_DSState[(UINT)DS_TYPE::END];
+    // DepthStencilState
+    ComPtr<ID3D11DepthStencilState> m_DSState[static_cast<UINT>(DS_TYPE::END)];
 
-	// BlendState
-	ComPtr<ID3D11BlendState>		m_BSState[(UINT)BS_TYPE::END];
-
-
-	D3D11_VIEWPORT					m_ViewPort;
-
-	// ·»´õÅ¸°Ù ÇØ»óµµ
-	Vec2							m_vRenderResolution;							
-	CConstBuffer*					m_arrConstBuffer[(UINT)CB_TYPE::END];
+    // BlendState
+    ComPtr<ID3D11BlendState> m_BSState[static_cast<UINT>(BS_TYPE::END)];
 
 
+    D3D11_VIEWPORT m_ViewPort;
+
+    // ë Œë”íƒ€ê²Ÿ í•´ìƒë„
+    Vec2          m_vRenderResolution;
+    CConstBuffer* m_arrConstBuffer[static_cast<UINT>(CB_TYPE::END)];
 
 public:
-	int init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
-	void Present()	{ m_SwapChain->Present(0, 0); }
+    int  init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
+    void Present() const { m_SwapChain->Present(0, 0); }
 
-	Vec2 GetRenderResolution() { return m_vRenderResolution; }
+    Vec2 GetRenderResolution() const { return m_vRenderResolution; }
 
 private:
-	int CreateSwapChain();
-	int CreateView();
-	int CreateRasterizerState();
-	int CreateBlendState();
-	int CreateDepthStencilState();
-	int CreateSampler();
-	void CreateConstBuffer();
-
-public:	
-
-	ID3D11Device* GetDevice() { return m_Device.Get(); }
-	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
-	CConstBuffer* GetConstBuffer(CB_TYPE _Type) { return m_arrConstBuffer[(UINT)_Type]; }
-
-	ComPtr<ID3D11RasterizerState> GetRSState(RS_TYPE _Type) { return m_RSState[(UINT)_Type]; }
-	ComPtr<ID3D11DepthStencilState> GetDSState(DS_TYPE _Type) { return m_DSState[(UINT)_Type]; }
-	ComPtr<ID3D11BlendState> GetBSState(BS_TYPE _Type) { return m_BSState[(UINT)_Type]; }
-
-
+    int  CreateSwapChain();
+    int  CreateView() const;
+    int  CreateRasterizerState();
+    int  CreateBlendState();
+    int  CreateDepthStencilState();
+    int  CreateSampler();
+    void CreateConstBuffer();
 
 public:
-	CDevice();
-	~CDevice();
+    ID3D11Device*        GetDevice() const { return m_Device.Get(); }
+    ID3D11DeviceContext* GetDeviceContext() const { return m_Context.Get(); }
+    CConstBuffer*        GetConstBuffer(CB_TYPE _Type) const { return m_arrConstBuffer[static_cast<UINT>(_Type)]; }
+
+    ComPtr<ID3D11RasterizerState>   GetRSState(RS_TYPE _Type) { return m_RSState[static_cast<UINT>(_Type)]; }
+    ComPtr<ID3D11DepthStencilState> GetDSState(DS_TYPE _Type) { return m_DSState[static_cast<UINT>(_Type)]; }
+    ComPtr<ID3D11BlendState>        GetBSState(BS_TYPE _Type) { return m_BSState[static_cast<UINT>(_Type)]; }
+
+
+    CDevice();
+    virtual ~CDevice() override;
 };
-

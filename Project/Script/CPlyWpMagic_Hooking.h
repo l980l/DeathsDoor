@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpMagic_Hooking :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CPlyWpMagic_Hooking);
 
-public:
     CPlyWpMagic_Hooking();
-    ~CPlyWpMagic_Hooking();
+    virtual ~CPlyWpMagic_Hooking() override;
 };
-

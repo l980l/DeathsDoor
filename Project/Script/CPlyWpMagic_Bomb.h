@@ -1,9 +1,9 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpMagic_Bomb :
     public CState
 {
-private:
     float m_fChargeDelay;
 
 public:
@@ -13,8 +13,6 @@ public:
 
     CLONE(CPlyWpMagic_Bomb);
 
-public:
     CPlyWpMagic_Bomb();
-    ~CPlyWpMagic_Bomb();
+    virtual ~CPlyWpMagic_Bomb() override;
 };
-

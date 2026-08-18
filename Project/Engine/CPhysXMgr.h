@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CSingleton.h"
 #include <PhysX/PxPhysics.h>
 #include <PhysX/PxPhysicsAPI.h>
@@ -20,7 +20,7 @@
 #pragma comment(lib, "PhysX//debug//PhysXTask_static_64")
 #pragma comment(lib, "PhysX//debug//PhysXVehicle_static_64")
 #pragma comment(lib, "PhysX//debug//SceneQuery_static_64")
-#else 
+#else
 #pragma comment(lib, "PhysX//release//PhysX_64")
 #pragma comment(lib, "PhysX//release//PhysXCommon_64")
 #pragma comment(lib, "PhysX//release//PhysXFoundation_64")
@@ -44,56 +44,55 @@ class CPhysXMgr :
 {
     SINGLE(CPhysXMgr);
 
-private:
-    // ∫Øºˆ º±æ
-    physx::PxDefaultErrorCallback       m_DefaultErrorCallback;
-    physx::PxDefaultAllocator           m_DefaultAllocatorCallback;
-    physx::PxDefaultCpuDispatcher*      m_Dispatcher = NULL;
-    physx::PxTolerancesScale            m_ToleranceScale;
+    // Î≥ÄÏàò ÏÑ†Ïñ∏
+    PxDefaultErrorCallback  m_DefaultErrorCallback;
+    PxDefaultAllocator      m_DefaultAllocatorCallback;
+    PxDefaultCpuDispatcher* m_Dispatcher = nullptr;
+    PxTolerancesScale       m_ToleranceScale;
 
-    physx::PxFoundation*                m_Foundation = NULL;
-    physx::PxPhysics*                   m_Physics = NULL;
+    PxFoundation* m_Foundation = nullptr;
+    PxPhysics*    m_Physics    = nullptr;
 
-    physx::PxScene*                     m_Scene = NULL;
-    physx::PxMaterial*                  m_Material = NULL;
+    PxScene*    m_Scene    = nullptr;
+    PxMaterial* m_Material = nullptr;
 
-    physx::PxPvd*                       m_Pvd = NULL;
-    physx::PxCooking*                   m_Cooking = NULL;
-    physx::PxPvdTransport*              m_Transport = NULL;
+    PxPvd*          m_Pvd       = nullptr;
+    PxCooking*      m_Cooking   = nullptr;
+    PxPvdTransport* m_Transport = nullptr;
 
-    vector<CGameObject*>                m_vecDynamicObject;
-    vector<physx::PxRigidDynamic*>      m_vecDynamicActor;
-    vector<physx::PxRigidStatic*>       m_vecStaticActor;
+    vector<CGameObject*>    m_vecDynamicObject;
+    vector<PxRigidDynamic*> m_vecDynamicActor;
+    vector<PxRigidStatic*>  m_vecStaticActor;
 
-    float                               m_fFecthDelay;
+    float m_fFecthDelay;
 
 public:
     void init();
-    void tick();
+    void tick() const;
     void finaltick();
 
 private:
-    physx::PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, float _fYOffset,  const PxVec3& velocity = PxVec3(0));
-    void SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos);
+    PxRigidDynamic* CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& geometry, CGameObject* _Object, float _fYOffset, const PxVec3& velocity = PxVec3(0));
+    void            SetRigidPos(PxRigidDynamic* _pDynamic, Vec3 _vPos) const;
 
 public:
-    // µø¿˚ π∞√º ª˝º∫ «‘ºˆ.
-    // t : ¿ßƒ°, geometry : «¸≈¬, velocity : º”µµ
-    // ª˝º∫µ» π∞√º∏¶ π›»Ø«‘.
-    physx::PxRigidDynamic* CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
-    physx::PxRigidDynamic* CreateCapsule(Vec3 _vSpawnPos, float _fRadius, float _fHeight, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
-    physx::PxRigidDynamic* CreateSphere(Vec3 _vSpawnPos, float _fRadius, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
-    physx::PxRigidStatic* ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
-    physx::PxRigidStatic* CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object);
+    // ÎèôÏ†Å Î¨ºÏ≤¥ ÏÉùÏÑ± Ìï®Ïàò.
+    // t : ÏúÑÏπò, geometry : ÌòïÌÉú, velocity : ÏÜçÎèÑ
+    // ÏÉùÏÑ±Îêú Î¨ºÏ≤¥Î•º Î∞òÌôòÌï®.
+    PxRigidDynamic* CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
+    PxRigidDynamic* CreateCapsule(Vec3 _vSpawnPos, float _fRadius, float _fHeight, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
+    PxRigidDynamic* CreateSphere(Vec3 _vSpawnPos, float _fRadius, CGameObject* _Object, Vec3 _vVelocity = Vec3(0.f));
+    PxRigidStatic*  ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object);
+    PxRigidStatic*  CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object);
 
-    void ReleaseStatic(physx::PxRigidStatic* _pStatic);
-    void ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject);
+    void ReleaseStatic(PxRigidStatic* _pStatic);
+    void ReleaseDynamic(PxRigidDynamic* _pDynamic, CGameObject* _pObject);
 
-    // ∆Ú∏È ª˝º∫ «‘ºˆ
-    physx::PxRigidStatic* CreatePlane(Vec4 _Plane);
-    void AddDynamicActor(CRigidbody* _pRigidbody);
-    void Clear();
-    void ChangeLevel(LEVEL_TYPE _tType);
+    // ÌèâÎ©¥ ÏÉùÏÑ± Ìï®Ïàò
+    PxRigidStatic* CreatePlane(Vec4 _Plane);
+    void           AddDynamicActor(CRigidbody* _pRigidbody);
+    void           Clear();
+    void           ChangeLevel(LEVEL_TYPE _tType);
 
     friend class CRigidbody;
 };

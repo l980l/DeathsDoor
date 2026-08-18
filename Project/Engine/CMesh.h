@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CRes.h"
 
 #include "CFBXLoader.h"
@@ -6,67 +6,64 @@
 
 struct tIndexInfo
 {
-	ComPtr<ID3D11Buffer>    pIB;
-	D3D11_BUFFER_DESC       tIBDesc;
-	UINT				    iIdxCount;
-	void*					pIdxSysMem;
+    ComPtr<ID3D11Buffer> pIB;
+    D3D11_BUFFER_DESC    tIBDesc;
+    UINT                 iIdxCount;
+    void*                pIdxSysMem;
 };
 
 class CMesh
-	: public CRes
+    : public CRes
 {
-private:
-	ComPtr<ID3D11Buffer>	m_VB;
-	D3D11_BUFFER_DESC		m_tVBDesc;
-	UINT					m_VtxCount;
-	void*					m_pVtxSys;
+    ComPtr<ID3D11Buffer> m_VB;
+    D3D11_BUFFER_DESC    m_tVBDesc;
+    UINT                 m_VtxCount;
+    void*                m_pVtxSys;
 
-	// ÇÏ³ªÀÇ ¹öÅØ½º¹öÆÛ¿¡ ¿©·¯°³ÀÇ ÀÎµ¦½º¹öÆÛ°¡ ¿¬°á
-	vector<tIndexInfo>		m_vecIdxInfo;
-
-public:
-	Vtx* GetVtxSysMem() { return (Vtx*)m_pVtxSys; }
-	UINT GetVtxCount() { return m_VtxCount; }
-	UINT GetSubsetCount() { return (UINT)m_vecIdxInfo.size(); }
-	tIndexInfo& GetIdxInfo(UINT _idx) { return m_vecIdxInfo[_idx]; }
-
-	const vector<tMTBone>* GetBones() { return &m_vecBones; }
-	UINT GetBoneCount() { return (UINT)m_vecBones.size(); }
-	const vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
-	bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
-
-	CStructuredBuffer* GetBoneFrameDataBuffer() { return m_pBoneFrameData; }	// ÀüÃ¼ º» ÇÁ·¹ÀÓ Á¤º¸
-	CStructuredBuffer* GetBoneOffsetBuffer() { return  m_pBoneOffset; }			// °¢ »ÀÀÇ offset Çà·Ä
-
-	// Animation3D Á¤º¸
-	vector<tMTAnimClip>		m_vecAnimClip;
-	vector<tMTBone>			m_vecBones;
-
-	CStructuredBuffer*		m_pBoneFrameData;   // ÀüÃ¼ º» ÇÁ·¹ÀÓ Á¤º¸(Å©±â, ÀÌµ¿, È¸Àü) (ÇÁ·¹ÀÓ °³¼ö¸¸Å­)
-	CStructuredBuffer*		m_pBoneOffset;	    // °¢ »ÀÀÇ offset Çà·Ä(°¢ »ÀÀÇ À§Ä¡¸¦ µÇµ¹¸®´Â Çà·Ä) (1Çà Â¥¸®)
+    // í•˜ë‚˜ì˜ ë²„í…ìŠ¤ë²„í¼ì— ì—¬ëŸ¬ê°œì˜ ì¸ë±ìŠ¤ë²„í¼ê°€ ì—°ê²°
+    vector<tIndexInfo> m_vecIdxInfo;
 
 public:
-	void ChangeAnimClip(const vector<tMTAnimClip>* _vecAnimClip) { m_vecAnimClip = *_vecAnimClip; }	// AnimClipÀ» º¯°æÇÏ´Â ÇÔ¼ö.
+    Vtx*        GetVtxSysMem() const { return static_cast<Vtx*>(m_pVtxSys); }
+    UINT        GetVtxCount() const { return m_VtxCount; }
+    UINT        GetSubsetCount() const { return static_cast<UINT>(m_vecIdxInfo.size()); }
+    tIndexInfo& GetIdxInfo(UINT _idx) { return m_vecIdxInfo[_idx]; }
 
-public:
-	static CMesh* CreateFromContainer(CFBXLoader& _loader);
-	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
+    const vector<tMTBone>*     GetBones() const { return &m_vecBones; }
+    UINT                       GetBoneCount() const { return static_cast<UINT>(m_vecBones.size()); }
+    const vector<tMTAnimClip>* GetAnimClip() const { return &m_vecAnimClip; }
+    bool                       IsAnimMesh() const { return !m_vecAnimClip.empty(); }
+
+    CStructuredBuffer* GetBoneFrameDataBuffer() const { return m_pBoneFrameData; } // ì „ì²´ ë³¸ í”„ë ˆì„ ì •ë³´
+    CStructuredBuffer* GetBoneOffsetBuffer() const { return m_pBoneOffset; }       // ê° ë¼ˆì˜ offset í–‰ë ¬
+
+    // Animation3D ì •ë³´
+    vector<tMTAnimClip> m_vecAnimClip;
+    vector<tMTBone>     m_vecBones;
+
+    CStructuredBuffer* m_pBoneFrameData; // ì „ì²´ ë³¸ í”„ë ˆì„ ì •ë³´(í¬ê¸°, ì´ë™, íšŒì „) (í”„ë ˆì„ ê°œìˆ˜ë§Œí¼)
+    CStructuredBuffer* m_pBoneOffset;    // ê° ë¼ˆì˜ offset í–‰ë ¬(ê° ë¼ˆì˜ ìœ„ì¹˜ë¥¼ ë˜ëŒë¦¬ëŠ” í–‰ë ¬) (1í–‰ ì§œë¦¬)
+
+    void ChangeAnimClip(const vector<tMTAnimClip>* _vecAnimClip) { m_vecAnimClip = *_vecAnimClip; } // AnimClipì„ ë³€ê²½í•˜ëŠ” í•¨ìˆ˜.
+
+    static CMesh* CreateFromContainer(CFBXLoader& _loader);
+    void          Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 
 private:
-	virtual int Load(const wstring& _strFilePath);
-public:
-	virtual int Save(const wstring& _strRelativePath);
-
-	void render(UINT _iSubset);
-	void render_particle(UINT _iParticleCount);
-	void render_instancing(UINT _iSubset);
-
-
-private:	
-	void UpdateData(UINT _iSubset);
-	void UpdateData_Inst(UINT _iSubset);
+    virtual int Load(const wstring& _strFilePath) override;
 
 public:
-	CMesh(bool _bEngine = false);
-	~CMesh();
+    virtual int Save(const wstring& _strRelativePath) override;
+
+    void render(UINT _iSubset);
+    void render_particle(UINT _iParticleCount);
+    void render_instancing(UINT _iSubset);
+
+private:
+    void UpdateData(UINT _iSubset);
+    void UpdateData_Inst(UINT _iSubset) const;
+
+public:
+    CMesh(bool _bEngine = false);
+    virtual ~CMesh() override;
 };

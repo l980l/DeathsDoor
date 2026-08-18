@@ -1,5 +1,6 @@
 #pragma once
 #include "CIconScript.h"
+
 class CMPIconScript :
     public CIconScript
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CMPIconScript);
 
-public:
     CMPIconScript();
-    ~CMPIconScript();
+    virtual ~CMPIconScript() override;
 };
-

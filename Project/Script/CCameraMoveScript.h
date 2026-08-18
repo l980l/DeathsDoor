@@ -1,10 +1,9 @@
 #pragma once
-#include <Engine\CScript.h>
+#include <Engine/CScript.h>
 
 class CCameraMoveScript :
     public CScript
 {
-private:
     float m_fCamSpeed;
 
 public:
@@ -15,8 +14,6 @@ private:
     void Camera3DMove();
 
     CLONE(CCameraMoveScript);
-public:
     CCameraMoveScript();
-    ~CCameraMoveScript();
+    virtual ~CCameraMoveScript() override;
 };
-

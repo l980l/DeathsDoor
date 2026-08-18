@@ -2,101 +2,96 @@
 
 enum class KEY
 {
-	UP,		// VK_UP
-	DOWN,
-	LEFT,
-	RIGHT,
+    UP, // VK_UP
+    DOWN,
+    LEFT,
+    RIGHT,
 
-	SPACE,
-	ENTER,
-	ESC,
-	LALT,
-	LCTRL,
-	LSHIFT,
-	TAB,
+    SPACE,
+    ENTER,
+    ESC,
+    LALT,
+    LCTRL,
+    LSHIFT,
+    TAB,
 
-	LBTN,
-	RBTN,
-	
-	Q,
-	W,
-	E,
-	R,
+    LBTN,
+    RBTN,
 
-	T,Y,U,I,O,P,
+    Q,
+    W,
+    E,
+    R,
 
-	A,
-	S,
-	D,
-	F,
+    T, Y, U, I, O, P,
 
-	Z,
-	X,
-	C,
-	V,
+    A,
+    S,
+    D,
+    F,
 
-	_0,
-	_1,
-	_2,
-	_3,
-	_4,
-	_5,
-	_6,
-	_7,
-	_8,
-	_9,
-	
-	NUM_0,
-	NUM_1,
-	NUM_2,
-	NUM_3,
-	NUM_4,
-	NUM_5,
-	NUM_6,
-	NUM_7,
-	NUM_8,
-	NUM_9,
-	
-	END,
+    Z,
+    X,
+    C,
+    V,
+
+    _0,
+    _1,
+    _2,
+    _3,
+    _4,
+    _5,
+    _6,
+    _7,
+    _8,
+    _9,
+
+    NUM_0,
+    NUM_1,
+    NUM_2,
+    NUM_3,
+    NUM_4,
+    NUM_5,
+    NUM_6,
+    NUM_7,
+    NUM_8,
+    NUM_9,
+
+    END,
 };
 
 enum class KEY_STATE
 {
-	TAP,
-	PRESSED,
-	RELEASE,
-	NONE,
+    TAP,
+    PRESSED,
+    RELEASE,
+    NONE,
 };
 
 
 struct tKeyInfo
 {
-	KEY			key;
-	KEY_STATE	state;
-	bool		bPrev;
+    KEY       key;
+    KEY_STATE state;
+    bool      bPrev;
 };
 
 
-
-
-class CKeyMgr 
-	: public CSingleton<CKeyMgr>
+class CKeyMgr
+    : public CSingleton<CKeyMgr>
 {
-	SINGLE(CKeyMgr);
-private:
-	vector<tKeyInfo>	m_vecKey;
-	Vec2				m_vMousePos;
-	Vec2				m_vPrevMousePos;
-	Vec2				m_vMouseDir;
+    SINGLE(CKeyMgr);
+    vector<tKeyInfo> m_vecKey;
+    Vec2             m_vMousePos;
+    Vec2             m_vPrevMousePos;
+    Vec2             m_vMouseDir;
 
 public:
-	void init();
-	void tick();
+    void init();
+    void tick();
 
 
-public:
-	KEY_STATE GetKeyState(KEY _key) { return m_vecKey[(UINT)_key].state; }
-	Vec2 GetMousePos() { return m_vMousePos; }
-	Vec2 GetMouseDir() { return m_vMouseDir; }
+    KEY_STATE GetKeyState(KEY _key) const { return m_vecKey[static_cast<UINT>(_key)].state; }
+    Vec2      GetMousePos() const { return m_vMousePos; }
+    Vec2      GetMouseDir() const { return m_vMouseDir; }
 };
-

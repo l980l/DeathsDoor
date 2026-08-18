@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CRenderComponent.h"
 
 #include "CResMgr.h"
@@ -6,12 +6,11 @@
 #include "CAnimator3D.h"
 
 
-
 CRenderComponent::CRenderComponent(COMPONENT_TYPE _type)
-	: CComponent(_type)
-	, m_fBounding(500.f)
-	, m_bFrustumCheck(true)
-	, m_bDynamicShadow(false)
+    : CComponent(_type)
+    , m_fBounding(500.f)
+    , m_bFrustumCheck(true)
+    , m_bDynamicShadow(false)
 {
 }
 
@@ -22,161 +21,157 @@ CRenderComponent::~CRenderComponent()
 
 void CRenderComponent::render_depthmap()
 {
-	Transform()->UpdateData();
+    Transform()->UpdateData();
 
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DepthMapMtrl");
-		
-	if (Animator3D())
-	{
-		pMtrl->SetAnim3D(true);
-		Animator3D()->GetFinalBoneMat()->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
-	}
-	else
-	{
-		pMtrl->SetAnim3D(false);
-	}
+    Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DepthMapMtrl");
 
-	// ªÁøÎ«“ ¿Á¡˙ æ˜µ•¿Ã∆Æ
-	pMtrl->UpdateData();
+    if (Animator3D())
+    {
+        pMtrl->SetAnim3D(true);
+        Animator3D()->GetFinalBoneMat()->UpdateData(30, PS_VERTEX);
+    }
+    else
+    {
+        pMtrl->SetAnim3D(false);
+    }
 
-	// ªÁøÎ«“ ∏ﬁΩ¨ æ˜µ•¿Ã∆Æ π◊ ∑ª¥ı∏µ
-	//GetMesh()->render(0);
-	
-	UINT iSubsetCount = GetMesh()->GetSubsetCount();
+    // ÏÇ¨Ïö©Ìï† Ïû¨Ïßà ÏóÖÎç∞Ïù¥Ìä∏
+    pMtrl->UpdateData();
 
-	for (UINT i = 0; i < iSubsetCount; ++i)
-	{
-		if (nullptr != GetMaterial(i))
-		{
-			// ªÁøÎ«“ ¿Á¡˙ æ˜µ•¿Ã∆Æ
-			//GetMaterial(i)->UpdateData();
+    // ÏÇ¨Ïö©Ìï† Î©îÏâ¨ ÏóÖÎç∞Ïù¥Ìä∏ Î∞è Î†åÎçîÎßÅ
+    //GetMesh()->render(0);
 
-			// ªÁøÎ«“ ∏ﬁΩ¨ æ˜µ•¿Ã∆Æ π◊ ∑ª¥ı∏µ
-			GetMesh()->render(i);
-		}
-	}
+    UINT iSubsetCount = GetMesh()->GetSubsetCount();
+
+    for (UINT i = 0; i < iSubsetCount; ++i)
+    {
+        if (nullptr != GetMaterial(i))
+            // ÏÇ¨Ïö©Ìï† Ïû¨Ïßà ÏóÖÎç∞Ïù¥Ìä∏
+            //GetMaterial(i)->UpdateData();
+
+            // ÏÇ¨Ïö©Ìï† Î©îÏâ¨ ÏóÖÎç∞Ïù¥Ìä∏ Î∞è Î†åÎçîÎßÅ
+            GetMesh()->render(i);
+    }
 }
 
 void CRenderComponent::SetMesh(Ptr<CMesh> _Mesh)
 {
-	m_pMesh = _Mesh;
+    m_pMesh = _Mesh;
 
-	if (!m_vecMtrls.empty())
-	{
-		m_vecMtrls.clear();
-		vector<tMtrlSet> vecMtrls;
-		m_vecMtrls.swap(vecMtrls);
-	}
+    if (!m_vecMtrls.empty())
+    {
+        m_vecMtrls.clear();
+        vector<tMtrlSet> vecMtrls;
+        m_vecMtrls.swap(vecMtrls);
+    }
 
 
-	if (nullptr != m_pMesh)
-		m_vecMtrls.resize(m_pMesh->GetSubsetCount());
+    if (nullptr != m_pMesh)
+        m_vecMtrls.resize(m_pMesh->GetSubsetCount());
 }
 
 void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl, UINT _idx)
 {
-	m_vecMtrls[_idx].pSharedMtrl = _Mtrl;
-	m_vecMtrls[_idx].pCurMtrl = _Mtrl;
+    m_vecMtrls[_idx].pSharedMtrl = _Mtrl;
+    m_vecMtrls[_idx].pCurMtrl    = _Mtrl;
 }
 
 Ptr<CMaterial> CRenderComponent::GetMaterial(UINT _idx)
 {
-	if (m_vecMtrls.size() <= _idx)
-		return nullptr;
+    if (m_vecMtrls.size() <= _idx)
+        return nullptr;
 
-	if (nullptr == m_vecMtrls[_idx].pCurMtrl)
-	{
-		m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pSharedMtrl;
-	}
+    if (nullptr == m_vecMtrls[_idx].pCurMtrl)
+        m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pSharedMtrl;
 
-	return m_vecMtrls[_idx].pCurMtrl;
+    return m_vecMtrls[_idx].pCurMtrl;
 }
 
 Ptr<CMaterial> CRenderComponent::GetSharedMaterial(UINT _idx)
 {
-	m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pSharedMtrl;
+    m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pSharedMtrl;
 
-	if (m_vecMtrls[_idx].pDynamicMtrl.Get())
-	{
-		m_vecMtrls[_idx].pDynamicMtrl = nullptr;
-	}
+    if (m_vecMtrls[_idx].pDynamicMtrl.Get())
+        m_vecMtrls[_idx].pDynamicMtrl = nullptr;
 
-	return m_vecMtrls[_idx].pSharedMtrl;
+    return m_vecMtrls[_idx].pSharedMtrl;
 }
 
 Ptr<CMaterial> CRenderComponent::GetDynamicMaterial(UINT _idx)
 {
-	// ø¯∫ª ¿Á¡˙¿Ã æ¯¥Ÿ -> Nullptr π›»Ø
-	if (nullptr == m_vecMtrls[_idx].pSharedMtrl)
-	{
-		m_vecMtrls[_idx].pCurMtrl = nullptr;
-		return m_vecMtrls[_idx].pCurMtrl;
-	}
+    // ÏõêÎ≥∏ Ïû¨ÏßàÏù¥ ÏóÜÎã§ -> Nullptr Î∞òÌôò
+    if (nullptr == m_vecMtrls[_idx].pSharedMtrl)
+    {
+        m_vecMtrls[_idx].pCurMtrl = nullptr;
+        return m_vecMtrls[_idx].pCurMtrl;
+    }
 
-	if (nullptr == m_vecMtrls[_idx].pDynamicMtrl)
-	{
-		m_vecMtrls[_idx].pDynamicMtrl = m_vecMtrls[_idx].pSharedMtrl->Clone();
-		m_vecMtrls[_idx].pDynamicMtrl->SetName(m_vecMtrls[_idx].pSharedMtrl->GetName() + L"_Clone");
-		m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pDynamicMtrl;
-	}
+    if (nullptr == m_vecMtrls[_idx].pDynamicMtrl)
+    {
+        m_vecMtrls[_idx].pDynamicMtrl = m_vecMtrls[_idx].pSharedMtrl->Clone();
+        m_vecMtrls[_idx].pDynamicMtrl->SetName(m_vecMtrls[_idx].pSharedMtrl->GetName() + L"_Clone");
+        m_vecMtrls[_idx].pCurMtrl = m_vecMtrls[_idx].pDynamicMtrl;
+    }
 
-	return m_vecMtrls[_idx].pCurMtrl;
+    return m_vecMtrls[_idx].pCurMtrl;
 }
 
 
 ULONG64 CRenderComponent::GetInstID(UINT _iMtrlIdx)
 {
-	if (m_pMesh == NULL || m_vecMtrls[_iMtrlIdx].pCurMtrl == NULL)
-		return 0;
+    if (m_pMesh == nullptr || m_vecMtrls[_iMtrlIdx].pCurMtrl == nullptr)
+        return 0;
 
-	uInstID id{ (UINT)m_pMesh->GetID(), (WORD)m_vecMtrls[_iMtrlIdx].pCurMtrl->GetID(), (WORD)_iMtrlIdx };
-	return id.llID;
+    uInstID id{
+        (m_pMesh->GetID()),
+        static_cast<WORD>(m_vecMtrls[_iMtrlIdx].pCurMtrl->GetID()),
+        static_cast<WORD>(_iMtrlIdx)
+    };
+    return id.llID;
 }
-
 
 
 void CRenderComponent::SaveToLevelFile(FILE* _File)
 {
-	//// ¿Ã∞≈ ¥Î√º ø÷ ¿˙¿Â«‘????? 
-	//COMPONENT_TYPE type = GetType();
-	//fwrite(&type, sizeof(UINT), 1, _File);
-	
-	SaveResRef(m_pMesh.Get(), _File);
+    //// Ïù¥Í±∞ ÎåÄÏ≤¥ Ïôú Ï†ÄÏû•Ìï®????? 
+    //COMPONENT_TYPE type = GetType();
+    //fwrite(&type, sizeof(UINT), 1, _File);
 
-	UINT iMtrlCount = GetMtrlCount();
-	fwrite(&iMtrlCount, sizeof(UINT), 1, _File);
+    SaveResRef(m_pMesh.Get(), _File);
 
-	for (UINT i = 0; i < iMtrlCount; ++i)
-	{
-		SaveResRef(m_vecMtrls[i].pSharedMtrl.Get(), _File);
-		SaveResRef(m_vecMtrls[i].pSharedMtrl->GetTexParam(TEX_0).Get(), _File);
-	}
-	
-	fwrite(&m_bDynamicShadow, 1, 1, _File);
-	fwrite(&m_bFrustumCheck, 1, 1, _File);
-	fwrite(&m_fBounding, 1, 1, _File);
+    UINT iMtrlCount = GetMtrlCount();
+    fwrite(&iMtrlCount, sizeof(UINT), 1, _File);
+
+    for (UINT i = 0; i < iMtrlCount; ++i)
+    {
+        SaveResRef(m_vecMtrls[i].pSharedMtrl.Get(), _File);
+        SaveResRef(m_vecMtrls[i].pSharedMtrl->GetTexParam(TEX_0).Get(), _File);
+    }
+
+    fwrite(&m_bDynamicShadow, 1, 1, _File);
+    fwrite(&m_bFrustumCheck, 1, 1, _File);
+    fwrite(&m_fBounding, 1, 1, _File);
 }
 
 void CRenderComponent::LoadFromLevelFile(FILE* _File)
 {
-	
-	LoadResRef(m_pMesh, _File);
+    LoadResRef(m_pMesh, _File);
 
-	UINT iMtrlCount = GetMtrlCount();
-	fread(&iMtrlCount, sizeof(UINT), 1, _File);
+    UINT iMtrlCount = GetMtrlCount();
+    fread(&iMtrlCount, sizeof(UINT), 1, _File);
 
-	for (UINT i = 0; i < iMtrlCount; ++i)
-	{
-		Ptr<CMaterial> pMtrl;
-		LoadResRef(pMtrl, _File);
-		Ptr<CTexture> pTex;
-		LoadResRef(pTex, _File);
-		m_vecMtrls.resize(iMtrlCount);
-		pMtrl->SetTexParam(TEX_0, pTex);
-		SetMaterial(pMtrl, i);
-	}
+    for (UINT i = 0; i < iMtrlCount; ++i)
+    {
+        Ptr<CMaterial> pMtrl;
+        LoadResRef(pMtrl, _File);
+        Ptr<CTexture> pTex;
+        LoadResRef(pTex, _File);
+        m_vecMtrls.resize(iMtrlCount);
+        pMtrl->SetTexParam(TEX_0, pTex);
+        SetMaterial(pMtrl, i);
+    }
 
-	fread(&m_bDynamicShadow, 1, 1, _File);
-	fread(&m_bFrustumCheck, 1, 1, _File);
-	fread(&m_fBounding, 1, 1, _File);
+    fread(&m_bDynamicShadow, 1, 1, _File);
+    fread(&m_bFrustumCheck, 1, 1, _File);
+    fread(&m_fBounding, 1, 1, _File);
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include "CState.h"
+
 class CLurkerLeftMove :
     public CState
 {
-private:
-    float  m_fTime;
+    float m_fTime;
 
 public:
     virtual void Enter() override;
@@ -13,8 +13,6 @@ public:
 
     CLONE(CLurkerLeftMove);
 
-public:
     CLurkerLeftMove();
-    ~CLurkerLeftMove();
+    virtual ~CLurkerLeftMove() override;
 };
-

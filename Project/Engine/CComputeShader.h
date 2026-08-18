@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CShader.h"
 
 #include "ptr.h"
@@ -7,23 +7,22 @@
 class CComputeShader :
     public CShader
 {
-private:
-    ComPtr<ID3D11ComputeShader>     m_CS;
-    ComPtr<ID3DBlob>                m_CSBlob;    
+    ComPtr<ID3D11ComputeShader> m_CS;
+    ComPtr<ID3DBlob>            m_CSBlob;
 
 protected:
-    // ½¦ÀÌ´õ¿¡ Àü´ŞÇÒ »ó¼ö µ¥ÀÌÅÍ
-    tMtrlConst                      m_Const;
+    // ì‰ì´ë”ì— ì „ë‹¬í•  ìƒìˆ˜ ë°ì´í„°
+    tMtrlConst m_Const;
 
-    // ±×·ì °³¼ö
-    UINT                            m_iGroupX; 
-    UINT                            m_iGroupY;
-    UINT                            m_iGroupZ;
+    // ê·¸ë£¹ ê°œìˆ˜
+    UINT m_iGroupX;
+    UINT m_iGroupY;
+    UINT m_iGroupZ;
 
-    // ±×·ì 1°³´ç ½º·¹µå °³¼ö
-    UINT                            m_iGroupPerThreadX;
-    UINT                            m_iGroupPerThreadY;
-    UINT                            m_iGroupPerThreadZ;
+    // ê·¸ë£¹ 1ê°œë‹¹ ìŠ¤ë ˆë“œ ê°œìˆ˜
+    UINT m_iGroupPerThreadX;
+    UINT m_iGroupPerThreadY;
+    UINT m_iGroupPerThreadZ;
 
 public:
     void CreateComputeShader(const wstring& _strFileName, const string& _strFuncName);
@@ -35,8 +34,6 @@ private:
 
 
     CLONE_DISABLE(CComputeShader);
-public:
     CComputeShader();
-    ~CComputeShader();
+    virtual ~CComputeShader() override;
 };
-

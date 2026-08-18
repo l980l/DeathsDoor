@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlyMagic_Fire.h"
 #include <Engine/CDevice.h>
 #include "CLevelSaveLoadInScript.h"
@@ -8,8 +8,8 @@
 #include "CUIMgr.h"
 
 CPlyMagic_Fire::CPlyMagic_Fire()
-	: m_vAttackDir{}
-	, m_pFire(nullptr)
+    : m_vAttackDir{}
+    , m_pFire(nullptr)
 {
 }
 
@@ -19,89 +19,84 @@ CPlyMagic_Fire::~CPlyMagic_Fire()
 
 void CPlyMagic_Fire::Enter()
 {
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::MAGIC_FIRE, false);
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::MAGIC_FIRE), false);
 }
 
 void CPlyMagic_Fire::tick()
 {
+    if (KEY_PRESSED(KEY::RBTN))
+        CalcDir();
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        // ì—ë„ˆì§€ê°€ ë¶€ì¡±í•˜ë‹¤ë©´ Idleë¡œ ëŒì•„ê°€ê²Œ í•¨.
+        if (1 > GetOwnerScript()->GetStat().MP)
+        {
+            GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+        }
+        else if (nullptr == m_pFire)
+        {
+            // Player ì—…ê·¸ë ˆì´ë“œ ìˆ˜ì¹˜ë¥¼ ê°€ì ¸ì™€ ê³„ìˆ˜ë¥¼ ê³±í•´ Bombì˜ ìµœì¢…ë°ë¯¸ì§€ë¥¼ ì •í•¨.
+            Vec3 CurPos    = GetOwner()->Transform()->GetWorldPos();
+            Vec3 vDir      = GetOwner()->Transform()->GetXZDir();
+            Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 100.f, CurPos.z) - vDir * 40.f;
+            m_pFire        = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Fire.prefab", static_cast<int>(LAYER::PLAYERPROJECTILE), vSpawnPos);
+            m_pFire->Transform()->SetRelativeScale(Vec3(0.45f));
+            m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
+            m_pFire->Transform()->SetRelativePos(vSpawnPos);
+        }
+        else if (KEY_RELEASE(KEY::RBTN))
+        {
+            // ê³µê²©ì— ë”°ë¥¸ ì—ë„ˆì§€ ì†Œëª¨
+            Stat CurStat = GetOwnerScript()->GetStat();
+            CurStat.MP   -= 1;
+            GetOwnerScript()->SetStat(CurStat);
 
-	if (KEY_PRESSED(KEY::RBTN))
-	{
-		CalcDir();
-	}
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		// ¿¡³ÊÁö°¡ ºÎÁ·ÇÏ´Ù¸é Idle·Î µ¹¾Æ°¡°Ô ÇÔ.
-		if (1 > GetOwnerScript()->GetStat().MP)
-		{
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-		}
-		else if (nullptr == m_pFire)
-		{
-			// Player ¾÷±×·¹ÀÌµå ¼öÄ¡¸¦ °¡Á®¿Í °è¼ö¸¦ °öÇØ BombÀÇ ÃÖÁ¾µ¥¹ÌÁö¸¦ Á¤ÇÔ.
-			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
-			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 100.f, CurPos.z) - vDir * 40.f;;
-			m_pFire = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Fire.prefab", (int)LAYER::PLAYERPROJECTILE, vSpawnPos);
-			m_pFire->Transform()->SetRelativeScale(Vec3(0.45f));
-			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
-			m_pFire->Transform()->SetRelativePos(vSpawnPos);
-		}
-		else if (KEY_RELEASE(KEY::RBTN))
-		{
-			// °ø°Ý¿¡ µû¸¥ ¿¡³ÊÁö ¼Ò¸ð
-			Stat CurStat = GetOwnerScript()->GetStat();
-			CurStat.MP -= 1;
-			GetOwnerScript()->SetStat(CurStat);
+            // Player ì—…ê·¸ë ˆì´ë“œ ìˆ˜ì¹˜ë¥¼ ê°€ì ¸ì™€ ê³„ìˆ˜ë¥¼ ê³±í•´ Fireì˜ ìµœì¢…ë°ë¯¸ì§€ë¥¼ ì •í•¨.
+            float fDamage  = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::MAGIC));
+            fDamage        *= 1.3f;
+            Vec3 CurPos    = GetOwner()->Transform()->GetWorldPos();
+            Vec3 vDir      = GetOwner()->Transform()->GetXZDir();
+            Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 50.f, CurPos.z) - vDir * 20.f;
+            m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
+            m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
+            m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);
+            m_pFire->GetScript<CMagic_FireScript>()->SetStartPos(vSpawnPos);
+            m_pFire->GetScript<CMagic_FireScript>()->SetCollidable();
+            m_pFire->SetLifeSpan(2.f);
 
-			// Player ¾÷±×·¹ÀÌµå ¼öÄ¡¸¦ °¡Á®¿Í °è¼ö¸¦ °öÇØ FireÀÇ ÃÖÁ¾µ¥¹ÌÁö¸¦ Á¤ÇÔ.
-			float fDamage = GetOwnerScript()->GetStat().Spell_Power * (1.f + 0.3f * GetOwner()->GetScript<CPlayerScript>()->GetUpgrade(PLAYER_UPGRADE::MAGIC));
-			fDamage *= 1.3f;
-			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
-			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 50.f, CurPos.z) - vDir * 20.f;
-			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
-			m_pFire->GetScript<CMagic_FireScript>()->SetDamege(fDamage);
-			m_pFire->GetScript<CMagic_FireScript>()->SetDir(vDir);
-			m_pFire->GetScript<CMagic_FireScript>()->SetStartPos(vSpawnPos);
-			m_pFire->GetScript<CMagic_FireScript>()->SetCollidable();
-			m_pFire->SetLifeSpan(2.f);
+            GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-
-			CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-			Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.2f);
-		}
-		else
-		{
-			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
-			Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-			Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;
-			CalcDir();
-			m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
-			m_pFire->Transform()->SetRelativePos(vSpawnPos);
-		}
-	}
-	else
-	{
-		if (KEY_RELEASE(KEY::RBTN))
-		{
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-		}
-	}
+            CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+            Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Player\\FireBallFire4.mp3", 1, 0.2f);
+        }
+        else
+        {
+            Vec3 CurPos    = GetOwner()->Transform()->GetWorldPos();
+            Vec3 vDir      = GetOwner()->Transform()->GetXZDir();
+            Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 40.f, CurPos.z) - vDir * 40.f;
+            CalcDir();
+            m_pFire->Transform()->SetRelativeRot(m_vAttackDir);
+            m_pFire->Transform()->SetRelativePos(vSpawnPos);
+        }
+    }
+    else
+    {
+        if (KEY_RELEASE(KEY::RBTN))
+            GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+    }
 }
 
 void CPlyMagic_Fire::Exit()
 {
-	m_pFire = nullptr;
+    m_pFire = nullptr;
 }
 
 void CPlyMagic_Fire::CalcDir()
 {
-	Vec2 vCursorPos = CKeyMgr::GetInst()->GetMousePos();
-	vCursorPos -= CDevice::GetInst()->GetRenderResolution() / 2.f;
-	Vec3 vMousePos = Vec3(vCursorPos.x, 0.f, -vCursorPos.y);
-	float fRot = GetDir(Vec3(0.f, 0.f, 0.f), vMousePos);
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fRot, 0.f);
-	m_vAttackDir = Vec3(XM_2PI - XM_PI * 1.5f, fRot, XM_2PI);
+    Vec2 vCursorPos = CKeyMgr::GetInst()->GetMousePos();
+    vCursorPos      -= CDevice::GetInst()->GetRenderResolution() / 2.f;
+    Vec3  vMousePos = Vec3(vCursorPos.x, 0.f, -vCursorPos.y);
+    float fRot      = GetDir(Vec3(0.f, 0.f, 0.f), vMousePos);
+    GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fRot, 0.f);
+    m_vAttackDir = Vec3(XM_2PI - XM_PI * 1.5f, fRot, XM_2PI);
 }

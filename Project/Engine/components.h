@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 
 #include "CTransform.h"
@@ -14,7 +14,7 @@
 #include "CSkyBox.h"
 #include "CDecal.h"
 
-#include "CLandscape.h"	// ÁöÇü, Å×¼¿·¹ÀÌ¼Ç
-#include "CAnimator3D.h"  
+#include "CLandscape.h"	// ì§€í˜•, í…Œì…€ë ˆì´ì…˜
+#include "CAnimator3D.h"
 #include "CCollider3D.h"
 #include "CRigidbody.h"

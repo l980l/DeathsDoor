@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CEventMgr.h"
 
 #include "CLevelMgr.h"
@@ -9,122 +9,127 @@
 
 
 CEventMgr::CEventMgr()
-	: m_LevelChanged(false)
+    : m_LevelChanged(false)
 {
-
 }
 
 CEventMgr::~CEventMgr()
 {
-
 }
 
 
 void CEventMgr::tick()
 {
-	m_LevelChanged = false;
+    m_LevelChanged = false;
 
-	GC_Clear();
+    GC_Clear();
 
-	for (size_t i = 0; i < m_vecEvent.size(); ++i)
-	{
-		switch (m_vecEvent[i].Type)
-		{
-		// wParam : GameObject, lParam : Layer Index
-		case EVENT_TYPE::CREATE_OBJECT:
-		{
-			CGameObject* NewObject = (CGameObject*)m_vecEvent[i].wParam;
-			int iLayerIdx = (int)m_vecEvent[i].lParam;
-			CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(NewObject, iLayerIdx, false);
-			if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
-			{
-				NewObject->begin();
-			}
+    const size_t EventCount = m_vecEvent.size();
+    for (size_t i = 0; i < EventCount; ++i)
+    {
+        const tEvent Event = m_vecEvent[i];
 
-			m_LevelChanged = true;
-		}
-			break;
-		case EVENT_TYPE::DELETE_OBJECT:
-		{
-			CGameObject* DeleteObject = (CGameObject*)m_vecEvent[i].wParam;
+        switch (Event.Type) // wParam : GameObject, lParam : Layer Index
+        {
+        case EVENT_TYPE::CREATE_OBJECT:
+        {
+            CGameObject* pNewObject = reinterpret_cast<CGameObject*>(Event.wParam);
+            if (nullptr == pNewObject)
+                return;
 
-			if (false == DeleteObject->m_bDead)
-			{
-				DeleteObject->m_bDead = true;
-				m_vecGC.push_back(DeleteObject);
-			}			
-		}
-			break;
+            const int iLayerIdx = static_cast<int>(Event.lParam);
+            CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(pNewObject, iLayerIdx, false);
 
-		case EVENT_TYPE::ADD_CHILD:
-			// wParam : ParentObject, lParam : ChildObject
-		{
-			CGameObject* pDestObj = (CGameObject*)m_vecEvent[i].wParam;
-			CGameObject* pSrcObj = (CGameObject*)m_vecEvent[i].lParam;
+            if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
+                pNewObject->begin();
 
-			// ºÎ¸ð·Î ÁöÁ¤µÈ ¿ÀºêÁ§Æ®°¡ ¾øÀ¸¸é, Child ¿ÀºêÁ§Æ®°¡ ÃÖ»óÀ§ ºÎ¸ð ¿ÀºêÁ§Æ®°¡ µÈ´Ù.
-			if (nullptr == pDestObj)
-			{
-				if (pSrcObj->GetParent())
-				{
-					// ±âÁ¸ ºÎ¸ð¿ÍÀÇ ¿¬°á ÇØÁ¦
-					pSrcObj->DisconnectFromParent();
-					// ÃÖ»óÀ§ ºÎ¸ð ¿ÀºêÁ§Æ®·Î, ¼Ò¼Ó ·¹ÀÌ¾î¿¡ µî·Ï
-					pSrcObj->AddParentList();
-				}
-			}
-			else
-			{
-				pDestObj->AddChild(pSrcObj);
-			}
+            m_LevelChanged = true;
+        }
+        break;
+        case EVENT_TYPE::DELETE_OBJECT:
+        {
+            CGameObject* pDeleteObject = reinterpret_cast<CGameObject*>(Event.wParam);
+            if (false == pDeleteObject->m_bDead)
+            {
+                pDeleteObject->m_bDead = true;
+                m_vecGC.push_back(pDeleteObject);
+            }
+        }
+        break;
 
-			m_LevelChanged = true;
-		}
-			
+        case EVENT_TYPE::ADD_CHILD: // wParam : ParentObject, lParam : ChildObject
+        {
+            CGameObject* pDestObj = reinterpret_cast<CGameObject*>(Event.wParam);
+            CGameObject* pSrcObj  = reinterpret_cast<CGameObject*>(Event.lParam);
 
-		
-			break;
-		case EVENT_TYPE::DELETE_RESOURCE:
-			// wParam : RES_TYPE, lParam : Resource Adress
-		{
-			RES_TYPE type = (RES_TYPE)m_vecEvent[i].wParam;
-			CRes* pRes = (CRes*)m_vecEvent[i].lParam;
-			CResMgr::GetInst()->DeleteRes(type, pRes->GetKey());
-		}
+            if (nullptr == pSrcObj)
+                return;
 
-			break;
-		case EVENT_TYPE::LEVEL_CHANGE:
-		{
-			// wParam : Level Adress
-			// lParam : Level Type
-			CRenderMgr::GetInst()->ClearCamera();
-			CLevel* Level = (CLevel*)m_vecEvent[i].wParam;
-			Level->SetLevelType((int)m_vecEvent[i].lParam);
-			CLevelMgr::GetInst()->ChangeLevel(Level);
-			m_LevelChanged = true;
-		}
-			break;		
-		}
-	}
+            // ë¶€ëª¨ë¡œ ì§€ì •ëœ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ìœ¼ë©´, Child ì˜¤ë¸Œì íŠ¸ê°€ ìµœìƒìœ„ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ê°€ ëœë‹¤.
+            if (nullptr == pDestObj)
+            {
+                if (pSrcObj->GetParent())
+                {
+                    // ê¸°ì¡´ ë¶€ëª¨ì™€ì˜ ì—°ê²° í•´ì œ
+                    pSrcObj->DisconnectFromParent();
+                    // ìµœìƒìœ„ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ë¡œ, ì†Œì† ë ˆì´ì–´ì— ë“±ë¡
+                    pSrcObj->AddParentList();
+                }
+            }
+            else
+            {
+                pDestObj->AddChild(pSrcObj);
+            }
 
-	m_vecEvent.clear();
+            m_LevelChanged = true;
+        }
+        break;
+        case EVENT_TYPE::DELETE_RESOURCE: // wParam : RES_TYPE, lParam : Resource Adress
+        {
+            RES_TYPE type = static_cast<RES_TYPE>(Event.wParam);
+            CRes*    pRes = reinterpret_cast<CRes*>(Event.lParam);
+            if (pRes)
+                CResMgr::GetInst()->DeleteRes(type, pRes->GetKey());
+        }
+        break;
+        case EVENT_TYPE::LEVEL_CHANGE:      // wParam : Level Adress, lParam : Level Type
+        case EVENT_TYPE::LEVEL_CHANGE_PLAY: // wParam : Level Adress, lParam : Level Type
+        {
+            const bool PlayAfterChange = EVENT_TYPE::LEVEL_CHANGE_PLAY == Event.Type;
+
+            CRenderMgr::GetInst()->ClearCamera();
+            CLevel* pLevel = reinterpret_cast<CLevel*>(Event.wParam);
+            if (pLevel)
+            {
+                pLevel->SetLevelType(static_cast<int>(Event.lParam));
+                CLevelMgr::GetInst()->ChangeLevel(pLevel);
+                if (PlayAfterChange)
+                    pLevel->ChangeState(LEVEL_STATE::PLAY);
+                m_LevelChanged = true;
+            }
+        }
+        break;
+        }
+    }
+
+    m_vecEvent.erase(m_vecEvent.begin(), m_vecEvent.begin() + EventCount);
 }
 
 
 void CEventMgr::GC_Clear()
 {
-	for (size_t i = 0; i < m_vecGC.size(); ++i)
-	{
-		if (nullptr != m_vecGC[i])
-		{
-			// ÀÚ½Ä Å¸ÀÔ ¿ÀºêÁ§Æ®ÀÎ °æ¿ì
-			if (m_vecGC[i]->GetParent())			
-				m_vecGC[i]->DisconnectFromParent();
-			
-			delete m_vecGC[i];
+    for (CGameObject* GameObject : m_vecGC)
+    {
+        if (GameObject)
+        {
+            if (GameObject->GetParent())
+                GameObject->DisconnectFromParent();
 
-			m_LevelChanged = true;
-		}		
-	}
-	m_vecGC.clear();
+            delete GameObject;
+
+            m_LevelChanged = true;
+        }
+    }
+
+    m_vecGC.clear();
 }

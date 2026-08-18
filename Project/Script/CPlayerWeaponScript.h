@@ -6,8 +6,7 @@ class CStateScript;
 class CPlayerWeaponScript :
     public CScript
 {
-private:
-    CStateScript*   m_pStateScript;
+    CStateScript* m_pStateScript;
 
 public:
     virtual void begin() override;
@@ -16,9 +15,7 @@ public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
 
-    void ChangeState(wstring _strStateName);
-
-private:
+    void ChangeState(wstring _strStateName) const;
 
 public:
     virtual void SaveToLevelFile(FILE* _File) override;
@@ -26,8 +23,6 @@ public:
 
     CLONE(CPlayerWeaponScript);
 
-public:
     CPlayerWeaponScript();
-    ~CPlayerWeaponScript();
+    virtual ~CPlayerWeaponScript() override;
 };
-

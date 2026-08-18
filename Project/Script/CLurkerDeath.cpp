@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CLurkerDeath.h"
 #include "CLurkerScript.h"
 #include "CPlayerScript.h"
@@ -7,40 +7,40 @@
 
 void CLurkerDeath::Enter()
 {
-	GetOwner()->Animator3D()->Play(6, false);
-	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
+    GetOwner()->Animator3D()->Play(6, false);
+    GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
 
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerDeath1.ogg", 1, 0.1f);
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerDeath1.ogg", 1, 0.1f);
 }
 
 void CLurkerDeath::tick()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	
-	m_fTime += DT;
+    GetOwner()->Rigidbody()->ClearForce();
 
-	float fPlayRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
+    m_fTime += DT;
 
-	// ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³­ °æ¿ì »ç¸Á Paperburn È¿°ú ÁÖ±â.
-	if (fPlayRatio >= 0.8f && !m_bStartPaperBurn)
-	{
-		GetOwner()->GetScript<CLurkerScript>()->SetPaperBurnEffect(true);
-		m_bStartPaperBurn = true;
-		GetOwner()->Animator3D()->SetStop(true);
-	}
+    float fPlayRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
 
-	if (m_bStartPaperBurn)
-		m_fPaperBurnTime += DT;
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚œ ê²½ìš° ì‚¬ë§ Paperburn íš¨ê³¼ ì£¼ê¸°.
+    if (fPlayRatio >= 0.8f && !m_bStartPaperBurn)
+    {
+        GetOwner()->GetScript<CLurkerScript>()->SetPaperBurnEffect(true);
+        m_bStartPaperBurn = true;
+        GetOwner()->Animator3D()->SetStop(true);
+    }
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
-	{
-		GetOwner()->GetScript<CLurkerScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)200);
-		CLevelSaveLoadInScript LSL;
-		LSL.MoneyCount((UINT)200);
-		GetOwnerScript()->Destroy();
-	}
+    if (m_bStartPaperBurn)
+        m_fPaperBurnTime += DT;
+
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+    {
+        GetOwner()->GetScript<CLurkerScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(200);
+        CLevelSaveLoadInScript LSL;
+        LSL.MoneyCount(200);
+        GetOwnerScript()->Destroy();
+    }
 }
 
 void CLurkerDeath::Exit()
@@ -48,9 +48,9 @@ void CLurkerDeath::Exit()
 }
 
 CLurkerDeath::CLurkerDeath() :
-	m_bStartPaperBurn(false)
-	, m_fPaperBurnTime(0.f)
-	, m_fTime(0.f)
+    m_bStartPaperBurn(false)
+  , m_fPaperBurnTime(0.f)
+  , m_fTime(0.f)
 {
 }
 

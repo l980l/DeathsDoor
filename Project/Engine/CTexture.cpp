@@ -1,13 +1,13 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CTexture.h"
 
 #include "CDevice.h"
 #include "CPathMgr.h"
 
 CTexture::CTexture(bool _bEngine)
-	: CRes(RES_TYPE::TEXTURE, _bEngine)
-	, m_Desc{}
-	, m_iRecentNum(0)
+    : CRes(RES_TYPE::TEXTURE, _bEngine)
+    , m_Desc{}
+    , m_iRecentNum(0)
 {
 }
 
@@ -18,527 +18,453 @@ CTexture::~CTexture()
 
 void CTexture::UpdateData(int _iRegisterNum, int _PipelineStage)
 {
-	m_iRecentNum = _iRegisterNum;
+    m_iRecentNum = _iRegisterNum;
 
-	if (PIPELINE_STAGE::PS_VERTEX & _PipelineStage)
-	{
-		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
+    if (PS_VERTEX & _PipelineStage)
+        CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
-	if (PIPELINE_STAGE::PS_HULL & _PipelineStage)
-	{
-		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
+    if (PS_HULL & _PipelineStage)
+        CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
-	if (PIPELINE_STAGE::PS_DOMAIN & _PipelineStage)
-	{
-		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
+    if (PS_DOMAIN & _PipelineStage)
+        CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
-	if (PIPELINE_STAGE::PS_GEOMETRY & _PipelineStage)
-	{
-		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
+    if (PS_GEOMETRY & _PipelineStage)
+        CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 
-	if (PIPELINE_STAGE::PS_PIXEL & _PipelineStage)
-	{
-		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
+    if (PS_PIXEL & _PipelineStage)
+        CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 }
 
 void CTexture::UpdateData_CS(int _iRegisterNum, bool _bShaderRes)
 {
-	m_iRecentNum = _iRegisterNum;
+    m_iRecentNum = _iRegisterNum;
 
-	if (_bShaderRes)
-	{
-		CONTEXT->CSSetShaderResources(m_iRecentNum, 1, m_SRV.GetAddressOf());
-	}
-	else
-	{
-		UINT i = -1;
-		CONTEXT->CSSetUnorderedAccessViews(m_iRecentNum, 1, m_UAV.GetAddressOf(), &i);
-	}
+    if (_bShaderRes)
+    {
+        CONTEXT->CSSetShaderResources(m_iRecentNum, 1, m_SRV.GetAddressOf());
+    }
+    else
+    {
+        UINT i = -1;
+        CONTEXT->CSSetUnorderedAccessViews(m_iRecentNum, 1, m_UAV.GetAddressOf(), &i);
+    }
 }
 
-void CTexture::Clear()
+void CTexture::Clear() const
 {
-	ID3D11ShaderResourceView* pSRV = nullptr;
-	CONTEXT->VSSetShaderResources(m_iRecentNum, 1, &pSRV);
-	CONTEXT->HSSetShaderResources(m_iRecentNum, 1, &pSRV);
-	CONTEXT->DSSetShaderResources(m_iRecentNum, 1, &pSRV);
-	CONTEXT->GSSetShaderResources(m_iRecentNum, 1, &pSRV);
-	CONTEXT->PSSetShaderResources(m_iRecentNum, 1, &pSRV);
+    ID3D11ShaderResourceView* pSRV = nullptr;
+    CONTEXT->VSSetShaderResources(m_iRecentNum, 1, &pSRV);
+    CONTEXT->HSSetShaderResources(m_iRecentNum, 1, &pSRV);
+    CONTEXT->DSSetShaderResources(m_iRecentNum, 1, &pSRV);
+    CONTEXT->GSSetShaderResources(m_iRecentNum, 1, &pSRV);
+    CONTEXT->PSSetShaderResources(m_iRecentNum, 1, &pSRV);
 }
 
 void CTexture::Clear(int _iRegisterNum)
 {
-	ID3D11ShaderResourceView* pSRV = nullptr;
-	CONTEXT->VSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->HSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
-	CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    ID3D11ShaderResourceView* pSRV = nullptr;
+    CONTEXT->VSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->HSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
+    CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
 }
 
-void CTexture::Clear_CS(bool _bShaderRes)
+void CTexture::Clear_CS(bool _bShaderRes) const
 {
-	if (_bShaderRes)
-	{
-		ID3D11ShaderResourceView* pSRV = nullptr;
-		CONTEXT->CSSetShaderResources(m_iRecentNum, 1, &pSRV);
-	}
-	else
-	{
-		ID3D11UnorderedAccessView* pUAV = nullptr;
-		UINT i = -1;
-		CONTEXT->CSSetUnorderedAccessViews(m_iRecentNum, 1, &pUAV, &i);
-	}
+    if (_bShaderRes)
+    {
+        ID3D11ShaderResourceView* pSRV = nullptr;
+        CONTEXT->CSSetShaderResources(m_iRecentNum, 1, &pSRV);
+    }
+    else
+    {
+        ID3D11UnorderedAccessView* pUAV = nullptr;
+        UINT                       i    = -1;
+        CONTEXT->CSSetUnorderedAccessViews(m_iRecentNum, 1, &pUAV, &i);
+    }
 }
 
-void CTexture::UpdateData()
+void CTexture::UpdateData() const
 {
 }
 
 int CTexture::Load(const wstring& _strFilePath)
 {
-	return Load(_strFilePath, 1);
+    return Load(_strFilePath, 1);
 }
 
 int CTexture::Load(const wstring& _strFilePath, int _iMipLevel)
 {
-	wchar_t strBuff[50] = {};
-	_wsplitpath_s(_strFilePath.c_str(), 0, 0, 0, 0, 0, 0, strBuff, 50);
-	wstring strExt = strBuff;
+    wchar_t strBuff[50] = {};
+    _wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, strBuff, 50);
+    wstring strExt = strBuff;
 
-	HRESULT hRet = S_OK;
+    HRESULT hRet = S_OK;
 
-	if (strExt == L".dds" || strExt == L".DDS")
-	{
-		// .dds .DDS
-		hRet = LoadFromDDSFile(_strFilePath.c_str(), DDS_FLAGS_FORCE_RGB, nullptr, m_Image);
-	}
-	else if (strExt == L".tga" || strExt == L".TGA")
-	{
-		// .tga .TGA
-		hRet = LoadFromTGAFile(_strFilePath.c_str(), nullptr, m_Image);
-	}
-	else
-	{
-		// .png .jpg .jpeg .bmp
-		hRet = LoadFromWICFile(_strFilePath.c_str(), WIC_FLAGS_NONE, nullptr, m_Image);
-	}
+    if (strExt == L".dds" || strExt == L".DDS")
+        // .dds .DDS
+        hRet = LoadFromDDSFile(_strFilePath.c_str(), DDS_FLAGS_FORCE_RGB, nullptr, m_Image);
+    else if (strExt == L".tga" || strExt == L".TGA")
+        // .tga .TGA
+        hRet = LoadFromTGAFile(_strFilePath.c_str(), nullptr, m_Image);
+    else
+        // .png .jpg .jpeg .bmp
+        hRet = LoadFromWICFile(_strFilePath.c_str(), WIC_FLAGS_NONE, nullptr, m_Image);
 
-	if (FAILED(hRet))
-	{
-		wsprintf(strBuff, L"ø°∑Øƒ⁄µÂ : %d", hRet);
-		MessageBox(nullptr, strBuff, L"≈ÿΩ∫√ƒ ∑Œµ˘ Ω«∆–", MB_OK);
-		return hRet;
-	}
+    if (FAILED(hRet))
+    {
+        wsprintf(strBuff, L"ÏóêÎü¨ÏΩîÎìú : %d", hRet);
+        MessageBox(nullptr, strBuff, L"ÌÖçÏä§Ï≥ê Î°úÎî© Ïã§Ìå®", MB_OK);
+        return hRet;
+    }
 
-	// Texture2D ª˝º∫
-	m_Desc.Format = m_Image.GetMetadata().format;
+    // Texture2D ÏÉùÏÑ±
+    m_Desc.Format = m_Image.GetMetadata().format;
 
-	// ≈•∫Í «¸≈¬∂Û∏È ø¯∫ª∏∏ ª˝º∫«ÿµ“
-	if (m_Image.GetMetadata().IsCubemap())
-	{
-		m_Desc.MipLevels = 1;	// 0 ==> ∞°¥…«— ∏µÁ π”∏ ¿Ã ¿˙¿Â µ… ºˆ ¿÷¥¬ ∞¯∞£¿Ã ∏∏µÈæÓ¡¸
-		m_Desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		m_Desc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
-	}
-	else
-	{
-		m_Desc.MipLevels = _iMipLevel;// MAX_MIP;	// 0 ==> ∞°¥…«— ∏µÁ π”∏ ¿Ã ¿˙¿Â µ… ºˆ ¿÷¥¬ ∞¯∞£¿Ã ∏∏µÈæÓ¡¸	
-		m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		m_Desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
-	}
+    // ÌÅêÎ∏å ÌòïÌÉúÎùºÎ©¥ ÏõêÎ≥∏Îßå ÏÉùÏÑ±Ìï¥Îë†
+    if (m_Image.GetMetadata().IsCubemap())
+    {
+        m_Desc.MipLevels = 1; // 0 ==> Í∞ÄÎä•Ìïú Î™®Îì† Î∞âÎßµÏù¥ Ï†ÄÏû• Îê† Ïàò ÏûàÎäî Í≥µÍ∞ÑÏù¥ ÎßåÎì§Ïñ¥Ïßê
+        m_Desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        m_Desc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
+    }
+    else
+    {
+        m_Desc.MipLevels = _iMipLevel; // MAX_MIP;	// 0 ==> Í∞ÄÎä•Ìïú Î™®Îì† Î∞âÎßµÏù¥ Ï†ÄÏû• Îê† Ïàò ÏûàÎäî Í≥µÍ∞ÑÏù¥ ÎßåÎì§Ïñ¥Ïßê	
+        m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+        m_Desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+    }
 
-	m_Desc.ArraySize = m_Image.GetMetadata().arraySize;
+    m_Desc.ArraySize = m_Image.GetMetadata().arraySize;
 
-	m_Desc.SampleDesc.Count = 1;
-	m_Desc.SampleDesc.Quality = 0;
+    m_Desc.SampleDesc.Count   = 1;
+    m_Desc.SampleDesc.Quality = 0;
 
-	m_Desc.Usage = D3D11_USAGE_DEFAULT;
-	m_Desc.CPUAccessFlags = 0;
+    m_Desc.Usage          = D3D11_USAGE_DEFAULT;
+    m_Desc.CPUAccessFlags = 0;
 
-	m_Desc.Width = m_Image.GetMetadata().width;
-	m_Desc.Height = m_Image.GetMetadata().height;
+    m_Desc.Width  = m_Image.GetMetadata().width;
+    m_Desc.Height = m_Image.GetMetadata().height;
 
-	HRESULT hr = DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf());
+    HRESULT hr = DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf());
 
-	// ø¯∫ªµ•¿Ã≈Õ(π”∏  ∑π∫ß 0) ∏¶ ∞¢ ƒ≠ø° ø≈±‰¥Ÿ.	
-	for (int i = 0; i < m_Desc.ArraySize; ++i)
-	{
-		// GPU ø° µ•¿Ã≈Õ ø≈±‚±‚(π”∏  ∆˜«‘)
-		UINT iSubresIdx = D3D11CalcSubresource(0, i, m_Desc.MipLevels);
+    // ÏõêÎ≥∏Îç∞Ïù¥ÌÑ∞(Î∞âÎßµ Î†àÎ≤® 0) Î•º Í∞Å Ïπ∏Ïóê ÏòÆÍ∏¥Îã§.	
+    for (int i = 0; i < m_Desc.ArraySize; ++i)
+    {
+        // GPU Ïóê Îç∞Ïù¥ÌÑ∞ ÏòÆÍ∏∞Í∏∞(Î∞âÎßµ Ìè¨Ìï®)
+        UINT iSubresIdx = D3D11CalcSubresource(0, i, m_Desc.MipLevels);
 
-		CONTEXT->UpdateSubresource(m_Tex2D.Get(), iSubresIdx, nullptr
-			, m_Image.GetImage(0, i, 0)->pixels
-			, m_Image.GetImage(0, i, 0)->rowPitch
-			, m_Image.GetImage(0, i, 0)->slicePitch);
-	}
+        CONTEXT->UpdateSubresource(m_Tex2D.Get(), iSubresIdx, nullptr
+                                 , m_Image.GetImage(0, i, 0)->pixels
+                                 , m_Image.GetImage(0, i, 0)->rowPitch
+                                 , m_Image.GetImage(0, i, 0)->slicePitch);
+    }
 
-	// SRV ª˝º∫
-	D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
-	viewdesc.Format = m_Desc.Format;
+    // SRV ÏÉùÏÑ±
+    D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
+    viewdesc.Format                          = m_Desc.Format;
 
-	if (m_Image.GetMetadata().IsCubemap())
-	{
-		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-	}
-	else if (1 < m_Desc.ArraySize)
-	{
-		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	}
-	else
-	{
-		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	}
+    if (m_Image.GetMetadata().IsCubemap())
+        viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+    else if (1 < m_Desc.ArraySize)
+        viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+    else
+        viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 
-	if (1 < m_Desc.ArraySize)
-	{
-		viewdesc.Texture2DArray.ArraySize = m_Desc.ArraySize;
-		viewdesc.Texture2DArray.MipLevels = m_Desc.MipLevels;
-		viewdesc.Texture2DArray.MostDetailedMip = 0;
-	}
-	else
-	{
-		viewdesc.Texture2DArray.ArraySize = 1;
-		viewdesc.Texture2D.MipLevels = m_Desc.MipLevels;
-		viewdesc.Texture2D.MostDetailedMip = 0;
-	}
+    if (1 < m_Desc.ArraySize)
+    {
+        viewdesc.Texture2DArray.ArraySize       = m_Desc.ArraySize;
+        viewdesc.Texture2DArray.MipLevels       = m_Desc.MipLevels;
+        viewdesc.Texture2DArray.MostDetailedMip = 0;
+    }
+    else
+    {
+        viewdesc.Texture2DArray.ArraySize  = 1;
+        viewdesc.Texture2D.MipLevels       = m_Desc.MipLevels;
+        viewdesc.Texture2D.MostDetailedMip = 0;
+    }
 
 
-	DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
+    DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
 
-	// π”∏  ª˝º∫
-	if (false == m_Image.GetMetadata().IsCubemap())
-	{
-		CONTEXT->GenerateMips(m_SRV.Get());
-	}
+    // Î∞âÎßµ ÏÉùÏÑ±
+    if (false == m_Image.GetMetadata().IsCubemap())
+        CONTEXT->GenerateMips(m_SRV.Get());
 
-	m_Tex2D->GetDesc(&m_Desc);
+    m_Tex2D->GetDesc(&m_Desc);
 }
 
-int CTexture::Create(UINT _Width, UINT _Height, DXGI_FORMAT _pixelformat
-	, UINT _BindFlag, D3D11_USAGE _Usage)
+int CTexture::Create(UINT _Width, UINT           _Height, DXGI_FORMAT _pixelformat
+                   , UINT _BindFlag, D3D11_USAGE _Usage)
 {
-	// ID3D11Texture2D ª˝º∫
-	m_Desc.Format = _pixelformat;
+    // ID3D11Texture2D ÏÉùÏÑ±
+    m_Desc.Format = _pixelformat;
 
-	// π›µÂΩ√ ∑ª¥ı≈∏∞Ÿ∞˙ ∞∞¿∫ «ÿªÛµµ∑Œ º≥¡§«ÿæﬂ «‘
-	m_Desc.Width = _Width;
-	m_Desc.Height = _Height;
-	m_Desc.ArraySize = 1;
+    // Î∞òÎìúÏãú Î†åÎçîÌÉÄÍ≤üÍ≥º Í∞ôÏùÄ Ìï¥ÏÉÅÎèÑÎ°ú ÏÑ§Ï†ïÌï¥Ïïº Ìï®
+    m_Desc.Width     = _Width;
+    m_Desc.Height    = _Height;
+    m_Desc.ArraySize = 1;
 
-	m_Desc.BindFlags = _BindFlag;
-	m_Desc.Usage = _Usage;
+    m_Desc.BindFlags = _BindFlag;
+    m_Desc.Usage     = _Usage;
 
-	if (D3D11_USAGE::D3D11_USAGE_DYNAMIC == _Usage)
-		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	else if(D3D11_USAGE::D3D11_USAGE_STAGING == _Usage)
-		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+    if (D3D11_USAGE_DYNAMIC == _Usage)
+        m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    else if (D3D11_USAGE_STAGING == _Usage)
+        m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
-	m_Desc.MipLevels = 1;    // ø¯∫ª∏∏ ª˝º∫
-	m_Desc.SampleDesc.Count = 1;
-	m_Desc.SampleDesc.Quality = 0;
-
-
-	if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
-	{
-		return E_FAIL;
-	}
-
-	// πŸ¿ŒµÂ «√∑°±◊ø° ∏¬¥¬ View ∏¶ ª˝º∫«ÿ¡ÿ¥Ÿ.
-	if (m_Desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
-	{
-		if (FAILED(DEVICE->CreateDepthStencilView(m_Tex2D.Get(), nullptr, m_DSV.GetAddressOf())))
-		{
-			return E_FAIL;
-		}
-	}
-	else
-	{
-		if (m_Desc.BindFlags & D3D11_BIND_RENDER_TARGET)
-		{
-			if (FAILED(DEVICE->CreateRenderTargetView(m_Tex2D.Get(), nullptr, m_RTV.GetAddressOf())))
-			{
-				return E_FAIL;
-			}
-		}
-
-		if (m_Desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
-		{
-			if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), nullptr, m_SRV.GetAddressOf())))
-			{
-				return E_FAIL;
-			}
-		}
-
-		if (m_Desc.BindFlags & D3D11_BIND_UNORDERED_ACCESS)
-		{
-			if (FAILED(DEVICE->CreateUnorderedAccessView(m_Tex2D.Get(), nullptr, m_UAV.GetAddressOf())))
-			{
-				return E_FAIL;
-			}
-		}
-	}
+    m_Desc.MipLevels          = 1; // ÏõêÎ≥∏Îßå ÏÉùÏÑ±
+    m_Desc.SampleDesc.Count   = 1;
+    m_Desc.SampleDesc.Quality = 0;
 
 
-	return S_OK;
+    if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
+        return E_FAIL;
+
+    // Î∞îÏù∏Îìú ÌîåÎûòÍ∑∏Ïóê ÎßûÎäî View Î•º ÏÉùÏÑ±Ìï¥Ï§ÄÎã§.
+    if (m_Desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+    {
+        if (FAILED(DEVICE->CreateDepthStencilView(m_Tex2D.Get(), nullptr, m_DSV.GetAddressOf())))
+            return E_FAIL;
+    }
+    else
+    {
+        if (m_Desc.BindFlags & D3D11_BIND_RENDER_TARGET)
+            if (FAILED(DEVICE->CreateRenderTargetView(m_Tex2D.Get(), nullptr, m_RTV.GetAddressOf())))
+                return E_FAIL;
+
+        if (m_Desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+            if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), nullptr, m_SRV.GetAddressOf())))
+                return E_FAIL;
+
+        if (m_Desc.BindFlags & D3D11_BIND_UNORDERED_ACCESS)
+            if (FAILED(DEVICE->CreateUnorderedAccessView(m_Tex2D.Get(), nullptr, m_UAV.GetAddressOf())))
+                return E_FAIL;
+    }
+
+
+    return S_OK;
 }
 
 int CTexture::Create(ComPtr<ID3D11Texture2D> _tex2D)
 {
-	m_Tex2D = _tex2D;
+    m_Tex2D = _tex2D;
 
-	m_Tex2D->GetDesc(&m_Desc);
+    m_Tex2D->GetDesc(&m_Desc);
 
-	// πŸ¿ŒµÂ «√∑°±◊ø° ∏¬¥¬ View ∏¶ ª˝º∫«ÿ¡ÿ¥Ÿ.
-	if (m_Desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
-	{
-		if (FAILED(DEVICE->CreateDepthStencilView(m_Tex2D.Get(), nullptr, m_DSV.GetAddressOf())))
-		{
-			return E_FAIL;
-		}
-	}
-	else
-	{
-		if (m_Desc.BindFlags & D3D11_BIND_RENDER_TARGET)
-		{
-			if (FAILED(DEVICE->CreateRenderTargetView(m_Tex2D.Get(), nullptr, m_RTV.GetAddressOf())))
-			{
-				return E_FAIL;
-			}
-		}
+    // Î∞îÏù∏Îìú ÌîåÎûòÍ∑∏Ïóê ÎßûÎäî View Î•º ÏÉùÏÑ±Ìï¥Ï§ÄÎã§.
+    if (m_Desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+    {
+        if (FAILED(DEVICE->CreateDepthStencilView(m_Tex2D.Get(), nullptr, m_DSV.GetAddressOf())))
+            return E_FAIL;
+    }
+    else
+    {
+        if (m_Desc.BindFlags & D3D11_BIND_RENDER_TARGET)
+            if (FAILED(DEVICE->CreateRenderTargetView(m_Tex2D.Get(), nullptr, m_RTV.GetAddressOf())))
+                return E_FAIL;
 
-		if (m_Desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
-		{
-			if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), nullptr, m_SRV.GetAddressOf())))
-			{
-				return E_FAIL;
-			}
-		}
+        if (m_Desc.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+            if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), nullptr, m_SRV.GetAddressOf())))
+                return E_FAIL;
 
-		if (m_Desc.BindFlags & D3D11_BIND_UNORDERED_ACCESS)
-		{
-			if (FAILED(DEVICE->CreateUnorderedAccessView(m_Tex2D.Get(), nullptr, m_UAV.GetAddressOf())))
-			{
-				return E_FAIL;
-			}
-		}
-	}
+        if (m_Desc.BindFlags & D3D11_BIND_UNORDERED_ACCESS)
+            if (FAILED(DEVICE->CreateUnorderedAccessView(m_Tex2D.Get(), nullptr, m_UAV.GetAddressOf())))
+                return E_FAIL;
+    }
 
-	return S_OK;
+    return S_OK;
 }
 
 int CTexture::CreateArrayTexture(const vector<Ptr<CTexture>>& _vecTex, int _iMapLevel)
 {
-	m_Desc = _vecTex[0]->GetDesc();
-	m_Desc.ArraySize = (UINT)_vecTex.size();
-	m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	m_Desc.MipLevels = _iMapLevel;
+    m_Desc           = _vecTex[0]->GetDesc();
+    m_Desc.ArraySize = static_cast<UINT>(_vecTex.size());
+    m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    m_Desc.MipLevels = _iMapLevel;
 
-	HRESULT hr = DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf());
-	if (FAILED(hr))
-		return hr;
+    HRESULT hr = DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf());
+    if (FAILED(hr))
+        return hr;
 
-	// ø¯∫ªµ•¿Ã≈Õ(π”∏  ∑π∫ß 0) ∏¶ ∞¢ ƒ≠ø° ø≈±‰¥Ÿ.	
-	for (int i = 0; i < _vecTex.size(); ++i)
-	{
-		UINT iOffset = D3D11CalcSubresource(0, i, _iMapLevel);
-		CONTEXT->UpdateSubresource(m_Tex2D.Get(), iOffset, nullptr, _vecTex[i]->GetSysMem()
-			, _vecTex[i]->GetRowPitch(), _vecTex[i]->GetSlicePitch());
-	}
+    // ÏõêÎ≥∏Îç∞Ïù¥ÌÑ∞(Î∞âÎßµ Î†àÎ≤® 0) Î•º Í∞Å Ïπ∏Ïóê ÏòÆÍ∏¥Îã§.	
+    for (int i = 0; i < _vecTex.size(); ++i)
+    {
+        UINT iOffset = D3D11CalcSubresource(0, i, _iMapLevel);
+        CONTEXT->UpdateSubresource(m_Tex2D.Get(), iOffset, nullptr, _vecTex[i]->GetSysMem()
+                                 , _vecTex[i]->GetRowPitch(), _vecTex[i]->GetSlicePitch());
+    }
 
-	// Shader Resource View ª˝º∫
-	D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
-	viewdesc.Format = m_Desc.Format;
-	viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	viewdesc.Texture2DArray.MipLevels = _iMapLevel;
-	viewdesc.Texture2DArray.MostDetailedMip = 0;
-	viewdesc.Texture2DArray.ArraySize = _vecTex.size();
+    // Shader Resource View ÏÉùÏÑ±
+    D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
+    viewdesc.Format                          = m_Desc.Format;
+    viewdesc.ViewDimension                   = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+    viewdesc.Texture2DArray.MipLevels        = _iMapLevel;
+    viewdesc.Texture2DArray.MostDetailedMip  = 0;
+    viewdesc.Texture2DArray.ArraySize        = _vecTex.size();
 
-	DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
+    DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
 
-	// π”∏  ª˝º∫
-	CONTEXT->GenerateMips(m_SRV.Get());
-	m_Tex2D->GetDesc(&m_Desc);
+    // Î∞âÎßµ ÏÉùÏÑ±
+    CONTEXT->GenerateMips(m_SRV.Get());
+    m_Tex2D->GetDesc(&m_Desc);
 
-	return hr;
+    return hr;
 }
 
 void CTexture::GenerateMip(UINT _iMipLevel)
 {
-	// ±‚¡∏ø° ∑Œµ˘µ» ≈ÿΩ∫√ƒ∏¶ √ ±‚»≠«œ∞Ì ¿Œ¿⁄∑Œ µÈæÓø¬ ∏∏≈≠¿« π”∏ ¿ª ∞°¡¯ ≈ÿΩ∫√ƒ∑Œ ¥ŸΩ√ ∑Œµ˘«“ ∞Õ
-	// ªÛøÎø£¡¯¿∫ √ ±‚»≠∞° æ∆¥— Ω«Ω√∞£¿∏∑Œ π”∏ ¿ª ∏∏µÈæÓ ≥÷æÓ¡÷¥¬ πÊΩƒ¿ª ªÁøÎ«‘.
-	// ø©±‚º≠¥¬ ±◊ πÊΩƒ¿Ã ∫π¿‚«œπ«∑Œ √ ±‚»≠ »ƒ ¿Áª˝º∫ πÊΩƒ¿ª ªÁøÎ«‘.
-	m_Tex2D = nullptr;
-	m_SRV = nullptr;
-	m_RTV = nullptr;
-	m_DSV = nullptr;
-	m_UAV = nullptr;
+    // Í∏∞Ï°¥Ïóê Î°úÎî©Îêú ÌÖçÏä§Ï≥êÎ•º Ï¥àÍ∏∞ÌôîÌïòÍ≥† Ïù∏ÏûêÎ°ú Îì§Ïñ¥Ïò® ÎßåÌÅºÏùò Î∞âÎßµÏùÑ Í∞ÄÏßÑ ÌÖçÏä§Ï≥êÎ°ú Îã§Ïãú Î°úÎî©Ìï† Í≤É
+    // ÏÉÅÏö©ÏóîÏßÑÏùÄ Ï¥àÍ∏∞ÌôîÍ∞Ä ÏïÑÎãå Ïã§ÏãúÍ∞ÑÏúºÎ°ú Î∞âÎßµÏùÑ ÎßåÎì§Ïñ¥ ÎÑ£Ïñ¥Ï£ºÎäî Î∞©ÏãùÏùÑ ÏÇ¨Ïö©Ìï®.
+    // Ïó¨Í∏∞ÏÑúÎäî Í∑∏ Î∞©ÏãùÏù¥ Î≥µÏû°ÌïòÎØÄÎ°ú Ï¥àÍ∏∞Ìôî ÌõÑ Ïû¨ÏÉùÏÑ± Î∞©ÏãùÏùÑ ÏÇ¨Ïö©Ìï®.
+    m_Tex2D = nullptr;
+    m_SRV   = nullptr;
+    m_RTV   = nullptr;
+    m_DSV   = nullptr;
+    m_UAV   = nullptr;
 
-	// Texture2D ª˝º∫
-	D3D11_TEXTURE2D_DESC tDesc = {};
-	tDesc.Format = m_Image.GetMetadata().format;
+    // Texture2D ÏÉùÏÑ±
+    D3D11_TEXTURE2D_DESC tDesc = {};
+    tDesc.Format               = m_Image.GetMetadata().format;
 
-	if (m_Image.GetMetadata().IsCubemap())
-	{
-		tDesc.MipLevels = 1;	// 0 ==> ∞°¥…«— ∏µÁ π”∏ ¿Ã ¿˙¿Â µ… ºˆ ¿÷¥¬ ∞¯∞£¿Ã ∏∏µÈæÓ¡¸
-		tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		tDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
-	}
-	else
-	{
-		tDesc.MipLevels = _iMipLevel;// MAX_MIP;	// 0 ==> ∞°¥…«— ∏µÁ π”∏ ¿Ã ¿˙¿Â µ… ºˆ ¿÷¥¬ ∞¯∞£¿Ã ∏∏µÈæÓ¡¸	
-		tDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		tDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
-	}
+    if (m_Image.GetMetadata().IsCubemap())
+    {
+        tDesc.MipLevels = 1; // 0 ==> Í∞ÄÎä•Ìïú Î™®Îì† Î∞âÎßµÏù¥ Ï†ÄÏû• Îê† Ïàò ÏûàÎäî Í≥µÍ∞ÑÏù¥ ÎßåÎì§Ïñ¥Ïßê
+        tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        tDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
+    }
+    else
+    {
+        tDesc.MipLevels = _iMipLevel; // MAX_MIP;	// 0 ==> Í∞ÄÎä•Ìïú Î™®Îì† Î∞âÎßµÏù¥ Ï†ÄÏû• Îê† Ïàò ÏûàÎäî Í≥µÍ∞ÑÏù¥ ÎßåÎì§Ïñ¥Ïßê	
+        tDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+        tDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+    }
 
-	tDesc.ArraySize = m_Image.GetMetadata().arraySize;
+    tDesc.ArraySize = m_Image.GetMetadata().arraySize;
 
-	tDesc.SampleDesc.Count = 1;
-	tDesc.SampleDesc.Quality = 0;
+    tDesc.SampleDesc.Count   = 1;
+    tDesc.SampleDesc.Quality = 0;
 
-	tDesc.Usage = D3D11_USAGE_DEFAULT;
-	tDesc.CPUAccessFlags = 0;
+    tDesc.Usage          = D3D11_USAGE_DEFAULT;
+    tDesc.CPUAccessFlags = 0;
 
-	tDesc.Width = m_Image.GetMetadata().width;
-	tDesc.Height = m_Image.GetMetadata().height;
+    tDesc.Width  = m_Image.GetMetadata().width;
+    tDesc.Height = m_Image.GetMetadata().height;
 
-	HRESULT hr = DEVICE->CreateTexture2D(&tDesc, nullptr, m_Tex2D.GetAddressOf());
+    HRESULT hr = DEVICE->CreateTexture2D(&tDesc, nullptr, m_Tex2D.GetAddressOf());
 
-	// ø¯∫ªµ•¿Ã≈Õ(π”∏  ∑π∫ß 0) ∏¶ ∞¢ ƒ≠ø° ø≈±‰¥Ÿ.	
-	for (int i = 0; i < tDesc.ArraySize; ++i)
-	{
-		// GPU ø° µ•¿Ã≈Õ ø≈±‚±‚(π”∏  ∆˜«‘)
-		UINT iSubresIdx = D3D11CalcSubresource(0, i, tDesc.MipLevels);
+    // ÏõêÎ≥∏Îç∞Ïù¥ÌÑ∞(Î∞âÎßµ Î†àÎ≤® 0) Î•º Í∞Å Ïπ∏Ïóê ÏòÆÍ∏¥Îã§.	
+    for (int i = 0; i < tDesc.ArraySize; ++i)
+    {
+        // GPU Ïóê Îç∞Ïù¥ÌÑ∞ ÏòÆÍ∏∞Í∏∞(Î∞âÎßµ Ìè¨Ìï®)
+        UINT iSubresIdx = D3D11CalcSubresource(0, i, tDesc.MipLevels);
 
-		CONTEXT->UpdateSubresource(m_Tex2D.Get(), iSubresIdx, nullptr
-			, m_Image.GetImage(0, i, 0)->pixels
-			, m_Image.GetImage(0, i, 0)->rowPitch
-			, m_Image.GetImage(0, i, 0)->slicePitch);
-	}
+        CONTEXT->UpdateSubresource(m_Tex2D.Get(), iSubresIdx, nullptr
+                                 , m_Image.GetImage(0, i, 0)->pixels
+                                 , m_Image.GetImage(0, i, 0)->rowPitch
+                                 , m_Image.GetImage(0, i, 0)->slicePitch);
+    }
 
-	// SRV ª˝º∫
-	D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
-	viewdesc.Format = tDesc.Format;
+    // SRV ÏÉùÏÑ±
+    D3D11_SHADER_RESOURCE_VIEW_DESC viewdesc = {};
+    viewdesc.Format                          = tDesc.Format;
 
-	if (m_Image.GetMetadata().IsCubemap())
-	{
-		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-	}
-	else if (1 < tDesc.ArraySize)
-	{
-		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	}
-	else
-	{
-		viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	}
+    if (m_Image.GetMetadata().IsCubemap())
+        viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+    else if (1 < tDesc.ArraySize)
+        viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+    else
+        viewdesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 
-	if (1 < tDesc.ArraySize)
-	{
-		viewdesc.Texture2DArray.ArraySize = tDesc.ArraySize;
-		viewdesc.Texture2DArray.MipLevels = tDesc.MipLevels;
-		viewdesc.Texture2DArray.MostDetailedMip = 0;
-	}
-	else
-	{
-		viewdesc.Texture2DArray.ArraySize = 1;
-		viewdesc.Texture2D.MipLevels = tDesc.MipLevels;
-		viewdesc.Texture2D.MostDetailedMip = 0;
-	}
+    if (1 < tDesc.ArraySize)
+    {
+        viewdesc.Texture2DArray.ArraySize       = tDesc.ArraySize;
+        viewdesc.Texture2DArray.MipLevels       = tDesc.MipLevels;
+        viewdesc.Texture2DArray.MostDetailedMip = 0;
+    }
+    else
+    {
+        viewdesc.Texture2DArray.ArraySize  = 1;
+        viewdesc.Texture2D.MipLevels       = tDesc.MipLevels;
+        viewdesc.Texture2D.MostDetailedMip = 0;
+    }
 
-	DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
+    DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &viewdesc, m_SRV.GetAddressOf());
 
-	// π”∏  ª˝º∫
-	if (false == m_Image.GetMetadata().IsCubemap())
-	{
-		CONTEXT->GenerateMips(m_SRV.Get());
-	}
+    // Î∞âÎßµ ÏÉùÏÑ±
+    if (false == m_Image.GetMetadata().IsCubemap())
+        CONTEXT->GenerateMips(m_SRV.Get());
 
-	m_Tex2D->GetDesc(&m_Desc);
+    m_Tex2D->GetDesc(&m_Desc);
 }
-
-
-
-
 
 
 int CTexture::Save(const wstring& _strRelativePath)
 {
-	// ≈ÿΩ∫√ƒ∏¶ ∆ƒ¿œ∑Œ ¿˙¿Â«œ¥¬ ±‚¥…
-	// Cube¿« ∞ÊøÏ dds, ¿œπ› ≈ÿΩ∫√ƒ¿« ∞ÊøÏ png∑Œ ¿˙¿Âµ // ∞Ê∑Œ
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strRelativePath;
+    // ÌÖçÏä§Ï≥êÎ•º ÌååÏùºÎ°ú Ï†ÄÏû•ÌïòÎäî Í∏∞Îä•
+    // CubeÏùò Í≤ΩÏö∞ dds, ÏùºÎ∞ò ÌÖçÏä§Ï≥êÏùò Í≤ΩÏö∞ pngÎ°ú Ï†ÄÏû•Îê®// Í≤ΩÎ°ú
+    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    strFilePath         += _strRelativePath;
 
-	// ƒ∏√≥ (GPU -> Sys)
-	CaptureTexture(DEVICE, CONTEXT, m_Tex2D.Get(), m_Image);
+    // Ï∫°Ï≤ò (GPU -> Sys)
+    CaptureTexture(DEVICE, CONTEXT, m_Tex2D.Get(), m_Image);
 
-	HRESULT hr = S_OK;
-	size_t arrsize = m_Image.GetMetadata().arraySize;
+    HRESULT hr      = S_OK;
+    size_t  arrsize = m_Image.GetMetadata().arraySize;
 
-	// π”∏ ¿Ã 1 ¿ÃªÛ¿Œ ∞ÊøÏ
-	// π”∏ ¿Ã 1¿Œ ≈ÿΩ∫√ƒ∑Œ ∏∏µÈæÓ¡ÿ »ƒ ƒ∏√ƒ
-	if (1 < m_Desc.MipLevels)
-	{
-		D3D11_TEXTURE2D_DESC texdesc = {};
-		texdesc = m_Desc;
-		texdesc.MipLevels = 1;
+    // Î∞âÎßµÏù¥ 1 Ïù¥ÏÉÅÏù∏ Í≤ΩÏö∞
+    // Î∞âÎßµÏù¥ 1Ïù∏ ÌÖçÏä§Ï≥êÎ°ú ÎßåÎì§Ïñ¥Ï§Ä ÌõÑ Ï∫°Ï≥ê
+    if (1 < m_Desc.MipLevels)
+    {
+        D3D11_TEXTURE2D_DESC texdesc = {};
+        texdesc                      = m_Desc;
+        texdesc.MipLevels            = 1;
 
-		ComPtr<ID3D11Texture2D> pCopyTex2D;
-		HRESULT hr = DEVICE->CreateTexture2D(&texdesc, nullptr, pCopyTex2D.GetAddressOf());
+        ComPtr<ID3D11Texture2D> pCopyTex2D;
+        HRESULT                 hr = DEVICE->CreateTexture2D(&texdesc, nullptr, pCopyTex2D.GetAddressOf());
 
-		for (int i = 0; i < (int)m_Desc.ArraySize; ++i)
-		{
-			// m_Tex2D ==> pCopyTex2D
-			UINT iDestSubresIdx = D3D11CalcSubresource(0, i, 1);
-			UINT iSrcSubresIdx = D3D11CalcSubresource(0, i, MAX_MIP);
+        for (int i = 0; i < static_cast<int>(m_Desc.ArraySize); ++i)
+        {
+            // m_Tex2D ==> pCopyTex2D
+            UINT iDestSubresIdx = D3D11CalcSubresource(0, i, 1);
+            UINT iSrcSubresIdx  = D3D11CalcSubresource(0, i, MAX_MIP);
 
-			CONTEXT->CopySubresourceRegion(pCopyTex2D.Get(), iDestSubresIdx, 0, 0, 0
-				, m_Tex2D.Get(), iSrcSubresIdx, nullptr);
-		}
+            CONTEXT->CopySubresourceRegion(pCopyTex2D.Get(), iDestSubresIdx, 0, 0, 0
+                                         , m_Tex2D.Get(), iSrcSubresIdx, nullptr);
+        }
 
-		ScratchImage tempimage;
-		CaptureTexture(DEVICE, CONTEXT, pCopyTex2D.Get(), tempimage);
+        ScratchImage tempimage;
+        CaptureTexture(DEVICE, CONTEXT, pCopyTex2D.Get(), tempimage);
 
-		if (1 < arrsize)
-		{
-			hr = SaveToDDSFile(tempimage.GetImages()
-				, arrsize, tempimage.GetMetadata()
-				, DDS_FLAGS::DDS_FLAGS_NONE
-				, strFilePath.c_str());
-		}
-		else
-		{
-			hr = SaveToWICFile(*(tempimage.GetImages())
-				, WIC_FLAGS_NONE
-				, GetWICCodec(static_cast<WICCodecs>(WICCodecs::WIC_CODEC_PNG))
-				, strFilePath.c_str());
-		}
-	}
+        if (1 < arrsize)
+            hr = SaveToDDSFile(tempimage.GetImages()
+                             , arrsize, tempimage.GetMetadata()
+                             , DDS_FLAGS_NONE
+                             , strFilePath.c_str());
+        else
+            hr = SaveToWICFile(*(tempimage.GetImages())
+                             , WIC_FLAGS_NONE
+                             , GetWICCodec(WIC_CODEC_PNG)
+                             , strFilePath.c_str());
+    }
 
-	// π”∏ ¿Ã 1 ∑π∫ß(ø¯∫ª∏∏) ¿÷¥¬ ∞ÊøÏ, ƒ∏√ƒ »ƒ πŸ∑Œ ¿˙¿Â
-	else
-	{
-		if (1 < arrsize)
-		{
-			hr = SaveToDDSFile(m_Image.GetImages()
-				, arrsize
-				, m_Image.GetMetadata()
-				, DDS_FLAGS::DDS_FLAGS_NONE
-				, strFilePath.c_str());
-		}
-		else
-		{
-			hr = SaveToWICFile(*(m_Image.GetImages())
-				, WIC_FLAGS_NONE
-				, GetWICCodec(static_cast<WICCodecs>(WICCodecs::WIC_CODEC_PNG))
-				, strFilePath.c_str());
-		}
-	}
+    // Î∞âÎßµÏù¥ 1 Î†àÎ≤®(ÏõêÎ≥∏Îßå) ÏûàÎäî Í≤ΩÏö∞, Ï∫°Ï≥ê ÌõÑ Î∞îÎ°ú Ï†ÄÏû•
+    else
+    {
+        if (1 < arrsize)
+            hr = SaveToDDSFile(m_Image.GetImages()
+                             , arrsize
+                             , m_Image.GetMetadata()
+                             , DDS_FLAGS_NONE
+                             , strFilePath.c_str());
+        else
+            hr = SaveToWICFile(*(m_Image.GetImages())
+                             , WIC_FLAGS_NONE
+                             , GetWICCodec(WIC_CODEC_PNG)
+                             , strFilePath.c_str());
+    }
 
-	return hr;
+    return hr;
 }

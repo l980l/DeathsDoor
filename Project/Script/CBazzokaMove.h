@@ -1,15 +1,15 @@
-#pragma once
+Ôªø#pragma once
 #include "CState.h"
+
 class CBazzokaMove :
     public CState
 {
-private:
-    float   m_fLastRenewal;
-    float   m_fRenewal_Trace; // √ﬂ¿˚ ∞Ê∑Œ∏¶ ∞ªΩ≈«œ¥¬ ¡÷±‚
-    Vec3    m_vActualPath[256];
-    int     m_iActualPathCount;
-    int     m_iCurrentPathIndex;
-    float   m_fMoveTime;
+    float m_fLastRenewal;
+    float m_fRenewal_Trace; // Ï∂îÏ†Å Í≤ΩÎ°úÎ•º Í∞±Ïã†ÌïòÎäî Ï£ºÍ∏∞
+    Vec3  m_vActualPath[256];
+    int   m_iActualPathCount;
+    int   m_iCurrentPathIndex;
+    float m_fMoveTime;
 
 public:
     virtual void Enter() override;
@@ -18,7 +18,6 @@ public:
 
     CLONE(CBazzokaMove);
 
-public:
     CBazzokaMove();
-    ~CBazzokaMove();
+    virtual ~CBazzokaMove() override;
 };

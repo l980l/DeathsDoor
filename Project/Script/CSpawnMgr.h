@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Engine/CSingleton.h>
 
 class CRoomScript;
@@ -6,28 +6,26 @@ class CFenceScript;
 
 struct FenceInfo
 {
-    int             RoomNum;
-    CFenceScript*   Fence;
+    int           RoomNum;
+    CFenceScript* Fence;
 };
 
 class CSpawnMgr :
     public CSingleton<CSpawnMgr>
 {
     SINGLE(CSpawnMgr);
-private:
-    int                     m_iCurRoomNum;     // ÇöÀç È°¼ºÈ­ µÈ ¹æÀÇ ¹øÈ£
-    map<int, CRoomScript*>  m_mapRoom;
-    vector<FenceInfo>       m_vecFence;         // °¢ ¹øÈ£¸¦ °¡Áø fence obj
+    int                    m_iCurRoomNum; // í˜„ì¬ í™œì„±í™” ëœ ë°©ì˜ ë²ˆí˜¸
+    map<int, CRoomScript*> m_mapRoom;
+    vector<FenceInfo>      m_vecFence; // ê° ë²ˆí˜¸ë¥¼ ê°€ì§„ fence obj
 
 public:
     void RegisterFence(int _iRoomNum, CFenceScript* _pFence);
     void RegisterRoom(int _iRoomNum, CRoomScript* _pRoom);
-    void SpawnMonster(int _iRoomNum);
+    void SpawnMonster(int _iRoomNum) const;
     void ActivateFence(int _iRoomNum, bool _bOpen);
 
-    void ReduceMonsterCount();
-    void ReduceGimmickCount();
+    void ReduceMonsterCount() const;
+    void ReduceGimmickCount() const;
 
     void Clear();
 };
-

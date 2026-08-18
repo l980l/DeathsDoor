@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CThreadMgr.h"
 
 CThreadMgr::CThreadMgr()
@@ -7,172 +7,172 @@ CThreadMgr::CThreadMgr()
 
 CThreadMgr::~CThreadMgr()
 {
-	{
-		auto	iter = m_mapThread.begin();
-		auto	iterEnd = m_mapThread.end();
+    {
+        auto iter    = m_mapThread.begin();
+        auto iterEnd = m_mapThread.end();
 
-		for (; iter != iterEnd; ++iter)
-		{
-			iter->second->Stop();
+        for (; iter != iterEnd; ++iter)
+        {
+            iter->second->Stop();
 
-			if (iter->second)
-			{
-				delete iter->second;
-				iter->second = nullptr;
-			}
-		}
+            if (iter->second)
+            {
+                delete iter->second;
+                iter->second = nullptr;
+            }
+        }
 
-		m_mapThread.clear();
-	}
+        m_mapThread.clear();
+    }
 
-	{
-		auto	iter = m_mapCriticalSection.begin();
-		auto	iterEnd = m_mapCriticalSection.end();
+    {
+        auto iter    = m_mapCriticalSection.begin();
+        auto iterEnd = m_mapCriticalSection.end();
 
-		for (; iter != iterEnd; ++iter)
-		{
-			// Àü¿ªÇÔ¼ö¸¦ È£ÃâÇÏ°Ú´Ù´Â ÀÇ¹ÌÀÌ´Ù.
-			::DeleteCriticalSection(iter->second);
+        for (; iter != iterEnd; ++iter)
+        {
+            // ì „ì—­í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê² ë‹¤ëŠ” ì˜ë¯¸ì´ë‹¤.
+            ::DeleteCriticalSection(iter->second);
 
-			if (iter->second)
-			{
-				delete iter->second;
-				iter->second = nullptr;
-			}
-		}
+            if (iter->second)
+            {
+                delete iter->second;
+                iter->second = nullptr;
+            }
+        }
 
-		m_mapCriticalSection.clear();
-	}
+        m_mapCriticalSection.clear();
+    }
 }
 
 bool CThreadMgr::init()
 {
-	// ·Îµù¿ë Å©¸®Æ¼ÄÃ ¼½¼Ç »ý¼º
-	CreateCriticalSection("Loading");
+    // ë¡œë”©ìš© í¬ë¦¬í‹°ì»¬ ì„¹ì…˜ ìƒì„±
+    CreateCriticalSection("Loading");
 
-	return true;
+    return true;
 }
 
 bool CThreadMgr::Suspend(const std::string& Name)
 {
-	CThread* Thread = FindThread(Name);
+    CThread* Thread = FindThread(Name);
 
-	if (!Thread)
-		return false;
+    if (!Thread)
+        return false;
 
-	Thread->Suspend();
+    Thread->Suspend();
 
-	return true;
+    return true;
 }
 
 bool CThreadMgr::Resume(const std::string& Name)
 {
-	CThread* Thread = FindThread(Name);
+    CThread* Thread = FindThread(Name);
 
-	if (!Thread)
-		return false;
+    if (!Thread)
+        return false;
 
-	Thread->Resume();
+    Thread->Resume();
 
-	return true;
+    return true;
 }
 
 bool CThreadMgr::ReStart(const std::string& Name)
 {
-	CThread* Thread = FindThread(Name);
+    CThread* Thread = FindThread(Name);
 
-	if (!Thread)
-		return false;
+    if (!Thread)
+        return false;
 
-	Thread->ReStart();
+    Thread->ReStart();
 
-	return true;
+    return true;
 }
 
 bool CThreadMgr::Delete(const std::string& Name)
 {
-	auto	iter = m_mapThread.find(Name);
+    auto iter = m_mapThread.find(Name);
 
-	if (iter == m_mapThread.end())
-		return false;
+    if (iter == m_mapThread.end())
+        return false;
 
-	iter->second->Stop();
+    iter->second->Stop();
 
-	if (iter->second)
-	{
-		delete iter->second;
-		iter->second = nullptr;
-	}
+    if (iter->second)
+    {
+        delete iter->second;
+        iter->second = nullptr;
+    }
 
-	m_mapThread.erase(iter);
+    m_mapThread.erase(iter);
 
-	return true;
+    return true;
 }
 
 bool CThreadMgr::Start(const std::string& Name)
 {
-	CThread* Thread = FindThread(Name);
+    CThread* Thread = FindThread(Name);
 
-	if (!Thread)
-		return false;
+    if (!Thread)
+        return false;
 
-	Thread->Start();
+    Thread->Start();
 
-	return true;
+    return true;
 }
 
 CThread* CThreadMgr::FindThread(const std::string& Name)
 {
-	auto	iter = m_mapThread.find(Name);
+    auto iter = m_mapThread.find(Name);
 
-	if (iter == m_mapThread.end())
-		return nullptr;
+    if (iter == m_mapThread.end())
+        return nullptr;
 
-	return iter->second;
+    return iter->second;
 }
 
 bool CThreadMgr::CreateCriticalSection(const std::string& Name)
 {
-	CRITICAL_SECTION* Crt = FindCriticalSection(Name);
+    CRITICAL_SECTION* Crt = FindCriticalSection(Name);
 
-	if (Crt)
-		return false;
+    if (Crt)
+        return false;
 
-	Crt = new CRITICAL_SECTION;
+    Crt = new CRITICAL_SECTION;
 
-	InitializeCriticalSection(Crt);
+    InitializeCriticalSection(Crt);
 
-	m_mapCriticalSection.insert(std::make_pair(Name, Crt));
+    m_mapCriticalSection.insert(std::make_pair(Name, Crt));
 
-	return true;
+    return true;
 }
 
 bool CThreadMgr::DeleteCriticalSection(const std::string& Name)
 {
-	auto	iter = m_mapCriticalSection.find(Name);
+    auto iter = m_mapCriticalSection.find(Name);
 
-	if (iter == m_mapCriticalSection.end())
-		return false;
+    if (iter == m_mapCriticalSection.end())
+        return false;
 
-	::DeleteCriticalSection(iter->second);
+    ::DeleteCriticalSection(iter->second);
 
-	if (iter->second)
-	{
-		delete iter->second;
-		iter->second = nullptr;
-	}
+    if (iter->second)
+    {
+        delete iter->second;
+        iter->second = nullptr;
+    }
 
-	m_mapCriticalSection.erase(iter);
+    m_mapCriticalSection.erase(iter);
 
-	return true;
+    return true;
 }
 
 CRITICAL_SECTION* CThreadMgr::FindCriticalSection(const std::string& Name)
 {
-	auto	iter = m_mapCriticalSection.find(Name);
+    auto iter = m_mapCriticalSection.find(Name);
 
-	if (iter == m_mapCriticalSection.end())
-		return nullptr;
+    if (iter == m_mapCriticalSection.end())
+        return nullptr;
 
-	return iter->second;
+    return iter->second;
 }

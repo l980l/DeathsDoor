@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossRightSpin :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CCrowBossRightSpin);
 
-public:
     CCrowBossRightSpin();
-    ~CCrowBossRightSpin();
+    virtual ~CCrowBossRightSpin() override;
 };
-

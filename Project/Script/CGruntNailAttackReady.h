@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGruntNailAttackReady :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGruntNailAttackReady);
 
-public:
     CGruntNailAttackReady();
-    ~CGruntNailAttackReady();
+    virtual ~CGruntNailAttackReady() override;
 };
-

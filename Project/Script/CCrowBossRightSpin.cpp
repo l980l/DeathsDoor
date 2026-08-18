@@ -1,63 +1,63 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossRightSpin.h"
 #include "CCrowBossScript.h"
 #include "CSoundScript.h"
 
 void CCrowBossRightSpin::Enter()
 {
-	GetOwner()->Animator3D()->Play(12, false);
+    GetOwner()->Animator3D()->Play(12, false);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Slide1.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Slide1.ogg", 1, 0.1f);
 }
 
 void CCrowBossRightSpin::tick()
 {
-	// Player ÀÀ½Ã
-	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
+    // Player ì‘ì‹œ
+    GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
 
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		// ÆÐÅÏ ¼±ÅÃ. ´Þ¸®±â, Á¡ÇÁ, »ç½½.
-		srand(time(0));
-		int iRandom = rand() % 3;
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        // íŒ¨í„´ ì„ íƒ. ë‹¬ë¦¬ê¸°, ì í”„, ì‚¬ìŠ¬.
+        srand(time(nullptr));
+        int iRandom = rand() % 3;
 
-		// ´Þ¸®±â
-		if (iRandom == 0)
-		{
-			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
-			ChangeState(L"Run");
-		}
-		// Á¡ÇÁ
-		else if (iRandom == 1)
-		{
-			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
-			ChangeState(L"Jump");
-		}
-		// »ç½½
-		else if (iRandom == 2)
-		{
-			Vec3 vPlayerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
-			Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
-			Vec3 vDiff = vPlayerPos - vCurPos;
-			vDiff.y = 0.f;			
+        // ë‹¬ë¦¬ê¸°
+        if (iRandom == 0)
+        {
+            GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
+            ChangeState(L"Run");
+        }
+        // ì í”„
+        else if (iRandom == 1)
+        {
+            GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+            ChangeState(L"Jump");
+        }
+        // ì‚¬ìŠ¬
+        else if (iRandom == 2)
+        {
+            Vec3 vPlayerPos = CLevelMgr::GetInst()->FindObjectByName(L"Player")->Transform()->GetWorldPos();
+            Vec3 vCurPos    = GetOwner()->Transform()->GetWorldPos();
+            Vec3 vDiff      = vPlayerPos - vCurPos;
+            vDiff.y         = 0.f;
 
-			if (vDiff.Length() < 400.f)
-			{
-				GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
-				ChangeState(L"Run");
-			}
+            if (vDiff.Length() < 400.f)
+            {
+                GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(true);
+                ChangeState(L"Run");
+            }
 
-			GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
-			ChangeState(L"SlidingReady");
-		}
-	}
+            GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+            ChangeState(L"SlidingReady");
+        }
+    }
 }
 
 void CCrowBossRightSpin::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
+    GetOwner()->Rigidbody()->ClearForce();
 }
 
 CCrowBossRightSpin::CCrowBossRightSpin()

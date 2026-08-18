@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CComponent.h"
 
 #include "ptr.h"
@@ -9,19 +9,17 @@ class CAnim2D;
 class CAnimator2D :
     public CComponent
 {
-private:
-    map<wstring, CAnim2D*>  m_mapAnim;  // Animation ∏Ò∑œ
-    CAnim2D*                m_pCurAnim; // «ˆ¿Á ¿Áª˝¡ﬂ¿Œ Animation
-    bool                    m_bRepeat;  // π›∫π
+    map<wstring, CAnim2D*> m_mapAnim;  // Animation Î™©Î°ù
+    CAnim2D*               m_pCurAnim; // ÌòÑÏû¨ Ïû¨ÏÉùÏ§ëÏù∏ Animation
+    bool                   m_bRepeat;  // Î∞òÎ≥µ
 
 
 public:
     virtual void finaltick() override;
-    void UpdateData();
-    void Clear();
+    void         UpdateData();
+    void         Clear();
 
-public:
-    void Play(const wstring& _strName, bool _bRepeat);
+    void     Play(const wstring& _strName, bool _bRepeat);
     CAnim2D* FindAnim(const wstring& _strName);
 
     void CreateAnimation(const wstring& _strAnimName, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vSlice, Vec2 _vBackSize, int _FrameCount, int _FPS);
@@ -30,10 +28,7 @@ public:
     virtual void LoadFromLevelFile(FILE* _File) override;
 
 
-
     CLONE(CAnimator2D);
-public:
     CAnimator2D();
-    ~CAnimator2D();
+    virtual ~CAnimator2D() override;
 };
-

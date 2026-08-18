@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CComputeShader.h"
 
 
@@ -7,39 +7,37 @@ class CStructuredBuffer;
 class CWeightMapShader :
     public CComputeShader
 {
-private:
-    CStructuredBuffer*  m_pWeightMap; // ∞°¡ﬂƒ°∏ ¿∫ Tex∞° æ∆¥— ±∏¡∂√ºπˆ∆€∑Œ ∞°¡ﬂƒ°∏¶ ¡§∫∏∏¶ ∞°¡¸
-    CStructuredBuffer*  m_pRaycastInfo;
+    CStructuredBuffer* m_pWeightMap; // Í∞ÄÏ§ëÏπòÎßµÏùÄ TexÍ∞Ä ÏïÑÎãå Íµ¨Ï°∞Ï≤¥Î≤ÑÌçºÎ°ú Í∞ÄÏ§ëÏπòÎ•º Ï†ïÎ≥¥Î•º Í∞ÄÏßê
+    CStructuredBuffer* m_pRaycastInfo;
 
-    Ptr<CTexture>       m_pBrushArrTex;
-    Vec2                m_vBrushScale;
-    int                 m_iBrushIdx;
-    int                 m_iWeightIdx; // ∞°¡ﬂƒ° ºˆ¡§«“ ¿ßƒ°
+    Ptr<CTexture> m_pBrushArrTex;
+    Vec2          m_vBrushScale;
+    int           m_iBrushIdx;
+    int           m_iWeightIdx; // Í∞ÄÏ§ëÏπò ÏàòÏ†ïÌï† ÏúÑÏπò
 
-    int                 m_iWidth;
-    int                 m_iHeight;
+    int m_iWidth;
+    int m_iHeight;
 
-	float				m_fVelocity;
-
-public:
-	void SetWeightMap(CStructuredBuffer* _pWeightMap, UINT _iWidth, UINT _iHeight)
-	{
-		m_pWeightMap = _pWeightMap;
-		m_iWidth = _iWidth;
-		m_iHeight = _iHeight;
-	}
-	void SetInputBuffer(CStructuredBuffer* _pRaycastData) { m_pRaycastInfo = _pRaycastData; }
-	void SetBrushArrTex(Ptr<CTexture> _pBrushTex) { m_pBrushArrTex = _pBrushTex; }
-	void SetBrushScale(Vec2 _vScale) { m_vBrushScale = _vScale; }
-	void SetVelocity(float _fVelocity) { m_fVelocity = _fVelocity; }
-	void SetBrushIdx(int _iIdx) { m_iBrushIdx = _iIdx; }
-	void SetWeightIdx(int _iIdx) { m_iWeightIdx = _iIdx; }
+    float m_fVelocity;
 
 public:
-    virtual void UpdateData();
-    virtual void Clear();
+    void SetWeightMap(CStructuredBuffer* _pWeightMap, UINT _iWidth, UINT _iHeight)
+    {
+        m_pWeightMap = _pWeightMap;
+        m_iWidth     = _iWidth;
+        m_iHeight    = _iHeight;
+    }
 
-public:
+    void SetInputBuffer(CStructuredBuffer* _pRaycastData) { m_pRaycastInfo = _pRaycastData; }
+    void SetBrushArrTex(Ptr<CTexture> _pBrushTex) { m_pBrushArrTex = _pBrushTex; }
+    void SetBrushScale(Vec2 _vScale) { m_vBrushScale = _vScale; }
+    void SetVelocity(float _fVelocity) { m_fVelocity = _fVelocity; }
+    void SetBrushIdx(int _iIdx) { m_iBrushIdx = _iIdx; }
+    void SetWeightIdx(int _iIdx) { m_iWeightIdx = _iIdx; }
+
+    virtual void UpdateData() override;
+    virtual void Clear() override;
+
     CWeightMapShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
-    ~CWeightMapShader();
+    virtual ~CWeightMapShader() override;
 };

@@ -6,17 +6,14 @@ class CGameObject;
 class TransformUI :
     public ComponentUI
 {
-private: 
     bool    m_bShowEdieWave;
     wstring m_wstrPrefabName;
     Vec3    m_vSpawnPos;
 
 public:
     virtual int render_update() override;
-    void ShowWaveEditor();
+    void        ShowWaveEditor();
 
-public:
     TransformUI();
-    ~TransformUI();
+    virtual ~TransformUI() override;
 };
-

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGrimKnightMelee.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CPlayerScript.h"
@@ -14,21 +14,19 @@ CGrimKnightMelee::~CGrimKnightMelee()
 
 void CGrimKnightMelee::Enter()
 {
-	GetOwner()->Animator3D()->Play(8, false);
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBite.ogg", 1, 0.1f);
+    GetOwner()->Animator3D()->Play(8, false);
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBite.ogg", 1, 0.1f);
 }
 
 void CGrimKnightMelee::tick()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"SpinDown");
-	}
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"SpinDown");
 }
 
 void CGrimKnightMelee::Exit()
 {
-	//°ø°İ prefab »ı¼º
-	CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\JumpAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+    //ê³µê²© prefab ìƒì„±
+    CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\JumpAttack.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 0.2f);
 }

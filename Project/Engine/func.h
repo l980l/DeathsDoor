@@ -1,12 +1,13 @@
-#pragma once
+ï»¿#pragma once
+#include "CResMgr.h"
 
 
-// ¿ÀºêÁ§Æ® »ı¼º
+// ì˜¤ë¸Œì íŠ¸ ìƒì„±
 class CGameObject;
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, int _LayerIdx);
 void SpawnGameObject(CGameObject* _NewObject, Vec3 _vWorldPos, const wstring& _LayerName);
 
-// ¿ÀºêÁ§Æ® »èÁ¦
+// ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
 void DestroyObject(CGameObject* _DeletObject);
 
 
@@ -30,25 +31,24 @@ Vec3 DecomposeRotMat(const Matrix& _matRot);
 float GetDistance(Vec3 _Vec1, Vec3 _Vec2);
 
 
-// TargetÀÇ prevpos¿Í worldpos¸¦ ³ÖÀ¸¸é ÀÌµ¿ÇÏ´Â °¢µµ¸¦ ¾Ë·ÁÁÜ.
-// zÃàÀº y·Î °è»êÇÏ¿© ¹æÇâÀ» ¾Ë·ÁÁÜ.
+// Targetì˜ prevposì™€ worldposë¥¼ ë„£ìœ¼ë©´ ì´ë™í•˜ëŠ” ê°ë„ë¥¼ ì•Œë ¤ì¤Œ.
+// zì¶•ì€ yë¡œ ê³„ì‚°í•˜ì—¬ ë°©í–¥ì„ ì•Œë ¤ì¤Œ.
 float GetDir(Vec3 _vStart, Vec3 _vTarget, bool _degree = false);
 float GetSmoothDir(CGameObject* _pStartObject, CGameObject* _pTargetObj, float _fdegree = 2.3f);
 float GetSmoothDir(Vec3 _vStart, Vec3 _vTarget, Vec3 _vPrevDir, float _degree = 2.3f);
 
-// Player¸¸ »ç¿ëÇÏ´Â ÇÔ¼ö
+// Playerë§Œ ì‚¬ìš©í•˜ëŠ” í•¨ìˆ˜
 void AddForceCentertoMouseDir(CGameObject* _pProjectile);
 
 
-
-const char* ToString(RES_TYPE);
+const char*    ToString(RES_TYPE);
 const wchar_t* ToWSTring(RES_TYPE);
 
-const char* ToString(COMPONENT_TYPE);
+const char*    ToString(COMPONENT_TYPE);
 const wchar_t* ToWSTring(COMPONENT_TYPE);
 
 
-// Relative Path °¡Á®¿À±â
+// Relative Path ê°€ì ¸ì˜¤ê¸°
 wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 
 
@@ -65,71 +65,60 @@ void SaveWString(const wstring& _str, FILE* _File);
 void LoadWString(wstring& _str, FILE* _File);
 
 class CRes;
-template<typename T>
+template <typename T>
 class Ptr;
 
 void SaveResRef(Ptr<CRes> _Res, FILE* _File);
 
 class CResMgr;
-template<typename T>
+
+template <typename T>
 void LoadResRef(Ptr<T>& _Res, FILE* _File)
 {
-	int i = 0;	
-	fread(&i, sizeof(int), 1, _File);
-	
-	if (i)
-	{
-		wstring strKey, strRelativePath;
-		LoadWString(strKey, _File);
-		
-		LoadWString(strRelativePath, _File);
+    int i = 0;
+    fread(&i, sizeof(int), 1, _File);
 
-		_Res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);
-	}
+    if (i)
+    {
+        wstring strKey, strRelativePath;
+        LoadWString(strKey, _File);
+
+        LoadWString(strRelativePath, _File);
+
+        _Res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);
+    }
 }
 
 
-
-
-
-
-
-
-
-template<typename T, UINT Size>
+template <typename T, UINT Size>
 void Safe_Del_Array(T* (&arr)[Size])
 {
-	for (UINT i = 0; i < Size; ++i)
-	{
-		if (nullptr != arr[i])
-			delete arr[i];
-	}	
+    for (UINT i = 0; i < Size; ++i)
+    {
+        if (nullptr != arr[i])
+            delete arr[i];
+    }
 }
 
-template<typename T>
+template <typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
 {
-	for (size_t i = 0; i < _vec.size(); ++i)
-	{
-		if (nullptr != _vec[i])
-		{
-			delete _vec[i];
-		}
-	}
-	_vec.clear();
+    for (size_t i = 0; i < _vec.size(); ++i)
+    {
+        if (nullptr != _vec[i])
+            delete _vec[i];
+    }
+    _vec.clear();
 }
 
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 void Safe_Del_Map(map<T1, T2>& _map)
 {
-	for (const auto& pair : _map)
-	{
-		if (nullptr != pair.second)
-			delete pair.second;
-	}
+    for (const auto& pair : _map)
+    {
+        if (nullptr != pair.second)
+            delete pair.second;
+    }
 
-	_map.clear();
+    _map.clear();
 }
-
-
-

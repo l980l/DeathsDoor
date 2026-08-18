@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CLight3D.h"
 
 #include "CCamera.h"
@@ -8,150 +8,156 @@
 #include "CResMgr.h"
 
 CLight3D::CLight3D()
-	: CComponent(COMPONENT_TYPE::LIGHT3D)
-	, m_LightInfo{}
-	, m_iLightIdx(0)
+    : CComponent(COMPONENT_TYPE::LIGHT3D)
+    , m_LightInfo{}
+    , m_iLightIdx(0)
 {
-	SetLightType(LIGHT_TYPE::POINT);
+    SetLightType(LIGHT_TYPE::POINT);
 
-	m_pLightCam = new CGameObject;
-	m_pLightCam->AddComponent(new CTransform);
-	m_pLightCam->AddComponent(new CCamera);
+    m_pLightCam = new CGameObject;
+    m_pLightCam->AddComponent(new CTransform);
+    m_pLightCam->AddComponent(new CCamera);
 }
 
 CLight3D::CLight3D(const CLight3D& _origin)
-	: CComponent(_origin)
-	, m_LightInfo(_origin.m_LightInfo)
-	, m_iLightIdx(-1)
-	, m_pLightCam(nullptr)
+    : CComponent(_origin)
+    , m_LightInfo(_origin.m_LightInfo)
+    , m_iLightIdx(-1)
+    , m_pLightCam(nullptr)
 {
-	m_pLightCam = _origin.m_pLightCam->Clone();
+    m_pLightCam = _origin.m_pLightCam->Clone();
 }
 
 CLight3D::~CLight3D()
 {
-	if (nullptr != m_pLightCam)
-		delete m_pLightCam;
+    if (nullptr != m_pLightCam)
+        delete m_pLightCam;
 }
 
 
 void CLight3D::SetLightType(LIGHT_TYPE _Type)
 {
-	m_LightInfo.LightType = (UINT)_Type;
+    m_LightInfo.LightType = static_cast<UINT>(_Type);
 
-	if (LIGHT_TYPE::DIRECTIONAL == _Type)
-	{
-		// Directional Light¥¬ ¿¸ø™¿ª ∫Ò√ﬂ±‚ ∂ßπÆø° »≠∏È ¿¸√º∏¶ »£√‚«ÿæﬂ «œπ«∑Œ
-		// Local ¡§¡° ¿ßƒ°∏¶ »Æ¿Â«œ∏È »≠∏È ¿¸√º «»ºø¿ª »£√‚«“ ºˆ ¿÷¥¬ RectMesh∏¶ ªÁøÎ
-		m_VolumeMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
-		m_LightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DirLightMtrl"); 
+    if (LIGHT_TYPE::DIRECTIONAL == _Type)
+    {
+        // Directional LightÎäî Ï†ÑÏó≠ÏùÑ ÎπÑÏ∂îÍ∏∞ ÎïåÎ¨∏Ïóê ÌôîÎ©¥ Ï†ÑÏ≤¥Î•º Ìò∏Ï∂úÌï¥Ïïº ÌïòÎØÄÎ°ú
+        // Local Ï†ïÏ†ê ÏúÑÏπòÎ•º ÌôïÏû•ÌïòÎ©¥ ÌôîÎ©¥ Ï†ÑÏ≤¥ ÌîΩÏÖÄÏùÑ Ìò∏Ï∂úÌï† Ïàò ÏûàÎäî RectMeshÎ•º ÏÇ¨Ïö©
+        m_VolumeMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh");
+        m_LightMtrl  = CResMgr::GetInst()->FindRes<CMaterial>(L"DirLightMtrl");
 
-		m_pLightCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-		m_pLightCam->Camera()->SetWidth(10600.f);
-		m_pLightCam->Camera()->SetAspectRatio(1.f);
-		m_pLightCam->Camera()->SetFar(50000.f);
-	}
+        m_pLightCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+        m_pLightCam->Camera()->SetWidth(10600.f);
+        m_pLightCam->Camera()->SetAspectRatio(1.f);
+        m_pLightCam->Camera()->SetFar(50000.f);
+    }
 
-	else if (LIGHT_TYPE::POINT == _Type)
-	{
-		m_VolumeMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
-		m_LightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"PointLightMtrl"); 
-	}
+    else if (LIGHT_TYPE::POINT == _Type)
+    {
+        m_VolumeMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
+        m_LightMtrl  = CResMgr::GetInst()->FindRes<CMaterial>(L"PointLightMtrl");
+    }
 
-	else
-	{
-		m_VolumeMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
-		m_LightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"SpotLightMtrl");
-	}
+    else
+    {
+        m_VolumeMesh = CResMgr::GetInst()->FindRes<CMesh>(L"SphereMesh");
+        m_LightMtrl  = CResMgr::GetInst()->FindRes<CMaterial>(L"SpotLightMtrl");
+    }
 }
 
 void CLight3D::SetLightDirection(Vec3 _vDir)
 {
-	// πﬁ¿∫ πÊ«‚¿ª ¡§±‘»≠
-	m_LightInfo.vWorldDir = _vDir;
-	m_LightInfo.vWorldDir.Normalize();
+    // Î∞õÏùÄ Î∞©Ìñ•ÏùÑ Ï†ïÍ∑úÌôî
+    m_LightInfo.vWorldDir = _vDir;
+    m_LightInfo.vWorldDir.Normalize();
 
-	// πÊ«‚¿ª z√‡¿∏∑Œ ªÔæ∆ ±§ø¯ ±‚¡ÿ √‡ ∞ËªÍ
-	Vec3 vFront = m_LightInfo.vWorldDir;
-	Vec3 vUp = Vec3(0.f, 1.f, 0.f);
-	Vec3 vRight = XMVector3Cross(vUp, vFront);
-	vRight.Normalize();
-	vUp = XMVector3Cross(vFront, vRight);
-	vUp.Normalize();
+    // Î∞©Ìñ•ÏùÑ zÏ∂ïÏúºÎ°ú ÏÇºÏïÑ Í¥ëÏõê Í∏∞Ï§Ä Ï∂ï Í≥ÑÏÇ∞
+    Vec3 vFront = m_LightInfo.vWorldDir;
+    Vec3 vUp    = Vec3(0.f, 1.f, 0.f);
+    Vec3 vRight = XMVector3Cross(vUp, vFront);
+    vRight.Normalize();
+    vUp = XMVector3Cross(vFront, vRight);
+    vUp.Normalize();
 
-	// æÚ¿∫ √‡¿ª »∏¿¸«‡∑ƒ∑Œ ∏∏µÍ
-	Matrix matRot = XMMatrixIdentity();
-	matRot._11 = vRight.x;	matRot._12 = vRight.y;	matRot._13 = vRight.z;
-	matRot._21 = vUp.x;		matRot._22 = vUp.y;		matRot._23 = vUp.z;
-	matRot._31 = vFront.x;	matRot._32 = vFront.y;	matRot._33 = vFront.z;
+    // ÏñªÏùÄ Ï∂ïÏùÑ ÌöåÏ†ÑÌñâÎ†¨Î°ú ÎßåÎì¶
+    Matrix matRot = XMMatrixIdentity();
+    matRot._11    = vRight.x;
+    matRot._12    = vRight.y;
+    matRot._13    = vRight.z;
+    matRot._21    = vUp.x;
+    matRot._22    = vUp.y;
+    matRot._23    = vUp.z;
+    matRot._31    = vFront.x;
+    matRot._32    = vFront.y;
+    matRot._33    = vFront.z;
 
-	// ∏∏µÁ »∏¿¸«‡∑ƒ∑Œ √‡∫∞ »∏¿¸ ¡§µµ∏¶ Vec3∑Œ æÚæÓ≥ø
-	Vec3 vRot = DecomposeRotMat(matRot);
+    // ÎßåÎì† ÌöåÏ†ÑÌñâÎ†¨Î°ú Ï∂ïÎ≥Ñ ÌöåÏ†Ñ Ï†ïÎèÑÎ•º Vec3Î°ú ÏñªÏñ¥ÎÉÑ
+    Vec3 vRot = DecomposeRotMat(matRot);
 
-	// ±§ø¯¿Ã ∞°∏Æ≈∞¥¬ πÊ«‚¿Ã Transform ¿« Front ∞° µ«µµ∑œ »∏¿¸Ω√ƒ—¡ÿ¥Ÿ.
-	Transform()->SetRelativeRot(vRot);
+    // Í¥ëÏõêÏù¥ Í∞ÄÎ¶¨ÌÇ§Îäî Î∞©Ìñ•Ïù¥ Transform Ïùò Front Í∞Ä ÎêòÎèÑÎ°ù ÌöåÏ†ÑÏãúÏºúÏ§ÄÎã§.
+    Transform()->SetRelativeRot(vRot);
 }
 
 void CLight3D::finaltick()
 {
-	m_LightInfo.vWorldPos = Transform()->GetWorldPos();
-	m_LightInfo.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::FRONT);
-	Transform()->SetRelativeScale(Vec3(m_LightInfo.Radius * 2.f, m_LightInfo.Radius * 2.f, m_LightInfo.Radius * 2.f));
+    m_LightInfo.vWorldPos = Transform()->GetWorldPos();
+    m_LightInfo.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::FRONT);
+    Transform()->SetRelativeScale(Vec3(m_LightInfo.Radius * 2.f, m_LightInfo.Radius * 2.f, m_LightInfo.Radius * 2.f));
 
-	// ±§ø¯¿« ƒ´∏ﬁ∂Ûµµ ±§ø¯∞˙ µø¿œ«— Transform ¿Ã µ«µµ∑œ æ˜µ•¿Ã∆Æ «—¥Ÿ.
-	m_pLightCam->Transform()->SetRelativePos(Transform()->GetWorldPos());
-	m_pLightCam->Transform()->SetRelativeRot(DecomposeRotMat(Transform()->GetWorldRotation()));
-	m_pLightCam->finaltick_module();
+    // Í¥ëÏõêÏùò Ïπ¥Î©îÎùºÎèÑ Í¥ëÏõêÍ≥º ÎèôÏùºÌïú Transform Ïù¥ ÎêòÎèÑÎ°ù ÏóÖÎç∞Ïù¥Ìä∏ ÌïúÎã§.
+    m_pLightCam->Transform()->SetRelativePos(Transform()->GetWorldPos());
+    m_pLightCam->Transform()->SetRelativeRot(DecomposeRotMat(Transform()->GetWorldRotation()));
+    m_pLightCam->finaltick_module();
 
 
-	m_iLightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
+    m_iLightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
 }
 
 void CLight3D::render()
 {
-	if (nullptr == m_LightMtrl || nullptr == m_VolumeMesh)
-		return;
+    if (nullptr == m_LightMtrl || nullptr == m_VolumeMesh)
+        return;
 
-	Transform()->UpdateData();
+    Transform()->UpdateData();
 
-	// Ω¶¿Ã¥ı funcø°º≠ CalcLight3D Ω√ LightIdx∏¶ ø‰±∏«‘
-	m_LightMtrl->SetScalarParam(INT_0, &m_iLightIdx);
-	// Light ø©∫Œ π◊ ºº±‚∏¶ ∞ËªÍ«œ¥¬ µ•ø° « ø‰«— ¿ßƒ° π◊ ≥Î∏ª∞™¿ª ±‚∑œ«— Tex∏¶ ∫∏≥ª¡‹
-	m_LightMtrl->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"PositionTargetTex"));
-	m_LightMtrl->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"NormalTargetTex"));
-	
-	// πÊ«‚º∫ ±§ø¯¿Œ ∞ÊøÏ ±◊∏≤¿⁄ √≥∏Æ∏¶ ¿ß«ÿº≠ ±§ø¯ƒ´∏ﬁ∂Û∑Œ ≈ıøµΩ√≈≥ ºˆ ¿÷∞‘ View * Proj «‡∑ƒ¿ª ¿¸¥ﬁ
-	if (LIGHT_TYPE::DIRECTIONAL == (LIGHT_TYPE)m_LightInfo.LightType)
-	{
-		Matrix matLightVP = m_pLightCam->Camera()->GetViewMat() * m_pLightCam->Camera()->GetProjMat();
-		m_LightMtrl->SetScalarParam(MAT_0, &matLightVP);
-		m_LightMtrl->SetTexParam(TEX_3, CResMgr::GetInst()->FindRes<CTexture>(L"DepthMapTex"));
-	}
+    // ÏâêÏù¥Îçî funcÏóêÏÑú CalcLight3D Ïãú LightIdxÎ•º ÏöîÍµ¨Ìï®
+    m_LightMtrl->SetScalarParam(INT_0, &m_iLightIdx);
+    // Light Ïó¨Î∂Ä Î∞è ÏÑ∏Í∏∞Î•º Í≥ÑÏÇ∞ÌïòÎäî Îç∞Ïóê ÌïÑÏöîÌïú ÏúÑÏπò Î∞è ÎÖ∏ÎßêÍ∞íÏùÑ Í∏∞Î°ùÌïú TexÎ•º Î≥¥ÎÇ¥Ï§å
+    m_LightMtrl->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"PositionTargetTex"));
+    m_LightMtrl->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"NormalTargetTex"));
 
-	m_LightMtrl->UpdateData();
+    // Î∞©Ìñ•ÏÑ± Í¥ëÏõêÏù∏ Í≤ΩÏö∞ Í∑∏Î¶ºÏûê Ï≤òÎ¶¨Î•º ÏúÑÌï¥ÏÑú Í¥ëÏõêÏπ¥Î©îÎùºÎ°ú Ìà¨ÏòÅÏãúÌÇ¨ Ïàò ÏûàÍ≤å View * Proj ÌñâÎ†¨ÏùÑ Ï†ÑÎã¨
+    if (LIGHT_TYPE::DIRECTIONAL == static_cast<LIGHT_TYPE>(m_LightInfo.LightType))
+    {
+        Matrix matLightVP = m_pLightCam->Camera()->GetViewMat() * m_pLightCam->Camera()->GetProjMat();
+        m_LightMtrl->SetScalarParam(MAT_0, &matLightVP);
+        m_LightMtrl->SetTexParam(TEX_3, CResMgr::GetInst()->FindRes<CTexture>(L"DepthMapTex"));
+    }
 
-	m_VolumeMesh->render(0);
+    m_LightMtrl->UpdateData();
+
+    m_VolumeMesh->render(0);
 }
 
-void CLight3D::render_depthmap()
+void CLight3D::render_depthmap() const
 {
-	m_pLightCam->Camera()->SortShadowObject();
-	m_pLightCam->Camera()->render_depthmap();
+    m_pLightCam->Camera()->SortShadowObject();
+    m_pLightCam->Camera()->render_depthmap();
 }
 
 void CLight3D::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_LightInfo, sizeof(tLightInfo), 1, _File);
+    fwrite(&m_LightInfo, sizeof(tLightInfo), 1, _File);
 }
 
 void CLight3D::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
+    fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
 
-	SetLightType((LIGHT_TYPE)m_LightInfo.LightType);
-	SetRadius(m_LightInfo.Radius);
-	SetAngle(m_LightInfo.Angle);
-	SetLightDiffuse(m_LightInfo.Color.vDiffuse);
-	SetLightSpecular(m_LightInfo.Color.vSpecular);
-	SetLightAmbient(m_LightInfo.Color.vAmbient);
+    SetLightType(static_cast<LIGHT_TYPE>(m_LightInfo.LightType));
+    SetRadius(m_LightInfo.Radius);
+    SetAngle(m_LightInfo.Angle);
+    SetLightDiffuse(m_LightInfo.Color.vDiffuse);
+    SetLightSpecular(m_LightInfo.Color.vSpecular);
+    SetLightAmbient(m_LightInfo.Color.vAmbient);
 }

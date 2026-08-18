@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CSpawnDoorScript.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CSpawnMgr.h"
@@ -6,10 +6,10 @@
 #include "CMonsterScript.h"
 
 CSpawnDoorScript::CSpawnDoorScript()
-	: CScript((UINT)SCRIPT_TYPE::SPAWNDOORSCRIPT)
-	, m_strSpawnMstName{}
-	, m_fDelay(0.f)
-	, m_bSpawn(false)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::SPAWNDOORSCRIPT))
+    , m_strSpawnMstName{}
+    , m_fDelay(0.f)
+    , m_bSpawn(false)
 {
 }
 
@@ -19,27 +19,28 @@ CSpawnDoorScript::~CSpawnDoorScript()
 
 void CSpawnDoorScript::begin()
 {
-	
 }
 
 void CSpawnDoorScript::tick()
 {
-	if (m_bSpawn)
-		return;
+    if (m_bSpawn)
+        return;
 
-	if (m_fDelay > 0.f)
-		m_fDelay -= DT;
-	else if(m_fDelay <= 0.f)
-	{
-		wstring SpawnName = L"prefab\\";
-		SpawnName += m_strSpawnMstName;
-		SpawnName += L".prefab";
-		CGameObject* pMonster = CLevelSaveLoadInScript::SpawnandReturnPrefab(SpawnName, (int)LAYER::MONSTER, GetOwner()->Transform()->GetWorldPos());
-		pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos()); //rigidbody global pos setup
-		pMonster->GetScript<CMonsterScript>()->SpawnByDoor();
+    if (m_fDelay > 0.f)
+    {
+        m_fDelay -= DT;
+    }
+    else if (m_fDelay <= 0.f)
+    {
+        wstring SpawnName     = L"prefab\\";
+        SpawnName             += m_strSpawnMstName;
+        SpawnName             += L".prefab";
+        CGameObject* pMonster = CLevelSaveLoadInScript::SpawnandReturnPrefab(SpawnName, static_cast<int>(LAYER::MONSTER), GetOwner()->Transform()->GetWorldPos());
+        pMonster->Rigidbody()->SetRigidPos(Transform()->GetWorldPos()); //rigidbody global pos setup
+        pMonster->GetScript<CMonsterScript>()->SpawnByDoor();
 
-		// ∆‰¿Ã∆€π¯¿ª ¡÷∞Ì ªÁ∂Û¡˙ ∞Õ
-		SetLifeSpan(1.5f);
-		m_bSpawn = true;
-	}
+        // ÌéòÏù¥ÌçºÎ≤àÏùÑ Ï£ºÍ≥† ÏÇ¨ÎùºÏßà Í≤É
+        SetLifeSpan(1.5f);
+        m_bSpawn = true;
+    }
 }

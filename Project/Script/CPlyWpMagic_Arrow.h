@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpMagic_Arrow :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CPlyWpMagic_Arrow);
 
-public:
     CPlyWpMagic_Arrow();
-    ~CPlyWpMagic_Arrow();
+    virtual ~CPlyWpMagic_Arrow() override;
 };
-

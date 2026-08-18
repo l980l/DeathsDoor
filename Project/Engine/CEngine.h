@@ -1,29 +1,25 @@
-#pragma once
+ï»¿#pragma once
 
 class CEngine
-	: public CSingleton<CEngine>
+    : public CSingleton<CEngine>
 {
-private:
-	HWND	m_hWnd;
+    HWND m_hWnd;
 
-	// À©µµ¿ì ÇØ»óµµ
-	Vec2	m_vResolution;
-	
+    // ìœˆë„ìš° í•´ìƒë„
+    Vec2 m_vResolution;
 
 public:
-	Vec2 GetWindowResolution() { return m_vResolution; }
-	HWND GetMainWnd() { return m_hWnd ; }
+    Vec2 GetWindowResolution() const { return m_vResolution; }
+    HWND GetMainWnd() const { return m_hWnd; }
 
-public:
-	int init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
-	void progress();
+    int  init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
+    void progress();
 
 private:
-	void tick();
-	void render();
-
+    void tick() const;
+    void render() const;
 
 public:
-	CEngine();
-	~CEngine();
+    CEngine();
+    virtual ~CEngine() override;
 };

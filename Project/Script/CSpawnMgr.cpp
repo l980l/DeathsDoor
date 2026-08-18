@@ -4,63 +4,78 @@
 #include "CFenceScript.h"
 
 CSpawnMgr::CSpawnMgr()
-	: m_iCurRoomNum(-1)
-	, m_mapRoom{}
+    : m_iCurRoomNum(-1)
+    , m_mapRoom{}
 {
 }
+
 CSpawnMgr::~CSpawnMgr()
 {
 }
 
 void CSpawnMgr::RegisterFence(int _iRoomNum, CFenceScript* _pFence)
 {
-	assert(_iRoomNum != -1);
-	FenceInfo tFenceInfo;
-	tFenceInfo.RoomNum = _iRoomNum;
-	tFenceInfo.Fence = _pFence;
-	m_vecFence.push_back(tFenceInfo);
+	if (m_iCurRoomNum < 0)
+		return;
+
+    FenceInfo tFenceInfo;
+    tFenceInfo.RoomNum = _iRoomNum;
+    tFenceInfo.Fence   = _pFence;
+    m_vecFence.push_back(tFenceInfo);
 }
 
 void CSpawnMgr::RegisterRoom(int _iRoomNum, CRoomScript* _pRoom)
 {
-	assert(_iRoomNum != -1);
-	m_mapRoom.insert(make_pair(_iRoomNum, _pRoom));
+	if (m_iCurRoomNum < 0)
+		return;
+
+    m_mapRoom.insert(make_pair(_iRoomNum, _pRoom));
 }
 
-void CSpawnMgr::SpawnMonster(int _iRoomNum)
+void CSpawnMgr::SpawnMonster(int _iRoomNum) const
 {
-	assert(_iRoomNum != -1);
-	m_mapRoom.find(m_iCurRoomNum)->second->SpawnMst();
+	if (m_iCurRoomNum < 0)
+		return;
+
+    m_mapRoom.find(m_iCurRoomNum)->second->SpawnMst();
 }
 
 void CSpawnMgr::ActivateFence(int _iRoomNum, bool _bOpen)
 {
-	assert(_iRoomNum != -1);
-	m_iCurRoomNum = _iRoomNum;
-	if (!_bOpen)
-		SpawnMonster(_iRoomNum);
-	for (auto& iter : m_vecFence)
-	{
-		if (_iRoomNum == iter.RoomNum)
-			iter.Fence->ActivateFence(_bOpen);
-	}
+	if (m_iCurRoomNum < 0)
+		return;
+
+    m_iCurRoomNum = _iRoomNum;
+    if (!_bOpen)
+        SpawnMonster(_iRoomNum);
+    for (auto& iter : m_vecFence)
+    {
+        if (_iRoomNum == iter.RoomNum)
+            iter.Fence->ActivateFence(_bOpen);
+    }
 }
 
-void CSpawnMgr::ReduceMonsterCount()
+void CSpawnMgr::ReduceMonsterCount() const
 {
-	assert(m_iCurRoomNum != -1);
-	m_mapRoom.find(m_iCurRoomNum)->second->ReduceMonsterCount();
+    if (m_iCurRoomNum < 0)
+        return;
+
+    if (CRoomScript* room = m_mapRoom.find(m_iCurRoomNum)->second)
+        room->ReduceMonsterCount();
 }
 
-void CSpawnMgr::ReduceGimmickCount()
+void CSpawnMgr::ReduceGimmickCount() const
 {
-	assert(m_iCurRoomNum != -1);
-	m_mapRoom.find(m_iCurRoomNum)->second->ReduceGimmickCount();
+	if (m_iCurRoomNum < 0)
+		return;
+
+	if (CRoomScript* room = m_mapRoom.find(m_iCurRoomNum)->second)
+		room->ReduceGimmickCount();
 }
 
 void CSpawnMgr::Clear()
 {
-	m_iCurRoomNum = -1;
-	m_mapRoom.clear();
-	m_vecFence.clear();
+    m_iCurRoomNum = -1;
+    m_mapRoom.clear();
+    m_vecFence.clear();
 }

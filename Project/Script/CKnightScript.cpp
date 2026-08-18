@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CKnightScript.h"
 
 #include<Engine/CRigidbody.h>
@@ -9,9 +9,9 @@
 #include <Engine/CDetourMgr.h>
 
 
-CKnightScript::CKnightScript() 
-	: CMonsterScript((UINT)SCRIPT_TYPE::KNIGHTSCRIPT)
-	, m_bRecognizeCheck(false)
+CKnightScript::CKnightScript()
+    : CMonsterScript(static_cast<UINT>(SCRIPT_TYPE::KNIGHTSCRIPT))
+    , m_bRecognizeCheck(false)
 {
 }
 
@@ -21,70 +21,66 @@ CKnightScript::~CKnightScript()
 
 void CKnightScript::begin()
 {
-	CMonsterScript::begin();
-	// µ¿Àû ÀçÁú »ý¼º.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+    CMonsterScript::begin();
+    // ë™ì  ìž¬ì§ˆ ìƒì„±.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
+    for (int i = 0; i < iMtrlCount; ++i)
+        MeshRender()->GetDynamicMaterial(i);
 
-	// »óÅÂ ¼³Á¤
-	if (nullptr == m_pStateScript)
-	{
-		m_pStateScript = GetOwner()->GetScript<CStateScript>();
-		m_pStateScript->AddState(L"Idle", new CKnightIdle);
-		m_pStateScript->AddState(L"Trace", new CKnightWalk);
-		m_pStateScript->AddState(L"RunAttack", new CKnightRunAttack);
-		m_pStateScript->AddState(L"CutScene", new CKnightCutScene);
-		m_pStateScript->AddState(L"JumpReady", new CKnightJumpReady);
-		m_pStateScript->AddState(L"JumpAttack1", new CKnightJumpAttack);
-		m_pStateScript->AddState(L"JumpAttack2", new CKnightJumpAttack2);
-		m_pStateScript->AddState(L"JumpFinish", new CKnightJumpFinish);
-		m_pStateScript->AddState(L"ChopAttack", new CKnightChopAttack);
-		m_pStateScript->AddState(L"ChopAttackEnd", new CKnightChopAttackEnd);
-		m_pStateScript->AddState(L"ChopCombo", new CKnightChopAttackCombo);
-		m_pStateScript->AddState(L"ChopComboEnd", new CKnightChopAttackComboEnd);
-		m_pStateScript->AddState(L"SpinAttack", new CKnightSpinAttack);
-		m_pStateScript->AddState(L"SpinAttackCombo", new CKnightSpinAttackCombo);
-		m_pStateScript->AddState(L"Hit", new CKnightHit);
-		m_pStateScript->AddState(L"Death", new CKnightDeath);
+    // ìƒíƒœ ì„¤ì •
+    if (nullptr == m_pStateScript)
+    {
+        m_pStateScript = GetOwner()->GetScript<CStateScript>();
+        m_pStateScript->AddState(L"Idle", new CKnightIdle);
+        m_pStateScript->AddState(L"Trace", new CKnightWalk);
+        m_pStateScript->AddState(L"RunAttack", new CKnightRunAttack);
+        m_pStateScript->AddState(L"CutScene", new CKnightCutScene);
+        m_pStateScript->AddState(L"JumpReady", new CKnightJumpReady);
+        m_pStateScript->AddState(L"JumpAttack1", new CKnightJumpAttack);
+        m_pStateScript->AddState(L"JumpAttack2", new CKnightJumpAttack2);
+        m_pStateScript->AddState(L"JumpFinish", new CKnightJumpFinish);
+        m_pStateScript->AddState(L"ChopAttack", new CKnightChopAttack);
+        m_pStateScript->AddState(L"ChopAttackEnd", new CKnightChopAttackEnd);
+        m_pStateScript->AddState(L"ChopCombo", new CKnightChopAttackCombo);
+        m_pStateScript->AddState(L"ChopComboEnd", new CKnightChopAttackComboEnd);
+        m_pStateScript->AddState(L"SpinAttack", new CKnightSpinAttack);
+        m_pStateScript->AddState(L"SpinAttackCombo", new CKnightSpinAttackCombo);
+        m_pStateScript->AddState(L"Hit", new CKnightHit);
+        m_pStateScript->AddState(L"Death", new CKnightDeath);
 
-		m_pStateScript->ChangeState(L"Idle");
-	}
+        m_pStateScript->ChangeState(L"Idle");
+    }
 
-	// ÃÊ±â ½ºÅÈ ¼³Á¤.
-	Stat tInitStat;
-	tInitStat.HP = 400;
-	tInitStat.Max_HP = 400;
-	tInitStat.Attack = 1;
-	tInitStat.Attack_Speed = 10;
-	tInitStat.Speed = 150;
-	m_pStateScript->SetStat(tInitStat);
+    // ì´ˆê¸° ìŠ¤íƒ¯ ì„¤ì •.
+    Stat tInitStat;
+    tInitStat.HP           = 400;
+    tInitStat.Max_HP       = 400;
+    tInitStat.Attack       = 1;
+    tInitStat.Attack_Speed = 10;
+    tInitStat.Speed        = 150;
+    m_pStateScript->SetStat(tInitStat);
 }
 
 void CKnightScript::tick()
 {
-	CMonsterScript::tick();
+    CMonsterScript::tick();
 
-	if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
-		m_bRecognizeCheck == false)
-	{
-		m_pStateScript->ChangeState(L"Trace");
-		m_bRecognizeCheck = true;
-	}
-	else if (GetDetect() && m_pStateScript->FindState(L"SpinAttackCombo") == m_pStateScript->GetCurState())
-	{
-		m_pStateScript->ChangeState(L"Trace");
-	}
+    if (GetDetect() && m_pStateScript->FindState(L"Idle") == m_pStateScript->GetCurState() &&
+        m_bRecognizeCheck == false)
+    {
+        m_pStateScript->ChangeState(L"Trace");
+        m_bRecognizeCheck = true;
+    }
+    else if (GetDetect() && m_pStateScript->FindState(L"SpinAttackCombo") == m_pStateScript->GetCurState())
+    {
+        m_pStateScript->ChangeState(L"Trace");
+    }
 
-	//HP°¡ 0 ÀÌ¸é »ç¸Á Ã³¸®
-	if (m_pStateScript->GetStat().HP <= 0)
-	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"Death");
-	}
+    //HPê°€ 0 ì´ë©´ ì‚¬ë§ ì²˜ë¦¬
+    if (m_pStateScript->GetStat().HP <= 0)
+        if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+            m_pStateScript->ChangeState(L"Death");
 }
 
 void CKnightScript::BeginOverlap(CCollider3D* _Other)
@@ -99,9 +95,9 @@ void CKnightScript::LoadFromLevelFile(FILE* _File)
 {
 }
 
-void CKnightScript::SetDirtoPlayer()
+void CKnightScript::SetDirtoPlayer() const
 {
-	Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
-	vCurDir.y = CDetourMgr::GetInst()->GetDirtoTarget(GetOwner()->Transform()->GetWorldPos());
-	GetOwner()->Transform()->SetRelativeRot(vCurDir);
+    Vec3 vCurDir = GetOwner()->Transform()->GetRelativeRot();
+    vCurDir.y    = CDetourMgr::GetInst()->GetDirtoTarget(GetOwner()->Transform()->GetWorldPos());
+    GetOwner()->Transform()->SetRelativeRot(vCurDir);
 }

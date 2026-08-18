@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CPower :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CPower);
 
-public:
     CPower();
-    ~CPower();
+    virtual ~CPower() override;
 };
-

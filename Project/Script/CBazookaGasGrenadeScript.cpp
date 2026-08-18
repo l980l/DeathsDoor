@@ -1,144 +1,135 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazookaGasGrenadeScript.h"
 #include "CLevelSaveLoadInScript.h"
 #include <Engine/CPhysXMgr.h>
 #include "CSoundScript.h"
 
 CBazookaGasGrenadeScript::CBazookaGasGrenadeScript() :
-	CScript((UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT)
-	, m_iState(0)
-	, m_pGasBulletParticle(nullptr)
-	, m_pGasCenterParticle(nullptr)
-	, m_pGasRoundParticle(nullptr)
-	, m_fBulletTime(0.f)
-	, m_fGasTime(0.f)
+    CScript(static_cast<UINT>(SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT))
+  , m_iState(0)
+  , m_pGasBulletParticle(nullptr)
+  , m_pGasCenterParticle(nullptr)
+  , m_pGasRoundParticle(nullptr)
+  , m_fBulletTime(0.f)
+  , m_fGasTime(0.f)
 {
 }
 
 CBazookaGasGrenadeScript::CBazookaGasGrenadeScript(const CBazookaGasGrenadeScript& _Other) :
-	CScript((UINT)SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT)
-	, m_iState(0)
-	, m_pGasBulletParticle(nullptr)
-	, m_pGasCenterParticle(nullptr)
-	, m_pGasRoundParticle(nullptr)
-	, m_fBulletTime(0.f)
-	, m_fGasTime(0.f)
+    CScript(static_cast<UINT>(SCRIPT_TYPE::BAZOOKAGASGRENADESCRIPT))
+  , m_iState(0)
+  , m_pGasBulletParticle(nullptr)
+  , m_pGasCenterParticle(nullptr)
+  , m_pGasRoundParticle(nullptr)
+  , m_fBulletTime(0.f)
+  , m_fGasTime(0.f)
 {
 }
 
 CBazookaGasGrenadeScript::~CBazookaGasGrenadeScript()
 {
-	if (m_pGasBulletParticle && !m_pGasBulletParticle->IsDead())
-	{
-		DestroyObject(m_pGasBulletParticle);
-		m_pGasBulletParticle = nullptr;
-	}
+    if (m_pGasBulletParticle && !m_pGasBulletParticle->IsDead())
+    {
+        DestroyObject(m_pGasBulletParticle);
+        m_pGasBulletParticle = nullptr;
+    }
 
-	if (m_pGasCenterParticle && !m_pGasCenterParticle->IsDead())
-	{
-		DestroyObject(m_pGasCenterParticle);
-		m_pGasCenterParticle = nullptr;
-	}
+    if (m_pGasCenterParticle && !m_pGasCenterParticle->IsDead())
+    {
+        DestroyObject(m_pGasCenterParticle);
+        m_pGasCenterParticle = nullptr;
+    }
 
-	if (m_pGasRoundParticle && !m_pGasRoundParticle->IsDead())
-	{
-		DestroyObject(m_pGasRoundParticle);
-		m_pGasRoundParticle = nullptr;
-	}
+    if (m_pGasRoundParticle && !m_pGasRoundParticle->IsDead())
+    {
+        DestroyObject(m_pGasRoundParticle);
+        m_pGasRoundParticle = nullptr;
+    }
 }
 
 void CBazookaGasGrenadeScript::begin()
 {
-	// °¡½ºÅº ÆÄÆ¼Å¬ ÇÁ¸®Æé.
-	m_pGasBulletParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetWorldPos());
-	m_pGasBulletParticle->ParticleSystem()->SetEmissive(true);
+    // ê°€ìŠ¤íƒ„ íŒŒí‹°í´ í”„ë¦¬í©.
+    m_pGasBulletParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasBulletParticle.prefab", static_cast<int>(LAYER::DEFAULT), GetOwner()->Transform()->GetWorldPos());
+    m_pGasBulletParticle->ParticleSystem()->SetEmissive(true);
 
-	m_fBulletTime = 0.f;
+    m_fBulletTime = 0.f;
 
-	// Sound
-	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyFire1.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound       = pSoundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyFire1.ogg", 1, 0.1f);
 }
 
 void CBazookaGasGrenadeScript::tick()
 {
-	m_fBulletTime += DT;
-	
-	// ³¯¾Æ°¡´Â Áß
-	if (m_iState == 0)
-	{
+    m_fBulletTime += DT;
 
-		if (m_fBulletTime < 1.f)
-		{
-			Vec3 Velocity = m_vShotDir;
-			float fSpeed = 550.f;
-			Velocity *= fSpeed;
+    // ë‚ ì•„ê°€ëŠ” ì¤‘
+    if (m_iState == 0)
+    {
+        if (m_fBulletTime < 1.f)
+        {
+            Vec3  Velocity = m_vShotDir;
+            float fSpeed   = 550.f;
+            Velocity       *= fSpeed;
 
-			m_pGasBulletParticle->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
-			GetOwner()->Rigidbody()->SetVelocity(Velocity);
-		}
+            m_pGasBulletParticle->Transform()->SetRelativePos(GetOwner()->Transform()->GetWorldPos());
+            GetOwner()->Rigidbody()->SetVelocity(Velocity);
+        }
 
-		Vec3 CurVelocity = GetOwner()->Rigidbody()->GetVelocity();
+        Vec3 CurVelocity = GetOwner()->Rigidbody()->GetVelocity();
 
-		// ÀÌÀü ÇÁ·¹ÀÓ¿¡´Â ³«ÇÏÁßÀÎ °æ¿ì.
-		if (m_vPrevVelocity.y < 0.f)
-		{
-			// ¶¥¿¡ Æ¨±ä°ÅÀÓ. 
-			if (CurVelocity.y >= 0.f)
-			{
-				GetOwner()->Rigidbody()->ClearForce();
+        // ì´ì „ í”„ë ˆì„ì—ëŠ” ë‚™í•˜ì¤‘ì¸ ê²½ìš°.
+        if (m_vPrevVelocity.y < 0.f)
+            // ë•…ì— íŠ•ê¸´ê±°ì„. 
+            if (CurVelocity.y >= 0.f)
+            {
+                GetOwner()->Rigidbody()->ClearForce();
 
-				// ÆÛÁö´Â µ¶°¡½º ÆÄÆ¼Å¬ ÇÁ¸®Æé.
-				m_pGasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetRelativePos());
-				m_pGasRoundParticle->ParticleSystem()->SetEmissive(true);
-				m_pGasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", (int)LAYER::DEFAULT, GetOwner()->Transform()->GetRelativePos());
-				m_pGasCenterParticle->ParticleSystem()->SetEmissive(true);
+                // í¼ì§€ëŠ” ë…ê°€ìŠ¤ íŒŒí‹°í´ í”„ë¦¬í©.
+                m_pGasRoundParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasRoundParticle.prefab", static_cast<int>(LAYER::DEFAULT), GetOwner()->Transform()->GetRelativePos());
+                m_pGasRoundParticle->ParticleSystem()->SetEmissive(true);
+                m_pGasCenterParticle = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasCenterParticle.prefab", static_cast<int>(LAYER::DEFAULT), GetOwner()->Transform()->GetRelativePos());
+                m_pGasCenterParticle->ParticleSystem()->SetEmissive(true);
 
-				// °¡½ºÅº »èÁ¦
-				DestroyObject(m_pGasBulletParticle);
-				m_pGasBulletParticle = nullptr;
-				m_iState = 1;
+                // ê°€ìŠ¤íƒ„ ì‚­ì œ
+                DestroyObject(m_pGasBulletParticle);
+                m_pGasBulletParticle = nullptr;
+                m_iState             = 1;
 
-				// Sound
-				CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-				Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyExplosion1.ogg", 1, 0.1f);
-			}
-		}
+                // Sound
+                CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+                Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyExplosion1.ogg", 1, 0.1f);
+            }
 
-		m_vPrevVelocity = CurVelocity;
-	}
-	
-	// ÆÛÁö´Â °æ¿ì
-	else if (m_iState == 1)
-	{
-		m_fGasTime += DT;
+        m_vPrevVelocity = CurVelocity;
+    }
 
-		// ÆÛÁö´Â µ¶°¡½º ÆÄÆ¼Å¬ ÇÁ¸®Æé.
-		GetOwner()->Rigidbody()->ClearForce();
+    // í¼ì§€ëŠ” ê²½ìš°
+    else if (m_iState == 1)
+    {
+        m_fGasTime += DT;
 
-		if (m_fGasTime >= 1.f)
-		{
-			if (m_pGasCenterParticle && !m_pGasCenterParticle->IsDead())
-			{
-				DestroyObject(m_pGasCenterParticle);
-			}
+        // í¼ì§€ëŠ” ë…ê°€ìŠ¤ íŒŒí‹°í´ í”„ë¦¬í©.
+        GetOwner()->Rigidbody()->ClearForce();
 
-			if (m_pGasRoundParticle && !m_pGasRoundParticle->IsDead())
-			{
-				DestroyObject(m_pGasRoundParticle);
-			}
+        if (m_fGasTime >= 1.f)
+        {
+            if (m_pGasCenterParticle && !m_pGasCenterParticle->IsDead())
+                DestroyObject(m_pGasCenterParticle);
 
-			m_pGasCenterParticle = nullptr;
-			m_pGasRoundParticle = nullptr;
+            if (m_pGasRoundParticle && !m_pGasRoundParticle->IsDead())
+                DestroyObject(m_pGasRoundParticle);
 
-			Destroy();
-		}
-	}
+            m_pGasCenterParticle = nullptr;
+            m_pGasRoundParticle  = nullptr;
 
-	if (m_fBulletTime >= 7.f)
-	{
-		Destroy();
-	}
+            Destroy();
+        }
+    }
+
+    if (m_fBulletTime >= 7.f)
+        Destroy();
 }
 
 void CBazookaGasGrenadeScript::BeginOverlap(CCollider3D* _Other)

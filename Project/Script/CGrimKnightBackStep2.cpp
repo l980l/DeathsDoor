@@ -11,15 +11,13 @@ CGrimKnightBackStep2::~CGrimKnightBackStep2()
 
 void CGrimKnightBackStep2::Enter()
 {
-	GetOwner()->Animator3D()->Play(10, false);
+    GetOwner()->Animator3D()->Play(10, false);
 }
 
 void CGrimKnightBackStep2::tick()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"LongDistance");
-	}
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"LongDistance");
 }
 
 void CGrimKnightBackStep2::Exit()

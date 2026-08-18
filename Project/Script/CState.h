@@ -1,34 +1,38 @@
-#pragma once
+ï»¿#pragma once
 #include <Engine/CEntity.h>
 #include "CStateScript.h"
 
 class CState :
     public CEntity
 {
-private:
     CStateScript* m_pOwnerScript;
 
 public:
     virtual void tick() = 0;
-    virtual void Enter() = 0; // »õ·Î¿î state·Î º¯°æµÉ¶§ È£Ãâ µÊ.
-    virtual void Exit() = 0;  // ´Ù¸¥ state·Î º¯°æµÇ±â Á÷Àü¿¡ È£Ãâ µÊ.
+    virtual void Enter() = 0; // ìƒˆë¡œìš´ stateë¡œ ë³€ê²½ë ë•Œ í˜¸ì¶œ ë¨.
+    virtual void Exit() = 0;  // ë‹¤ë¥¸ stateë¡œ ë³€ê²½ë˜ê¸° ì§ì „ì— í˜¸ì¶œ ë¨.
 
-public:
-    void ChangeState(wstring _strStateName);
+    void ChangeState(wstring _strStateName) const;
 
-    CStateScript* GetOwnerScript() { return m_pOwnerScript; }
-    CGameObject* GetOwner() { return m_pOwnerScript->GetOwner(); }
+    CStateScript* GetOwnerScript() const { return m_pOwnerScript; }
+    CGameObject*  GetOwner() const { return m_pOwnerScript->GetOwner(); }
 
-    virtual void BeginOverlap(CCollider3D* _Other) {};
-    virtual void OnOverlap(CCollider3D* _Other) {};
-    virtual void EndOverlap(CCollider3D* _Other) {};
+    virtual void BeginOverlap(CCollider3D* _Other)
+    {
+    };
 
-public:
-    CState* Clone() = 0;
+    virtual void OnOverlap(CCollider3D* _Other)
+    {
+    };
+
+    virtual void EndOverlap(CCollider3D* _Other)
+    {
+    };
+
+    virtual CState* Clone() override = 0;
 
     CState();
-    ~CState();
+    virtual ~CState() override;
 
     friend class CStateScript;
 };
-

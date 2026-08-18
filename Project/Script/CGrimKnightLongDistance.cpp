@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CGrimKnightLongDistance.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CGrimKnightScript.h"
@@ -18,29 +18,29 @@ CGrimKnightLongDistance::~CGrimKnightLongDistance()
 
 void CGrimKnightLongDistance::tick()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"Trace");
-		CGrimKnightScript* pScript= GetOwner()->GetScript< CGrimKnightScript>();
-		pScript->SetOnCollision(false);
-	}
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        ChangeState(L"Trace");
+        CGrimKnightScript* pScript = GetOwner()->GetScript<CGrimKnightScript>();
+        pScript->SetOnCollision(false);
+    }
 }
 
 void CGrimKnightLongDistance::Enter()
 {
-	GetOwner()->Animator3D()->Play(7, false);
-	
-	CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBullet.ogg", 1, 0.1f);
+    GetOwner()->Animator3D()->Play(7, false);
 
-	//Ghost prefab ª˝º∫
-	CGameObject* pGhost = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Ghost.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 5.f);
-	pGhost->AddComponent(new CGhostScript);
-	pGhost->AddComponent(new CStateScript);
-	pGhost->AddComponent(new CRigidbody);
-	pGhost->MeshRender()->SetDynamicShadow(true);
-	pGhost->MeshRender()->SetFrustumCheck(false);
-	CPhysXMgr::GetInst()->CreateSphere(GetOwner()->Transform()->GetWorldPos(), 30.f, pGhost);
+    CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound       = pSoundscript->AddSound(L"Sound\\Monster\\Grim\\GrimaceBullet.ogg", 1, 0.1f);
+
+    //Ghost prefab ÏÉùÏÑ±
+    CGameObject* pGhost = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Ghost.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 5.f);
+    pGhost->AddComponent(new CGhostScript);
+    pGhost->AddComponent(new CStateScript);
+    pGhost->AddComponent(new CRigidbody);
+    pGhost->MeshRender()->SetDynamicShadow(true);
+    pGhost->MeshRender()->SetFrustumCheck(false);
+    CPhysXMgr::GetInst()->CreateSphere(GetOwner()->Transform()->GetWorldPos(), 30.f, pGhost);
 }
 
 void CGrimKnightLongDistance::Exit()

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGrimKnightGuard :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGrimKnightGuard);
 
-public:
     CGrimKnightGuard();
-    ~CGrimKnightGuard();
+    virtual ~CGrimKnightGuard() override;
 };
-

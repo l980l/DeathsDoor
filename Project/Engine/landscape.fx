@@ -61,20 +61,19 @@ struct PatchOutput
     float Inside : SV_InsideTessFactor;
 };
 
-PatchOutput PatchConstFunc(InputPatch<VS_OUT, 3> _input
-                            , uint PatchID : SV_PrimitiveID)
+PatchOutput PatchConstFunc(InputPatch<VS_OUT, 3> _input, uint PatchID : SV_PrimitiveID)
 {
     PatchOutput output = (PatchOutput) 0.f;
     
-    float3 vUpDown =    (_input[1].vViewPos + _input[2].vViewPos) / 2.f;
-    float3 vLeftRight = (_input[0].vViewPos + _input[2].vViewPos) / 2.f;
-    float3 vSlide =     (_input[0].vViewPos + _input[1].vViewPos) / 2.f;
-    float3 vMid =       (_input[0].vViewPos + _input[1].vViewPos + _input[2].vViewPos) / 3.f;
+    float3 vUpDown      = (_input[1].vViewPos + _input[2].vViewPos) / 2.f;
+    float3 vLeftRight   = (_input[0].vViewPos + _input[2].vViewPos) / 2.f;
+    float3 vSlide       = (_input[0].vViewPos + _input[1].vViewPos) / 2.f;
+    float3 vMid         = (_input[0].vViewPos + _input[1].vViewPos + _input[2].vViewPos) / 3.f;
 
     output.Edges[0] = pow(2, (int) GetTessFactor(vUpDown,    1, MaxLevel, TessFactorDist.y, TessFactorDist.x));
     output.Edges[1] = pow(2, (int) GetTessFactor(vLeftRight, 1, MaxLevel, TessFactorDist.y, TessFactorDist.x));
     output.Edges[2] = pow(2, (int) GetTessFactor(vSlide,     1, MaxLevel, TessFactorDist.y, TessFactorDist.x));
-    output.Inside =   pow(2, (int) GetTessFactor(vMid,       1, MaxLevel, TessFactorDist.y, TessFactorDist.x));
+    output.Inside   = pow(2, (int) GetTessFactor(vMid,       1, MaxLevel, TessFactorDist.y, TessFactorDist.x));
     
     return output;
 }
@@ -91,9 +90,7 @@ struct HS_OUT
 [outputcontrolpoints(3)]
 [patchconstantfunc("PatchConstFunc")]
 [maxtessfactor(32)]
-HS_OUT HS_LandScape(InputPatch<VS_OUT, 3> _input
-                , uint i : SV_OutputControlPointID
-                , uint PatchID : SV_PrimitiveID)
+HS_OUT HS_LandScape(InputPatch<VS_OUT, 3> _input, uint i : SV_OutputControlPointID, uint PatchID : SV_PrimitiveID)
 {
     HS_OUT output = (HS_OUT) 0.f;
     
@@ -119,9 +116,7 @@ struct DS_OUT
 
 
 [domain("tri")]
-DS_OUT DS_LandScape(const OutputPatch<HS_OUT, 3> _origin
-                , float3 _vWeight : SV_DomainLocation
-                , PatchOutput _patchtess)
+DS_OUT DS_LandScape(const OutputPatch<HS_OUT, 3> _origin, float3 _vWeight : SV_DomainLocation, PatchOutput _patchtess)
 {
     DS_OUT output = (DS_OUT) 0.f;
   

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CState.h"
 
 enum class SLASH
@@ -11,35 +11,32 @@ enum class SLASH
 class CPlyAttack :
     public CState
 {
-private:
-    CGameObject*    m_pSlash[(UINT)SLASH::END];    // °ø°İ ½Ã Ãâ·ÂµÇ´Â SlashMesh 
-    UINT            m_iAttackCount;         // ÇöÀç °ø°İÈ½¼ö(ÃÑ 3È¸±îÁö)
-    Vec3            m_vSlashPos;
-    float           m_fRange;
-    float           m_fAcctime;
-    float           m_fDelay;
-    float           m_fAfterAttack;         // °ø°İ¸ğ¼ÇÀÌ ³¡³­ ÈÄ ½Ã°£
-    float           m_fTimeToIdle; // °ø°İ¸ğ¼ÇÀÌ ³¡³­ ÈÄ Idle·Î µÇµ¹¾Æ°¡´Â ½Ã°£
-    float           m_fAttackDir;
-    Vec3            m_vMouseDir;
+    CGameObject* m_pSlash[static_cast<UINT>(SLASH::END)]; // ê³µê²© ì‹œ ì¶œë ¥ë˜ëŠ” SlashMesh 
+    UINT         m_iAttackCount;                          // í˜„ì¬ ê³µê²©íšŸìˆ˜(ì´ 3íšŒê¹Œì§€)
+    Vec3         m_vSlashPos;
+    float        m_fRange;
+    float        m_fAcctime;
+    float        m_fDelay;
+    float        m_fAfterAttack; // ê³µê²©ëª¨ì…˜ì´ ëë‚œ í›„ ì‹œê°„
+    float        m_fTimeToIdle;  // ê³µê²©ëª¨ì…˜ì´ ëë‚œ í›„ Idleë¡œ ë˜ëŒì•„ê°€ëŠ” ì‹œê°„
+    float        m_fAttackDir;
+    Vec3         m_vMouseDir;
 
     // 
-    float           m_fSlashStartTime;      // ÀÌ¹ø Slash ÀÌÆåÆ® »ı¼º ½Ã°¢.
-    
+    float m_fSlashStartTime; // ì´ë²ˆ Slash ì´í™íŠ¸ ìƒì„± ì‹œê°.
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
     virtual void Exit() override;
 
-    UINT GetAttackCount() { return m_iAttackCount; }
+    UINT GetAttackCount() const { return m_iAttackCount; }
     void CalcDir();
     void Slash();
-    void SetSlashScale(bool _bOn, SLASH _tDir);
+    void SetSlashScale(bool _bOn, SLASH _tDir) const;
 
     CLONE(CPlyAttack);
 
-public:
     CPlyAttack();
-    ~CPlyAttack();
+    virtual ~CPlyAttack() override;
 };
-

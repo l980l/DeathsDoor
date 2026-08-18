@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CLurkerFrontMove :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CLurkerFrontMove);
 
-public:
     CLurkerFrontMove();
-    ~CLurkerFrontMove();
+    virtual ~CLurkerFrontMove() override;
 };
-

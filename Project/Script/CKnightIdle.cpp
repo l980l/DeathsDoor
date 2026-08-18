@@ -11,7 +11,7 @@ CKnightIdle::~CKnightIdle()
 
 void CKnightIdle::Enter()
 {
-	GetOwner()->Animator3D()->Play(0, false);
+    GetOwner()->Animator3D()->Play(0, false);
 }
 
 void CKnightIdle::tick()
@@ -24,8 +24,6 @@ void CKnightIdle::Exit()
 
 void CKnightIdle::BeginOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::PLAYER == _Other->GetOwner()->GetLayerIndex())
-	{
-		ChangeState(L"RunAttack");
-	}
+    if (static_cast<int>(LAYER::PLAYER) == _Other->GetOwner()->GetLayerIndex())
+        ChangeState(L"RunAttack");
 }

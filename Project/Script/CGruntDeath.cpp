@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGruntDeath.h"
 #include "CGruntScript.h"
 #include "CPlayerScript.h"
@@ -7,37 +7,37 @@
 
 void CGruntDeath::Enter()
 {
-	GetOwner()->Animator3D()->Play(13, false);
-	GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
+    GetOwner()->Animator3D()->Play(13, false);
+    GetOwner()->GetScript<CGruntScript>()->SetStarePlayer(false);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_DashAttackVoice2.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_DashAttackVoice2.ogg", 1, 0.1f);
 }
 
 void CGruntDeath::tick()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	
-	// ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³­ °æ¿ì »ç¸Á Paperburn È¿°ú ÁÖ±â.
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		GetOwner()->GetScript<CGruntScript>()->SetPaperBurnEffect(true);
-		m_bStartPaperBurn = true;
-		GetOwner()->Animator3D()->SetStop(true);
-	}
+    GetOwner()->Rigidbody()->ClearForce();
 
-	if (m_bStartPaperBurn)
-		m_fPaperBurnTime += DT;
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚œ ê²½ìš° ì‚¬ë§ Paperburn íš¨ê³¼ ì£¼ê¸°.
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        GetOwner()->GetScript<CGruntScript>()->SetPaperBurnEffect(true);
+        m_bStartPaperBurn = true;
+        GetOwner()->Animator3D()->SetStop(true);
+    }
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
-	{
-		GetOwner()->GetScript<CGruntScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)500);
-		CLevelSaveLoadInScript LSL;
-		LSL.MoneyCount((UINT)500);
-		GetOwnerScript()->Destroy();
-	}
+    if (m_bStartPaperBurn)
+        m_fPaperBurnTime += DT;
+
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+    {
+        GetOwner()->GetScript<CGruntScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(500);
+        CLevelSaveLoadInScript LSL;
+        LSL.MoneyCount(500);
+        GetOwnerScript()->Destroy();
+    }
 }
 
 void CGruntDeath::Exit()
@@ -45,8 +45,8 @@ void CGruntDeath::Exit()
 }
 
 CGruntDeath::CGruntDeath() :
-	m_bStartPaperBurn(false)
-	, m_fPaperBurnTime(0.f)
+    m_bStartPaperBurn(false)
+  , m_fPaperBurnTime(0.f)
 {
 }
 

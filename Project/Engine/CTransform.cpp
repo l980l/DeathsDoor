@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CTransform.h"
 
 #include "CDevice.h"
@@ -6,15 +6,14 @@
 #include "CTimeMgr.h"
 
 CTransform::CTransform()
-	: CComponent(COMPONENT_TYPE::TRANSFORM)
-	, m_vRelativeScale(Vec3(1.f, 1.f, 1.f))
-	, m_bAbsolute(false)	
-	, m_vRelativeDir{
-		  Vec3(1.f, 0.f, 0.f)
-		, Vec3(0.f, 1.f, 0.f)
-		, Vec3(0.f, 0.f, 1.f)}	
+    : CComponent(COMPONENT_TYPE::TRANSFORM)
+    , m_vRelativeScale(Vec3(1.f, 1.f, 1.f))
+    , m_bAbsolute(false)
+    , m_vRelativeDir{
+          Vec3(1.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), Vec3(0.f, 0.f, 1.f)
+      }
 {
-	SetName(L"Transform");
+    SetName(L"Transform");
 }
 
 CTransform::~CTransform()
@@ -23,142 +22,128 @@ CTransform::~CTransform()
 
 void CTransform::finaltick()
 {
-	m_vPrevPos = m_matWorld.Translation();
+    m_vPrevPos = m_matWorld.Translation();
 
-	m_matWorldScale = XMMatrixIdentity();
-	m_matWorldScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
+    m_matWorldScale = XMMatrixIdentity();
+    m_matWorldScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
 
-	m_matRelativeRot = XMMatrixRotationX(m_vRelativeRot.x);
-	m_matRelativeRot *= XMMatrixRotationY(m_vRelativeRot.y);
-	m_matRelativeRot *= XMMatrixRotationZ(m_vRelativeRot.z);
+    m_matRelativeRot = XMMatrixRotationX(m_vRelativeRot.x);
+    m_matRelativeRot *= XMMatrixRotationY(m_vRelativeRot.y);
+    m_matRelativeRot *= XMMatrixRotationZ(m_vRelativeRot.z);
 
-	Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
-	
+    const Matrix matTranslation = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
 
-	m_matWorld = m_matWorldScale * m_matRelativeRot	 * matTranslation;
+    m_matWorld = m_matWorldScale * m_matRelativeRot * matTranslation;
 
-	Vec3 vDefaultDir[3] = {
-		  Vec3(1.f, 0.f, 0.f)
-		, Vec3(0.f, 1.f, 0.f)
-		, Vec3(0.f, 0.f, 1.f)
-	};
+    Vec3 vDefaultDir[3] = {
+        Vec3(1.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f), Vec3(0.f, 0.f, 1.f)
+    };
 
-	for (int i = 0; i < 3; ++i)
-	{
-		m_vWorldDir[i] = m_vRelativeDir[i] = XMVector3TransformNormal(vDefaultDir[i], m_matRelativeRot);
-	}
+    for (int i = 0; i < 3; ++i)
+        m_vWorldDir[i] = m_vRelativeDir[i] = XMVector3TransformNormal(vDefaultDir[i], m_matRelativeRot);
 
-	// ºÎ¸ð ¿ÀºêÁ§Æ® È®ÀÎ
-	CGameObject* pParent = GetOwner()->GetParent();
-	if (pParent)
-	{
-		if (m_bAbsolute)
-		{
-			Matrix matParentWorld = pParent->Transform()->m_matWorld;
-			Matrix matParentScale = pParent->Transform()->m_matWorldScale;
-			Matrix matParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
+    // ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ í™•ì¸
+    CGameObject* pParent = GetOwner()->GetParent();
+    if (pParent)
+    {
+        if (m_bAbsolute)
+        {
+            Matrix matParentWorld    = pParent->Transform()->m_matWorld;
+            Matrix matParentScale    = pParent->Transform()->m_matWorldScale;
+            Matrix matParentScaleInv = XMMatrixInverse(nullptr, matParentScale);
 
-			// ¿ùµå = ·ÎÄÃ¿ùµå * ºÎ¸ðÅ©±â ¿ª * ºÎ¸ð ¿ùµå(Å©±â/È¸Àü/ÀÌµ¿)
-			m_matWorld = m_matWorld * matParentScaleInv * matParentWorld;
-		}
-		else
-		{
-			m_matWorldScale = pParent->Transform()->m_matWorldScale;
-			m_matWorld *= pParent->Transform()->m_matWorld;
-		}
-		
+            // ì›”ë“œ = ë¡œì»¬ì›”ë“œ * ë¶€ëª¨í¬ê¸° ì—­ * ë¶€ëª¨ ì›”ë“œ(í¬ê¸°/íšŒì „/ì´ë™)
+            m_matWorld = m_matWorld * matParentScaleInv * matParentWorld;
+        }
+        else
+        {
+            m_matWorldScale = pParent->Transform()->m_matWorldScale;
+            m_matWorld      *= pParent->Transform()->m_matWorld;
+        }
 
-		for (int i = 0; i < 3; ++i)
-		{
-			m_vWorldDir[i] = XMVector3TransformNormal(vDefaultDir[i], m_matWorld);
-			m_vWorldDir[i].Normalize();
-		}
-	}
 
-	// DecalÀ» À§ÇØ ¿ùµå ¿ªÇà·ÄÀ» ³Ñ°ÜÁÜ.
-	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
+        for (int i = 0; i < 3; ++i)
+        {
+            m_vWorldDir[i] = XMVector3TransformNormal(vDefaultDir[i], m_matWorld);
+            m_vWorldDir[i].Normalize();
+        }
+    }
+
+    // Decalì„ ìœ„í•´ ì›”ë“œ ì—­í–‰ë ¬ì„ ë„˜ê²¨ì¤Œ.
+    m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
 }
 
-void CTransform::UpdateData()
+void CTransform::UpdateData() const
 {
-	// À§Ä¡°ªÀ» »ó¼ö¹öÆÛ¿¡ Àü´Þ ¹× ¹ÙÀÎµù		
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
+    // ìœ„ì¹˜ê°’ì„ ìƒìˆ˜ë²„í¼ì— ì „ë‹¬ ë° ë°”ì¸ë”©		
+    CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
 
-	g_transform.matWorld = m_matWorld;
-	g_transform.matWorldInv = m_matWorldInv;
-	g_transform.matWV = g_transform.matWorld * g_transform.matView;
-	g_transform.matWVP = g_transform.matWV * g_transform.matProj;
+    g_transform.matWorld    = m_matWorld;
+    g_transform.matWorldInv = m_matWorldInv;
+    g_transform.matWV       = g_transform.matWorld * g_transform.matView;
+    g_transform.matWVP      = g_transform.matWV * g_transform.matProj;
 
-
-	pTransformBuffer->SetData(&g_transform);
-	pTransformBuffer->UpdateData();
+    pTransformBuffer->SetData(&g_transform);
+    pTransformBuffer->UpdateData();
 }
 
 void CTransform::CalcDir()
 {
-	if (m_vPrevPos == m_matWorld.Translation())
-		return;
+    if (m_vPrevPos == m_matWorld.Translation())
+        return;
 
-	Vec3 vCurPos = m_matWorld.Translation();
-	float PrevDir = m_vRelativeRot.y;
-	float Rot = GetDir(m_vPrevPos, vCurPos);
-	float Diff = Rot - PrevDir;
+    Vec3  vCurPos = m_matWorld.Translation();
+    float PrevDir = m_vRelativeRot.y;
+    float Rot     = GetDir(m_vPrevPos, vCurPos);
+    float Diff    = Rot - PrevDir;
 
-	if (Diff > XM_PI)
-	{
-		Diff = -(XM_2PI - Rot + PrevDir);
-	}
-	else if (Diff < -XM_PI)
-	{
-		Diff = (XM_2PI - PrevDir + Rot);
-	}
-	else
-		Diff = (Rot - PrevDir);
+    if (Diff > XM_PI)
+        Diff = -(XM_2PI - Rot + PrevDir);
+    else if (Diff < -XM_PI)
+        Diff = (XM_2PI - PrevDir + Rot);
+    else
+        Diff = (Rot - PrevDir);
 
-	if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
-	{
-		bool bnegative = false;
-		if (Diff < 0)
-			bnegative = true;
+    if (abs(Diff) > XMConvertToRadians(360.f * 3.f * DT))
+    {
+        bool bnegative = false;
+        if (Diff < 0)
+            bnegative = true;
 
-		Diff = XMConvertToRadians(360.f * 3.f * DT);
-		if (bnegative)
-			Diff *= -1.f;
-	}
-	m_vRelativeRot.y = PrevDir + Diff;
+        Diff = XMConvertToRadians(360.f * 3.f * DT);
+        if (bnegative)
+            Diff *= -1.f;
+    }
+    m_vRelativeRot.y = PrevDir + Diff;
 }
-
 
 Matrix CTransform::GetWorldRotation()
 {
-	Matrix matWorldRot = m_matRelativeRot;
+    Matrix matWorldRot = m_matRelativeRot;
 
-	CGameObject* pParent = GetOwner()->GetParent();
+    CGameObject* pParent = GetOwner()->GetParent();
 
-	while (pParent)
-	{
-		matWorldRot *= pParent->Transform()->m_matRelativeRot;
-		pParent = pParent->GetParent();
-	}
+    while (pParent)
+    {
+        matWorldRot *= pParent->Transform()->m_matRelativeRot;
+        pParent     = pParent->GetParent();
+    }
 
-	return matWorldRot;
+    return matWorldRot;
 }
-
-
-
 
 void CTransform::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_vRelativePos	, sizeof(Vec3), 1, _File);
-	fwrite(&m_vRelativeScale, sizeof(Vec3), 1, _File);
-	fwrite(&m_vRelativeRot	, sizeof(Vec3), 1, _File);
-	fwrite(&m_bAbsolute, sizeof(bool), 1, _File);	    
+    fwrite(&m_vRelativePos, sizeof(Vec3), 1, _File);
+    fwrite(&m_vRelativeScale, sizeof(Vec3), 1, _File);
+    fwrite(&m_vRelativeRot, sizeof(Vec3), 1, _File);
+    fwrite(&m_bAbsolute, sizeof(bool), 1, _File);
 }
 
 void CTransform::LoadFromLevelFile(FILE* _FILE)
-{	
-	fread(&m_vRelativePos,	 sizeof(Vec3), 1, _FILE);
-	fread(&m_vRelativeScale, sizeof(Vec3), 1, _FILE);
-	fread(&m_vRelativeRot,	 sizeof(Vec3), 1, _FILE);
-	fread(&m_bAbsolute, sizeof(bool), 1, _FILE);
+{
+    fread(&m_vRelativePos, sizeof(Vec3), 1, _FILE);
+    fread(&m_vRelativeScale, sizeof(Vec3), 1, _FILE);
+    fread(&m_vRelativeRot, sizeof(Vec3), 1, _FILE);
+    fread(&m_bAbsolute, sizeof(bool), 1, _FILE);
 }

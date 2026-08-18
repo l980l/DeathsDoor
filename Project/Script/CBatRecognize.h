@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CBatRecognize :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CBatRecognize);
 
-public:
     CBatRecognize();
-    ~CBatRecognize();
+    virtual ~CBatRecognize() override;
 };
-

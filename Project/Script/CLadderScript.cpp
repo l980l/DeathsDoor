@@ -4,11 +4,11 @@
 #include "CLevelSaveLoadInScript.h"
 
 CLadderScript::CLadderScript()
-	: CScript((UINT)SCRIPT_TYPE::LADDERSCRIPT)
-	, m_pInterectionImage(nullptr)
-	, m_fHeight(0.f)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::LADDERSCRIPT))
+    , m_pInterectionImage(nullptr)
+    , m_fHeight(0.f)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fHeight, "Height");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fHeight, "Height");
 }
 
 CLadderScript::~CLadderScript()
@@ -29,10 +29,10 @@ void CLadderScript::EndOverlap(CCollider3D* _Other)
 
 void CLadderScript::SaveToLevelFile(FILE* _FILE)
 {
-	fwrite(&m_fHeight, sizeof(float), 1, _FILE);
+    fwrite(&m_fHeight, sizeof(float), 1, _FILE);
 }
 
 void CLadderScript::LoadFromLevelFile(FILE* _FILE)
 {
-	fread(&m_fHeight, sizeof(float), 1, _FILE);
+    fread(&m_fHeight, sizeof(float), 1, _FILE);
 }

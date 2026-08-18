@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazookaDeath.h"
 #include "CBazookaScript.h"
 #include "CPlayerScript.h"
@@ -7,32 +7,32 @@
 
 void CBazookaDeath::Enter()
 {
-	GetOwner()->GetScript<CBazookaScript>()->SetPaperBurnEffect(true);
-	GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
-	// ¸ó½ºÅÍ »ç¸Á½Ã ÇöÀç±îÁö Èå¸¥ ½Ã°£À» ÀúÀå.
-	m_bStartPaperBurn = true;
-	GetOwner()->Animator3D()->SetStop(true);
+    GetOwner()->GetScript<CBazookaScript>()->SetPaperBurnEffect(true);
+    GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
+    // ëª¬ìŠ¤í„° ì‚¬ë§ì‹œ í˜„ìž¬ê¹Œì§€ íë¥¸ ì‹œê°„ì„ ì €ìž¥.
+    m_bStartPaperBurn = true;
+    GetOwner()->Animator3D()->SetStop(true);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyDeath.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyDeath.ogg", 1, 0.1f);
 }
 
 void CBazookaDeath::tick()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	
-	if (m_bStartPaperBurn)
-		m_fPaperBurnTime += DT;
+    GetOwner()->Rigidbody()->ClearForce();
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
-	{
-		GetOwner()->GetScript<CBazookaScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
-		CLevelSaveLoadInScript LSL;
-		LSL.MoneyCount((UINT)600);
-		GetOwnerScript()->Destroy();
-	}
+    if (m_bStartPaperBurn)
+        m_fPaperBurnTime += DT;
+
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+    {
+        GetOwner()->GetScript<CBazookaScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(600);
+        CLevelSaveLoadInScript LSL;
+        LSL.MoneyCount(600);
+        GetOwnerScript()->Destroy();
+    }
 }
 
 void CBazookaDeath::Exit()
@@ -40,8 +40,8 @@ void CBazookaDeath::Exit()
 }
 
 CBazookaDeath::CBazookaDeath() :
-	m_bStartPaperBurn(false)
-	, m_fPaperBurnTime(0.f)
+    m_bStartPaperBurn(false)
+  , m_fPaperBurnTime(0.f)
 {
 }
 

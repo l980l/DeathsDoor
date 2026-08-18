@@ -1,9 +1,9 @@
 #pragma once
 #include "CState.h"
+
 class CKnightCutScene :
     public CState
 {
-private:
     float m_fTime;
     bool  m_bCameraShake;
 
@@ -14,8 +14,6 @@ public:
 
     CLONE(CKnightCutScene);
 
-public:
     CKnightCutScene();
-    ~CKnightCutScene();
+    virtual ~CKnightCutScene() override;
 };
-

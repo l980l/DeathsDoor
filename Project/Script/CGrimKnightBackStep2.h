@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGrimKnightBackStep2 :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGrimKnightBackStep2);
 
-public:
     CGrimKnightBackStep2();
-    ~CGrimKnightBackStep2();
+    virtual ~CGrimKnightBackStep2() override;
 };
-

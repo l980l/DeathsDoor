@@ -1,21 +1,19 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazzokaIdle.h"
 #include "CBazookaScript.h"
 
 void CBazzokaIdle::Enter()
 {
-	GetOwner()->Animator3D()->Play(2, true);
+    GetOwner()->Animator3D()->Play(2, true);
 }
 
 void CBazzokaIdle::tick()
 {
-	CGameObject* pPlayer = GetOwner()->GetScript<CBazookaScript>()->GetPlayer();
-	
-	// Detect »óÅÂ¶ó¸é Move »óÅÂ·Î ÀüÈ¯.
-	if (GetOwner()->GetScript<CBazookaScript>()->GetDetect())
-	{
-		ChangeState(L"Move");
-	}
+    CGameObject* pPlayer = GetOwner()->GetScript<CBazookaScript>()->GetPlayer();
+
+    // Detect ìƒíƒœë¼ë©´ Move ìƒíƒœë¡œ ì „í™˜.
+    if (GetOwner()->GetScript<CBazookaScript>()->GetDetect())
+        ChangeState(L"Move");
 }
 
 void CBazzokaIdle::Exit()

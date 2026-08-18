@@ -3,7 +3,7 @@
 #include "CSpawnMgr.h"
 
 CBrazierScript::CBrazierScript()
-	: CScript((UINT)SCRIPT_TYPE::BRAZIERSCRIPT)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::BRAZIERSCRIPT))
 {
 }
 

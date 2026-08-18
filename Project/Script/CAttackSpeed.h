@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CAttackSpeed :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CAttackSpeed);
 
-public:
     CAttackSpeed();
-    ~CAttackSpeed();
+    virtual ~CAttackSpeed() override;
 };
-

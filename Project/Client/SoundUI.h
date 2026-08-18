@@ -5,16 +5,14 @@
 class SoundUI :
     public ResUI
 {
-private:
-    CSound* m_sound;
+    CSound*        m_sound;
     FMOD::Channel* pChannel;
-    int idx;
-    float m_volume;
+    int            idx;
+    float          m_volume;
+
 public:
     virtual int render_update() override;
 
-public:
     SoundUI();
-    ~SoundUI();
+    virtual ~SoundUI() override;
 };
-

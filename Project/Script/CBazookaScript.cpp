@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CBazookaScript.h"
 #include "CStateScript.h"
 #include "BazookaStates.h"
@@ -7,27 +7,27 @@
 #include <Engine/CDetourMgr.h>
 
 CBazookaScript::CBazookaScript() :
-	CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
-	, m_fPlayerDistance(0.f)
-	, m_fMeleeRange(300.f)
-	, m_fRunAwayRange(600.f)
-	, m_fAttackRange(1000.f)
-	, m_bStarePlayer(false)
-	, m_fPrevHP(0.f)
+    CMonsterScript(static_cast<UINT>(SCRIPT_TYPE::BAZOOKASCRIPT))
+  , m_fPlayerDistance(0.f)
+  , m_fMeleeRange(300.f)
+  , m_fRunAwayRange(600.f)
+  , m_fAttackRange(1000.f)
+  , m_bStarePlayer(false)
+  , m_fPrevHP(0.f)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMeleeRange, "MeleeRange");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRunAwayRange, "RunAwayRange");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fMeleeRange, "MeleeRange");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fRunAwayRange, "RunAwayRange");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fAttackRange, "AttackRange");
 }
 
 CBazookaScript::CBazookaScript(const CBazookaScript& _Other)
-	: CMonsterScript((UINT)SCRIPT_TYPE::BAZOOKASCRIPT)
-	, m_fPlayerDistance(_Other.m_fPlayerDistance)
-	, m_fMeleeRange(_Other.m_fMeleeRange)
-	, m_fRunAwayRange(_Other.m_fRunAwayRange)
-	, m_fAttackRange(_Other.m_fAttackRange)
-	, m_bStarePlayer(false)
-	, m_fPrevHP(0.f)
+    : CMonsterScript(static_cast<UINT>(SCRIPT_TYPE::BAZOOKASCRIPT))
+    , m_fPlayerDistance(_Other.m_fPlayerDistance)
+    , m_fMeleeRange(_Other.m_fMeleeRange)
+    , m_fRunAwayRange(_Other.m_fRunAwayRange)
+    , m_fAttackRange(_Other.m_fAttackRange)
+    , m_bStarePlayer(false)
+    , m_fPrevHP(0.f)
 {
 }
 
@@ -37,80 +37,76 @@ CBazookaScript::~CBazookaScript()
 
 void CBazookaScript::begin()
 {
-	CMonsterScript::begin();
-	
-	// µø¿˚ ¿Á¡˙ ª˝º∫.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+    CMonsterScript::begin();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
+    // ÎèôÏ†Å Ïû¨Ïßà ÏÉùÏÑ±.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	// ªÛ≈¬ ≥÷æÓ¡÷±‚.
-	if (nullptr == m_pStateScript)
-	{
-		m_pStateScript = GetOwner()->GetScript<CStateScript>();
-		m_pStateScript->AddState(L"Aim", new CBazookaAim);
-		m_pStateScript->AddState(L"LongDistance", new CBazzokaLongDistance);
-		m_pStateScript->AddState(L"Idle", new CBazzokaIdle);
-		m_pStateScript->AddState(L"Melee", new CBazzokaMelee);
-		m_pStateScript->AddState(L"Move", new CBazzokaMove);
-		m_pStateScript->AddState(L"Death", new CBazookaDeath);
-		m_pStateScript->AddState(L"Trace", new CBazookaTrace);
-		m_pStateScript->ChangeState(L"Idle");
+    for (int i = 0; i < iMtrlCount; ++i)
+        MeshRender()->GetDynamicMaterial(i);
 
-		// √ ±‚ Ω∫≈» º≥¡§.
-		Stat NewStat;
-		NewStat.Max_HP = 300;
-		NewStat.HP = NewStat.Max_HP;
-		NewStat.Attack = 50.f;
-		NewStat.Attack_Speed = 1.f;
-		NewStat.Speed = 100.f;
-		m_pStateScript->SetStat(NewStat);
+    // ÏÉÅÌÉú ÎÑ£Ïñ¥Ï£ºÍ∏∞.
+    if (nullptr == m_pStateScript)
+    {
+        m_pStateScript = GetOwner()->GetScript<CStateScript>();
+        m_pStateScript->AddState(L"Aim", new CBazookaAim);
+        m_pStateScript->AddState(L"LongDistance", new CBazzokaLongDistance);
+        m_pStateScript->AddState(L"Idle", new CBazzokaIdle);
+        m_pStateScript->AddState(L"Melee", new CBazzokaMelee);
+        m_pStateScript->AddState(L"Move", new CBazzokaMove);
+        m_pStateScript->AddState(L"Death", new CBazookaDeath);
+        m_pStateScript->AddState(L"Trace", new CBazookaTrace);
+        m_pStateScript->ChangeState(L"Idle");
 
-		// ¿Ã¿¸ HP
-		m_fPrevHP = NewStat.Max_HP;
-	}
+        // Ï¥àÍ∏∞ Ïä§ÌÉØ ÏÑ§Ï†ï.
+        Stat NewStat;
+        NewStat.Max_HP       = 300;
+        NewStat.HP           = NewStat.Max_HP;
+        NewStat.Attack       = 50.f;
+        NewStat.Attack_Speed = 1.f;
+        NewStat.Speed        = 100.f;
+        m_pStateScript->SetStat(NewStat);
+
+        // Ïù¥Ï†Ñ HP
+        m_fPrevHP = NewStat.Max_HP;
+    }
 }
 
 void CBazookaScript::tick()
 {
-	CMonsterScript::tick();
-	
-	// HP∞° 0 ¿Ã«œ∏È ªÁ∏¡.
-	if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
-	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"Death");
-	}
+    CMonsterScript::tick();
 
-	m_PlayerPos = GetPlayer()->Transform()->GetWorldPos();
-	m_fPlayerDistance = GetDistance(m_PlayerPos, Transform()->GetWorldPos());
+    // HPÍ∞Ä 0 Ïù¥ÌïòÎ©¥ ÏÇ¨Îßù.
+    if (m_pStateScript && m_pStateScript->GetStat().HP <= 0)
+        if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+            m_pStateScript->ChangeState(L"Death");
 
-	m_MonsterToPlayerDir = m_PlayerPos - Transform()->GetWorldPos();
-	m_MonsterToPlayerDir.x /= m_fPlayerDistance;
-	m_MonsterToPlayerDir.y /= m_fPlayerDistance;
-	m_MonsterToPlayerDir.z /= m_fPlayerDistance;
+    m_PlayerPos       = GetPlayer()->Transform()->GetWorldPos();
+    m_fPlayerDistance = GetDistance(m_PlayerPos, Transform()->GetWorldPos());
 
-	// «√∑π¿ÃæÓ∏¶ πŸ∂Û∫∏¥¬ ∞ÊøÏ.
-	if (m_bStarePlayer)
-	{
-		float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
-		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
-	}
+    m_MonsterToPlayerDir   = m_PlayerPos - Transform()->GetWorldPos();
+    m_MonsterToPlayerDir.x /= m_fPlayerDistance;
+    m_MonsterToPlayerDir.y /= m_fPlayerDistance;
+    m_MonsterToPlayerDir.z /= m_fPlayerDistance;
 
-	float fCurHP = m_pStateScript->GetStat().HP;
+    // ÌîåÎ†àÏù¥Ïñ¥Î•º Î∞îÎùºÎ≥¥Îäî Í≤ΩÏö∞.
+    if (m_bStarePlayer)
+    {
+        float fDir   = GetSmoothDir(GetOwner(), m_pPlayer);
+        Vec3  CurDir = GetOwner()->Transform()->GetRelativeRot();
+        GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+    }
 
-	// √º∑¬¿Ã ¡Ÿæ˙¥Ÿ∏È.
-	if (m_fPrevHP < fCurHP)
-	{
-		// Sound
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyStep.ogg", 1, 0.1f);
-		m_fPrevHP = fCurHP;
-	}
+    float fCurHP = m_pStateScript->GetStat().HP;
+
+    // Ï≤¥Î†•Ïù¥ Ï§ÑÏóàÎã§Î©¥.
+    if (m_fPrevHP < fCurHP)
+    {
+        // Sound
+        CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+        Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoyStep.ogg", 1, 0.1f);
+        m_fPrevHP                 = fCurHP;
+    }
 }
 
 void CBazookaScript::BeginOverlap(CCollider3D* _Other)

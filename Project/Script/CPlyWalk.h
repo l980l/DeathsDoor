@@ -1,12 +1,12 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWalk :
     public CState
 {
-private:
-    float   m_fSpeed;
-    float   m_fTimeToIdle;
-    bool    m_bIce;
+    float m_fSpeed;
+    float m_fTimeToIdle;
+    bool  m_bIce;
 
 public:
     virtual void tick() override;
@@ -15,14 +15,12 @@ public:
 
     void Move();
 
-    virtual void BeginOverlap(CCollider3D* _Other);
-    virtual void OnOverlap(CCollider3D* _Other);
-    virtual void EndOverlap(CCollider3D* _Other);
+    virtual void BeginOverlap(CCollider3D* _Other) override;
+    virtual void OnOverlap(CCollider3D* _Other) override;
+    virtual void EndOverlap(CCollider3D* _Other) override;
 
     CLONE(CPlyWalk);
 
-public:
     CPlyWalk();
-    ~CPlyWalk();
+    virtual ~CPlyWalk() override;
 };
-

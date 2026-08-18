@@ -1,21 +1,19 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGruntIdle.h"
 #include "CGruntScript.h"
 
 void CGruntIdle::Enter()
 {
-	GetOwner()->Animator3D()->Play(0, true);
+    GetOwner()->Animator3D()->Play(0, true);
 }
 
 void CGruntIdle::tick()
 {
-	CGameObject* pPlayer = GetOwner()->GetScript<CGruntScript>()->GetPlayer();
+    CGameObject* pPlayer = GetOwner()->GetScript<CGruntScript>()->GetPlayer();
 
-	// Detect »óÅÂ¶ó¸é Notify »óÅÂ·Î ÀüÈ¯.
-	if (GetOwner()->GetScript<CGruntScript>()->GetDetect())
-	{
-		ChangeState(L"Run2");
-	}
+    // Detect ìƒíƒœë¼ë©´ Notify ìƒíƒœë¡œ ì „í™˜.
+    if (GetOwner()->GetScript<CGruntScript>()->GetDetect())
+        ChangeState(L"Run2");
 }
 
 void CGruntIdle::Exit()

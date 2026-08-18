@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CMagic :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CMagic);
 
-public:
     CMagic();
-    ~CMagic();
+    virtual ~CMagic() override;
 };
-

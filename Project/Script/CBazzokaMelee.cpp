@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazzokaMelee.h"
 #include "CBazookaScript.h"
 #include "CSoundScript.h"
@@ -8,30 +8,30 @@
 
 void CBazzokaMelee::Enter()
 {
-	GetOwner()->Animator3D()->Play(3, false);
+    GetOwner()->Animator3D()->Play(3, false);
 }
 
 void CBazzokaMelee::tick()
 {
-	// ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ³¡³ª¸é Move·Î ´Ù½Ã º¯°æ.
-	if (GetOwner()->Animator3D()->IsFinish())
-		ChangeState(L"Move");
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚˜ë©´ Moveë¡œ ë‹¤ì‹œ ë³€ê²½.
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"Move");
 }
 
 void CBazzokaMelee::Exit()
 {
-	// Camera Shake
-	CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.1f);
+    // Camera Shake
+    CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.1f);
 
-	// °ø°İ Ãæµ¹Ã¼ ÇÁ¸®Æé
-	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.1f);
+    // ê³µê²© ì¶©ëŒì²´ í”„ë¦¬í©
+    CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 0.1f);
 
-	MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
-	MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
+    MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+    MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoySlam1.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Bazooka\\PlagueBoySlam1.ogg", 1, 0.1f);
 }
 
 CBazzokaMelee::CBazzokaMelee()

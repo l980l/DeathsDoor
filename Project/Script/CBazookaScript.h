@@ -1,37 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include "CMonsterScript.h"
 
 class CBazookaScript :
     public CMonsterScript
 {
-private:
-    Vec3    m_PlayerPos;
-    Vec3    m_MonsterToPlayerDir;
-    float   m_fPlayerDistance;
-    float   m_fMeleeRange;      // ±ÙÁ¢ °ø°İ ¹üÀ§
-    float   m_fRunAwayRange;    // m_fMeleeRange ~ m_fRunAwayRange¸é µµ¸Á°¨
-    float   m_fAttackRange;     // m_fRunAwayRange ~ m_fAttackRange¸é Á¶ÁØ ¹× ¹ß»ç. ±× ÀÌ»óÀº ÃßÀû.
-    bool    m_bStarePlayer;
-    float   m_fPrevHP;          // ÀÌÀü HP. HP°¡ ÁÙ¾úÀ» ¶§, µ¥¹ÌÁö »ç¿îµå¸¦ Àç»ıÇÏ±â À§ÇØ »ç¿ë.
+    Vec3  m_PlayerPos;
+    Vec3  m_MonsterToPlayerDir;
+    float m_fPlayerDistance;
+    float m_fMeleeRange;   // ê·¼ì ‘ ê³µê²© ë²”ìœ„
+    float m_fRunAwayRange; // m_fMeleeRange ~ m_fRunAwayRangeë©´ ë„ë§ê°
+    float m_fAttackRange;  // m_fRunAwayRange ~ m_fAttackRangeë©´ ì¡°ì¤€ ë° ë°œì‚¬. ê·¸ ì´ìƒì€ ì¶”ì .
+    bool  m_bStarePlayer;
+    float m_fPrevHP; // ì´ì „ HP. HPê°€ ì¤„ì—ˆì„ ë•Œ, ë°ë¯¸ì§€ ì‚¬ìš´ë“œë¥¼ ì¬ìƒí•˜ê¸° ìœ„í•´ ì‚¬ìš©.
 
 public:
-    Vec3 GetPlayerPos() { return m_PlayerPos; }
-    Vec3 GetMonsterToPlayerDir() { return m_MonsterToPlayerDir; }
-    float GetPlayerDistance() { return m_fPlayerDistance; }
+    Vec3  GetPlayerPos() const { return m_PlayerPos; }
+    Vec3  GetMonsterToPlayerDir() const { return m_MonsterToPlayerDir; }
+    float GetPlayerDistance() const { return m_fPlayerDistance; }
 
-    float GetMeleeRange() { return m_fMeleeRange; }
-    float GetRunAwayRange() { return m_fRunAwayRange; }
-    float GetAttackRange() { return m_fAttackRange; }
+    float GetMeleeRange() const { return m_fMeleeRange; }
+    float GetRunAwayRange() const { return m_fRunAwayRange; }
+    float GetAttackRange() const { return m_fAttackRange; }
 
-    bool GetStarePlayer() { return m_bStarePlayer; }
+    bool GetStarePlayer() const { return m_bStarePlayer; }
     void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
 
 
-public:
     virtual void begin() override;
     virtual void tick() override;
 
-public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
@@ -41,9 +38,7 @@ public:
 
     CLONE(CBazookaScript);
 
-public:
     CBazookaScript();
     CBazookaScript(const CBazookaScript& _Other);
-    ~CBazookaScript();
+    virtual ~CBazookaScript() override;
 };
-

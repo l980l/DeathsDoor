@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CLayer.h"
 
 #include "CGameObject.h"
@@ -10,88 +10,78 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
-	Safe_Del_Vec(m_vecParentObj);
+    Safe_Del_Vec(m_vecParentObj);
 }
 
-void CLayer::begin()
+void CLayer::begin() const
 {
-	for (size_t i = 0; i < m_vecParentObj.size(); ++i)
-	{
-		m_vecParentObj[i]->begin();
-	}
+    for (size_t i = 0; i < m_vecParentObj.size(); ++i)
+        m_vecParentObj[i]->begin();
 }
 
-void CLayer::tick()
+void CLayer::tick() const
 {
-	for (size_t i = 0; i < m_vecParentObj.size(); ++i)
-	{
-		m_vecParentObj[i]->tick();
-	}
+    for (size_t i = 0; i < m_vecParentObj.size(); ++i)
+        m_vecParentObj[i]->tick();
 }
 
 void CLayer::finaltick()
 {
-	vector<CGameObject*>::iterator iter = m_vecParentObj.begin();
-	for (; iter != m_vecParentObj.end(); )
-	{
-		(*iter)->finaltick();
+    vector<CGameObject*>::iterator iter = m_vecParentObj.begin();
+    for (; iter != m_vecParentObj.end();)
+    {
+        (*iter)->finaltick();
 
-		if ((*iter)->IsDead())
-		{
-			iter = m_vecParentObj.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}	
+        if ((*iter)->IsDead())
+            iter = m_vecParentObj.erase(iter);
+        else
+            ++iter;
+    }
 }
 
 void CLayer::AddGameObject(CGameObject* _Object, bool _bMove)
 {
-	m_vecParentObj.push_back(_Object);
-	
-	// ¼ÒÀ¯ÇÏ°í ÀÖ´Â ¸ğµç ÀÚ½Ä¿ÀºêÁ§Æ®°¡ ÀÖ´ÂÁö °Ë»ç
-	static list<CGameObject*> queue;
-	queue.clear();
+    m_vecParentObj.push_back(_Object);
 
-	queue.push_back(_Object);
+    // ì†Œìœ í•˜ê³  ìˆëŠ” ëª¨ë“  ìì‹ì˜¤ë¸Œì íŠ¸ê°€ ìˆëŠ”ì§€ ê²€ì‚¬
+    static list<CGameObject*> queue;
+    queue.clear();
 
-	while (!queue.empty())
-	{
-		CGameObject* pObject = queue.front();
-		queue.pop_front();
+    queue.push_back(_Object);
 
-		for (size_t i = 0; i < pObject->m_vecChild.size(); ++i)
-		{
-			queue.push_back(pObject->m_vecChild[i]);			
-		}
+    while (!queue.empty())
+    {
+        CGameObject* pObject = queue.front();
+        queue.pop_front();
 
-		// ºÎ¸ğÅ¸ÀÔ or ¼Ò¼Ó ·¹ÀÌ¾î°¡ ¾ø´Â°æ¿ì or ºÎ¸ğ¿Í °°ÀÌ ÀÌµ¿ÇÏ´Â °æ¿ì
-		if(nullptr == pObject->m_Parent || -1 == pObject->m_iLayerIdx || _bMove)
-			pObject->m_iLayerIdx = m_iLayerIdx;
-	}	
+        for (size_t i = 0; i < pObject->m_vecChild.size(); ++i)
+            queue.push_back(pObject->m_vecChild[i]);
+
+        // ë¶€ëª¨íƒ€ì… or ì†Œì† ë ˆì´ì–´ê°€ ì—†ëŠ”ê²½ìš° or ë¶€ëª¨ì™€ ê°™ì´ ì´ë™í•˜ëŠ” ê²½ìš°
+        if (nullptr == pObject->m_Parent || -1 == pObject->m_iLayerIdx || _bMove)
+            pObject->m_iLayerIdx = m_iLayerIdx;
+    }
 }
 
 
 void CLayer::RemoveFromParentList(CGameObject* _Obj)
 {
-	vector<CGameObject*>::iterator iter = m_vecParentObj.begin();
+    vector<CGameObject*>::iterator iter = m_vecParentObj.begin();
 
-	for (; iter != m_vecParentObj.end(); ++iter)
-	{
-		if ((*iter) == _Obj)
-		{
-			m_vecParentObj.erase(iter);
-			return;
-		}
-	}
+    for (; iter != m_vecParentObj.end(); ++iter)
+    {
+        if ((*iter) == _Obj)
+        {
+            m_vecParentObj.erase(iter);
+            return;
+        }
+    }
 
-	assert(nullptr);
+    assert(nullptr);
 }
 
 void CLayer::AddParentList(CGameObject* _Obj)
 {
-	assert(!_Obj->m_Parent);
-	m_vecParentObj.push_back(_Obj);
+    assert(!_Obj->m_Parent);
+    m_vecParentObj.push_back(_Obj);
 }

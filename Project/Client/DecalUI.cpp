@@ -11,9 +11,9 @@
 #include "ParamUI.h"
 
 DecalUI::DecalUI()
-	: ComponentUI("##Decal", COMPONENT_TYPE::DECAL)
+    : ComponentUI("##Decal", COMPONENT_TYPE::DECAL)
 {
-	SetName("Decal");
+    SetName("Decal");
 }
 
 DecalUI::~DecalUI()
@@ -22,35 +22,34 @@ DecalUI::~DecalUI()
 
 int DecalUI::render_update()
 {
+    if (FALSE == ComponentUI::render_update())
+        return FALSE;
 
-	if (FALSE == ComponentUI::render_update())
-		return FALSE;
+    //  ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    static bool bDebug = false;
+    ImGui::Text("DebugMode ");
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##DebugMode", &bDebug))
+        GetTarget()->Decal()->SetShowDebug(bDebug);
 
-	//  µð¹ö±× ÇÁ·¹ÀÓ
-	static bool bDebug = false;
-	ImGui::Text("DebugMode ");
-	ImGui::SameLine();
-	if (ImGui::Checkbox("##DebugMode", &bDebug))
-		GetTarget()->Decal()->SetShowDebug(bDebug);
+    ImGui::SameLine();
 
-	ImGui::SameLine();
+    // Emissive ï¿½ï¿½ï¿½ï¿½
+    static bool bLight = GetTarget()->Decal()->IsSetAsLight();
+    ImGui::Text("LightMode ");
+    ImGui::SameLine();
+    if (ImGui::Checkbox("##LightMode", &bLight))
+        GetTarget()->Decal()->SetAsLight(bLight);
 
-	// Emissive ¼³Á¤
-	static bool bLight = GetTarget()->Decal()->IsSetAsLight();
-	ImGui::Text("LightMode ");
-	ImGui::SameLine();
-	if (ImGui::Checkbox("##LightMode", &bLight))
-		GetTarget()->Decal()->SetAsLight(bLight);
+    // Emissiveï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    if (bLight)
+    {
+        ImGui::Text("LightAlpha");
+        ImGui::SameLine();
+        static float fDecalAlpha = GetTarget()->Decal()->GetAlpha();
+        if (ImGui::SliderFloat("##DecalAlpha", &fDecalAlpha, 0.f, 1.f))
+            GetTarget()->Decal()->SetAlpha(fDecalAlpha);
+    }
 
-	// EmissiveÀÏ ¶§¸¸ °ü·Ã ¼³Á¤ Ãâ·Â
-	if(bLight)
-	{
-		ImGui::Text("LightAlpha");
-		ImGui::SameLine();
-		static float fDecalAlpha = GetTarget()->Decal()->GetAlpha();
-		if (ImGui::SliderFloat("##DecalAlpha", &fDecalAlpha, 0.f, 1.f))
-			GetTarget()->Decal()->SetAlpha(fDecalAlpha);
-	}
-
-	return TRUE;
+    return TRUE;
 }

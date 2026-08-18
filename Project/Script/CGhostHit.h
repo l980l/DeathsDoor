@@ -1,10 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CGhostHit :
     public CState
 {
-private:
     Vec3 vDir;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -12,8 +13,6 @@ public:
 
     CLONE(CGhostHit);
 
-public:
     CGhostHit();
-    ~CGhostHit();
+    virtual ~CGhostHit() override;
 };
-

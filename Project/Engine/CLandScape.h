@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CRenderComponent.h"
 
 #include "ptr.h"
@@ -16,70 +16,66 @@ enum class COMPUTESHADER
 class CLandScape :
     public CRenderComponent
 {
-private:
-    UINT                    m_iFaceX;
-    UINT                    m_iFaceZ;
+    UINT m_iFaceX;
+    UINT m_iFaceZ;
 
-    Ptr<CTexture>           m_HeightMap;    // ÆÄÀÏ ·ÎµùÀ¸·Î °¡Á®¿Â ³ôÀÌÅØ½ºÃÄ
+    Ptr<CTexture> m_HeightMap; // íŒŒì¼ ë¡œë”©ìœ¼ë¡œ ê°€ì ¸ì˜¨ ë†’ì´í…ìŠ¤ì³
 
-    Vec2                    m_vBrushScale;  // ºê·¯½¬ Å©±â(ÀüÃ¼ ÁöÇü´ëºñ Å©±â)
-    float                   m_fVelocity;    // ºê·¯½¬ ¹İ¿µ ¼Óµµ
-    Ptr<CTexture>           m_pBrushTex;    // ºê·¯½¬ ÅØ½ºÃÄ
-    UINT                    m_iBrushIdx;
+    Vec2          m_vBrushScale; // ë¸ŒëŸ¬ì‰¬ í¬ê¸°(ì „ì²´ ì§€í˜•ëŒ€ë¹„ í¬ê¸°)
+    float         m_fVelocity;   // ë¸ŒëŸ¬ì‰¬ ë°˜ì˜ ì†ë„
+    Ptr<CTexture> m_pBrushTex;   // ë¸ŒëŸ¬ì‰¬ í…ìŠ¤ì³
+    UINT          m_iBrushIdx;
 
-    Ptr<CRaycastShader>     m_pCSRaycast;   // ¸¶¿ì½º ÇÇÅ· ½¦ÀÌ´õ
-    CStructuredBuffer*      m_pCrossBuffer; // ¸¶¿ì½º ÇÇÅ· ÁöÁ¡ Á¤º¸¸¦ ¹Ş´Â ¹öÆÛ
+    Ptr<CRaycastShader> m_pCSRaycast;   // ë§ˆìš°ìŠ¤ í”¼í‚¹ ì‰ì´ë”
+    CStructuredBuffer*  m_pCrossBuffer; // ë§ˆìš°ìŠ¤ í”¼í‚¹ ì§€ì  ì •ë³´ë¥¼ ë°›ëŠ” ë²„í¼
 
-    Ptr<CHeightMapShader>   m_pCSHeightMap; // ³ôÀÌ¸Ê ½¦ÀÌ´õ
-    Ptr<CTexture>           m_pHeightMap;   // ³ôÀÌ¸Ê ÅØ½ºÃÄ
+    Ptr<CHeightMapShader> m_pCSHeightMap; // ë†’ì´ë§µ ì‰ì´ë”
+    Ptr<CTexture>         m_pHeightMap;   // ë†’ì´ë§µ í…ìŠ¤ì³
 
-    Ptr<CWeightMapShader>   m_pCSWeightMap;     // °¡ÁßÄ¡ ½¦ÀÌ´õ
-    CStructuredBuffer*      m_pWeightMapBuffer; // °¡ÁßÄ¡ ÀúÀå ¹öÆÛ
-    UINT                    m_iWeightWidth;     // °¡ÁßÄ¡ ¹öÆÛÀÇ °¡·Î¼¼·Î Çà·Ä ¼ö
-    UINT                    m_iWeightHeight;    // Áõ°¡½ÃÅ³ °¡ÁßÄ¡ ºÎÀ§
-    UINT                    m_iWeightIdx;       // ÅØ½ºÃÄ ¹è¿­ Áß »ç¿ëÇÒ ÅØ½ºÃÄ 
+    Ptr<CWeightMapShader> m_pCSWeightMap;     // ê°€ì¤‘ì¹˜ ì‰ì´ë”
+    CStructuredBuffer*    m_pWeightMapBuffer; // ê°€ì¤‘ì¹˜ ì €ì¥ ë²„í¼
+    UINT                  m_iWeightWidth;     // ê°€ì¤‘ì¹˜ ë²„í¼ì˜ ê°€ë¡œì„¸ë¡œ í–‰ë ¬ ìˆ˜
+    UINT                  m_iWeightHeight;    // ì¦ê°€ì‹œí‚¬ ê°€ì¤‘ì¹˜ ë¶€ìœ„
+    UINT                  m_iWeightIdx;       // í…ìŠ¤ì³ ë°°ì—´ ì¤‘ ì‚¬ìš©í•  í…ìŠ¤ì³ 
 
-    LANDSCAPE_MOD           m_eMod;             // ÁöÇü Åø¸ğµå¿¡¼­ »óÅÂ°ª
+    LANDSCAPE_MOD m_eMod; // ì§€í˜• íˆ´ëª¨ë“œì—ì„œ ìƒíƒœê°’
 
-    Ptr<CTexture>           m_pTileArrTex;      // Å¸ÀÏ ¹è¿­ ÅØ½ºÃÄ
+    Ptr<CTexture> m_pTileArrTex; // íƒ€ì¼ ë°°ì—´ í…ìŠ¤ì³
 
-    Vec2                    m_vTessFactorDist;
-    int                     m_iMaxTessFactorLevel;
-
-
-  
+    Vec2 m_vTessFactorDist;
+    int  m_iMaxTessFactorLevel;
 
 public:
-    LANDSCAPE_MOD GetCurMod() { return m_eMod; }
-    void SetMod(LANDSCAPE_MOD _tMod) { m_eMod = _tMod; }
-    
+    LANDSCAPE_MOD GetCurMod() const { return m_eMod; }
+    void          SetMod(LANDSCAPE_MOD _tMod) { m_eMod = _tMod; }
+
     void SetFace(UINT _iFaceX, UINT _iFaceZ);
-    Vec2 GetFace() { return Vec2(m_iFaceX, m_iFaceZ); }
+    Vec2 GetFace() const { return Vec2(m_iFaceX, m_iFaceZ); }
 
     Ptr<CTexture>& GetBrushTex() { return m_pBrushTex; }
-    void SetBrushTex(Ptr<CTexture> _pBrushTex) { m_pBrushTex = _pBrushTex; }
+    void           SetBrushTex(Ptr<CTexture> _pBrushTex) { m_pBrushTex = _pBrushTex; }
 
-    Vec2 GetBrushScale() { return m_vBrushScale; }
+    Vec2 GetBrushScale() const { return m_vBrushScale; }
     void SetBrushScale(Vec2 _vScale) { m_vBrushScale = _vScale; }
 
-    void SetVelocity(float _fVelocity) { m_fVelocity = _fVelocity; }
-    float GetVelocity() { return m_fVelocity; }
+    void  SetVelocity(float _fVelocity) { m_fVelocity = _fVelocity; }
+    float GetVelocity() const { return m_fVelocity; }
 
-    UINT GetBrushIdx() { return m_iBrushIdx; }
+    UINT GetBrushIdx() const { return m_iBrushIdx; }
     void SetBrushIdx(UINT _iBrushIdx) { m_iBrushIdx = _iBrushIdx; }
 
     Ptr<CTexture>& GetHeightMap() { return m_pHeightMap; }
-    void SetHeightMap(Ptr<CTexture> _HeightMap) { m_HeightMap = _HeightMap; }
+    void           SetHeightMap(Ptr<CTexture> _HeightMap) { m_HeightMap = _HeightMap; }
 
-    UINT GetWeightIdx() { return m_iWeightIdx; }
+    UINT GetWeightIdx() const { return m_iWeightIdx; }
     void SetWeightIdx(UINT _iWeight) { m_iWeightIdx = _iWeight; }
 
     Ptr<CTexture>& GetTileArrTex() { return m_pTileArrTex; }
 
-    Vec2 GetTessFactorDist() { return m_vTessFactorDist; }
+    Vec2 GetTessFactorDist() const { return m_vTessFactorDist; }
     void SetTessFactorDist(Vec2 _vDist) { m_vTessFactorDist = _vDist; }
 
-    int GetMaxTessFactorLevel() { return m_iMaxTessFactorLevel; }
+    int  GetMaxTessFactorLevel() const { return m_iMaxTessFactorLevel; }
     void SetMaxTessFactorLevel(int _iLevel) { m_iMaxTessFactorLevel = _iLevel; }
 
     virtual void begin() override;
@@ -99,12 +95,10 @@ private:
 
     void Raycasting();
 
-    void ComputeShaderSaveLoad(Ptr<CComputeShader> _pShader, COMPUTESHADER _tShader, wstring _strKey);
+    void ComputeShaderSaveLoad(Ptr<CComputeShader> _pShader, COMPUTESHADER _tShader, wstring _strKey) const;
 
     CLONE(CLandScape);
 
-public:
     CLandScape();
-    ~CLandScape();
+    virtual ~CLandScape() override;
 };
-

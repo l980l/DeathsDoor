@@ -1,15 +1,15 @@
 #pragma once
 #include "CState.h"
+
 class CPlyLadder :
     public CState
 {
-private:
-    float   m_fSpeed;
-    float   m_fStartYPos;
-    float   m_fLadderHeight;
-    float   m_fStartDelay;
-    float   m_fGroundCheckDelay;
-    bool    m_bEnd;
+    float m_fSpeed;
+    float m_fStartYPos;
+    float m_fLadderHeight;
+    float m_fStartDelay;
+    float m_fGroundCheckDelay;
+    bool  m_bEnd;
 
 public:
     virtual void Enter() override;
@@ -21,8 +21,6 @@ public:
 
     CLONE(CPlyLadder);
 
-public:
     CPlyLadder();
-    ~CPlyLadder();
+    virtual ~CPlyLadder() override;
 };
-

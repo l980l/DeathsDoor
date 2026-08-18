@@ -1,11 +1,11 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CHUDScript.h"
 #include "CPlayerScript.h"
 #include "CStateScript.h"
 #include "CLevelSaveLoadInScript.h"
 
-CHUDScript::CHUDScript()	:
-	CScript(SCRIPT_TYPE::HUDSCRIPT)
+CHUDScript::CHUDScript() :
+    CScript(HUDSCRIPT)
 {
 }
 
@@ -15,17 +15,13 @@ CHUDScript::~CHUDScript()
 
 void CHUDScript::begin()
 {
-	// µ¿Àû ÀçÁú »ý¼º.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+    // ë™ì  ìž¬ì§ˆ ìƒì„±.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
-
+    for (int i = 0; i < iMtrlCount; ++i)
+        MeshRender()->GetDynamicMaterial(i);
 }
 
 void CHUDScript::tick()
 {
-	
 }

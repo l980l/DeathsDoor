@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGraphicsShader.h"
 
 #include "CPathMgr.h"
@@ -6,12 +6,12 @@
 #include "CDevice.h"
 
 CGraphicsShader::CGraphicsShader()
-	: CShader(RES_TYPE::GRAPHICS_SHADER)
-	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
-	, m_RSType(RS_TYPE::CULL_BACK)
-	, m_DSType(DS_TYPE::LESS)
-	, m_BSType(BS_TYPE::DEFAULT)
-	, m_Domain(SHADER_DOMAIN::DOMAIN_UNDEFINED)
+    : CShader(RES_TYPE::GRAPHICS_SHADER)
+    , m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+    , m_RSType(RS_TYPE::CULL_BACK)
+    , m_DSType(DS_TYPE::LESS)
+    , m_BSType(BS_TYPE::DEFAULT)
+    , m_Domain(SHADER_DOMAIN::DOMAIN_UNDEFINED)
 {
 }
 
@@ -21,154 +21,142 @@ CGraphicsShader::~CGraphicsShader()
 
 void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string& _strFuncName)
 {
-	// Shader ÆÄÀÏ °æ·Î
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
-	strShaderFile += _strFileName;
+    // Shader íŒŒì¼ ê²½ë¡œ
+    wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+    strShaderFile         += _strFileName;
 
-	// VertexShader Compile
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), "vs_5_0", 0, 0, m_VSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Vertex Shader Compile Failed!!", MB_OK);
-	}
+    // VertexShader Compile
+    if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+      , _strFuncName.c_str(), "vs_5_0", 0, 0, m_VSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+        MessageBoxA(nullptr, static_cast<const char*>(m_ErrBlob->GetBufferPointer())
+                  , "Vertex Shader Compile Failed!!", MB_OK);
 
-	// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader ¸¦ ¸¸µç´Ù.
-	HRESULT hr = DEVICE->CreateVertexShader(m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
-											, nullptr, m_VS.GetAddressOf());
+    // ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader ë¥¼ ë§Œë“ ë‹¤.
+    HRESULT hr = DEVICE->CreateVertexShader(m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
+                                          , nullptr, m_VS.GetAddressOf());
 
-	const vector<D3D11_INPUT_ELEMENT_DESC>& vecLayout = CResMgr::GetInst()->GetInputLayoutInfo();
+    const vector<D3D11_INPUT_ELEMENT_DESC>& vecLayout = CResMgr::GetInst()->GetInputLayoutInfo();
 
-	hr = DEVICE->CreateInputLayout(vecLayout.data(), (UINT)vecLayout.size()
-		, m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
-		, m_Layout.GetAddressOf());
+    hr = DEVICE->CreateInputLayout(vecLayout.data(), static_cast<UINT>(vecLayout.size())
+                                 , m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
+                                 , m_Layout.GetAddressOf());
 
-	if (FAILED(hr))
-	{
-		assert(nullptr);
-	}
+    if (FAILED(hr))
+        assert(nullptr);
 
-	// Vertex Inst Shader ÄÄÆÄÀÏ ÇÏ±â
-	hr = D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, (_strFuncName + "_Inst").c_str(), "vs_5_0", 0, 0, m_VSInstBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
+    // Vertex Inst Shader ì»´íŒŒì¼ í•˜ê¸°
+    hr = D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+                          , (_strFuncName + "_Inst").c_str(), "vs_5_0", 0, 0, m_VSInstBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
-	if (SUCCEEDED(hr))
-	{
-		// ÄÄÆÄÀÏ µÈ ÄÚµå·Î Vertex Instancing Shader °´Ã¼ ¸¸µé±â
-		DEVICE->CreateVertexShader(m_VSInstBlob->GetBufferPointer(), m_VSInstBlob->GetBufferSize(), nullptr, m_VSInst.GetAddressOf());
+    if (SUCCEEDED(hr))
+    {
+        // ì»´íŒŒì¼ ëœ ì½”ë“œë¡œ Vertex Instancing Shader ê°ì²´ ë§Œë“¤ê¸°
+        DEVICE->CreateVertexShader(m_VSInstBlob->GetBufferPointer(), m_VSInstBlob->GetBufferSize(), nullptr, m_VSInst.GetAddressOf());
 
-		hr = DEVICE->CreateInputLayout(vecLayout.data(), (UINT)vecLayout.size()
-			, m_VSInstBlob->GetBufferPointer(), m_VSInstBlob->GetBufferSize()
-			, m_LayoutInst.GetAddressOf());
-		assert(!FAILED(hr));
-	}
+        hr = DEVICE->CreateInputLayout(vecLayout.data(), static_cast<UINT>(vecLayout.size())
+                                     , m_VSInstBlob->GetBufferPointer(), m_VSInstBlob->GetBufferSize()
+                                     , m_LayoutInst.GetAddressOf());
+        assert(!FAILED(hr));
+    }
 }
 
 void CGraphicsShader::CreateHullShader(const wstring& _strFileName, const string& _strFuncName)
 {
-	// Shader ÆÄÀÏ °æ·Î
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
-	strShaderFile += _strFileName;
+    // Shader íŒŒì¼ ê²½ë¡œ
+    wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+    strShaderFile         += _strFileName;
 
-	// Shader Compile	
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), "hs_5_0", 0, 0, m_HSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Shader Compile Failed!!", MB_OK);
-	}
+    // Shader Compile	
+    if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+      , _strFuncName.c_str(), "hs_5_0", 0, 0, m_HSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+        MessageBoxA(nullptr, static_cast<const char*>(m_ErrBlob->GetBufferPointer())
+                  , "Shader Compile Failed!!", MB_OK);
 
-	// ÄÄÆÄÀÏµÈ °´Ã¼·Î Shader ¸¦ ¸¸µç´Ù.
-	DEVICE->CreateHullShader(m_HSBlob->GetBufferPointer(), m_HSBlob->GetBufferSize()
-		, nullptr, m_HS.GetAddressOf());
+    // ì»´íŒŒì¼ëœ ê°ì²´ë¡œ Shader ë¥¼ ë§Œë“ ë‹¤.
+    DEVICE->CreateHullShader(m_HSBlob->GetBufferPointer(), m_HSBlob->GetBufferSize()
+                           , nullptr, m_HS.GetAddressOf());
 }
 
 void CGraphicsShader::CreateDomainShader(const wstring& _strFileName, const string& _strFuncName)
 {
-	// Shader ÆÄÀÏ °æ·Î
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
-	strShaderFile += _strFileName;
+    // Shader íŒŒì¼ ê²½ë¡œ
+    wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+    strShaderFile         += _strFileName;
 
-	// Shader Compile	
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), "ds_5_0", 0, 0, m_DSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Shader Compile Failed!!", MB_OK);
-	}
+    // Shader Compile	
+    if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+      , _strFuncName.c_str(), "ds_5_0", 0, 0, m_DSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+        MessageBoxA(nullptr, static_cast<const char*>(m_ErrBlob->GetBufferPointer())
+                  , "Shader Compile Failed!!", MB_OK);
 
-	// ÄÄÆÄÀÏµÈ °´Ã¼·Î Shader ¸¦ ¸¸µç´Ù.
-	DEVICE->CreateDomainShader(m_DSBlob->GetBufferPointer(), m_DSBlob->GetBufferSize()
-		, nullptr, m_DS.GetAddressOf());
+    // ì»´íŒŒì¼ëœ ê°ì²´ë¡œ Shader ë¥¼ ë§Œë“ ë‹¤.
+    DEVICE->CreateDomainShader(m_DSBlob->GetBufferPointer(), m_DSBlob->GetBufferSize()
+                             , nullptr, m_DS.GetAddressOf());
 }
 
 void CGraphicsShader::CreateGeometryShader(const wstring& _strFileName, const string& _strFuncName)
 {
-	// Shader ÆÄÀÏ °æ·Î
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
-	strShaderFile += _strFileName;
+    // Shader íŒŒì¼ ê²½ë¡œ
+    wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+    strShaderFile         += _strFileName;
 
-	// Shader Compile	
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), "gs_5_0", 0, 0, m_GSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Shader Compile Failed!!", MB_OK);
-	}
+    // Shader Compile	
+    if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+      , _strFuncName.c_str(), "gs_5_0", 0, 0, m_GSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+        MessageBoxA(nullptr, static_cast<const char*>(m_ErrBlob->GetBufferPointer())
+                  , "Shader Compile Failed!!", MB_OK);
 
-	// ÄÄÆÄÀÏµÈ °´Ã¼·Î Shader ¸¦ ¸¸µç´Ù.
-	DEVICE->CreateGeometryShader(m_GSBlob->GetBufferPointer(), m_GSBlob->GetBufferSize()
-		, nullptr, m_GS.GetAddressOf());
+    // ì»´íŒŒì¼ëœ ê°ì²´ë¡œ Shader ë¥¼ ë§Œë“ ë‹¤.
+    DEVICE->CreateGeometryShader(m_GSBlob->GetBufferPointer(), m_GSBlob->GetBufferSize()
+                               , nullptr, m_GS.GetAddressOf());
 }
 
 void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
 {
-	// Shader ÆÄÀÏ °æ·Î
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
-	strShaderFile += _strFileName;
+    // Shader íŒŒì¼ ê²½ë¡œ
+    wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+    strShaderFile         += _strFileName;
 
 
-	// PixelShader Compile	
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), "ps_5_0", 0, 0, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Pixel Shader Compile Failed!!", MB_OK);
-	}
+    // PixelShader Compile	
+    if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+      , _strFuncName.c_str(), "ps_5_0", 0, 0, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+        MessageBoxA(nullptr, static_cast<const char*>(m_ErrBlob->GetBufferPointer())
+                  , "Pixel Shader Compile Failed!!", MB_OK);
 
-	// ÄÄÆÄÀÏµÈ °´Ã¼·Î PixelShader ¸¦ ¸¸µç´Ù.
-	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
-		, nullptr, m_PS.GetAddressOf());
+    // ì»´íŒŒì¼ëœ ê°ì²´ë¡œ PixelShader ë¥¼ ë§Œë“ ë‹¤.
+    DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
+                            , nullptr, m_PS.GetAddressOf());
 }
 
-void CGraphicsShader::UpdateData()
+void CGraphicsShader::UpdateData() const
 {
-	CONTEXT->IASetInputLayout(m_Layout.Get());
-	CONTEXT->IASetPrimitiveTopology(m_eTopology);
-		
-	CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
-	CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
-	CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
-	CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
-	CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
+    CONTEXT->IASetInputLayout(m_Layout.Get());
+    CONTEXT->IASetPrimitiveTopology(m_eTopology);
 
-	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType).Get());
-	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType).Get(), 10);
-	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType).Get(), Vec4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+    CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
+    CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
+    CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
+    CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
+    CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
+
+    CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType).Get());
+    CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType).Get(), 10);
+    CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType).Get(), Vec4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 }
 
-void CGraphicsShader::UpdateData_Inst()
+void CGraphicsShader::UpdateData_Inst() const
 {
-	CONTEXT->IASetInputLayout(m_LayoutInst.Get());
-	CONTEXT->IASetPrimitiveTopology(m_eTopology);
+    CONTEXT->IASetInputLayout(m_LayoutInst.Get());
+    CONTEXT->IASetPrimitiveTopology(m_eTopology);
 
-	CONTEXT->VSSetShader(m_VSInst.Get(), nullptr, 0);
-	CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
-	CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
-	CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
-	CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
+    CONTEXT->VSSetShader(m_VSInst.Get(), nullptr, 0);
+    CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
+    CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
+    CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
+    CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
 
-	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType).Get());
-	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType).Get(), 10);
-	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType).Get(), Vec4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+    CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType).Get());
+    CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType).Get(), 10);
+    CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType).Get(), Vec4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 }

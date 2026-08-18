@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include "CState.h"
+
 class CCrowBossSliding :
     public CState
 {
-private:
-    vector<CGameObject*>    m_vecHook;
-    queue<Vec3>             m_qStartPos;        // HookÀ» º¸½º¿¡¼­ ³¯¸®Áö ¾Ê´Â °æ¿ì ½½¶óÀÌµùÀ» ½ÃÀÛÇÒ À§Ä¡
-    queue<Vec3>             m_qTargetPos;       // HookÀ» ¿©·¯ °³ ³¯·ÈÀ» ¶§ Â÷·Ê´ë·Î ½½¶óÀÌµù ÇÒ À§Ä¡¸¦ ¹Ş¾ÆµÒ
-    Vec3                    m_vDirtoTarget;     
-    int                     m_iSliderCount;     // ½½¶óÀÌµù È½¼ö
-    CHAINPATERN             m_tChainPatern;
-   
+    vector<CGameObject*> m_vecHook;
+    queue<Vec3>          m_qStartPos;  // Hookì„ ë³´ìŠ¤ì—ì„œ ë‚ ë¦¬ì§€ ì•ŠëŠ” ê²½ìš° ìŠ¬ë¼ì´ë”©ì„ ì‹œì‘í•  ìœ„ì¹˜
+    queue<Vec3>          m_qTargetPos; // Hookì„ ì—¬ëŸ¬ ê°œ ë‚ ë ¸ì„ ë•Œ ì°¨ë¡€ëŒ€ë¡œ ìŠ¬ë¼ì´ë”© í•  ìœ„ì¹˜ë¥¼ ë°›ì•„ë‘ 
+    Vec3                 m_vDirtoTarget;
+    int                  m_iSliderCount; // ìŠ¬ë¼ì´ë”© íšŸìˆ˜
+    CHAINPATERN          m_tChainPatern;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -24,9 +24,6 @@ public:
 
     CLONE(CCrowBossSliding);
 
-public:
     CCrowBossSliding();
-    ~CCrowBossSliding();
-
+    virtual ~CCrowBossSliding() override;
 };
-

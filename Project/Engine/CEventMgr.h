@@ -2,20 +2,18 @@
 #include "CSingleton.h"
 
 
-
 class CEventMgr :
-    public CSingleton< CEventMgr>
+    public CSingleton<CEventMgr>
 {
     SINGLE(CEventMgr);
-private:
-    vector<tEvent>          m_vecEvent;    
-    vector<CGameObject*>    m_vecGC;
+    vector<tEvent>       m_vecEvent;
+    vector<CGameObject*> m_vecGC;
 
-    bool                    m_LevelChanged;
+    bool m_LevelChanged;
 
 public:
     void AddEvent(const tEvent& _evn) { m_vecEvent.push_back(_evn); }
-    bool IsLevelChanged() { return m_LevelChanged; }
+    bool IsLevelChanged() const { return m_LevelChanged; }
 
 private:
     void GC_Clear();
@@ -23,4 +21,3 @@ private:
 public:
     void tick();
 };
-

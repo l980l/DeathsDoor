@@ -1,23 +1,22 @@
-#pragma once
-#include <Engine\CScript.h>
+Ôªø#pragma once
+#include <Engine/CScript.h>
+
 class CBazookaGasGrenadeScript :
     public CScript
 {
-private:
-    Vec3            m_vShotDir;
-    Vec3            m_vPrevVelocity;
-    int             m_iState;       // 0: ≥Øæ∆∞°¥¬ ¡ﬂ. 1: ∂•ø° ∂≥æÓ¡Æº≠ ∆€¡ˆ¥¬ ¡ﬂ.
-    CGameObject*    m_pGasBulletParticle;
-    CGameObject*    m_pGasCenterParticle;
-    CGameObject*    m_pGasRoundParticle;
-    float           m_fBulletTime;
-    float           m_fGasTime;
+    Vec3         m_vShotDir;
+    Vec3         m_vPrevVelocity;
+    int          m_iState; // 0: ÎÇ†ÏïÑÍ∞ÄÎäî Ï§ë. 1: ÎïÖÏóê Îñ®Ïñ¥Ï†∏ÏÑú ÌçºÏßÄÎäî Ï§ë.
+    CGameObject* m_pGasBulletParticle;
+    CGameObject* m_pGasCenterParticle;
+    CGameObject* m_pGasRoundParticle;
+    float        m_fBulletTime;
+    float        m_fGasTime;
 
 public:
     void SetShotDir(Vec3 _ShotDir) { m_vShotDir = _ShotDir; }
-    Vec3 GetShotDir() { return m_vShotDir; }
+    Vec3 GetShotDir() const { return m_vShotDir; }
 
-public:
     virtual void begin() override;
     virtual void tick() override;
 
@@ -26,9 +25,7 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
 
     CLONE(CBazookaGasGrenadeScript);
-public:
     CBazookaGasGrenadeScript();
     CBazookaGasGrenadeScript(const CBazookaGasGrenadeScript& _Other);
-    ~CBazookaGasGrenadeScript();
+    virtual ~CBazookaGasGrenadeScript() override;
 };
-

@@ -1,27 +1,27 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossStandingDeath.h"
 #include "CCrowBossScript.h"
 
 void CCrowBossStandingDeath::Enter()
 {
-	GetOwner()->Animator3D()->Play(13, false);
+    GetOwner()->Animator3D()->Play(13, false);
 }
 
 void CCrowBossStandingDeath::tick()
 {
-	// ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³­ °æ¿ì »ç¸Á Paperburn È¿°ú ÁÖ±â.
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		GetOwner()->GetScript<CCrowBossScript>()->SetPaperBurnEffect(true);
-		m_bStartPaperBurn = true;
-	}
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚œ ê²½ìš° ì‚¬ë§ Paperburn íš¨ê³¼ ì£¼ê¸°.
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        GetOwner()->GetScript<CCrowBossScript>()->SetPaperBurnEffect(true);
+        m_bStartPaperBurn = true;
+    }
 
-	if (m_bStartPaperBurn)
-		m_fPaperBurnTime += DT;
+    if (m_bStartPaperBurn)
+        m_fPaperBurnTime += DT;
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f)
-		GetOwnerScript()->Destroy();
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f)
+        GetOwnerScript()->Destroy();
 }
 
 void CCrowBossStandingDeath::Exit()
@@ -29,8 +29,8 @@ void CCrowBossStandingDeath::Exit()
 }
 
 CCrowBossStandingDeath::CCrowBossStandingDeath() :
-	m_bStartPaperBurn(false)
-	, m_fPaperBurnTime(0.f)
+    m_bStartPaperBurn(false)
+  , m_fPaperBurnTime(0.f)
 {
 }
 

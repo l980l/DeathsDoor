@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CKnightDeath.h"
 #include "CKnightScript.h"
 #include "CPlayerScript.h"
@@ -20,12 +20,12 @@ void CKnightDeath::Enter()
 {
     GetOwner()->Animator3D()->Play(3, false);
     CSoundScript* pSoundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-    Ptr<CSound> pSound = pSoundscript->AddSound(L"Sound\\Monster\\Knight\\KnightDeath.ogg", 1, 0.2f);
+    Ptr<CSound>   pSound       = pSoundscript->AddSound(L"Sound\\Monster\\Knight\\KnightDeath.ogg", 1, 0.2f);
 }
 
 void CKnightDeath::tick()
 {
-    // ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³­ °æ¿ì »ç¸Á Paperburn È¿°ú ÁÖ±â.
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚œ ê²½ìš° ì‚¬ë§ Paperburn íš¨ê³¼ ì£¼ê¸°.
     if (GetOwner()->Animator3D()->IsFinish())
     {
         GetOwner()->GetScript<CKnightScript>()->SetPaperBurnEffect(true);
@@ -37,11 +37,11 @@ void CKnightDeath::tick()
 
     if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
     {
-        GetOwner()->GetScript<CKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)600);
+        GetOwner()->GetScript<CKnightScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(600);
         CLevelSaveLoadInScript script;
         script.MoneyCount(600);
-        CGameObject* pDoor = script.SpawnandReturnPrefab(L"prefab\\LevelChangeDoor.prefab",(int)LAYER::LEVELCHANGEDOOR,GetOwner()->Transform()->GetWorldPos());
-        pDoor->GetScript<CLevelChangeDoorScript>()->SetLevelType((int)LEVEL_TYPE::HALL);
+        CGameObject* pDoor = script.SpawnandReturnPrefab(L"prefab\\LevelChangeDoor.prefab", static_cast<int>(LAYER::LEVELCHANGEDOOR), GetOwner()->Transform()->GetWorldPos());
+        pDoor->GetScript<CLevelChangeDoorScript>()->SetLevelType(static_cast<int>(LEVEL_TYPE::HALL));
         GetOwnerScript()->Destroy();
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CLurkerIdle :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CLurkerIdle);
 
-public:
     CLurkerIdle();
-    ~CLurkerIdle();
+    virtual ~CLurkerIdle() override;
 };
-

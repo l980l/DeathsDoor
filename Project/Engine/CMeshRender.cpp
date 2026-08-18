@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CMeshRender.h"
 
 
@@ -7,9 +7,9 @@
 #include "CAnimator3D.h"
 
 CMeshRender::CMeshRender()
-	: CRenderComponent(COMPONENT_TYPE::MESHRENDER)		
+    : CRenderComponent(COMPONENT_TYPE::MESHRENDER)
 {
-	SetName(L"MeshRender");
+    SetName(L"MeshRender");
 }
 
 CMeshRender::~CMeshRender()
@@ -21,90 +21,86 @@ void CMeshRender::finaltick()
 }
 
 void CMeshRender::render()
-{	
-	if (nullptr == GetMesh() || nullptr == GetMaterial(0))
-		return;
+{
+    if (nullptr == GetMesh() || nullptr == GetMaterial(0))
+        return;
 
-	// Transform ¿¡ UpdateData ¿äÃ»
-	Transform()->UpdateData();
+    // Transform ì— UpdateData ìš”ì²­
+    Transform()->UpdateData();
 
-	// Animator2D ÄÄÆ÷³ÍÆ®°¡ ÀÖ´Ù¸é
-	if (Animator2D())
-	{
-		Animator2D()->UpdateData();
-	}
+    // Animator2D ì»´í¬ë„ŒíŠ¸ê°€ ìžˆë‹¤ë©´
+    if (Animator2D())
+        Animator2D()->UpdateData();
 
-	// Animator3D ¾÷µ¥ÀÌÆ®
-	if (Animator3D())
-	{
-		Animator3D()->UpdateData();
+    // Animator3D ì—…ë°ì´íŠ¸
+    if (Animator3D())
+    {
+        Animator3D()->UpdateData();
 
-		for (UINT i = 0; i < GetMtrlCount(); ++i)
-		{
-			if (nullptr == GetMaterial(i))
-				continue;
+        for (UINT i = 0; i < GetMtrlCount(); ++i)
+        {
+            if (nullptr == GetMaterial(i))
+                continue;
 
-			GetMaterial(i)->SetAnim3D(true); // Animation Mesh ¾Ë¸®±â
-			GetMaterial(i)->SetBoneCount(Animator3D()->GetBoneCount());
-		}
-	}
-	
+            GetMaterial(i)->SetAnim3D(true); // Animation Mesh ì•Œë¦¬ê¸°
+            GetMaterial(i)->SetBoneCount(Animator3D()->GetBoneCount());
+        }
+    }
 
-	// ·»´õ
-	UINT iSubsetCount = GetMesh()->GetSubsetCount();
 
-	for (UINT i = 0; i < iSubsetCount; ++i)
-	{
-		if (nullptr != GetMaterial(i))
-		{
-			// »ç¿ëÇÒ ÀçÁú ¾÷µ¥ÀÌÆ®
-			GetMaterial(i)->UpdateData();
+    // ë Œë”
+    UINT iSubsetCount = GetMesh()->GetSubsetCount();
 
-			// »ç¿ëÇÒ ¸Þ½¬ ¾÷µ¥ÀÌÆ® ¹× ·»´õ¸µ
-			GetMesh()->render(i);
-		}
-	}
+    for (UINT i = 0; i < iSubsetCount; ++i)
+    {
+        if (nullptr != GetMaterial(i))
+        {
+            // ì‚¬ìš©í•  ìž¬ì§ˆ ì—…ë°ì´íŠ¸
+            GetMaterial(i)->UpdateData();
 
-	// Animation °ü·Ã Á¤º¸ Á¦°Å
-	if (Animator2D())
-		Animator2D()->Clear();
+            // ì‚¬ìš©í•  ë©”ì‰¬ ì—…ë°ì´íŠ¸ ë° ë Œë”ë§
+            GetMesh()->render(i);
+        }
+    }
 
-	if (Animator3D())
-		Animator3D()->ClearData();
+    // Animation ê´€ë ¨ ì •ë³´ ì œê±°
+    if (Animator2D())
+        Animator2D()->Clear();
+
+    if (Animator3D())
+        Animator3D()->ClearData();
 }
 
 void CMeshRender::render(UINT _iSubset)
 {
-	if (nullptr == GetMesh() || nullptr == GetMaterial(_iSubset))
-		return;
+    if (nullptr == GetMesh() || nullptr == GetMaterial(_iSubset))
+        return;
 
-	// Transform ¿¡ UpdateData ¿äÃ»
-	Transform()->UpdateData();
+    // Transform ì— UpdateData ìš”ì²­
+    Transform()->UpdateData();
 
-	// Animator2D ÄÄÆ÷³ÍÆ®°¡ ÀÖ´Ù¸é
-	if (Animator2D())
-	{
-		Animator2D()->UpdateData();
-	}
+    // Animator2D ì»´í¬ë„ŒíŠ¸ê°€ ìžˆë‹¤ë©´
+    if (Animator2D())
+        Animator2D()->UpdateData();
 
-	// Animator3D ¾÷µ¥ÀÌÆ®
-	if (Animator3D())
-	{
-		Animator3D()->UpdateData();
-		GetMaterial(_iSubset)->SetAnim3D(true); // Animation Mesh ¾Ë¸®±â
-		GetMaterial(_iSubset)->SetBoneCount(Animator3D()->GetBoneCount());		
-	}
+    // Animator3D ì—…ë°ì´íŠ¸
+    if (Animator3D())
+    {
+        Animator3D()->UpdateData();
+        GetMaterial(_iSubset)->SetAnim3D(true); // Animation Mesh ì•Œë¦¬ê¸°
+        GetMaterial(_iSubset)->SetBoneCount(Animator3D()->GetBoneCount());
+    }
 
-	// »ç¿ëÇÒ ÀçÁú ¾÷µ¥ÀÌÆ®
-	GetMaterial(_iSubset)->UpdateData();
+    // ì‚¬ìš©í•  ìž¬ì§ˆ ì—…ë°ì´íŠ¸
+    GetMaterial(_iSubset)->UpdateData();
 
-	// »ç¿ëÇÒ ¸Þ½¬ ¾÷µ¥ÀÌÆ® ¹× ·»´õ¸µ
-	GetMesh()->render(_iSubset);
+    // ì‚¬ìš©í•  ë©”ì‰¬ ì—…ë°ì´íŠ¸ ë° ë Œë”ë§
+    GetMesh()->render(_iSubset);
 
-	// Animation °ü·Ã Á¤º¸ Á¦°Å
-	if (Animator2D())
-		Animator2D()->Clear();
+    // Animation ê´€ë ¨ ì •ë³´ ì œê±°
+    if (Animator2D())
+        Animator2D()->Clear();
 
-	if (Animator3D())
-		Animator3D()->ClearData();
+    if (Animator3D())
+        Animator3D()->ClearData();
 }

@@ -12,28 +12,30 @@ class CMeshRender;
 class CComponent :
     public CEntity
 {
-private:
     CGameObject*         m_pOwner;
     const COMPONENT_TYPE m_Type;
 
 public:
-    COMPONENT_TYPE GetType() { return m_Type; }
-    CGameObject* GetOwner() { return m_pOwner ; }
+    COMPONENT_TYPE GetType() const { return m_Type; }
+    CGameObject*   GetOwner() const { return m_pOwner; }
 
-public:
-    virtual void begin() {}
-    virtual void tick() {}
+    virtual void begin()
+    {
+    }
+
+    virtual void tick()
+    {
+    }
+
     virtual void finaltick() = 0;
     virtual void finaltick_module();
-    
 
-    virtual CComponent* Clone() = 0;
 
-public:
+    virtual CComponent* Clone() override = 0;
+
     virtual void SaveToLevelFile(FILE* _File) = 0;
     virtual void LoadFromLevelFile(FILE* _FILE) = 0;
 
-public:
     GET_OTHER_COMPONENT(Transform);
     GET_OTHER_COMPONENT(MeshRender);
     GET_OTHER_COMPONENT(Camera);
@@ -51,11 +53,9 @@ public:
     GET_OTHER_COMPONENT(LandScape);
     GET_OTHER_COMPONENT(ParticleSystem);
 
-public:
     CComponent(COMPONENT_TYPE _Type);
     CComponent(const CComponent& _Other);
-    virtual ~CComponent();
+    virtual ~CComponent() override;
 
     friend class CGameObject;
 };
-

@@ -1,21 +1,19 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossIdle.h"
 #include "CCrowBossScript.h"
 
 void CCrowBossIdle::Enter()
 {
-	GetOwner()->Animator3D()->Play(0, true);
+    GetOwner()->Animator3D()->Play(0, true);
 }
 
 void CCrowBossIdle::tick()
 {
-	CGameObject* pPlayer = GetOwner()->GetScript<CCrowBossScript>()->GetPlayer();
+    CGameObject* pPlayer = GetOwner()->GetScript<CCrowBossScript>()->GetPlayer();
 
-	// Detect »óÅÂ¶ó¸é Notify »óÅÂ·Î ÀüÈ¯.
-	if (GetOwner()->GetScript<CCrowBossScript>()->GetDetect())
-	{
-		ChangeState(L"CutScene");
-	}
+    // Detect ìƒíƒœë¼ë©´ Notify ìƒíƒœë¡œ ì „í™˜.
+    if (GetOwner()->GetScript<CCrowBossScript>()->GetDetect())
+        ChangeState(L"CutScene");
 }
 
 void CCrowBossIdle::Exit()

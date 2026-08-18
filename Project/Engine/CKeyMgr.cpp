@@ -1,158 +1,147 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CKeyMgr.h"
 
 #include "CEngine.h"
 
-int g_arrVK[(UINT)KEY::END]
-=
-{
-	 VK_UP, 
-	 VK_DOWN,
-	 VK_LEFT,
-	 VK_RIGHT,
+int g_arrVK[static_cast<UINT>(KEY::END)]
+    =
+    {
+        VK_UP,
+        VK_DOWN,
+        VK_LEFT,
+        VK_RIGHT,
 
-	 VK_SPACE,	 
-	 VK_RETURN,
-	 VK_ESCAPE,
-	 VK_LMENU,
-	 VK_LCONTROL,
-	 VK_LSHIFT,
-	 VK_TAB,	 
-	 
-	 VK_LBUTTON,
-	 VK_RBUTTON,
+        VK_SPACE,
+        VK_RETURN,
+        VK_ESCAPE,
+        VK_LMENU,
+        VK_LCONTROL,
+        VK_LSHIFT,
+        VK_TAB,
 
-	 'Q',
-	 'W',
-	 'E',
-	 'R',
+        VK_LBUTTON,
+        VK_RBUTTON,
 
-	 'T',
-	 'Y',
-	 'U',
-	 'I',
-	 'O',
-	 'P',
+        'Q',
+        'W',
+        'E',
+        'R',
 
-	 'A',
-	 'S',
-	 'D',
-	 'F',
+        'T',
+        'Y',
+        'U',
+        'I',
+        'O',
+        'P',
 
-	 'Z',
-	 'X',
-	 'C',
-	 'V',
-	   	 
+        'A',
+        'S',
+        'D',
+        'F',
 
-	 '0',
-	 '1',
-	 '2',
-	 '3',
-	 '4',
-	 '5',
-	 '6',
-	 '7',
-	 '8',
-	 '9',
-
-	 VK_NUMPAD0,
-	 VK_NUMPAD1,
-	 VK_NUMPAD2,
-	 VK_NUMPAD3,
-	 VK_NUMPAD4,
-	 VK_NUMPAD5,
-	 VK_NUMPAD6,
-	 VK_NUMPAD7,
-	 VK_NUMPAD8,
-	 VK_NUMPAD9,
-};
+        'Z',
+        'X',
+        'C',
+        'V',
 
 
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
 
+        VK_NUMPAD0,
+        VK_NUMPAD1,
+        VK_NUMPAD2,
+        VK_NUMPAD3,
+        VK_NUMPAD4,
+        VK_NUMPAD5,
+        VK_NUMPAD6,
+        VK_NUMPAD7,
+        VK_NUMPAD8,
+        VK_NUMPAD9,
+    };
 
 
 CKeyMgr::CKeyMgr()
 {
-
 }
 
 CKeyMgr::~CKeyMgr()
 {
-
 }
 
 
 void CKeyMgr::init()
 {
-	for (int i = 0; i < (int)KEY::END; ++i)
-	{
-		m_vecKey.push_back(tKeyInfo{ (KEY)i  , KEY_STATE::NONE });
-	}
+    for (int i = 0; i < static_cast<int>(KEY::END); ++i)
+        m_vecKey.push_back(tKeyInfo{static_cast<KEY>(i), KEY_STATE::NONE});
 }
 
 void CKeyMgr::tick()
 {
-	if (GetFocus())
-	{
-		for (size_t i = 0; i < m_vecKey.size(); ++i)
-		{
-			if (GetAsyncKeyState(g_arrVK[(UINT)m_vecKey[i].key]) & 0x8000)
-			{
-				// ÀÌÀü¿¡´Â ´­¸®Áö ¾Ê¾Ò´Ù.
-				if (false == m_vecKey[i].bPrev)
-				{
-					m_vecKey[i].state = KEY_STATE::TAP;
-					m_vecKey[i].bPrev = true;
-				}
-				else
-				{
-					// Áö±Ýµµ ´­·ÁÀÖ°í, ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­µµ ´­·ÁÀÖ¾ú´Ù.
-					m_vecKey[i].state = KEY_STATE::PRESSED;
-				}
-			}
-			else
-			{
-				// ´­·ÁÀÖÁö ¾Ê´Ù.
-				if (false == m_vecKey[i].bPrev)
-				{
-					m_vecKey[i].state = KEY_STATE::NONE;
-				}
-				else
-				{
-					m_vecKey[i].state = KEY_STATE::RELEASE;
-					m_vecKey[i].bPrev = false;
-				}
-			}
-		}
+    if (GetFocus())
+    {
+        for (size_t i = 0; i < m_vecKey.size(); ++i)
+        {
+            if (GetAsyncKeyState(g_arrVK[static_cast<UINT>(m_vecKey[i].key)]) & 0x8000)
+            {
+                // ì´ì „ì—ëŠ” ëˆŒë¦¬ì§€ ì•Šì•˜ë‹¤.
+                if (false == m_vecKey[i].bPrev)
+                {
+                    m_vecKey[i].state = KEY_STATE::TAP;
+                    m_vecKey[i].bPrev = true;
+                }
+                else
+                {
+                    // ì§€ê¸ˆë„ ëˆŒë ¤ìžˆê³ , ì´ì „ í”„ë ˆìž„ì—ì„œë„ ëˆŒë ¤ìžˆì—ˆë‹¤.
+                    m_vecKey[i].state = KEY_STATE::PRESSED;
+                }
+            }
+            else
+            {
+                // ëˆŒë ¤ìžˆì§€ ì•Šë‹¤.
+                if (false == m_vecKey[i].bPrev)
+                {
+                    m_vecKey[i].state = KEY_STATE::NONE;
+                }
+                else
+                {
+                    m_vecKey[i].state = KEY_STATE::RELEASE;
+                    m_vecKey[i].bPrev = false;
+                }
+            }
+        }
 
-		// Mouse À§Ä¡ °»½Å
-		m_vPrevMousePos = m_vMousePos;
+        // Mouse ìœ„ì¹˜ ê°±ì‹ 
+        m_vPrevMousePos = m_vMousePos;
 
-		POINT ptMousePos = {};
-		GetCursorPos(&ptMousePos);		
-		ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
-		m_vMousePos = Vec2((float)ptMousePos.x, (float)ptMousePos.y);
-		GlobalData.tMousePos = m_vMousePos;
+        POINT ptMousePos = {};
+        GetCursorPos(&ptMousePos);
+        ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
+        m_vMousePos          = Vec2(static_cast<float>(ptMousePos.x), static_cast<float>(ptMousePos.y));
+        GlobalData.tMousePos = m_vMousePos;
 
-		m_vMouseDir = m_vMousePos - m_vPrevMousePos;
-		m_vMouseDir.y *= -1;
-	}
+        m_vMouseDir   = m_vMousePos - m_vPrevMousePos;
+        m_vMouseDir.y *= -1;
+    }
 
-	// Window °¡ focus »óÅÂ°¡ ¾Æ´Ï´Ù
-	else
-	{
-		for (size_t i = 0; i < m_vecKey.size(); ++i)
-		{
-			if (KEY_STATE::TAP == m_vecKey[i].state || KEY_STATE::PRESSED == m_vecKey[i].state)
-			{
-				m_vecKey[i].state = KEY_STATE::RELEASE;
-			}
+    // Window ê°€ focus ìƒíƒœê°€ ì•„ë‹ˆë‹¤
+    else
+    {
+        for (size_t i = 0; i < m_vecKey.size(); ++i)
+        {
+            if (KEY_STATE::TAP == m_vecKey[i].state || KEY_STATE::PRESSED == m_vecKey[i].state)
+                m_vecKey[i].state = KEY_STATE::RELEASE;
 
-			else if (KEY_STATE::RELEASE == m_vecKey[i].state)
-			{
-				m_vecKey[i].state = KEY_STATE::NONE;
-			}			 
-		}
-	}	
+            else if (KEY_STATE::RELEASE == m_vecKey[i].state)
+                m_vecKey[i].state = KEY_STATE::NONE;
+        }
+    }
 }

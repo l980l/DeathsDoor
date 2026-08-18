@@ -1,8 +1,8 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CMoneyCountScript.h"
 
 CMoneyCountScript::CMoneyCountScript() :
-	CScript(SCRIPT_TYPE::MONEYCOUNTSCRIPT)
+    CScript(MONEYCOUNTSCRIPT)
 {
 }
 
@@ -12,13 +12,11 @@ CMoneyCountScript::~CMoneyCountScript()
 
 void CMoneyCountScript::begin()
 {
-	// µ¿Àû ÀçÁú »ý¼º.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+    // ë™ì  ìž¬ì§ˆ ìƒì„±.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
+    for (int i = 0; i < iMtrlCount; ++i)
+        MeshRender()->GetDynamicMaterial(i);
 }
 
 void CMoneyCountScript::tick()

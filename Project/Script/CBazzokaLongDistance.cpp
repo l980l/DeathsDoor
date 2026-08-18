@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazzokaLongDistance.h"
 #include "CBazookaScript.h"
 #include "CLevelSaveLoadInScript.h"
@@ -6,41 +6,39 @@
 
 void CBazzokaLongDistance::Enter()
 {
-	GetOwner()->Animator3D()->Play(1, false);
+    GetOwner()->Animator3D()->Play(1, false);
 
-	// °¡½ºÅº ¹ß»ç.
-	Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
+    // ê°€ìŠ¤íƒ„ ë°œì‚¬.
+    Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
 
-	Vec3 vDir = GetOwner()->Transform()->GetXZDir();
-	Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 100.f, CurPos.z) + vDir * 100.f;
+    Vec3 vDir      = GetOwner()->Transform()->GetXZDir();
+    Vec3 vSpawnPos = Vec3(CurPos.x, CurPos.y + 100.f, CurPos.z) + vDir * 100.f;
 
-	CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", (int)LAYER::MONSTERPROJECTILE, vSpawnPos, 6.f);
-	pGasGrenade->Rigidbody()->SetRigidPos(vSpawnPos);
+    CGameObject* pGasGrenade = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\GasGrenade.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), vSpawnPos, 6.f);
+    pGasGrenade->Rigidbody()->SetRigidPos(vSpawnPos);
 
-	// 45µµ °¢µµ·Î ³¯¸±¶§ °¡Àå ¸Ö¸® ³ª°£´Ù°í °¡Á¤. 
-	Vec3 Dir = GetOwner()->GetScript<CBazookaScript>()->GetMonsterToPlayerDir();
-	float xzDir = sqrtf(Dir.x * Dir.x + Dir.z * Dir.z);
-	Dir.y = (GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance() / GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())* xzDir;
-	Dir.Normalize();
-	pGasGrenade->GetScript<CBazookaGasGrenadeScript>()->SetShotDir(Dir);
+    // 45ë„ ê°ë„ë¡œ ë‚ ë¦´ë•Œ ê°€ì¥ ë©€ë¦¬ ë‚˜ê°„ë‹¤ê³  ê°€ì •. 
+    Vec3  Dir   = GetOwner()->GetScript<CBazookaScript>()->GetMonsterToPlayerDir();
+    float xzDir = sqrtf(Dir.x * Dir.x + Dir.z * Dir.z);
+    Dir.y       = (GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance() / GetOwner()->GetScript<CBazookaScript>()->GetAttackRange()) * xzDir;
+    Dir.Normalize();
+    pGasGrenade->GetScript<CBazookaGasGrenadeScript>()->SetShotDir(Dir);
 }
 
 void CBazzokaLongDistance::tick()
 {
-	// ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ³¡³ª¸é Move·Î ´Ù½Ã º¯°æ.
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
-	
-		// °ø°İ¹üÀ§ ÀÌ³»¸é Aim »óÅÂ·Î.
-		if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
-		{
-			ChangeState(L"Aim");
-		}
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚˜ë©´ Moveë¡œ ë‹¤ì‹œ ë³€ê²½.
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
 
-		else
-			ChangeState(L"Move");
-	}
+        // ê³µê²©ë²”ìœ„ ì´ë‚´ë©´ Aim ìƒíƒœë¡œ.
+        if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange())
+            ChangeState(L"Aim");
+
+        else
+            ChangeState(L"Move");
+    }
 }
 
 void CBazzokaLongDistance::Exit()

@@ -2,16 +2,13 @@
 
 
 class CPathMgr
-	: public CSingleton<CPathMgr>
-{	
-	SINGLE(CPathMgr);
-private:
-	wchar_t		m_szContentPath[256];
+    : public CSingleton<CPathMgr>
+{
+    SINGLE(CPathMgr);
+    wchar_t m_szContentPath[256];
 
 public:
-	void init();
-	
-public:
-	const wchar_t* GetContentPath() { return m_szContentPath; }
+    void init();
+
+    const wchar_t* GetContentPath() const { return m_szContentPath; }
 };
-

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBatScript.h"
 #include "CPlayerScript.h"
 
@@ -9,9 +9,9 @@
 #include <Engine/CDetourMgr.h>
 #include "BatStates.h"
 
-CBatScript::CBatScript()	
-	: CMonsterScript((UINT)SCRIPT_TYPE::BATSCRIPT)
-	, m_bRecognizeCheck(false)
+CBatScript::CBatScript()
+    : CMonsterScript(static_cast<UINT>(SCRIPT_TYPE::BATSCRIPT))
+    , m_bRecognizeCheck(false)
 {
 }
 
@@ -21,55 +21,49 @@ CBatScript::~CBatScript()
 
 void CBatScript::begin()
 {
-	CMonsterScript::begin();
+    CMonsterScript::begin();
 
-	Transform()->SetRelativeScale(Vec3(0.35f));
-	// µ¿Àû ÀçÁú »ý¼º.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+    Transform()->SetRelativeScale(Vec3(0.35f));
+    // ë™ì  ìž¬ì§ˆ ìƒì„±.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
+    for (int i = 0; i < iMtrlCount; ++i)
+        MeshRender()->GetDynamicMaterial(i);
 
-	// »óÅÂ ¼³Á¤
-	if (nullptr == m_pStateScript)
-	{
-		m_pStateScript = GetOwner()->GetScript<CStateScript>();
-		m_pStateScript->AddState(L"Idle", new CBatIdle);
-		m_pStateScript->AddState(L"Recognize", new CBatRecognize);
-		m_pStateScript->AddState(L"Trace", new CTrace);
-		m_pStateScript->AddState(L"Attack", new CBatAttack);
-		m_pStateScript->AddState(L"Death", new CBatDeath);
-		m_pStateScript->ChangeState(L"Idle");
-	}
+    // ìƒíƒœ ì„¤ì •
+    if (nullptr == m_pStateScript)
+    {
+        m_pStateScript = GetOwner()->GetScript<CStateScript>();
+        m_pStateScript->AddState(L"Idle", new CBatIdle);
+        m_pStateScript->AddState(L"Recognize", new CBatRecognize);
+        m_pStateScript->AddState(L"Trace", new CTrace);
+        m_pStateScript->AddState(L"Attack", new CBatAttack);
+        m_pStateScript->AddState(L"Death", new CBatDeath);
+        m_pStateScript->ChangeState(L"Idle");
+    }
 
-	// ÃÊ±â ½ºÅÈ ¼³Á¤.
-	Stat tInitStat;
-	tInitStat.HP = 100;
-	tInitStat.Max_HP = 100;
-	tInitStat.Speed = 70.f;
-	m_pStateScript->SetStat(tInitStat);
+    // ì´ˆê¸° ìŠ¤íƒ¯ ì„¤ì •.
+    Stat tInitStat;
+    tInitStat.HP     = 100;
+    tInitStat.Max_HP = 100;
+    tInitStat.Speed  = 70.f;
+    m_pStateScript->SetStat(tInitStat);
 }
 
 void CBatScript::tick()
-{	
-	CMonsterScript::tick();
-	
-	// µ¿Àû ÀçÁú »ý¼º.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+{
+    CMonsterScript::tick();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		MeshRender()->GetDynamicMaterial(i);
-	}
+    // ë™ì  ìž¬ì§ˆ ìƒì„±.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	//2.HP°¡ 0 ÀÌ¸é Death
-	if (m_pStateScript->GetStat().HP <= 0)
-	{
-		if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
-			m_pStateScript->ChangeState(L"Death");
-	}
+    for (int i = 0; i < iMtrlCount; ++i)
+        MeshRender()->GetDynamicMaterial(i);
+
+    //2.HPê°€ 0 ì´ë©´ Death
+    if (m_pStateScript->GetStat().HP <= 0)
+        if (m_pStateScript->FindState(L"Death") != m_pStateScript->GetCurState())
+            m_pStateScript->ChangeState(L"Death");
 }
 
 void CBatScript::BeginOverlap(CCollider3D* _Other)

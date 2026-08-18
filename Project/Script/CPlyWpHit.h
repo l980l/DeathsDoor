@@ -1,10 +1,9 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpHit :
     public CState
 {
-private:
-
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -12,8 +11,6 @@ public:
 
     CLONE(CPlyWpHit);
 
-public:
     CPlyWpHit();
-    ~CPlyWpHit();
+    virtual ~CPlyWpHit() override;
 };
-

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGruntWalk :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGruntWalk);
 
-public:
     CGruntWalk();
-    ~CGruntWalk();
+    virtual ~CGruntWalk() override;
 };
-

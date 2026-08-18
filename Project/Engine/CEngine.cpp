@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CEngine.h"
 
 #include "CDevice.h"
@@ -19,97 +19,95 @@
 #include "CThreadMgr.h"
 
 CEngine::CEngine()
-	: m_hWnd(nullptr)
+    : m_hWnd(nullptr)
 {
 }
 
 CEngine::~CEngine()
 {
-
 }
 
 int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 {
-	// ¸ŞÀÎ À©µµ¿ì ÇÚµé
-	m_hWnd = _hWnd;
-	m_vResolution = Vec2((float)_iWidth, (float)_iHeight);
+    // ë©”ì¸ ìœˆë„ìš° í•¸ë“¤
+    m_hWnd        = _hWnd;
+    m_vResolution = Vec2(static_cast<float>(_iWidth), static_cast<float>(_iHeight));
 
-	// ÇØ»óµµ¿¡ ¸Â´Â ÀÛ¾÷¿µ¿ª Å©±â Á¶Á¤
-	RECT rt = { 0, 0, (int)_iWidth, (int)_iHeight};
-	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-	SetWindowPos(m_hWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
-	ShowWindow(m_hWnd, true);
-
-
-	// Device ÃÊ±âÈ­
-	if (FAILED(CDevice::GetInst()->init(m_hWnd, _iWidth, _iHeight)))
-	{
-		MessageBox(nullptr, L"Device ÃÊ±âÈ­ ½ÇÆĞ", L"¿¡·¯", MB_OK);
-		return E_FAIL;
-	}
+    // í•´ìƒë„ì— ë§ëŠ” ì‘ì—…ì˜ì—­ í¬ê¸° ì¡°ì •
+    RECT rt = {0, 0, static_cast<int>(_iWidth), static_cast<int>(_iHeight)};
+    AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
+    SetWindowPos(m_hWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
+    ShowWindow(m_hWnd, true);
 
 
-	// Manager ÃÊ±âÈ­
-	CPathMgr::GetInst()->init();
+    // Device ì´ˆê¸°í™”
+    if (FAILED(CDevice::GetInst()->init(m_hWnd, _iWidth, _iHeight)))
+    {
+        MessageBox(nullptr, L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", L"ì—ëŸ¬", MB_OK);
+        return E_FAIL;
+    }
 
-	CKeyMgr::GetInst()->init();
+    // Manager ì´ˆê¸°í™”
+    CPathMgr::GetInst()->init();
 
-	CTimeMgr::GetInst()->init();
-	
-	CResMgr::GetInst()->init();
+    CKeyMgr::GetInst()->init();
 
-	CInstancingBuffer::GetInst()->init();
+    CTimeMgr::GetInst()->init();
 
-	CRenderMgr::GetInst()->init();
+    CResMgr::GetInst()->init();
 
-	CFontMgr::GetInst()->init();
+    CInstancingBuffer::GetInst()->init();
 
-	CThreadMgr::GetInst()->init();
+    CRenderMgr::GetInst()->init();
 
-	CLevelMgr::GetInst()->init();
+    CFontMgr::GetInst()->init();
 
-	CPhysXMgr::GetInst()->init();
+    CThreadMgr::GetInst()->init();
 
-	CDetourMgr::GetInst()->init();
+    CLevelMgr::GetInst()->init();
 
+    CPhysXMgr::GetInst()->init();
 
-#ifdef _NDEBUG
-	ShowCursor(false);
+    CDetourMgr::GetInst()->init();
+
+    ShowCursor(false);
+
+#ifdef DEBUG
+    ShowCursor(true);
 #endif
 
-
-	return S_OK;
+    return S_OK;
 }
 
 void CEngine::progress()
 {
-	tick();
+    tick();
 
-	render();
+    render();
 
-	// Event Ã³¸®
-	CEventMgr::GetInst()->tick();
+    // Event ì²˜ë¦¬
+    CEventMgr::GetInst()->tick();
 }
 
-void CEngine::tick()
+void CEngine::tick() const
 {
-	// Manager Tick
-	CResMgr::GetInst()->tick();
-	CTimeMgr::GetInst()->tick();
-	CKeyMgr::GetInst()->tick();	
+    // Manager Tick
+    CResMgr::GetInst()->tick();
+    CTimeMgr::GetInst()->tick();
+    CKeyMgr::GetInst()->tick();
 
-	// FMOD Update
-	CSound::g_pFMOD->update();
+    // FMOD Update
+    CSound::g_pFMOD->update();
 
-	// Level Update
-	CLevelMgr::GetInst()->tick();
+    // Level Update
+    CLevelMgr::GetInst()->tick();
 
-	CCollisionMgr::GetInst()->tick();
+    CCollisionMgr::GetInst()->tick();
 }
 
-void CEngine::render()
-{	
-	CRenderMgr::GetInst()->render();	
+void CEngine::render() const
+{
+    CRenderMgr::GetInst()->render();
 
-	CTimeMgr::GetInst()->render();
+    CTimeMgr::GetInst()->render();
 }

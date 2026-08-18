@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CInstancingBuffer.h"
 
 #include "CDevice.h"
@@ -6,95 +6,90 @@
 #include "CResMgr.h"
 
 CInstancingBuffer::CInstancingBuffer()
-	: m_iMaxCount(10)
-	, m_iAnimInstCount(0)
-	, m_pBoneBuffer(nullptr)
+    : m_iMaxCount(10)
+    , m_iAnimInstCount(0)
+    , m_pBoneBuffer(nullptr)
 {
-	m_pBoneBuffer = new CStructuredBuffer;
+    m_pBoneBuffer = new CStructuredBuffer;
 }
 
 CInstancingBuffer::~CInstancingBuffer()
 {
-	if (nullptr != m_pBoneBuffer)
-		delete m_pBoneBuffer;
+    if (nullptr != m_pBoneBuffer)
+        delete m_pBoneBuffer;
 }
 
 void CInstancingBuffer::init()
 {
-	D3D11_BUFFER_DESC tDesc = {};
+    D3D11_BUFFER_DESC tDesc = {};
 
-	tDesc.ByteWidth = sizeof(tInstancingData) * m_iMaxCount;
-	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	tDesc.Usage = D3D11_USAGE_DYNAMIC;
-	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    tDesc.ByteWidth      = sizeof(tInstancingData) * m_iMaxCount;
+    tDesc.BindFlags      = D3D11_BIND_VERTEX_BUFFER;
+    tDesc.Usage          = D3D11_USAGE_DYNAMIC;
+    tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	if (FAILED(DEVICE->CreateBuffer(&tDesc, NULL, &m_pInstancingBuffer)))
-		assert(NULL);
+    if (FAILED(DEVICE->CreateBuffer(&tDesc, NULL, &m_pInstancingBuffer)))
+        assert(NULL);
 
-	m_pCopyShader = (CCopyBoneShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"CopyBoneCS").Get();
+    m_pCopyShader = static_cast<CCopyBoneShader*>(CResMgr::GetInst()->FindRes<CComputeShader>(L"CopyBoneCS").Get());
 }
 
 void CInstancingBuffer::SetData()
 {
-	if (m_vecData.size() > m_iMaxCount)
-	{
-		Resize((UINT)m_vecData.size());
-	}
+    if (m_vecData.size() > m_iMaxCount)
+        Resize(static_cast<UINT>(m_vecData.size()));
 
-	D3D11_MAPPED_SUBRESOURCE tMap = {};
+    D3D11_MAPPED_SUBRESOURCE tMap = {};
 
-	CONTEXT->Map(m_pInstancingBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tMap);
-	memcpy(tMap.pData, &m_vecData[0], sizeof(tInstancingData) * m_vecData.size());
-	CONTEXT->Unmap(m_pInstancingBuffer.Get(), 0);
+    CONTEXT->Map(m_pInstancingBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tMap);
+    memcpy(tMap.pData, &m_vecData[0], sizeof(tInstancingData) * m_vecData.size());
+    CONTEXT->Unmap(m_pInstancingBuffer.Get(), 0);
 
-	// º» Çà·ÄÁ¤º¸ ¸Þ¸ð¸® º¹»ç
-	if (m_vecBoneMat.empty())
-		return;
+    // ë³¸ í–‰ë ¬ì •ë³´ ë©”ëª¨ë¦¬ ë³µì‚¬
+    if (m_vecBoneMat.empty())
+        return;
 
-	UINT iBufferSize = (UINT)m_vecBoneMat.size() * m_vecBoneMat[0]->GetBufferSize();
-	if (m_pBoneBuffer->GetBufferSize() < iBufferSize)
-	{
-		m_pBoneBuffer->Create(m_vecBoneMat[0]->GetElementSize()
-			, m_vecBoneMat[0]->GetElementCount() * (UINT)m_vecBoneMat.size(), SB_TYPE::READ_WRITE, false, nullptr);
-	}
+    UINT iBufferSize = static_cast<UINT>(m_vecBoneMat.size()) * m_vecBoneMat[0]->GetBufferSize();
+    if (m_pBoneBuffer->GetBufferSize() < iBufferSize)
+        m_pBoneBuffer->Create(m_vecBoneMat[0]->GetElementSize()
+                            , m_vecBoneMat[0]->GetElementCount() * static_cast<UINT>(m_vecBoneMat.size()), SB_TYPE::READ_WRITE, false, nullptr);
 
-	// º¹»ç¿ë ÄÄÇ»Æ® ½¦ÀÌ´õ ½ÇÇà
-	UINT iBoneCount = m_vecBoneMat[0]->GetElementCount();
-	m_pCopyShader->SetBoneCount(iBoneCount);
+    // ë³µì‚¬ìš© ì»´í“¨íŠ¸ ì‰ì´ë” ì‹¤í–‰
+    UINT iBoneCount = m_vecBoneMat[0]->GetElementCount();
+    m_pCopyShader->SetBoneCount(iBoneCount);
 
-	for (UINT i = 0; i < (UINT)m_vecBoneMat.size(); ++i)
-	{
-		m_pCopyShader->SetRowIndex(i);
-		m_pCopyShader->SetSourceBuffer(m_vecBoneMat[i]);
-		m_pCopyShader->SetDestBuffer(m_pBoneBuffer);
-		m_pCopyShader->Execute();
-	}
+    for (UINT i = 0; i < static_cast<UINT>(m_vecBoneMat.size()); ++i)
+    {
+        m_pCopyShader->SetRowIndex(i);
+        m_pCopyShader->SetSourceBuffer(m_vecBoneMat[i]);
+        m_pCopyShader->SetDestBuffer(m_pBoneBuffer);
+        m_pCopyShader->Execute();
+    }
 
-	// Bone Á¤º¸ Àü´Þ ·¹Áö½ºÅÍ
-	m_pBoneBuffer->UpdateData(30, PIPELINE_STAGE::PS_VERTEX);
+    // Bone ì •ë³´ ì „ë‹¬ ë ˆì§€ìŠ¤í„°
+    m_pBoneBuffer->UpdateData(30, PS_VERTEX);
 }
 
 
 void CInstancingBuffer::AddInstancingBoneMat(CStructuredBuffer* _pBuffer)
 {
-	++m_iAnimInstCount;
-	m_vecBoneMat.push_back(_pBuffer);
+    ++m_iAnimInstCount;
+    m_vecBoneMat.push_back(_pBuffer);
 }
 
 void CInstancingBuffer::Resize(UINT _iCount)
 {
-	m_pInstancingBuffer = nullptr;
+    m_pInstancingBuffer = nullptr;
 
-	m_iMaxCount = _iCount;
+    m_iMaxCount = _iCount;
 
-	D3D11_BUFFER_DESC tDesc = {};
+    D3D11_BUFFER_DESC tDesc = {};
 
-	tDesc.ByteWidth = sizeof(tInstancingData) * m_iMaxCount;
-	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	tDesc.Usage = D3D11_USAGE_DYNAMIC;
-	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    tDesc.ByteWidth      = sizeof(tInstancingData) * m_iMaxCount;
+    tDesc.BindFlags      = D3D11_BIND_VERTEX_BUFFER;
+    tDesc.Usage          = D3D11_USAGE_DYNAMIC;
+    tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	if (FAILED(DEVICE->CreateBuffer(&tDesc, NULL, &m_pInstancingBuffer)))
-		assert(NULL);
+    if (FAILED(DEVICE->CreateBuffer(&tDesc, NULL, &m_pInstancingBuffer)))
+        assert(NULL);
 }
-

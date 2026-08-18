@@ -8,7 +8,7 @@
 #include "CTimeMgr.h"
 
 CLight2D::CLight2D()
-	: CComponent(COMPONENT_TYPE::LIGHT2D)
+    : CComponent(COMPONENT_TYPE::LIGHT2D)
 {
 }
 
@@ -18,18 +18,18 @@ CLight2D::~CLight2D()
 
 void CLight2D::finaltick()
 {
-	m_LightInfo.vWorldPos = Transform()->GetWorldPos();
-	m_LightInfo.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
+    m_LightInfo.vWorldPos = Transform()->GetWorldPos();
+    m_LightInfo.vWorldDir = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
 
-	CRenderMgr::GetInst()->RegisterLight2D(this);
+    CRenderMgr::GetInst()->RegisterLight2D(this);
 }
 
 void CLight2D::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_LightInfo, sizeof(tLightInfo), 1, _File);
+    fwrite(&m_LightInfo, sizeof(tLightInfo), 1, _File);
 }
 
 void CLight2D::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
+    fread(&m_LightInfo, sizeof(tLightInfo), 1, _File);
 }

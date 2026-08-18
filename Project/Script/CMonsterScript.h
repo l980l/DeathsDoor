@@ -1,38 +1,37 @@
-#pragma once
-#include <Engine\CScript.h>
+ï»¿#pragma once
+#include <Engine/CScript.h>
 
 class CStateScript;
 
 class CMonsterScript :
     public CScript
 {
-private:
-    CStateScript*   m_pStateScript;
-    CGameObject*    m_pPlayer;
-    bool            m_bDetect;
-    bool            m_bPaperBurnEffect;     // PaperBurn È¿°ú¸¦ ÁÙÁö.
-    bool            m_bSendDeadTime;        // »ç¸Á½Ã°£À» ÀÌ¹Ì º¸³Â´ÂÁö. 
-    float           m_fDeathTime;           // »ç¸Á ½Ã°¢.
-    float           m_fLastHitTime;         // ¸¶Áö¸·À¸·Î ÇÇ°ÝµÈ ½Ã°¢.
-    bool            m_bFixPos;              // À§Ä¡ °íÁ¤ ¿©ºÎ.
-    Vec3            m_vFixedPos;            // °íÁ¤ À§Ä¡.
-    bool            m_bSpawnByDoor;
+    CStateScript* m_pStateScript;
+    CGameObject*  m_pPlayer;
+    bool          m_bDetect;
+    bool          m_bPaperBurnEffect; // PaperBurn íš¨ê³¼ë¥¼ ì¤„ì§€.
+    bool          m_bSendDeadTime;    // ì‚¬ë§ì‹œê°„ì„ ì´ë¯¸ ë³´ëƒˆëŠ”ì§€. 
+    float         m_fDeathTime;       // ì‚¬ë§ ì‹œê°.
+    float         m_fLastHitTime;     // ë§ˆì§€ë§‰ìœ¼ë¡œ í”¼ê²©ëœ ì‹œê°.
+    bool          m_bFixPos;          // ìœ„ì¹˜ ê³ ì • ì—¬ë¶€.
+    Vec3          m_vFixedPos;        // ê³ ì • ìœ„ì¹˜.
+    bool          m_bSpawnByDoor;
 
 public:
-    CGameObject*    GetPlayer() { return m_pPlayer; }
-    bool            GetDetect() { return m_bDetect; }
-    void            SetDetect(bool _bDetect) { m_bDetect = _bDetect; }
-    bool            GetPaperBurnEffect() const { return m_bPaperBurnEffect;}
-    void            SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value;}
-    void            SetLastHitTime() { m_fLastHitTime = GlobalData.tAccTime; }
-    void            SpawnByDoor() { m_bSpawnByDoor = true; }
-    void            SetFixPosition(bool _bFixPos) 
-    { 
-        m_bFixPos = _bFixPos;
+    CGameObject* GetPlayer() const { return m_pPlayer; }
+    bool         GetDetect() const { return m_bDetect; }
+    void         SetDetect(bool _bDetect) { m_bDetect = _bDetect; }
+    bool         GetPaperBurnEffect() const { return m_bPaperBurnEffect; }
+    void         SetPaperBurnEffect(bool value) { m_bPaperBurnEffect = value; }
+    void         SetLastHitTime() { m_fLastHitTime = GlobalData.tAccTime; }
+    void         SpawnByDoor() { m_bSpawnByDoor = true; }
+
+    void SetFixPosition(bool _bFixPos)
+    {
+        m_bFixPos   = _bFixPos;
         m_vFixedPos = Transform()->GetWorldPos();
     }
 
-public:
     virtual void begin() override;
     virtual void tick() override;
 
@@ -41,10 +40,9 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
 
     CLONE(CMonsterScript);
-public:
     CMonsterScript(UINT SCRIPT_TYPE);
-    ~CMonsterScript();
-  
+    virtual ~CMonsterScript() override;
+
     friend class CBazookaScript;
     friend class CLurkerScript;
     friend class CGruntScript;
@@ -54,5 +52,3 @@ public:
     friend class CKnightScript;
     friend class CGhostScript;
 };
-
-

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CBazookaAim :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CBazookaAim);
 
-public:
     CBazookaAim();
-    ~CBazookaAim();
+    virtual ~CBazookaAim() override;
 };
-

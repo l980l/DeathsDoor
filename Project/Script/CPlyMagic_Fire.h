@@ -1,10 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CPlyMagic_Fire :
     public CState
 {
-    Vec3            m_vAttackDir;
-    CGameObject*    m_pFire;
+    Vec3         m_vAttackDir;
+    CGameObject* m_pFire;
 
 public:
     virtual void Enter() override;
@@ -15,8 +16,6 @@ public:
 
     CLONE(CPlyMagic_Fire);
 
-public:
     CPlyMagic_Fire();
-    ~CPlyMagic_Fire();
+    virtual ~CPlyMagic_Fire() override;
 };
-

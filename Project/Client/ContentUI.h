@@ -6,27 +6,23 @@ class TreeUI;
 class ContentUI :
     public UI
 {
-private:
-    TreeUI*             m_Tree;
-    vector<wstring>     m_vecResPath;    
+    TreeUI*         m_Tree;
+    vector<wstring> m_vecResPath;
 
 public:
     virtual void init() override;
     virtual void tick() override;
-    virtual int render_update() override;
+    virtual int  render_update() override;
 
-public:
-    void Reload(); // Content Æú´õ¿¡ ÀÖ´Â ¸®¼Ò½º¸¦ ·Îµù
-    void ResetContent();
-    void SetTargetToInspector(DWORD_PTR _SelectedNode);
-
+    void Reload(); // Content ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
+    void ResetContent() const;
+    void SetTargetToInspector(DWORD_PTR _SelectedNode) const;
 
 private:
-    void FindFileName(const wstring& _FolderPath);
-    RES_TYPE GetResTypeByExt(const wstring& _relativepath);
+    void     FindFileName(const wstring& _FolderPath);
+    RES_TYPE GetResTypeByExt(const wstring& _relativepath) const;
 
 public:
     ContentUI();
-    ~ContentUI();
+    virtual ~ContentUI() override;
 };
-

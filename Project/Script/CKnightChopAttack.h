@@ -1,11 +1,12 @@
 #pragma once
 #include "CState.h"
+
 class CKnightChopAttack :
     public CState
 {
-private:
     float m_fTime;
-    bool m_bCameraShake;
+    bool  m_bCameraShake;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -13,8 +14,6 @@ public:
 
     CLONE(CKnightChopAttack);
 
-public:
     CKnightChopAttack();
-    ~CKnightChopAttack();
+    virtual ~CKnightChopAttack() override;
 };
-

@@ -1,12 +1,12 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBatDeath.h"
 #include "CBatScript.h"
 #include "CPlayerScript.h"
 #include "CLevelSaveLoadInScript.h"
 
 
-CBatDeath::CBatDeath()	
-	: m_fPaperBurnTime(0.f)
+CBatDeath::CBatDeath()
+    : m_fPaperBurnTime(0.f)
 {
 }
 
@@ -16,24 +16,23 @@ CBatDeath::~CBatDeath()
 
 void CBatDeath::Enter()
 {
-	GetOwner()->GetScript<CBatScript>()->SetPaperBurnEffect(true);
-	// ¸ó½ºÅÍ »ç¸Á½Ã ÇöÀç±îÁö Èå¸¥ ½Ã°£À» ÀúÀå.
+    GetOwner()->GetScript<CBatScript>()->SetPaperBurnEffect(true);
+    // ëª¬ìŠ¤í„° ì‚¬ë§ì‹œ í˜„ìž¬ê¹Œì§€ íë¥¸ ì‹œê°„ì„ ì €ìž¥.
 }
 
 void CBatDeath::tick()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	m_fPaperBurnTime += DT;
+    GetOwner()->Rigidbody()->ClearForce();
+    m_fPaperBurnTime += DT;
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f)
-	{
-		GetOwner()->GetScript<CBatScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)100);
-		CLevelSaveLoadInScript script;
-		script.MoneyCount(100);
-		GetOwnerScript()->Destroy();
-	}
-		
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f)
+    {
+        GetOwner()->GetScript<CBatScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(100);
+        CLevelSaveLoadInScript script;
+        script.MoneyCount(100);
+        GetOwnerScript()->Destroy();
+    }
 }
 
 void CBatDeath::Exit()

@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CRenderMgr.h"
 
 #include "CDevice.h"
@@ -16,20 +16,20 @@
 #include "CMRT.h"
 
 CRenderMgr::CRenderMgr()
-    : m_Light2DBuffer(nullptr)
+    : m_pEditorCam(nullptr)
+    , m_Light2DBuffer(nullptr)
     , RENDER_FUNC(nullptr)
-    , m_pEditorCam(nullptr)
 {
     Vec2 vResolution = CDevice::GetInst()->GetRenderResolution();
-    m_RTCopyTex = CResMgr::GetInst()->CreateTexture(L"RTCopyTex"
-                                                    , (UINT)vResolution.x, (UINT)vResolution.y
-                                                    , DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE
-                                                    , D3D11_USAGE_DEFAULT);
+    m_RTCopyTex      = CResMgr::GetInst()->CreateTexture(L"RTCopyTex"
+                                                  , static_cast<UINT>(vResolution.x), static_cast<UINT>(vResolution.y)
+                                                  , DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE
+                                                  , D3D11_USAGE_DEFAULT);
 
     CResMgr::GetInst()->FindRes<CMaterial>(L"GrayMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
     CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
     CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetTexParam(TEX_0, m_RTCopyTex);
-    Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png"); 
+    Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
     CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetTexParam(TEX_1, NoiseTextue.Get());
     Vec2 NoiseTextureSize(NoiseTextue->Width(), NoiseTextue->Height());
     CResMgr::GetInst()->FindRes<CMaterial>(L"WindMtrl")->SetScalarParam(VEC2_0, &NoiseTextureSize);
@@ -37,10 +37,10 @@ CRenderMgr::CRenderMgr()
 
 CRenderMgr::~CRenderMgr()
 {
-    if (nullptr != m_Light2DBuffer)
+    if (m_Light2DBuffer)
         delete m_Light2DBuffer;
 
-    if (nullptr != m_Light3DBuffer)
+    if (m_Light3DBuffer)
         delete m_Light3DBuffer;
 
     Safe_Del_Array(m_MRT);
@@ -51,91 +51,79 @@ void CRenderMgr::render_clear()
     MRT_Clear();
 
     // Texture Register Clear
-    for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
-    {
+    for (UINT i = 0; i < static_cast<UINT>(TEX_PARAM::TEX_END); ++i)
         CTexture::Clear(i);
-    }    
 }
 
 void CRenderMgr::render()
 {
-    // √‚∑¬ ¥ÎªÛ¿Ã Device∞° ∞Æ∞Ì¿÷¥¬ SwapChain¿« RT∞° æ∆¥— MRT¿« RT∞° µ∆¿∏π«∑Œ
-    // MRTø°º≠ Clear π◊ OMSet¿ª «œµµ∑œ «‘.
-    // ∑ª¥ı∏µ Ω√¿€
+    // Ï∂úÎ†• ÎåÄÏÉÅÏù¥ DeviceÍ∞Ä Í∞ñÍ≥†ÏûàÎäî SwapChainÏùò RTÍ∞Ä ÏïÑÎãå MRTÏùò RTÍ∞Ä ÎêêÏúºÎØÄÎ°ú
+    // MRTÏóêÏÑú Clear Î∞è OMSetÏùÑ ÌïòÎèÑÎ°ù Ìï®.
+    // Î†åÎçîÎßÅ ÏãúÏûë
     render_clear();
 
-    // ±§ø¯ π◊ ¿¸ø™ µ•¿Ã≈Õ æ˜µ•¿Ã∆Æ π◊ πŸ¿Œµ˘
+    // Í¥ëÏõê Î∞è Ï†ÑÏó≠ Îç∞Ïù¥ÌÑ∞ ÏóÖÎç∞Ïù¥Ìä∏ Î∞è Î∞îÏù∏Îî©
     UpdateData();
 
-    // ∑ª¥ı «‘ºˆ »£√‚
+    // Î†åÎçî Ìï®Ïàò Ìò∏Ï∂ú
     (this->*RENDER_FUNC)();
-    
-    // ±§ø¯ «ÿ¡¶
+
+    // Í¥ëÏõê Ìï¥Ï†ú
     Clear();
 }
 
-
-
-
 void CRenderMgr::render_play()
 {
-    // ¿¸ø™±§ø¯ Ω√¡°ø°º≠ shadow∏ «Œ¿ª ¿ß«— DepthMap ª˝º∫
+    // Ï†ÑÏó≠Í¥ëÏõê ÏãúÏ†êÏóêÏÑú shadowÎßµÌïëÏùÑ ÏúÑÌïú DepthMap ÏÉùÏÑ±
     render_dynamic_shadowdepth();
 
-    // ƒ´∏ﬁ∂Û ±‚¡ÿ ∑ª¥ı∏µ
-    for (size_t i = 0; i < m_vecCam.size(); ++i)
-    {
-        if (nullptr == m_vecCam[i])
-            continue;
+    // Ïπ¥Î©îÎùº Í∏∞Ï§Ä Î†åÎçîÎßÅ
 
-        m_vecCam[i]->SortObject();
-        m_vecCam[i]->render();
+    for (CCamera* Camera : m_vecCam)
+    {
+        if (Camera)
+        {
+            Camera->SortObject();
+            Camera->render();
+        }
     }
 }
 
 void CRenderMgr::render_editor()
 {
-    // Directional ±§ø¯ Ω√¡°ø°º≠ Shadow∏ «Œ¿ª ¿ß«— DepthMap ª˝º∫
+    // Directional Í¥ëÏõê ÏãúÏ†êÏóêÏÑú ShadowÎßµÌïëÏùÑ ÏúÑÌïú DepthMap ÏÉùÏÑ±
     render_dynamic_shadowdepth();
 
     m_pEditorCam->SortObject();
-    m_pEditorCam->render();    
+    m_pEditorCam->render();
 }
 
-void CRenderMgr::render_dynamic_shadowdepth()
+void CRenderMgr::render_dynamic_shadowdepth() const
 {
-    m_MRT[(UINT)MRT_TYPE::SHADOW]->OMSet();
+    m_MRT[static_cast<UINT>(MRT_TYPE::SHADOW)]->OMSet();
 
-    for (size_t i = 0; i < m_vecLight3D.size(); ++i)
+    for (CLight3D* Light3D : m_vecLight3D)
     {
-        if (LIGHT_TYPE::DIRECTIONAL == m_vecLight3D[i]->GetLightType())
-            m_vecLight3D[i]->render_depthmap();
+        if (Light3D && LIGHT_TYPE::DIRECTIONAL == Light3D->GetLightType())
+            Light3D->render_depthmap();
     }
 }
-
-
-
 
 int CRenderMgr::RegisterCamera(CCamera* _Cam, int _idx)
 {
     if (m_vecCam.size() <= _idx)
-    {
         m_vecCam.resize(_idx + 1);
-    }
 
-    m_vecCam[_idx] = _Cam;    
+    m_vecCam[_idx] = _Cam;
     return _idx;
 }
 
 void CRenderMgr::SetRenderFunc(bool _IsPlay)
 {
-    if(_IsPlay)
-        RENDER_FUNC = &CRenderMgr::render_play;
-    else
-        RENDER_FUNC = &CRenderMgr::render_editor;
+    RENDER_FUNC = _IsPlay ? &CRenderMgr::render_play : &CRenderMgr::render_editor;
 }
 
-CCamera* CRenderMgr::GetMainCam()
+CCamera* CRenderMgr::GetMainCam() const
 {
     if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
     {
@@ -143,80 +131,86 @@ CCamera* CRenderMgr::GetMainCam()
             return nullptr;
         return m_vecCam[0];
     }
-    else
-        return m_pEditorCam;
+    return m_pEditorCam;
 }
 
-void CRenderMgr::CopyRenderTarget()
+void CRenderMgr::CopyRenderTarget() const
 {
     Ptr<CTexture> pRTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");
     CONTEXT->CopyResource(m_RTCopyTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
 }
 
-void CRenderMgr::MRT_Clear()
+void CRenderMgr::MRT_Clear() const
 {
-    for (UINT i = 0; i < (UINT)MRT_TYPE::END; ++i)
+    for (UINT i = 0; i < static_cast<UINT>(MRT_TYPE::END); ++i)
     {
-        if (i == (UINT)MRT_TYPE::WATER)
+        if (i == static_cast<UINT>(MRT_TYPE::WATER))
             continue;
         m_MRT[i]->Clear();
     }
 }
 
-void CRenderMgr::MRT_Clear(MRT_TYPE _Type)
+void CRenderMgr::MRT_Clear(MRT_TYPE _Type) const
 {
-    m_MRT[(UINT)_Type]->Clear();
+    m_MRT[static_cast<UINT>(_Type)]->Clear();
 }
 
-void CRenderMgr::UpdateData()
+void CRenderMgr::UpdateData() const
 {
-    // GlobalData ø° ±§ø¯ ∞≥ºˆ¡§∫∏ ºº∆√
-    GlobalData.Light2DCount = (UINT)m_vecLight2D.size();
-    GlobalData.Light3DCount = (UINT)m_vecLight3D.size();
-
-    // ±∏¡∂»≠πˆ∆€¿« ≈©±‚∞° ∏¿⁄∂Û∏È ¥ı ≈©∞‘ ªı∑Œ ∏∏µÁ¥Ÿ.
-    if (m_Light2DBuffer->GetElementCount() < m_vecLight2D.size())
+    // Light2D
     {
-        m_Light2DBuffer->Create(sizeof(tLightInfo), (UINT)m_vecLight2D.size(), SB_TYPE::READ_ONLY, true);
+        // GlobalData Ïóê Í¥ëÏõê Í∞úÏàòÏ†ïÎ≥¥ ÏÑ∏ÌåÖ
+        GlobalData.Light2DCount = static_cast<UINT>(m_vecLight2D.size());
+
+        // Íµ¨Ï°∞ÌôîÎ≤ÑÌçºÏùò ÌÅ¨Í∏∞Í∞Ä Î™®ÏûêÎùºÎ©¥ Îçî ÌÅ¨Í≤å ÏÉàÎ°ú ÎßåÎì†Îã§.
+        if (m_Light2DBuffer->GetElementCount() < m_vecLight2D.size())
+            m_Light2DBuffer->Create(sizeof(tLightInfo), static_cast<UINT>(m_vecLight2D.size()), SB_TYPE::READ_ONLY, true);
+
+        static vector<tLightInfo> vecLight2DInfo;
+        vecLight2DInfo.clear();
+
+        for (CLight2D* Light : m_vecLight2D)
+        {
+            if (Light)
+                vecLight2DInfo.push_back(Light->GetLightInfo());
+        }
+
+        // Íµ¨Ï°∞ÌôîÎ≤ÑÌçºÎ°ú Í¥ëÏõê Îç∞Ïù¥ÌÑ∞Î•º ÏòÆÍ∏¥Îã§.
+        m_Light2DBuffer->SetData(vecLight2DInfo.data(), sizeof(tLightInfo) * static_cast<UINT>(vecLight2DInfo.size()));
+        m_Light2DBuffer->UpdateData(12, PS_PIXEL);
     }
 
-    static vector<tLightInfo> vecLight2DInfo;
-    vecLight2DInfo.clear();
-
-    for (size_t i = 0; i < m_vecLight2D.size(); ++i)
+    // Light3D
     {
-        vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfo());
+        GlobalData.Light3DCount = static_cast<UINT>(m_vecLight3D.size());
+
+        // Íµ¨Ï°∞ÌôîÎ≤ÑÌçºÏùò ÌÅ¨Í∏∞Í∞Ä Î™®ÏûêÎùºÎ©¥ Îçî ÌÅ¨Í≤å ÏÉàÎ°ú ÎßåÎì†Îã§.
+        if (m_Light3DBuffer->GetElementCount() < m_vecLight3D.size())
+            m_Light3DBuffer->Create(sizeof(tLightInfo), static_cast<UINT>(m_vecLight3D.size()), SB_TYPE::READ_ONLY, true);
+
+        static vector<tLightInfo> vecLight3DInfo;
+        vecLight3DInfo.clear();
+
+        for (CLight3D* Light : m_vecLight3D)
+        {
+            if (Light)
+                vecLight3DInfo.push_back(Light->GetLightInfo());
+        }
+
+        // Íµ¨Ï°∞ÌôîÎ≤ÑÌçºÎ°ú Í¥ëÏõê Îç∞Ïù¥ÌÑ∞Î•º ÏòÆÍ∏¥Îã§.
+        m_Light3DBuffer->SetData(vecLight3DInfo.data(), sizeof(tLightInfo) * static_cast<UINT>(vecLight3DInfo.size()));
+        m_Light3DBuffer->UpdateData(13, PS_PIXEL);
     }
 
-    // ±∏¡∂»≠πˆ∆€∑Œ ±§ø¯ µ•¿Ã≈Õ∏¶ ø≈±‰¥Ÿ.
-    m_Light2DBuffer->SetData(vecLight2DInfo.data(), sizeof(tLightInfo) * (UINT)vecLight2DInfo.size());
-    m_Light2DBuffer->UpdateData(12, PIPELINE_STAGE::PS_PIXEL);
-
-    // ±∏¡∂»≠πˆ∆€¿« ≈©±‚∞° ∏¿⁄∂Û∏È ¥ı ≈©∞‘ ªı∑Œ ∏∏µÁ¥Ÿ.
-    if (m_Light3DBuffer->GetElementCount() < m_vecLight3D.size())
-    {
-        m_Light3DBuffer->Create(sizeof(tLightInfo), (UINT)m_vecLight3D.size(), SB_TYPE::READ_ONLY, true);
-    }
-
-    static vector<tLightInfo> vecLight3DInfo;
-    vecLight3DInfo.clear();
-
-    for (size_t i = 0; i < m_vecLight3D.size(); ++i)
-    {
-        vecLight3DInfo.push_back(m_vecLight3D[i]->GetLightInfo());
-    }
-
-    // ±∏¡∂»≠πˆ∆€∑Œ ±§ø¯ µ•¿Ã≈Õ∏¶ ø≈±‰¥Ÿ.
-    m_Light3DBuffer->SetData(vecLight3DInfo.data(), sizeof(tLightInfo) * (UINT)vecLight3DInfo.size());
-    m_Light3DBuffer->UpdateData(13, PIPELINE_STAGE::PS_PIXEL);
-
-    // ¿¸ø™ ªÛºˆ µ•¿Ã≈Õ πŸ¿Œµ˘
+    // Ï†ÑÏó≠ ÏÉÅÏàò Îç∞Ïù¥ÌÑ∞ Î∞îÏù∏Îî©
     CConstBuffer* pGlobalBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
-    pGlobalBuffer->SetData(&GlobalData, sizeof(tGlobal));
-    pGlobalBuffer->UpdateData();
-    pGlobalBuffer->UpdateData_CS();
+    if (pGlobalBuffer)
+    {
+        pGlobalBuffer->SetData(&GlobalData, sizeof(tGlobal));
+        pGlobalBuffer->UpdateData();
+        pGlobalBuffer->UpdateData_CS();
+    }
 }
-
 
 void CRenderMgr::Clear()
 {

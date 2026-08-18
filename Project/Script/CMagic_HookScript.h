@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include <Engine/CScript.h>
 
 class CPlyMagic_Hook;
@@ -7,47 +7,44 @@ class CPlyMagic_Hooking;
 class CMagic_HookScript :
     public CScript
 {
-private:
-    CPlyMagic_Hook*         m_pHookScript;
-    CPlyMagic_Hooking*      m_pHookingScript;
-    vector<CGameObject*>    m_vecChain;
-    Vec3                    m_vStartPos;
-    Vec3                    m_vThrownDir;
-    Vec3                    m_vAttackDir;
-    float                   m_fTime;
-    float                   m_fDistancetoTarget;    // HookposøÕ¿« ∞≈∏Æ
-    float                   m_fChainSpacing;        // √º¿Œ ¥Á ¬˜¡ˆ«œ¥¬ ∞¯∞£
-    bool                    m_bSnatch;              // ≥¨æ∆√® ¿Øπ´
-    bool                    m_bReturn;              // ≥¨æ∆√§¡ˆ ∏¯«œ∞Ì µπæ∆ø¿¥¬ ¡ﬂ
-    bool                    m_bActive;
-    bool                    m_bCollidable;
-    
-private:
-    void SetHookScript(CPlyMagic_Hook* _pHookScript) {if(nullptr == m_pHookScript) m_pHookScript = _pHookScript; }
+    CPlyMagic_Hook*      m_pHookScript;
+    CPlyMagic_Hooking*   m_pHookingScript;
+    vector<CGameObject*> m_vecChain;
+    Vec3                 m_vStartPos;
+    Vec3                 m_vThrownDir;
+    Vec3                 m_vAttackDir;
+    float                m_fTime;
+    float                m_fDistancetoTarget; // HookposÏôÄÏùò Í±∞Î¶¨
+    float                m_fChainSpacing;     // Ï≤¥Ïù∏ Îãπ Ï∞®ÏßÄÌïòÎäî Í≥µÍ∞Ñ
+    bool                 m_bSnatch;           // ÎÇöÏïÑÏ±î Ïú†Î¨¥
+    bool                 m_bReturn;           // ÎÇöÏïÑÏ±ÑÏßÄ Î™ªÌïòÍ≥† ÎèåÏïÑÏò§Îäî Ï§ë
+    bool                 m_bActive;
+    bool                 m_bCollidable;
+
+    void SetHookScript(CPlyMagic_Hook* _pHookScript) { if (nullptr == m_pHookScript) m_pHookScript = _pHookScript; }
     void SetHookingScript(CPlyMagic_Hooking* _pHookingScript) { if (nullptr == m_pHookingScript) m_pHookingScript = _pHookingScript; }
     void SetChain(vector<CGameObject*>& _vecChain) { m_vecChain = _vecChain; }
-public:    
+
+public:
     virtual void begin() override;
     virtual void tick() override;
 
     void SetThrowDir(Vec3 _vThrowDir) { m_vThrownDir = _vThrowDir.Normalize(); }
-    void SetAttackDir(Vec3 _vDir) {m_vAttackDir = _vDir;}
+    void SetAttackDir(Vec3 _vDir) { m_vAttackDir = _vDir; }
     void SetStartPos(Vec3 _vStartPos) { m_vStartPos = _vStartPos; }
     void Active(bool _bActive);
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
 
-    void PaveChain();
+    void PaveChain() const;
     void Clear();
 
     CLONE(CMagic_HookScript);
 
-public:
     CMagic_HookScript();
-    ~CMagic_HookScript();
-    
+    virtual ~CMagic_HookScript() override;
+
     friend class CPlyMagic_Hook;
     friend class CPlyMagic_Hooking;
 };
-

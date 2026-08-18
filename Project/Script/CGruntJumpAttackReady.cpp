@@ -1,17 +1,17 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGruntJumpAttackReady.h"
 #include "CGruntScript.h"
 
 void CGruntJumpAttackReady::Enter()
 {
-	GetOwner()->Animator3D()->Play(11, false);
+    GetOwner()->Animator3D()->Play(11, false);
 }
 
 void CGruntJumpAttackReady::tick()
 {
-	// ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³ª¸é NailAttack·Î ´Ù½Ã º¯°æ.
-	if (GetOwner()->Animator3D()->IsFinish())
-		ChangeState(L"JumpAttack");
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚˜ë©´ NailAttackë¡œ ë‹¤ì‹œ ë³€ê²½.
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"JumpAttack");
 }
 
 void CGruntJumpAttackReady::Exit()

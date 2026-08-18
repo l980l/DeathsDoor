@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CGameObject.h"
 
 #include "CComponent.h"
@@ -12,279 +12,248 @@
 
 
 CGameObject::CGameObject()
-	: m_arrCom{}
-	, m_RenderCom(nullptr)
-	, m_Parent(nullptr)
-	, m_iLayerIdx(-1)
-	, m_bDead(false)
-	, m_LifeTime(0.f)
-	, m_CurLifeTime(0.f)
-	, m_bLifeSpan(false)
+    : m_arrCom{}
+    , m_RenderCom(nullptr)
+    , m_Parent(nullptr)
+    , m_iLayerIdx(-1)
+    , m_bDead(false)
+    , m_LifeTime(0.f)
+    , m_CurLifeTime(0.f)
+    , m_bLifeSpan(false)
 {
 }
 
 CGameObject::CGameObject(const CGameObject& _Other)
-	: CEntity(_Other)
-	, m_arrCom{}
-	, m_RenderCom(nullptr)
-	, m_Parent(nullptr)
-	, m_iLayerIdx(-1)
-	, m_bDead(false)
-	, m_LifeTime(0.f)
-	, m_CurLifeTime(0.f)
-	, m_bLifeSpan(false)
+    : CEntity(_Other)
+    , m_arrCom{}
+    , m_RenderCom(nullptr)
+    , m_Parent(nullptr)
+    , m_iLayerIdx(-1)
+    , m_bDead(false)
+    , m_LifeTime(0.f)
+    , m_CurLifeTime(0.f)
+    , m_bLifeSpan(false)
 {
-	// Component ∫πªÁ
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-	{
-		if (_Other.m_arrCom[i])
-		{
-			AddComponent(_Other.m_arrCom[i]->Clone());
-		}
-	}
+    // Component Î≥µÏÇ¨
+    for (UINT i = 0; i < static_cast<UINT>(COMPONENT_TYPE::END); ++i)
+    {
+        if (_Other.m_arrCom[i])
+            AddComponent(_Other.m_arrCom[i]->Clone());
+    }
 
-	// Script ∫πªÁ
-	for (size_t i = 0; i < _Other.m_vecScript.size(); ++i)
-	{
-		AddComponent(_Other.m_vecScript[i]->Clone());
-	}
+    // Script Î≥µÏÇ¨
+    for (size_t i = 0; i < _Other.m_vecScript.size(); ++i)
+        AddComponent(_Other.m_vecScript[i]->Clone());
 
-	// ¿⁄Ωƒ ø¿∫Í¡ß∆Æ ∫πªÁ
-	for (size_t i = 0; i < _Other.m_vecChild.size(); ++i)
-	{
-		AddChild(_Other.m_vecChild[i]->Clone());
-	}	
+    // ÏûêÏãù Ïò§Î∏åÏ†ùÌä∏ Î≥µÏÇ¨
+    for (size_t i = 0; i < _Other.m_vecChild.size(); ++i)
+        AddChild(_Other.m_vecChild[i]->Clone());
 }
 
 CGameObject::~CGameObject()
 {
-	Safe_Del_Array(m_arrCom);
-	Safe_Del_Vec(m_vecScript);
-	Safe_Del_Vec(m_vecChild);
+    Safe_Del_Array(m_arrCom);
+    Safe_Del_Vec(m_vecScript);
+    Safe_Del_Vec(m_vecChild);
 }
 
-void CGameObject::begin()
+void CGameObject::begin() const
 {
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->begin();
-	}
+    for (UINT i = 0; i < static_cast<UINT>(COMPONENT_TYPE::END); ++i)
+    {
+        if (nullptr != m_arrCom[i])
+            m_arrCom[i]->begin();
+    }
 
-	for (size_t i = 0; i < m_vecScript.size(); ++i)
-	{
-		m_vecScript[i]->begin();
-	}
+    for (size_t i = 0; i < m_vecScript.size(); ++i)
+        m_vecScript[i]->begin();
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
-	{
-		m_vecChild[i]->begin();
-	}
+    for (size_t i = 0; i < m_vecChild.size(); ++i)
+        m_vecChild[i]->begin();
 }
 
-void CGameObject::tick()
+void CGameObject::tick() const
 {
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->tick();
-	}
+    for (UINT i = 0; i < static_cast<UINT>(COMPONENT_TYPE::END); ++i)
+    {
+        if (nullptr != m_arrCom[i])
+            m_arrCom[i]->tick();
+    }
 
-	for (size_t i = 0; i < m_vecScript.size(); ++i)
-	{
-		m_vecScript[i]->tick();
-	}
+    for (size_t i = 0; i < m_vecScript.size(); ++i)
+        m_vecScript[i]->tick();
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
-	{
-		m_vecChild[i]->tick();
-	}
+    for (size_t i = 0; i < m_vecChild.size(); ++i)
+        m_vecChild[i]->tick();
 }
 
 void CGameObject::finaltick()
 {
-	if (m_bLifeSpan)
-	{
-		m_CurLifeTime += DT;
-		if (m_LifeTime < m_CurLifeTime)
-		{
-			DestroyObject(this);
-		}
-	}
+    if (m_bLifeSpan)
+    {
+        m_CurLifeTime += DT;
+        if (m_LifeTime < m_CurLifeTime)
+            DestroyObject(this);
+    }
 
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
-	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->finaltick();
-	}
+    for (UINT i = 0; i < static_cast<UINT>(COMPONENT_TYPE::SCRIPT); ++i)
+    {
+        if (nullptr != m_arrCom[i])
+            m_arrCom[i]->finaltick();
+    }
 
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
-	{
-		m_vecChild[i]->finaltick();
-	}
-		
-	// º“º” ∑π¿ÃæÓ∞° æ¯¥¬µ• finaltick ¿Ã »£√‚µ«æ˙¥Ÿ.
-	assert(-1 != m_iLayerIdx); 
+    for (size_t i = 0; i < m_vecChild.size(); ++i)
+        m_vecChild[i]->finaltick();
 
-	// ∑π¿ÃæÓ µÓ∑œ
-	CLayer* pCurLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
-	pCurLayer->RegisterObject(this);
+    // ÏÜåÏÜç Î†àÏù¥Ïñ¥Í∞Ä ÏóÜÎäîÎç∞ finaltick Ïù¥ Ìò∏Ï∂úÎêòÏóàÎã§.
+    assert(-1 != m_iLayerIdx);
+
+    // Î†àÏù¥Ïñ¥ Îì±Î°ù
+    CLayer* pCurLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
+    pCurLayer->RegisterObject(this);
 }
 
 void CGameObject::finaltick_module()
-{	
-	// Component
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
-	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->finaltick_module();
-	}
+{
+    // Component
+    for (UINT i = 0; i < static_cast<UINT>(COMPONENT_TYPE::SCRIPT); ++i)
+    {
+        if (nullptr != m_arrCom[i])
+            m_arrCom[i]->finaltick_module();
+    }
 
-	// Child Object
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
-	{
-		m_vecChild[i]->finaltick_module();
-	}
+    // Child Object
+    for (size_t i = 0; i < m_vecChild.size(); ++i)
+        m_vecChild[i]->finaltick_module();
 }
 
 
-
-void CGameObject::render()
+void CGameObject::render() const
 {
-	if (nullptr != m_RenderCom)
-		m_RenderCom->render();
+    if (nullptr != m_RenderCom)
+        m_RenderCom->render();
 }
 
 void CGameObject::AddComponent(CComponent* _Component)
 {
-	_Component->m_pOwner = this;
+    _Component->m_pOwner = this;
 
-	// ƒƒ∆˜≥Õ∆Æ∞° Ω∫≈©∏≥∆Æ¿Œ ∞ÊøÏ
-	if (COMPONENT_TYPE::SCRIPT == _Component->GetType())
-	{
-		m_vecScript.push_back((CScript*)_Component);
-	}
+    // Ïª¥Ìè¨ÎÑåÌä∏Í∞Ä Ïä§ÌÅ¨Î¶ΩÌä∏Ïù∏ Í≤ΩÏö∞
+    if (COMPONENT_TYPE::SCRIPT == _Component->GetType())
+    {
+        m_vecScript.push_back(static_cast<CScript*>(_Component));
+    }
 
-	// Ω∫≈©∏≥∆Æ∏¶ ¡¶ø‹«— ¿œπ› ƒƒ∆˜≥Õ∆Æ¿Œ ∞ÊøÏ
-	else
-	{		
-		// ¿ÃπÃ ∫∏¿Ø«œ∞Ì ¿÷¥¬ ƒƒ∆˜≥Õ∆Æ¿Œ ∞ÊøÏ
-		assert(!m_arrCom[(UINT)_Component->GetType()]);
+    // Ïä§ÌÅ¨Î¶ΩÌä∏Î•º Ï†úÏô∏Ìïú ÏùºÎ∞ò Ïª¥Ìè¨ÎÑåÌä∏Ïù∏ Í≤ΩÏö∞
+    else
+    {
+        // Ïù¥ÎØ∏ Î≥¥Ïú†ÌïòÍ≥† ÏûàÎäî Ïª¥Ìè¨ÎÑåÌä∏Ïù∏ Í≤ΩÏö∞
+        assert(!m_arrCom[static_cast<UINT>(_Component->GetType())]);
 
-		m_arrCom[(UINT)_Component->GetType()] = _Component;
+        m_arrCom[static_cast<UINT>(_Component->GetType())] = _Component;
 
-		// RenderComponent »Æ¿Œ
-		if (COMPONENT_TYPE::MESHRENDER <= _Component->GetType()
-			&& _Component->GetType() <= COMPONENT_TYPE::DECAL)
-		{
-			assert(!m_RenderCom);
-			m_RenderCom = (CRenderComponent*)_Component;
-		}
-	}
+        // RenderComponent ÌôïÏù∏
+        if (COMPONENT_TYPE::MESHRENDER <= _Component->GetType()
+            && _Component->GetType() <= COMPONENT_TYPE::DECAL)
+        {
+            assert(!m_RenderCom);
+            m_RenderCom = static_cast<CRenderComponent*>(_Component);
+        }
+    }
 }
 
 void CGameObject::DeleteComponent(COMPONENT_TYPE _Type)
 {
-	delete m_arrCom[(UINT)_Type];
-	m_arrCom[(UINT)_Type] = nullptr;
+    delete m_arrCom[static_cast<UINT>(_Type)];
+    m_arrCom[static_cast<UINT>(_Type)] = nullptr;
 }
 
 void CGameObject::AddChild(CGameObject* _Object)
 {
-	if (_Object->m_Parent)
-	{
-		// ±‚¡∏ ∫Œ∏∞° ¿÷¿∏∏È ø¨∞· «ÿ¡¶ »ƒ ø¨∞·
-		_Object->DisconnectFromParent();
-	}	
-	else
-	{
-		// ±‚¡∏ ∫Œ∏∞° æ¯¿∏∏È, º“º” ∑π¿ÃæÓø°º≠ √÷ªÛ¿ß∫Œ∏ ∏Ò∑œø°º≠ ¡¶∞≈µ» »ƒ ø¨∞·
-		_Object->ChangeToChildType();
-	}
-	
+    if (_Object->m_Parent)
+        // Í∏∞Ï°¥ Î∂ÄÎ™®Í∞Ä ÏûàÏúºÎ©¥ Ïó∞Í≤∞ Ìï¥Ï†ú ÌõÑ Ïó∞Í≤∞
+        _Object->DisconnectFromParent();
+    else
+        // Í∏∞Ï°¥ Î∂ÄÎ™®Í∞Ä ÏóÜÏúºÎ©¥, ÏÜåÏÜç Î†àÏù¥Ïñ¥ÏóêÏÑú ÏµúÏÉÅÏúÑÎ∂ÄÎ™® Î™©Î°ùÏóêÏÑú Ï†úÍ±∞Îêú ÌõÑ Ïó∞Í≤∞
+        _Object->ChangeToChildType();
 
-	// ∫Œ∏ ¿⁄Ωƒ ø¨∞·
-	_Object->m_Parent = this;
-	m_vecChild.push_back(_Object);
+
+    // Î∂ÄÎ™® ÏûêÏãù Ïó∞Í≤∞
+    _Object->m_Parent = this;
+    m_vecChild.push_back(_Object);
 }
 
 void CGameObject::AddChild(CGameObject* _Object, int _iLayer)
 {
-	if (_Object->m_Parent)
-	{
-		// ±‚¡∏ ∫Œ∏∞° ¿÷¿∏∏È ø¨∞· «ÿ¡¶ »ƒ ø¨∞·
-		_Object->DisconnectFromParent();
-	}
-	else
-	{
-		// ±‚¡∏ ∫Œ∏∞° æ¯¿∏∏È, º“º” ∑π¿ÃæÓø°º≠ √÷ªÛ¿ß∫Œ∏ ∏Ò∑œø°º≠ ¡¶∞≈µ» »ƒ ø¨∞·
-		_Object->ChangeToChildType(_iLayer);
-	}
+    if (_Object->m_Parent)
+        // Í∏∞Ï°¥ Î∂ÄÎ™®Í∞Ä ÏûàÏúºÎ©¥ Ïó∞Í≤∞ Ìï¥Ï†ú ÌõÑ Ïó∞Í≤∞
+        _Object->DisconnectFromParent();
+    else
+        // Í∏∞Ï°¥ Î∂ÄÎ™®Í∞Ä ÏóÜÏúºÎ©¥, ÏÜåÏÜç Î†àÏù¥Ïñ¥ÏóêÏÑú ÏµúÏÉÅÏúÑÎ∂ÄÎ™® Î™©Î°ùÏóêÏÑú Ï†úÍ±∞Îêú ÌõÑ Ïó∞Í≤∞
+        _Object->ChangeToChildType(_iLayer);
 
 
-	// ∫Œ∏ ¿⁄Ωƒ ø¨∞·
-	_Object->m_Parent = this;
-	m_vecChild.push_back(_Object);
+    // Î∂ÄÎ™® ÏûêÏãù Ïó∞Í≤∞
+    _Object->m_Parent = this;
+    m_vecChild.push_back(_Object);
 }
 
 
-bool CGameObject::IsAncestor(CGameObject* _Target)
+bool CGameObject::IsAncestor(CGameObject* _Target) const
 {
-	CGameObject* pParent = m_Parent;
-	while (pParent)
-	{
-		if (pParent == _Target)
-		{
-			return true;
-		}
-		pParent = pParent->m_Parent;
-	}
+    CGameObject* pParent = m_Parent;
+    while (pParent)
+    {
+        if (pParent == _Target)
+            return true;
+        pParent = pParent->m_Parent;
+    }
 
-	return false;
+    return false;
 }
 
 void CGameObject::DisconnectFromParent()
 {
-	if (!m_Parent)
-		return;
+    if (!m_Parent)
+        return;
 
-	vector<CGameObject*>::iterator iter = m_Parent->m_vecChild.begin();
-	for (; iter != m_Parent->m_vecChild.end(); ++iter)
-	{
-		if (this == *iter)
-		{
-			m_Parent->m_vecChild.erase(iter);
-			m_Parent = nullptr;
-			return;
-		}
-	}
+    vector<CGameObject*>::iterator iter = m_Parent->m_vecChild.begin();
+    for (; iter != m_Parent->m_vecChild.end(); ++iter)
+    {
+        if (this == *iter)
+        {
+            m_Parent->m_vecChild.erase(iter);
+            m_Parent = nullptr;
+            return;
+        }
+    }
 
-	assert(nullptr);
+    assert(nullptr);
 }
 
 void CGameObject::ChangeToChildType()
 {
-	assert(-1 <= m_iLayerIdx && m_iLayerIdx < MAX_LAYER);
+    assert(-1 <= m_iLayerIdx && m_iLayerIdx < MAX_LAYER);
 
-	if (-1 != m_iLayerIdx)
-	{
-		CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
-		pLayer->RemoveFromParentList(this);
-	}
+    if (-1 != m_iLayerIdx)
+    {
+        CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
+        pLayer->RemoveFromParentList(this);
+    }
 }
 
 void CGameObject::ChangeToChildType(int _iLayer)
 {
-	if (-1 != m_iLayerIdx) 
-	{
-		CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
-		pLayer->RemoveFromParentList(this);
-	}
-	m_iLayerIdx = _iLayer;
+    if (-1 != m_iLayerIdx)
+    {
+        CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
+        pLayer->RemoveFromParentList(this);
+    }
+    m_iLayerIdx = _iLayer;
 }
 
 void CGameObject::AddParentList()
 {
-	CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
-	pLayer->AddParentList(this);
+    CLayer* pLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx);
+    pLayer->AddParentList(this);
 }

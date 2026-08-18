@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CTimeMgr.h"
 
 #include "CEngine.h"
@@ -6,66 +6,63 @@
 
 
 CTimeMgr::CTimeMgr()
-	: m_llPrevCount{}
-	, m_llCurCount{}
-	, m_llFrequency{}
-	, m_iCallCount(0)
-	, m_fDeltaTime(0.f)
-	, m_fTime(0.f)
+    : m_llPrevCount{}
+    , m_llCurCount{}
+    , m_llFrequency{}
+    , m_iCallCount(0)
+    , m_fDeltaTime(0.f)
+    , m_fTime(0.f)
 {
-
 }
 
 CTimeMgr::~CTimeMgr()
 {
-
 }
-
 
 
 void CTimeMgr::init()
 {
-	// 1ÃÊ´ç Ä«¿îÆÃ Áõ°¡·®
-	QueryPerformanceFrequency(&m_llFrequency);
-		
-	QueryPerformanceCounter(&m_llCurCount);
-	QueryPerformanceCounter(&m_llPrevCount);
+    // 1ì´ˆë‹¹ ì¹´ìš´íŒ… ì¦ê°€ëŸ‰
+    QueryPerformanceFrequency(&m_llFrequency);
+
+    QueryPerformanceCounter(&m_llCurCount);
+    QueryPerformanceCounter(&m_llPrevCount);
 }
 
 void CTimeMgr::tick()
-{	
-	QueryPerformanceCounter(&m_llCurCount);
+{
+    QueryPerformanceCounter(&m_llCurCount);
 
-	// tick °£°İ ½Ã°£
-	m_fDeltaTime = (float)(m_llCurCount.QuadPart - m_llPrevCount.QuadPart) / (float)m_llFrequency.QuadPart;
+    // tick ê°„ê²© ì‹œê°„
+    m_fDeltaTime = static_cast<float>(m_llCurCount.QuadPart - m_llPrevCount.QuadPart) / static_cast<float>(m_llFrequency.QuadPart);
 
-	// ´©Àû ½Ã°£
-	m_fTime += m_fDeltaTime;
+    // ëˆ„ì  ì‹œê°„
+    m_fTime += m_fDeltaTime;
 
-	// ÇÔ¼ö È£Ãâ È½¼ö
-	++m_iCallCount;
-		
-	// ÀÌÀü Ä«¿îÆ® °ªÀ» ÇöÀç Ä«¿îÆ®·Î °»½Å
-	m_llPrevCount = m_llCurCount;		
+    // í•¨ìˆ˜ í˜¸ì¶œ íšŸìˆ˜
+    ++m_iCallCount;
 
-	// GlobalData °»½Å
-	GlobalData.tDT = m_fDeltaTime;
-	GlobalData.tAccTime += m_fDeltaTime;
+    // ì´ì „ ì¹´ìš´íŠ¸ ê°’ì„ í˜„ì¬ ì¹´ìš´íŠ¸ë¡œ ê°±ì‹ 
+    m_llPrevCount = m_llCurCount;
+
+    // GlobalData ê°±ì‹ 
+    GlobalData.tDT      = m_fDeltaTime;
+    GlobalData.tAccTime += m_fDeltaTime;
 }
 
 void CTimeMgr::render()
 {
-	// 1ÃÊ¿¡ ÇÑ¹ø
-	static wchar_t szBuff[256] = {};
+    // 1ì´ˆì— í•œë²ˆ
+    static wchar_t szBuff[256] = {};
 
-	if (1.f <= m_fTime)
-	{		
-		swprintf_s(szBuff, L"FPS : %d, DT : %f", m_iCallCount, m_fDeltaTime);
-		SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);	
+    if (1.f <= m_fTime)
+    {
+        swprintf_s(szBuff, L"FPS : %d, DT : %f", m_iCallCount, m_fDeltaTime);
+        SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);
 
-		m_fTime = 0.f;
-		m_iCallCount = 0;
-	}
+        m_fTime      = 0.f;
+        m_iCallCount = 0;
+    }
 
-	//CFontMgr::GetInst()->DrawFont(szBuff, 10, 20, 16, FONT_RGBA(255, 0, 0, 255));
+    //CFontMgr::GetInst()->DrawFont(szBuff, 10, 20, 16, FONT_RGBA(255, 0, 0, 255));
 }

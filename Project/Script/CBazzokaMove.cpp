@@ -1,116 +1,110 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazzokaMove.h"
 #include "CBazookaScript.h"
 #include <Engine/CDetourMgr.h>
 
 void CBazzokaMove::Enter()
 {
-	m_fMoveTime = 0.f;
-	GetOwner()->Animator3D()->Play(4, true);
+    m_fMoveTime = 0.f;
+    GetOwner()->Animator3D()->Play(4, true);
 }
 
 void CBazzokaMove::tick()
 {
-	// Player ÀÀ½Ã
-	GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(true);
+    // Player ì‘ì‹œ
+    GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(true);
 
-	Vec3 PlayerPos = GetOwner()->GetScript<CBazookaScript>()->GetPlayerPos();
+    Vec3 PlayerPos = GetOwner()->GetScript<CBazookaScript>()->GetPlayerPos();
 
-	float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
+    float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
 
-	// ±ÙÁ¢ °ø°İ ¹üÀ§¸é Melee
-	if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetMeleeRange())
-	{
-		ChangeState(L"Melee");
-	}
+    // ê·¼ì ‘ ê³µê²© ë²”ìœ„ë©´ Melee
+    if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetMeleeRange())
+    {
+        ChangeState(L"Melee");
+    }
 
-	// µµ¸Á. ¿©±â¼­´Â ´Ş¸®´Â °÷À» ¹Ù¶óº¸µµ·Ï È¸Àü½ÃÄÑÁà¾ß ÇÑ´Ù. 
-	else if (fDistance <= GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange() || m_fMoveTime <= 0.5f)
-	{
-		m_fMoveTime += DT;
-		
-		GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
-		
-		float fSpeed = GetOwnerScript()->GetStat().Speed;
+    // ë„ë§. ì—¬ê¸°ì„œëŠ” ë‹¬ë¦¬ëŠ” ê³³ì„ ë°”ë¼ë³´ë„ë¡ íšŒì „ì‹œì¼œì¤˜ì•¼ í•œë‹¤. 
+    else if (fDistance <= GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange() || m_fMoveTime <= 0.5f)
+    {
+        m_fMoveTime += DT;
 
-		m_fLastRenewal += DT;
-		if (m_fLastRenewal >= m_fRenewal_Trace)
-		{
-			for (int i = 0; i < 256; ++i)
-			{
-				m_vActualPath[i] = Vec3(0.f, 0.f, 0.f);
-			}
-			m_iCurrentPathIndex = 0;
-			m_iActualPathCount = 0;
-			m_fLastRenewal -= m_fRenewal_Trace;
+        GetOwner()->GetScript<CBazookaScript>()->SetStarePlayer(false);
 
-			// ÇöÀç À§Ä¡¿¡¼­ ÇÃ·¹ÀÌ¾î¿ÍÀÇ Â÷ÀÌ¸¸Å­ ´õÇØÁØ °÷À¸·Î ÀÌµ¿½ÃÅ°ÀÚ.
-			Vec3 CurPos = GetOwner()->Transform()->GetWorldPos();
-			Vec3 TargetPos = CurPos + CurPos - PlayerPos;
-			memcpy(m_vActualPath, CDetourMgr::GetInst()->GetPathtoTarget(CurPos, TargetPos, &m_iActualPathCount), sizeof(Vec3) * 256);
-		}
+        float fSpeed = GetOwnerScript()->GetStat().Speed;
 
-		if (m_iCurrentPathIndex < m_iActualPathCount)
-		{
-			// ´ÙÀ½ ³ëµå(¸Ş½Ã) À§Ä¡
-			Vec3 targetPos = m_vActualPath[m_iCurrentPathIndex];
-			targetPos.z *= -1.f;
-			if (targetPos.x == 0 && targetPos.y == 0 && targetPos.z == 0)
-			{
-				return;
-			}
-			// ÇöÀç ¿ÀºêÁ§Æ® À§Ä¡		
-			Vec3 currentPos = GetOwner()->Transform()->GetWorldPos();
+        m_fLastRenewal += DT;
+        if (m_fLastRenewal >= m_fRenewal_Trace)
+        {
+            for (int i = 0; i < 256; ++i)
+                m_vActualPath[i] = Vec3(0.f, 0.f, 0.f);
+            m_iCurrentPathIndex = 0;
+            m_iActualPathCount  = 0;
+            m_fLastRenewal      -= m_fRenewal_Trace;
 
-			// ÀÌµ¿ÇÒ ¹æÇâ º¤ÅÍ °è»ê ¹× Á¤±ÔÈ­
-			Vec3 direction = targetPos - currentPos;
-			direction.Normalize();
+            // í˜„ì¬ ìœ„ì¹˜ì—ì„œ í”Œë ˆì´ì–´ì™€ì˜ ì°¨ì´ë§Œí¼ ë”í•´ì¤€ ê³³ìœ¼ë¡œ ì´ë™ì‹œí‚¤ì.
+            Vec3 CurPos    = GetOwner()->Transform()->GetWorldPos();
+            Vec3 TargetPos = CurPos + CurPos - PlayerPos;
+            memcpy(m_vActualPath, CDetourMgr::GetInst()->GetPathtoTarget(CurPos, TargetPos, &m_iActualPathCount), sizeof(Vec3) * 256);
+        }
 
-			// »õ·Î¿î À§Ä¡ °è»ê
-			Vec3 newPos = currentPos + direction * fSpeed * DT;
-			direction.y = 0.f;
+        if (m_iCurrentPathIndex < m_iActualPathCount)
+        {
+            // ë‹¤ìŒ ë…¸ë“œ(ë©”ì‹œ) ìœ„ì¹˜
+            Vec3 targetPos = m_vActualPath[m_iCurrentPathIndex];
+            targetPos.z    *= -1.f;
+            if (targetPos.x == 0 && targetPos.y == 0 && targetPos.z == 0)
+                return;
+            // í˜„ì¬ ì˜¤ë¸Œì íŠ¸ ìœ„ì¹˜		
+            Vec3 currentPos = GetOwner()->Transform()->GetWorldPos();
 
-			GetOwner()->Rigidbody()->SetVelocity(direction * fSpeed);
+            // ì´ë™í•  ë°©í–¥ ë²¡í„° ê³„ì‚° ë° ì •ê·œí™”
+            Vec3 direction = targetPos - currentPos;
+            direction.Normalize();
 
-			// ¸¸¾à Å¸°Ù À§Ä¡¿¡ µµ´ŞÇß´Ù¸é, ´ÙÀ½ °æ·Î ÀÎµ¦½º.
-			float distanceToTarget = (targetPos - currentPos).Length();
-			if (distanceToTarget < 50.f)
-			{
-				++m_iCurrentPathIndex;
-			}
+            // ìƒˆë¡œìš´ ìœ„ì¹˜ ê³„ì‚°
+            Vec3 newPos = currentPos + direction * fSpeed * DT;
+            direction.y = 0.f;
 
-			// °¡´Â °÷À» ¹Ù¶óº¸µµ·Ï È¸Àü ½ÃÅ°±â.
-			Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
-			float fDir = GetSmoothDir(currentPos, targetPos, CurDir);
-			GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
-		}
-	}
+            GetOwner()->Rigidbody()->SetVelocity(direction * fSpeed);
 
-	// °ø°İ¹üÀ§
-	else if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange() && fDistance > GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
-	{
-		ChangeState(L"Aim");
-	}
+            // ë§Œì•½ íƒ€ê²Ÿ ìœ„ì¹˜ì— ë„ë‹¬í–ˆë‹¤ë©´, ë‹¤ìŒ ê²½ë¡œ ì¸ë±ìŠ¤.
+            float distanceToTarget = (targetPos - currentPos).Length();
+            if (distanceToTarget < 50.f)
+                ++m_iCurrentPathIndex;
 
-	// ¹üÀ§ ÀÌ»óÀÌ¸é Trace.
-	else
-	{
-		ChangeState(L"Trace");
-	}
+            // ê°€ëŠ” ê³³ì„ ë°”ë¼ë³´ë„ë¡ íšŒì „ ì‹œí‚¤ê¸°.
+            Vec3  CurDir = GetOwner()->Transform()->GetRelativeRot();
+            float fDir   = GetSmoothDir(currentPos, targetPos, CurDir);
+            GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+        }
+    }
+
+    // ê³µê²©ë²”ìœ„
+    else if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetAttackRange() && fDistance > GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
+    {
+        ChangeState(L"Aim");
+    }
+
+    // ë²”ìœ„ ì´ìƒì´ë©´ Trace.
+    else
+    {
+        ChangeState(L"Trace");
+    }
 }
 
 void CBazzokaMove::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
+    GetOwner()->Rigidbody()->ClearForce();
 }
 
 CBazzokaMove::CBazzokaMove()
-	: m_fLastRenewal(0.f)
-	, m_fRenewal_Trace(0.2f)
-	, m_vActualPath{}
-	, m_iActualPathCount(0)
-	, m_iCurrentPathIndex(0)
-	, m_fMoveTime(0.f)
+    : m_fLastRenewal(0.f)
+    , m_fRenewal_Trace(0.2f)
+    , m_vActualPath{}
+    , m_iActualPathCount(0)
+    , m_iCurrentPathIndex(0)
+    , m_fMoveTime(0.f)
 {
 }
 

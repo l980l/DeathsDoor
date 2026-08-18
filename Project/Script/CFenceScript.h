@@ -1,15 +1,15 @@
 #pragma once
 #include <Engine/CScript.h>
+
 class CFenceScript :
     public CScript
 {
-private:
-    int                     m_iRoomNum;
-    physx::PxRigidStatic*   m_pStatic;
-    Vec3                    m_vStartPos;
-    float                   m_fMoveDistance;
-    bool                    m_bActive;
-    bool                    m_bOpen;
+    int                   m_iRoomNum;
+    physx::PxRigidStatic* m_pStatic;
+    Vec3                  m_vStartPos;
+    float                 m_fMoveDistance;
+    bool                  m_bActive;
+    bool                  m_bOpen;
 
 public:
     virtual void begin() override;
@@ -23,10 +23,8 @@ public:
 
     CLONE(CFenceScript);
 
-public:
     CFenceScript();
-    ~CFenceScript();
+    virtual ~CFenceScript() override;
 
     friend class CSpawnMgr;
 };
-

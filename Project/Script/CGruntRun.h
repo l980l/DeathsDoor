@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGruntRun :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGruntRun);
 
-public:
     CGruntRun();
-    ~CGruntRun();
+    virtual ~CGruntRun() override;
 };
-

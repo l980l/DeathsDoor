@@ -1,11 +1,11 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlyDance.h"
 #include "CPlayerScript.h"
 #include <Engine/CRenderMgr.h>
 #include "CGameCameraScript.h"
 
 CPlyDance::CPlyDance()
-	: m_fCameraZoomIn(0.f)
+    : m_fCameraZoomIn(0.f)
 {
 }
 
@@ -15,26 +15,26 @@ CPlyDance::~CPlyDance()
 
 void CPlyDance::Enter()
 {
-	// ½Â¸®ÇßÀ» ¶§ ÃãÃâ °Í? °°¾Æ¼­ ¹«Àû º¯È¯
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::DANCE, false);
-	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
+    // ìŠ¹ë¦¬í–ˆì„ ë•Œ ì¶¤ì¶œ ê²ƒ? ê°™ì•„ì„œ ë¬´ì  ë³€í™˜
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::DANCE), false);
+    GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
 }
 
 void CPlyDance::tick()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+    if (GetOwner()->Animator3D()->IsFinish())
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
 
-	m_fCameraZoomIn += DT;
+    m_fCameraZoomIn += DT;
 
-	if (m_fCameraZoomIn <= 5.f)
-	{
-		CRenderMgr::GetInst()->GetMainCam()->SetScale(0.6f + 0.6f * (m_fCameraZoomIn / 5.f));
-		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(true);
-	}
+    if (m_fCameraZoomIn <= 5.f)
+    {
+        CRenderMgr::GetInst()->GetMainCam()->SetScale(0.6f + 0.6f * (m_fCameraZoomIn / 5.f));
+        CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(true);
+    }
 }
 
 void CPlyDance::Exit()
 {
-	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
+    GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
 }

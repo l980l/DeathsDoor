@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CKnightRunAttack :
     public CState
 {
-private:
-    float   m_fDelay;
-    bool    m_bAttack;
+    float m_fDelay;
+    bool  m_bAttack;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CKnightRunAttack);
 
-public:
     CKnightRunAttack();
-    ~CKnightRunAttack();
+    virtual ~CKnightRunAttack() override;
 };
-

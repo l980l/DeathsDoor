@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "Client.h"
 
-#include <Engine\CDevice.h>
+#include <Engine/CDevice.h>
 #include "CEditorObjMgr.h"
 
 // ImGui
@@ -33,16 +33,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow))
-    {
         return FALSE;
-    }
 
     // CEngine 초기화
     if (FAILED(CEngine::GetInst()->init(g_hWnd, 1600, 900)))
-    {
         return 0;
-    }
-
 
     // Editor 초기화
     CEditorObjMgr::GetInst()->init();
@@ -70,26 +65,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
-
         else
         {
             CEngine::GetInst()->progress();
 
-            CEditorObjMgr::GetInst()->progress();
-
-            ImGuiMgr::GetInst()->progress();
-
+#ifdef DEBUG
+			CEditorObjMgr::GetInst()->progress();
+            
+			ImGuiMgr::GetInst()->progress();
+#endif
             // 렌더 종료
             CDevice::GetInst()->Present();
         }       
     }
 
-   
-
-    return (int) msg.wParam;
+    return static_cast<int>(msg.wParam);
 }
-
-
 
 //
 //  함수: MyRegisterClass()
@@ -102,33 +93,30 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName = nullptr;// MAKEINTRESOURCEW(IDC_CLIENT);
-    wcex.lpszClassName  = L"MyWindow";
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex.style         = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc   = WndProc;
+    wcex.cbClsExtra    = 0;
+    wcex.cbWndExtra    = 0;
+    wcex.hInstance     = hInstance;
+    wcex.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
+    wcex.hCursor       = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = reinterpret_cast<HBRUSH>((COLOR_WINDOW + 1));
+    wcex.lpszMenuName  = nullptr;// MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszClassName = L"MyWindow";
+    wcex.hIconSm       = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
-
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   g_hWnd = CreateWindowW(L"MyWindow", L"MyGame", WS_OVERLAPPEDWINDOW,
+   g_hWnd = CreateWindowW(L"MyWindow", L"Death's Door", WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
    if (!g_hWnd)
-   {
       return FALSE;
-   }
 
    ShowWindow(g_hWnd, false);
    UpdateWindow(g_hWnd);
@@ -150,7 +138,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             //const int dpi = HIWORD(wParam);
             //printf("WM_DPICHANGED to %d (%.0f%%)\n", dpi, (float)dpi / 96.0f * 100.0f);
-            const RECT* suggested_rect = (RECT*)lParam;
+            const RECT* suggested_rect = reinterpret_cast<RECT*>(lParam);
             ::SetWindowPos(hWnd, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
         }
         break;
@@ -210,6 +198,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             return (INT_PTR)TRUE;
         }
         break;
+    default: break;
     }
     return (INT_PTR)FALSE;
 }

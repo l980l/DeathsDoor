@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossIdle :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CCrowBossIdle);
 
-public:
     CCrowBossIdle();
-    ~CCrowBossIdle();
+    virtual ~CCrowBossIdle() override;
 };
-

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGruntIdle :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGruntIdle);
 
-public:
     CGruntIdle();
-    ~CGruntIdle();
+    virtual ~CGruntIdle() override;
 };
-

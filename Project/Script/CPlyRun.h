@@ -1,16 +1,16 @@
 #pragma once
 #include "CState.h"
+
 class CPlyRun :
     public CState
 {
-private:
-    float   m_fSpeed; 
-    float   m_fTimeToIdle;
-    float   m_fRotDelay;
-    float   m_fRot;
-    bool    m_bIce;
-    float   m_fStepSoundDelay;
-    bool    m_bStepSoundOrder;
+    float m_fSpeed;
+    float m_fTimeToIdle;
+    float m_fRotDelay;
+    float m_fRot;
+    bool  m_bIce;
+    float m_fStepSoundDelay;
+    bool  m_bStepSoundOrder;
 
 public:
     virtual void tick() override;
@@ -19,13 +19,11 @@ public:
 
     void Move();
 
-    virtual void BeginOverlap(CCollider3D* _Other);
-    virtual void OnOverlap(CCollider3D* _Other);
+    virtual void BeginOverlap(CCollider3D* _Other) override;
+    virtual void OnOverlap(CCollider3D* _Other) override;
 
     CLONE(CPlyRun);
 
-public:
     CPlyRun();
-    ~CPlyRun();
+    virtual ~CPlyRun() override;
 };
-

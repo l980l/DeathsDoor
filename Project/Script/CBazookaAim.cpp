@@ -1,28 +1,24 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBazookaAim.h"
 #include "CBazookaScript.h"
 
 void CBazookaAim::Enter()
 {
-	GetOwner()->Animator3D()->Play(0, false);
+    GetOwner()->Animator3D()->Play(0, false);
 }
 
 void CBazookaAim::tick()
 {
-	// Á¶ÁØ Áß¿¡ ÇÃ·¹ÀÌ¾î°¡ ³Ê¹« °¡±õ´Ù¸é µµ¸Á°¡°Å³ª, ±ÙÁ¢ °ø°ÝÀ» ÇØ¾ß ÇÑ´Ù. 
-	Vec3 PlayerPos = GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos();
+    // ì¡°ì¤€ ì¤‘ì— í”Œë ˆì´ì–´ê°€ ë„ˆë¬´ ê°€ê¹ë‹¤ë©´ ë„ë§ê°€ê±°ë‚˜, ê·¼ì ‘ ê³µê²©ì„ í•´ì•¼ í•œë‹¤. 
+    Vec3 PlayerPos = GetOwner()->GetScript<CMonsterScript>()->GetPlayer()->Transform()->GetWorldPos();
 
-	float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
+    float fDistance = GetOwner()->GetScript<CBazookaScript>()->GetPlayerDistance();
 
-	if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
-	{
-		ChangeState(L"Move");
-	}
-	
-	else if(GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"LongDistance");
-	}
+    if (fDistance < GetOwner()->GetScript<CBazookaScript>()->GetRunAwayRange())
+        ChangeState(L"Move");
+
+    else if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"LongDistance");
 }
 
 void CBazookaAim::Exit()

@@ -5,52 +5,54 @@
 
 class UI
 {
-private:
-	string			m_strName;		// Å¸ÀÌÆ² ÀÌ¸§, 
-	string			m_strID;		// ID ÀÌ¸§
+    string m_strName; // Å¸ï¿½ï¿½Æ² ï¿½Ì¸ï¿½, 
+    string m_strID;   // ID ï¿½Ì¸ï¿½
 
-	ImVec2			m_vSize;		// UI Å©±â
-	ImVec2			m_vPopupPos;	// UI À§Ä¡
+    ImVec2 m_vSize;     // UI Å©ï¿½ï¿½
+    ImVec2 m_vPopupPos; // UI ï¿½ï¿½Ä¡
 
-	UI*				m_ParentUI;		// ºÎ¸ð UI
-	vector<UI*>		m_vecChildUI;	// ÀÚ½Ä UI ¸ñ·Ï
+    UI*         m_ParentUI;   // ï¿½Î¸ï¿½ UI
+    vector<UI*> m_vecChildUI; // ï¿½Ú½ï¿½ UI ï¿½ï¿½ï¿½
 
-	bool			m_Modal;		// ¸ð´Þ or ¸ð´Þ¸®½º
-	bool			m_Active;		// UI È°¼ºÈ­ Ã¼Å©
-
-public:
-	virtual void init() {}
-	virtual void tick() {}
-	virtual void finaltick();
-	virtual int render_update() = 0;
-
-
-public:	
-	void SetActive(bool _Active) { m_Active = _Active; }
-	bool IsActive() { return m_Active; }
-
-	void SetModal(bool _Modal) { m_Modal = _Modal; }
-	bool IsModal() { return m_Modal; }
-
-	ImVec2 GetPopupPos() { return m_vPopupPos; }
-	void SetPopupPos(ImVec2 _vPos) { m_vPopupPos = _vPos; }
-
-	const string& GetName() { return m_strName; }
-	void SetName(const string& _Name) { m_strName = _Name; }
-
-	const string& GetID() { return m_strID; }
-
-	void SetSize(float _width, float _height) { m_vSize = ImVec2(_width, _height); }
-
-	void AddChildUI(UI* _UI)
-	{
-		_UI->m_ParentUI = this;
-		m_vecChildUI.push_back(_UI);
-	}
-
+    bool m_Modal;  // ï¿½ï¿½ï¿½ or ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½
+    bool m_Active; // UI È°ï¿½ï¿½È­ Ã¼Å©
 
 public:
-	UI(const string& _Name);
-	virtual ~UI();
+    virtual void init()
+    {
+    }
+
+    virtual void tick()
+    {
+    }
+
+    virtual void finaltick();
+    virtual int  render_update() = 0;
+
+
+    void SetActive(bool _Active) { m_Active = _Active; }
+    bool IsActive() const { return m_Active; }
+
+    void SetModal(bool _Modal) { m_Modal = _Modal; }
+    bool IsModal() const { return m_Modal; }
+
+    ImVec2 GetPopupPos() const { return m_vPopupPos; }
+    void   SetPopupPos(ImVec2 _vPos) { m_vPopupPos = _vPos; }
+
+    const string& GetName() { return m_strName; }
+    void          SetName(const string& _Name) { m_strName = _Name; }
+
+    const string& GetID() { return m_strID; }
+
+    void SetSize(float _width, float _height) { m_vSize = ImVec2(_width, _height); }
+
+    void AddChildUI(UI* _UI)
+    {
+        _UI->m_ParentUI = this;
+        m_vecChildUI.push_back(_UI);
+    }
+
+
+    UI(const string& _Name);
+    virtual ~UI();
 };
-

@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossRun :
     public CState
 {
-private:
-    int     m_iTime;
-    Vec3   m_Dir;
+    int  m_iTime;
+    Vec3 m_Dir;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CCrowBossRun);
 
-public:
     CCrowBossRun();
-    ~CCrowBossRun();
+    virtual ~CCrowBossRun() override;
 };
-

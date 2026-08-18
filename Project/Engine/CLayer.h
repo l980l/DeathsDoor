@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CEntity.h"
 
 class CGameObject;
@@ -6,40 +6,35 @@ class CGameObject;
 class CLayer :
     public CEntity
 {
-private:
-    vector<CGameObject*>    m_vecParentObj; // ·¹ÀÌ¾î¿¡ ¼ÓÇØÀÖ´Â ºÎ¸ğ¿ÀºêÁ§Æ®
-    vector<CGameObject*>    m_vecObject;    // °èÃş¿¡ »ó°ü¾øÀÌ ÇØ´ç ·¹ÀÌ¾î¿¡ ¼ÓÇØÀÖ´Â ¸ğµç ¿ÀºêÁ§Æ®
-    int                     m_iLayerIdx;    // ·¹ÀÌ¾î ¹øÈ£ (0~31)
-
-
-public:    
-    void begin();
-    void tick();
-    void finaltick(); 
+    vector<CGameObject*> m_vecParentObj; // ë ˆì´ì–´ì— ì†í•´ìˆëŠ” ë¶€ëª¨ì˜¤ë¸Œì íŠ¸
+    vector<CGameObject*> m_vecObject;    // ê³„ì¸µì— ìƒê´€ì—†ì´ í•´ë‹¹ ë ˆì´ì–´ì— ì†í•´ìˆëŠ” ëª¨ë“  ì˜¤ë¸Œì íŠ¸
+    int                  m_iLayerIdx;    // ë ˆì´ì–´ ë²ˆí˜¸ (0~31)
 
 
 public:
-    int GetLayerIndex() { return m_iLayerIdx; }
+    void begin() const;
+    void tick() const;
+    void finaltick();
+
+
+    int                         GetLayerIndex() const { return m_iLayerIdx; }
     const vector<CGameObject*>& GetParentObject() { return m_vecParentObj; }
     const vector<CGameObject*>& GetObjects() { return m_vecObject; }
 
-
 private:
-    // Layer ¿¡ ºÎ¸ğ¿ÀºêÁ§Æ® ÀÔ·Â
-    // _bMove : ÀÚ½Ä ¿ÀºêÁ§Æ®µéÀÌ ºÎ¸ğ ¿ÀºêÁ§Æ®¸¦ µû¶ó¼­ ÀÌµ¿ ÇÒ °ÍÀÎÁö Ã¼Å©
+    // Layer ì— ë¶€ëª¨ì˜¤ë¸Œì íŠ¸ ì…ë ¥
+    // _bMove : ìì‹ ì˜¤ë¸Œì íŠ¸ë“¤ì´ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ë¥¼ ë”°ë¼ì„œ ì´ë™ í•  ê²ƒì¸ì§€ ì²´í¬
     void AddGameObject(CGameObject* _Object, bool _bMove);
-    void RegisterObject(CGameObject* _Object){ m_vecObject.push_back(_Object); }    
+    void RegisterObject(CGameObject* _Object) { m_vecObject.push_back(_Object); }
     void RemoveFromParentList(CGameObject* _Obj);
     void AddParentList(CGameObject* _Obj);
 
     CLONE(CLayer)
-public:
     CLayer();
-    ~CLayer();
+    virtual ~CLayer() override;
 
     friend class CLevel;
     friend class CGameObject;
     friend class CEventMgr;
     friend class OutlinerUI;
 };
-

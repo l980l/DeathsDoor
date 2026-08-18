@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CGruntNailAttack :
     public CState
 {
-private:
-    float   m_fTime;
-    Vec3    m_Dir;
+    float m_fTime;
+    Vec3  m_Dir;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CGruntNailAttack);
 
-public:
     CGruntNailAttack();
-    ~CGruntNailAttack();
+    virtual ~CGruntNailAttack() override;
 };
-

@@ -1,11 +1,11 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlyMagic_Hooking.h"
 #include "CPlayerScript.h"
 #include "CMagic_HookScript.h"
 
 CPlyMagic_Hooking::CPlyMagic_Hooking()
-	: m_vHookPos{}
-	, m_pHook(nullptr)
+    : m_pHook(nullptr)
+    , m_vHookPos{}
 {
 }
 
@@ -15,37 +15,37 @@ CPlyMagic_Hooking::~CPlyMagic_Hooking()
 
 void CPlyMagic_Hooking::Enter()
 {
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HOOKING, true);
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::HOOKING), true);
 
-	// ³¯¾Æ°¡´Â ¹æÇâÀ¸·Î Dir ¼³Á¤
-	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
-	m_vDir = m_vHookPos - vPlayerPos;
-	m_vDir.Normalize();
-	float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fDirtoHooked, 0.f);
+    // ë‚ ì•„ê°€ëŠ” ë°©í–¥ìœ¼ë¡œ Dir ì„¤ì •
+    Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
+    m_vDir          = m_vHookPos - vPlayerPos;
+    m_vDir.Normalize();
+    float fDirtoHooked = GetDir(vPlayerPos, m_vHookPos);
+    GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, fDirtoHooked, 0.f);
 }
 
 void CPlyMagic_Hooking::tick()
 {
-	// PlayerÀÇ À§Ä¡¿Í HookPosÀÇ °Å¸®¿Í ¹æÇâÀ» ±¸ÇÏ°í
-	// °Å¸®°¡ ÀÏÁ¤°Å¸®º¸´Ù Å©´Ù¸é ÀÛÀ» ¶§±îÁö ¹æÇâÀ¸·Î ¼Óµµ¸¦ ÁÜ.
-	Vec3 vPlayerPos = GetOwner()->Transform()->GetWorldPos();
-	Vec3 DifftoHooked = m_vHookPos - vPlayerPos;
-	DifftoHooked.y = 0.f;
-	if (DifftoHooked.Length() < 10.f)
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-	}
-	else
-	{
-		GetOwner()->Rigidbody()->SetGravity(0.f);
-		GetOwner()->Rigidbody()->SetVelocity(m_vDir * 400.f);
-	}
+    // Playerì˜ ìœ„ì¹˜ì™€ HookPosì˜ ê±°ë¦¬ì™€ ë°©í–¥ì„ êµ¬í•˜ê³ 
+    // ê±°ë¦¬ê°€ ì¼ì •ê±°ë¦¬ë³´ë‹¤ í¬ë‹¤ë©´ ìž‘ì„ ë•Œê¹Œì§€ ë°©í–¥ìœ¼ë¡œ ì†ë„ë¥¼ ì¤Œ.
+    Vec3 vPlayerPos   = GetOwner()->Transform()->GetWorldPos();
+    Vec3 DifftoHooked = m_vHookPos - vPlayerPos;
+    DifftoHooked.y    = 0.f;
+    if (DifftoHooked.Length() < 10.f)
+    {
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+    }
+    else
+    {
+        GetOwner()->Rigidbody()->SetGravity(0.f);
+        GetOwner()->Rigidbody()->SetVelocity(m_vDir * 400.f);
+    }
 }
 
 void CPlyMagic_Hooking::Exit()
 {
-	m_vHookPos = {};
-	m_vDir = {};
-	m_pHook->GetScript<CMagic_HookScript>()->Active(false);
+    m_vHookPos = {};
+    m_vDir     = {};
+    m_pHook->GetScript<CMagic_HookScript>()->Active(false);
 }

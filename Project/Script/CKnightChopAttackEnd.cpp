@@ -11,7 +11,7 @@ CKnightChopAttackEnd::~CKnightChopAttackEnd()
 
 void CKnightChopAttackEnd::Enter()
 {
-	GetOwner()->Animator3D()->Play(9, false);
+    GetOwner()->Animator3D()->Play(9, false);
 }
 
 void CKnightChopAttackEnd::tick()

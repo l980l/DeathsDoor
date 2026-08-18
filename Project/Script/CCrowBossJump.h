@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossJump :
     public CState
 {
-private:
-    float    m_fDistance;
-    Vec3     m_Dir;
+    float m_fDistance;
+    Vec3  m_Dir;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CCrowBossJump);
 
-public:
     CCrowBossJump();
-    ~CCrowBossJump();
+    virtual ~CCrowBossJump() override;
 };
-

@@ -22,7 +22,7 @@ int Animator3DUI::render_update()
     if (FALSE == ComponentUI::render_update())
         return FALSE;
 
-    // ¾Ö´Ï¸ÞÀÌ¼Ç Stop ±â´É È®ÀÎ
+    // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ Stop ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     ImGui::Text("Animation Stop");
     ImGui::SameLine();
     bool AnimStop = GetTarget()->Animator3D()->IsStop();
@@ -31,20 +31,20 @@ int Animator3DUI::render_update()
 
     ImGui::Text("CurClip       ");
     ImGui::SameLine();
-    int CurClip = GetTarget()->Animator3D()->GetCurClip();
+    int CurClip  = GetTarget()->Animator3D()->GetCurClip();
     int ClipSize = GetTarget()->Animator3D()->GetClipSize();
 
-    if(ImGui::SliderInt("##AnimClip", &CurClip, 0, ClipSize - 1))
+    if (ImGui::SliderInt("##AnimClip", &CurClip, 0, ClipSize - 1))
         GetTarget()->Animator3D()->Play(CurClip, true);
 
-    // AnimClip Á¤º¸ Ãâ·Â ¿©ºÎ.
+    // AnimClip ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
     /*ImGui::Text("ShowAnimInfo  ");
     ImGui::SameLine();
     ImGui::Checkbox("##ShowAnimInfo", &m_bShowAnimInfo);
 
     if (m_bShowAnimInfo)*/
     {
-        // ÇöÀç Animator3DÀÇ AnimClip Á¤º¸¸¦ Ãâ·ÂÇÏÀÚ
+        // ï¿½ï¿½ï¿½ï¿½ Animator3Dï¿½ï¿½ AnimClip ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         ImGui::Text("AnimationClipInfo");
         vector<tMTAnimClip> vecAnimClip = *(GetTarget()->Animator3D()->GetAnimClip());
 
@@ -60,45 +60,43 @@ int Animator3DUI::render_update()
         ImGui::SetNextItemWidth(32.f);
         ImGui::Text("FrmLen");
 
-        // ¾Ö´Ï¸ÞÀÌ¼Ç Å¬¸³ ÀÌ¸§, ½ÃÀÛ Frame, ³¡ Frame, Frame ±æÀÌ Á¤º¸ ÃÑ 4°¡Áö¸¸ Ãâ·ÂÇÑ´Ù. 
+        // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ Å¬ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½ï¿½ï¿½ï¿½ Frame, ï¿½ï¿½ Frame, Frame ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
         for (int i = 0; i < vecAnimClip.size(); ++i)
         {
             ImGui::Text("#%d     ", i);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(100.f);
             string TempUIName = string("##AnimName") + std::to_string(i);
-            string Temp = string(vecAnimClip[i].strAnimName.begin(), vecAnimClip[i].strAnimName.end());
-            ImGui::InputText(TempUIName.c_str(), (char*)Temp.c_str(), 50, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+            string Temp       = string(vecAnimClip[i].strAnimName.begin(), vecAnimClip[i].strAnimName.end());
+            ImGui::InputText(TempUIName.c_str(), (char*)Temp.c_str(), 50, ImGuiInputTextFlags_ReadOnly);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(32.f);
             TempUIName = string("##StartFrame") + std::to_string(i);
-            ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iStartFrame), 0, 0, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+            ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iStartFrame), 0, 0, ImGuiInputTextFlags_ReadOnly);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(32.f);
             TempUIName = string("##EndFrame") + std::to_string(i);
-            ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iEndFrame), 0, 0, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+            ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iEndFrame), 0, 0, ImGuiInputTextFlags_ReadOnly);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(32.f);
             TempUIName = string("##FrameLength") + std::to_string(i);
-            ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iFrameLength), 0, 0, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
-            
+            ImGui::InputInt(TempUIName.c_str(), &(vecAnimClip[i].iFrameLength), 0, 0, ImGuiInputTextFlags_ReadOnly);
+
             ImGui::SameLine();
             TempUIName = string("##Button") + std::to_string(i);
             if (ImGui::Button(TempUIName.c_str(), ImVec2(18.f, 18.f)))
-            {
                 GetTarget()->Animator3D()->Play(i, true);
-            }
         }
     }
 
-    // ClipÀ» »õ·Î ¸¸µé°í ½Í´Ù¸é.
+    // Clipï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Í´Ù¸ï¿½.
     ImGui::Text("MakeAnimInfo  ");
     ImGui::SameLine();
     ImGui::Checkbox("##MakeAnimInfo", &m_bMakeAnimInfo);
 
     if (m_bMakeAnimInfo)
     {
-        // ÀÓ½Ã AnimClipÀ» Ãß°¡ÇÏ´Â ÇÔ¼ö.
+        // ï¿½Ó½ï¿½ AnimClipï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½.
         ImGui::Text("AddAnimClip   ");
         ImGui::SameLine();
         static char TempAnimName[128] = {};
@@ -107,9 +105,9 @@ int Animator3DUI::render_update()
         ImGui::SameLine();
         if (ImGui::Button("##AddAnimClip", ImVec2(18.f, 18.f)))
         {
-            tMTAnimClip temp = {};
-            string strTemp = string(TempAnimName);
-            temp.strAnimName = wstring(strTemp.begin(), strTemp.end());
+            tMTAnimClip temp    = {};
+            string      strTemp = string(TempAnimName);
+            temp.strAnimName    = wstring(strTemp.begin(), strTemp.end());
             m_vecAnimClip.push_back(temp);
         }
 
@@ -128,15 +126,15 @@ int Animator3DUI::render_update()
             ImGui::Text("FrmLen");
         }
 
-        // ¾Ö´Ï¸ÞÀÌ¼Ç Å¬¸³ ÀÌ¸§, ½ÃÀÛ Frame, ³¡ Frame, Frame ±æÀÌ Á¤º¸ ÃÑ 4°¡Áö¸¸ Ãâ·ÂÇÑ´Ù. 
+        // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ Å¬ï¿½ï¿½ ï¿½Ì¸ï¿½, ï¿½ï¿½ï¿½ï¿½ Frame, ï¿½ï¿½ Frame, Frame ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
         for (int i = 0; i < m_vecAnimClip.size(); ++i)
         {
             ImGui::Text("#%d     ", i);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(100.f);
             string TempUIName = string("##N.AnimName") + std::to_string(i);
-            string Temp = string(m_vecAnimClip[i].strAnimName.begin(), m_vecAnimClip[i].strAnimName.end());
-            ImGui::InputText(TempUIName.c_str(), (char*)Temp.c_str(), 128, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+            string Temp       = string(m_vecAnimClip[i].strAnimName.begin(), m_vecAnimClip[i].strAnimName.end());
+            ImGui::InputText(TempUIName.c_str(), (char*)Temp.c_str(), 128, ImGuiInputTextFlags_ReadOnly);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(32.f);
             TempUIName = string("##N.StartFrame") + std::to_string(i);
@@ -148,32 +146,28 @@ int Animator3DUI::render_update()
             ImGui::SameLine();
             ImGui::SetNextItemWidth(32.f);
             m_vecAnimClip[i].iFrameLength = m_vecAnimClip[i].iEndFrame - m_vecAnimClip[i].iStartFrame;
-            TempUIName = string("##N.FrameLength") + std::to_string(i);
-            ImGui::InputInt(TempUIName.c_str(), &(m_vecAnimClip[i].iFrameLength), 0, 0, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+            TempUIName                    = string("##N.FrameLength") + std::to_string(i);
+            ImGui::InputInt(TempUIName.c_str(), &(m_vecAnimClip[i].iFrameLength), 0, 0, ImGuiInputTextFlags_ReadOnly);
 
-            m_vecAnimClip[i].dStartTime = m_vecAnimClip[i].iStartFrame / 60.f;
-            m_vecAnimClip[i].dEndTime = m_vecAnimClip[i].iEndFrame / 60.f;
+            m_vecAnimClip[i].dStartTime  = m_vecAnimClip[i].iStartFrame / 60.f;
+            m_vecAnimClip[i].dEndTime    = m_vecAnimClip[i].iEndFrame / 60.f;
             m_vecAnimClip[i].dTimeLength = m_vecAnimClip[i].iFrameLength / 60.f;
         }
 
-        // AnimClip Mesh ÆÄÀÏ¿¡ ÀúÀå.
+        // AnimClip Mesh ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½.
         ImGui::Text("Save AnimClip ");
         ImGui::SameLine();
         if (ImGui::Button("##Save AnimClip", ImVec2(18.f, 18.f)))
-        {
             GetTarget()->Animator3D()->SaveMeshAnimationClip();
-        }
     }
 
-    // Animator3D¿¡ AnimClip Àû¿ë.
+    // Animator3Dï¿½ï¿½ AnimClip ï¿½ï¿½ï¿½ï¿½.
     ImGui::Text("Apply AnimClip");
     ImGui::SameLine();
     if (ImGui::Button("##Apply AnimClip", ImVec2(18.f, 18.f)))
-    {
         GetTarget()->Animator3D()->SetAnimClip(&m_vecAnimClip);
-    }
 
-    // ÀÓ½Ã. FrameCount Á¶Àý
+    // ï¿½Ó½ï¿½. FrameCount ï¿½ï¿½ï¿½ï¿½
     int FrameCount = GetTarget()->Animator3D()->GetFrameCount();
     ImGui::DragInt("FrameCount", &FrameCount);
     GetTarget()->Animator3D()->SetFrameCount(FrameCount);

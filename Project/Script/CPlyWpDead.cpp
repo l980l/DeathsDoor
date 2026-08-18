@@ -11,7 +11,7 @@ CPlyWpDead::~CPlyWpDead()
 
 void CPlyWpDead::Enter()
 {
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::HIT_IDLE, false);
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::HIT_IDLE), false);
 }
 
 void CPlyWpDead::tick()

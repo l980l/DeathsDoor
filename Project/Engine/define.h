@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 
 #define DEVICE  CDevice::GetInst()->GetDevice()
@@ -7,7 +7,7 @@
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_TAP(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::TAP		
+#define KEY_TAP(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::TAP
 #define KEY_RELEASE(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::RELEASE
 #define KEY_PRESSED(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::PRESSED
 
@@ -21,382 +21,376 @@
 #define SINGLE(type) private: type(); ~type(); friend class CSingleton<type>;
 
 
-
 enum class MRT_TYPE
 {
-	SWAPCHAIN,
-	DEFERRED,	
-	DECAL,
-	LIGHT,
-	SHADOW,
-	WATER,
-	END,
+    SWAPCHAIN,
+    DEFERRED,
+    DECAL,
+    LIGHT,
+    SHADOW,
+    WATER,
+    END,
 };
-
 
 
 enum class COMPONENT_TYPE
 {
-	// update
-	TRANSFORM,		// ¿ßƒ°, ≈©±‚, »∏¿¸
-	COLLIDER2D,		// 2¬˜ø¯ √Êµπ
-	COLLIDER3D,		// 3¬˜ø¯ √Êµπ
-	ANIMATOR2D,		// Sprite Animation
-	ANIMATOR3D,		// Bone Sknning Animation
-	LIGHT2D,		// 2¬˜ø¯ ±§ø¯
-	LIGHT3D,		// 3¬˜ø¯ ±§ø¯
-	CAMERA,			// Camera
-	RIGIDBODY,
+    // update
+    TRANSFORM,  // ÏúÑÏπò, ÌÅ¨Í∏∞, ÌöåÏ†Ñ
+    COLLIDER2D, // 2Ï∞®Ïõê Ï∂©Îèå
+    COLLIDER3D, // 3Ï∞®Ïõê Ï∂©Îèå
+    ANIMATOR2D, // Sprite Animation
+    ANIMATOR3D, // Bone Sknning Animation
+    LIGHT2D,    // 2Ï∞®Ïõê Í¥ëÏõê
+    LIGHT3D,    // 3Ï∞®Ïõê Í¥ëÏõê
+    CAMERA,     // Camera
+    RIGIDBODY,
 
-	// render
-	MESHRENDER,		// ±‚∫ª¿˚¿Œ ∑ª¥ı∏µ
-	PARTICLESYSTEM, // ¿‘¿⁄ ∑ª¥ı∏µ
-	TILEMAP,		// 2¬˜ø¯ ≈∏¿œ
-	SKYBOX,			// «œ¥√
-	LANDSCAPE,		// 3¬˜ø¯ ¡ˆ«¸
-	DECAL,			// ≥ª∫Œ ∑ª¥ı∏µ
-		
-	END,
+    // render
+    MESHRENDER,     // Í∏∞Î≥∏Ï†ÅÏù∏ Î†åÎçîÎßÅ
+    PARTICLESYSTEM, // ÏûÖÏûê Î†åÎçîÎßÅ
+    TILEMAP,        // 2Ï∞®Ïõê ÌÉÄÏùº
+    SKYBOX,         // ÌïòÎäò
+    LANDSCAPE,      // 3Ï∞®Ïõê ÏßÄÌòï
+    DECAL,          // ÎÇ¥Î∂Ä Î†åÎçîÎßÅ
 
-	// custom
-	SCRIPT,
+    END,
+
+    // custom
+    SCRIPT,
 };
 
-extern const char* COMPONENT_TYPE_STR[(UINT)COMPONENT_TYPE::END];
-extern const wchar_t* COMPONENT_TYPE_WSTR[(UINT)COMPONENT_TYPE::END];
+extern const char*    COMPONENT_TYPE_STR[static_cast<UINT>(COMPONENT_TYPE::END)];
+extern const wchar_t* COMPONENT_TYPE_WSTR[static_cast<UINT>(COMPONENT_TYPE::END)];
 
 
 enum class RES_TYPE
 {
-	MESHDATA,
-	MATERIAL,
-	PREFAB,
+    MESHDATA,
+    MATERIAL,
+    PREFAB,
 
-	MESH,			// «¸≈¬
-	TEXTURE,		// ¿ÃπÃ¡ˆ
-	SOUND,
+    MESH,    // ÌòïÌÉú
+    TEXTURE, // Ïù¥ÎØ∏ÏßÄ
+    SOUND,
 
-	GRAPHICS_SHADER,
-	COMPUTE_SHADER,
+    GRAPHICS_SHADER,
+    COMPUTE_SHADER,
 
-	END,
+    END,
 };
 
-extern const char* RES_TYPE_STR[(UINT)RES_TYPE::END];
-extern const wchar_t* RES_TYPE_WSTR[(UINT)RES_TYPE::END];
-
-
+extern const char*    RES_TYPE_STR[static_cast<UINT>(RES_TYPE::END)];
+extern const wchar_t* RES_TYPE_WSTR[static_cast<UINT>(RES_TYPE::END)];
 
 
 enum class CB_TYPE
 {
-	TRANSFORM,	// b0
-	MATERIAL,	// b1
-	GLOBAL,		// b2
-	END,
+    TRANSFORM, // b0
+    MATERIAL,  // b1
+    GLOBAL,    // b2
+    END,
 };
 
 
 enum SCALAR_PARAM
 {
-	INT_0,
-	INT_1,
-	INT_2,
-	INT_3,
+    INT_0,
+    INT_1,
+    INT_2,
+    INT_3,
 
-	FLOAT_0,
-	FLOAT_1,
-	FLOAT_2,
-	FLOAT_3,
+    FLOAT_0,
+    FLOAT_1,
+    FLOAT_2,
+    FLOAT_3,
 
-	VEC2_0,
-	VEC2_1,
-	VEC2_2,
-	VEC2_3,
+    VEC2_0,
+    VEC2_1,
+    VEC2_2,
+    VEC2_3,
 
-	VEC4_0,
-	VEC4_1,
-	VEC4_2,
-	VEC4_3,
+    VEC4_0,
+    VEC4_1,
+    VEC4_2,
+    VEC4_3,
 
-	MAT_0,
-	MAT_1,
-	MAT_2,
-	MAT_3,	
+    MAT_0,
+    MAT_1,
+    MAT_2,
+    MAT_3,
 };
 
 enum TEX_PARAM
 {
-	TEX_0,
-	TEX_1,
-	TEX_2,
-	TEX_3,
-	TEX_4,
-	TEX_5,
-	TEX_6,
-	TEX_7,
+    TEX_0,
+    TEX_1,
+    TEX_2,
+    TEX_3,
+    TEX_4,
+    TEX_5,
+    TEX_6,
+    TEX_7,
 
-	TEX_CUBE_0,
-	TEX_CUBE_1,
+    TEX_CUBE_0,
+    TEX_CUBE_1,
 
-	TEX_ARR_0,
-	TEX_ARR_1,
+    TEX_ARR_0,
+    TEX_ARR_1,
 
-	TEX_END,
+    TEX_END,
 };
 
 enum PIPELINE_STAGE
 {
-	PS_VERTEX = 0x01,
-	PS_HULL = 0x02,
-	PS_DOMAIN = 0x04,
-	PS_GEOMETRY = 0x08,
-	PS_PIXEL = 0x10,	
+    PS_VERTEX   = 0x01,
+    PS_HULL     = 0x02,
+    PS_DOMAIN   = 0x04,
+    PS_GEOMETRY = 0x08,
+    PS_PIXEL    = 0x10,
 
-	PS_ALL = PS_VERTEX | PS_HULL | PS_DOMAIN | PS_GEOMETRY | PS_PIXEL,	
+    PS_ALL = PS_VERTEX | PS_HULL | PS_DOMAIN | PS_GEOMETRY | PS_PIXEL,
 };
 
 enum class RS_TYPE
 {
-	CULL_BACK,
-	CULL_FRONT,
-	CULL_NONE,
-	WIRE_FRAME,
-	END,
+    CULL_BACK,
+    CULL_FRONT,
+    CULL_NONE,
+    WIRE_FRAME,
+    END,
 };
 
 enum class DS_TYPE
 {
-	LESS,
-	LESS_EQUAL,
-	GREATER,
-	GREATER_EQUAL,
-	NO_WRITE,			// LESS, DepthWrite X
-	NO_TEST_NO_WRITE,	// Test X, DepthWrite X
+    LESS,
+    LESS_EQUAL,
+    GREATER,
+    GREATER_EQUAL,
+    NO_WRITE,         // LESS, DepthWrite X
+    NO_TEST_NO_WRITE, // Test X, DepthWrite X
 
-	FRONT_CHECK,
+    FRONT_CHECK,
 
-	END,
+    END,
 };
 
 
 enum class BS_TYPE
 {
-	DEFAULT,		// No Blending
-	MASK,			// Alpha Coverage
-	ALPHA_BLEND,	// Alpha ∞Ëºˆ 
-	ONE_ONE,		// 1:1 »•«’
-	END,
+    DEFAULT,     // No Blending
+    MASK,        // Alpha Coverage
+    ALPHA_BLEND, // Alpha Í≥ÑÏàò 
+    ONE_ONE,     // 1:1 ÌòºÌï©
+    END,
 };
-
-
-
 
 
 enum class DIR_TYPE
 {
-	RIGHT,
-	UP,
-	FRONT,	
+    RIGHT,
+    UP,
+    FRONT,
 };
 
 enum class PROJ_TYPE
 {
-	ORTHOGRAPHIC,
-	PERSPECTIVE,
+    ORTHOGRAPHIC,
+    PERSPECTIVE,
 };
 
 enum class SHADER_DOMAIN
 {
-	// Deferred
-	DOMAIN_DEFERRED,
-	DOMAIN_DECAL,
+    // Deferred
+    DOMAIN_DEFERRED,
+    DOMAIN_DECAL,
 
-	// Light
-	DOMAIN_LIGHT,
+    // Light
+    DOMAIN_LIGHT,
 
-	// SwapChain(Foward)
-	DOMAIN_OPAQUE,		// ∫“≈ı∏Ì ø¿∫Í¡ß∆Æ
-	DOMAIN_MASK,		// ∫“≈ı∏Ì, ≈ı∏Ì
-	DOMAIN_TRANSPARENT,	// π›≈ı∏Ì
-	DOMAIN_POSTPROCESS, // »ƒ √≥∏Æ
-	DOMAIN_UI,
-	DOMAIN_UNDEFINED,	// πÃ¡§
+    // SwapChain(Foward)
+    DOMAIN_OPAQUE,      // Î∂àÌà¨Î™Ö Ïò§Î∏åÏ†ùÌä∏
+    DOMAIN_MASK,        // Î∂àÌà¨Î™Ö, Ìà¨Î™Ö
+    DOMAIN_TRANSPARENT, // Î∞òÌà¨Î™Ö
+    DOMAIN_POSTPROCESS, // ÌõÑ Ï≤òÎ¶¨
+    DOMAIN_UI,
+    DOMAIN_UNDEFINED, // ÎØ∏Ï†ï
 };
 
 
 enum class EVENT_TYPE
 {
-	CREATE_OBJECT,	// wParam : GameObject, lParam : Layer Index
-	DELETE_OBJECT,  // wParam : GameObject
+    CREATE_OBJECT, // wParam : GameObject, lParam : Layer Index
+    DELETE_OBJECT, // wParam : GameObject
 
-	ADD_CHILD,
+    ADD_CHILD,
 
-	DELETE_RESOURCE,	// wParam : RES_TYPE, lParam : Resource Adress
+    DELETE_RESOURCE, // wParam : RES_TYPE, lParam : Resource Adress
 
-	LEVEL_CHANGE,	// wParam : Level, LParam : LEVEL_TYPE
+    LEVEL_CHANGE,      // wParam : Level, LParam : LEVEL_TYPE
+    LEVEL_CHANGE_PLAY, // wParam : Level, LParam : LEVEL_TYPE
 };
 
 
 enum class SHAPE_TYPE
 {
-	RECT,
-	CIRCLE,
-	CUBE,
-	SPHERE,
-	FRUSTUM,
-	CAPSULE,
-	END,
+    RECT,
+    CIRCLE,
+    CUBE,
+    SPHERE,
+    FRUSTUM,
+    CAPSULE,
+    END,
 };
 
 
 enum class COLLIDER2D_TYPE
 {
-	RECT,
-	CIRCLE,
+    RECT,
+    CIRCLE,
 };
 
 enum class COLLIDER3D_TYPE
 {
-	CUBE,
-	SPHERE,
+    CUBE,
+    SPHERE,
 };
 
 
 enum class LIGHT_TYPE
 {
-	DIRECTIONAL,
-	POINT,
-	SPOT,
+    DIRECTIONAL,
+    POINT,
+    SPOT,
 };
 
 enum class LEVEL_STATE
 {
-	PLAY,
-	PAUSE,
-	STOP,
+    PLAY,
+    PAUSE,
+    STOP,
 };
 
 enum class SB_TYPE
 {
-	READ_ONLY,
-	READ_WRITE,
+    READ_ONLY,
+    READ_WRITE,
 };
 
 enum class PARTICLE_MODULE
 {
-	PARTICLE_SPAWN,
-	COLOR_CHANGE,
-	SCALE_CHANGE,
-	ADD_VELOCITY,
+    PARTICLE_SPAWN,
+    COLOR_CHANGE,
+    SCALE_CHANGE,
+    ADD_VELOCITY,
 
-	DRAG,
-	NOISE_FORCE,
-	RENDER,
-	ANIMATION,
+    DRAG,
+    NOISE_FORCE,
+    RENDER,
+    ANIMATION,
 
-	END,
+    END,
 };
 
 enum class LAYER
 {
-	DEFAULT,
-	MAINCAMERA,
-	SUBCAMERA,
-	PLAYER,
-	MONSTER,
-	PLAYERPROJECTILE,
-	MONSTERPROJECTILE,
-	WALL,
-	ITEM,
-	GROUND,
-	FALLAREA,
-	LADDER, 
-	ANCHOR,
-	BRAIZER,
-	NPC, 
-	LEVELCHANGEDOOR,
+    DEFAULT,
+    MAINCAMERA,
+    SUBCAMERA,
+    PLAYER,
+    MONSTER,
+    PLAYERPROJECTILE,
+    MONSTERPROJECTILE,
+    WALL,
+    ITEM,
+    GROUND,
+    FALLAREA,
+    LADDER,
+    ANCHOR,
+    BRAIZER,
+    NPC,
+    LEVELCHANGEDOOR,
 
-	UI = 31,
+    UI = 31,
 };
 
 enum class LANDSCAPE_MOD
 {
-	HEIGHT_MAP,
-	SPLAT,
-	NONE,
+    HEIGHT_MAP,
+    SPLAT,
+    NONE,
 };
 
 enum class LEVEL_TYPE
 {
-	CASTLE_FIELD,
-	CASTLE_BOSS,
-	FOREST_FIELD,
-	ICE_FIELD,
-	ICE_BOSS,
-	HALL,
-	LOADING,
-	START,
-	END
+    CASTLE_FIELD,
+    CASTLE_BOSS,
+    FOREST_FIELD,
+    ICE_FIELD,
+    ICE_BOSS,
+    HALL,
+    LOADING,
+    START,
+    END
 };
 
 enum class PLAYERANIM_TYPE
 {
-	IDLE,
-	LADDER_DOWN,
-	LADDER_UP,
-	LADDER_FINISH,
-	FALL,
-	HOOK,
-	HOOKING,
-	MAGIC_FIRE,
-	MAGIC_BOMB,
-	MAGIC_BOMB_FINISH,
-	GETITEM,
-	DANCE,
-	PICKITEM,
-	SLASH_R,
-	SLASH_L,
-	WALK,
-	RUN,
-	CHARGE_L,
-	CHARGE_R,
-	CHARGE_MAX_R,
-	DODGE,
-	DODGE_SLASH,
-	HIT,
-	HIT_RECOVER,
-	HIT_IDLE,
-	CHARGE_MAX_L,
-	CHARGE_ATTACK_R,
-	CHARGE_ATTACK_L,
-	ARROW,
-	END,
+    IDLE,
+    LADDER_DOWN,
+    LADDER_UP,
+    LADDER_FINISH,
+    FALL,
+    HOOK,
+    HOOKING,
+    MAGIC_FIRE,
+    MAGIC_BOMB,
+    MAGIC_BOMB_FINISH,
+    GETITEM,
+    DANCE,
+    PICKITEM,
+    SLASH_R,
+    SLASH_L,
+    WALK,
+    RUN,
+    CHARGE_L,
+    CHARGE_R,
+    CHARGE_MAX_R,
+    DODGE,
+    DODGE_SLASH,
+    HIT,
+    HIT_RECOVER,
+    HIT_IDLE,
+    CHARGE_MAX_L,
+    CHARGE_ATTACK_R,
+    CHARGE_ATTACK_L,
+    ARROW,
+    END,
 };
 
 extern LEVEL_TYPE g_tNextLevel;
 
 enum class PLAYER_MAGIC
 {
-	ARROW,
-	FIRE,
-	BOMB,
-	HOOK,
-	END,
+    ARROW,
+    FIRE,
+    BOMB,
+    HOOK,
+    END,
 };
 
 enum class PLAYER_UPGRADE
 {
-	ATTACK,
-	ATK_SPEED,
-	SPEED,
-	MAGIC,
-	END,
+    ATTACK,
+    ATK_SPEED,
+    SPEED,
+    MAGIC,
+    END,
 };
 
 enum class CHAINPATERN
 {
-	ONE,
-	CROSS,
-	SPREAD,
+    ONE,
+    CROSS,
+    SPREAD,
 };

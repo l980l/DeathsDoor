@@ -1,10 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpDance :
     public CState
 {
-private:
     float m_fCameraZoomIn;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -12,8 +13,6 @@ public:
 
     CLONE(CPlyWpDance);
 
-public:
     CPlyWpDance();
-    ~CPlyWpDance();
+    virtual ~CPlyWpDance() override;
 };
-

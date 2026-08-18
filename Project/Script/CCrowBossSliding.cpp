@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossSliding.h"
 #include "CCrowBossScript.h"
 #include "CBossChainScript.h"
@@ -6,11 +6,11 @@
 #include "CSoundScript.h"
 
 CCrowBossSliding::CCrowBossSliding()
-	: m_qStartPos{}
-	, m_qTargetPos{}
-	, m_vDirtoTarget{}
-	, m_iSliderCount(0)
-	, m_tChainPatern()
+    : m_qStartPos{}
+    , m_qTargetPos{}
+    , m_vDirtoTarget{}
+    , m_iSliderCount(0)
+    , m_tChainPatern()
 {
 }
 
@@ -20,166 +20,162 @@ CCrowBossSliding::~CCrowBossSliding()
 
 void CCrowBossSliding::Enter()
 {
-	GetOwner()->Animator3D()->Play(3, false);
+    GetOwner()->Animator3D()->Play(3, false);
 
-	// Ã¹ ¹æÇâÀ» ¼³Á¤
-	Vec3 vStartPos = GetOwner()->Transform()->GetWorldPos();
-	Vec3 vTargetPos = m_qTargetPos.front();
-	if (!m_qStartPos.empty())
-	{
-		vStartPos = m_qStartPos.front();
-		GetOwner()->Rigidbody()->SetRigidPos(vStartPos);
-		m_qStartPos.pop();
-	}
+    // ì²« ë°©í–¥ì„ ì„¤ì •
+    Vec3 vStartPos  = GetOwner()->Transform()->GetWorldPos();
+    Vec3 vTargetPos = m_qTargetPos.front();
+    if (!m_qStartPos.empty())
+    {
+        vStartPos = m_qStartPos.front();
+        GetOwner()->Rigidbody()->SetRigidPos(vStartPos);
+        m_qStartPos.pop();
+    }
 
-	m_vDirtoTarget = vTargetPos - vStartPos;
-	m_vDirtoTarget.Normalize();
+    m_vDirtoTarget = vTargetPos - vStartPos;
+    m_vDirtoTarget.Normalize();
 
-	float YRot = GetDir(vStartPos, vTargetPos);
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, YRot, 0.f);
+    float YRot = GetDir(vStartPos, vTargetPos);
+    GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, YRot, 0.f);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrowChainDash1.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrowChainDash1.ogg", 1, 0.1f);
 }
 
 void CCrowBossSliding::tick()
 {
-	// °ø°İ Ãæµ¹Ã¼ ÇÁ¸®Æé
-	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
+    // ê³µê²© ì¶©ëŒì²´ í”„ë¦¬í©
+    CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 0.f);
 
-	MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
-	MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
+    MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+    MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
 
-	SlidingToTargetPos();
+    SlidingToTargetPos();
 
-	Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
-	Vec3 vDiff = m_qTargetPos.front() - vCurPos;
-	vDiff.y = 0.f;
-	float fDiff = vDiff.Length();
+    Vec3 vCurPos = GetOwner()->Transform()->GetWorldPos();
+    Vec3 vDiff   = m_qTargetPos.front() - vCurPos;
+    vDiff.y      = 0.f;
+    float fDiff  = vDiff.Length();
 
-	// Ãß°¡µÈ ¸ñÀûÁö¸¦ µµÂøÇÒ ¶§¸¶´Ù ¸ñÀûÁö¸¦ »èÁ¦ÇÔ
-	if (fDiff < 100.f)
-	{
-		ArriveToTarget();
-	}
-	if(!m_qTargetPos.empty())
-	{
-		float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), m_qTargetPos.front());
-		Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
-		GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
-	}
+    // ì¶”ê°€ëœ ëª©ì ì§€ë¥¼ ë„ì°©í•  ë•Œë§ˆë‹¤ ëª©ì ì§€ë¥¼ ì‚­ì œí•¨
+    if (fDiff < 100.f)
+        ArriveToTarget();
+    if (!m_qTargetPos.empty())
+    {
+        float fDir   = GetDir(GetOwner()->Transform()->GetWorldPos(), m_qTargetPos.front());
+        Vec3  CurDir = GetOwner()->Transform()->GetRelativeRot();
+        GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+    }
 }
 
 void CCrowBossSliding::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	m_iSliderCount = 0;
-	m_vDirtoTarget = {};
-	m_tChainPatern = {};
-	queue<Vec3> empty = {};
-	m_qStartPos.swap(empty);
-	m_qTargetPos.swap(empty);
+    GetOwner()->Rigidbody()->ClearForce();
+    m_iSliderCount    = 0;
+    m_vDirtoTarget    = {};
+    m_tChainPatern    = {};
+    queue<Vec3> empty = {};
+    m_qStartPos.swap(empty);
+    m_qTargetPos.swap(empty);
 
-	for (size_t i = 0; i < m_vecHook.size(); ++i)
-	{
-		m_vecHook[i]->GetScript<CBossChainScript>()->Active(false, false, 0.f);
-		m_vecHook[i]->GetScript<CBossChainScript>()->Clear();
-	}
+    for (size_t i = 0; i < m_vecHook.size(); ++i)
+    {
+        m_vecHook[i]->GetScript<CBossChainScript>()->Active(false, false, 0.f);
+        m_vecHook[i]->GetScript<CBossChainScript>()->Clear();
+    }
 }
 
 void CCrowBossSliding::AddTargetPos(Vec3 _vTargetPos, Vec3 _vStartPos)
 {
-	if (CHAINPATERN::ONE != m_tChainPatern)
-	{
-		m_qStartPos.push(_vStartPos);
-	}
+    if (CHAINPATERN::ONE != m_tChainPatern)
+        m_qStartPos.push(_vStartPos);
 
-	m_qTargetPos.push(_vTargetPos);
+    m_qTargetPos.push(_vTargetPos);
 
-	++m_iSliderCount;
+    ++m_iSliderCount;
 }
 
 void CCrowBossSliding::SlidingToTargetPos()
 {
-	Vec3 vVelocity = m_vDirtoTarget * 1600.f;
-	GetOwner()->Rigidbody()->SetVelocity(vVelocity);
-	GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, acos(Vec2(0.f, -1.f).Dot(Vec2(-m_vDirtoTarget.x, m_vDirtoTarget.z))), 0.f);
+    Vec3 vVelocity = m_vDirtoTarget * 1600.f;
+    GetOwner()->Rigidbody()->SetVelocity(vVelocity);
+    GetOwner()->Transform()->SetRelativeRot(XM_PI * 1.5f, acos(Vec2(0.f, -1.f).Dot(Vec2(-m_vDirtoTarget.x, m_vDirtoTarget.z))), 0.f);
 
-	int iSlidingCount = 0;
-	switch (m_tChainPatern)
-	{
-	case CHAINPATERN::ONE:
-		iSlidingCount = 1;
-		break;
-	case CHAINPATERN::CROSS:
-		iSlidingCount = 2;
-		break;
-	case CHAINPATERN::SPREAD:
-		iSlidingCount = 5;
-		break;
-	}
+    int iSlidingCount = 0;
+    switch (m_tChainPatern)
+    {
+    case CHAINPATERN::ONE:
+        iSlidingCount = 1;
+        break;
+    case CHAINPATERN::CROSS:
+        iSlidingCount = 2;
+        break;
+    case CHAINPATERN::SPREAD:
+        iSlidingCount = 5;
+        break;
+    }
 
-	Vec3 CrowMoveDist = GetOwner()->Transform()->GetRelativePos() - GetOwner()->Transform()->GetPrevPos();
-	
-	// ¼ø°£ÀÌµ¿ÀÌ ¾Æ´Ñ ½½¶óÀÌµù ½Ã Å¸°í ÀÖ´Â »ç½½À» °°ÀÌ ¹Ğ¾î³¿
-	if(CrowMoveDist.Length() < 100.f)
-	{
-		Vec3 vCurHookPos = m_vecHook[iSlidingCount - m_iSliderCount]->Transform()->GetRelativePos();
-		m_vecHook[iSlidingCount - m_iSliderCount]->Transform()->SetRelativePos(vCurHookPos + CrowMoveDist);
-		vector<CGameObject*> vecChain = m_vecHook[iSlidingCount - m_iSliderCount]->GetScript<CBossChainScript>()->GetChain();
-		for (size_t i = 0; i < vecChain.size(); ++i)
-		{
-			Vec3 vCurChainPos = vecChain[i]->Transform()->GetRelativePos();
-			vecChain[i]->Transform()->SetRelativePos(vCurChainPos + CrowMoveDist);
-		}
-	}
+    Vec3 CrowMoveDist = GetOwner()->Transform()->GetRelativePos() - GetOwner()->Transform()->GetPrevPos();
+
+    // ìˆœê°„ì´ë™ì´ ì•„ë‹Œ ìŠ¬ë¼ì´ë”© ì‹œ íƒ€ê³  ìˆëŠ” ì‚¬ìŠ¬ì„ ê°™ì´ ë°€ì–´ëƒ„
+    if (CrowMoveDist.Length() < 100.f)
+    {
+        Vec3 vCurHookPos = m_vecHook[iSlidingCount - m_iSliderCount]->Transform()->GetRelativePos();
+        m_vecHook[iSlidingCount - m_iSliderCount]->Transform()->SetRelativePos(vCurHookPos + CrowMoveDist);
+        vector<CGameObject*> vecChain = m_vecHook[iSlidingCount - m_iSliderCount]->GetScript<CBossChainScript>()->GetChain();
+        for (size_t i = 0; i < vecChain.size(); ++i)
+        {
+            Vec3 vCurChainPos = vecChain[i]->Transform()->GetRelativePos();
+            vecChain[i]->Transform()->SetRelativePos(vCurChainPos + CrowMoveDist);
+        }
+    }
 }
 
 void CCrowBossSliding::ArriveToTarget()
 {
-	--m_iSliderCount;
-	m_qTargetPos.pop(); 		
-	// TargetPos°¡ ¾ø´Ù¸é ´Ù¸¥ ÆĞÅÏÀ¸·Î ÀüÈ¯
-	// ¾Æ´Ï¶ó¸é µµÂøÇÑ ¸ñÀûÁö¿¡ ÀÖ´ø »ç½½À» ºñÈ°¼ºÈ­
-	if (!m_qTargetPos.empty())
-	{
-		int iSlidingCount = 0;
-		switch (m_tChainPatern)
-		{
-		case CHAINPATERN::ONE:
-			iSlidingCount = 1;
-			break;
-		case CHAINPATERN::CROSS:
-			iSlidingCount = 2;
-			break;
-		case CHAINPATERN::SPREAD:
-			iSlidingCount = 5;
-			break;
-		}
-		Vec3 vStartPos = GetOwner()->Transform()->GetRelativePos();
-		// ¿©·¯ °³ÀÇ °¥°í¸®¸¦ ´øÁö´Â ÆĞÅÏÀ» °æ¿ì StartPos·Î ÀÌµ¿°ú ÇÔ²² È¸Àü
-		if(CHAINPATERN::ONE != m_tChainPatern)
-		{
-			vStartPos = m_qStartPos.front();
-			GetOwner()->Rigidbody()->SetRigidPos(vStartPos);
-			m_qStartPos.pop();
-		}
+    --m_iSliderCount;
+    m_qTargetPos.pop();
+    // TargetPosê°€ ì—†ë‹¤ë©´ ë‹¤ë¥¸ íŒ¨í„´ìœ¼ë¡œ ì „í™˜
+    // ì•„ë‹ˆë¼ë©´ ë„ì°©í•œ ëª©ì ì§€ì— ìˆë˜ ì‚¬ìŠ¬ì„ ë¹„í™œì„±í™”
+    if (!m_qTargetPos.empty())
+    {
+        int iSlidingCount = 0;
+        switch (m_tChainPatern)
+        {
+        case CHAINPATERN::ONE:
+            iSlidingCount = 1;
+            break;
+        case CHAINPATERN::CROSS:
+            iSlidingCount = 2;
+            break;
+        case CHAINPATERN::SPREAD:
+            iSlidingCount = 5;
+            break;
+        }
+        Vec3 vStartPos = GetOwner()->Transform()->GetRelativePos();
+        // ì—¬ëŸ¬ ê°œì˜ ê°ˆê³ ë¦¬ë¥¼ ë˜ì§€ëŠ” íŒ¨í„´ì„ ê²½ìš° StartPosë¡œ ì´ë™ê³¼ í•¨ê»˜ íšŒì „
+        if (CHAINPATERN::ONE != m_tChainPatern)
+        {
+            vStartPos = m_qStartPos.front();
+            GetOwner()->Rigidbody()->SetRigidPos(vStartPos);
+            m_qStartPos.pop();
+        }
 
-		// Sound
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrowChainDash1.ogg", 1, 0.1f);
+        // Sound
+        CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+        Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrowChainDash1.ogg", 1, 0.1f);
 
-		Vec3 vTargetPos = m_qTargetPos.front();
-		m_vDirtoTarget = vTargetPos - vStartPos;
-		m_vDirtoTarget.y = 0.f;
-		m_vDirtoTarget.Normalize();
-	}
-	else
-	{
-		if (CHAINPATERN::ONE == m_tChainPatern)
-			ChangeState(L"SlidingReady");
-		else
-			ChangeState(L"Jump");
-	}
+        Vec3 vTargetPos  = m_qTargetPos.front();
+        m_vDirtoTarget   = vTargetPos - vStartPos;
+        m_vDirtoTarget.y = 0.f;
+        m_vDirtoTarget.Normalize();
+    }
+    else
+    {
+        if (CHAINPATERN::ONE == m_tChainPatern)
+            ChangeState(L"SlidingReady");
+        else
+            ChangeState(L"Jump");
+    }
 }

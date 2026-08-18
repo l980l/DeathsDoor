@@ -1,20 +1,19 @@
 #pragma once
 #include "CState.h"
-class CBatAttack    :
+
+class CBatAttack :
     public CState
-    {
-    private:
-        float   m_fTime;
-        bool    m_bAttack;
-    public:
-        virtual void tick() override;
-        virtual void Enter() override;
-        virtual void Exit() override;
+{
+    float m_fTime;
+    bool  m_bAttack;
 
-        CLONE(CBatAttack);
+public:
+    virtual void tick() override;
+    virtual void Enter() override;
+    virtual void Exit() override;
 
-    public:
-        CBatAttack();
-        ~CBatAttack();
+    CLONE(CBatAttack);
+
+    CBatAttack();
+    virtual ~CBatAttack() override;
 };
-

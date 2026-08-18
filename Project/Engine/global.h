@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 #include <list>
@@ -25,14 +25,13 @@ using namespace std::experimental;
 using namespace std::experimental::filesystem;
 
 
-
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
 #include <d3d11.h>					// DirectX11
-#include <d3dcompiler.h>			// Shader ÄÄÆÄÀÏ
+#include <d3dcompiler.h>			// Shader ì»´íŒŒì¼
 #include <DirectXMath.h>			// DX Math
-#include <DirectXPackedVector.h>	
+#include <DirectXPackedVector.h>
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;
@@ -44,9 +43,9 @@ using namespace DirectX::PackedVector;
 #include "SimpleMath.h"
 using namespace DirectX::SimpleMath;
 
-typedef Vector2 Vec2;
-typedef Vector3 Vec3;
-typedef Vector4 Vec4;
+using Vec2 = Vector2;
+using Vec3 = Vector3;
+using Vec4 = Vector4;
 
 
 // Fbx Loader

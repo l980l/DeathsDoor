@@ -4,16 +4,20 @@
 class CLadderScript :
     public CScript
 {
-private:
-    CGameObject*    m_pInterectionImage;
-    float           m_fHeight;
+    CGameObject* m_pInterectionImage;
+    float        m_fHeight;
 
 public:
-    virtual void begin() override {};
-    virtual void tick() override {};
+    virtual void begin() override
+    {
+    };
 
-    void SetHeight(float _fHeight) { m_fHeight = _fHeight; }
-    float GetHeight() { return m_fHeight; }
+    virtual void tick() override
+    {
+    };
+
+    void  SetHeight(float _fHeight) { m_fHeight = _fHeight; }
+    float GetHeight() const { return m_fHeight; }
 
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
@@ -24,8 +28,6 @@ public:
 
     CLONE(CLadderScript);
 
-public:
     CLadderScript();
-    ~CLadderScript();
+    virtual ~CLadderScript() override;
 };
-

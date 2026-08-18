@@ -12,13 +12,13 @@ CGrimKnightIdle::~CGrimKnightIdle()
 
 void CGrimKnightIdle::Enter()
 {
-	GetOwner()->Animator3D()->Play(0, true);
+    GetOwner()->Animator3D()->Play(0, true);
 }
 
 void CGrimKnightIdle::tick()
 {
-	if (GetOwner()->GetScript<CMonsterScript>()->GetDetect())
-		ChangeState(L"LongDistance");
+    if (GetOwner()->GetScript<CMonsterScript>()->GetDetect())
+        ChangeState(L"LongDistance");
 }
 
 void CGrimKnightIdle::Exit()

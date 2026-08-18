@@ -1,9 +1,9 @@
 #pragma once
 #include "CState.h"
+
 class CBatIdle :
     public CState
 {
-private:
     float m_fTime;
 
 public:
@@ -13,8 +13,6 @@ public:
 
     CLONE(CBatIdle);
 
-public:
     CBatIdle();
-    ~CBatIdle();
+    virtual ~CBatIdle() override;
 };
-

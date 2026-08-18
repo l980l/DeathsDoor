@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CKnightJumpFinish :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CKnightJumpFinish);
 
-public:
     CKnightJumpFinish();
-    ~CKnightJumpFinish();
+    virtual ~CKnightJumpFinish() override;
 };
-

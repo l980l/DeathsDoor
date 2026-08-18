@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CBazzokaLongDistance :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CBazzokaLongDistance);
 
-public:
     CBazzokaLongDistance();
-    ~CBazzokaLongDistance();
+    virtual ~CBazzokaLongDistance() override;
 };
-

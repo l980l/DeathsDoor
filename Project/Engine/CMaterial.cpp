@@ -8,10 +8,10 @@
 #include "CPathMgr.h"
 
 CMaterial::CMaterial(bool _bEngine)
-	: CRes(RES_TYPE::MATERIAL, _bEngine)
-	, m_Const{}
-	, m_arrTex{}	
-{	
+    : CRes(RES_TYPE::MATERIAL, _bEngine)
+    , m_Const{}
+    , m_arrTex{}
+{
 }
 
 CMaterial::~CMaterial()
@@ -20,163 +20,155 @@ CMaterial::~CMaterial()
 
 void CMaterial::UpdateData()
 {
-	if (nullptr == m_pShader)
-		return;
+    if (nullptr == m_pShader)
+        return;
 
-	m_pShader->UpdateData();
+    m_pShader->UpdateData();
 
 
-	// Texture Update
-	for (UINT i = 0; i < TEX_END; ++i)
-	{
-		if (nullptr == m_arrTex[i])
-		{
-			m_Const.arrTex[i] = 0;
-			CTexture::Clear(i);
-			continue;
-		}
+    // Texture Update
+    for (UINT i = 0; i < TEX_END; ++i)
+    {
+        if (nullptr == m_arrTex[i])
+        {
+            m_Const.arrTex[i] = 0;
+            CTexture::Clear(i);
+            continue;
+        }
+        m_Const.arrTex[i] = 1;
+        m_arrTex[i]->UpdateData(i, PS_ALL);
+    }
 
-		else
-		{
-			m_Const.arrTex[i] = 1;
-			m_arrTex[i]->UpdateData(i, PIPELINE_STAGE::PS_ALL);
-		}
-	}
-
-	// Constant Update
-	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
-	pMtrlBuffer->SetData(&m_Const);
-	pMtrlBuffer->UpdateData();
+    // Constant Update
+    CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+    pMtrlBuffer->SetData(&m_Const);
+    pMtrlBuffer->UpdateData();
 }
 
 void CMaterial::UpdateData_Inst()
 {
-	if (nullptr == m_pShader)
-		return;
+    if (nullptr == m_pShader)
+        return;
 
-	m_pShader->UpdateData_Inst();
+    m_pShader->UpdateData_Inst();
 
-	// Texture Update
-	for (UINT i = 0; i < TEX_END; ++i)
-	{
-		if (nullptr == m_arrTex[i])
-		{
-			m_Const.arrTex[i] = 0;
-			CTexture::Clear(i);
-			continue;
-		}
+    // Texture Update
+    for (UINT i = 0; i < TEX_END; ++i)
+    {
+        if (nullptr == m_arrTex[i])
+        {
+            m_Const.arrTex[i] = 0;
+            CTexture::Clear(i);
+            continue;
+        }
+        m_Const.arrTex[i] = 1;
+        m_arrTex[i]->UpdateData(i, PS_ALL);
+    }
 
-		else
-		{
-			m_Const.arrTex[i] = 1;
-			m_arrTex[i]->UpdateData(i, PIPELINE_STAGE::PS_ALL);
-		}
-	}
-
-	// Constant Update
-	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
-	pMtrlBuffer->SetData(&m_Const);
-	pMtrlBuffer->UpdateData();
+    // Constant Update
+    CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+    pMtrlBuffer->SetData(&m_Const);
+    pMtrlBuffer->UpdateData();
 }
 
 void CMaterial::SetScalarParam(SCALAR_PARAM _Param, const void* _Src)
 {
-	switch (_Param)
-	{
-	case INT_0:
-	case INT_1:
-	case INT_2:
-	case INT_3:		
-		m_Const.arrInt[_Param] = *((int*)_Src);
-		break;
-	case FLOAT_0:
-	case FLOAT_1:
-	case FLOAT_2:
-	case FLOAT_3:
-		m_Const.arrFloat[_Param - FLOAT_0] = *((float*)_Src);
-		break;
+    switch (_Param)
+    {
+    case INT_0:
+    case INT_1:
+    case INT_2:
+    case INT_3:
+        m_Const.arrInt[_Param] = *((int*)_Src);
+        break;
+    case FLOAT_0:
+    case FLOAT_1:
+    case FLOAT_2:
+    case FLOAT_3:
+        m_Const.arrFloat[_Param - FLOAT_0] = *((float*)_Src);
+        break;
 
-	case VEC2_0:
-	case VEC2_1:
-	case VEC2_2:
-	case VEC2_3:
-		m_Const.arrV2[_Param - VEC2_0] = *((Vec2*)_Src);
-		break;
+    case VEC2_0:
+    case VEC2_1:
+    case VEC2_2:
+    case VEC2_3:
+        m_Const.arrV2[_Param - VEC2_0] = *((Vec2*)_Src);
+        break;
 
-	case VEC4_0:
-	case VEC4_1:
-	case VEC4_2:
-	case VEC4_3:
-		m_Const.arrV4[_Param - VEC4_0] = *((Vec4*)_Src);
-		break;
+    case VEC4_0:
+    case VEC4_1:
+    case VEC4_2:
+    case VEC4_3:
+        m_Const.arrV4[_Param - VEC4_0] = *((Vec4*)_Src);
+        break;
 
-	case MAT_0:
-	case MAT_1:
-	case MAT_2:
-	case MAT_3:
-		m_Const.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
-		break;	
-	}
+    case MAT_0:
+    case MAT_1:
+    case MAT_2:
+    case MAT_3:
+        m_Const.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
+        break;
+    }
 }
 
 void CMaterial::SetTexParam(TEX_PARAM _Param, const Ptr<CTexture>& _Tex)
 {
-	m_arrTex[_Param] = _Tex;
+    m_arrTex[_Param] = _Tex;
 }
 
-void CMaterial::GetScalarParam(SCALAR_PARAM _param, void* _pData)
+void CMaterial::GetScalarParam(SCALAR_PARAM _param, void* _pData) const
 {
-	switch (_param)
-	{
-	case INT_0:
-	case INT_1:
-	case INT_2:
-	case INT_3:		
-	{
-		int idx = (UINT)_param - (UINT)INT_0;
-		*((int*)_pData) = m_Const.arrInt[idx];
-	}
-		break;
-	case FLOAT_0:
-	case FLOAT_1:
-	case FLOAT_2:
-	case FLOAT_3:
-	{
-		int idx = (UINT)_param - (UINT)FLOAT_0;
-		*((float*)_pData) = m_Const.arrFloat[idx];
-	}
-		break;
+    switch (_param)
+    {
+    case INT_0:
+    case INT_1:
+    case INT_2:
+    case INT_3:
+    {
+        int idx                    = static_cast<UINT>(_param) - static_cast<UINT>(INT_0);
+        *static_cast<int*>(_pData) = m_Const.arrInt[idx];
+    }
+    break;
+    case FLOAT_0:
+    case FLOAT_1:
+    case FLOAT_2:
+    case FLOAT_3:
+    {
+        int idx                      = static_cast<UINT>(_param) - static_cast<UINT>(FLOAT_0);
+        *static_cast<float*>(_pData) = m_Const.arrFloat[idx];
+    }
+    break;
 
-	case VEC2_0:
-	case VEC2_1:
-	case VEC2_2:
-	case VEC2_3:
-	{
-		int idx = (UINT)_param - (UINT)VEC2_0;
-		*((Vec2*)_pData) = m_Const.arrV2[idx];
-	}
-		break;
+    case VEC2_0:
+    case VEC2_1:
+    case VEC2_2:
+    case VEC2_3:
+    {
+        int idx                     = static_cast<UINT>(_param) - static_cast<UINT>(VEC2_0);
+        *static_cast<Vec2*>(_pData) = m_Const.arrV2[idx];
+    }
+    break;
 
-	case VEC4_0:
-	case VEC4_1:
-	case VEC4_2:
-	case VEC4_3:
-	{
-		int idx = (UINT)_param - (UINT)VEC4_0;
-		*((Vec4*)_pData) = m_Const.arrV4[idx];
-	}
-		break;
+    case VEC4_0:
+    case VEC4_1:
+    case VEC4_2:
+    case VEC4_3:
+    {
+        int idx                     = static_cast<UINT>(_param) - static_cast<UINT>(VEC4_0);
+        *static_cast<Vec4*>(_pData) = m_Const.arrV4[idx];
+    }
+    break;
 
-	case MAT_0:
-	case MAT_1:
-	case MAT_2:
-	case MAT_3:
-	{
-		int idx = (UINT)_param - (UINT)MAT_0;
-		*((Matrix*)_pData) = m_Const.arrMat[idx];
-	}
-		break;
-	}
+    case MAT_0:
+    case MAT_1:
+    case MAT_2:
+    case MAT_3:
+    {
+        int idx                       = static_cast<UINT>(_param) - static_cast<UINT>(MAT_0);
+        *static_cast<Matrix*>(_pData) = m_Const.arrMat[idx];
+    }
+    break;
+    }
 }
 
 // ================
@@ -184,66 +176,62 @@ void CMaterial::GetScalarParam(SCALAR_PARAM _param, void* _pData)
 // ================
 int CMaterial::Save(const wstring& _strRelativePath)
 {
-	if (IsEngineRes())
-		return E_FAIL;
+    if (IsEngineRes())
+        return E_FAIL;
 
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strRelativePath;
-	
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    strFilePath         += _strRelativePath;
 
-	// Entity
-	SaveWString(GetName(), pFile);
-	
-	// Res
-	SaveWString(GetKey(), pFile);	
-	
-	// Shader
-	SaveResRef(m_pShader.Get(), pFile);
+    FILE* pFile = nullptr;
+    _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
 
-	// Constant
-	fwrite(&m_Const, sizeof(tMtrlConst), 1, pFile);
+    // Entity
+    SaveWString(GetName(), pFile);
 
-	// Texture
-	for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
-	{
-		SaveResRef(m_arrTex[i].Get(), pFile);
-	}
-	
-	fclose(pFile);
+    // Res
+    SaveWString(GetKey(), pFile);
 
-	return S_OK;
+    // Shader
+    SaveResRef(m_pShader.Get(), pFile);
+
+    // Constant
+    fwrite(&m_Const, sizeof(tMtrlConst), 1, pFile);
+
+    // Texture
+    for (UINT i = 0; i < static_cast<UINT>(TEX_END); ++i)
+        SaveResRef(m_arrTex[i].Get(), pFile);
+
+    fclose(pFile);
+
+    return S_OK;
 }
 
 
 int CMaterial::Load(const wstring& _strFilePath)
 {
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
+    FILE* pFile = nullptr;
+    _wfopen_s(&pFile, _strFilePath.c_str(), L"rb");
 
-	// Entity
-	wstring strName;
-	LoadWString(strName, pFile);
-	SetName(strName);
+    // Entity
+    wstring strName;
+    LoadWString(strName, pFile);
+    SetName(strName);
 
-	// Res
-	wstring strKey;
-	LoadWString(strKey, pFile);
-	
-	// Shader
-	LoadResRef(m_pShader, pFile);
+    // Res
+    wstring strKey;
+    LoadWString(strKey, pFile);
 
-	// Constant
-	fread(&m_Const, sizeof(tMtrlConst), 1, pFile);
+    // Shader
+    LoadResRef(m_pShader, pFile);
 
-	// Texture
-	for (UINT i = 0; i < (UINT)TEX_PARAM::TEX_END; ++i)
-	{
-		LoadResRef(m_arrTex[i], pFile);
-	}
+    // Constant
+    fread(&m_Const, sizeof(tMtrlConst), 1, pFile);
 
-	fclose(pFile);
+    // Texture
+    for (UINT i = 0; i < static_cast<UINT>(TEX_END); ++i)
+        LoadResRef(m_arrTex[i], pFile);
 
-	return S_OK;
+    fclose(pFile);
+
+    return S_OK;
 }

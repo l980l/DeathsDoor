@@ -18,7 +18,5 @@ int TileMapUI::render_update()
         return FALSE;
 
 
-
-
     return TRUE;
 }

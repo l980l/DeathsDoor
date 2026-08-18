@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGruntBackStep :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGruntBackStep);
 
-public:
     CGruntBackStep();
-    ~CGruntBackStep();
+    virtual ~CGruntBackStep() override;
 };
-

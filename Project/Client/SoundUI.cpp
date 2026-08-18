@@ -5,7 +5,7 @@
 
 SoundUI::SoundUI()
     : ResUI(RES_TYPE::SOUND),
-    m_volume(0.5f)
+      m_volume(0.5f)
 {
     SetName("Sound");
 }
@@ -19,7 +19,7 @@ int SoundUI::render_update()
     ResUI::render_update();
     //pChannel = CSound::g_pFMOD->getChannel(-1, &pChannel);
     Ptr<CSound> pSound = CResMgr::GetInst()->FindRes<CSound>(GetTargetRes()->GetRelativePath());
-    
+
 
     //if (ImGui::Button("Play", ImVec2(100.f, 20.f)))
     //{

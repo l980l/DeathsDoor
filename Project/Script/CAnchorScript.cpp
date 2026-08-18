@@ -2,7 +2,7 @@
 #include "CAnchorScript.h"
 
 CAnchorScript::CAnchorScript()
-	: CScript((UINT)SCRIPT_TYPE::ANCHORSCRIPT)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::ANCHORSCRIPT))
 {
 }
 

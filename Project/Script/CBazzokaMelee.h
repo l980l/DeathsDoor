@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CBazzokaMelee :
     public CState
 {
@@ -10,7 +11,6 @@ public:
 
     CLONE(CBazzokaMelee);
 
-public:
     CBazzokaMelee();
-    ~CBazzokaMelee();
+    virtual ~CBazzokaMelee() override;
 };

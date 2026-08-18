@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CHeightMapShader.h"
 
 #include "CConstBuffer.h"
@@ -6,13 +6,13 @@
 #include "CTexture.h"
 
 CHeightMapShader::CHeightMapShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
-	: m_iBrushIdx(0)
-	, m_fVelocity(0.2f)
-	, m_pInput(nullptr)
+    : m_fVelocity(0.2f)
+    , m_iBrushIdx(0)
+    , m_pInput(nullptr)
 {
-	m_iGroupPerThreadX = _iGroupPerThreadX;
-	m_iGroupPerThreadY = _iGroupPerThreadY;
-	m_iGroupPerThreadZ = _iGroupPerThreadZ;
+    m_iGroupPerThreadX = _iGroupPerThreadX;
+    m_iGroupPerThreadY = _iGroupPerThreadY;
+    m_iGroupPerThreadZ = _iGroupPerThreadZ;
 }
 
 CHeightMapShader::~CHeightMapShader()
@@ -22,47 +22,45 @@ CHeightMapShader::~CHeightMapShader()
 
 void CHeightMapShader::UpdateData()
 {
-	m_Const.arrInt[0] = (int)m_pHeightMap->Width();
-	m_Const.arrInt[1] = (int)m_pHeightMap->Height();
-	m_Const.arrInt[2] = m_iBrushIdx;
-	m_Const.arrFloat[0] = m_fVelocity;
-	m_Const.arrV2[0] = m_vScale;
+    m_Const.arrInt[0]   = static_cast<int>(m_pHeightMap->Width());
+    m_Const.arrInt[1]   = static_cast<int>(m_pHeightMap->Height());
+    m_Const.arrInt[2]   = m_iBrushIdx;
+    m_Const.arrFloat[0] = m_fVelocity;
+    m_Const.arrV2[0]    = m_vScale;
 
-	// ³ôÀÌ¸Ê
-	m_pHeightMap->UpdateData_CS(0, false);
+    // ë†’ì´ë§µ
+    m_pHeightMap->UpdateData_CS(0, false);
 
-	// ºê·¯½¬
-	m_pBrushTex->UpdateData_CS(0, true);
+    // ë¸ŒëŸ¬ì‰¬
+    m_pBrushTex->UpdateData_CS(0, true);
 
-	// ÇÇÅ·Á¤º¸
-	if (nullptr != m_pInput)
-	{
-		m_pInput->UpdateData_CS(16, true);
-	}
+    // í”¼í‚¹ì •ë³´
+    if (nullptr != m_pInput)
+        m_pInput->UpdateData_CS(16, true);
 
-	// ½ÇÇà ½ÃÅ³ ½º·¹µå ±×·ì ¼ö ÁöÁ¤
-	m_iGroupX = ((UINT)m_pHeightMap->Width() / m_iGroupPerThreadX) + 1;
-	m_iGroupY = ((UINT)m_pHeightMap->Height() / m_iGroupPerThreadY) + 1;
-	m_iGroupZ = 1;
+    // ì‹¤í–‰ ì‹œí‚¬ ìŠ¤ë ˆë“œ ê·¸ë£¹ ìˆ˜ ì§€ì •
+    m_iGroupX = (static_cast<UINT>(m_pHeightMap->Width()) / m_iGroupPerThreadX) + 1;
+    m_iGroupY = (static_cast<UINT>(m_pHeightMap->Height()) / m_iGroupPerThreadY) + 1;
+    m_iGroupZ = 1;
 }
 
 void CHeightMapShader::Clear()
 {
-	if (nullptr != m_pHeightMap)
-	{
-		m_pHeightMap->Clear_CS(0);
-		m_pHeightMap = nullptr;
-	}
+    if (nullptr != m_pHeightMap)
+    {
+        m_pHeightMap->Clear_CS(false);
+        m_pHeightMap = nullptr;
+    }
 
-	if (nullptr != m_pBrushTex)
-	{
-		m_pBrushTex->Clear(0);
-		m_pBrushTex = nullptr;
-	}
+    if (nullptr != m_pBrushTex)
+    {
+        m_pBrushTex->Clear(0);
+        m_pBrushTex = nullptr;
+    }
 
-	if (nullptr != m_pInput)
-	{
-		m_pInput->Clear();
-		m_pInput = nullptr;
-	}
+    if (nullptr != m_pInput)
+    {
+        m_pInput->Clear();
+        m_pInput = nullptr;
+    }
 }

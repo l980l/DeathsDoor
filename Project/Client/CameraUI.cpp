@@ -22,23 +22,19 @@ int CameraUI::render_update()
     // Camera Type
     ImGui::Text("PROJ_TYPE");
     ImGui::SameLine();
-    int iProj_Type = (int)GetTarget()->Camera()->GetProjType();
-    const char* Proj_Type[2] = { "ORTHOGRAPHIC",  "PERSPECTIVE" };    
+    int         iProj_Type   = static_cast<int>(GetTarget()->Camera()->GetProjType());
+    const char* Proj_Type[2] = {"ORTHOGRAPHIC", "PERSPECTIVE"};
     if (ImGui::Combo("##CollidereD Type", &iProj_Type, Proj_Type, 2, 2))
-    {
-        GetTarget()->Camera()->SetProjType((PROJ_TYPE)iProj_Type);
-    }
+        GetTarget()->Camera()->SetProjType(static_cast<PROJ_TYPE>(iProj_Type));
 
-    // Orthographic¿¡¼­¸¸ »ç¿ëÇÏ´Â Scale ¼³Á¤
-    if (iProj_Type == (int)PROJ_TYPE::ORTHOGRAPHIC)
+    // Orthographicï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Scale ï¿½ï¿½ï¿½ï¿½
+    if (iProj_Type == static_cast<int>(PROJ_TYPE::ORTHOGRAPHIC))
     {
         float fScale = GetTarget()->Camera()->GetScale();
         ImGui::Text("SCALE    ");
         ImGui::SameLine();
         if (ImGui::SliderFloat("##Scale", &fScale, 0.f, 10.f))
-        {
             GetTarget()->Camera()->SetScale(fScale);
-        }
     }
 
     // Far
@@ -46,17 +42,13 @@ int CameraUI::render_update()
     ImGui::Text("FAR      ");
     ImGui::SameLine();
     if (ImGui::SliderFloat("##Far", &fFar, 1.1f, 10000.f))
-    {
         GetTarget()->Camera()->SetFar(fFar);
-    }
 
     static bool bDrawFrustum = false;
     ImGui::Text("DrawDubug");
     ImGui::SameLine();
-    if(ImGui::Checkbox("##DrawFrustum", &bDrawFrustum))
-    {
+    if (ImGui::Checkbox("##DrawFrustum", &bDrawFrustum))
         GetTarget()->Camera()->SetDrawDebugShape(bDrawFrustum);
-    }
 
 
     return TRUE;

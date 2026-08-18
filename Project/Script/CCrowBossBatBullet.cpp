@@ -4,7 +4,7 @@
 
 void CCrowBossBatBullet::Enter()
 {
-	GetOwner()->Animator3D()->Play(6, true);
+    GetOwner()->Animator3D()->Play(6, true);
 }
 
 void CCrowBossBatBullet::tick()

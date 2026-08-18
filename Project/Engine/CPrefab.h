@@ -6,30 +6,28 @@ class CGameObject;
 class CPrefab :
     public CRes
 {
+    CGameObject* m_ProtoObj;
+
+public:
+    CGameObject* Instantiate() const;
+
 private:
-	CGameObject*	m_ProtoObj;
+    virtual int Load(const wstring& _strFilePath) override;
 
 public:
-	CGameObject* Instantiate();
-	
+    virtual int Save(const wstring& _strRelativePath) override;
+
+    CGameObject* GetProtoObj() const;
+
 private:
-	virtual int Load(const wstring& _strFilePath);
+    void         SaveProtoObj(CGameObject* _Obj, FILE* _File);
+    CGameObject* LoadProtoObj(FILE* _File);
 
 public:
-	virtual int Save(const wstring& _strRelativePath);
-	
-	CGameObject* GetProtoObj();
-private:
-	void SaveProtoObj(CGameObject* _Obj, FILE* _File);
-	CGameObject* LoadProtoObj(FILE* _File);
+    void RegisterProtoObject(CGameObject* _Proto);
 
-public:
-	void RegisterProtoObject(CGameObject* _Proto);
+    CPrefab();
+    virtual ~CPrefab() override;
 
-public:
-	CPrefab();
-	~CPrefab();
-
-	friend class PrefabUI;
+    friend class PrefabUI;
 };
-

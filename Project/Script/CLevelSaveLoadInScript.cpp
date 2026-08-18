@@ -1,13 +1,13 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CLevelSaveLoadInScript.h"
 
-#include <Engine\CPathMgr.h>
-#include <Engine\CLevelMgr.h>
-#include <Engine\CLevel.h>
-#include <Engine\CLayer.h>
-#include <Engine\CGameObject.h>
-#include <Engine\components.h>
-#include <Engine\CScript.h>
+#include <Engine/CPathMgr.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+#include <Engine/CLayer.h>
+#include <Engine/CGameObject.h>
+#include <Engine/components.h>
+#include <Engine/CScript.h>
 #include <Engine/CEventMgr.h>
 #include <Engine/CPhysXMgr.h>
 #include "CPlayerScript.h"
@@ -24,7 +24,7 @@ int CLevelSaveLoadInScript::Play(const wstring& _strLevelPath, CLevel* _pLevel)
         return E_FAIL;
 
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    strPath += _strLevelPath;
+    strPath         += _strLevelPath;
 
     FILE* pFile = nullptr;
 
@@ -33,32 +33,30 @@ int CLevelSaveLoadInScript::Play(const wstring& _strLevelPath, CLevel* _pLevel)
     if (nullptr == pFile)
         return E_FAIL;
 
-    // ·¹º§ ÀÌ¸§ ÀúÀå
+    // ë ˆë²¨ ì´ë¦„ ì €ì¥
     SaveWString(_pLevel->GetName(), pFile);
 
     int level_type = _pLevel->GetLevelType();
     fwrite(&level_type, sizeof(int), 1, pFile);
 
-    // ·¹º§ÀÇ ·¹ÀÌ¾îµéÀ» ÀúÀå
+    // ë ˆë²¨ì˜ ë ˆì´ì–´ë“¤ì„ ì €ì¥
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
         CLayer* pLayer = _pLevel->GetLayer(i);
 
-        // ·¹ÀÌ¾î ÀÌ¸§ ÀúÀå
+        // ë ˆì´ì–´ ì´ë¦„ ì €ì¥
         SaveWString(pLayer->GetName(), pFile);
 
-        // ·¹ÀÌ¾îÀÇ °ÔÀÓ¿ÀºêÁ§Æ®µé ÀúÀå
+        // ë ˆì´ì–´ì˜ ê²Œì„ì˜¤ë¸Œì íŠ¸ë“¤ ì €ì¥
         const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
 
-        // ¿ÀºêÁ§Æ® °³¼ö ÀúÀå
+        // ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜ ì €ì¥
         size_t objCount = vecParent.size();
         fwrite(&objCount, sizeof(size_t), 1, pFile);
 
-        // °¢ °ÔÀÓ¿ÀºêÁ§Æ®
+        // ê° ê²Œì„ì˜¤ë¸Œì íŠ¸
         for (size_t i = 0; i < objCount; ++i)
-        {
             SaveGameObject(vecParent[i], pFile);
-        }
     }
 
     fclose(pFile);
@@ -73,7 +71,7 @@ CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _tSt
     CSpawnMgr::GetInst()->Clear();
 
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    strPath += _LevelPath;//»ó´ë°æ·Î
+    strPath         += _LevelPath; //ìƒëŒ€ê²½ë¡œ
 
     FILE* pFile = nullptr;
 
@@ -84,7 +82,7 @@ CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _tSt
 
     CLevel* pNewLevel = new CLevel;
 
-    // ·¹º§ ÀÌ¸§
+    // ë ˆë²¨ ì´ë¦„
     wstring strLevelName;
     LoadWString(strLevelName, pFile);
     pNewLevel->SetName(strLevelName);
@@ -97,16 +95,16 @@ CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _tSt
     {
         CLayer* pLayer = pNewLevel->GetLayer(i);
 
-        // ·¹ÀÌ¾î ÀÌ¸§
+        // ë ˆì´ì–´ ì´ë¦„
         wstring LayerName;
         LoadWString(LayerName, pFile);
         pLayer->SetName(LayerName);
 
-        // °ÔÀÓ ¿ÀºêÁ§Æ® °³¼ö
+        // ê²Œì„ ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜
         size_t ObjCount = 0;
         fread(&ObjCount, sizeof(size_t), 1, pFile);
 
-        // °¢ °ÔÀÓ¿ÀºêÁ§Æ®
+        // ê° ê²Œì„ì˜¤ë¸Œì íŠ¸
         for (size_t j = 0; j < ObjCount; ++j)
         {
             CGameObject* pNewObj = LoadGameObject(pFile);
@@ -123,62 +121,60 @@ CLevel* CLevelSaveLoadInScript::Stop(const wstring& _LevelPath, LEVEL_STATE _tSt
 
 int CLevelSaveLoadInScript::SaveLevel(CLevel* _pLevel)
 {
-    if (_pLevel->GetState() != LEVEL_STATE::STOP) //stop»óÅÂÀÏ ¶§¸¸ ÀúÀå
+    if (_pLevel->GetState() != LEVEL_STATE::STOP) //stopìƒíƒœì¼ ë•Œë§Œ ì €ì¥
         return E_FAIL;
 
-    OPENFILENAME ofn = {};
-    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    strFolderpath += L"Level\\";
+    OPENFILENAME ofn           = {};
+    wstring      strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    strFolderpath              += L"Level\\";
 
     wchar_t szFilePath[256] = {};
 
     ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFilePath;
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = 256;
-    ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
+    ofn.lStructSize     = sizeof(ofn);
+    ofn.hwndOwner       = nullptr;
+    ofn.lpstrFile       = szFilePath;
+    ofn.lpstrFile[0]    = '\0';
+    ofn.nMaxFile        = 256;
+    ofn.lpstrFilter     = L"Level\0*.lv\0ALL\0*.*";
+    ofn.nFilterIndex    = 1;
+    ofn.lpstrFileTitle  = nullptr;
+    ofn.nMaxFileTitle   = 0;
     ofn.lpstrInitialDir = strFolderpath.c_str();
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
     if (false == GetSaveFileName(&ofn))
         E_FAIL;
 
-    // ÆÄÀÏ ÀÔÃâ·Â
-    FILE* pFile = nullptr;
+    // íŒŒì¼ ì…ì¶œë ¥
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"wb");
 
     if (nullptr == pFile)
         return E_FAIL;
 
-    // ·¹º§ ÀÌ¸§ ÀúÀå
+    // ë ˆë²¨ ì´ë¦„ ì €ì¥
     SaveWString(_pLevel->GetName(), pFile);
 
     int iLevel_type = _pLevel->GetLevelType();
     fwrite(&iLevel_type, sizeof(int), 1, pFile);
 
-    // ·¹º§ÀÇ ·¹ÀÌ¾îµéÀ» ÀúÀå
+    // ë ˆë²¨ì˜ ë ˆì´ì–´ë“¤ì„ ì €ì¥
     for (UINT i = 0; i < MAX_LAYER; ++i)
     {
         CLayer* pLayer = _pLevel->GetLayer(i);
 
-        // ·¹ÀÌ¾î ÀÌ¸§ ÀúÀå
+        // ë ˆì´ì–´ ì´ë¦„ ì €ì¥
         SaveWString(pLayer->GetName(), pFile);
 
-        // ·¹ÀÌ¾îÀÇ ºÎ¸ğ°ÔÀÓ¿ÀºêÁ§Æ®µé ÀúÀå
+        // ë ˆì´ì–´ì˜ ë¶€ëª¨ê²Œì„ì˜¤ë¸Œì íŠ¸ë“¤ ì €ì¥
         const vector<CGameObject*>& vecParent = pLayer->GetParentObject();
 
         size_t ObjCount = vecParent.size();
-        fwrite(&ObjCount, sizeof(size_t), 1, pFile); // ¿ÀºêÁ§Æ® °³¼ö ÀúÀå
+        fwrite(&ObjCount, sizeof(size_t), 1, pFile); // ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜ ì €ì¥
 
         for (size_t i = 0; i < ObjCount; ++i)
-        {
-            SaveGameObject(vecParent[i], pFile); // °¢ °ÔÀÓ¿ÀºêÁ§Æ® ÀúÀå
-        }
+            SaveGameObject(vecParent[i], pFile); // ê° ê²Œì„ì˜¤ë¸Œì íŠ¸ ì €ì¥
     }
 
     fclose(pFile);
@@ -189,33 +185,33 @@ int CLevelSaveLoadInScript::SaveLevel(CLevel* _pLevel)
 
 int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _pObject, FILE* _File)
 {
-    // ÀÌ¸§
+    // ì´ë¦„
     SaveWString(_pObject->GetName(), _File);
 
-    // ÄÄÆ÷³ÍÆ®
-    for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
+    // ì»´í¬ë„ŒíŠ¸
+    for (UINT i = 0; i <= static_cast<UINT>(COMPONENT_TYPE::END); ++i)
     {
-        if (i == (UINT)COMPONENT_TYPE::END)
+        if (i == static_cast<UINT>(COMPONENT_TYPE::END))
         {
-            // ÄÄÆ÷³ÍÆ® Å¸ÀÔ ÀúÀå
+            // ì»´í¬ë„ŒíŠ¸ íƒ€ì… ì €ì¥
             fwrite(&i, sizeof(UINT), 1, _File);
             break;
         }
 
-        CComponent* Com = _pObject->GetComponent((COMPONENT_TYPE)i);
+        CComponent* Com = _pObject->GetComponent(static_cast<COMPONENT_TYPE>(i));
         if (nullptr == Com)
             continue;
 
-        // ÄÄÆ÷³ÍÆ® Å¸ÀÔ ÀúÀå
+        // ì»´í¬ë„ŒíŠ¸ íƒ€ì… ì €ì¥
         fwrite(&i, sizeof(UINT), 1, _File);
 
-        // ÄÄÆ÷³ÍÆ® Á¤º¸ ÀúÀå
+        // ì»´í¬ë„ŒíŠ¸ ì •ë³´ ì €ì¥
         Com->SaveToLevelFile(_File);
     }
 
-    // ½ºÅ©¸³Æ®   
-    const vector<CScript*>& vecScript = _pObject->GetScripts();
-    size_t ScriptCount = vecScript.size();
+    // ìŠ¤í¬ë¦½íŠ¸   
+    const vector<CScript*>& vecScript   = _pObject->GetScripts();
+    size_t                  ScriptCount = vecScript.size();
     fwrite(&ScriptCount, sizeof(size_t), 1, _File);
 
     for (size_t i = 0; i < vecScript.size(); ++i)
@@ -226,45 +222,43 @@ int CLevelSaveLoadInScript::SaveGameObject(CGameObject* _pObject, FILE* _File)
     }
 
 
-    // ÀÚ½Ä ¿ÀºêÁ§Æ®
-    const vector<CGameObject*>& vecChild = _pObject->GetChild();
-    size_t ChildCount = vecChild.size();
+    // ìì‹ ì˜¤ë¸Œì íŠ¸
+    const vector<CGameObject*>& vecChild   = _pObject->GetChild();
+    size_t                      ChildCount = vecChild.size();
     fwrite(&ChildCount, sizeof(size_t), 1, _File);
 
     for (size_t i = 0; i < ChildCount; ++i)
-    {
         SaveGameObject(vecChild[i], _File);
-    }
 
     return 0;
 }
 
 CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _tState)
 {
-    OPENFILENAME ofn = {};
-    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    strFolderpath += L"Level\\";
+    OPENFILENAME ofn           = {};
+    wstring      strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    strFolderpath              += L"Level\\";
 
     wchar_t szFilePath[256] = {};
 
     ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFilePath;
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = 256;
-    ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
+    ofn.lStructSize     = sizeof(ofn);
+    ofn.hwndOwner       = nullptr;
+    ofn.lpstrFile       = szFilePath;
+    ofn.lpstrFile[0]    = '\0';
+    ofn.nMaxFile        = 256;
+    ofn.lpstrFilter     = L"Level\0*.lv\0ALL\0*.*";
+    ofn.nFilterIndex    = 1;
+    ofn.lpstrFileTitle  = nullptr;
+    ofn.nMaxFileTitle   = 0;
     ofn.lpstrInitialDir = strFolderpath.c_str();
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
     if (false == GetSaveFileName(&ofn))
         E_FAIL;
 
-    // ÆÄÀÏ ÀÔÃâ·Â
-    FILE* pFile = nullptr;
+    // íŒŒì¼ ì…ì¶œë ¥
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"rb");
 
     if (nullptr == pFile)
@@ -272,7 +266,7 @@ CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _tState)
 
     CLevel* pNewLevel = new CLevel;
 
-    // ·¹º§ ÀÌ¸§
+    // ë ˆë²¨ ì´ë¦„
     wstring strLevelName;
     LoadWString(strLevelName, pFile);
     pNewLevel->SetName(strLevelName);
@@ -285,16 +279,16 @@ CLevel* CLevelSaveLoadInScript::LoadLevel(LEVEL_STATE _tState)
     {
         CLayer* pLayer = pNewLevel->GetLayer(i);
 
-        // ·¹ÀÌ¾î ÀÌ¸§
+        // ë ˆì´ì–´ ì´ë¦„
         wstring LayerName;
         LoadWString(LayerName, pFile);
         pLayer->SetName(LayerName);
 
-        // °ÔÀÓ ¿ÀºêÁ§Æ® °³¼ö
+        // ê²Œì„ ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜
         size_t objCount = 0;
         fread(&objCount, sizeof(size_t), 1, pFile);
 
-        // °¢ °ÔÀÓ¿ÀºêÁ§Æ®
+        // ê° ê²Œì„ì˜¤ë¸Œì íŠ¸
         for (size_t j = 0; j < objCount; ++j)
         {
             CGameObject* pNewObj = LoadGameObject(pFile);
@@ -313,24 +307,24 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
 {
     CGameObject* pObject = new CGameObject;
 
-    // ÀÌ¸§
+    // ì´ë¦„
     wstring Name;
     LoadWString(Name, _File);
     pObject->SetName(Name);
 
-    // ÄÄÆ÷³ÍÆ®
+    // ì»´í¬ë„ŒíŠ¸
     while (true)
     {
         UINT ComponentType = 0;
         fread(&ComponentType, sizeof(UINT), 1, _File);
 
-        // ÄÄÆ÷³ÍÆ® Á¤º¸ÀÇ ³¡À» È®ÀÎ
-        if ((UINT)COMPONENT_TYPE::END == ComponentType)
+        // ì»´í¬ë„ŒíŠ¸ ì •ë³´ì˜ ëì„ í™•ì¸
+        if (static_cast<UINT>(COMPONENT_TYPE::END) == ComponentType)
             break;
 
         CComponent* Component = nullptr;
 
-        switch ((COMPONENT_TYPE)ComponentType)
+        switch (static_cast<COMPONENT_TYPE>(ComponentType))
         {
         case COMPONENT_TYPE::TRANSFORM:
             Component = new CTransform;
@@ -379,32 +373,34 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
             break;
         }
 
+        if (!Component)
+            continue;
+
         Component->LoadFromLevelFile(_File);
         pObject->AddComponent(Component);
 
         if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
         {
-            CRigidbody* RigidbodyComponent = (CRigidbody*)Component;
-            physx::PxGeometryType::Enum Type = RigidbodyComponent->GetShapeType();
-            Vec3 vSpawnPos = RigidbodyComponent->SetSpawnPos();
-            Vec3 vRigidScale = RigidbodyComponent->GetRigidScale();
+            CRigidbody*          RigidbodyComponent = static_cast<CRigidbody*>(Component);
+            PxGeometryType::Enum Type               = RigidbodyComponent->GetShapeType();
+            Vec3                 vSpawnPos          = RigidbodyComponent->SetSpawnPos();
+            Vec3                 vRigidScale        = RigidbodyComponent->GetRigidScale();
             switch (Type)
             {
-            case physx::PxGeometryType::Enum::eBOX:
+            case PxGeometryType::Enum::eBOX:
                 CPhysXMgr::GetInst()->CreateCube(vSpawnPos, vRigidScale, pObject);
                 break;
-            case physx::PxGeometryType::Enum::eCAPSULE:
+            case PxGeometryType::Enum::eCAPSULE:
                 CPhysXMgr::GetInst()->CreateCapsule(vSpawnPos, vRigidScale.x, vRigidScale.y, pObject);
                 break;
-            case physx::PxGeometryType::Enum::eSPHERE:
+            case PxGeometryType::Enum::eSPHERE:
                 CPhysXMgr::GetInst()->CreateSphere(vSpawnPos, vRigidScale.x, pObject);
                 break;
             }
         }
     }
 
-
-    // ½ºÅ©¸³Æ®   
+    // ìŠ¤í¬ë¦½íŠ¸   
     size_t ScriptCount = 0;
     fread(&ScriptCount, sizeof(size_t), 1, _File);
 
@@ -413,18 +409,22 @@ CGameObject* CLevelSaveLoadInScript::LoadGameObject(FILE* _File)
         wstring ScriptName;
         LoadWString(ScriptName, _File);
         CScript* pScript = CScriptMgr::GetScript(ScriptName);
-        pObject->AddComponent(pScript);
-        pScript->LoadFromLevelFile(_File);
+        if (pScript) 
+        {
+            pObject->AddComponent(pScript);
+            pScript->LoadFromLevelFile(_File);
+        }
     }
 
-    // ÀÚ½Ä ¿ÀºêÁ§Æ®      
+    // ìì‹ ì˜¤ë¸Œì íŠ¸      
     size_t ChildCount = 0;
     fread(&ChildCount, sizeof(size_t), 1, _File);
 
     for (size_t i = 0; i < ChildCount; ++i)
     {
         CGameObject* ChildObject = LoadGameObject(_File);
-        pObject->AddChild(ChildObject);
+        if(ChildObject)
+            pObject->AddChild(ChildObject);
     }
 
     return pObject;
@@ -436,7 +436,7 @@ int CLevelSaveLoadInScript::SavePrefab(const wstring& _strRelativePath, CPrefab*
         return E_FAIL;
 
     wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-    strFilePath += _strRelativePath;
+    strFilePath         += _strRelativePath;
 
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
@@ -453,12 +453,12 @@ CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
     Ptr<CPrefab> pPrefab = new CPrefab;
 
     wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-    strFilePath += _strRelativePath;
+    strFilePath         += _strRelativePath;
 
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, strFilePath.c_str(), L"rb");
 
-    CGameObject* pNewObj = CLevelSaveLoadInScript::LoadGameObject(pFile);
+    CGameObject* pNewObj = LoadGameObject(pFile);
     fclose(pFile);
 
     return pNewObj;
@@ -467,31 +467,32 @@ CGameObject* CLevelSaveLoadInScript::LoadPrefab(const wstring& _strRelativePath)
 void CLevelSaveLoadInScript::SpawnPrefab(wstring _Relativepath, int _iIdx, Vec3 _vWorldPos, float _fTime)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    wstring relativepath = _Relativepath;
-    strFolderpath += relativepath;
+    wstring relativepath  = _Relativepath;
+    strFolderpath         += relativepath;
 
-    FILE* pFile = nullptr;
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
 
     CGameObject* NewGameObject = LoadGameObject(pFile);
-    Vec3 prefpos = _vWorldPos;
+    Vec3         prefpos       = _vWorldPos;
 
     SpawnGameObject(NewGameObject, _vWorldPos, _iIdx);
     if (_fTime >= 0.f)
         NewGameObject->SetLifeSpan(_fTime);
     fclose(pFile);
 }
+
 CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _Relativepath, int _iIdx, Vec3 _vWorldPos, float _fTime)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    wstring relativepath = _Relativepath;
-    strFolderpath += relativepath;
+    wstring relativepath  = _Relativepath;
+    strFolderpath         += relativepath;
 
-    FILE* pFile = nullptr;
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
 
     CGameObject* newPrefab = LoadGameObject(pFile);
-    Vec3 prefpos = _vWorldPos;
+    Vec3         prefpos   = _vWorldPos;
 
     SpawnGameObject(newPrefab, _vWorldPos, _iIdx);
     if (_fTime >= 0.f)
@@ -499,10 +500,11 @@ CGameObject* CLevelSaveLoadInScript::SpawnandReturnPrefab(wstring _Relativepath,
     fclose(pFile);
     return newPrefab;
 }
-int CLevelSaveLoadInScript::GetDigitCount(int Damage)
+
+int CLevelSaveLoadInScript::GetDigitCount(int Damage) const
 {
     int count = 0;
-    while (Damage != 0)//ÀÚ¸®¼ö ±¸ÇÏ±â
+    while (Damage != 0) //ìë¦¬ìˆ˜ êµ¬í•˜ê¸°
     {
         Damage = Damage / 10;
         count++;
@@ -514,96 +516,88 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
 {
     Vec3 rot = (Vec3(0.f, 0.f, 0.f) / 180.f) * XM_PI;
     {
-        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\+.prefab", (int)LAYER::UI, Vec3(1520, -1000.f, 0.f)/3, 3.f);
+        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\+.prefab", static_cast<int>(LAYER::UI), Vec3(1520, -1000.f, 0.f) / 3, 3.f);
         mText->SetName(L"+");
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(20.f, 20.f, 0.f));
         mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_plus.png", L"texture\\HUD\\n_plus.png", 0));
-        
     }
     {
-        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyIcon.prefab", (int)LAYER::UI, Vec3(1270.f, -1150.f, 0.f)/3, 3.f);
+        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyIcon.prefab", static_cast<int>(LAYER::UI), Vec3(1270.f, -1150.f, 0.f) / 3, 3.f);
         mText->SetName(L"MoneyIcon");
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 0.f));
         mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\icon_soul_white.png", L"texture\\HUD\\icon_soul_white.png", 0));
-
     }
     {
-        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyX.prefab", (int)LAYER::UI, Vec3(1500.f, -1150.f, 0.f)/3, 3.f);
+        CGameObject* mText = SpawnandReturnPrefab(L"prefab\\MoneyX.prefab", static_cast<int>(LAYER::UI), Vec3(1500.f, -1150.f, 0.f) / 3, 3.f);
         mText->SetName(L"MoneyX");
         mText->MeshRender()->GetDynamicMaterial(0);
         mText->Transform()->SetRelativeRot(rot);
         mText->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 0.f));
         mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_x.png", L"texture\\HUD\\n_x.png", 0));
-     
     }
     Vec3 textpos;
     textpos = Vec3(1611.f, -1000.f, 0.f) / 3.f;
-    //Ãß°¡ µÇ´Â ±İ¾× Ãâ·Â =================
+    //ì¶”ê°€ ë˜ëŠ” ê¸ˆì•¡ ì¶œë ¥ =================
     while (Money != 0)
     {
         DigitCount--;
-        int digit = pow(10, DigitCount);
-        int num = Money / digit;// 100/3
+        int  digit = pow(10, DigitCount);
+        int  num   = Money / digit; // 100/3
         Vec3 scale = Vec3(20.f, 20.f, 0.f);
-        textpos += Vec3(5.f, 0.f, 0.f);
-        textpos.z = 0.f;
+        textpos    += Vec3(5.f, 0.f, 0.f);
+        textpos.z  = 0.f;
         if (num == 1)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"1");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_1.png", L"texture\\HUD\\n_1.png", 0));
-
         }
         else if (num == 2)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", (int)LAYER::UI,textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"2");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_2.png", L"texture\\HUD\\n_2.png", 0));
-
         }
         else if (num == 3)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"3");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_3.png", L"texture\\HUD\\n_3.png", 0));
-
         }
         else if (num == 4)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"4");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_4.png", L"texture\\HUD\\n_4.png", 0));
-
         }
         else if (num == 5)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"5");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
             mText->Transform()->SetRelativeScale(scale);
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_5.png", L"texture\\HUD\\n_5.png", 0));
-
         }
         else if (num == 6)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"6");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -612,7 +606,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 7)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"7");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -621,7 +615,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 8)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"8");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -630,7 +624,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 9)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"9");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -639,7 +633,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 0)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"0");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -647,15 +641,15 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_0.png", L"texture\\HUD\\n_0.png", 0));
         }
 
-        Money = Money % digit;// 100%3 ¾Ë
+        Money = Money % digit; // 100%3 ì•Œ
         if (digit > 0 && 0 == Money)
         {
             int num = GetDigitCount(digit);
-            num -= 1;
+            num     -= 1;
             for (size_t i = 0; i < num; i++)
             {
-                textpos += Vec3(50.f, 0.f, 0.f);
-                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", (int)LAYER::UI, textpos, 3.f);
+                textpos            += Vec3(50.f, 0.f, 0.f);
+                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
                 mText->SetName(L"0");
                 mText->MeshRender()->GetDynamicMaterial(0);
                 mText->Transform()->SetRelativeRot(rot);
@@ -666,23 +660,23 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
     }
 
 
-    CPlayerScript* pScript = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
-    int MoneyTotal = pScript->GetMoneyCount();
+    CPlayerScript* pScript          = CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>();
+    int            MoneyTotal       = pScript->GetMoneyCount();
     //int MoneyTotal = 5260;
-    int MTotalDigitCount = GetDigitCount(MoneyTotal);
-    textpos = Vec3(1504.f, -1150.f, 0.f)/3;
-    //player ÇöÀç °¡Áö°í ÀÖ´Â ±İ¾× Ãâ·Â===============
+    int            MTotalDigitCount = GetDigitCount(MoneyTotal);
+    textpos                         = Vec3(1504.f, -1150.f, 0.f) / 3;
+    //player í˜„ì¬ ê°€ì§€ê³  ìˆëŠ” ê¸ˆì•¡ ì¶œë ¥===============
     while (MoneyTotal != 0)
     {
         MTotalDigitCount--;
-        int digit = pow(10, MTotalDigitCount);
-        int num = MoneyTotal / digit;// 100/3
+        int  digit = pow(10, MTotalDigitCount);
+        int  num   = MoneyTotal / digit; // 100/3
         Vec3 scale = Vec3(50.f, 50.f, 0.f);
-        textpos += Vec3(40.f, 0.f, 0.f);
-        textpos.z = 0.f;
+        textpos    += Vec3(40.f, 0.f, 0.f);
+        textpos.z  = 0.f;
         if (num == 1)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num1.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W1");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -691,7 +685,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 2)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num2.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W2");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -700,7 +694,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 3)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num3.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W3");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -709,7 +703,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 4)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num4.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W4");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -718,7 +712,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 5)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num5.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W5");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -727,7 +721,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 6)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num6.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W6");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -736,7 +730,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 7)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num7.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W7");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -745,7 +739,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 8)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num8.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W8");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -754,7 +748,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 9)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num9.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W9");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -763,7 +757,7 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
         }
         else if (num == 0)
         {
-            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", (int)LAYER::UI, textpos, 3.f);
+            CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
             mText->SetName(L"W0");
             mText->MeshRender()->GetDynamicMaterial(0);
             mText->Transform()->SetRelativeRot(rot);
@@ -771,15 +765,15 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
             mText->MeshRender()->GetMaterial(0)->SetTexParam(TEX_0, CResMgr::GetInst()->LoadTexture(L"texture\\HUD\\n_0.png", L"texture\\HUD\\n_0.png", 0));
         }
 
-        MoneyTotal = MoneyTotal % digit;// 100%3 ¾Ë
+        MoneyTotal = MoneyTotal % digit; // 100%3 ì•Œ
         if (digit > 0 && 0 == MoneyTotal)
         {
             int num = GetDigitCount(digit);
-            num -= 1;
+            num     -= 1;
             for (size_t i = 0; i < num; i++)
             {
-                textpos += Vec3(40.f, 0.f, 0.f);
-                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", (int)LAYER::UI, textpos, 3.f);
+                textpos            += Vec3(40.f, 0.f, 0.f);
+                CGameObject* mText = SpawnandReturnPrefab(L"prefab\\num0.prefab", static_cast<int>(LAYER::UI), textpos, 3.f);
                 mText->SetName(L"W0");
                 mText->MeshRender()->GetDynamicMaterial(0);
                 mText->Transform()->SetRelativeRot(rot);
@@ -790,12 +784,11 @@ void CLevelSaveLoadInScript::ShowMoney(int Money, int DigitCount)
     }
 }
 
-void CLevelSaveLoadInScript::AddChild(CGameObject* _pOwner, CGameObject* _pChild)
+void CLevelSaveLoadInScript::AddChild(CGameObject* _pOwner, CGameObject* _pChild) const
 {
     tEvent evn = {};
-    evn.Type = EVENT_TYPE::ADD_CHILD;
+    evn.Type   = EVENT_TYPE::ADD_CHILD;
     evn.wParam = (DWORD_PTR)_pOwner;
     evn.lParam = (DWORD_PTR)_pChild;
     CEventMgr::GetInst()->AddEvent(evn);
 }
-

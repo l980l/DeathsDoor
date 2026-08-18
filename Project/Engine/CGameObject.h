@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CEntity.h"
 
 
@@ -26,34 +26,32 @@ class CScript;
 class CGameObject :
     public CEntity
 {
-private:
-    CComponent*             m_arrCom[(UINT)COMPONENT_TYPE::END];
-    CRenderComponent*       m_RenderCom;
-    vector<CScript*>        m_vecScript;
+    CComponent*       m_arrCom[static_cast<UINT>(COMPONENT_TYPE::END)];
+    CRenderComponent* m_RenderCom;
+    vector<CScript*>  m_vecScript;
 
-    CGameObject*            m_Parent;
-    vector<CGameObject*>    m_vecChild;
+    CGameObject*         m_Parent;
+    vector<CGameObject*> m_vecChild;
 
-    int                     m_iLayerIdx;
-    bool                    m_bDead;
-    float                   m_LifeTime;
-    float                   m_CurLifeTime;
-    bool                    m_bLifeSpan;
-    
+    int   m_iLayerIdx;
+    bool  m_bDead;
+    float m_LifeTime;
+    float m_CurLifeTime;
+    bool  m_bLifeSpan;
+
 public:
-    void begin();       // ∑π∫ß¿Ã Ω√¿€µ… ∂ß »£√‚ or Ω√¿€ µ» ∑π∫ßø° «’∑˘«“ ∂ß
-    void tick();        
+    void         begin() const; // Î†àÎ≤®Ïù¥ ÏãúÏûëÎê† Îïå Ìò∏Ï∂ú or ÏãúÏûë Îêú Î†àÎ≤®Ïóê Ìï©Î•òÌï† Îïå
+    void         tick() const;
     virtual void finaltick();
     virtual void finaltick_module();
-    void render();
+    void         render() const;
 
-public:
     void AddComponent(CComponent* _Component);
     void DeleteComponent(COMPONENT_TYPE _Type);
     void AddChild(CGameObject* _Object);
     void AddChild(CGameObject* _Object, int _iLayer);
 
-    CComponent* GetComponent(COMPONENT_TYPE _ComType) { return m_arrCom[(UINT)_ComType]; }
+    CComponent*                 GetComponent(COMPONENT_TYPE _ComType) const { return m_arrCom[static_cast<UINT>(_ComType)]; }
     const vector<CGameObject*>& GetChild() { return m_vecChild; }
 
     CGameObject* GetParent() const { return m_Parent; }
@@ -74,12 +72,12 @@ public:
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(Rigidbody, RIGIDBODY);
 
-    CRenderComponent* GetRenderComponent() const {  return m_RenderCom; }
+    CRenderComponent* GetRenderComponent() const { return m_RenderCom; }
 
 
-    int GetLayerIndex() { return m_iLayerIdx; }
+    int GetLayerIndex() const { return m_iLayerIdx; }
 
-    template<typename T>
+    template <typename T>
     T* GetScript();
 
     const vector<CScript*>& GetScripts() { return m_vecScript; }
@@ -89,13 +87,12 @@ public:
         if (m_bLifeSpan)
             return;
 
-        m_LifeTime = _fTime;
+        m_LifeTime  = _fTime;
         m_bLifeSpan = true;
     }
 
-    bool IsDead() { return m_bDead; }
-    bool IsAncestor(CGameObject* _Target);
-
+    bool IsDead() const { return m_bDead; }
+    bool IsAncestor(CGameObject* _Target) const;
 
 private:
     void DisconnectFromParent();
@@ -104,22 +101,21 @@ private:
     void AddParentList();
 
 
-    CLONE(CGameObject)    
-public:
+    CLONE(CGameObject)
     CGameObject();
     CGameObject(const CGameObject& _Other);
-    ~CGameObject();
+    virtual ~CGameObject() override;
 
     friend class CLayer;
     friend class CEventMgr;
 };
 
-template<typename T>
-inline T* CGameObject::GetScript()
+template <typename T>
+T* CGameObject::GetScript()
 {
     for (size_t i = 0; i < m_vecScript.size(); ++i)
     {
-        T* pScript = dynamic_cast<T*> (m_vecScript[i]);
+        T* pScript = dynamic_cast<T*>(m_vecScript[i]);
         if (nullptr != pScript)
             return pScript;
     }

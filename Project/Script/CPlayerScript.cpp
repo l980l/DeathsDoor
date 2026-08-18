@@ -1,8 +1,8 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CPlayerScript.h"
 
-#include <Engine\CMeshRender.h>
-#include <Engine\CMaterial.h>
+#include <Engine/CMeshRender.h>
+#include <Engine/CMaterial.h>
 
 #include "CStateScript.h"
 #include "PlayerStates.h"
@@ -11,278 +11,273 @@
 #include "CLevelSaveLoadInScript.h"
 #include "CGameCameraScript.h"
 
-#include <Engine\CRenderMgr.h>
+#include <Engine/CRenderMgr.h>
 #include <Engine/CPhysXMgr.h>
 #include <Engine/CEventMgr.h>
 #include "CUIMgr.h"
 #include <Engine/CDetourMgr.h>
 
 CPlayerScript::CPlayerScript()
-	: CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT)
-	, m_pStateScript(nullptr)
-	, m_pSword(nullptr)
-	, m_iCurMagic(0)
-	, m_imoney(0)
-	, m_arrUpgrade{}
-	, m_fFallCheckTime(0.f)
-	, m_bInvincible(false)
-	, m_bEditorMode(false)
-	, m_bDisableMove(false)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::PLAYERSCRIPT))
+    , m_pStateScript(nullptr)
+    , m_pSword(nullptr)
+    , m_iCurMagic(0)
+    , m_imoney(0)
+    , m_arrUpgrade{}
+    , m_fFallCheckTime(0.f)
+    , m_bInvincible(false)
+    , m_bEditorMode(false)
+    , m_bDisableMove(false)
 {
-	CDetourMgr::GetInst()->RegisterPlayer(GetOwner());
+    CDetourMgr::GetInst()->RegisterPlayer(GetOwner());
 }
 
 CPlayerScript::~CPlayerScript()
 {
-	if (nullptr == m_pStateScript)
-		delete m_pStateScript;
+    if (nullptr == m_pStateScript)
+        delete m_pStateScript;
 }
 
 void CPlayerScript::begin()
 {
+    if (nullptr == m_pSword)
+        m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
+    if (nullptr == m_pStateScript)
+    {
+        m_pStateScript = GetOwner()->GetScript<CStateScript>();
+        m_pStateScript->AddState(L"Idle", new CPlyIdle);
+        m_pStateScript->AddState(L"Walk", new CPlyWalk);
+        m_pStateScript->AddState(L"Run", new CPlyRun);
+        m_pStateScript->AddState(L"Dodge", new CPlyDodge);
+        m_pStateScript->AddState(L"Dance", new CPlyDance);
+        m_pStateScript->AddState(L"Fall", new CPlyFall);
+        m_pStateScript->AddState(L"Hit", new CPlyHit);
+        m_pStateScript->AddState(L"Dead", new CPlyDead);
+        m_pStateScript->AddState(L"Attack", new CPlyAttack);
+        m_pStateScript->AddState(L"Ladder", new CPlyLadder);
+        m_pStateScript->AddState(L"Arrow", new CPlyMagic_Arrow);
+        m_pStateScript->AddState(L"Fire", new CPlyMagic_Fire);
+        m_pStateScript->AddState(L"Bomb", new CPlyMagic_Bomb);
+        m_pStateScript->AddState(L"Hook", new CPlyMagic_Hook);
+        m_pStateScript->AddState(L"Hooking", new CPlyMagic_Hooking);
+        m_pStateScript->SetStat(g_tPlayerStat);
+    }
 
-	if (nullptr == m_pSword)
-	{
-		m_pSword = GetOwner()->GetChild()[0]->GetScript<CPlayerWeaponScript>();
-	}
-	if(nullptr == m_pStateScript)
-	{
-		m_pStateScript = GetOwner()->GetScript<CStateScript>(); 
-		m_pStateScript->AddState(L"Idle", new CPlyIdle);
-		m_pStateScript->AddState(L"Walk", new CPlyWalk);
-		m_pStateScript->AddState(L"Run", new CPlyRun);
-		m_pStateScript->AddState(L"Dodge", new CPlyDodge);
-		m_pStateScript->AddState(L"Dance", new CPlyDance);
-		m_pStateScript->AddState(L"Fall", new CPlyFall);
-		m_pStateScript->AddState(L"Hit", new CPlyHit);
-		m_pStateScript->AddState(L"Dead", new CPlyDead);
-		m_pStateScript->AddState(L"Attack", new CPlyAttack);
-		m_pStateScript->AddState(L"Ladder", new CPlyLadder);
-		m_pStateScript->AddState(L"Arrow", new CPlyMagic_Arrow);
-		m_pStateScript->AddState(L"Fire", new CPlyMagic_Fire);
-		m_pStateScript->AddState(L"Bomb", new CPlyMagic_Bomb);
-		m_pStateScript->AddState(L"Hook", new CPlyMagic_Hook);
-		m_pStateScript->AddState(L"Hooking", new CPlyMagic_Hooking);
-		m_pStateScript->SetStat(g_tPlayerStat);
-	}
+    if (!CLevelMgr::GetInst()->FindObjectByName(L"Cursor"))
+    {
+        CGameObject* pCursor = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Cursor.prefab", static_cast<int>(LAYER::UI), Vec3(0.f));
+        pCursor->SetName(L"Cursor");
+    }
+    m_pStateScript->ChangeState(L"Idle");
 
-	if (!CLevelMgr::GetInst()->FindObjectByName(L"Cursor"))
-	{
-		CGameObject* pCursor = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\Cursor.prefab", (int)LAYER::UI, Vec3(0.f));
-		pCursor->SetName(L"Cursor");
-	}
-	m_pStateScript->ChangeState(L"Idle");
+    // Sword(Child0)Í≥º Bow(Child1)Ïóê EmissiveÌö®Í≥º Î∂ÄÏó¨
+    int a = 1;
+    GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
+    GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
 
-	// Sword(Child0)∞˙ Bow(Child1)ø° Emissive»ø∞˙ ∫Œø©
-	int a = 1;
-	GetOwner()->GetChild()[0]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
-	GetOwner()->GetChild()[1]->MeshRender()->GetMaterial(0)->SetScalarParam(INT_0, &a);
-
-	CUIMgr::GetInst()->ActiveMagic(m_iCurMagic);
+    CUIMgr::GetInst()->ActiveMagic(m_iCurMagic);
 }
 
 void CPlayerScript::tick()
 {
-	// º˝¿⁄ 1~4∑Œ øÏ≈¨∏Ø¿∏∑Œ ªÁøÎ«œ¥¬ ∏∂π˝ »ø∞˙ ∫Ø∞Ê
-	SetMagicType();
+    // Ïà´Ïûê 1~4Î°ú Ïö∞ÌÅ¥Î¶≠ÏúºÎ°ú ÏÇ¨Ïö©ÌïòÎäî ÎßàÎ≤ï Ìö®Í≥º Î≥ÄÍ≤Ω
+    SetMagicType();
 
-	// Hp, Mana »∏∫π, π´¿˚∏µÂ
-	EditorMode();\
+    // Hp, Mana ÌöåÎ≥µ, Î¨¥Ï†ÅÎ™®Îìú
+    EditorMode();\
 
-	// Fall ªÛ≈¬ √º≈©
-	FallCheck();
+    // Fall ÏÉÅÌÉú Ï≤¥ÌÅ¨
+    FallCheck();
 }
 
 void CPlayerScript::BeginOverlap(CCollider3D* _Other)
 {
-	if (m_bEditorMode)
-		return;
-	// æ∆∑°¥¬ ««∞› ∞¸∑√¿∏∑Œ π´¿˚¿Ã∂Û∏È return;
-	if (m_bInvincible)
-		return;
+    if (m_bEditorMode)
+        return;
+    // ÏïÑÎûòÎäî ÌîºÍ≤© Í¥ÄÎ†®ÏúºÎ°ú Î¨¥Ï†ÅÏù¥ÎùºÎ©¥ return;
+    if (m_bInvincible)
+        return;
 
-	if ((int)LAYER::MONSTERPROJECTILE == _Other->GetOwner()->GetLayerIndex())
-	{
-		ChangeState(L"Hit");
-		Stat CurStat = m_pStateScript->GetStat();
-		CurStat.HP -= 1;
-		m_pStateScript->SetStat(CurStat);
-		// ∏¬æ“¿ª ∂ß Hp∞° 0 ¿Ã«œ∂Û∏È Dead æ∆¥œ∂Û∏È Hit ªÛ≈¬∑Œ
-		if (CurStat.HP <= 0)
-			ChangeState(L"Dead");
-		else
-			ChangeState(L"Hit");
+    if (static_cast<int>(LAYER::MONSTERPROJECTILE) == _Other->GetOwner()->GetLayerIndex())
+    {
+        ChangeState(L"Hit");
+        Stat CurStat = m_pStateScript->GetStat();
+        CurStat.HP   -= 1;
+        m_pStateScript->SetStat(CurStat);
+        // ÎßûÏïòÏùÑ Îïå HpÍ∞Ä 0 Ïù¥ÌïòÎùºÎ©¥ Dead ÏïÑÎãàÎùºÎ©¥ Hit ÏÉÅÌÉúÎ°ú
+        if (CurStat.HP <= 0)
+            ChangeState(L"Dead");
+        else
+            ChangeState(L"Hit");
 
-		// ∏¬¿ª ∂ß¥¬ Hit ¿Ã∆Â∆Æ∏¶ √‚∑¬«‘.
-		CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", (int)LAYER::DEFAULT, Transform()->GetRelativePos(), 0.5f);
-		CAMERASHAKE(3.f, 800.f, 0.1f);
-	}
+        // ÎßûÏùÑ ÎïåÎäî Hit Ïù¥ÌéôÌä∏Î•º Ï∂úÎ†•Ìï®.
+        CLevelSaveLoadInScript::SpawnPrefab(L"prefab\\HitEffect.prefab", static_cast<int>(LAYER::DEFAULT), Transform()->GetRelativePos(), 0.5f);
+        CAMERASHAKE(3.f, 800.f, 0.1f);
+    }
 }
 
 void CPlayerScript::OnOverlap(CCollider3D* _Other)
 {
-	if ((int)LAYER::LADDER == _Other->GetOwner()->GetLayerIndex())
-	{
-		if (KEY_TAP(KEY::E))
-		{	
-			// ªÁ¥Ÿ∏Æ∞° πŸ∂Û∫∏∞Ì ¿÷¥¬ πÊ«‚, ¿ßƒ°∑Œ «√∑π¿ÃæÓ∏¶ ∞Ì¡§Ω√≈¥
-			Vec3 vLadderRot = _Other->GetOwner()->Transform()->GetRelativeRot();
-			GetOwner()->Transform()->SetRelativeRot(Vec3(XM_PI * 1.5f, vLadderRot.y, 0.f));
-			Vec3 vLadderPos = _Other->GetOwner()->Transform()->GetRelativePos();
-			GetOwner()->Rigidbody()->SetRigidPos(vLadderPos);
+    if (static_cast<int>(LAYER::LADDER) == _Other->GetOwner()->GetLayerIndex())
+        if (KEY_TAP(KEY::E))
+        {
+            // ÏÇ¨Îã§Î¶¨Í∞Ä Î∞îÎùºÎ≥¥Í≥† ÏûàÎäî Î∞©Ìñ•, ÏúÑÏπòÎ°ú ÌîåÎ†àÏù¥Ïñ¥Î•º Í≥†Ï†ïÏãúÌÇ¥
+            Vec3 vLadderRot = _Other->GetOwner()->Transform()->GetRelativeRot();
+            GetOwner()->Transform()->SetRelativeRot(Vec3(XM_PI * 1.5f, vLadderRot.y, 0.f));
+            Vec3 vLadderPos = _Other->GetOwner()->Transform()->GetRelativePos();
+            GetOwner()->Rigidbody()->SetRigidPos(vLadderPos);
 
-			ChangeState(L"Ladder");
-			CPlyLadder* pLadderState =  (CPlyLadder*)m_pStateScript->FindState(L"Ladder");
-			pLadderState->SetHeight(_Other->GetOwner()->GetScript<CLadderScript>()->GetHeight());
-		}
-	}
+            ChangeState(L"Ladder");
+            CPlyLadder* pLadderState = static_cast<CPlyLadder*>(m_pStateScript->FindState(L"Ladder"));
+            pLadderState->SetHeight(_Other->GetOwner()->GetScript<CLadderScript>()->GetHeight());
+        }
 }
 
 void CPlayerScript::EndOverlap(CCollider3D* _Other)
 {
 }
 
-void CPlayerScript::ChangeState(wstring _strStateName)
+void CPlayerScript::ChangeState(wstring _strStateName) const
 {
-	m_pStateScript->ChangeState(_strStateName);
-	m_pSword->ChangeState(_strStateName);
+    m_pStateScript->ChangeState(_strStateName);
+    m_pSword->ChangeState(_strStateName);
 }
 
 void CPlayerScript::SetMagicType()
 {
-	if (KEY_TAP(KEY::_1))
-	{
-		m_iCurMagic = (UINT)PLAYER_MAGIC::ARROW;
-		CUIMgr::GetInst()->ActiveMagic((int)PLAYER_MAGIC::ARROW);
-	}
-	else if (KEY_TAP(KEY::_2))
-	{
-		m_iCurMagic = (UINT)PLAYER_MAGIC::FIRE;
-		CUIMgr::GetInst()->ActiveMagic((int)PLAYER_MAGIC::FIRE);
-	}
-	else if (KEY_TAP(KEY::_3))
-	{
-		m_iCurMagic = (UINT)PLAYER_MAGIC::BOMB;
-		CUIMgr::GetInst()->ActiveMagic((int)PLAYER_MAGIC::BOMB);
-	}
-	else if (KEY_TAP(KEY::_4))
-	{
-		m_iCurMagic = (UINT)PLAYER_MAGIC::HOOK;
-		CUIMgr::GetInst()->ActiveMagic((int)PLAYER_MAGIC::HOOK);
-	}
+    if (KEY_TAP(KEY::_1))
+    {
+        m_iCurMagic = static_cast<UINT>(PLAYER_MAGIC::ARROW);
+        CUIMgr::GetInst()->ActiveMagic(static_cast<int>(PLAYER_MAGIC::ARROW));
+    }
+    else if (KEY_TAP(KEY::_2))
+    {
+        m_iCurMagic = static_cast<UINT>(PLAYER_MAGIC::FIRE);
+        CUIMgr::GetInst()->ActiveMagic(static_cast<int>(PLAYER_MAGIC::FIRE));
+    }
+    else if (KEY_TAP(KEY::_3))
+    {
+        m_iCurMagic = static_cast<UINT>(PLAYER_MAGIC::BOMB);
+        CUIMgr::GetInst()->ActiveMagic(static_cast<int>(PLAYER_MAGIC::BOMB));
+    }
+    else if (KEY_TAP(KEY::_4))
+    {
+        m_iCurMagic = static_cast<UINT>(PLAYER_MAGIC::HOOK);
+        CUIMgr::GetInst()->ActiveMagic(static_cast<int>(PLAYER_MAGIC::HOOK));
+    }
 }
 
 void CPlayerScript::ChangeMagicState()
 {
-	switch (PLAYER_MAGIC(m_iCurMagic))
-	{
-	case PLAYER_MAGIC::ARROW:
-		ChangeState(L"Arrow");
-		break;
-	case PLAYER_MAGIC::FIRE:
-		ChangeState(L"Fire");
-		break;
-	case PLAYER_MAGIC::BOMB:
-		ChangeState(L"Bomb");
-		break;
-	case PLAYER_MAGIC::HOOK:
-		ChangeState(L"Hook");
-		break;
-	}
+    switch (static_cast<PLAYER_MAGIC>(m_iCurMagic))
+    {
+    case PLAYER_MAGIC::ARROW:
+        ChangeState(L"Arrow");
+        break;
+    case PLAYER_MAGIC::FIRE:
+        ChangeState(L"Fire");
+        break;
+    case PLAYER_MAGIC::BOMB:
+        ChangeState(L"Bomb");
+        break;
+    case PLAYER_MAGIC::HOOK:
+        ChangeState(L"Hook");
+        break;
+    case PLAYER_MAGIC::END:
+        break;
+    }
 }
 
 void CPlayerScript::FallCheck()
 {
-	if (m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Dead")
-		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit")
-		&& m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Ladder"))
-	{
-		if ((Transform()->GetPrevPos().y - Transform()->GetRelativePos().y) > 100.f * DT)
-		{
-			m_fFallCheckTime += DT;
-			if (m_fFallCheckTime > 0.15f)
-			{
-				ChangeState(L"Fall");
-				m_fFallCheckTime = 0.f;
-			}
-		}
-	}
+    if (m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Dead")
+        && m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Hit")
+        && m_pStateScript->GetCurState() != m_pStateScript->FindState(L"Ladder"))
+        if ((Transform()->GetPrevPos().y - Transform()->GetRelativePos().y) > 100.f * DT)
+        {
+            m_fFallCheckTime += DT;
+            if (m_fFallCheckTime > 0.15f)
+            {
+                ChangeState(L"Fall");
+                m_fFallCheckTime = 0.f;
+            }
+        }
 }
 
 void CPlayerScript::EditorMode()
 {
-	if (KEY_TAP(KEY::Q))
-	{
-		Stat CurStat = m_pStateScript->GetStat();
-		CurStat.MP = CurStat.Max_MP;
-		m_pStateScript->SetStat(CurStat);
-	}
-	if (KEY_TAP(KEY::R))
-	{
-		Stat CurStat = m_pStateScript->GetStat();
-		CurStat.HP = CurStat.Max_HP;
-		m_pStateScript->SetStat(CurStat);
-	}
-	if (KEY_TAP(KEY::F))
-	{
-		m_bEditorMode = m_bEditorMode ? false : true;
-	}
-	// ≥¢¿” ≈ª√‚
-	if (KEY_TAP(KEY::T))
-	{
-		// ªÁ∏¡ ≈ÿΩ∫√ƒ √‚∑¬ Ω√∞£¿Ã ≥°≥™∏È «ˆ¿Á∑π∫ß¿ª ¥ŸΩ√ Ω√¿€«‘.
-		int iCurLevelType = CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
-		g_tNextLevel = (LEVEL_TYPE)iCurLevelType;
-		CLevel* NewLevel = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
-		NewLevel->SetName(L"LevelLoading");
-		NewLevel->SetLevelType((int)LEVEL_TYPE::LOADING);
-		tEvent evn = {};
-		evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-		evn.wParam = (DWORD_PTR)NewLevel;
-		evn.lParam = (DWORD_PTR)NewLevel->GetLevelType();
-		CEventMgr::GetInst()->AddEvent(evn);
-	}
+    if (KEY_TAP(KEY::Q))
+    {
+        Stat CurStat = m_pStateScript->GetStat();
+        CurStat.MP   = CurStat.Max_MP;
+        m_pStateScript->SetStat(CurStat);
+    }
+    if (KEY_TAP(KEY::R))
+    {
+        Stat CurStat = m_pStateScript->GetStat();
+        CurStat.HP   = CurStat.Max_HP;
+        m_pStateScript->SetStat(CurStat);
+    }
+    if (KEY_TAP(KEY::F))
+        m_bEditorMode = !m_bEditorMode;
+    // ÎÅºÏûÑ ÌÉàÏ∂ú
+    if (KEY_TAP(KEY::T))
+    {
+        // ÏÇ¨Îßù ÌÖçÏä§Ï≥ê Ï∂úÎ†• ÏãúÍ∞ÑÏù¥ ÎÅùÎÇòÎ©¥ ÌòÑÏû¨Î†àÎ≤®ÏùÑ Îã§Ïãú ÏãúÏûëÌï®.
+        int iCurLevelType = CLevelMgr::GetInst()->GetCurLevel()->GetLevelType();
+        g_tNextLevel      = static_cast<LEVEL_TYPE>(iCurLevelType);
+        CLevel* NewLevel  = CLevelSaveLoadInScript::Stop(L"Level\\LLL.lv", LEVEL_STATE::STOP);
+        NewLevel->SetName(L"LevelLoading");
+        NewLevel->SetLevelType(static_cast<int>(LEVEL_TYPE::LOADING));
+        tEvent evn = {};
+        evn.Type   = EVENT_TYPE::LEVEL_CHANGE_PLAY;
+        evn.wParam = reinterpret_cast<DWORD_PTR>(NewLevel);
+        evn.lParam = static_cast<DWORD_PTR>(NewLevel->GetLevelType());
+        CEventMgr::GetInst()->AddEvent(evn);
+    }
 }
 
 void CPlayerScript::Upgrade(PLAYER_UPGRADE _Type)
 {
-	++m_arrUpgrade[(UINT)_Type];
+    ++m_arrUpgrade[static_cast<UINT>(_Type)];
 
-	Stat CurStat = m_pStateScript->GetStat();
-	switch (_Type)
-	{
-		// π´±‚ ∞¯∞›∑¬ π◊ ∞¯∞›π¸¿ß ¡ı∞°
-		// 20%æø ¡ı∞°«‘
-	case PLAYER_UPGRADE::ATTACK:
-		CurStat.Attack *= 1.f + (0.2f * m_arrUpgrade[(UINT)PLAYER_UPGRADE::ATTACK]);
-		break;
-		// ∞¯∞›µÙ∑π¿Ã ∑ππﬂ ¥Á 10% ∞®º“
-	case PLAYER_UPGRADE::ATK_SPEED:
-		CurStat.Attack_Speed *= 1.f - (0.1f * m_arrUpgrade[(UINT)PLAYER_UPGRADE::ATK_SPEED]);
-		break;
-		// ¿Ãµøº”µµ ∑π∫ß ¥Á 10% ¡ı∞°
-	case PLAYER_UPGRADE::SPEED:
-		CurStat.Speed *= 1.f + (0.1f * m_arrUpgrade[(UINT)PLAYER_UPGRADE::SPEED]);
-		break;
-		// ∏∂π˝ ∞¯∞›∑¬¿ª ∑π∫ß ¥Á 30%æø ¡ı∞°
-	case PLAYER_UPGRADE::MAGIC:
-		CurStat.Spell_Power *= 1.f + (0.3f * m_arrUpgrade[(UINT)PLAYER_UPGRADE::MAGIC]);
-		break;
-	}
+    Stat CurStat = m_pStateScript->GetStat();
+    switch (_Type)
+    {
+    // Î¨¥Í∏∞ Í≥µÍ≤©Î†• Î∞è Í≥µÍ≤©Î≤îÏúÑ Ï¶ùÍ∞Ä
+    // 20%Ïî© Ï¶ùÍ∞ÄÌï®
+    case PLAYER_UPGRADE::ATTACK:
+        CurStat.Attack *= 1.f + (0.2f * m_arrUpgrade[static_cast<UINT>(PLAYER_UPGRADE::ATTACK)]);
+        break;
+    // Í≥µÍ≤©ÎîúÎ†àÏù¥ Î†àÎ∞ú Îãπ 10% Í∞êÏÜå
+    case PLAYER_UPGRADE::ATK_SPEED:
+        CurStat.Attack_Speed *= 1.f - (0.1f * m_arrUpgrade[static_cast<UINT>(PLAYER_UPGRADE::ATK_SPEED)]);
+        break;
+    // Ïù¥ÎèôÏÜçÎèÑ Î†àÎ≤® Îãπ 10% Ï¶ùÍ∞Ä
+    case PLAYER_UPGRADE::SPEED:
+        CurStat.Speed *= 1.f + (0.1f * m_arrUpgrade[static_cast<UINT>(PLAYER_UPGRADE::SPEED)]);
+        break;
+    // ÎßàÎ≤ï Í≥µÍ≤©Î†•ÏùÑ Î†àÎ≤® Îãπ 30%Ïî© Ï¶ùÍ∞Ä
+    case PLAYER_UPGRADE::MAGIC:
+        CurStat.Spell_Power *= 1.f + (0.3f * m_arrUpgrade[static_cast<UINT>(PLAYER_UPGRADE::MAGIC)]);
+        break;
+    case PLAYER_UPGRADE::END:
+        break;
+    }
 }
 
 void CPlayerScript::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_iCurMagic, sizeof(UINT), 1, _File);
-	fwrite(&m_imoney, sizeof(UINT), 1, _File);
-	for (UINT i = 0; i < (UINT)PLAYER_UPGRADE::END; ++i)
-		fwrite(&m_arrUpgrade[i], sizeof(UINT), 1, _File);
+    fwrite(&m_iCurMagic, sizeof(UINT), 1, _File);
+    fwrite(&m_imoney, sizeof(UINT), 1, _File);
+    for (UINT i = 0; i < static_cast<UINT>(PLAYER_UPGRADE::END); ++i)
+        fwrite(&m_arrUpgrade[i], sizeof(UINT), 1, _File);
 }
 
 void CPlayerScript::LoadFromLevelFile(FILE* _File)
 {
-	fread(&m_iCurMagic, sizeof(UINT), 1, _File);
-	fread(&m_imoney, sizeof(UINT), 1, _File);
-	for (UINT i = 0; i < (UINT)PLAYER_UPGRADE::END; ++i)
-		fread(&m_arrUpgrade[i], sizeof(UINT), 1, _File);
+    fread(&m_iCurMagic, sizeof(UINT), 1, _File);
+    fread(&m_imoney, sizeof(UINT), 1, _File);
+    for (UINT i = 0; i < static_cast<UINT>(PLAYER_UPGRADE::END); ++i)
+        fread(&m_arrUpgrade[i], sizeof(UINT), 1, _File);
 }

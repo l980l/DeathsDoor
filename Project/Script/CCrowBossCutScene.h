@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossCutScene :
     public CState
 {
-private:
-    float   m_fTime;
-    bool    m_bCameraShake;
+    float m_fTime;
+    bool  m_bCameraShake;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CCrowBossCutScene);
 
-public:
     CCrowBossCutScene();
-    ~CCrowBossCutScene();
+    virtual ~CCrowBossCutScene() override;
 };
-

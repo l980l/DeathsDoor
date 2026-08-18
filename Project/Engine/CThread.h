@@ -2,43 +2,38 @@
 
 class CThread
 {
-	friend class CThreadMgr;
+    friend class CThreadMgr;
 
 protected:
-	CThread();
-	virtual ~CThread() = 0;
+    CThread();
+    virtual ~CThread() = 0;
 
-protected:
-	HANDLE	m_Thread;
-	HANDLE	m_StartEvent;
-	bool	m_Loop;
-	bool	m_Suspend;
-	CRITICAL_SECTION	m_CRT;
-
-public:
-	bool IsSuspend()	const
-	{
-		return m_Suspend;
-	}
+    HANDLE           m_Thread;
+    HANDLE           m_StartEvent;
+    bool             m_Loop;
+    bool             m_Suspend;
+    CRITICAL_SECTION m_CRT;
 
 public:
-	void SetLoop(bool Loop)
-	{
-		m_Loop = Loop;
-	}
+    bool IsSuspend() const
+    {
+        return m_Suspend;
+    }
 
-public:
-	void Suspend();
-	void Resume();
-	void ReStart();
-	void Stop();
-	void Start();
+    void SetLoop(bool Loop)
+    {
+        m_Loop = Loop;
+    }
 
-public:
-	virtual bool Init();
-	virtual void Run() = 0;
+    void Suspend();
+    void Resume();
+    void ReStart();
+    void Stop();
+    void Start() const;
+
+    virtual bool Init();
+    virtual void Run() = 0;
 
 private:
-	static unsigned int __stdcall ThreadFunction(void* Arg);
+    static unsigned int __stdcall ThreadFunction(void* Arg);
 };
-

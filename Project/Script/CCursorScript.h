@@ -1,5 +1,6 @@
 #pragma once
 #include <Engine/CScript.h>
+
 class CCursorScript :
     public CScript
 {
@@ -9,6 +10,5 @@ class CCursorScript :
     CLONE(CCursorScript);
 
     CCursorScript();
-    ~CCursorScript();
+    virtual ~CCursorScript() override;
 };
-

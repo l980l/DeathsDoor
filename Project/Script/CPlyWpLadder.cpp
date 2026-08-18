@@ -11,7 +11,7 @@ CPlyWpLadder::~CPlyWpLadder()
 
 void CPlyWpLadder::Enter()
 {
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, true);
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::LADDER_UP), true);
 }
 
 void CPlyWpLadder::tick()

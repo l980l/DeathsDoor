@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGruntRightMove :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGruntRightMove);
 
-public:
     CGruntRightMove();
-    ~CGruntRightMove();
+    virtual ~CGruntRightMove() override;
 };
-

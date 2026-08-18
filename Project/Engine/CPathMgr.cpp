@@ -1,10 +1,10 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CPathMgr.h"
 
 #include "CEngine.h"
 
 CPathMgr::CPathMgr()
-	: m_szContentPath{}
+    : m_szContentPath{}
 {
 }
 
@@ -15,20 +15,20 @@ CPathMgr::~CPathMgr()
 
 void CPathMgr::init()
 {
-	GetCurrentDirectory(256, m_szContentPath);	
+    GetCurrentDirectory(256, m_szContentPath);
 
-	// ªÛ¿ß∆˙¥ı∑Œ ∞®
-	int iLen = (int)wcslen(m_szContentPath);
+    // ÏÉÅÏúÑÌè¥ÎçîÎ°ú Í∞ê
+    int iLen = static_cast<int>(wcslen(m_szContentPath));
 
-	for (int i = iLen - 1; i >= 0; --i)
-	{
-		if (L'\\' == m_szContentPath[i])
-		{
-			m_szContentPath[i] = 0;
-			break;
-		}
-	}
+    for (int i = iLen - 1; i >= 0; --i)
+    {
+        if (L'\\' == m_szContentPath[i])
+        {
+            m_szContentPath[i] = 0;
+            break;
+        }
+    }
 
-	// + bin\\content
-	wcscat_s(m_szContentPath, L"\\bin\\content\\");		
+    // + bin\\content
+    wcscat_s(m_szContentPath, L"\\bin\\content\\");
 }

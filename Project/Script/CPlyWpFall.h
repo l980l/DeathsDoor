@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpFall :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CPlyWpFall);
 
-public:
     CPlyWpFall();
-    ~CPlyWpFall();
+    virtual ~CPlyWpFall() override;
 };
-

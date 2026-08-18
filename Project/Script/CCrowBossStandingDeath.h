@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossStandingDeath :
     public CState
 {
-private:
-    bool    m_bStartPaperBurn;
-    float   m_fPaperBurnTime;
+    bool  m_bStartPaperBurn;
+    float m_fPaperBurnTime;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CCrowBossStandingDeath);
 
-public:
     CCrowBossStandingDeath();
-    ~CCrowBossStandingDeath();
+    virtual ~CCrowBossStandingDeath() override;
 };
-

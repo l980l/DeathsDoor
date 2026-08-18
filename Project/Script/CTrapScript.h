@@ -1,12 +1,11 @@
 #pragma once
 #include <Engine/CScript.h>
+
 class CTrapScript :
     public CScript
 {
-private:
     int m_iTrapNum;
 
-private:
     void SetTrapNum(int _trapNum) { m_iTrapNum = _trapNum; }
 
 public:
@@ -16,8 +15,6 @@ public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
 
     CLONE(CTrapScript);
-public:
     CTrapScript();
-    ~CTrapScript();
-
+    virtual ~CTrapScript() override;
 };

@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CPlyDead :
     public CState
 {
-private:
-    CGameObject*    m_pDeathTex;
-    float           m_fTimetoStartPoint;
+    CGameObject* m_pDeathTex;
+    float        m_fTimetoStartPoint;
 
 public:
     virtual void tick() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CPlyDead);
 
-public:
     CPlyDead();
-    ~CPlyDead();
+    virtual ~CPlyDead() override;
 };
-

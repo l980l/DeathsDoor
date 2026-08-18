@@ -1,16 +1,16 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlyRun.h"
 #include "CPlayerScript.h"
 #include "CSoundScript.h"
 
 CPlyRun::CPlyRun()
-	: m_fSpeed(0.f)
-	, m_fTimeToIdle(0.f)
-	, m_fRotDelay(0.f)
-	, m_fRot(0.f)
-	, m_bIce(false)
-	, m_fStepSoundDelay(0.f)
-	, m_bStepSoundOrder(false)
+    : m_fSpeed(0.f)
+    , m_fTimeToIdle(0.f)
+    , m_fRotDelay(0.f)
+    , m_fRot(0.f)
+    , m_bIce(false)
+    , m_fStepSoundDelay(0.f)
+    , m_bStepSoundOrder(false)
 {
 }
 
@@ -20,100 +20,84 @@ CPlyRun::~CPlyRun()
 
 void CPlyRun::Enter()
 {
-	m_fSpeed = GetOwnerScript()->GetStat().Speed;
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::RUN, true);
+    m_fSpeed = GetOwnerScript()->GetStat().Speed;
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::RUN), true);
 }
 
 void CPlyRun::tick()
 {
-	if (KEY_TAP(KEY::V))
-		m_bIce = m_bIce ? false : true;
+    if (KEY_TAP(KEY::V))
+        m_bIce = !m_bIce;
 
-	Move();
+    Move();
 
-	// °¡¸¸È÷ ÀÖ´Ù¸é(ÀÌÀü ÇÁ·¹ÀÓ°ú À§Ä¡ Â÷ÀÌ°¡ ¾ø´Ù¸é) Idle ÀüÈ¯½Ã°£ +
-	if (!(KEY_PRESSED(KEY::W)) && !(KEY_PRESSED(KEY::A)) && !(KEY_PRESSED(KEY::S)) && !(KEY_PRESSED(KEY::D)))
-	{
-		m_fTimeToIdle += DT;
-	}
-	else
-	{
-		GetOwner()->Transform()->CalcDir();
-		m_fTimeToIdle = 0.f;
-	}
+    // ê°€ë§Œížˆ ìžˆë‹¤ë©´(ì´ì „ í”„ë ˆìž„ê³¼ ìœ„ì¹˜ ì°¨ì´ê°€ ì—†ë‹¤ë©´) Idle ì „í™˜ì‹œê°„ +
+    if (!(KEY_PRESSED(KEY::W)) && !(KEY_PRESSED(KEY::A)) && !(KEY_PRESSED(KEY::S)) && !(KEY_PRESSED(KEY::D)))
+    {
+        m_fTimeToIdle += DT;
+    }
+    else
+    {
+        GetOwner()->Transform()->CalcDir();
+        m_fTimeToIdle = 0.f;
+    }
 
-	if (KEY_TAP(KEY::LBTN))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
-	}
-	else if (KEY_TAP(KEY::RBTN))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
-	}
-	// Idle ÀüÈ¯½Ã°£ÀÌ 0.1À» ³Ñ¾ú´Ù¸é Idle·Î
-	else if (m_fTimeToIdle >= 0.02f)
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Walk");
-	}
-	else if (KEY_TAP(KEY::SPACE))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-	}
+    if (KEY_TAP(KEY::LBTN))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
+    else if (KEY_TAP(KEY::RBTN))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
+        // Idle ì „í™˜ì‹œê°„ì´ 0.1ì„ ë„˜ì—ˆë‹¤ë©´ Idleë¡œ
+    else if (m_fTimeToIdle >= 0.02f)
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Walk");
+    else if (KEY_TAP(KEY::SPACE))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
 }
 
 void CPlyRun::Exit()
 {
-	m_fTimeToIdle = 0.f;
-	m_fStepSoundDelay = 0.f;
-	if(!m_bIce)
-		GetOwner()->Rigidbody()->ClearForce();
+    m_fTimeToIdle     = 0.f;
+    m_fStepSoundDelay = 0.f;
+    if (!m_bIce)
+        GetOwner()->Rigidbody()->ClearForce();
 }
 
 void CPlyRun::Move()
 {
-	Vec3 Velocity = Vec3(0.f, 0.f, 0.f);
+    Vec3 Velocity = Vec3(0.f, 0.f, 0.f);
 
-	if (KEY_PRESSED(KEY::W))
-	{
-		Velocity.z += 1.f;
-	}						  
-							  
-	if (KEY_PRESSED(KEY::S))  
-	{						  
-		Velocity.z -= 1.f;
-	}						  
-							  
-	if (KEY_PRESSED(KEY::A))  
-	{						  
-		Velocity.x -= 1.f;
-	}						  
-							  
-	if (KEY_PRESSED(KEY::D))  
-	{						  
-		Velocity.x += 1.f;
-	}
-	Velocity.Normalize();
+    if (KEY_PRESSED(KEY::W))
+        Velocity.z += 1.f;
 
-	Velocity *= m_fSpeed;
+    if (KEY_PRESSED(KEY::S))
+        Velocity.z -= 1.f;
 
-	if (m_bIce)
-		GetOwner()->Rigidbody()->AddForce(Velocity * DT * 15.f);
-	else
-		GetOwner()->Rigidbody()->SetVelocity(Velocity);
+    if (KEY_PRESSED(KEY::A))
+        Velocity.x -= 1.f;
 
-	m_fStepSoundDelay += DT;
+    if (KEY_PRESSED(KEY::D))
+        Velocity.x += 1.f;
+    Velocity.Normalize();
 
-	if (m_fStepSoundDelay > 0.31f)
-	{
-		wstring wstrSoundFilePath;
-		if (m_bStepSoundOrder)
-			wstrSoundFilePath = L"Sound\\Player\\GrassFootStepL.mp3";
-		else
-			wstrSoundFilePath = L"Sound\\Player\\GrassFootStepR.mp3";
-		CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-		Ptr<CSound> pSound = soundscript->AddSound(wstrSoundFilePath, 1, 0.3f);
-		m_fStepSoundDelay = 0.f;
-	}
+    Velocity *= m_fSpeed;
+
+    if (m_bIce)
+        GetOwner()->Rigidbody()->AddForce(Velocity * DT * 15.f);
+    else
+        GetOwner()->Rigidbody()->SetVelocity(Velocity);
+
+    m_fStepSoundDelay += DT;
+
+    if (m_fStepSoundDelay > 0.31f)
+    {
+        wstring wstrSoundFilePath;
+        if (m_bStepSoundOrder)
+            wstrSoundFilePath = L"Sound\\Player\\GrassFootStepL.mp3";
+        else
+            wstrSoundFilePath = L"Sound\\Player\\GrassFootStepR.mp3";
+        CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+        Ptr<CSound>   pSound      = soundscript->AddSound(wstrSoundFilePath, 1, 0.3f);
+        m_fStepSoundDelay         = 0.f;
+    }
 }
 
 void CPlyRun::BeginOverlap(CCollider3D* _Other)
@@ -122,6 +106,6 @@ void CPlyRun::BeginOverlap(CCollider3D* _Other)
 
 void CPlyRun::OnOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER && KEY_PRESSED(KEY::E))
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
+    if (_Other->GetOwner()->GetLayerIndex() == static_cast<int>(LAYER::LADDER) && KEY_PRESSED(KEY::E))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
 }

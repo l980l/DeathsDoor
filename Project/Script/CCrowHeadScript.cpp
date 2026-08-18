@@ -1,49 +1,47 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowHeadScript.h"
 
 #include <Engine/CDetourMgr.h>
 
 void CCrowHeadScript::begin()
 {
-	// ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı.
-	GetOwner()->Animator3D()->Play(0, true);
+    // ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ.
+    GetOwner()->Animator3D()->Play(0, true);
 
-	// ÇÃ·¹ÀÌ¾î ¼³Á¤.
-	if (nullptr == m_pPlayer)
-	{
-		m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	}
+    // í”Œë ˆì´ì–´ ì„¤ì •.
+    if (nullptr == m_pPlayer)
+        m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 }
 
 void CCrowHeadScript::tick()
 {
-	Vec3 PlayerPos = m_pPlayer->Transform()->GetWorldPos();
-	float fPlayerDistance = GetDistance(PlayerPos, GetOwner()->Transform()->GetWorldPos());
+    Vec3  PlayerPos       = m_pPlayer->Transform()->GetWorldPos();
+    float fPlayerDistance = GetDistance(PlayerPos, GetOwner()->Transform()->GetWorldPos());
 
-	Vec3 Dir;
-	Dir = PlayerPos - Transform()->GetWorldPos();
-	Dir.x /= fPlayerDistance;
-	Dir.y /= fPlayerDistance;
-	Dir.z /= fPlayerDistance;
-	
-	Vec3 Velocity = Dir;
-	float fSpeed = 100.f;
-	Velocity *= fSpeed * 10.f * DT;
+    Vec3 Dir;
+    Dir   = PlayerPos - Transform()->GetWorldPos();
+    Dir.x /= fPlayerDistance;
+    Dir.y /= fPlayerDistance;
+    Dir.z /= fPlayerDistance;
 
-	GetOwner()->Rigidbody()->AddVelocity(Velocity);
+    Vec3  Velocity = Dir;
+    float fSpeed   = 100.f;
+    Velocity       *= fSpeed * 10.f * DT;
 
-	float fDir = GetSmoothDir(GetOwner(), m_pPlayer);
-	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
-	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+    GetOwner()->Rigidbody()->AddVelocity(Velocity);
+
+    float fDir   = GetSmoothDir(GetOwner(), m_pPlayer);
+    Vec3  CurDir = GetOwner()->Transform()->GetRelativeRot();
+    GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 }
 
 void CCrowHeadScript::BeginOverlap(CCollider3D* _Other)
 {
-	// PlayerProjectile LayerÀÇ ¹°Ã¼¿Í Ãæµ¹ÇÑ °æ¿ì.
-	if (_Other->GetOwner()->GetLayerIndex() == 4)
-	{
-		// ¹İ»ç¸¦ ±¸ÇöÇÑ´Ù¸é ¹İ»çµÅ¾ß ÇÔ. ÀÌ °æ¿ì ÀÏÁ¤ ½Ã°£ ÀÌÈÄ »ç¶óÁ®¾ß ÇÔ. À½.. ±Ùµ¥ ¹İ»ç¸¦ ¾È¸¸µé°Å¸é ÀÏÁ¤ ½Ã°£ ÀÌÈÄ ¾Ë¾Æ¼­ »ç¶óÁö°Ô ÇØ¾ß°Ú³×? Èì... ¹İ»ç¸¦ ÇÑ´Ù¸é, ¹İ»ç µÈ °æ¿ì ÀÏÁ¤ ½Ã°£ ÀÌÈÄ »ç¶óÁö°Ô ÇÏ°í.
-	}
+    // PlayerProjectile Layerì˜ ë¬¼ì²´ì™€ ì¶©ëŒí•œ ê²½ìš°.
+    if (_Other->GetOwner()->GetLayerIndex() == 4)
+    {
+        // ë°˜ì‚¬ë¥¼ êµ¬í˜„í•œë‹¤ë©´ ë°˜ì‚¬ë¼ì•¼ í•¨. ì´ ê²½ìš° ì¼ì • ì‹œê°„ ì´í›„ ì‚¬ë¼ì ¸ì•¼ í•¨. ìŒ.. ê·¼ë° ë°˜ì‚¬ë¥¼ ì•ˆë§Œë“¤ê±°ë©´ ì¼ì • ì‹œê°„ ì´í›„ ì•Œì•„ì„œ ì‚¬ë¼ì§€ê²Œ í•´ì•¼ê² ë„¤? í ... ë°˜ì‚¬ë¥¼ í•œë‹¤ë©´, ë°˜ì‚¬ ëœ ê²½ìš° ì¼ì • ì‹œê°„ ì´í›„ ì‚¬ë¼ì§€ê²Œ í•˜ê³ .
+    }
 }
 
 void CCrowHeadScript::OnOverlap(CCollider3D* _Other)
@@ -55,16 +53,16 @@ void CCrowHeadScript::EndOverlap(CCollider3D* _Other)
 }
 
 CCrowHeadScript::CCrowHeadScript()
-	: CScript((UINT)SCRIPT_TYPE::CROWHEADSCRIPT)
-	, m_pPlayer(nullptr)
-	, m_fSpeed(500.f)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::CROWHEADSCRIPT))
+    , m_pPlayer(nullptr)
+    , m_fSpeed(500.f)
 {
 }
 
 CCrowHeadScript::CCrowHeadScript(const CCrowHeadScript& _Other)
-	: CScript((UINT)SCRIPT_TYPE::CROWHEADSCRIPT)
-	, m_pPlayer(_Other.m_pPlayer)
-	, m_fSpeed(_Other.m_fSpeed)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::CROWHEADSCRIPT))
+    , m_pPlayer(_Other.m_pPlayer)
+    , m_fSpeed(_Other.m_fSpeed)
 {
 }
 

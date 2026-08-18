@@ -7,25 +7,23 @@
 
 
 class CMeshData :
-	public CRes
+    public CRes
 {
-	Ptr<CMesh>				m_pMesh;
-	vector<Ptr<CMaterial>>	m_vecMtrl;
+    Ptr<CMesh>             m_pMesh;
+    vector<Ptr<CMaterial>> m_vecMtrl;
 
 public:
-	static CMeshData* LoadFromFBX(const wstring& _strFilePath);
+    static CMeshData* LoadFromFBX(const wstring& _strFilePath);
 
-	virtual int Save(const wstring& _strFilePath) override;
-	virtual int Load(const wstring& _strFilePath) override;
+    virtual int Save(const wstring& _strFilePath) override;
+    virtual int Load(const wstring& _strFilePath) override;
 
-	CGameObject* Instantiate();
+    CGameObject* Instantiate() const;
 
-	Ptr<CMesh>GetMesh() { return m_pMesh; }
-	vector<Ptr<CMaterial>>GetMaterials() { return m_vecMtrl; }
+    Ptr<CMesh>             GetMesh() { return m_pMesh; }
+    vector<Ptr<CMaterial>> GetMaterials() { return m_vecMtrl; }
 
-	CLONE_DISABLE(CMeshData)
-public:
-	CMeshData(bool _bEngine = false);
-	virtual ~CMeshData();
+    CLONE_DISABLE(CMeshData)
+    CMeshData(bool _bEngine = false);
+    virtual ~CMeshData() override;
 };
-

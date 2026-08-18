@@ -1,36 +1,33 @@
-#pragma once
+ï»¿#pragma once
 #include "CMonsterScript.h"
 
 class CGruntScript :
     public CMonsterScript
 {
-private:
-    Vec3    m_vPlayerPos;
-    Vec3    m_vMonsterToPlayerDir;
-    float   m_fPlayerDistance;
-    float   m_fAttackRange;     // °ø°İ ¹üÀ§. 
-    int     m_iNailAttackCount;  // ¼ÕÅé °ø°İ È½¼ö. 2È¸½Ã Á¡ÇÁ °ø°İ.
-    bool    m_bStarePlayer;
-    float   m_fPrevHP;          // ÀÌÀü HP. HP°¡ ÁÙ¾úÀ» ¶§, µ¥¹ÌÁö »ç¿îµå¸¦ Àç»ıÇÏ±â À§ÇØ »ç¿ë.
+    Vec3  m_vPlayerPos;
+    Vec3  m_vMonsterToPlayerDir;
+    float m_fPlayerDistance;
+    float m_fAttackRange;     // ê³µê²© ë²”ìœ„. 
+    int   m_iNailAttackCount; // ì†í†± ê³µê²© íšŸìˆ˜. 2íšŒì‹œ ì í”„ ê³µê²©.
+    bool  m_bStarePlayer;
+    float m_fPrevHP; // ì´ì „ HP. HPê°€ ì¤„ì—ˆì„ ë•Œ, ë°ë¯¸ì§€ ì‚¬ìš´ë“œë¥¼ ì¬ìƒí•˜ê¸° ìœ„í•´ ì‚¬ìš©.
 
 public:
-    Vec3 GetPlayerPos() { return m_vPlayerPos; }
-    Vec3 GetMonsterToPlayerDir() { return m_vMonsterToPlayerDir; }
-    float GetPlayerDistance() { return m_fPlayerDistance; }
+    Vec3  GetPlayerPos() const { return m_vPlayerPos; }
+    Vec3  GetMonsterToPlayerDir() const { return m_vMonsterToPlayerDir; }
+    float GetPlayerDistance() const { return m_fPlayerDistance; }
 
-    float GetAttackRange() { return m_fAttackRange; }
+    float GetAttackRange() const { return m_fAttackRange; }
 
-    int GetNailAttackCount() { return m_iNailAttackCount; }
+    int  GetNailAttackCount() const { return m_iNailAttackCount; }
     void CountNailAttack();
 
-    bool GetStarePlayer() { return m_bStarePlayer; }
+    bool GetStarePlayer() const { return m_bStarePlayer; }
     void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
 
-public:
     virtual void begin() override;
     virtual void tick() override;
 
-public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
@@ -40,9 +37,7 @@ public:
 
     CLONE(CGruntScript);
 
-public:
     CGruntScript();
     CGruntScript(const CGruntScript& _Other);
-    ~CGruntScript();
+    virtual ~CGruntScript() override;
 };
-

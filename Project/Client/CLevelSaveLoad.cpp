@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "CLevelSaveLoad.h"
 
-#include <Engine\CPathMgr.h>
-#include <Engine\CLevelMgr.h>
-#include <Engine\CLevel.h>
-#include <Engine\CLayer.h>
-#include <Engine\CGameObject.h>
-#include <Engine\components.h>
-#include <Engine\CScript.h>
+#include <Engine/CPathMgr.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+#include <Engine/CLayer.h>
+#include <Engine/CGameObject.h>
+#include <Engine/components.h>
+#include <Engine/CScript.h>
 #include <Engine/CPrefab.h>
 #include <Engine/CPhysXMgr.h>
 #include "commdlg.h"
 
-#include <Script\CScriptMgr.h>
+#include <Script/CScriptMgr.h>
 #include <Script/CSpawnMgr.h>
 
 int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
@@ -21,7 +21,7 @@ int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
         return E_FAIL;
 
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    strPath += _LevelPath;
+    strPath         += _LevelPath;
 
     FILE* pFile = nullptr;
 
@@ -53,9 +53,7 @@ int CLevelSaveLoad::Play(const wstring& _LevelPath, CLevel* _Level)
 
         // 각 게임오브젝트
         for (size_t i = 0; i < objCount; ++i)
-        {
             SaveGameObject(vecParent[i], pFile);
-        }
     }
 
     fclose(pFile);
@@ -69,7 +67,7 @@ CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
     CPhysXMgr::GetInst()->Clear();
     CSpawnMgr::GetInst()->Clear();
     wstring strPath = CPathMgr::GetInst()->GetContentPath();
-    strPath += _LevelPath;//상대경로
+    strPath         += _LevelPath; //상대경로
 
     FILE* pFile = nullptr;
 
@@ -84,7 +82,7 @@ CLevel* CLevelSaveLoad::Stop(const wstring& _LevelPath, LEVEL_STATE _state)
     wstring strLevelName;
     LoadWString(strLevelName, pFile);
     NewLevel->SetName(strLevelName);
-    
+
     int level_type = 0;
     fread(&level_type, sizeof(int), 1, pFile);
     NewLevel->SetLevelType(level_type);
@@ -122,30 +120,30 @@ int CLevelSaveLoad::SaveLevel(CLevel* _Level)
     if (_Level->GetState() != LEVEL_STATE::STOP) //stop상태일 때만 저장
         return E_FAIL;
 
-    OPENFILENAME ofn = {};
-    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    strFolderpath += L"Level\\";
+    OPENFILENAME ofn           = {};
+    wstring      strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    strFolderpath              += L"Level\\";
 
     wchar_t szFilePath[256] = {};
 
     ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFilePath;
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = 256;
-    ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
+    ofn.lStructSize     = sizeof(ofn);
+    ofn.hwndOwner       = nullptr;
+    ofn.lpstrFile       = szFilePath;
+    ofn.lpstrFile[0]    = '\0';
+    ofn.nMaxFile        = 256;
+    ofn.lpstrFilter     = L"Level\0*.lv\0ALL\0*.*";
+    ofn.nFilterIndex    = 1;
+    ofn.lpstrFileTitle  = nullptr;
+    ofn.nMaxFileTitle   = 0;
     ofn.lpstrInitialDir = strFolderpath.c_str();
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
     if (false == GetSaveFileName(&ofn))
         E_FAIL;
 
     // 파일 입출력
-    FILE* pFile = nullptr;
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"wb");
 
     if (nullptr == pFile)
@@ -172,9 +170,7 @@ int CLevelSaveLoad::SaveLevel(CLevel* _Level)
         fwrite(&objCount, sizeof(size_t), 1, pFile); // 오브젝트 개수 저장
 
         for (size_t i = 0; i < objCount; ++i)
-        {
             SaveGameObject(vecParent[i], pFile); // 각 게임오브젝트 저장
-        }
     }
 
     fclose(pFile);
@@ -189,16 +185,16 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
     SaveWString(_Object->GetName(), _File);
 
     // 컴포넌트
-    for (UINT i = 0; i <= (UINT)COMPONENT_TYPE::END; ++i)
+    for (UINT i = 0; i <= static_cast<UINT>(COMPONENT_TYPE::END); ++i)
     {
-        if (i == (UINT)COMPONENT_TYPE::END)
+        if (i == static_cast<UINT>(COMPONENT_TYPE::END))
         {
             // 컴포넌트 타입 저장
             fwrite(&i, sizeof(UINT), 1, _File);
             break;
         }
 
-        CComponent* Com = _Object->GetComponent((COMPONENT_TYPE)i);
+        CComponent* Com = _Object->GetComponent(static_cast<COMPONENT_TYPE>(i));
         if (nullptr == Com)
             continue;
 
@@ -210,8 +206,8 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
     }
 
     // 스크립트   
-    const vector<CScript*>& vecScript = _Object->GetScripts();
-    size_t ScriptCount = vecScript.size();
+    const vector<CScript*>& vecScript   = _Object->GetScripts();
+    size_t                  ScriptCount = vecScript.size();
     fwrite(&ScriptCount, sizeof(size_t), 1, _File);
 
     for (size_t i = 0; i < vecScript.size(); ++i)
@@ -223,44 +219,42 @@ int CLevelSaveLoad::SaveGameObject(CGameObject* _Object, FILE* _File)
 
 
     // 자식 오브젝트
-    const vector<CGameObject*>& vecChild = _Object->GetChild();
-    size_t ChildCount = vecChild.size();
+    const vector<CGameObject*>& vecChild   = _Object->GetChild();
+    size_t                      ChildCount = vecChild.size();
     fwrite(&ChildCount, sizeof(size_t), 1, _File);
 
     for (size_t i = 0; i < ChildCount; ++i)
-    {
         SaveGameObject(vecChild[i], _File);
-    }
 
     return 0;
 }
 
 CLevel* CLevelSaveLoad::LoadLevel(LEVEL_STATE _state)
 {
-    OPENFILENAME ofn = {};
-    wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    strFolderpath += L"Level\\";
+    OPENFILENAME ofn           = {};
+    wstring      strFolderpath = CPathMgr::GetInst()->GetContentPath();
+    strFolderpath              += L"Level\\";
 
     wchar_t szFilePath[256] = {};
 
     ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFilePath;
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = 256;
-    ofn.lpstrFilter = L"Level\0*.lv\0ALL\0*.*";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
+    ofn.lStructSize     = sizeof(ofn);
+    ofn.hwndOwner       = nullptr;
+    ofn.lpstrFile       = szFilePath;
+    ofn.lpstrFile[0]    = '\0';
+    ofn.nMaxFile        = 256;
+    ofn.lpstrFilter     = L"Level\0*.lv\0ALL\0*.*";
+    ofn.nFilterIndex    = 1;
+    ofn.lpstrFileTitle  = nullptr;
+    ofn.nMaxFileTitle   = 0;
     ofn.lpstrInitialDir = strFolderpath.c_str();
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
     if (false == GetSaveFileName(&ofn))
         E_FAIL;
 
     // 파일 입출력
-    FILE* pFile = nullptr;
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, szFilePath, L"rb");
 
     if (nullptr == pFile)
@@ -321,12 +315,12 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
         fread(&ComponentType, sizeof(UINT), 1, _File);
 
         // 컴포넌트 정보의 끝을 확인
-        if ((UINT)COMPONENT_TYPE::END == ComponentType)
+        if (static_cast<UINT>(COMPONENT_TYPE::END) == ComponentType)
             break;
 
         CComponent* Component = nullptr;
 
-        switch ((COMPONENT_TYPE)ComponentType)
+        switch (static_cast<COMPONENT_TYPE>(ComponentType))
         {
         case COMPONENT_TYPE::TRANSFORM:
             Component = new CTransform;
@@ -379,10 +373,10 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
         pObject->AddComponent(Component);
         if (COMPONENT_TYPE::RIGIDBODY == Component->GetType())
         {
-            CRigidbody* RigidbodyComponent = (CRigidbody*)Component;
-            PxGeometryType::Enum Type = RigidbodyComponent->GetShapeType();
-            Vec3 vSpawnPos = RigidbodyComponent->SetSpawnPos();
-            Vec3 vRigidScale = RigidbodyComponent->GetRigidScale(); 
+            CRigidbody*          RigidbodyComponent = static_cast<CRigidbody*>(Component);
+            PxGeometryType::Enum Type               = RigidbodyComponent->GetShapeType();
+            Vec3                 vSpawnPos          = RigidbodyComponent->SetSpawnPos();
+            Vec3                 vRigidScale        = RigidbodyComponent->GetRigidScale();
             switch (Type)
             {
             case PxGeometryType::Enum::eBOX:
@@ -395,7 +389,7 @@ CGameObject* CLevelSaveLoad::LoadGameObject(FILE* _File)
                 CPhysXMgr::GetInst()->CreateSphere(vSpawnPos, vRigidScale.x, pObject);
                 break;
             }
-        }        
+        }
     }
 
     // 스크립트   
@@ -430,7 +424,7 @@ int CLevelSaveLoad::SavePrefab(const wstring& _strRelativePath, CPrefab* _Prefab
         return E_FAIL;
 
     wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-    strFilePath += _strRelativePath;
+    strFilePath         += _strRelativePath;
 
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
@@ -447,12 +441,12 @@ CGameObject* CLevelSaveLoad::LoadPrefab(const wstring& _strRelativePath)
     Ptr<CPrefab> pPrefab = new CPrefab;
 
     wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-    strFilePath += _strRelativePath;
+    strFilePath         += _strRelativePath;
 
     FILE* pFile = nullptr;
     _wfopen_s(&pFile, strFilePath.c_str(), L"rb");
 
-    CGameObject* pNewObj = CLevelSaveLoad::LoadGameObject(pFile);
+    CGameObject* pNewObj = LoadGameObject(pFile);
     fclose(pFile);
 
     return pNewObj;
@@ -461,31 +455,32 @@ CGameObject* CLevelSaveLoad::LoadPrefab(const wstring& _strRelativePath)
 void CLevelSaveLoad::SpawnPrefab(wstring _relativepath, int ind, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    wstring relativepath = _relativepath;
-    strFolderpath += relativepath;
+    wstring relativepath  = _relativepath;
+    strFolderpath         += relativepath;
 
-    FILE* pFile = nullptr;
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
 
     CGameObject* newObject = LoadGameObject(pFile);
-    Vec3 prefpos = _vWorldPos;
+    Vec3         prefpos   = _vWorldPos;
 
     SpawnGameObject(newObject, _vWorldPos, ind);
     if (time >= 0.f)
         newObject->SetLifeSpan(time);
     fclose(pFile);
 }
+
 CGameObject* CLevelSaveLoad::SpawnandReturnPrefab(wstring _relativepath, int idx, Vec3 _vWorldPos, float time)
 {
     wstring strFolderpath = CPathMgr::GetInst()->GetContentPath();
-    wstring relativepath = _relativepath;
-    strFolderpath += relativepath;
+    wstring relativepath  = _relativepath;
+    strFolderpath         += relativepath;
 
-    FILE* pFile = nullptr;
+    FILE*   pFile   = nullptr;
     errno_t iErrNum = _wfopen_s(&pFile, strFolderpath.c_str(), L"rb");
 
     CGameObject* newObject = LoadGameObject(pFile);
-    Vec3 prefpos = _vWorldPos;
+    Vec3         prefpos   = _vWorldPos;
 
     SpawnGameObject(newObject, _vWorldPos, idx);
     if (time >= 0.f)

@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CComponent.h"
 
 #include "CMesh.h"
@@ -8,47 +8,43 @@
 class CLight3D :
     public CComponent
 {
-private:
-    tLightInfo      m_LightInfo;
+    tLightInfo m_LightInfo;
 
-    Ptr<CMesh>      m_VolumeMesh;
-    Ptr<CMaterial>  m_LightMtrl;
+    Ptr<CMesh>     m_VolumeMesh;
+    Ptr<CMaterial> m_LightMtrl;
 
-    UINT            m_iLightIdx;
+    UINT m_iLightIdx;
 
-    CGameObject*    m_pLightCam;    // ±§ø¯ Ω√¡°øÎ ƒ´∏ﬁ∂Û
+    CGameObject* m_pLightCam; // Í¥ëÏõê ÏãúÏ†êÏö© Ïπ¥Î©îÎùº
 
 
 public:
-    void SetLightType(LIGHT_TYPE _Type);    
+    void SetLightType(LIGHT_TYPE _Type);
     void SetLightDiffuse(Vec3 _vDiffuse) { m_LightInfo.Color.vDiffuse = _vDiffuse; }
     void SetLightSpecular(Vec3 _vSpec) { m_LightInfo.Color.vSpecular = _vSpec; }
     void SetLightAmbient(Vec3 _vAmbient) { m_LightInfo.Color.vAmbient = _vAmbient; }
     void SetRadius(float _fRadius) { m_LightInfo.Radius = _fRadius; }
-    void SetAngle(float _fAngle) { m_LightInfo.Angle = _fAngle; } 
-    void SetLightDirection(Vec3 _vDir);        
+    void SetAngle(float _fAngle) { m_LightInfo.Angle = _fAngle; }
+    void SetLightDirection(Vec3 _vDir);
 
     void SetLightInfo(tLightInfo _Info) { m_LightInfo = _Info; }
 
-    tLightInfo GetLightInfo() { return m_LightInfo; }
-    Vec3 GetLightColor() { return m_LightInfo.Color.vDiffuse; }
-    LIGHT_TYPE GetLightType() { return (LIGHT_TYPE)m_LightInfo.LightType; }
-    float GetRadius(float _fRadius) { return m_LightInfo.Radius; }
-    float GetAngle(float _fAngle) { return m_LightInfo.Angle; }    
-    Vec3 GetLightDirection() { return m_LightInfo.vWorldDir; }
+    tLightInfo GetLightInfo() const { return m_LightInfo; }
+    Vec3       GetLightColor() { return m_LightInfo.Color.vDiffuse; }
+    LIGHT_TYPE GetLightType() { return static_cast<LIGHT_TYPE>(m_LightInfo.LightType); }
+    float      GetRadius(float _fRadius) const { return m_LightInfo.Radius; }
+    float      GetAngle(float _fAngle) const { return m_LightInfo.Angle; }
+    Vec3       GetLightDirection() { return m_LightInfo.vWorldDir; }
 
-public:
     virtual void finaltick() override;
-    void render();
-    void render_depthmap();
+    void         render();
+    void         render_depthmap() const;
 
     virtual void SaveToLevelFile(FILE* _File) override;
     virtual void LoadFromLevelFile(FILE* _File) override;
 
     CLONE(CLight3D);
-public:
     CLight3D();
     CLight3D(const CLight3D& _origin);
-    ~CLight3D();
+    virtual ~CLight3D() override;
 };
-

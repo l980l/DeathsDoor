@@ -4,13 +4,14 @@
 class CLevelChangeDoorScript :
     public CScript
 {
-private:
     int m_iChangeLevel;
 
 public:
-    virtual void tick() override {};
+    virtual void tick() override
+    {
+    };
 
-    void SetLevelType(int _tLevelType) { m_iChangeLevel = (int)_tLevelType; }
+    void SetLevelType(int _tLevelType) { m_iChangeLevel = _tLevelType; }
 
     virtual void OnOverlap(CCollider3D* _Other) override;
 
@@ -19,8 +20,6 @@ public:
 
     CLONE(CLevelChangeDoorScript);
 
-public:
     CLevelChangeDoorScript();
-    ~CLevelChangeDoorScript();
+    virtual ~CLevelChangeDoorScript() override;
 };
-

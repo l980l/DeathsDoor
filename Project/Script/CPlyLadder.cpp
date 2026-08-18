@@ -1,14 +1,14 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlyLadder.h"
 #include "CPlayerScript.h"
 
 CPlyLadder::CPlyLadder()
-	: m_fSpeed(80.f)
-	, m_fStartYPos(0.f)
-	, m_fLadderHeight(0.f)
-	, m_fStartDelay(0.5f)
-	, m_fGroundCheckDelay(0.f)
-	, m_bEnd(false)
+    : m_fSpeed(80.f)
+    , m_fStartYPos(0.f)
+    , m_fLadderHeight(0.f)
+    , m_fStartDelay(0.5f)
+    , m_fGroundCheckDelay(0.f)
+    , m_bEnd(false)
 {
 }
 
@@ -18,107 +18,101 @@ CPlyLadder::~CPlyLadder()
 
 void CPlyLadder::Enter()
 {
-	m_fStartYPos = GetOwner()->Transform()->GetRelativePos().y;
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, true);
+    m_fStartYPos = GetOwner()->Transform()->GetRelativePos().y;
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::LADDER_UP), true);
 
-	// »ç´Ù¸®¸¦ Å¸´Â Áß¿¡´Â ¹«Àû
-	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
+    // ì‚¬ë‹¤ë¦¬ë¥¼ íƒ€ëŠ” ì¤‘ì—ëŠ” ë¬´ì 
+    GetOwner()->GetScript<CPlayerScript>()->SetInvincible(true);
 }
 
 void CPlyLadder::tick()
 {
-	if (m_fStartDelay > 0.f)
-	{
-		m_fStartDelay -= DT;
-		return;
-	}
-		
-	// »ç´Ù¸® ¿À¸£±â°¡ ³¡³µ´Ù¸é LadderFinish Anim Àç»ý ÈÄ ³¡³µ´Ù¸é Idle·Î ÀüÈ¯
-	if (m_bEnd)
-	{
-		if (GetOwner()->Animator3D()->GetCurClip() != (int)PLAYERANIM_TYPE::LADDER_FINISH)
-		{
-			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_FINISH, false);
-			if (GetOwner()->Animator3D()->IsStop())
-				GetOwner()->Animator3D()->SetStop(false);
-			Vec3 Dir = GetOwner()->Transform()->GetXZDir();
-			GetOwner()->Rigidbody()->SetVelocity(Dir * 30.f);
-		}
-		else if (GetOwner()->Animator3D()->IsFinish())
-		{
-			GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-		}
+    if (m_fStartDelay > 0.f)
+    {
+        m_fStartDelay -= DT;
+        return;
+    }
 
-		return;
-	}
+    // ì‚¬ë‹¤ë¦¬ ì˜¤ë¥´ê¸°ê°€ ëë‚¬ë‹¤ë©´ LadderFinish Anim ìž¬ìƒ í›„ ëë‚¬ë‹¤ë©´ Idleë¡œ ì „í™˜
+    if (m_bEnd)
+    {
+        if (GetOwner()->Animator3D()->GetCurClip() != static_cast<int>(PLAYERANIM_TYPE::LADDER_FINISH))
+        {
+            GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::LADDER_FINISH), false);
+            if (GetOwner()->Animator3D()->IsStop())
+                GetOwner()->Animator3D()->SetStop(false);
+            Vec3 Dir = GetOwner()->Transform()->GetXZDir();
+            GetOwner()->Rigidbody()->SetVelocity(Dir * 30.f);
+        }
+        else if (GetOwner()->Animator3D()->IsFinish())
+        {
+            GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+        }
 
-	// ÀÌµ¿ Áß Key°¡ ReleaseµÆ´Ù¸é Anim Stop
-	if (KEY_RELEASE(KEY::W) || KEY_RELEASE(KEY::S))
-	{
-		GetOwner()->Animator3D()->SetStop(true);
-	}
-	float Diff = GetOwner()->Transform()->GetRelativePos().y - m_fStartYPos;
-	// »ç´Ù¸® ³ôÀÌ ÀÌ»óÀ¸·Î ÀÌµ¿Çß´Ù¸é End·Î
-	if (Diff >= m_fLadderHeight)
-	{
-		m_bEnd = true;
-	}
-	
-	// Å¸´Â µµÁß Dodge½Ã ÀüÈ¯
-	if (KEY_TAP(KEY::SPACE))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-	}
-	else
-	{
-		Move();
-	}
+        return;
+    }
+
+    // ì´ë™ ì¤‘ Keyê°€ Releaseëë‹¤ë©´ Anim Stop
+    if (KEY_RELEASE(KEY::W) || KEY_RELEASE(KEY::S))
+        GetOwner()->Animator3D()->SetStop(true);
+    float Diff = GetOwner()->Transform()->GetRelativePos().y - m_fStartYPos;
+    // ì‚¬ë‹¤ë¦¬ ë†’ì´ ì´ìƒìœ¼ë¡œ ì´ë™í–ˆë‹¤ë©´ Endë¡œ
+    if (Diff >= m_fLadderHeight)
+        m_bEnd = true;
+
+    // íƒ€ëŠ” ë„ì¤‘ Dodgeì‹œ ì „í™˜
+    if (KEY_TAP(KEY::SPACE))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
+    else
+        Move();
 }
 
 void CPlyLadder::Exit()
 {
-	m_bEnd = false;
-	m_fStartYPos = 0.f;
-	m_fLadderHeight = 0.f;
-	m_fStartDelay = 0.5f;
-	m_fGroundCheckDelay = 0.f;
-	GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
+    m_bEnd              = false;
+    m_fStartYPos        = 0.f;
+    m_fLadderHeight     = 0.f;
+    m_fStartDelay       = 0.5f;
+    m_fGroundCheckDelay = 0.f;
+    GetOwner()->GetScript<CPlayerScript>()->SetInvincible(false);
 }
 
 void CPlyLadder::Move()
 {
-	// W, S¸¦ ´©¸£°í ÀÖ´Ù¸é À§¾Æ·¡·Î ¿òÁ÷ÀÓ. ÀÌÀü¿¡ ¸ØÃçÀÖ¾ú´Ù¸é ´Ù½Ã ¾Ö´Ï¸ÞÀÌ¼ÇÀ» Àç»ý
-	if (KEY_PRESSED(KEY::W))
-	{
-		GetOwner()->Rigidbody()->SetGravity(m_fSpeed);
+    // W, Së¥¼ ëˆ„ë¥´ê³  ìžˆë‹¤ë©´ ìœ„ì•„ëž˜ë¡œ ì›€ì§ìž„. ì´ì „ì— ë©ˆì¶°ìžˆì—ˆë‹¤ë©´ ë‹¤ì‹œ ì• ë‹ˆë©”ì´ì…˜ì„ ìž¬ìƒ
+    if (KEY_PRESSED(KEY::W))
+    {
+        GetOwner()->Rigidbody()->SetGravity(m_fSpeed);
 
-		if (GetOwner()->Animator3D()->GetCurClip() != (int)PLAYERANIM_TYPE::LADDER_UP)
-			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_UP, true);
-		else
-		{
-			if (GetOwner()->Animator3D()->IsStop())
-				GetOwner()->Animator3D()->SetStop(false);
-		}
-	}
-	else if (KEY_PRESSED(KEY::S))
-	{
-		GetOwner()->Rigidbody()->SetGravity(-m_fSpeed);
+        if (GetOwner()->Animator3D()->GetCurClip() != static_cast<int>(PLAYERANIM_TYPE::LADDER_UP))
+        {
+            GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::LADDER_UP), true);
+        }
+        else
+        {
+            if (GetOwner()->Animator3D()->IsStop())
+                GetOwner()->Animator3D()->SetStop(false);
+        }
+    }
+    else if (KEY_PRESSED(KEY::S))
+    {
+        GetOwner()->Rigidbody()->SetGravity(-m_fSpeed);
 
-		if (GetOwner()->Animator3D()->GetCurClip() != (int)PLAYERANIM_TYPE::LADDER_DOWN)
-			GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::LADDER_DOWN, true);
-		else
-		{
-			if (GetOwner()->Animator3D()->IsStop())
-				GetOwner()->Animator3D()->SetStop(false);
+        if (GetOwner()->Animator3D()->GetCurClip() != static_cast<int>(PLAYERANIM_TYPE::LADDER_DOWN))
+        {
+            GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::LADDER_DOWN), true);
+        }
+        else
+        {
+            if (GetOwner()->Animator3D()->IsStop())
+                GetOwner()->Animator3D()->SetStop(false);
 
-			if (0.1f > abs((GetOwner()->Transform()->GetRelativePos() - GetOwner()->Transform()->GetPrevPos()).y))
-			{
-				m_fGroundCheckDelay += DT;
-				if (m_fGroundCheckDelay > 0.3f)
-				{
-					GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-				}
-			}
-		}
-	}
+            if (0.1f > abs((GetOwner()->Transform()->GetRelativePos() - GetOwner()->Transform()->GetPrevPos()).y))
+            {
+                m_fGroundCheckDelay += DT;
+                if (m_fGroundCheckDelay > 0.3f)
+                    GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+            }
+        }
+    }
 }

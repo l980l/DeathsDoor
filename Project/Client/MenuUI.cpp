@@ -2,14 +2,14 @@
 #include "MenuUI.h"
 
 #include "CLevelSaveLoad.h"
-#include <Engine\CEventMgr.h>
-#include <Engine\CGameObject.h>
-#include <Engine\components.h>
-#include <Engine\CScript.h>
+#include <Engine/CEventMgr.h>
+#include <Engine/CGameObject.h>
+#include <Engine/components.h>
+#include <Engine/CScript.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CPhysXMgr.h>
 
-#include <Script\CScriptMgr.h>
+#include <Script/CScriptMgr.h>
 
 #include "ImGuiMgr.h"
 #include "OutlinerUI.h"
@@ -41,17 +41,15 @@ int MenuUI::render_update()
         if (ImGui::BeginMenu("File"))
         {
             if (ImGui::MenuItem("Save Level"))
-            {
-                // Level ÀúÀå
+                // Level ï¿½ï¿½ï¿½ï¿½
                 CLevelSaveLoad::SaveLevel(CLevelMgr::GetInst()->GetCurLevel());
-            }
             if (ImGui::MenuItem("Load Level"))
             {
-                // Level ºÒ·¯¿À±â
+                // Level ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                 CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(LEVEL_STATE::STOP);
 
                 tEvent evn = {};
-                evn.Type = EVENT_TYPE::LEVEL_CHANGE;
+                evn.Type   = EVENT_TYPE::LEVEL_CHANGE;
                 evn.wParam = (DWORD_PTR)pLoadedLevel;
 
                 CEventMgr::GetInst()->AddEvent(evn);
@@ -61,42 +59,42 @@ int MenuUI::render_update()
         }
         if (ImGui::BeginMenu("GameObject"))
         {
-            // ÇöÀç ·¹º§¿¡ °ÔÀÓ¿ÀºêÁ§Æ® »ý¼º
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             if (ImGui::BeginMenu("Create Empty Object"))
             {
                 //CreateEmptyObject();
                 if (ImGui::MenuItem("DEFAULT"))
-                    CreateEmptyObject((int)LAYER::DEFAULT);
+                    CreateEmptyObject(static_cast<int>(LAYER::DEFAULT));
                 else if (ImGui::MenuItem("MainCamera"))
-                    CreateEmptyObject((int)LAYER::MAINCAMERA);
+                    CreateEmptyObject(static_cast<int>(LAYER::MAINCAMERA));
                 else if (ImGui::MenuItem("SubCamera"))
-                    CreateEmptyObject((int)LAYER::SUBCAMERA);
+                    CreateEmptyObject(static_cast<int>(LAYER::SUBCAMERA));
                 else if (ImGui::MenuItem("Player"))
-                    CreateEmptyObject((int)LAYER::PLAYER);
+                    CreateEmptyObject(static_cast<int>(LAYER::PLAYER));
                 else if (ImGui::MenuItem("Monster"))
-                    CreateEmptyObject((int)LAYER::MONSTER);
+                    CreateEmptyObject(static_cast<int>(LAYER::MONSTER));
                 else if (ImGui::MenuItem("PlayerProjectile"))
-                    CreateEmptyObject((int)LAYER::PLAYERPROJECTILE);
+                    CreateEmptyObject(static_cast<int>(LAYER::PLAYERPROJECTILE));
                 else if (ImGui::MenuItem("MonsterProjectile"))
-                    CreateEmptyObject((int)LAYER::MONSTERPROJECTILE);
+                    CreateEmptyObject(static_cast<int>(LAYER::MONSTERPROJECTILE));
                 else if (ImGui::MenuItem("Wall"))
-                    CreateEmptyObject((int)LAYER::WALL);
+                    CreateEmptyObject(static_cast<int>(LAYER::WALL));
                 else if (ImGui::MenuItem("Item"))
-                    CreateEmptyObject((int)LAYER::ITEM);
+                    CreateEmptyObject(static_cast<int>(LAYER::ITEM));
                 else if (ImGui::MenuItem("Ground"))
-                    CreateEmptyObject((int)LAYER::GROUND);
+                    CreateEmptyObject(static_cast<int>(LAYER::GROUND));
                 else if (ImGui::MenuItem("FallArea"))
-                    CreateEmptyObject((int)LAYER::FALLAREA);
+                    CreateEmptyObject(static_cast<int>(LAYER::FALLAREA));
                 else if (ImGui::MenuItem("Ladder"))
-                    CreateEmptyObject((int)LAYER::LADDER);
+                    CreateEmptyObject(static_cast<int>(LAYER::LADDER));
                 else if (ImGui::MenuItem("Anchor"))
-                    CreateEmptyObject((int)LAYER::ANCHOR);
+                    CreateEmptyObject(static_cast<int>(LAYER::ANCHOR));
                 else if (ImGui::MenuItem("Braizer"))
-                    CreateEmptyObject((int)LAYER::BRAIZER);
+                    CreateEmptyObject(static_cast<int>(LAYER::BRAIZER));
                 else if (ImGui::MenuItem("NPC"))
-                    CreateEmptyObject((int)LAYER::NPC);
+                    CreateEmptyObject(static_cast<int>(LAYER::NPC));
                 else if (ImGui::MenuItem("ViewPortUI"))
-                    CreateEmptyObject((int)LAYER::UI);
+                    CreateEmptyObject(static_cast<int>(LAYER::UI));
                 ImGui::EndMenu();
             }
             ImGui::Separator();
@@ -104,12 +102,10 @@ int MenuUI::render_update()
 
             if (ImGui::BeginMenu("Add Component"))
             {
-                for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+                for (UINT i = 0; i < static_cast<UINT>(COMPONENT_TYPE::END); ++i)
                 {
-                    if (ImGui::MenuItem(ToString((COMPONENT_TYPE)i)))
-                    {
-                        AddComponent(COMPONENT_TYPE(i));
-                    }
+                    if (ImGui::MenuItem(ToString(static_cast<COMPONENT_TYPE>(i))))
+                        AddComponent(static_cast<COMPONENT_TYPE>(i));
                 }
                 ImGui::EndMenu();
             }
@@ -125,9 +121,7 @@ int MenuUI::render_update()
                 {
                     string strScriptName = string(vecScripts[i].begin(), vecScripts[i].end());
                     if (ImGui::MenuItem(strScriptName.c_str()))
-                    {
                         AddScript(vecScripts[i]);
-                    }
                 }
 
                 ImGui::EndMenu();
@@ -138,28 +132,28 @@ int MenuUI::render_update()
 
         if (ImGui::BeginMenu("Level"))
         {
-            CLevel* CurLevel = CLevelMgr::GetInst()->GetCurLevel();
-            bool PlayEnable = true;
-            bool PauseEnable = true;
-            bool StopEnable = true;
+            CLevel* CurLevel    = CLevelMgr::GetInst()->GetCurLevel();
+            bool    PlayEnable  = true;
+            bool    PauseEnable = true;
+            bool    StopEnable  = true;
 
             if (CurLevel->GetState() == LEVEL_STATE::PLAY)
             {
-                PlayEnable = false;
+                PlayEnable  = false;
                 PauseEnable = true;
-                StopEnable = true;
+                StopEnable  = true;
             }
             else if (CurLevel->GetState() == LEVEL_STATE::PAUSE)
             {
-                PlayEnable = true;
+                PlayEnable  = true;
                 PauseEnable = false;
-                StopEnable = true;
+                StopEnable  = true;
             }
             else if (CurLevel->GetState() == LEVEL_STATE::STOP)
             {
-                PlayEnable = true;
+                PlayEnable  = true;
                 PauseEnable = false;
-                StopEnable = false;
+                StopEnable  = false;
             }
 
             if (ImGui::MenuItem("Play", nullptr, nullptr, PlayEnable))
@@ -175,20 +169,18 @@ int MenuUI::render_update()
             {
                 CurLevel->ChangeState(LEVEL_STATE::STOP);
                 CLevel* pNewLevel = CLevelSaveLoad::Stop(L"Level\\Temp.lv", LEVEL_STATE::STOP);
-                tEvent evn = {};
-                evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-                evn.wParam = DWORD_PTR(pNewLevel);
+                tEvent  evn       = {};
+                evn.Type          = EVENT_TYPE::LEVEL_CHANGE;
+                evn.wParam        = DWORD_PTR(pNewLevel);
                 CEventMgr::GetInst()->AddEvent(evn);
 
                 // InspectorUI
-                InspectorUI* Inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
+                InspectorUI* Inspector = static_cast<InspectorUI*>(ImGuiMgr::GetInst()->FindUI("##Inspector"));
                 Inspector->SetTargetObject(nullptr);
             }
 
             ImGui::EndMenu();
         }
-
-
 
 
         ImGui::EndMainMenuBar();
@@ -197,50 +189,50 @@ int MenuUI::render_update()
     return 0;
 }
 
-void MenuUI::CreateEmptyObject(int layerindx)
+void MenuUI::CreateEmptyObject(int layerindx) const
 {
     CGameObject* pNewObject = new CGameObject;
     pNewObject->AddComponent(new CTransform);
     pNewObject->SetName(L"NewObject");
 
-    if (layerindx == (int)LAYER::MAINCAMERA)
+    if (layerindx == static_cast<int>(LAYER::MAINCAMERA))
     {
         pNewObject->SetName(L"MainCamera");
         pNewObject->AddComponent(new CCamera);
-        pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // Ä«¸Þ¶ó ¿ÀºêÁ§Æ®ÀÇ Åõ¿µ ¹æ½Ä ¼³Á¤(Á÷±³)
-        pNewObject->Camera()->SetCameraIndex(0); //MainCamera·Î ¼³Á¤
-        pNewObject->Camera()->SetLayerMaskAll(true); // ¸ðµç ·¹ÀÌ¾î Ã¼Å©
-        pNewObject->Camera()->SetLayerMask(31, false);// UI Layer ´Â ·»´õ¸µÇÏÁö ¾Ê´Â´Ù.
+        pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
+        pNewObject->Camera()->SetCameraIndex(0);                    //MainCameraï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        pNewObject->Camera()->SetLayerMaskAll(true);                // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ Ã¼Å©
+        pNewObject->Camera()->SetLayerMask(31, false);              // UI Layer ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
     }
-    else if (layerindx == (int)LAYER::SUBCAMERA)
+    else if (layerindx == static_cast<int>(LAYER::SUBCAMERA))
     {
         pNewObject->SetName(L"SubCamera");
         pNewObject->AddComponent(new CCamera);
-        pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // Ä«¸Þ¶ó ¿ÀºêÁ§Æ®ÀÇ Åõ¿µ ¹æ½Ä ¼³Á¤(Á÷±³)
-        pNewObject->Camera()->SetCameraIndex(2); //SubCamera·Î ¼³Á¤
+        pNewObject->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC); // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
+        pNewObject->Camera()->SetCameraIndex(2);                    //SubCameraï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         pNewObject->Camera()->SetLayerMaskAll(false);
         pNewObject->Camera()->SetLayerMask(31, true);
     }
     SpawnGameObject(pNewObject, Vec3(0.f, 0.f, 0.f), layerindx);
 
-    // Outliner ¸¦ °¡Á®¿Â´Ù.
-    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
+    // Outliner ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
+    OutlinerUI* outliner = static_cast<OutlinerUI*>(ImGuiMgr::GetInst()->FindUI("##Outliner"));
 
-    // »õ·ÎÃß°¡µÈ ¿ÀºêÁ§Æ®¸¦ µ¥ÀÌÅÍ·Î ÇÏ´Â ³ëµå°¡ Ãß°¡µÇ¸é, ¼±ÅÃ»óÅÂ·Î µÎ°Ô ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½å°¡ ï¿½ß°ï¿½ï¿½Ç¸ï¿½, ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Â·ï¿½ ï¿½Î°ï¿½ ï¿½Ñ´ï¿½.
     outliner->SetSelectedNodeData(DWORD_PTR(pNewObject));
 }
 
-void MenuUI::CreatePrefabObject()
+void MenuUI::CreatePrefabObject() const
 {
 }
 
-void MenuUI::AddComponent(COMPONENT_TYPE _type)
+void MenuUI::AddComponent(COMPONENT_TYPE _type) const
 {
-    // Outliner ¿Í Inspector ¸¦ °¡Á®¿Â´Ù.
-    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
-    InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
+    // Outliner ï¿½ï¿½ Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
+    OutlinerUI*  outliner  = static_cast<OutlinerUI*>(ImGuiMgr::GetInst()->FindUI("##Outliner"));
+    InspectorUI* inspector = static_cast<InspectorUI*>(ImGuiMgr::GetInst()->FindUI("##Inspector"));
 
-    // ¼±ÅÃµÈ ¿ÀºêÁ§Æ®¸¦ °¡Á®¿Í¼­ ComponentType ¿¡ ¸Â´Â ÄÄÆ÷³ÍÆ®¸¦ »ý¼ºÇØ¼­ Ãß°¡ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ComponentType ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
 
     if (nullptr == pSelectedObject)
@@ -292,18 +284,17 @@ void MenuUI::AddComponent(COMPONENT_TYPE _type)
         break;
     }
 
-    // Inspector ¿¡ »õ·Ó°Ô Ãß°¡µÈ ÄÄÆ÷³ÍÆ®¸¦ ¾Ë¸®±â À§ÇØ¼­ Å¸°ÙÀ» ´Ù½Ã ¾Ë·ÁÁØ´Ù.
+    // Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½Ó°ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½.
     inspector->SetTargetObject(pSelectedObject);
-
 }
 
-void MenuUI::AddScript(const wstring& _strScriptName)
+void MenuUI::AddScript(const wstring& _strScriptName) const
 {
-    // Outliner ¿Í Inspector ¸¦ °¡Á®¿Â´Ù.
-    OutlinerUI* outliner = (OutlinerUI*)ImGuiMgr::GetInst()->FindUI("##Outliner");
-    InspectorUI* inspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
+    // Outliner ï¿½ï¿½ Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
+    OutlinerUI*  outliner  = static_cast<OutlinerUI*>(ImGuiMgr::GetInst()->FindUI("##Outliner"));
+    InspectorUI* inspector = static_cast<InspectorUI*>(ImGuiMgr::GetInst()->FindUI("##Inspector"));
 
-    // ¼±ÅÃµÈ ¿ÀºêÁ§Æ®¸¦ °¡Á®¿Í¼­ ComponentType ¿¡ ¸Â´Â ÄÄÆ÷³ÍÆ®¸¦ »ý¼ºÇØ¼­ Ãß°¡ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ComponentType ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
     CGameObject* pSelectedObject = outliner->GetSelectedObject();
 
     if (nullptr == pSelectedObject)

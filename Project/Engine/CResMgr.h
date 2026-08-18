@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CSingleton.h"
 
 #include "ptr.h"
@@ -18,48 +18,47 @@ class CResMgr :
     public CSingleton<CResMgr>
 {
     SINGLE(CResMgr)
-private:
-    map<wstring, Ptr<CRes>> m_arrRes[(UINT)RES_TYPE::END];
+    map<wstring, Ptr<CRes>> m_arrRes[static_cast<UINT>(RES_TYPE::END)];
     bool                    m_Changed;
 
-    vector<D3D11_INPUT_ELEMENT_DESC>	m_vecLayoutInfo;
-    UINT								m_iLayoutOffset_0;
-    UINT								m_iLayoutOffset_1;
+    vector<D3D11_INPUT_ELEMENT_DESC> m_vecLayoutInfo;
+    UINT                             m_iLayoutOffset_0;
+    UINT                             m_iLayoutOffset_1;
 
 public:
     void init();
     void tick();
 
 private:
-    void InitSound();
+    void InitSound() const;
     void CreateDefaultMesh();
     void CreateDefaultGraphicsShader();
     void CreateDefaultComputeShader();
-    void CreateDefaultMaterial();  
+    void CreateDefaultMaterial();
 
     void AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName, UINT _iSlotNum, UINT _iSemanticIdx);
 
 public:
-    const map<wstring, Ptr<CRes>>& GetResources(RES_TYPE _Type) { return m_arrRes[(UINT)_Type]; }
+    const map<wstring, Ptr<CRes>>& GetResources(RES_TYPE _Type) { return m_arrRes[static_cast<UINT>(_Type)]; }
 
     // _BindFlag = D3D11_BIND_FLAG
-    Ptr<CTexture> CreateTexture(const wstring& _strKey, UINT _Width, UINT _Height
-        , DXGI_FORMAT _pixelformat, UINT _BindFlag, D3D11_USAGE _Usage);
-    Ptr<CTexture> CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _Tex2D);
-    Ptr<CTexture> LoadTexture(const wstring& _strKey, const wstring& _strRelativePath, int _iMapLevel);
+    Ptr<CTexture> CreateTexture(const wstring& _strKey, UINT      _Width, UINT           _Height
+                              , DXGI_FORMAT    _pixelformat, UINT _BindFlag, D3D11_USAGE _Usage);
+    Ptr<CTexture>  CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _Tex2D);
+    Ptr<CTexture>  LoadTexture(const wstring& _strKey, const wstring& _strRelativePath, int _iMapLevel);
     Ptr<CMeshData> LoadFBX(const wstring& _strPath);
 
     const vector<D3D11_INPUT_ELEMENT_DESC>& GetInputLayoutInfo() { return m_vecLayoutInfo; }
 
-    bool IsResourceChanged() { return m_Changed; }
+    bool IsResourceChanged() const { return m_Changed; }
 
-    template<typename T>
+    template <typename T>
     Ptr<T> FindRes(const wstring& _strKey);
 
-    template<typename T>
+    template <typename T>
     void AddRes(const wstring& _strKey, Ptr<T> _Res);
 
-    template<typename T>
+    template <typename T>
     Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
 
 private:
@@ -68,17 +67,17 @@ private:
     friend class CEventMgr;
 };
 
-template<typename T>
+template <typename T>
 RES_TYPE GetResType()
 {
-    const type_info& mesh = typeid(CMesh);
+    const type_info& mesh     = typeid(CMesh);
     const type_info& meshdata = typeid(CMeshData);
     const type_info& material = typeid(CMaterial);
-    const type_info& texture = typeid(CTexture);
-    const type_info& sound = typeid(CSound);
-    const type_info& prefab = typeid(CPrefab);
-    const type_info& gs = typeid(CGraphicsShader);
-    const type_info& cs = typeid(CComputeShader);
+    const type_info& texture  = typeid(CTexture);
+    const type_info& sound    = typeid(CSound);
+    const type_info& prefab   = typeid(CPrefab);
+    const type_info& gs       = typeid(CGraphicsShader);
+    const type_info& cs       = typeid(CComputeShader);
 
     if (typeid(T).hash_code() == mesh.hash_code())
         return RES_TYPE::MESH;
@@ -101,59 +100,57 @@ RES_TYPE GetResType()
 }
 
 
-template<typename T>
-inline Ptr<T> CResMgr::FindRes(const wstring& _strKey)
+template <typename T>
+Ptr<T> CResMgr::FindRes(const wstring& _strKey)
 {
     RES_TYPE type = GetResType<T>();
-      
-    map<wstring, Ptr<CRes>>::iterator iter = m_arrRes[(UINT)type].find(_strKey);
-    if (iter == m_arrRes[(UINT)type].end())
+
+    map<wstring, Ptr<CRes>>::iterator iter = m_arrRes[static_cast<UINT>(type)].find(_strKey);
+    if (iter == m_arrRes[static_cast<UINT>(type)].end())
         return nullptr;
 
-    return (T*)iter->second.Get();    
+    return static_cast<T*>(iter->second.Get());
 }
 
 
-template<typename T>
-inline void CResMgr::AddRes(const wstring& _strKey, Ptr<T> _Res)
+template <typename T>
+void CResMgr::AddRes(const wstring& _strKey, Ptr<T> _Res)
 {
-    // ¡ﬂ∫π≈∞∑Œ ∏Æº“Ω∫ √ﬂ∞°«œ∑¡¥¬ ∞ÊøÏ
-    assert( ! FindRes<T>(_strKey).Get() );
+    // Ï§ëÎ≥µÌÇ§Î°ú Î¶¨ÏÜåÏä§ Ï∂îÍ∞ÄÌïòÎ†§Îäî Í≤ΩÏö∞
+    assert(! FindRes<T>(_strKey).Get());
 
     RES_TYPE type = GetResType<T>();
-    m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
+    m_arrRes[static_cast<UINT>(type)].insert(make_pair(_strKey, _Res.Get()));
     _Res->SetKey(_strKey);
 
     m_Changed = true;
 }
 
 
-template<typename T>
-inline Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
+template <typename T>
+Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 {
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
-    
-    // ¿ÃπÃ «ÿ¥Á ≈∞∑Œ ∏Æº“Ω∫∞° ¿÷¥Ÿ∏È, π›»Ø
+
+    // Ïù¥ÎØ∏ Ìï¥Îãπ ÌÇ§Î°ú Î¶¨ÏÜåÏä§Í∞Ä ÏûàÎã§Î©¥, Î∞òÌôò
     if (nullptr != pRes)
-        return (T*)pRes.Get();
-            
+        return static_cast<T*>(pRes.Get());
+
     pRes = new T;
     pRes->SetKey(_strKey);
     pRes->SetRelativePath(_strRelativePath);
 
     wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-    strFilePath += _strRelativePath;
+    strFilePath         += _strRelativePath;
 
     if (FAILED(pRes->Load(strFilePath)))
-    {
         assert(nullptr);
-    }
 
     RES_TYPE type = GetResType<T>();
-    m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
+    m_arrRes[static_cast<UINT>(type)].insert(make_pair(_strKey, pRes));
 
 
     m_Changed = true;
 
-    return (T*)pRes.Get();
+    return static_cast<T*>(pRes.Get());
 }

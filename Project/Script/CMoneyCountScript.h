@@ -1,5 +1,6 @@
 #pragma once
 #include <Engine/CScript.h>
+
 class CMoneyCountScript :
     public CScript
 {
@@ -9,8 +10,6 @@ public:
 
     CLONE(CMoneyCountScript);
 
-public:
     CMoneyCountScript();
-    ~CMoneyCountScript();
+    virtual ~CMoneyCountScript() override;
 };
-

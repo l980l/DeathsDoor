@@ -1,59 +1,59 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CWaterCameraScript.h"
 #include "CGameCameraScript.h"
 
-#include <Engine\CRenderMgr.h>
-#include <Engine\CDevice.h>
+#include <Engine/CRenderMgr.h>
+#include <Engine/CDevice.h>
 
 void CWaterCameraScript::begin()
 {
-	// MainCamera ÂüÁ¶.
-	m_pMainCamera = CRenderMgr::GetInst()->GetMainCam()->GetOwner();
+    // MainCamera ì°¸ì¡°.
+    m_pMainCamera = CRenderMgr::GetInst()->GetMainCam()->GetOwner();
 
-	// MainCamera¿¡¼­ »ç¿ëÇÏ´Â ÇÃ·¹ÀÌ¾î·ÎÀÇ °Å¸®¸¦ °¡Á®¿È.
-	m_vDistance = m_pMainCamera->GetScript<CGameCameraScript>()->GetDistance();
+    // MainCameraì—ì„œ ì‚¬ìš©í•˜ëŠ” í”Œë ˆì´ì–´ë¡œì˜ ê±°ë¦¬ë¥¼ ê°€ì ¸ì˜´.
+    m_vDistance = m_pMainCamera->GetScript<CGameCameraScript>()->GetDistance();
 
-	// È¸ÀüÀº 360 - main camÀÇ x È¸Àü °ª.
-	Vec3 CamRot = m_pMainCamera->Transform()->GetRelativeRot();
-	CamRot.x = XM_2PI - CamRot.x;
-	GetOwner()->Transform()->SetRelativeRot(CamRot);
+    // íšŒì „ì€ 360 - main camì˜ x íšŒì „ ê°’.
+    Vec3 CamRot = m_pMainCamera->Transform()->GetRelativeRot();
+    CamRot.x    = XM_2PI - CamRot.x;
+    GetOwner()->Transform()->SetRelativeRot(CamRot);
 
-	// Ä«¸Þ¶ó ½ºÄÉÀÏÀº µ¿ÀÏÇÏ°Ô.
-	float Scale = m_pMainCamera->Camera()->GetScale();
-	GetOwner()->Camera()->SetScale(Scale);
+    // ì¹´ë©”ë¼ ìŠ¤ì¼€ì¼ì€ ë™ì¼í•˜ê²Œ.
+    float Scale = m_pMainCamera->Camera()->GetScale();
+    GetOwner()->Camera()->SetScale(Scale);
 }
 
 void CWaterCameraScript::tick()
 {
-	Vec3 vMainCamPos = m_pMainCamera->Transform()->GetWorldPos();
+    Vec3 vMainCamPos = m_pMainCamera->Transform()->GetWorldPos();
 
-	vMainCamPos.y = m_fWaterHeight - vMainCamPos.y;
+    vMainCamPos.y = m_fWaterHeight - vMainCamPos.y;
 
-	vMainCamPos.y += m_fYOffset;
-	
-	GetOwner()->Transform()->SetRelativePos(vMainCamPos);
+    vMainCamPos.y += m_fYOffset;
+
+    GetOwner()->Transform()->SetRelativePos(vMainCamPos);
 }
 
 void CWaterCameraScript::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_fWaterHeight, sizeof(float), 1, _File);
-	fwrite(&m_fYOffset, sizeof(float), 1, _File);
+    fwrite(&m_fWaterHeight, sizeof(float), 1, _File);
+    fwrite(&m_fYOffset, sizeof(float), 1, _File);
 }
 
 void CWaterCameraScript::LoadFromLevelFile(FILE* _FILE)
 {
-	fread(&m_fWaterHeight, sizeof(float), 1, _FILE);
-	fread(&m_fYOffset, sizeof(float), 1, _FILE);
+    fread(&m_fWaterHeight, sizeof(float), 1, _FILE);
+    fread(&m_fYOffset, sizeof(float), 1, _FILE);
 }
 
 CWaterCameraScript::CWaterCameraScript()
-	: CScript((UINT)SCRIPT_TYPE::WATERCAMERASCRIPT)
-	, m_pMainCamera(nullptr)
-	, m_fWaterHeight(300.f)
-	, m_fYOffset(480.f)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::WATERCAMERASCRIPT))
+    , m_pMainCamera(nullptr)
+    , m_fWaterHeight(300.f)
+    , m_fYOffset(480.f)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fWaterHeight, "WaterHeight");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fYOffset, "m_YOffset");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fWaterHeight, "WaterHeight");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fYOffset, "m_YOffset");
 }
 
 CWaterCameraScript::~CWaterCameraScript()

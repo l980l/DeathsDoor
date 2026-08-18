@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MeshUI.h"
 
-#include <Engine\CMesh.h>
+#include <Engine/CMesh.h>
 #include <Engine/CResMgr.h>
 #include <Engine/components.h>
 
@@ -22,39 +22,38 @@ int MeshUI::render_update()
     ImGui::Text("Mesh     ");
     ImGui::SameLine();
 
-    Ptr<CMesh> pMesh = (CMesh*)GetTargetRes().Get();
-    string strKey = string(pMesh->GetKey().begin(), pMesh->GetKey().end());
-    ImGui::InputText("##MeshUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
-    
+    Ptr<CMesh> pMesh  = static_cast<CMesh*>(GetTargetRes().Get());
+    string     strKey = string(pMesh->GetKey().begin(), pMesh->GetKey().end());
+    ImGui::InputText("##MeshUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_ReadOnly);
+
     if (0 != pMesh->GetBoneCount())
     {
-        int bonesize = (int)pMesh->GetBoneCount();
+        int bonesize = static_cast<int>(pMesh->GetBoneCount());
         ImGui::Text("Bone Size");
         ImGui::SameLine();
-        ImGui::InputInt("##BoneSize", &bonesize,ImGuiInputTextFlags_::ImGuiInputTextFlags_None);
+        ImGui::InputInt("##BoneSize", &bonesize, ImGuiInputTextFlags_None);
     }
 
     if (pMesh->IsAnimMesh())
     {
-       ImGui::Text("Anim Name");
-       ImGui::SameLine();
-       const vector<tMTAnimClip>* clip = pMesh->GetAnimClip();
-       for (size_t i = 0; i < clip->size(); i++)
-       {
-           string animName = string((*clip)[i].strAnimName.begin(), (*clip)[i].strAnimName.end());
-           ImGui::InputText("##AnimName", (char*)animName.c_str(), animName.length());
+        ImGui::Text("Anim Name");
+        ImGui::SameLine();
+        const vector<tMTAnimClip>* clip = pMesh->GetAnimClip();
+        for (size_t i = 0; i < clip->size(); i++)
+        {
+            string animName = string((*clip)[i].strAnimName.begin(), (*clip)[i].strAnimName.end());
+            ImGui::InputText("##AnimName", (char*)animName.c_str(), animName.length());
 
-           ImGui::Text("Srt Frame");
-           ImGui::SameLine();
-           int startFrame = (*clip)[i].iStartFrame;
-           ImGui::InputInt("##startFrame", &startFrame, ImGuiInputTextFlags_None);
+            ImGui::Text("Srt Frame");
+            ImGui::SameLine();
+            int startFrame = (*clip)[i].iStartFrame;
+            ImGui::InputInt("##startFrame", &startFrame, ImGuiInputTextFlags_None);
 
-           ImGui::Text("End Frame");
-           ImGui::SameLine();
-           int endFrame = (*clip)[i].iEndFrame;
-           ImGui::InputInt("##endFrame", &endFrame, ImGuiInputTextFlags_None);
-       }
-       
+            ImGui::Text("End Frame");
+            ImGui::SameLine();
+            int endFrame = (*clip)[i].iEndFrame;
+            ImGui::InputInt("##endFrame", &endFrame, ImGuiInputTextFlags_None);
+        }
     }
 
     return 0;

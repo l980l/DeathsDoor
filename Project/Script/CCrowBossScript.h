@@ -1,37 +1,36 @@
-#pragma once
+ï»¿#pragma once
 #include "CMonsterScript.h"
+
 class CCrowBossScript :
     public CMonsterScript
 {
-private:
-    Vec3            m_vPlayerPos;
-    Vec3            m_vMonsterToPlayerDir;
-    float           m_fPlayerDistance;
-    bool            m_bStarePlayer;
-    float           m_fPrevHP;          // ÀÌÀü HP. HP°¡ ÁÙ¾úÀ» ¶§, µ¥¹ÌÁö »ç¿îµå¸¦ Àç»ýÇÏ±â À§ÇØ »ç¿ë.
-    CGameObject*    m_pCrowBossFeather;
+    Vec3         m_vPlayerPos;
+    Vec3         m_vMonsterToPlayerDir;
+    float        m_fPlayerDistance;
+    bool         m_bStarePlayer;
+    float        m_fPrevHP; // ì´ì „ HP. HPê°€ ì¤„ì—ˆì„ ë•Œ, ë°ë¯¸ì§€ ì‚¬ìš´ë“œë¥¼ ìž¬ìƒí•˜ê¸° ìœ„í•´ ì‚¬ìš©.
+    CGameObject* m_pCrowBossFeather;
 
 public:
-    Vec3 GetPlayerPos() { return m_vPlayerPos; }
-    Vec3 GetMonsterToPlayerDir() { return m_vMonsterToPlayerDir; }
-    float GetPlayerDistance() { return m_fPlayerDistance; }
+    Vec3  GetPlayerPos() const { return m_vPlayerPos; }
+    Vec3  GetMonsterToPlayerDir() const { return m_vMonsterToPlayerDir; }
+    float GetPlayerDistance() const { return m_fPlayerDistance; }
 
-    bool GetStarePlayer() { return m_bStarePlayer; }
+    bool GetStarePlayer() const { return m_bStarePlayer; }
     void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
-    void DestoryFeather() 
-    { 
-        if (m_pCrowBossFeather) 
+
+    void DestoryFeather()
+    {
+        if (m_pCrowBossFeather)
         {
             m_pCrowBossFeather->SetLifeSpan(0.f);
             m_pCrowBossFeather = nullptr;
         }
     }
 
-public:
     virtual void begin() override;
     virtual void tick() override;
 
-public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
@@ -41,9 +40,7 @@ public:
 
     CLONE(CCrowBossScript);
 
-public:
     CCrowBossScript();
     CCrowBossScript(const CCrowBossScript& _Other);
-    ~CCrowBossScript();
+    virtual ~CCrowBossScript() override;
 };
-

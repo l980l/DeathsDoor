@@ -9,30 +9,30 @@ class CAnimator2D;
 class CAnim2D :
     public CEntity
 {
-private:
-    CAnimator2D*        m_pOwner;
-    vector<tAnim2DFrm>  m_vecFrm;
-    Vec2                m_vBackSize;
-    Ptr<CTexture>       m_AtlasTex;
+    CAnimator2D*       m_pOwner;
+    vector<tAnim2DFrm> m_vecFrm;
+    Vec2               m_vBackSize;
+    Ptr<CTexture>      m_AtlasTex;
 
-    int                 m_iCurFrm;
-    float               m_fTime;
+    int   m_iCurFrm;
+    float m_fTime;
 
-    bool                m_bFinish;
+    bool m_bFinish;
 
 public:
     void finaltick();
     void Create(const wstring& _strAnimName, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vSlice, Vec2 _BackSize, int _FrameCount, int _FPS);
 
-    const tAnim2DFrm& GetCurFrame() { return m_vecFrm[m_iCurFrm];}
-    Vec2 GetBackSize() { return m_vBackSize; }
-    Ptr<CTexture> GetAtlasTex() { return m_AtlasTex; }
+    const tAnim2DFrm& GetCurFrame() const { return m_vecFrm[m_iCurFrm]; }
+    Vec2              GetBackSize() const { return m_vBackSize; }
+    Ptr<CTexture>     GetAtlasTex() { return m_AtlasTex; }
 
-    bool IsFinish() { return m_bFinish; }
+    bool IsFinish() const { return m_bFinish; }
+
     void Reset()
     {
         m_iCurFrm = 0;
-        m_fTime = 0.f;
+        m_fTime   = 0.f;
         m_bFinish = false;
     }
 
@@ -41,10 +41,8 @@ public:
 
 
     CLONE(CAnim2D);
-public:
     CAnim2D();
-    ~CAnim2D();
+    virtual ~CAnim2D() override;
 
     friend class CAnimator2D;
 };
-

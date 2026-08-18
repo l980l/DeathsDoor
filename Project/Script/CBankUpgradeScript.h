@@ -1,13 +1,12 @@
 #pragma once
-#include <Engine\CScript.h>
+#include <Engine/CScript.h>
 #include "CStateScript.h"
 
 class CBankUpgradeScript :
-	public CScript
+    public CScript
 {
-private:
-    CGameObject*    m_pPlayer;
-    CStateScript*   m_pStateScript;
+    CGameObject*  m_pPlayer;
+    CStateScript* m_pStateScript;
 
 public:
     virtual void begin() override;
@@ -16,11 +15,9 @@ public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
-    void Upgrade(PLAYER_UPGRADE _tUpgradeType);
+    void         Upgrade(PLAYER_UPGRADE _tUpgradeType) const;
 
     CLONE(CBankUpgradeScript);
-public:
     CBankUpgradeScript();
-    ~CBankUpgradeScript();
+    virtual ~CBankUpgradeScript() override;
 };
-

@@ -2,7 +2,6 @@
 #include "TreeUI.h"
 
 
-
 // ========
 // TreeNode
 // ========
@@ -12,7 +11,7 @@ TreeNode::TreeNode()
     , m_ID(0)
     , m_Data(0)
     , m_CategoryNode(false)
-    , m_Hilight(false)    
+    , m_Hilight(false)
 {
 }
 
@@ -23,9 +22,9 @@ TreeNode::~TreeNode()
 
 void TreeNode::render_update()
 {
-    // FinalName ¸¸µé±â
+    // FinalName ï¿½ï¿½ï¿½ï¿½ï¿½
     string strFinalName = m_strName;
-    strFinalName += "##";
+    strFinalName        += "##";
 
     char szBuff[100] = {};
     _itoa_s(m_ID, szBuff, 10);
@@ -34,74 +33,69 @@ void TreeNode::render_update()
     // Flag Ã¼Å©
     UINT flag = ImGuiTreeNodeFlags_DefaultOpen;
 
-    // ÀÚ½Ä ³ëµå°¡ ¾øÀ¸¸é Lear ÇÃ·¡±×¸¦ ¼³Á¤ÇÑ´Ù(È­»ìÇ¥ Á¦°Å)
-    if (m_vecChildNode.empty())    
+    // ï¿½Ú½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Lear ï¿½Ã·ï¿½ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½(È­ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½)
+    if (m_vecChildNode.empty())
         flag |= ImGuiTreeNodeFlags_Leaf;
-    
-    // Å¬¸¯ µÇ¾ú°Å³ª, Ç×¸ñ ´ëÇ¥ ³ëµåÀÎ °æ¿ì Selected ÇÃ·¡±×·Î ÇÏÀÌ¶óÀÌÆ®¸¦ ÁØ´Ù.
-    if(m_Hilight || m_CategoryNode)
+
+    // Å¬ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Å³ï¿½, ï¿½×¸ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Selected ï¿½Ã·ï¿½ï¿½×·ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ø´ï¿½.
+    if (m_Hilight || m_CategoryNode)
         flag |= ImGuiTreeNodeFlags_Selected;
 
     if (ImGui::TreeNodeEx(strFinalName.c_str(), flag))
     {
-        // ÇØ´ç ³ëµå¿¡ ¸¶¿ì½º ¿ÞÅ¬¸¯ÀÌ ¹ß»ýÇÏ¸é ¼±ÅÃ³ëµå·Î ÁöÁ¤ ÁØ´Ù.
-        if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_::ImGuiMouseButton_Left))
-        {            
+        // ï¿½Ø´ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½.
+        if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left))
+        {
             m_Owner->m_LbtDownNode = this;
         }
 
-        // ¸¶¿ì½º ¿ìÅ¬¸¯ ¹ß»ý
-        else if (ImGui::IsItemClicked(ImGuiMouseButton_::ImGuiMouseButton_Right))
+        // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½ß»ï¿½
+        else if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
         {
             m_Owner->SetRbtDownNode(this);
         }
 
-        else if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_::ImGuiMouseButton_Left))
+        else if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
         {
             m_Owner->SetSelectedNode(this);
         }
 
-        // ¶Ç´Â, Æ®¸® Àç±¸¼º ÀÌÀü¿¡ ¼±ÅÃµÈ ³ëµå¿´´Ù¸é, ´Ù½Ã ¼±ÅÃ³ëµå·Î Ã³¸®ÇÑ´Ù.
+        // ï¿½Ç´ï¿½, Æ®ï¿½ï¿½ ï¿½ç±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½å¿´ï¿½Ù¸ï¿½, ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
         else if (0 != m_Owner->m_dwPrevSelected && m_Owner->m_dwPrevSelected == m_Data)
         {
             m_Owner->m_dwPrevSelected = 0;
             m_Owner->SetSelectedNode(this);
         }
 
-        // ÇØ´ç ³ëµå À§¿¡¼­ µå·¡±× ½ºÅ¸Æ® Ã¼Å©
+        // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½å·¡ï¿½ï¿½ ï¿½ï¿½Å¸Æ® Ã¼Å©
         if (ImGui::BeginDragDropSource())
         {
             ImGui::SetDragDropPayload(m_Owner->m_strDragDropID.c_str(), this, sizeof(TreeNode));
             ImGui::Text(m_strName.c_str());
 
-            // Tree ¿¡ µå·¡±× ³ëµå µî·Ï
+            // Tree ï¿½ï¿½ ï¿½å·¡ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             m_Owner->SetDragNode(this);
 
             ImGui::EndDragDropSource();
         }
 
-        // µå·¡±× ½ÃÀÛ ÈÄ, µå¶øÀÇ ÈÄº¸ÀÎ °æ¿ì
+        // ï¿½å·¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         if (ImGui::BeginDragDropTarget())
         {
-            // ÇØ´ç ³ëµå¿¡¼­ ¸¶¿ì½º ¶¾ °æ¿ì, ÁöÁ¤ÇÑ PayLoad Å°°ªÀÌ ÀÏÄ¡ÇÑ °æ¿ì
+            // ï¿½Ø´ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PayLoad Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½
             const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload(m_Owner->m_strDragDropID.c_str());
             if (pPayLoad)
-            {
-                // DropNode ¸¦ Tree ¿¡ ¾Ë¸²
+                // DropNode ï¿½ï¿½ Tree ï¿½ï¿½ ï¿½Ë¸ï¿½
                 m_Owner->SetDropNode(this);
-            }
 
             ImGui::EndDragDropTarget();
         }
 
         for (size_t i = 0; i < m_vecChildNode.size(); ++i)
-        {
             m_vecChildNode[i]->render_update();
-        }
 
         ImGui::TreePop();
     }
-
 }
 
 
@@ -116,10 +110,10 @@ TreeUI::TreeUI()
     , m_SelectedNode(nullptr)
     , m_dwPrevSelected(0)
     , m_SelectInst(nullptr)
-    , m_SelectFunc(nullptr)    
+    , m_SelectFunc(nullptr)
     , m_DragDropInst(nullptr)
     , m_DragDropFunc(nullptr)
-{   
+{
     m_strDragDropID = "PayLoad";
 }
 
@@ -134,48 +128,34 @@ int TreeUI::render_update()
     if (nullptr != m_RootNode)
     {
         if (m_bShowRoot)
-        {
             m_RootNode->render_update();
-        }
         else
-        {
             for (size_t i = 0; i < m_RootNode->m_vecChildNode.size(); ++i)
-            {
                 m_RootNode->m_vecChildNode[i]->render_update();
-            }
-        }
     }
 
-    // Drag Drop ³ëµå µÑ´Ù ÀÖ´Â °æ¿ì
-    if ( (m_DragNode && m_DropNode) || (m_DragNode && ImGui::IsMouseReleased(ImGuiMouseButton_::ImGuiMouseButton_Left)))
+    // Drag Drop ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
+    if ((m_DragNode && m_DropNode) || (m_DragNode && ImGui::IsMouseReleased(ImGuiMouseButton_Left)))
     {
         if (m_DragDropInst && m_DragDropFunc)
-        {
             (m_DragDropInst->*m_DragDropFunc)((DWORD_PTR)m_DragNode, (DWORD_PTR)m_DropNode);
-        }
-        
+
         m_DragNode = nullptr;
         m_DropNode = nullptr;
     }
 
     if (m_RbtDownNode)
-    {
         if (m_MouseRClickInst && m_MouseRClickFunc)
-        {
             (m_MouseRClickInst->*m_MouseRClickFunc)((DWORD_PTR)m_RbtDownNode);
-        }
-    }
     return 0;
 }
 
 void TreeUI::Clear()
 {
-    // ÀÌÀü¿¡ ¼±ÅÃµÈ ³ëµå°¡ ÀÖÀ¸¸é
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (nullptr != m_SelectedNode)
-    {
-        // ÀÌ¸§À» ±â¾ïÇØµÐ´Ù.
+        // ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
         m_dwPrevSelected = m_SelectedNode->GetData();
-    }
 
     if (nullptr != m_RootNode)
     {
@@ -185,43 +165,43 @@ void TreeUI::Clear()
 }
 
 TreeNode* TreeUI::AddItem(const string& _strNodeName, DWORD_PTR _Data, TreeNode* _pParent)
-{    
+{
     TreeNode* pNewNode = new TreeNode;
 
-    pNewNode->m_Owner = this;
+    pNewNode->m_Owner   = this;
     pNewNode->m_strName = _strNodeName;
-    pNewNode->m_Data = _Data;
-    pNewNode->m_ID = g_NextId++;
+    pNewNode->m_Data    = _Data;
+    pNewNode->m_ID      = g_NextId++;
 
-    // ·çÆ®°¡ NULL ÀÌ´Ù ==> Æ®¸®¿¡ µé¾î¿Â ÃÖÃÊÀÇ µ¥ÀÌÅÍ
+    // ï¿½ï¿½Æ®ï¿½ï¿½ NULL ï¿½Ì´ï¿½ ==> Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (nullptr == m_RootNode)
     {
-        // ÃÖÃÊ µ¥ÀÌÅÍ ÀÔ·ÂÀÎµ¥, ºÎ¸ð¸¦ ÁöÁ¤ÇÑ °æ¿ì
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Îµï¿½, ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         assert(!_pParent);
 
         m_RootNode = pNewNode;
     }
 
-    // Æ®¸®¿¡ µé¾î¿Â µ¥ÀÌÅÍ°¡ ÃÖÃÊ°¡ ¾Æ´Ï´Ù.
+    // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½Ê°ï¿½ ï¿½Æ´Ï´ï¿½.
     else
     {
         if (_pParent)
         {
-            // ³ëµåÀÇ ºÎ¸ð·Î ÁöÁ¤µÈ ³ëµå°¡ ÇØ´ç Æ®¸® ¼Ò¼ÓÀÌ ¾Æ´Ï´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½Ø´ï¿½ Æ®ï¿½ï¿½ ï¿½Ò¼ï¿½ï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
             if (_pParent->m_Owner != this)
                 assert(nullptr);
 
-            // ÁöÁ¤µÈ ºÎ¸ðÀÇ ÀÚ½ÄÀ¸·Î ¿¬°á
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             _pParent->m_vecChildNode.push_back(pNewNode);
             pNewNode->m_ParentNode = _pParent;
         }
 
-        // ºÎ¸ð·Î ÁöÁ¤µÈ ³ëµå°¡ ¾ø´Â°æ¿ì, ·çÆ® ¹ØÀ¸·Î ³Ö´Â´Ù
+        // ï¿½Î¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½Â°ï¿½ï¿½, ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â´ï¿½
         else
         {
-            // »õ·Î »ý¼ºÇÑ ³ëµå¸¦ ·çÆ®³ëµåÀÇ ÀÚ½ÄÀ¸·Î ¿¬°á
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             m_RootNode->m_vecChildNode.push_back(pNewNode);
-            pNewNode->m_ParentNode = m_RootNode;            
+            pNewNode->m_ParentNode = m_RootNode;
         }
     }
 
@@ -231,27 +211,25 @@ TreeNode* TreeUI::AddItem(const string& _strNodeName, DWORD_PTR _Data, TreeNode*
 
 void TreeUI::SetSelectedNode(TreeNode* _Node)
 {
-    // ¸¶¿ì½º¸¦ ´©¸¥ ³ëµå¿Í ¶¾ ³ëµå°¡ ÀÏÄ¡ÇØ¾ß ÇÔ
+    // ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½Ä¡ï¿½Ø¾ï¿½ ï¿½ï¿½
     if (m_LbtDownNode != _Node)
     {
         m_LbtDownNode = nullptr;
         return;
-    }        
+    }
 
     if (m_SelectedNode)
         m_SelectedNode->m_Hilight = false;
 
     m_SelectedNode = _Node;
-    m_LbtDownNode = nullptr;
+    m_LbtDownNode  = nullptr;
 
     if (m_SelectedNode)
     {
         m_SelectedNode->m_Hilight = true;
 
         if (m_SelectInst && m_SelectFunc)
-        {
             (m_SelectInst->*m_SelectFunc)((DWORD_PTR)m_SelectedNode);
-        }
     }
 }
 
@@ -285,15 +263,13 @@ bool TreeUI::GetSelectedNode(DWORD_PTR _Data)
         queue.pop_front();
 
         for (size_t i = 0; i < pCurNode->m_vecChildNode.size(); ++i)
-        {
             queue.push_back(pCurNode->m_vecChildNode[i]);
-        }
 
         if (pCurNode->GetData() == _Data)
         {
             SetSelectedNode(pCurNode);
             return true;
-        }        
+        }
     }
 
     return false;

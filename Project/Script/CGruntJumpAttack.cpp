@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CGruntJumpAttack.h"
 #include "CGruntScript.h"
 #include "CLevelSaveLoadInScript.h"
@@ -6,58 +6,58 @@
 
 void CGruntJumpAttack::Enter()
 {
-	GetOwner()->Animator3D()->Play(12, false);
+    GetOwner()->Animator3D()->Play(12, false);
 
-	// ∞¯∞› πÊ«‚¿∫ √≥¿Ωø°∏∏ ¡ˆ¡§«ÿæﬂ «‘. 
-	m_Dir = GetOwner()->GetScript<CGruntScript>()->GetMonsterToPlayerDir();
-	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+    // Í≥µÍ≤© Î∞©Ìñ•ÏùÄ Ï≤òÏùåÏóêÎßå ÏßÄÏ†ïÌï¥Ïïº Ìï®. 
+    m_Dir = GetOwner()->GetScript<CGruntScript>()->GetMonsterToPlayerDir();
+    GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 
-	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CGruntScript>()->GetPlayerPos());
-	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
-	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+    float fDir   = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CGruntScript>()->GetPlayerPos());
+    Vec3  CurDir = GetOwner()->Transform()->GetRelativeRot();
+    GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_JumpAttack1.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Grunt\\Grunt_JumpAttack1.ogg", 1, 0.1f);
 }
 
 void CGruntJumpAttack::tick()
 {
-	// ∞¯∞› √Êµπ√º «¡∏Æ∆È
-	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
+    // Í≥µÍ≤© Ï∂©ÎèåÏ≤¥ ÌîÑÎ¶¨Ìé©
+    CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 0.f);
 
-	MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
-	MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale() * 1.2f);
+    MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+    MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale() * 1.2f);
 
-	float AnimLength = (float)GetOwner()->Animator3D()->GetCurClipTimeLength();
-	m_fTime += DT;
-	float CurRatio = m_fTime / AnimLength;
+    float AnimLength = static_cast<float>(GetOwner()->Animator3D()->GetCurClipTimeLength());
+    m_fTime          += DT;
+    float CurRatio   = m_fTime / AnimLength;
 
-	if (CurRatio <= 0.5f)
-	{
-		Vec3 Velocity = m_Dir;
-		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * 30.f * DT;
+    if (CurRatio <= 0.5f)
+    {
+        Vec3  Velocity = m_Dir;
+        float fSpeed   = GetOwnerScript()->GetStat().Speed;
+        Velocity       *= fSpeed * 30.f * DT;
 
-		GetOwner()->Rigidbody()->AddVelocity(Velocity);
-	}
+        GetOwner()->Rigidbody()->AddVelocity(Velocity);
+    }
 
-	if(CurRatio > 0.65f)
-		GetOwner()->Rigidbody()->ClearForce();
+    if (CurRatio > 0.65f)
+        GetOwner()->Rigidbody()->ClearForce();
 
-	// æ÷¥œ∏ﬁ¿Ãº«¿Ã ≥°≥™∏È Run2∑Œ ¥ŸΩ√ ∫Ø∞Ê.
-	if (GetOwner()->Animator3D()->IsFinish())
-		ChangeState(L"Run2");
+    // Ïï†ÎãàÎ©îÏù¥ÏÖòÏù¥ ÎÅùÎÇòÎ©¥ Run2Î°ú Îã§Ïãú Î≥ÄÍ≤Ω.
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"Run2");
 }
 
 void CGruntJumpAttack::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	m_fTime = 0.f;
+    GetOwner()->Rigidbody()->ClearForce();
+    m_fTime = 0.f;
 }
 
 CGruntJumpAttack::CGruntJumpAttack() :
-	m_fTime(0.f)
+    m_fTime(0.f)
 {
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CComputeShader.h"
 
 #include "ptr.h"
@@ -9,13 +9,12 @@ class CStructuredBuffer;
 class CHeightMapShader :
     public CComputeShader
 {
-private:
-    Ptr<CTexture>       m_pHeightMap;
-    Ptr<CTexture>       m_pBrushTex;
-    Vec2                m_vScale;       // ≥Ù¿Ã Brush ≈©±‚
-    float               m_fVelocity;
-    int                 m_iBrushIdx;
-    CStructuredBuffer*  m_pInput;       // Ray √Êµπ ¿ßƒ°
+    Ptr<CTexture>      m_pHeightMap;
+    Ptr<CTexture>      m_pBrushTex;
+    Vec2               m_vScale; // ÎÜíÏù¥ Brush ÌÅ¨Í∏∞
+    float              m_fVelocity;
+    int                m_iBrushIdx;
+    CStructuredBuffer* m_pInput; // Ray Ï∂©Îèå ÏúÑÏπò
 
 
 public:
@@ -27,12 +26,10 @@ public:
     void SetInputBuffer(CStructuredBuffer* _pInput) { m_pInput = _pInput; }
 
 
-public:
-    virtual void UpdateData();
-    virtual void Clear();
+    virtual void UpdateData() override;
+    virtual void Clear() override;
 
 
-public:
     CHeightMapShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
-    ~CHeightMapShader();
+    virtual ~CHeightMapShader() override;
 };

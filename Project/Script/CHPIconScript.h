@@ -1,10 +1,9 @@
 #pragma once
 #include "CIconScript.h"
+
 class CHPIconScript :
     public CIconScript
 {
-private:
-
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -12,8 +11,6 @@ public:
 
     CLONE(CHPIconScript);
 
-public:
     CHPIconScript();
-    ~CHPIconScript();
+    virtual ~CHPIconScript() override;
 };
-

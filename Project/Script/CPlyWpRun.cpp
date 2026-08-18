@@ -11,7 +11,7 @@ CPlyWpRun::~CPlyWpRun()
 
 void CPlyWpRun::Enter()
 {
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::RUN, true);
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::RUN), true);
 }
 
 void CPlyWpRun::tick()

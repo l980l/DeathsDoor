@@ -4,48 +4,47 @@
 
 struct tScalarParam
 {
-    SCALAR_PARAM    eParam;
-    string          strDesc;
+    SCALAR_PARAM eParam;
+    string       strDesc;
 };
 
 struct tTexParam
 {
-    TEX_PARAM       eParam;
-    string          strDesc;
+    TEX_PARAM eParam;
+    string    strDesc;
 };
 
 
 class CGraphicsShader :
     public CShader
 {
-private:
-    ComPtr<ID3DBlob>                m_VSBlob;
-    ComPtr<ID3DBlob>				m_VSInstBlob;
-    ComPtr<ID3DBlob>                m_HSBlob;
-    ComPtr<ID3DBlob>                m_DSBlob;
-    ComPtr<ID3DBlob>                m_GSBlob;
-    ComPtr<ID3DBlob>                m_PSBlob;    
+    ComPtr<ID3DBlob> m_VSBlob;
+    ComPtr<ID3DBlob> m_VSInstBlob;
+    ComPtr<ID3DBlob> m_HSBlob;
+    ComPtr<ID3DBlob> m_DSBlob;
+    ComPtr<ID3DBlob> m_GSBlob;
+    ComPtr<ID3DBlob> m_PSBlob;
 
-    ComPtr<ID3D11VertexShader>      m_VS;
-    ComPtr<ID3D11VertexShader>		m_VSInst;
-    ComPtr<ID3D11HullShader>        m_HS;
-    ComPtr<ID3D11DomainShader>      m_DS;
-    ComPtr<ID3D11GeometryShader>    m_GS;
-    ComPtr<ID3D11PixelShader>       m_PS;
+    ComPtr<ID3D11VertexShader>   m_VS;
+    ComPtr<ID3D11VertexShader>   m_VSInst;
+    ComPtr<ID3D11HullShader>     m_HS;
+    ComPtr<ID3D11DomainShader>   m_DS;
+    ComPtr<ID3D11GeometryShader> m_GS;
+    ComPtr<ID3D11PixelShader>    m_PS;
 
-    ComPtr<ID3D11InputLayout>	    m_Layout;
-    ComPtr<ID3D11InputLayout>       m_LayoutInst;
+    ComPtr<ID3D11InputLayout> m_Layout;
+    ComPtr<ID3D11InputLayout> m_LayoutInst;
 
-    D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;
+    D3D11_PRIMITIVE_TOPOLOGY m_eTopology;
 
-    RS_TYPE                         m_RSType;
-    DS_TYPE                         m_DSType;
-    BS_TYPE                         m_BSType;
+    RS_TYPE m_RSType;
+    DS_TYPE m_DSType;
+    BS_TYPE m_BSType;
 
-    SHADER_DOMAIN                   m_Domain;
+    SHADER_DOMAIN m_Domain;
 
-    vector<tScalarParam>            m_vecScalarParam;
-    vector<tTexParam>               m_vecTexParam;
+    vector<tScalarParam> m_vecScalarParam;
+    vector<tTexParam>    m_vecTexParam;
 
 public:
     void CreateVertexShader(const wstring& _strFileName, const string& _strFuncName);
@@ -61,20 +60,18 @@ public:
 
     ComPtr<ID3D11VertexShader> GetVSInst() { return m_VSInst; }
 
-    RS_TYPE GetRSType() { return m_RSType; }
+    RS_TYPE GetRSType() const { return m_RSType; }
 
-    SHADER_DOMAIN GetDomain() { return m_Domain; }
-    void UpdateData();
-    void UpdateData_Inst();
+    SHADER_DOMAIN GetDomain() const { return m_Domain; }
+    void          UpdateData() const;
+    void          UpdateData_Inst() const;
 
-    void AddScalarParam(SCALAR_PARAM _Param, const string& _desc) { m_vecScalarParam.push_back(tScalarParam{ _Param, _desc });}
+    void AddScalarParam(SCALAR_PARAM _Param, const string& _desc) { m_vecScalarParam.push_back(tScalarParam{_Param, _desc}); }
     void AddTexParam(TEX_PARAM _Param, const string& _desc) { m_vecTexParam.push_back(tTexParam{_Param, _desc}); }
 
     const vector<tScalarParam>& GetScalarParam() { return m_vecScalarParam; }
-    const vector<tTexParam>& GetTexParam() { return m_vecTexParam; }
+    const vector<tTexParam>&    GetTexParam() { return m_vecTexParam; }
 
-public:
     CGraphicsShader();
-    ~CGraphicsShader();
+    virtual ~CGraphicsShader() override;
 };
-

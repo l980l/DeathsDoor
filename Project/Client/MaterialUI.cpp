@@ -3,8 +3,8 @@
 
 #include "ParamUI.h"
 
-#include <Engine\CResMgr.h>
-#include <Engine\CMaterial.h>
+#include <Engine/CResMgr.h>
+#include <Engine/CMaterial.h>
 
 MaterialUI::MaterialUI()
     : ResUI(RES_TYPE::MATERIAL)
@@ -20,15 +20,15 @@ int MaterialUI::render_update()
 {
     ResUI::render_update();
 
-    // Material ÀÌ¸§
-    ImGui::Text("Material"); 
+    // Material ï¿½Ì¸ï¿½
+    ImGui::Text("Material");
     ImGui::SameLine();
 
-    Ptr<CMaterial> pMtrl = (CMaterial*)GetTargetRes().Get();
-    string strKey = string(pMtrl->GetKey().begin(), pMtrl->GetKey().end());
-    ImGui::InputText("##MtrlUIName", (char*)strKey.c_str(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+    Ptr<CMaterial> pMtrl  = static_cast<CMaterial*>(GetTargetRes().Get());
+    string         strKey = string(pMtrl->GetKey().begin(), pMtrl->GetKey().end());
+    ImGui::InputText("##MtrlUIName", (char*)strKey.c_str(), ImGuiInputTextFlags_ReadOnly);
 
-    // GraphicsShader ÀÌ¸§
+    // GraphicsShader ï¿½Ì¸ï¿½
     ImGui::Text("Shader  ");
     ImGui::SameLine();
 
@@ -36,19 +36,19 @@ int MaterialUI::render_update()
     if (nullptr != pShader)
     {
         string strKey = string(pShader->GetKey().begin(), pShader->GetKey().end());
-        ImGui::InputText("##ShaderUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+        ImGui::InputText("##ShaderUIName", (char*)strKey.c_str(), strKey.length(), ImGuiInputTextFlags_ReadOnly);
     }
     else
     {
         char szEmtpy[10] = {};
-        ImGui::InputText("##ShaderUIName", szEmtpy, 10, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+        ImGui::InputText("##ShaderUIName", szEmtpy, 10, ImGuiInputTextFlags_ReadOnly);
     }
 
     ImGui::NewLine();
     ImGui::Text("Parameter");
-    
 
-    // Shader ¿¡¼­ ¿ä±¸ÇÏ´Â ScalarParameter ¸¦ UI ¿¡ ³ëÃâ
+
+    // Shader ï¿½ï¿½ï¿½ï¿½ ï¿½ä±¸ï¿½Ï´ï¿½ ScalarParameter ï¿½ï¿½ UI ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     if (nullptr == pShader)
         return 0;
 
@@ -58,85 +58,75 @@ int MaterialUI::render_update()
     {
         switch (vecScalarParam[i].eParam)
         {
-        // Shader Parameter °¡ Int Å¸ÀÔÀÎ °æ¿ì
+        // Shader Parameter ï¿½ï¿½ Int Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         case INT_0:
         case INT_1:
         case INT_2:
         case INT_3:
         {
-            // ÇöÀç ¸ÓÆ¼¸®¾ó¿¡ ¼¼ÆÃµÈ °ªÀ» Àü´Þ   
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   
             int data = 0;
             pMtrl->GetScalarParam(vecScalarParam[i].eParam, &data);
             if (ParamUI::Param_Int(vecScalarParam[i].strDesc, &data))
-            {
-                // UI ÂÊ¿¡¼­ °ªÀÌ º¯°æµÇ¾úÀ¸¸é, ½ÇÁ¦ ¸ÓÆ¼¸®¾ó ¿¡µµ Àû¿ë
+                // UI ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 pMtrl->SetScalarParam(vecScalarParam[i].eParam, &data);
-            }
         }
-            break;
+        break;
         case FLOAT_0:
         case FLOAT_1:
         case FLOAT_2:
         case FLOAT_3:
         {
-            // ÇöÀç ¸ÓÆ¼¸®¾ó¿¡ ¼¼ÆÃµÈ °ªÀ» Àü´Þ   
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   
             float data = 0;
             pMtrl->GetScalarParam(vecScalarParam[i].eParam, &data);
             if (ParamUI::Param_Float(vecScalarParam[i].strDesc, &data))
-            {
-                // UI ÂÊ¿¡¼­ °ªÀÌ º¯°æµÇ¾úÀ¸¸é, ½ÇÁ¦ ¸ÓÆ¼¸®¾ó ¿¡µµ Àû¿ë
+                // UI ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 pMtrl->SetScalarParam(vecScalarParam[i].eParam, &data);
-            }
         }
-            break;
+        break;
         case VEC2_0:
         case VEC2_1:
         case VEC2_2:
         case VEC2_3:
         {
-            // ÇöÀç ¸ÓÆ¼¸®¾ó¿¡ ¼¼ÆÃµÈ °ªÀ» Àü´Þ   
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   
             Vec2 data;
             pMtrl->GetScalarParam(vecScalarParam[i].eParam, &data);
             if (ParamUI::Param_Vec2(vecScalarParam[i].strDesc, &data))
-            {
-                // UI ÂÊ¿¡¼­ °ªÀÌ º¯°æµÇ¾úÀ¸¸é, ½ÇÁ¦ ¸ÓÆ¼¸®¾ó ¿¡µµ Àû¿ë
+                // UI ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 pMtrl->SetScalarParam(vecScalarParam[i].eParam, &data);
-            }
         }
-            break;
+        break;
         case VEC4_0:
         case VEC4_1:
         case VEC4_2:
         case VEC4_3:
         {
-            // ÇöÀç ¸ÓÆ¼¸®¾ó¿¡ ¼¼ÆÃµÈ °ªÀ» Àü´Þ   
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   
             Vec4 data;
             pMtrl->GetScalarParam(vecScalarParam[i].eParam, &data);
             if (ParamUI::Param_Vec4(vecScalarParam[i].strDesc, &data))
-            {
-                // UI ÂÊ¿¡¼­ °ªÀÌ º¯°æµÇ¾úÀ¸¸é, ½ÇÁ¦ ¸ÓÆ¼¸®¾ó ¿¡µµ Àû¿ë
+                // UI ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 pMtrl->SetScalarParam(vecScalarParam[i].eParam, &data);
-            }
         }
-            break;
+        break;
         case MAT_0:
         case MAT_1:
         case MAT_2:
         case MAT_3:
             break;
-        }        
+        }
     }
 
-    // Shader ¿¡¼­ ¿ä±¸ÇÏ´Â Texture Parameter ¸¦ UI ¿¡ ³ëÃâ
+    // Shader ï¿½ï¿½ï¿½ï¿½ ï¿½ä±¸ï¿½Ï´ï¿½ Texture Parameter ï¿½ï¿½ UI ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     const vector<tTexParam>& vecTexParam = pShader->GetTexParam();
     for (size_t i = 0; i < vecTexParam.size(); ++i)
     {
         ImGui::NewLine();
         Ptr<CTexture> pCurTex = pMtrl->GetTexParam(vecTexParam[i].eParam);
-        if (ParamUI::Param_Tex(vecTexParam[i].strDesc, pCurTex, this, (UI_DELEGATE_1)&MaterialUI::SelectTexture))
-        {
+        if (ParamUI::Param_Tex(vecTexParam[i].strDesc, pCurTex, this, static_cast<UI_DELEGATE_1>(&MaterialUI::SelectTexture)))
             m_eSelected = vecTexParam[i].eParam;
-        }
         pMtrl->SetTexParam(vecTexParam[i].eParam, pCurTex);
     }
 
@@ -146,9 +136,9 @@ int MaterialUI::render_update()
 
 void MaterialUI::SelectTexture(DWORD_PTR _Key)
 {
-    string strKey = (char*)_Key;
-    Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
+    string        strKey = (char*)_Key;
+    Ptr<CTexture> pTex   = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
 
-    Ptr<CMaterial> pMtrl = (CMaterial*)GetTargetRes().Get();
+    Ptr<CMaterial> pMtrl = static_cast<CMaterial*>(GetTargetRes().Get());
     pMtrl->SetTexParam(m_eSelected, pTex);
 }

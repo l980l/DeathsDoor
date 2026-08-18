@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CDecal.h"
 
 #include "CTransform.h"
@@ -6,16 +6,16 @@
 #include "CDevice.h"
 
 CDecal::CDecal()
-	: CRenderComponent(COMPONENT_TYPE::DECAL)
-	, m_DecalTex()
-	, m_bShowDebug(false)
-	, m_Light(0)
-	, m_LightAlpha(1.f)
+    : CRenderComponent(COMPONENT_TYPE::DECAL)
+    , m_DecalTex()
+    , m_bShowDebug(false)
+    , m_Light(false)
+    , m_LightAlpha(1.f)
 {
-	SetName(L"Decal");
-	// DecalÀº Ç×»ó CubeMesh¸¦ »ç¿ëÇÒ °ÍÀÌ¹Ç·Î »ý¼ºÀÚ¿¡¼­ ¼³Á¤
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DecalMtrl"), 0);
+    SetName(L"Decal");
+    // Decalì€ í•­ìƒ CubeMeshë¥¼ ì‚¬ìš©í•  ê²ƒì´ë¯€ë¡œ ìƒì„±ìžì—ì„œ ì„¤ì •
+    SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"CubeMesh"));
+    SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DecalMtrl"), 0);
 }
 
 CDecal::~CDecal()
@@ -24,47 +24,47 @@ CDecal::~CDecal()
 
 void CDecal::finaltick()
 {
-	if (m_bShowDebug)
-	{
-		const Matrix& matWorld = Transform()->GetWorldMat();
-		DrawDebugCube(matWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f);
-	}
+    if (m_bShowDebug)
+    {
+        const Matrix& matWorld = Transform()->GetWorldMat();
+        DrawDebugCube(matWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f);
+    }
 }
 
 void CDecal::render()
 {
-	Transform()->UpdateData();
+    Transform()->UpdateData();
 
-	GetMaterial(0)->SetScalarParam(INT_0, &m_Light);
-	GetMaterial(0)->SetScalarParam(FLOAT_0, &m_LightAlpha);
-	GetMaterial(0)->SetTexParam(TEX_0, m_DecalTex);
-	GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"PositionTargetTex"));
-	GetMaterial(0)->UpdateData();
+    GetMaterial(0)->SetScalarParam(INT_0, &m_Light);
+    GetMaterial(0)->SetScalarParam(FLOAT_0, &m_LightAlpha);
+    GetMaterial(0)->SetTexParam(TEX_0, m_DecalTex);
+    GetMaterial(0)->SetTexParam(TEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"PositionTargetTex"));
+    GetMaterial(0)->UpdateData();
 
-	GetMesh()->render(0);
+    GetMesh()->render(0);
 }
 
 void CDecal::render(UINT _iSubset)
 {
-	render();
+    render();
 }
 
 void CDecal::SaveToLevelFile(FILE* _File)
 {
-	CRenderComponent::SaveToLevelFile(_File);
+    CRenderComponent::SaveToLevelFile(_File);
 
-	fwrite(&m_bShowDebug, sizeof(bool), 1, _File);
-	fwrite(&m_Light, sizeof(bool), 1, _File);
-	fwrite(&m_LightAlpha, sizeof(float), 1, _File);
-	SaveResRef(m_DecalTex.Get(), _File);
+    fwrite(&m_bShowDebug, sizeof(bool), 1, _File);
+    fwrite(&m_Light, sizeof(bool), 1, _File);
+    fwrite(&m_LightAlpha, sizeof(float), 1, _File);
+    SaveResRef(m_DecalTex.Get(), _File);
 }
 
 void CDecal::LoadFromLevelFile(FILE* _File)
 {
-	CRenderComponent::LoadFromLevelFile(_File);
+    CRenderComponent::LoadFromLevelFile(_File);
 
-	fread(&m_bShowDebug, sizeof(bool), 1, _File);
-	fread(&m_Light, sizeof(bool), 1, _File);
-	fread(&m_LightAlpha, sizeof(float), 1, _File);
-	LoadResRef(m_DecalTex, _File);
+    fread(&m_bShowDebug, sizeof(bool), 1, _File);
+    fread(&m_Light, sizeof(bool), 1, _File);
+    fread(&m_LightAlpha, sizeof(float), 1, _File);
+    LoadResRef(m_DecalTex, _File);
 }

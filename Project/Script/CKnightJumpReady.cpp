@@ -12,14 +12,13 @@ CKnightJumpReady::~CKnightJumpReady()
 
 void CKnightJumpReady::Enter()
 {
-	GetOwner()->Animator3D()->Play(5, false);
+    GetOwner()->Animator3D()->Play(5, false);
 }
+
 void CKnightJumpReady::tick()
 {
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"JumpAttack1");
-	}
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"JumpAttack1");
 }
 
 

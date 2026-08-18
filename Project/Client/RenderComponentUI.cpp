@@ -4,7 +4,7 @@
 #include <Engine/components.h>
 
 #include <Engine/CRenderMgr.h>
-#include <Engine\CResMgr.h>
+#include <Engine/CResMgr.h>
 
 #include "ImGuiMgr.h"
 #include "ListUI.h"
@@ -13,10 +13,10 @@
 #include "ParamUI.h"
 
 RenderComponentUI::RenderComponentUI()
-	: UI("##RenderComponent")
-	, m_Target(nullptr)
+    : UI("##RenderComponent")
+    , m_Target(nullptr)
 {
-	SetName("RenderComponent");
+    SetName("RenderComponent");
 }
 
 RenderComponentUI::~RenderComponentUI()
@@ -25,222 +25,206 @@ RenderComponentUI::~RenderComponentUI()
 
 int RenderComponentUI::render_update()
 {
+    if (nullptr == m_Target || nullptr == m_Component)
+        return FALSE;
 
-	if (nullptr == m_Target || nullptr == m_Component)
-		return FALSE;
+    ImGui::PushID(0);
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.639, 0.878, 0.39, 0.39));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.639, 0.878, 0.39, 0.39));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.639, 0.878, 0.39, 0.39));
+    ImGui::Button(GetName().c_str());
+    ImGui::PopStyleColor(3);
+    ImGui::PopID();
 
-	ImGui::PushID(0);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.639, 0.878, 0.39, 0.39));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.639, 0.878, 0.39, 0.39));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.639, 0.878, 0.39, 0.39));
-	ImGui::Button(GetName().c_str());
-	ImGui::PopStyleColor(3);
-	ImGui::PopID();
+    char szBuff[50] = {};
 
-	char szBuff[50] = {};
+    Ptr<CMesh>     pMesh = m_Component->GetMesh();
+    Ptr<CMaterial> pMtrl = m_Component->GetMaterial(0);
 
-	Ptr<CMesh> pMesh = m_Component->GetMesh();
-	Ptr<CMaterial> pMtrl = m_Component->GetMaterial(0);
+    if (nullptr != pMesh)
+    {
+        ImGui::Text("Mesh    ");
+        ImGui::SameLine();
+        wstring wstrMeshKey = pMesh->GetKey();
+        string  strMeshKey  = string(wstrMeshKey.begin(), wstrMeshKey.end());
+        memcpy(szBuff, strMeshKey.data(), sizeof(char) * strMeshKey.length());
+        ImGui::InputText("##MeshName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
 
-	if (nullptr != pMesh)
-	{
-		ImGui::Text("Mesh    ");
-		ImGui::SameLine();
-		wstring wstrMeshKey = pMesh->GetKey();
-		string strMeshKey = string(wstrMeshKey.begin(), wstrMeshKey.end());
-		memcpy(szBuff, strMeshKey.data(), sizeof(char) * strMeshKey.length());
-		ImGui::InputText("##MeshName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
+        // Mesh ï¿½ï¿½ï¿½ Ã¼Å©
+        if (ImGui::BeginDragDropTarget())
+        {
+            // ï¿½Ø´ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PayLoad Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½
+            const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
+            if (pPayLoad)
+            {
+                TreeNode* pNode = static_cast<TreeNode*>(pPayLoad->Data);
+                CRes*     pRes  = (CRes*)pNode->GetData();
+                if (RES_TYPE::MESH == pRes->GetType())
+                    m_Component->SetMesh(static_cast<CMesh*>(pRes));
+            }
 
-		// Mesh µå¶ø Ã¼Å©
-		if (ImGui::BeginDragDropTarget())
-		{
-			// ÇØ´ç ³ëµå¿¡¼­ ¸¶¿ì½º ¶¾ °æ¿ì, ÁöÁ¤ÇÑ PayLoad Å°°ªÀÌ ÀÏÄ¡ÇÑ °æ¿ì
-			const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
-			if (pPayLoad)
-			{
-				TreeNode* pNode = (TreeNode*)pPayLoad->Data;
-				CRes* pRes = (CRes*)pNode->GetData();
-				if (RES_TYPE::MESH == pRes->GetType())
-				{
-					m_Component->SetMesh((CMesh*)pRes);
-				}
-			}
-
-			ImGui::EndDragDropTarget();
-		}
+            ImGui::EndDragDropTarget();
+        }
 
 
-		ImGui::SameLine();
-		// Mesh ¼±ÅÃ
-		if (ImGui::Button("##MeshSelectBtn", ImVec2(18, 18)))
-		{
-			const map<wstring, Ptr<CRes>>& mapMesh = CResMgr::GetInst()->GetResources(RES_TYPE::MESH);
+        ImGui::SameLine();
+        // Mesh ï¿½ï¿½ï¿½ï¿½
+        if (ImGui::Button("##MeshSelectBtn", ImVec2(18, 18)))
+        {
+            const map<wstring, Ptr<CRes>>& mapMesh = CResMgr::GetInst()->GetResources(RES_TYPE::MESH);
 
-			ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
-			pListUI->Reset("Mesh List", ImVec2(300.f, 500.f));
-			for (const auto& pair : mapMesh)
-			{
-				pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
-			}
-			pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&RenderComponentUI::SelectMesh);
-		}
-	}
+            ListUI* pListUI = static_cast<ListUI*>(ImGuiMgr::GetInst()->FindUI("##List"));
+            pListUI->Reset("Mesh List", ImVec2(300.f, 500.f));
+            for (const auto& pair : mapMesh)
+                pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
+            pListUI->AddDynamic_Select(this, static_cast<UI_DELEGATE_1>(&RenderComponentUI::SelectMesh));
+        }
+    }
 
-	if (nullptr != pMtrl)
-	{
-		// Mtrl ÀÌ¸§
-		ImGui::Text("Material");
-		ImGui::SameLine();
+    if (nullptr != pMtrl)
+    {
+        // Mtrl ï¿½Ì¸ï¿½
+        ImGui::Text("Material");
+        ImGui::SameLine();
 
-		wstring wstrMtrlKey = pMtrl->GetKey();
-		string strMtrlKey = string(wstrMtrlKey.begin(), wstrMtrlKey.end());
-		memcpy(szBuff, strMtrlKey.data(), sizeof(char) * strMtrlKey.length());
-		ImGui::InputText("##MtrlName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
+        wstring wstrMtrlKey = pMtrl->GetKey();
+        string  strMtrlKey  = string(wstrMtrlKey.begin(), wstrMtrlKey.end());
+        memcpy(szBuff, strMtrlKey.data(), sizeof(char) * strMtrlKey.length());
+        ImGui::InputText("##MtrlName", szBuff, 50, ImGuiInputTextFlags_ReadOnly);
 
-		if (ImGui::BeginDragDropTarget())
-		{
-			// ÇØ´ç ³ëµå¿¡¼­ ¸¶¿ì½º ¶¾ °æ¿ì, ÁöÁ¤ÇÑ PayLoad Å°°ªÀÌ ÀÏÄ¡ÇÑ °æ¿ì
-			const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
-			if (pPayLoad)
-			{
-				TreeNode* pNode = (TreeNode*)pPayLoad->Data;
-				CRes* pRes = (CRes*)pNode->GetData();
-				if (RES_TYPE::MATERIAL == pRes->GetType())
-				{
-					m_Component->SetMesh((CMesh*)pRes);
-				}
-			}
+        if (ImGui::BeginDragDropTarget())
+        {
+            // ï¿½Ø´ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PayLoad Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½
+            const ImGuiPayload* pPayLoad = ImGui::AcceptDragDropPayload("Resource");
+            if (pPayLoad)
+            {
+                TreeNode* pNode = static_cast<TreeNode*>(pPayLoad->Data);
+                CRes*     pRes  = (CRes*)pNode->GetData();
+                if (RES_TYPE::MATERIAL == pRes->GetType())
+                    m_Component->SetMesh(static_cast<CMesh*>(pRes));
+            }
 
-			ImGui::EndDragDropTarget();
-		}
+            ImGui::EndDragDropTarget();
+        }
 
 
-		ImGui::SameLine();
+        ImGui::SameLine();
 
-		// Mtrl ¼±ÅÃ 
-		if (ImGui::Button("##MtrlSelectBtn", ImVec2(18, 18)))
-		{
-			const map<wstring, Ptr<CRes>>& mapMtrl = CResMgr::GetInst()->GetResources(RES_TYPE::MATERIAL);
+        // Mtrl ï¿½ï¿½ï¿½ï¿½ 
+        if (ImGui::Button("##MtrlSelectBtn", ImVec2(18, 18)))
+        {
+            const map<wstring, Ptr<CRes>>& mapMtrl = CResMgr::GetInst()->GetResources(RES_TYPE::MATERIAL);
 
-			ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
-			pListUI->Reset("Material", ImVec2(300.f, 500.f));
-			for (const auto& pair : mapMtrl)
-			{
-				pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
-			}
+            ListUI* pListUI = static_cast<ListUI*>(ImGuiMgr::GetInst()->FindUI("##List"));
+            pListUI->Reset("Material", ImVec2(300.f, 500.f));
+            for (const auto& pair : mapMtrl)
+                pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
 
-			// Ç×¸ñ ¼±ÅÃ½Ã È£Ãâ¹ÞÀ» µ¨¸®°ÔÀÌÆ® µî·Ï
-			pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&RenderComponentUI::SelectMaterial);
-		}
+            // ï¿½×¸ï¿½ ï¿½ï¿½ï¿½Ã½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
+            pListUI->AddDynamic_Select(this, static_cast<UI_DELEGATE_1>(&RenderComponentUI::SelectMaterial));
+        }
 
-		// Ãâ·ÂÇÒ TEX_PARAM ÁöÁ¤
-		ImGui::Text("TEXPARAM");
-		ImGui::SameLine();
-		static int iTexparam = 0;
-		string strTex[(int)TEX_PARAM::TEX_END] = { "TEX_0", "TEX_1", "TEX_2" , "TEX_3", "TEX_4", "TEX_5", "TEX_6", "TEX_7"
-												   , "TEX_CUBE_0", "TEX_CUBE_0", "TEX_ARR_0", "TEX_ARR_1" };
-		string strTexParamName = strTex[iTexparam];
-		ImGui::SliderInt("##TexParm", &iTexparam, 0, 11, strTexParamName.c_str());
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ TEX_PARAM ï¿½ï¿½ï¿½ï¿½
+        ImGui::Text("TEXPARAM");
+        ImGui::SameLine();
+        static int iTexparam                         = 0;
+        string     strTex[static_cast<int>(TEX_END)] = {"TEX_0", "TEX_1", "TEX_2", "TEX_3", "TEX_4", "TEX_5", "TEX_6", "TEX_7", "TEX_CUBE_0", "TEX_CUBE_0", "TEX_ARR_0", "TEX_ARR_1"};
+        string     strTexParamName                   = strTex[iTexparam];
+        ImGui::SliderInt("##TexParm", &iTexparam, 0, 11, strTexParamName.c_str());
 
-		// TEX_0 Texture Ãâ·Â ¹× ¼±ÅÃ
-		Ptr<CTexture> pTEX = pMtrl->GetTexParam((TEX_PARAM)iTexparam);
+        // TEX_0 Texture ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Ptr<CTexture> pTEX = pMtrl->GetTexParam(static_cast<TEX_PARAM>(iTexparam));
 
-		ImGui::Spacing();
-		ImGui::Text("Texture ");
-		ImGui::SameLine();
-		if (nullptr == pTEX)
-		{
-			ImGui::Image((ImTextureID)0, ImVec2(75.f, 75.f));
-		}
-		else
-		{
-			ImGui::Image((ImTextureID)pTEX->GetSRV().Get(), ImVec2(75.f, 75.f));
-		}
+        ImGui::Spacing();
+        ImGui::Text("Texture ");
+        ImGui::SameLine();
+        if (nullptr == pTEX)
+            ImGui::Image(nullptr, ImVec2(75.f, 75.f));
+        else
+            ImGui::Image(static_cast<ImTextureID>(pTEX->GetSRV().Get()), ImVec2(75.f, 75.f));
 
 
-		ImGui::SameLine();
+        ImGui::SameLine();
 
-		if (ImGui::Button("##TextureSelectBtn", ImVec2(18.f, 18.f)))
-		{
-			const map<wstring, Ptr<CRes>>& AllTex = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
+        if (ImGui::Button("##TextureSelectBtn", ImVec2(18.f, 18.f)))
+        {
+            const map<wstring, Ptr<CRes>>& AllTex = CResMgr::GetInst()->GetResources(RES_TYPE::TEXTURE);
 
-			ListUI* pListUI = (ListUI*)ImGuiMgr::GetInst()->FindUI("##List");
-			pListUI->SetModal(false);
-			pListUI->Reset("Texture List", ImVec2(300.f, 500.f));
-			for (const auto& pair : AllTex)
-			{
-				pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
-			}
-			pListUI->AddDynamic_Select(this, (UI_DELEGATE_1)&RenderComponentUI::SelectTexture);
-		}
-	}
+            ListUI* pListUI = static_cast<ListUI*>(ImGuiMgr::GetInst()->FindUI("##List"));
+            pListUI->SetModal(false);
+            pListUI->Reset("Texture List", ImVec2(300.f, 500.f));
+            for (const auto& pair : AllTex)
+                pListUI->AddItem(string(pair.first.begin(), pair.first.end()));
+            pListUI->AddDynamic_Select(this, static_cast<UI_DELEGATE_1>(&RenderComponentUI::SelectTexture));
+        }
+    }
 
-	if(GetTarget()->GetRenderComponent()->IsUseFrustumCheck())
-	{
-		float fBounding = m_Component->GetBounding();
-		ImGui::Text("Bounding");
-		ImGui::SameLine();
-		if (ImGui::SliderFloat("##Bounding", &fBounding, 0.f, 1000.f))
-			m_Component->SetBounding(fBounding);
+    if (GetTarget()->GetRenderComponent()->IsUseFrustumCheck())
+    {
+        float fBounding = m_Component->GetBounding();
+        ImGui::Text("Bounding");
+        ImGui::SameLine();
+        if (ImGui::SliderFloat("##Bounding", &fBounding, 0.f, 1000.f))
+            m_Component->SetBounding(fBounding);
 
-		static bool bDrawBoundingBox = false;
-		ImGui::SameLine();
-		ImGui::Checkbox("##DrawBoundingBox", &bDrawBoundingBox);
+        static bool bDrawBoundingBox = false;
+        ImGui::SameLine();
+        ImGui::Checkbox("##DrawBoundingBox", &bDrawBoundingBox);
 
-		if (bDrawBoundingBox)
-		{
-			CCamera* pEditCam = CRenderMgr::GetInst()->GetMainCam();
-			Vec3 Rot = pEditCam->Transform()->GetRelativeRot();
-			DrawDebugCircle(m_Target->Transform()->GetWorldPos(), m_Component->GetBounding(), Vec4(0.f, 1.f, 0.f, 1.f), Rot);
-		}
-	}
+        if (bDrawBoundingBox)
+        {
+            CCamera* pEditCam = CRenderMgr::GetInst()->GetMainCam();
+            Vec3     Rot      = pEditCam->Transform()->GetRelativeRot();
+            DrawDebugCircle(m_Target->Transform()->GetWorldPos(), m_Component->GetBounding(), Vec4(0.f, 1.f, 0.f, 1.f), Rot);
+        }
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 void RenderComponentUI::SetTarget(CGameObject* _Target)
 {
-	m_Target = _Target;
+    m_Target = _Target;
 
-	if (nullptr == m_Target)
-	{
-		SetActive(false);
-		return;
-	}
-	bool Exist = false;
-	for (UINT i = (UINT)COMPONENT_TYPE::MESHRENDER; i < (UINT)COMPONENT_TYPE::END; ++i)
-	{
-		if (nullptr != m_Target->GetComponent((COMPONENT_TYPE)i))
-		{
-			m_Component = (CRenderComponent*)m_Target->GetComponent((COMPONENT_TYPE)i);
-			Exist = true;
-		}
-	}
+    if (nullptr == m_Target)
+    {
+        SetActive(false);
+        return;
+    }
+    bool Exist = false;
+    for (UINT i = static_cast<UINT>(COMPONENT_TYPE::MESHRENDER); i < static_cast<UINT>(COMPONENT_TYPE::END); ++i)
+    {
+        if (nullptr != m_Target->GetComponent(static_cast<COMPONENT_TYPE>(i)))
+        {
+            m_Component = static_cast<CRenderComponent*>(m_Target->GetComponent(static_cast<COMPONENT_TYPE>(i)));
+            Exist       = true;
+        }
+    }
 
-	if (Exist)
-		SetActive(true);
-	else
-		SetActive(false);
+    if (Exist)
+        SetActive(true);
+    else
+        SetActive(false);
 }
 
 void RenderComponentUI::SelectMesh(DWORD_PTR _Key)
 {
-	string strKey = (char*)_Key;
-	Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(wstring(strKey.begin(), strKey.end()));
-	m_Component->SetMesh(pMesh);
+    string     strKey = (char*)_Key;
+    Ptr<CMesh> pMesh  = CResMgr::GetInst()->FindRes<CMesh>(wstring(strKey.begin(), strKey.end()));
+    m_Component->SetMesh(pMesh);
 }
 
 void RenderComponentUI::SelectMaterial(DWORD_PTR _Key)
 {
-	string strKey = (char*)_Key;
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(wstring(strKey.begin(), strKey.end()));
-	m_Component->SetMaterial(pMtrl, 0);
+    string         strKey = (char*)_Key;
+    Ptr<CMaterial> pMtrl  = CResMgr::GetInst()->FindRes<CMaterial>(wstring(strKey.begin(), strKey.end()));
+    m_Component->SetMaterial(pMtrl, 0);
 }
 
 void RenderComponentUI::SelectTexture(DWORD_PTR _Key)
 {
-	string strKey = (char*)_Key;
-	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
-	Ptr<CMaterial> pMtrl = m_Component->GetMaterial(0);
-	pMtrl->SetTexParam(TEX_0, pTex);
+    string         strKey = (char*)_Key;
+    Ptr<CTexture>  pTex   = CResMgr::GetInst()->FindRes<CTexture>(wstring(strKey.begin(), strKey.end()));
+    Ptr<CMaterial> pMtrl  = m_Component->GetMaterial(0);
+    pMtrl->SetTexParam(TEX_0, pTex);
 }

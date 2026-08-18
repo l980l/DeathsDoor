@@ -1,12 +1,12 @@
 #pragma once
 #include "CState.h"
+
 class CLurkerDeath :
     public CState
 {
-private:
-    bool    m_bStartPaperBurn;
-    float   m_fPaperBurnTime;
-    float   m_fTime;
+    bool  m_bStartPaperBurn;
+    float m_fPaperBurnTime;
+    float m_fTime;
 
 public:
     virtual void Enter() override;
@@ -15,8 +15,6 @@ public:
 
     CLONE(CLurkerDeath);
 
-public:
     CLurkerDeath();
-    ~CLurkerDeath();
+    virtual ~CLurkerDeath() override;
 };
-

@@ -1,12 +1,12 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CWaterScript.h"
 
 CWaterScript::CWaterScript()
-	: CScript((UINT)SCRIPT_TYPE::WATERSCRIPT)
-	, m_pPlayer(nullptr)
-	, m_fWaterHeight(300.f)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::WATERSCRIPT))
+    , m_pPlayer(nullptr)
+    , m_fWaterHeight(300.f)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fWaterHeight, "WaterHeight");
+    AddScriptParam(SCRIPT_PARAM::FLOAT, &m_fWaterHeight, "WaterHeight");
 }
 
 CWaterScript::~CWaterScript()
@@ -15,27 +15,27 @@ CWaterScript::~CWaterScript()
 
 void CWaterScript::begin()
 {
-	if (nullptr == m_pPlayer)
-		m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
-	Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
-	Transform()->SetRelativeScale(2666.f, 2113.f, 0.f);
+    if (nullptr == m_pPlayer)
+        m_pPlayer = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(L"Player");
+    Transform()->SetRelativeRot(XM_PI * 1.5f, 0.f, 0.f);
+    Transform()->SetRelativeScale(2666.f, 2113.f, 0.f);
 }
 
 void CWaterScript::tick()
 {
-	Vec3 CurPlayerPos = m_pPlayer->Transform()->GetWorldPos();
-	CurPlayerPos.z += (CurPlayerPos.y - m_fWaterHeight);		// maincamera°¡ 45µµÀÓ. ¿öÅÍÀÇ z ÁÂÇ¥¸¦ ¹°°ú ÇÃ·¹ÀÌ¾î À§Ä¡¸¸Å­ µÚ·Î º¸³»±â.
-	CurPlayerPos.y = m_fWaterHeight;	// y ÁÂÇ¥´Â ¹° ³ôÀÌ·Î. 
+    Vec3 CurPlayerPos = m_pPlayer->Transform()->GetWorldPos();
+    CurPlayerPos.z    += (CurPlayerPos.y - m_fWaterHeight); // maincameraê°€ 45ë„ìž„. ì›Œí„°ì˜ z ì¢Œí‘œë¥¼ ë¬¼ê³¼ í”Œë ˆì´ì–´ ìœ„ì¹˜ë§Œí¼ ë’¤ë¡œ ë³´ë‚´ê¸°.
+    CurPlayerPos.y    = m_fWaterHeight;                     // y ì¢Œí‘œëŠ” ë¬¼ ë†’ì´ë¡œ. 
 
-	Transform()->SetRelativePos(CurPlayerPos);
+    Transform()->SetRelativePos(CurPlayerPos);
 }
 
 void CWaterScript::SaveToLevelFile(FILE* _File)
 {
-	fwrite(&m_fWaterHeight, sizeof(float), 1, _File);
+    fwrite(&m_fWaterHeight, sizeof(float), 1, _File);
 }
 
 void CWaterScript::LoadFromLevelFile(FILE* _FILE)
 {
-	fread(&m_fWaterHeight, sizeof(float), 1, _FILE);
+    fread(&m_fWaterHeight, sizeof(float), 1, _FILE);
 }

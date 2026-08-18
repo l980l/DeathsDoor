@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Engine/CScript.h>
 
 class CCrowBossSlidingReady;
@@ -7,22 +7,20 @@ class CCrowBossSliding;
 class CBossChainScript :
     public CScript
 {
-private:
-    CCrowBossSlidingReady*  m_pChainScript;
-    CCrowBossSliding*       m_pSlidingScript;
-    vector<CGameObject*>    m_vecChain;
-    Vec3                    m_vThrowStartPos;       // ´øÁö±â ½ÃÀÛÇÑ À§Ä¡
-    Vec3                    m_vThrownDir;           // ´øÁö´Â ¹æÇâ(°Å¸®·Î »ç¿ë)
-    Vec3                    m_vThrownRot;           // ´øÁö´Â ¹æÇâ(È¸Àü°¢µµ)
-    float                   m_fThrowDistance;       // ³¯¾Æ°¡¾ß ÇÏ´Â °Å¸®
-    float                   m_fDistancetoTarget;    // Hookpos¿ÍÀÇ °Å¸®
-    float                   m_fChainSpacing;        // Ã¼ÀÎ ´ç Â÷ÁöÇÏ´Â °ø°£
-    float                   m_fDelay;
-    bool                    m_bActive;
-    bool                    m_bMulti;
-    bool                    m_bSound;               // Sound Àç»ı ¿©ºÎ.
+    CCrowBossSlidingReady* m_pChainScript;
+    CCrowBossSliding*      m_pSlidingScript;
+    vector<CGameObject*>   m_vecChain;
+    Vec3                   m_vThrowStartPos;    // ë˜ì§€ê¸° ì‹œì‘í•œ ìœ„ì¹˜
+    Vec3                   m_vThrownDir;        // ë˜ì§€ëŠ” ë°©í–¥(ê±°ë¦¬ë¡œ ì‚¬ìš©)
+    Vec3                   m_vThrownRot;        // ë˜ì§€ëŠ” ë°©í–¥(íšŒì „ê°ë„)
+    float                  m_fThrowDistance;    // ë‚ ì•„ê°€ì•¼ í•˜ëŠ” ê±°ë¦¬
+    float                  m_fDistancetoTarget; // Hookposì™€ì˜ ê±°ë¦¬
+    float                  m_fChainSpacing;     // ì²´ì¸ ë‹¹ ì°¨ì§€í•˜ëŠ” ê³µê°„
+    float                  m_fDelay;
+    bool                   m_bActive;
+    bool                   m_bMulti;
+    bool                   m_bSound; // Sound ì¬ìƒ ì—¬ë¶€.
 
-private:
     void SetSlidingScript(CCrowBossSliding* _pSlidingScript) { m_pSlidingScript = _pSlidingScript; }
     void SetChainScript(CCrowBossSlidingReady* _pChainScript) { m_pChainScript = _pChainScript; }
     void SetChain(vector<CGameObject*>& _vecChain) { m_vecChain = _vecChain; }
@@ -38,18 +36,16 @@ public:
     void Active(bool _bActive, bool _bMulti, float _fDelay);
 
     vector<CGameObject*>& GetChain() { return m_vecChain; }
-    Vec3 GetThrowDir() { return m_vThrownDir; }
+    Vec3                  GetThrowDir() const { return m_vThrownDir; }
 
-    void PaveChain();
+    void PaveChain() const;
     void Clear();
 
     CLONE(CBossChainScript);
 
-public:
     CBossChainScript();
-    ~CBossChainScript();
+    virtual ~CBossChainScript() override;
 
     friend class CCrowBossSlidingReady;
     friend class CCrowBossSliding;
 };
-

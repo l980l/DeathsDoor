@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
 #include "CThread.h"
 #include "CSync.h"
@@ -16,21 +16,21 @@ CThread::~CThread()
     DeleteCriticalSection(&m_CRT);
 }
 
-//¾²·¹µå ÀÏ½ÃÁ¤Áö
+//ì“°ë ˆë“œ ì¼ì‹œì •ì§€
 void CThread::Suspend()
 {
-    CSync   sync(&m_CRT);
+    CSync sync(&m_CRT);
 
-    // ³»ºÎÀûÀ¸·Î suspend count¸¦ °®°í ÀÖ´Âµ¥, SuspendThread()¸¦ È£ÃâÇÏ¸é 1 Áõ°¡. ResumeThread()¸¦ ÇÏ¸é 1 °¨¼Ò. 0ÀÌ µÇ¾î¾ßÁö¸¸ Àç½ÃÀÛÀÌ µÊ. 
+    // ë‚´ë¶€ì ìœ¼ë¡œ suspend countë¥¼ ê°–ê³  ìˆëŠ”ë°, SuspendThread()ë¥¼ í˜¸ì¶œí•˜ë©´ 1 ì¦ê°€. ResumeThread()ë¥¼ í•˜ë©´ 1 ê°ì†Œ. 0ì´ ë˜ì–´ì•¼ì§€ë§Œ ì¬ì‹œì‘ì´ ë¨. 
     SuspendThread(m_Thread);
 
     m_Suspend = true;
 }
 
-// ¾²·¹µå Àç½ÃÀÛ
+// ì“°ë ˆë“œ ì¬ì‹œì‘
 void CThread::Resume()
 {
-    CSync   sync(&m_CRT);
+    CSync sync(&m_CRT);
 
     DWORD Count = ResumeThread(m_Thread);
 
@@ -38,17 +38,15 @@ void CThread::Resume()
         m_Suspend = false;
 }
 
-// Suspend Count°¡ 0ÀÌ µÉ¶§±îÁö ResumeThread¸¦ È£ÃâÇÏ¿© ¹«Á¶°Ç Àç½ÃÀÛ ½ÃÄÑÁÖ´Â ÇÔ¼ö.
+// Suspend Countê°€ 0ì´ ë ë•Œê¹Œì§€ ResumeThreadë¥¼ í˜¸ì¶œí•˜ì—¬ ë¬´ì¡°ê±´ ì¬ì‹œì‘ ì‹œì¼œì£¼ëŠ” í•¨ìˆ˜.
 void CThread::ReStart()
 {
-    CSync   sync(&m_CRT);
+    CSync sync(&m_CRT);
 
-    DWORD   Count = 0;
+    DWORD Count = 0;
 
     do
-    {
-        Count = ResumeThread(m_Thread);
-    } while (Count > 0);
+        Count = ResumeThread(m_Thread); while (Count > 0);
 
     m_Suspend = false;
 }
@@ -61,14 +59,14 @@ void CThread::Stop()
         Start();
         ReStart();
 
-        // ½º·¹µå°¡ Á¾·áµÉ¶§±îÁö ±â´Ù¸°´Ù.
+        // ìŠ¤ë ˆë“œê°€ ì¢…ë£Œë ë•Œê¹Œì§€ ê¸°ë‹¤ë¦°ë‹¤.
         WaitForSingleObject(m_Thread, INFINITE);
         CloseHandle(m_Thread);
-        m_Thread = 0;
+        m_Thread = nullptr;
     }
 }
 
-void CThread::Start()
+void CThread::Start() const
 {
     SetEvent(m_StartEvent);
 }
@@ -79,23 +77,21 @@ bool CThread::Init()
 
     InitializeCriticalSection(&m_CRT);
 
-    m_Thread = (HANDLE)_beginthreadex(nullptr, 0, CThread::ThreadFunction,
-        (void*)this, 0, nullptr);
+    m_Thread = (HANDLE)_beginthreadex(nullptr, 0, ThreadFunction,
+                                      this, 0, nullptr);
 
     return true;
 }
 
 unsigned int __stdcall CThread::ThreadFunction(void* Arg)
 {
-    CThread* Thread = (CThread*)Arg;
+    CThread* Thread = static_cast<CThread*>(Arg);
 
-    // ÁöÁ¤µÈ °³Ã¼
+    // ì§€ì •ëœ ê°œì²´
     WaitForSingleObject(Thread->m_StartEvent, INFINITE);
 
     do
-    {
-        Thread->Run();
-    } while (Thread->m_Loop);
+        Thread->Run(); while (Thread->m_Loop);
 
     return 0;
 }

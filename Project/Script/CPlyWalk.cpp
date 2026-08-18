@@ -1,11 +1,11 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlyWalk.h"
 #include "CPlayerScript.h"
 
 CPlyWalk::CPlyWalk()
-	: m_fSpeed(0.f)
-	, m_fTimeToIdle(0.f)
-	, m_bIce(false)
+    : m_fSpeed(0.f)
+    , m_fTimeToIdle(0.f)
+    , m_bIce(false)
 {
 }
 
@@ -15,78 +15,62 @@ CPlyWalk::~CPlyWalk()
 
 void CPlyWalk::Enter()
 {
-	m_fSpeed = GetOwnerScript()->GetStat().Speed * 0.5f;
-	GetOwner()->Animator3D()->Play((int)PLAYERANIM_TYPE::WALK, false);
+    m_fSpeed = GetOwnerScript()->GetStat().Speed * 0.5f;
+    GetOwner()->Animator3D()->Play(static_cast<int>(PLAYERANIM_TYPE::WALK), false);
 }
 
 void CPlyWalk::tick()
 {
-	Move();
-	// °¡¸¸È÷ ÀÖ´Ù¸é(ÀÌÀü ÇÁ·¹ÀÓ°ú À§Ä¡ Â÷ÀÌ°¡ ¾ø´Ù¸é) Idle ÀüÈ¯½Ã°£ +
-	if (Vec3(0.f, 0.f, 0.f) == GetOwner()->Transform()->GetWorldPos() - GetOwner()->Transform()->GetPrevPos())
-	{
-		m_fTimeToIdle += DT;
-	}
-	else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
-		GetOwner()->Transform()->CalcDir();
-		m_fTimeToIdle = 0.f;
-	}
+    Move();
+    // ê°€ë§Œížˆ ìžˆë‹¤ë©´(ì´ì „ í”„ë ˆìž„ê³¼ ìœ„ì¹˜ ì°¨ì´ê°€ ì—†ë‹¤ë©´) Idle ì „í™˜ì‹œê°„ +
+    if (Vec3(0.f, 0.f, 0.f) == GetOwner()->Transform()->GetWorldPos() - GetOwner()->Transform()->GetPrevPos())
+    {
+        m_fTimeToIdle += DT;
+    }
+    else if (KEY_PRESSED(KEY::W) || KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::S) || KEY_PRESSED(KEY::D))
+    {
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Run");
+        GetOwner()->Transform()->CalcDir();
+        m_fTimeToIdle = 0.f;
+    }
 
 
-	if (KEY_TAP(KEY::LBTN))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
-	}
-	else if (KEY_TAP(KEY::RBTN))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
-	}
-	// Idle ÀüÈ¯½Ã°£ÀÌ 0.1À» ³Ñ¾ú´Ù¸é Idle·Î
-	else if (m_fTimeToIdle >= 0.03f)
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
-	}
-	else if (KEY_TAP(KEY::SPACE))
-	{
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
-	}
+    if (KEY_TAP(KEY::LBTN))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Attack");
+    else if (KEY_TAP(KEY::RBTN))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeMagicState();
+        // Idle ì „í™˜ì‹œê°„ì´ 0.1ì„ ë„˜ì—ˆë‹¤ë©´ Idleë¡œ
+    else if (m_fTimeToIdle >= 0.03f)
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Idle");
+    else if (KEY_TAP(KEY::SPACE))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Dodge");
 }
 
 void CPlyWalk::Exit()
 {
-	m_fTimeToIdle = 0.f;
+    m_fTimeToIdle = 0.f;
 }
 
 void CPlyWalk::Move()
 {
-	Vec3 Velocity = Vec3(0.f, 0.f, 0.f);
+    Vec3 Velocity = Vec3(0.f, 0.f, 0.f);
 
-	if (KEY_PRESSED(KEY::W))
-	{
-		Velocity.z += 1.f;
-	}
+    if (KEY_PRESSED(KEY::W))
+        Velocity.z += 1.f;
 
-	if (KEY_PRESSED(KEY::S))
-	{
-		Velocity.z -= 1.f;
-	}
+    if (KEY_PRESSED(KEY::S))
+        Velocity.z -= 1.f;
 
-	if (KEY_PRESSED(KEY::A))
-	{
-		Velocity.x -= 1.f;
-	}
+    if (KEY_PRESSED(KEY::A))
+        Velocity.x -= 1.f;
 
-	if (KEY_PRESSED(KEY::D))
-	{
-		Velocity.x += 1.f;
-	}
-	Velocity.Normalize();
+    if (KEY_PRESSED(KEY::D))
+        Velocity.x += 1.f;
+    Velocity.Normalize();
 
-	Velocity *= m_fSpeed;
+    Velocity *= m_fSpeed;
 
-	GetOwner()->Rigidbody()->AddVelocity(Velocity);
+    GetOwner()->Rigidbody()->AddVelocity(Velocity);
 }
 
 void CPlyWalk::BeginOverlap(CCollider3D* _Other)
@@ -95,8 +79,8 @@ void CPlyWalk::BeginOverlap(CCollider3D* _Other)
 
 void CPlyWalk::OnOverlap(CCollider3D* _Other)
 {
-	if (_Other->GetOwner()->GetLayerIndex() == (int)LAYER::LADDER && KEY_PRESSED(KEY::E))
-		GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
+    if (_Other->GetOwner()->GetLayerIndex() == static_cast<int>(LAYER::LADDER) && KEY_PRESSED(KEY::E))
+        GetOwner()->GetScript<CPlayerScript>()->ChangeState(L"Ladder");
 }
 
 void CPlyWalk::EndOverlap(CCollider3D* _Other)

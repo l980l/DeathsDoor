@@ -1,21 +1,19 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CLurkerIdle.h"
 #include "CLurkerScript.h"
 
 void CLurkerIdle::Enter()
 {
-	GetOwner()->Animator3D()->Play(0, true);
+    GetOwner()->Animator3D()->Play(0, true);
 }
 
 void CLurkerIdle::tick()
 {
-	CGameObject* pPlayer = GetOwner()->GetScript<CLurkerScript>()->GetPlayer();
+    CGameObject* pPlayer = GetOwner()->GetScript<CLurkerScript>()->GetPlayer();
 
-	// Detect »óÅÂ¶ó¸é Notify »óÅÂ·Î ÀüÈ¯.
-	if (GetOwner()->GetScript<CLurkerScript>()->GetDetect())
-	{
-		ChangeState(L"Notify");
-	}
+    // Detect ìƒíƒœë¼ë©´ Notify ìƒíƒœë¡œ ì „í™˜.
+    if (GetOwner()->GetScript<CLurkerScript>()->GetDetect())
+        ChangeState(L"Notify");
 }
 
 void CLurkerIdle::Exit()

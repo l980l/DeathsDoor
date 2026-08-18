@@ -1,69 +1,67 @@
 #include "pch.h"
 #include "ScriptUI.h"
 
-#include <Script\CScriptMgr.h>
+#include <Script/CScriptMgr.h>
 
 #include "ParamUI.h"
 
 ScriptUI::ScriptUI()
     : ComponentUI("##Script", COMPONENT_TYPE::SCRIPT)
-	, m_pTargetScript(nullptr)
+    , m_pTargetScript(nullptr)
 {
-
 }
 
 ScriptUI::~ScriptUI()
 {
-
 }
 
 int ScriptUI::render_update()
 {
-	if (nullptr == GetTarget())
-		return 0;
+    if (nullptr == GetTarget())
+        return 0;
 
-	ImGui::PushID(0);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.639, 0.878, 0.39, 0.39));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.639, 0.878, 0.39, 0.39));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.639, 0.878, 0.39, 0.39));
+    ImGui::PushID(0);
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.639, 0.878, 0.39, 0.39));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.639, 0.878, 0.39, 0.39));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.639, 0.878, 0.39, 0.39));
 
-	ImGui::Button(m_strScriptName.c_str());
+    ImGui::Button(m_strScriptName.c_str());
 
-	ImGui::PopStyleColor(3);
-	ImGui::PopID();
+    ImGui::PopStyleColor(3);
+    ImGui::PopID();
 
-	ImGui::NewLine();
+    ImGui::NewLine();
 
-	// Script ¿¡¼­ ¿ä±¸ÇÏ´Â ScalarParameter ¸¦ UI ¿¡ ³ëÃâ	
-	const vector<tScriptParam>& vecScriptParam = m_pTargetScript->GetScritpParam();
-	if (vecScriptParam.empty())
-		return 1;
-	
-	ImGui::Text("Parameter");
+    // Script ï¿½ï¿½ï¿½ï¿½ ï¿½ä±¸ï¿½Ï´ï¿½ ScalarParameter ï¿½ï¿½ UI ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
+    const vector<tScriptParam>& vecScriptParam = m_pTargetScript->GetScritpParam();
+    if (vecScriptParam.empty())
+        return 1;
 
-	for (size_t i = 0; i < vecScriptParam.size(); ++i)
-	{
-		switch (vecScriptParam[i].eParam)
-		{
-		case SCRIPT_PARAM::INT:
-			ParamUI::Param_Int(vecScriptParam[i].strDesc, (int*)vecScriptParam[i].pData);
-			break;
-		case SCRIPT_PARAM::FLOAT:
-			ParamUI::Param_Float(vecScriptParam[i].strDesc, (float*)vecScriptParam[i].pData);
-			break;
-		case SCRIPT_PARAM::VEC2:
-			ParamUI::Param_Vec2(vecScriptParam[i].strDesc, (Vec2*)vecScriptParam[i].pData);
-			break;
-		case SCRIPT_PARAM::VEC3:
-			ParamUI::Param_Vec3(vecScriptParam[i].strDesc, (Vec3*)vecScriptParam[i].pData);
-			break;
-		case SCRIPT_PARAM::VEC4:
-			ParamUI::Param_Vec4(vecScriptParam[i].strDesc, (Vec4*)vecScriptParam[i].pData);
-			break;
-		default:
-			break;
-		}
-	}
+    ImGui::Text("Parameter");
+
+    for (size_t i = 0; i < vecScriptParam.size(); ++i)
+    {
+        switch (vecScriptParam[i].eParam)
+        {
+        case SCRIPT_PARAM::INT:
+            ParamUI::Param_Int(vecScriptParam[i].strDesc, static_cast<int*>(vecScriptParam[i].pData));
+            break;
+        case SCRIPT_PARAM::FLOAT:
+            ParamUI::Param_Float(vecScriptParam[i].strDesc, static_cast<float*>(vecScriptParam[i].pData));
+            break;
+        case SCRIPT_PARAM::VEC2:
+            ParamUI::Param_Vec2(vecScriptParam[i].strDesc, static_cast<Vec2*>(vecScriptParam[i].pData));
+            break;
+        case SCRIPT_PARAM::VEC3:
+            ParamUI::Param_Vec3(vecScriptParam[i].strDesc, static_cast<Vec3*>(vecScriptParam[i].pData));
+            break;
+        case SCRIPT_PARAM::VEC4:
+            ParamUI::Param_Vec4(vecScriptParam[i].strDesc, static_cast<Vec4*>(vecScriptParam[i].pData));
+            break;
+        default:
+            break;
+        }
+    }
 
 
     return 1;
@@ -71,8 +69,8 @@ int ScriptUI::render_update()
 
 void ScriptUI::SetScript(CScript* _Script)
 {
-	assert(_Script);
-	m_pTargetScript = _Script;
-	wstring wstr = CScriptMgr::GetScriptName(m_pTargetScript);
-	m_strScriptName = string(wstr.begin(), wstr.end());
+    assert(_Script);
+    m_pTargetScript = _Script;
+    wstring wstr    = CScriptMgr::GetScriptName(m_pTargetScript);
+    m_strScriptName = string(wstr.begin(), wstr.end());
 }

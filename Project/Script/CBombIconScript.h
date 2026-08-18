@@ -1,10 +1,9 @@
 #pragma once
 #include "CIconScript.h"
+
 class CBombIconScript :
     public CIconScript
 {
-private:
-
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -12,8 +11,6 @@ public:
 
     CLONE(CBombIconScript);
 
-public:
     CBombIconScript();
-    ~CBombIconScript();
+    virtual ~CBombIconScript() override;
 };
-

@@ -1,11 +1,11 @@
 #pragma once
-#include <Engine\CScript.h>
+#include <Engine/CScript.h>
+
 class CWaterScript :
     public CScript
 {
-private:
-    CGameObject*    m_pPlayer;
-    float           m_fWaterHeight;
+    CGameObject* m_pPlayer;
+    float        m_fWaterHeight;
 
 public:
     virtual void begin() override;
@@ -16,8 +16,6 @@ public:
 
     CLONE(CWaterScript);
 
-public:
     CWaterScript();
-    ~CWaterScript();
+    virtual ~CWaterScript() override;
 };
-

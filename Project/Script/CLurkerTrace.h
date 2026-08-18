@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "CState.h"
+
 class CLurkerTrace :
     public CState
 {
-private:
     float m_fLastRenewal;
-    float m_fRenewal_Trace; // ÃßÀû °æ·Î¸¦ °»½ÅÇÏ´Â ÁÖ±â
+    float m_fRenewal_Trace; // ì¶”ì  ê²½ë¡œë¥¼ ê°±ì‹ í•˜ëŠ” ì£¼ê¸°
     Vec3  m_vActualPath[256];
     int   m_iActualPathCount;
     int   m_iCurrentPathIndex;
@@ -15,14 +15,12 @@ public:
     virtual void Enter() override;
     virtual void Exit() override;
 
-    virtual void BeginOverlap(CCollider3D* _Other);
-    virtual void OnOverlap(CCollider3D* _Other);
-    virtual void EndOverlap(CCollider3D* _Other);
+    virtual void BeginOverlap(CCollider3D* _Other) override;
+    virtual void OnOverlap(CCollider3D* _Other) override;
+    virtual void EndOverlap(CCollider3D* _Other) override;
 
     CLONE(CLurkerTrace);
 
-public:
     CLurkerTrace();
-    ~CLurkerTrace();
+    virtual ~CLurkerTrace() override;
 };
-

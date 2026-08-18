@@ -1,9 +1,9 @@
 #pragma once
 #include "CState.h"
+
 class CKnightChopAttackCombo :
     public CState
 {
-private:
     float m_fTime;
     bool  m_bCameraShake;
 
@@ -14,8 +14,6 @@ public:
 
     CLONE(CKnightChopAttackCombo);
 
-public:
     CKnightChopAttackCombo();
-    ~CKnightChopAttackCombo();
+    virtual ~CKnightChopAttackCombo() override;
 };
-

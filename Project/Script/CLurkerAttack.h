@@ -1,11 +1,11 @@
 #pragma once
 #include "CState.h"
-class CLurkerAttack:
+
+class CLurkerAttack :
     public CState
 {
-private:
-    float   m_fTime;
-    Vec3    m_Dir;
+    float m_fTime;
+    Vec3  m_Dir;
 
 public:
     virtual void Enter() override;
@@ -14,8 +14,6 @@ public:
 
     CLONE(CLurkerAttack);
 
-public:
     CLurkerAttack();
-    ~CLurkerAttack();
+    virtual ~CLurkerAttack() override;
 };
-

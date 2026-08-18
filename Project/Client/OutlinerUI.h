@@ -7,21 +7,18 @@ class TreeNode;
 class OutlinerUI :
     public UI
 {
-private:
-    TreeUI*     m_Tree;
-    DWORD_PTR   m_dwSelectedData;
-
+    TreeUI*   m_Tree;
+    DWORD_PTR m_dwSelectedData;
 
 public:
     virtual void tick() override;
-    virtual int render_update() override;
+    virtual int  render_update() override;
 
-public:
-    void ResetOutliner();
-    void SetTargetToInspector(DWORD_PTR _SelectedNode);
-    CGameObject* GetSelectedObject();
+    void         ResetOutliner();
+    void         SetTargetToInspector(DWORD_PTR _SelectedNode) const;
+    CGameObject* GetSelectedObject() const;
 
-    // Æ®¸®°¡ ¸®¼ÂµÈ °æ¿ì, ÀÔ·ÂÀ¸·Î µé¾î¿Â µ¥ÀÌÅÍ¿Í µ¿ÀÏÇÑ ³ëµå¸¦  ¼±ÅÃ»óÅÂ·Î µÐ´Ù.
+    // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½, ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¸¦  ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Â·ï¿½ ï¿½Ð´ï¿½.
     void SetSelectedNodeData(DWORD_PTR _data)
     {
         m_dwSelectedData = _data;
@@ -29,13 +26,10 @@ public:
 
 private:
     void AddGameObject(CGameObject* _Obj, TreeNode* _ParentNode);
-    void DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode);
+    void DragDrop(DWORD_PTR _DragNode, DWORD_PTR _DropNode) const;
     void MouseRightClick(DWORD_PTR _RClickNode);
-
-
 
 public:
     OutlinerUI();
-    ~OutlinerUI();
+    virtual ~OutlinerUI() override;
 };
-

@@ -1,9 +1,9 @@
 #pragma once
 #include "CState.h"
+
 class CKnightWalk :
     public CState
 {
-private:
     float m_fWalkSoundDelay;
 
 public:
@@ -13,8 +13,6 @@ public:
 
     CLONE(CKnightWalk);
 
-public:
     CKnightWalk();
-    ~CKnightWalk();
+    virtual ~CKnightWalk() override;
 };
-

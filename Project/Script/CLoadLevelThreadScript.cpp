@@ -1,16 +1,16 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CLoadLevelThreadScript.h"
 #include "CLevelSaveLoadInScript.h"
 #include "CLoadingThread.h"
 
-#include <Engine\DataStream.h>
-#include <Engine\CEventMgr.h>
-#include <Engine\CThreadQueue.h>
-#include <Engine\CThreadMgr.h>
+#include <Engine/DataStream.h>
+#include <Engine/CEventMgr.h>
+#include <Engine/CThreadQueue.h>
+#include <Engine/CThreadMgr.h>
 
 
 CLoadLevelThreadScript::CLoadLevelThreadScript()
-	: CScript((UINT)SCRIPT_TYPE::LOADLEVELTHREADSCRIPT)
+    : CScript(static_cast<UINT>(SCRIPT_TYPE::LOADLEVELTHREADSCRIPT))
 {
 }
 
@@ -20,67 +20,67 @@ CLoadLevelThreadScript::~CLoadLevelThreadScript()
 
 void CLoadLevelThreadScript::begin()
 {
-	m_LoadingThread = CThreadMgr::GetInst()->Create<CLoadingThread>("Loading");
+    m_LoadingThread = CThreadMgr::GetInst()->Create<CLoadingThread>("Loading");
 
-	switch (g_tNextLevel)
-	{
-	case LEVEL_TYPE::CASTLE_FIELD:
-		m_LoadingThread->SetLoadingLevelPath(L"Level\\Castle.lv");
-		break;
-	case LEVEL_TYPE::CASTLE_BOSS:
-		m_LoadingThread->SetLoadingLevelPath(L"Level\\Castle_Boss.lv");
-		break;
-	case LEVEL_TYPE::FOREST_FIELD:
-		m_LoadingThread->SetLoadingLevelPath(L"Level\\Forest.lv");
-		break;
-	case LEVEL_TYPE::ICE_FIELD:
-		m_LoadingThread->SetLoadingLevelPath(L"Level\\Ice.lv");
-		break;
-	case LEVEL_TYPE::ICE_BOSS:
-		m_LoadingThread->SetLoadingLevelPath(L"Level\\Ice_Boss.lv");
-		break;
-	case LEVEL_TYPE::HALL:
-		m_LoadingThread->SetLoadingLevelPath(L"Level\\Hall.lv");
-		break;
-	}
+    switch (g_tNextLevel)
+    {
+    case LEVEL_TYPE::CASTLE_FIELD:
+        m_LoadingThread->SetLoadingLevelPath(L"Level\\Castle.lv");
+        break;
+    case LEVEL_TYPE::CASTLE_BOSS:
+        m_LoadingThread->SetLoadingLevelPath(L"Level\\Castle_Boss.lv");
+        break;
+    case LEVEL_TYPE::FOREST_FIELD:
+        m_LoadingThread->SetLoadingLevelPath(L"Level\\Forest.lv");
+        break;
+    case LEVEL_TYPE::ICE_FIELD:
+        m_LoadingThread->SetLoadingLevelPath(L"Level\\Ice.lv");
+        break;
+    case LEVEL_TYPE::ICE_BOSS:
+        m_LoadingThread->SetLoadingLevelPath(L"Level\\Ice_Boss.lv");
+        break;
+    case LEVEL_TYPE::HALL:
+        m_LoadingThread->SetLoadingLevelPath(L"Level\\Hall.lv");
+        break;
+    }
 
-	m_LoadingThread->SetLoadLevelThreadScript(this);
+    m_LoadingThread->SetLoadLevelThreadScript(this);
 
-	m_LoadingQueue = m_LoadingThread->GetQueue();
+    m_LoadingQueue = m_LoadingThread->GetQueue();
 
-	m_LoadingThread->Start();
+    m_LoadingThread->Start();
 }
 
 void CLoadLevelThreadScript::tick()
 {
-	// Queue¿¡ µ¥ÀÌÅÍ°¡ ÀÖÀ» °æ¿ì ¹Þ¾Æ¿Í¼­ Ã³¸®ÇÑ´Ù. 
-	// ÀÏ´Ü ¿ì¸® °ÔÀÓÀº ·Îµù·üÀº ¾È³ª¿À´Â °ÔÀÓÀÌ¶ó ¾È ¾µµí?
-	if (!m_LoadingQueue->empty())
-	{
-		/*int	Header, Size;
-		unsigned char	Data[1024] = {};
+    // Queueì— ë°ì´í„°ê°€ ìžˆì„ ê²½ìš° ë°›ì•„ì™€ì„œ ì²˜ë¦¬í•œë‹¤. 
+    // ì¼ë‹¨ ìš°ë¦¬ ê²Œìž„ì€ ë¡œë”©ë¥ ì€ ì•ˆë‚˜ì˜¤ëŠ” ê²Œìž„ì´ë¼ ì•ˆ ì“¸ë“¯?
+    if (!m_LoadingQueue->empty())
+    {
+        /*int	Header, Size;
+        unsigned char	Data[1024] = {};
 
-		m_LoadingQueue->pop(&Header, &Size, Data);
+        m_LoadingQueue->pop(&Header, &Size, Data);
 
-		CDataStream	stream;
-		stream.SetBuffer(Data);
+        CDataStream	stream;
+        stream.SetBuffer(Data);
 
-		float	Rate = 0.f;
+        float	Rate = 0.f;
 
-		stream.GetData<float>(&Rate, 4);*/
-	}
+        stream.GetData<float>(&Rate, 4);*/
+    }
 
-	if (m_LoadingThread->IsLoadComplete())
-	{
-		tEvent evn = {};
-		evn.Type = EVENT_TYPE::LEVEL_CHANGE;
-		evn.wParam = (DWORD_PTR)m_LoadLevel;
-		evn.lParam = (DWORD_PTR)m_LoadLevel->GetLevelType();
+    if (m_LoadingThread->IsLoadComplete())
+    {
+        tEvent evn = {};
+        evn.Type   = EVENT_TYPE::LEVEL_CHANGE_PLAY;
+        evn.wParam = (DWORD_PTR)m_LoadLevel;
+        evn.lParam = static_cast<DWORD_PTR>(m_LoadLevel->GetLevelType());
 
-		CEventMgr::GetInst()->AddEvent(evn);
+        CEventMgr::GetInst()->AddEvent(evn);
 
-		CThreadMgr::GetInst()->Delete("Loading");
-	}
+        CThreadMgr::GetInst()->Delete("Loading");
+    }
 }
 
 void CLoadLevelThreadScript::SaveToLevelFile(FILE* _File)
@@ -90,4 +90,3 @@ void CLoadLevelThreadScript::SaveToLevelFile(FILE* _File)
 void CLoadLevelThreadScript::LoadFromLevelFile(FILE* _FILE)
 {
 }
-

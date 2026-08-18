@@ -1,12 +1,12 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CMRT.h"
 
 #include "CDevice.h"
 
 CMRT::CMRT()
-	: m_RT{}
-	, m_RTCount(0)	
-	, m_tViewPort{}
+    : m_RT{}
+    , m_RTCount(0)
+    , m_tViewPort{}
 {
 }
 
@@ -14,64 +14,58 @@ CMRT::~CMRT()
 {
 }
 
-void CMRT::Create(Ptr<CTexture>(&_RTArr)[8], Vec4(&_Clear)[8], Ptr<CTexture> _DSTex)
+void CMRT::Create(Ptr<CTexture> (&_RTArr)[8], Vec4 (&_Clear)[8], Ptr<CTexture> _DSTex)
 {
-	// MRT »ý¼º
-	for (UINT i = 0; i < 8; ++i)
-	{
-		// RT¸¦ ÀÖ´Â ¸¸Å­ °¡Á®¿À´Ù°¡ ¾øÀ¸¸é °³¼ö¸¦ ÀúÀåÇÏ°í Áß´Ü
-		if (nullptr == _RTArr[i])
-		{
-			m_RTCount = i;
-			break;
-		}
-		
-		m_RT[i] = _RTArr[i];
-	}
+    // MRT ìƒì„±
+    for (UINT i = 0; i < 8; ++i)
+    {
+        // RTë¥¼ ìžˆëŠ” ë§Œí¼ ê°€ì ¸ì˜¤ë‹¤ê°€ ì—†ìœ¼ë©´ ê°œìˆ˜ë¥¼ ì €ìž¥í•˜ê³  ì¤‘ë‹¨
+        if (nullptr == _RTArr[i])
+        {
+            m_RTCount = i;
+            break;
+        }
 
-	memcpy(m_Clear, _Clear, sizeof(Vec4) * 8);
+        m_RT[i] = _RTArr[i];
+    }
 
-	m_DSTex = _DSTex;
+    memcpy(m_Clear, _Clear, sizeof(Vec4) * 8);
 
-	// ViewPort ¼³Á¤	
-	m_tViewPort.TopLeftX = 0;
-	m_tViewPort.TopLeftY = 0;
+    m_DSTex = _DSTex;
 
-	m_tViewPort.Width = m_RT[0]->Width();
-	m_tViewPort.Height = m_RT[0]->Height();
+    // ViewPort ì„¤ì •	
+    m_tViewPort.TopLeftX = 0;
+    m_tViewPort.TopLeftY = 0;
 
-	m_tViewPort.MinDepth = 0;
-	m_tViewPort.MaxDepth = 1;
+    m_tViewPort.Width  = m_RT[0]->Width();
+    m_tViewPort.Height = m_RT[0]->Height();
+
+    m_tViewPort.MinDepth = 0;
+    m_tViewPort.MaxDepth = 1;
 }
 
-void CMRT::OMSet()
+void CMRT::OMSet() const
 {
-	ID3D11RenderTargetView* RTView[8] = {};
-	for (UINT i = 0; i < m_RTCount; ++i)
-	{
-		RTView[i] = m_RT[i]->GetRTV().Get();
-	}
+    ID3D11RenderTargetView* RTView[8] = {};
+    for (UINT i = 0; i < m_RTCount; ++i)
+        RTView[i] = m_RT[i]->GetRTV().Get();
 
-	// SwapChain¿¡¼­ »ý¼ºµÈ RT¸¸ RenderTargetÀ¸·Î ÁöÁ¤Çß¾úÁö¸¸
-	// MRT°¡ ¿©·¯ °³ÀÇ RT¸¦ °¡Áö°Ô µÆÀ¸¹Ç·Î ±× °³¼ö¿Í ¹è¿­ÀÇ ÁÖ¼Ò¸¦ ³Ö¾îÁÜ.
-	if (nullptr != m_DSTex)
-		CONTEXT->OMSetRenderTargets(m_RTCount, RTView, m_DSTex->GetDSV().Get());
-	else
-		CONTEXT->OMSetRenderTargets(m_RTCount, RTView, nullptr);
+    // SwapChainì—ì„œ ìƒì„±ëœ RTë§Œ RenderTargetìœ¼ë¡œ ì§€ì •í–ˆì—ˆì§€ë§Œ
+    // MRTê°€ ì—¬ëŸ¬ ê°œì˜ RTë¥¼ ê°€ì§€ê²Œ ëìœ¼ë¯€ë¡œ ê·¸ ê°œìˆ˜ì™€ ë°°ì—´ì˜ ì£¼ì†Œë¥¼ ë„£ì–´ì¤Œ.
+    if (nullptr != m_DSTex)
+        CONTEXT->OMSetRenderTargets(m_RTCount, RTView, m_DSTex->GetDSV().Get());
+    else
+        CONTEXT->OMSetRenderTargets(m_RTCount, RTView, nullptr);
 
-	// ºäÆ÷Æ® ¼³Á¤
-	CONTEXT->RSSetViewports(1, &m_tViewPort);
+    // ë·°í¬íŠ¸ ì„¤ì •
+    CONTEXT->RSSetViewports(1, &m_tViewPort);
 }
 
-void CMRT::Clear()
+void CMRT::Clear() const
 {
-	for (UINT i = 0; i < m_RTCount; ++i)
-	{
-		CONTEXT->ClearRenderTargetView(m_RT[i]->GetRTV().Get(), m_Clear[i]);
-	}
-		
-	if (nullptr != m_DSTex)
-	{
-		CONTEXT->ClearDepthStencilView(m_DSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-	}	
+    for (UINT i = 0; i < m_RTCount; ++i)
+        CONTEXT->ClearRenderTargetView(m_RT[i]->GetRTV().Get(), m_Clear[i]);
+
+    if (nullptr != m_DSTex)
+        CONTEXT->ClearDepthStencilView(m_DSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }

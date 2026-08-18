@@ -11,7 +11,7 @@ CKnightSpinAttackCombo::~CKnightSpinAttackCombo()
 
 void CKnightSpinAttackCombo::Enter()
 {
-	GetOwner()->Animator3D()->Play(13, false);
+    GetOwner()->Animator3D()->Play(13, false);
 }
 
 void CKnightSpinAttackCombo::tick()

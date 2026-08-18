@@ -1,10 +1,11 @@
 #pragma once
 #include "CState.h"
+
 class CBatDeath :
     public CState
 {
-private:
     float m_fPaperBurnTime;
+
 public:
     virtual void tick() override;
     virtual void Enter() override;
@@ -12,8 +13,6 @@ public:
 
     CLONE(CBatDeath);
 
-public:
     CBatDeath();
-    ~CBatDeath();
+    virtual ~CBatDeath() override;
 };
-

@@ -1,88 +1,86 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CMonsterScript.h"
 #include "CStateScript.h"
 #include "CSpawnMgr.h"
 
 
 CMonsterScript::CMonsterScript(UINT SCRIPT_TYPE) :
-	CScript(SCRIPT_TYPE)
-	, m_pStateScript(nullptr)
-	, m_pPlayer(nullptr)
-	, m_bDetect(false)
-	, m_bPaperBurnEffect(false)
-	, m_bSendDeadTime(false)
-	, m_fDeathTime(0.f)
-	, m_fLastHitTime(-3.f)
-	, m_bFixPos(false)
-	, m_bSpawnByDoor(false)
+    CScript(SCRIPT_TYPE)
+  , m_pStateScript(nullptr)
+  , m_pPlayer(nullptr)
+  , m_bDetect(false)
+  , m_bPaperBurnEffect(false)
+  , m_bSendDeadTime(false)
+  , m_fDeathTime(0.f)
+  , m_fLastHitTime(-3.f)
+  , m_bFixPos(false)
+  , m_bSpawnByDoor(false)
 {
 }
 
 CMonsterScript::~CMonsterScript()
 {
-	if (m_bSpawnByDoor)
-		CSpawnMgr::GetInst()->ReduceMonsterCount();
+    if (m_bSpawnByDoor)
+        CSpawnMgr::GetInst()->ReduceMonsterCount();
 }
 
 void CMonsterScript::begin()
 {
-	// ÇÃ·¹ÀÌ¾î ¼³Á¤.
-	if (nullptr == m_pPlayer)
-	{
-		m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	}
+    // í”Œë ˆì´ì–´ ì„¤ì •.
+    if (nullptr == m_pPlayer)
+        m_pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 
-	// Crack Texture ¹ÙÀÎµù.
-	int iMtrlCount = MeshRender()->GetMtrlCount();
+    // Crack Texture ë°”ì¸ë”©.
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
+    for (int i = 0; i < iMtrlCount; ++i)
+    {
+        Ptr<CMaterial> mtrl = MeshRender()->GetSharedMaterial(i);
 
-		// 7¹øÀ¸·Î º¸³»ÀÚ. CrackTexture.
-		Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\MonsterCrack.png", L"texture\\Deaths_Door\\MonsterCrack.png");
-		mtrl->SetTexParam(TEX_7, CrackTextue.Get());		
+        // 7ë²ˆìœ¼ë¡œ ë³´ë‚´ì. CrackTexture.
+        Ptr<CTexture> CrackTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\MonsterCrack.png", L"texture\\Deaths_Door\\MonsterCrack.png");
+        mtrl->SetTexParam(TEX_7, CrackTextue.Get());
 
-		// 6¹øÀ¸·Î º¸³»ÀÚ. Paperburn¿ë noise texture.
-		Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
-		mtrl->SetTexParam(TEX_6, NoiseTextue.Get());
-	}
+        // 6ë²ˆìœ¼ë¡œ ë³´ë‚´ì. Paperburnìš© noise texture.
+        Ptr<CTexture> NoiseTextue = CResMgr::GetInst()->Load<CTexture>(L"texture\\Deaths_Door\\noise.png", L"texture\\Deaths_Door\\noise.png");
+        mtrl->SetTexParam(TEX_6, NoiseTextue.Get());
+    }
 }
 
 void CMonsterScript::tick()
 {
-	int iMtrlCount = MeshRender()->GetMtrlCount();
-		
-	for (int i = 0; i < iMtrlCount; ++i)
-	{
-		Ptr<CMaterial> mtrl = MeshRender()->GetDynamicMaterial(i);
+    int iMtrlCount = MeshRender()->GetMtrlCount();
 
-		// ÇöÀç Ã¼·Â ºñÀ² º¸³»±â. FLOAT_0·Î º¸³¿.
-		float HPRatio = (float)m_pStateScript->GetStat().HP / (float)m_pStateScript->GetStat().Max_HP;
-		mtrl->SetScalarParam(FLOAT_0, &HPRatio);
+    for (int i = 0; i < iMtrlCount; ++i)
+    {
+        Ptr<CMaterial> mtrl = MeshRender()->GetDynamicMaterial(i);
 
-		// Paperburn È¿°ú¸¦ ÁÖ±â ½ÃÀÛÇÒ ¶§, ÇöÀç±îÁö Èå¸¥ ½Ã°£ º¸³»±â. FLOAT_1·Î º¸³¿. ÇÑ¹ø¸¸ º¸³»¾ß ÇØ¼­m_bSendDeadTime¸¦ »ç¿ëÇÔ. 
-		if (m_bPaperBurnEffect && !m_bSendDeadTime)
-		{
-			m_fDeathTime = GlobalData.tAccTime;
-			m_bSendDeadTime = true;
-		}
-		
-		if(m_bSendDeadTime)
-			mtrl->SetScalarParam(FLOAT_1, &m_fDeathTime);
+        // í˜„ì¬ ì²´ë ¥ ë¹„ìœ¨ ë³´ë‚´ê¸°. FLOAT_0ë¡œ ë³´ëƒ„.
+        float HPRatio = static_cast<float>(m_pStateScript->GetStat().HP) / static_cast<float>(m_pStateScript->GetStat().Max_HP);
+        mtrl->SetScalarParam(FLOAT_0, &HPRatio);
 
-		// ÇÇ°İ ÀÌÆåÆ®
-		float fHitAfterTime = GlobalData.tAccTime - m_fLastHitTime;		// ÇÇ°İ ÀÌÈÄ Áö³­ ½Ã°£.
-		int HitEffect = 0;
+        // Paperburn íš¨ê³¼ë¥¼ ì£¼ê¸° ì‹œì‘í•  ë•Œ, í˜„ì¬ê¹Œì§€ íë¥¸ ì‹œê°„ ë³´ë‚´ê¸°. FLOAT_1ë¡œ ë³´ëƒ„. í•œë²ˆë§Œ ë³´ë‚´ì•¼ í•´ì„œm_bSendDeadTimeë¥¼ ì‚¬ìš©í•¨. 
+        if (m_bPaperBurnEffect && !m_bSendDeadTime)
+        {
+            m_fDeathTime    = GlobalData.tAccTime;
+            m_bSendDeadTime = true;
+        }
 
-		if (fHitAfterTime < 0.2f && !m_bSendDeadTime)
-			HitEffect = 1;
+        if (m_bSendDeadTime)
+            mtrl->SetScalarParam(FLOAT_1, &m_fDeathTime);
 
-		mtrl->SetScalarParam(INT_3, &HitEffect);
-	}
+        // í”¼ê²© ì´í™íŠ¸
+        float fHitAfterTime = GlobalData.tAccTime - m_fLastHitTime; // í”¼ê²© ì´í›„ ì§€ë‚œ ì‹œê°„.
+        int   HitEffect     = 0;
 
-	if (m_bFixPos)
-		Rigidbody()->SetRigidPos(m_vFixedPos);
+        if (fHitAfterTime < 0.2f && !m_bSendDeadTime)
+            HitEffect = 1;
+
+        mtrl->SetScalarParam(INT_3, &HitEffect);
+    }
+
+    if (m_bFixPos)
+        Rigidbody()->SetRigidPos(m_vFixedPos);
 }
 
 void CMonsterScript::BeginOverlap(CCollider3D* _Other)
@@ -96,4 +94,3 @@ void CMonsterScript::OnOverlap(CCollider3D* _Other)
 void CMonsterScript::EndOverlap(CCollider3D* _Other)
 {
 }
-

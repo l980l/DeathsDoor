@@ -1,15 +1,14 @@
-#pragma once
-#include <Engine\CScript.h>
+Ôªø#pragma once
+#include <Engine/CScript.h>
 
 class CWaterCameraScript :
     public CScript
 {
-private:
-    CGameObject*                m_pMainCamera;      // MainCamera ∆˜¿Œ≈Õ.
-    float                       m_fWaterHeight;     // π∞ ≥Ù¿Ã.
-    Vec3                        m_vDistance;
+    CGameObject* m_pMainCamera;  // MainCamera Ìè¨Ïù∏ÌÑ∞.
+    float        m_fWaterHeight; // Î¨º ÎÜíÏù¥.
+    Vec3         m_vDistance;
 
-    float                       m_fYOffset;
+    float m_fYOffset;
 
 public:
     virtual void begin() override;
@@ -20,8 +19,6 @@ public:
 
     CLONE(CWaterCameraScript);
 
-public:
     CWaterCameraScript();
-    ~CWaterCameraScript();
+    virtual ~CWaterCameraScript() override;
 };
-

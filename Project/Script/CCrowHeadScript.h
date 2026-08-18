@@ -1,15 +1,14 @@
-#pragma once
-#include <Engine\CScript.h>
+Ôªø#pragma once
+#include <Engine/CScript.h>
 
 class CCrowHeadScript :
     public CScript
 {
-private:
-    CGameObject*    m_pPlayer;
-    float           m_fSpeed;
+    CGameObject* m_pPlayer;
+    float        m_fSpeed;
 
     float m_fLastRenewal;
-    float m_fRenewal_Trace; // √ﬂ¿˚ ∞Ê∑Œ∏¶ ∞ªΩ≈«œ¥¬ ¡÷±‚
+    float m_fRenewal_Trace; // Ï∂îÏ†Å Í≤ΩÎ°úÎ•º Í∞±Ïã†ÌïòÎäî Ï£ºÍ∏∞
     Vec3  m_vActualPath[256];
     int   m_iActualPathCount;
     int   m_iCurrentPathIndex;
@@ -23,9 +22,7 @@ public:
     virtual void EndOverlap(CCollider3D* _Other) override;
 
     CLONE(CCrowHeadScript);
-public:
     CCrowHeadScript();
     CCrowHeadScript(const CCrowHeadScript& _Other);
-    ~CCrowHeadScript();
+    virtual ~CCrowHeadScript() override;
 };
-

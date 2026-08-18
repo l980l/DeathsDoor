@@ -1,14 +1,186 @@
 #include "pch.h"
 #include "ContentUI.h"
 
-#include <Engine\CResMgr.h>
-#include <Engine\CPathMgr.h>
-#include <Engine\CEventMgr.h>
+#include <Engine/CResMgr.h>
+#include <Engine/CPathMgr.h>
+#include <Engine/CEventMgr.h>
 
 #include "TreeUI.h"
 #include "ImGuiMgr.h"
 #include "InspectorUI.h"
 
+
+void ContentUI::init()
+{
+    Reload();
+}
+
+void ContentUI::tick()
+{
+    UI::tick();
+
+    if (CResMgr::GetInst()->IsResourceChanged())
+        ResetContent();
+}
+
+int ContentUI::render_update()
+{
+    return 0;
+}
+
+void ContentUI::Reload()
+{
+    // Content ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+    m_vecResPath.clear();
+    wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+    FindFileName(strContentPath);
+
+    // ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½Îµï¿½
+    for (size_t i = 0; i < m_vecResPath.size(); ++i)
+    {
+        const RES_TYPE type = GetResTypeByExt(m_vecResPath[i]);
+
+        if (type == RES_TYPE::END)
+            continue;
+
+        switch (type)
+        {
+        case RES_TYPE::MESHDATA:
+            CResMgr::GetInst()->Load<CMeshData>(m_vecResPath[i], m_vecResPath[i]);
+            break;
+        case RES_TYPE::MATERIAL:
+            CResMgr::GetInst()->Load<CMaterial>(m_vecResPath[i], m_vecResPath[i]);
+            break;
+        case RES_TYPE::PREFAB:
+            CResMgr::GetInst()->Load<CPrefab>(m_vecResPath[i], m_vecResPath[i]);
+            break;
+        case RES_TYPE::MESH:
+            //CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
+            break;
+        case RES_TYPE::TEXTURE:
+            CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
+            break;
+        case RES_TYPE::SOUND:
+            CResMgr::GetInst()->Load<CSound>(m_vecResPath[i], m_vecResPath[i]);
+            break;
+        }
+    }
+
+
+    // ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
+    for (UINT i = 0; i < static_cast<UINT>(RES_TYPE::END); ++i)
+    {
+        const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResources(static_cast<RES_TYPE>(i));
+
+        for (const auto& pair : mapRes)
+        {
+            if (pair.second->IsEngineRes())
+                continue;
+
+            wstring strFilePath = strContentPath + pair.first;
+            if (!exists(strFilePath))
+            {
+                tEvent evn = {};
+                evn.Type   = EVENT_TYPE::DELETE_RESOURCE;
+                evn.wParam = static_cast<DWORD_PTR>(i);
+                evn.lParam = (DWORD_PTR)pair.second.Get();
+                CEventMgr::GetInst()->AddEvent(evn);
+            }
+        }
+    }
+
+    // Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    ResetContent();
+}
+
+void ContentUI::ResetContent() const
+{
+    // Tree Clear
+    m_Tree->Clear();
+    m_Tree->AddItem("Root", 0);
+
+    // ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½
+    for (size_t i = 0; i < static_cast<UINT>(RES_TYPE::END); ++i)
+    {
+        const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResources(static_cast<RES_TYPE>(i));
+
+        // m_Tree ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ AddItem
+        TreeNode* pCategory = m_Tree->AddItem(ToString(static_cast<RES_TYPE>(i)), 0);
+        pCategory->SetCategoryNode(true);
+
+        for (const auto& pair : mapRes)
+            m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
+    }
+}
+
+void ContentUI::SetTargetToInspector(DWORD_PTR _SelectedNode) const
+{
+    TreeNode* pSelectedNode = (TreeNode*)_SelectedNode;
+    CRes*     pSelectObject = (CRes*)pSelectedNode->GetData();
+
+    if (nullptr == pSelectObject)
+        return;
+
+    // Inspector ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ Resource ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½.	
+    InspectorUI* pInspector = static_cast<InspectorUI*>(ImGuiMgr::GetInst()->FindUI("##Inspector"));
+    pInspector->SetTargetResource(pSelectObject);
+}
+
+
+void ContentUI::FindFileName(const wstring& _FolderPath)
+{
+    WIN32_FIND_DATA FindData = {};
+
+    wstring FolderPath = _FolderPath + L"*.*";
+
+    HANDLE hFindHandle = FindFirstFile(FolderPath.c_str(), &FindData);
+
+    while (FindNextFile(hFindHandle, &FindData))
+    {
+        if (FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+        {
+            if (!wcscmp(FindData.cFileName, L".."))
+                continue;
+
+            if (!wcscmp(FindData.cFileName, L"FBXTexture"))
+                continue;
+
+            FindFileName(_FolderPath + FindData.cFileName + L"\\");
+            continue;
+        }
+
+        wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+        wstring RelativePath   = _FolderPath + FindData.cFileName;
+        RelativePath           = RelativePath.substr(strContentPath.length(), RelativePath.length() - strContentPath.length());
+
+        m_vecResPath.push_back(RelativePath);
+    }
+
+    FindClose(hFindHandle);
+}
+
+RES_TYPE ContentUI::GetResTypeByExt(const wstring& _relativepath) const
+{
+    wchar_t szExt[50] = {};
+    _wsplitpath_s(_relativepath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
+    wstring strExt = szExt;
+
+    if (L".mdat" == strExt)
+        return RES_TYPE::MESHDATA;
+    if (L".prefab" == strExt)
+        return RES_TYPE::PREFAB;
+    if (L".mesh" == strExt)
+        return RES_TYPE::MESH;
+    if (L".mtrl" == strExt)
+        return RES_TYPE::MATERIAL;
+    if (L".png" == strExt || L".jpg" == strExt
+        || L".jpeg" == strExt || L".bmp" == strExt
+        || L".tga" == strExt || L".dds" == strExt)
+        return RES_TYPE::TEXTURE;
+    if (L".mp3" == strExt || L".wav" == strExt || L".ogg" == strExt)
+        return RES_TYPE::SOUND;
+    return RES_TYPE::END;
+}
 
 
 ContentUI::ContentUI()
@@ -16,201 +188,17 @@ ContentUI::ContentUI()
 {
     SetName("Content");
 
-    // ContentUI ¾È¿¡ ÀÚ½ÄÀ¸·Î Tree ¸¦ Ãß°¡ÇÑ´Ù.
+    // ContentUI ï¿½È¿ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ Tree ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
     m_Tree = new TreeUI;
     m_Tree->SetName("ContentTree");
     m_Tree->SetActive(true);
     m_Tree->ShowRoot(false);
 
-	m_Tree->AddDynamic_Select(this, (UI_DELEGATE_1)&ContentUI::SetTargetToInspector);
-	m_Tree->SetDragDropID("Resource");
-    AddChildUI(m_Tree);   
+    m_Tree->AddDynamic_Select(this, reinterpret_cast<UI_DELEGATE_1>(&ContentUI::SetTargetToInspector));
+    m_Tree->SetDragDropID("Resource");
+    AddChildUI(m_Tree);
 }
 
 ContentUI::~ContentUI()
 {
-
 }
-
-void ContentUI::init()
-{
-	Reload();
-}
-
-void ContentUI::tick()
-{
-    UI::tick();
-
-	if (CResMgr::GetInst()->IsResourceChanged())
-	{
-		ResetContent();
-	}
-}
-
-int ContentUI::render_update()
-{   
-    return 0;
-}
-
-void ContentUI::Reload()
-{
-	// Content Æú´õ¿¡ ÀÖ´Â ÆÄÀÏ ÀÌ¸§µéÀ» È®ÀÎ
-	m_vecResPath.clear();
-	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-	FindFileName(strContentPath);
-
-	// ÆÄÀÏ¸íÀ¸·Î ¸®¼Ò½º ·Îµù
-	for (size_t i = 0; i < m_vecResPath.size(); ++i)
-	{
-		RES_TYPE type = GetResTypeByExt(m_vecResPath[i]);
-
-		if (type == RES_TYPE::END)
-			continue;
-
-		switch (type)
-		{
-		case RES_TYPE::MESHDATA:
-			CResMgr::GetInst()->Load<CMeshData>(m_vecResPath[i], m_vecResPath[i]);
-			break;
-		case RES_TYPE::MATERIAL:
-			CResMgr::GetInst()->Load<CMaterial>(m_vecResPath[i], m_vecResPath[i]);
-			break;
-		case RES_TYPE::PREFAB:
-			CResMgr::GetInst()->Load<CPrefab>(m_vecResPath[i], m_vecResPath[i]);
-			break;
-		case RES_TYPE::MESH:
-			//CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
-			break;
-		case RES_TYPE::TEXTURE:
-			CResMgr::GetInst()->Load<CTexture>(m_vecResPath[i], m_vecResPath[i]);
-			break;
-		case RES_TYPE::SOUND:
-			CResMgr::GetInst()->Load<CSound>(m_vecResPath[i], m_vecResPath[i]);
-			break;
-		}
-	}
-
-
-	// ¸®¼Ò½ºÀÇ ¿øº»ÆÄÀÏ Ã¼Å©
-	for (UINT i = 0; i < UINT(RES_TYPE::END); ++i)
-	{
-		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResources((RES_TYPE)i);
-
-		for (const auto& pair : mapRes)
-		{
-			if (pair.second->IsEngineRes())
-				continue;
-
-			wstring strFilePath = strContentPath + pair.first;
-			if (!filesystem::exists(strFilePath))
-			{
-				tEvent evn = {};
-				evn.Type = EVENT_TYPE::DELETE_RESOURCE;
-				evn.wParam = (DWORD_PTR)i;
-				evn.lParam = (DWORD_PTR)pair.second.Get();
-				CEventMgr::GetInst()->AddEvent(evn);
-			}
-		}
-	}
-
-	// Æ®¸® °»½Å
-	ResetContent();
-}
-
-
-void ContentUI::ResetContent()
-{
-	// Tree Clear
-	m_Tree->Clear();
-	m_Tree->AddItem("Root", 0);
-
-	// ¸®¼Ò½º ¸Å´ÏÀú¿¡¼­ ÇöÀç ¸ðµç ¸®¼Ò½º ¸ñ·Ï ¹Þ¾Æ¿È
-	for (size_t i = 0; i < (UINT)RES_TYPE::END; ++i)
-	{
-		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResources((RES_TYPE)i);
-
-		// m_Tree ¿¡ ÇöÀç ¸®¼Ò½º ¸ñ·ÏÀ» AddItem
-		TreeNode* pCategory = m_Tree->AddItem(ToString((RES_TYPE)i), 0);
-        pCategory->SetCategoryNode(true);
-
-		for (const auto& pair : mapRes)
-		{
-			m_Tree->AddItem(string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), pCategory);
-		}
-	}
-}
-
-void ContentUI::SetTargetToInspector(DWORD_PTR _SelectedNode)
-{
-	TreeNode* pSelectedNode = (TreeNode*)_SelectedNode;
-	CRes* pSelectObject = (CRes*)pSelectedNode->GetData();
-
-	if (nullptr == pSelectObject)
-		return;
-
-	// Inspector ¿¡ ¼±ÅÃµÈ Resource ¸¦ ¾Ë·ÁÁØ´Ù.	
-	InspectorUI* pInspector = (InspectorUI*)ImGuiMgr::GetInst()->FindUI("##Inspector");
-	pInspector->SetTargetResource(pSelectObject);
-}
-
-
-void ContentUI::FindFileName(const wstring& _FolderPath)
-{
-	WIN32_FIND_DATA FindData = {};
-
-	wstring FolderPath = _FolderPath + L"*.*";
-
-	HANDLE hFindHandle = FindFirstFile(FolderPath.c_str(), &FindData);
-
-	while (FindNextFile(hFindHandle, &FindData))
-	{
-		if (FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{
-			if (!wcscmp(FindData.cFileName, L".."))
-			{
-				continue;
-			}
-
-			if (!wcscmp(FindData.cFileName, L"FBXTexture"))
-			{
-				continue;
-			}
-
-			FindFileName(_FolderPath + FindData.cFileName + L"\\");
-			continue;
-		}
-
-		wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-		wstring RelativePath = _FolderPath + FindData.cFileName;
-		RelativePath = RelativePath.substr(strContentPath.length(), RelativePath.length() - strContentPath.length());
-
-		m_vecResPath.push_back(RelativePath);
-	}
-
-	FindClose(hFindHandle);
-}
-
-RES_TYPE ContentUI::GetResTypeByExt(const wstring& _relativepath)
-{
-	wchar_t szExt[50] = {};
-	_wsplitpath_s(_relativepath.c_str(), 0, 0, 0, 0, 0, 0, szExt, 50);	
-	wstring strExt = szExt;
-		
-	if (L".mdat" == strExt)
-		return RES_TYPE::MESHDATA;
-	else if (L".prefab" == strExt)
-		return RES_TYPE::PREFAB;
-	else if (L".mesh" == strExt)
-		return RES_TYPE::MESH;
-	else if (L".mtrl" == strExt)
-		return RES_TYPE::MATERIAL;
-	else if (L".png" == strExt || L".jpg" == strExt
-		|| L".jpeg" == strExt || L".bmp" == strExt
-		|| L".tga" == strExt || L".dds" == strExt)
-		return RES_TYPE::TEXTURE;
-	else if (L".mp3" == strExt || L".wav" == strExt || L".ogg" == strExt)
-		return RES_TYPE::SOUND;
-	else
-		return RES_TYPE::END;
-}
-

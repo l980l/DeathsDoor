@@ -5,21 +5,21 @@
 // TreeNode
 // =========
 class TreeUI;
+
 class TreeNode
 {
-private:
-    TreeUI*             m_Owner;        // ³ëµå¸¦ ¼ÒÀ¯ÇÏ°í ÀÖ´Â Æ®¸®
-    TreeNode*           m_ParentNode;   // ºÎ¸ð³ëµå
-    vector<TreeNode*>   m_vecChildNode; // ³ëµåÀÇ ÀÚ½Ä ³ëµå
-        
-    string              m_strName;      // ³ëµåÀÇ Ãâ·Â ÀÌ¸§
-    UINT                m_ID;           // ³ëµåÀÇ °íÀ¯ ID
+    TreeUI*           m_Owner;        // ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ Æ®ï¿½ï¿½
+    TreeNode*         m_ParentNode;   // ï¿½Î¸ï¿½ï¿½ï¿½
+    vector<TreeNode*> m_vecChildNode; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½
 
-    DWORD_PTR           m_Data;         // ³ëµå¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ
+    string m_strName; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+    UINT   m_ID;      // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID
+
+    DWORD_PTR m_Data; // ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
-    bool                m_CategoryNode; // Ç×¸ñ ´ëÇ¥ ³ëµå
-    bool                m_Hilight;      // ³ëµå ÇÏÀÌ¶óÀÌÆ® Ã³¸®
+    bool m_CategoryNode; // ï¿½×¸ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
+    bool m_Hilight;      // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½Æ® Ã³ï¿½ï¿½
 
 
 public:
@@ -28,10 +28,8 @@ public:
         m_CategoryNode = _category;
     }
 
-public:
     const string& GetName() { return m_strName; }
-    DWORD_PTR GetData() { return m_Data; }
-
+    DWORD_PTR     GetData() const { return m_Data; }
 
 private:
     void render_update();
@@ -44,47 +42,43 @@ public:
 };
 
 
-
 // ======
 // TreeUI
 // ======
 class TreeUI :
     public UI
 {
-private:
-    TreeNode*       m_RootNode; // Æ®¸®°¡ ¼ÒÀ¯ÇÏ°í ÀÖ´Â ³ëµå Áß ·çÆ® ³ëµå
-    UINT            g_NextId;   // »ý¼ºµÇ´Â ³ëµåµÚ¿¡ ºÙ¿©ÁÙ °íÀ¯ ¼ýÀÚ
-    bool            m_bShowRoot;
+    TreeNode* m_RootNode; // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
+    UINT      g_NextId;   // ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    bool      m_bShowRoot;
 
-    TreeNode*       m_SelectedNode;
-    TreeNode*       m_LbtDownNode;
+    TreeNode* m_SelectedNode;
+    TreeNode* m_LbtDownNode;
 
-    TreeNode*       m_DragNode;
-    TreeNode*       m_DropNode;
+    TreeNode* m_DragNode;
+    TreeNode* m_DropNode;
 
-    DWORD_PTR       m_dwPrevSelected;
+    DWORD_PTR m_dwPrevSelected;
 
-    UI*             m_SelectInst;
-    UI_DELEGATE_1   m_SelectFunc;
+    UI*           m_SelectInst;
+    UI_DELEGATE_1 m_SelectFunc;
 
-    UI*             m_DragDropInst;
-    UI_DELEGATE_2   m_DragDropFunc;
+    UI*           m_DragDropInst;
+    UI_DELEGATE_2 m_DragDropFunc;
 
-    // ¸¶¿ì½º ¿ìÅ¬¸¯¿ë
-    UI*             m_MouseRClickInst;
-    UI_DELEGATE_1   m_MouseRClickFunc;
-    TreeNode*       m_RbtDownNode;
+    // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½
+    UI*           m_MouseRClickInst;
+    UI_DELEGATE_1 m_MouseRClickFunc;
+    TreeNode*     m_RbtDownNode;
 
-    string          m_strDragDropID;
-
+    string m_strDragDropID;
 
 public:
     virtual int render_update() override;
 
-public:
-    void Clear();
+    void      Clear();
     TreeNode* AddItem(const string& _strNodeName, DWORD_PTR _Data, TreeNode* _pParent = nullptr);
-    void ShowRoot(bool _Show) { m_bShowRoot = _Show; }
+    void      ShowRoot(bool _Show) { m_bShowRoot = _Show; }
 
     void AddDynamic_Select(UI* _UI, UI_DELEGATE_1 _MemFunc)
     {
@@ -107,21 +101,18 @@ public:
     void SetDragDropID(const string& _strID) { m_strDragDropID = _strID; }
 
 private:
-    void SetSelectedNode(TreeNode* _Node);   
+    void SetSelectedNode(TreeNode* _Node);
     void SetDragNode(TreeNode* _Node);
     void SetDropNode(TreeNode* _Node);
 
 public:
     void SetRbtDownNode(TreeNode* _Node);
 
-public:
-    TreeNode* GetSelectedNode() { return m_SelectedNode; }
-    bool GetSelectedNode(DWORD_PTR _Data);  // ÀÔ·ÂµÈ µ¥ÀÌÅÍ¿Í µ¿ÀÏÇÑ µ¥ÀÌÅÍ¸¦ º¸À¯ÇÏ°í ÀÖ´Â ³ëµå¸¦ ¼±ÅÃ»óÅÂ·Î ¸¸µë
+    TreeNode* GetSelectedNode() const { return m_SelectedNode; }
+    bool      GetSelectedNode(DWORD_PTR _Data); // ï¿½Ô·Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-public:
     TreeUI();
-    ~TreeUI();
+    virtual ~TreeUI() override;
 
     friend class TreeNode;
 };
-

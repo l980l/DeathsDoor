@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CComponent.h"
 
 #include "Ptr.h"
@@ -11,65 +11,67 @@ class CStructuredBuffer;
 class CAnimator3D :
     public CComponent
 {
-private:
-    const vector<tMTBone>*      m_pVecBones;
-    const vector<tMTAnimClip>*  m_pVecClip;
+    const vector<tMTBone>*     m_pVecBones;
+    const vector<tMTAnimClip>* m_pVecClip;
 
-    vector<float>				m_vecClipUpdateTime;
-    vector<Matrix>				m_vecFinalBoneMat;      // ÅØ½ºÃÄ¿¡ Àü´ŞÇÒ ÃÖÁ¾ Çà·ÄÁ¤º¸
-    int							m_iFrameCount;          // 60
-    double						m_dCurTime;
-    int							m_iCurClip;             // Å¬¸³ ÀÎµ¦½º	
+    vector<float>  m_vecClipUpdateTime;
+    vector<Matrix> m_vecFinalBoneMat; // í…ìŠ¤ì³ì— ì „ë‹¬í•  ìµœì¢… í–‰ë ¬ì •ë³´
+    int            m_iFrameCount;     // 60
+    double         m_dCurTime;
+    int            m_iCurClip; // í´ë¦½ ì¸ë±ìŠ¤	
 
-    int							m_iFrameIdx;            // Å¬¸³ÀÇ ÇöÀç ÇÁ·¹ÀÓ
-    int							m_iNextFrameIdx;        // Å¬¸³ÀÇ ´ÙÀ½ ÇÁ·¹ÀÓ
-    float						m_fRatio;	            // ÇÁ·¹ÀÓ »çÀÌ ºñÀ²
+    int   m_iFrameIdx;     // í´ë¦½ì˜ í˜„ì¬ í”„ë ˆì„
+    int   m_iNextFrameIdx; // í´ë¦½ì˜ ë‹¤ìŒ í”„ë ˆì„
+    float m_fRatio;        // í”„ë ˆì„ ì‚¬ì´ ë¹„ìœ¨
 
-    CStructuredBuffer*          m_pBoneFinalMatBuffer;  // Æ¯Á¤ ÇÁ·¹ÀÓÀÇ ÃÖÁ¾ Çà·Ä
-    bool						m_bFinalMatUpdate;      // ÃÖÁ¾Çà·Ä ¿¬»ê ¼öÇà¿©ºÎ
-    bool                        m_bRepeat;              // ¹İº¹ ¿©ºÎ. ¹İº¹ÀÎ °æ¿ì¿¡´Â m_bCurClipFinish¸¦ true·Î ¹Ù²ÙÁö ¾Ê´Â´Ù.
-    bool                        m_bCurClipFinish;       // ÇöÀç ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ³¡³µ´ÂÁö¿¡ ´ëÇÑ ¿©ºÎ.
-    bool                        m_bStop;
+    CStructuredBuffer* m_pBoneFinalMatBuffer; // íŠ¹ì • í”„ë ˆì„ì˜ ìµœì¢… í–‰ë ¬
+    bool               m_bFinalMatUpdate;     // ìµœì¢…í–‰ë ¬ ì—°ì‚° ìˆ˜í–‰ì—¬ë¶€
+    bool               m_bRepeat;             // ë°˜ë³µ ì—¬ë¶€. ë°˜ë³µì¸ ê²½ìš°ì—ëŠ” m_bCurClipFinishë¥¼ trueë¡œ ë°”ê¾¸ì§€ ì•ŠëŠ”ë‹¤.
+    bool               m_bCurClipFinish;      // í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚¬ëŠ”ì§€ì— ëŒ€í•œ ì—¬ë¶€.
+    bool               m_bStop;
 
 public:
     virtual void finaltick() override;
-    void UpdateData();
+    void         UpdateData();
 
-public:
-    double GetCurClipTimeLength() { return m_pVecClip->at(m_iCurClip).dTimeLength; }
+    double GetCurClipTimeLength() const { return m_pVecClip->at(m_iCurClip).dTimeLength; }
 
-    bool IsStop() { return m_bStop; }
+    bool IsStop() const { return m_bStop; }
     void SetStop(bool _bStop) { m_bStop = _bStop; }
 
-    void SetBones(const vector<tMTBone>* _vecBones) { m_pVecBones = _vecBones; m_vecFinalBoneMat.resize(m_pVecBones->size()); }
-    void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip);      // ¾Ö´Ï¸ŞÀÌ¼Ç Å¬¸³ Á¤º¸¸¦ ¼¼ÆÃÇÏ°í, ¾Ö´Ï¸ŞÀÌ¼Ç º° Àç»ı ½Ã°£(ÇöÀç ¾ó¸¶³ª Àç»ıµÇ¾ú´ÂÁö)À» 0À¸·Î ÃÊ±âÈ­ ½ÃÅ´.
+    void SetBones(const vector<tMTBone>* _vecBones)
+    {
+        m_pVecBones = _vecBones;
+        m_vecFinalBoneMat.resize(m_pVecBones->size());
+    }
+
+    void SetAnimClip(const vector<tMTAnimClip>* _vecAnimClip); // ì• ë‹ˆë©”ì´ì…˜ í´ë¦½ ì •ë³´ë¥¼ ì„¸íŒ…í•˜ê³ , ì• ë‹ˆë©”ì´ì…˜ ë³„ ì¬ìƒ ì‹œê°„(í˜„ì¬ ì–¼ë§ˆë‚˜ ì¬ìƒë˜ì—ˆëŠ”ì§€)ì„ 0ìœ¼ë¡œ ì´ˆê¸°í™” ì‹œí‚´.
     void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }
-    void Play(int _iClipIdx, bool _bRepeat);                    // ÇöÀç ClipÀ» º¯°æÇÏ´Â ÇÔ¼ö.
-    int GetCurClip() { return m_iCurClip; }                     // ÇöÀç Cilp ÀÎµ¦½º¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö.
-    int GetClipSize() { return (int)m_vecClipUpdateTime.size(); }    // ÀüÃ¼ Clip °³¼ö¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö.
+    void Play(int _iClipIdx, bool _bRepeat);                                          // í˜„ì¬ Clipì„ ë³€ê²½í•˜ëŠ” í•¨ìˆ˜.
+    int  GetCurClip() const { return m_iCurClip; }                                    // í˜„ì¬ Cilp ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜.
+    int  GetClipSize() const { return static_cast<int>(m_vecClipUpdateTime.size()); } // ì „ì²´ Clip ê°œìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜.
 
-    CStructuredBuffer* GetFinalBoneMat() { return m_pBoneFinalMatBuffer; }
-    UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
-    void ClearData();
+    CStructuredBuffer* GetFinalBoneMat() const { return m_pBoneFinalMatBuffer; }
+    UINT               GetBoneCount() const { return static_cast<UINT>(m_pVecBones->size()); }
+    void               ClearData();
 
-    const vector<tMTAnimClip>* GetAnimClip() { return m_pVecClip; } // ÇöÀç ¾Ö´Ï¸ŞÀÌ¼Ç Å¬¸³ Á¤º¸ Vecotr¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö.
-    void SaveMeshAnimationClip();                                   // ÇöÀç Animator3D°¡ °®°í ÀÖ´Â m_pVecClip¸¦ Mesh¿¡ ¼¼ÆÃÇÏ°í, Mesh->Save()¸¦ È£ÃâÇØ¼­ Å¬¸³ Á¤º¸¸¦ ÀúÀåÇÏ´Â ÇÔ¼ö. ¾Ö´Ï¸ŞÀÌ¼Ç Å¬¸³Àº Mesh¿¡¼­ Save ¹× Load¸¦ ÇÑ´Ù. 
+    const vector<tMTAnimClip>* GetAnimClip() const { return m_pVecClip; } // í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ í´ë¦½ ì •ë³´ Vecotrë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜.
+    void                       SaveMeshAnimationClip();                   // í˜„ì¬ Animator3Dê°€ ê°–ê³  ìˆëŠ” m_pVecClipë¥¼ Meshì— ì„¸íŒ…í•˜ê³ , Mesh->Save()ë¥¼ í˜¸ì¶œí•´ì„œ í´ë¦½ ì •ë³´ë¥¼ ì €ì¥í•˜ëŠ” í•¨ìˆ˜. ì• ë‹ˆë©”ì´ì…˜ í´ë¦½ì€ Meshì—ì„œ Save ë° Loadë¥¼ í•œë‹¤. 
 
-    // ÀÓ½Ã
-    int GetFrameCount() { return m_iFrameCount; }
+    // ì„ì‹œ
+    int  GetFrameCount() const { return m_iFrameCount; }
     void SetFrameCount(int _FrameCount) { m_iFrameCount = _FrameCount; }
-    bool IsFinish() { return m_bCurClipFinish; }
+    bool IsFinish() const { return m_bCurClipFinish; }
 
 private:
-    void check_mesh(Ptr<CMesh> _pMesh);
+    void check_mesh(Ptr<CMesh> _pMesh) const;
 
 public:
     virtual void SaveToLevelFile(FILE* _pFile) override;
     virtual void LoadFromLevelFile(FILE* _pFile) override;
     CLONE(CAnimator3D);
 
-public:
     CAnimator3D();
     CAnimator3D(const CAnimator3D& _origin);
-    ~CAnimator3D();
+    virtual ~CAnimator3D() override;
 };

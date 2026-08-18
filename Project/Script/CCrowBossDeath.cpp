@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossDeath.h"
 #include "CCrowBossScript.h"
 #include "CPlayerScript.h"
@@ -7,40 +7,40 @@
 
 void CCrowBossDeath::Enter()
 {
-	GetOwner()->Animator3D()->Play(7, false);
-	GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
-	GetOwner()->GetScript<CCrowBossScript>()->DestoryFeather();
+    GetOwner()->Animator3D()->Play(7, false);
+    GetOwner()->GetScript<CCrowBossScript>()->SetStarePlayer(false);
+    GetOwner()->GetScript<CCrowBossScript>()->DestoryFeather();
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Death.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Death.ogg", 1, 0.1f);
 }
 
 void CCrowBossDeath::tick()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	
-	// ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³­ °æ¿ì »ç¸Á Paperburn È¿°ú ÁÖ±â.
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		GetOwner()->GetScript<CCrowBossScript>()->SetPaperBurnEffect(true);
-		m_bStartPaperBurn = true;
-		GetOwner()->Animator3D()->SetStop(true);
-	}
+    GetOwner()->Rigidbody()->ClearForce();
 
-	if (m_bStartPaperBurn)
-		m_fPaperBurnTime += DT;
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚œ ê²½ìš° ì‚¬ë§ Paperburn íš¨ê³¼ ì£¼ê¸°.
+    if (GetOwner()->Animator3D()->IsFinish())
+    {
+        GetOwner()->GetScript<CCrowBossScript>()->SetPaperBurnEffect(true);
+        m_bStartPaperBurn = true;
+        GetOwner()->Animator3D()->SetStop(true);
+    }
 
-	// Áö±Ý±îÁö Èå¸¥ ½Ã°£ÀÌ 3ÃÊ ÀÌ»óÀÌ¸é Destory.
-	if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
-	{
-		GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney((UINT)30000);
-		CLevelSaveLoadInScript LSL;
-		LSL.MoneyCount((UINT)30000);
-		GetOwnerScript()->Destroy();
+    if (m_bStartPaperBurn)
+        m_fPaperBurnTime += DT;
 
-		CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->ChangeState(L"Dance");
-	}
+    // ì§€ê¸ˆê¹Œì§€ íë¥¸ ì‹œê°„ì´ 3ì´ˆ ì´ìƒì´ë©´ Destory.
+    if (m_fPaperBurnTime > 3.f && !GetOwner()->IsDead())
+    {
+        GetOwner()->GetScript<CCrowBossScript>()->GetPlayer()->GetScript<CPlayerScript>()->AddMoney(30000);
+        CLevelSaveLoadInScript LSL;
+        LSL.MoneyCount(30000);
+        GetOwnerScript()->Destroy();
+
+        CLevelMgr::GetInst()->FindObjectByName(L"Player")->GetScript<CPlayerScript>()->ChangeState(L"Dance");
+    }
 }
 
 void CCrowBossDeath::Exit()
@@ -48,8 +48,8 @@ void CCrowBossDeath::Exit()
 }
 
 CCrowBossDeath::CCrowBossDeath() :
-	m_bStartPaperBurn(false)
-	, m_fPaperBurnTime(0.f)
+    m_bStartPaperBurn(false)
+  , m_fPaperBurnTime(0.f)
 {
 }
 

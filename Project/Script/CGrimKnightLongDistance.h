@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CGrimKnightLongDistance :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CGrimKnightLongDistance);
 
-public:
     CGrimKnightLongDistance();
-    ~CGrimKnightLongDistance();
+    virtual ~CGrimKnightLongDistance() override;
 };
-

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CPlyWpDodge :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CPlyWpDodge);
 
-public:
     CPlyWpDodge();
-    ~CPlyWpDodge();
+    virtual ~CPlyWpDodge() override;
 };
-

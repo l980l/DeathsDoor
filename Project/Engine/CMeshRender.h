@@ -11,8 +11,6 @@ public:
     virtual void render(UINT _iSubset) override;
 
     CLONE(CMeshRender);
-public:
     CMeshRender();
-    ~CMeshRender();
+    virtual ~CMeshRender() override;
 };
-

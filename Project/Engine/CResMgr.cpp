@@ -1,10 +1,10 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CResMgr.h"
 
 #include "CPathMgr.h"
 
 CResMgr::CResMgr()
-	: m_Changed(false)
+    : m_Changed(false)
 {
 }
 
@@ -15,136 +15,127 @@ CResMgr::~CResMgr()
 
 void CResMgr::tick()
 {
-	m_Changed = false;
+    m_Changed = false;
 }
 
-Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _Width, UINT _Height
-	, DXGI_FORMAT _pixelformat, UINT _BindFlag, D3D11_USAGE _Usage)
+Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT      _Width, UINT           _Height
+                                   , DXGI_FORMAT    _pixelformat, UINT _BindFlag, D3D11_USAGE _Usage)
 {
-	Ptr<CTexture> pTex =  FindRes<CTexture>(_strKey);
+    Ptr<CTexture> pTex = FindRes<CTexture>(_strKey);
 
-	assert(nullptr == pTex);
+    assert(nullptr == pTex);
 
-	pTex = new CTexture(true);
-	if (FAILED(pTex->Create(_Width, _Height, _pixelformat, _BindFlag, _Usage)))
-	{
-		assert(nullptr);
-	}
+    pTex = new CTexture(true);
+    if (FAILED(pTex->Create(_Width, _Height, _pixelformat, _BindFlag, _Usage)))
+        assert(nullptr);
 
-	AddRes<CTexture>(_strKey, pTex);
+    AddRes<CTexture>(_strKey, pTex);
 
-	return pTex;
+    return pTex;
 }
 
 Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _Tex2D)
 {
-	Ptr<CTexture> pTex = FindRes<CTexture>(_strKey);
+    Ptr<CTexture> pTex = FindRes<CTexture>(_strKey);
 
-	assert(nullptr == pTex);
+    assert(nullptr == pTex);
 
-	pTex = new CTexture(true);
-	if (FAILED(pTex->Create(_Tex2D)))
-	{
-		assert(nullptr);
-	}
+    pTex = new CTexture(true);
+    if (FAILED(pTex->Create(_Tex2D)))
+        assert(nullptr);
 
-	AddRes<CTexture>(_strKey, pTex);
+    AddRes<CTexture>(_strKey, pTex);
 
-	return pTex;
+    return pTex;
 }
 
 Ptr<CTexture> CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath, int _iMapLevel)
 {
-	CTexture* pRes = FindRes<CTexture>(_strKey).Get();
-	if (nullptr != pRes)
-	{
-		return pRes;
-	}
+    CTexture* pRes = FindRes<CTexture>(_strKey).Get();
+    if (nullptr != pRes)
+        return pRes;
 
-	pRes = new CTexture;	
-	pRes->SetKey(_strKey);
-	pRes->SetRelativePath(_strRelativePath);
+    pRes = new CTexture;
+    pRes->SetKey(_strKey);
+    pRes->SetRelativePath(_strRelativePath);
 
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strRelativePath;
+    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    strFilePath         += _strRelativePath;
 
-	if (FAILED(pRes->Load(strFilePath, _iMapLevel)))
-	{
-		return nullptr;
-	}	
+    if (FAILED(pRes->Load(strFilePath, _iMapLevel)))
+        return nullptr;
 
-	m_arrRes[(UINT)RES_TYPE::TEXTURE].insert(make_pair(_strKey, pRes));
-	m_Changed = true;
+    m_arrRes[static_cast<UINT>(RES_TYPE::TEXTURE)].insert(make_pair(_strKey, pRes));
+    m_Changed = true;
 
-	return pRes;
+    return pRes;
 }
-
 
 
 Ptr<CMeshData> CResMgr::LoadFBX(const wstring& _strPath)
 {
-	wstring strFileName = path(_strPath).stem();
+    wstring strFileName = path(_strPath).stem();
 
-	wstring strName = L"meshdata\\";
-	strName += strFileName + L".mdat";
+    wstring strName = L"meshdata\\";
+    strName         += strFileName + L".mdat";
 
-	Ptr<CMeshData> pMeshData = FindRes<CMeshData>(strName);
+    Ptr<CMeshData> pMeshData = FindRes<CMeshData>(strName);
 
-	if (nullptr != pMeshData)
-		return pMeshData;
+    if (nullptr != pMeshData)
+        return pMeshData;
 
-	pMeshData = CMeshData::LoadFromFBX(_strPath);
-	pMeshData->SetKey(strName);
-	pMeshData->SetRelativePath(strName);
-	
-	m_arrRes[(UINT)RES_TYPE::MESHDATA].insert(make_pair(strName, pMeshData.Get()));
+    pMeshData = CMeshData::LoadFromFBX(_strPath);
+    pMeshData->SetKey(strName);
+    pMeshData->SetRelativePath(strName);
 
-	// meshdata ∏¶ Ω«¡¶∆ƒ¿œ∑Œ ¿˙¿Â
-	pMeshData->Save(strName);
+    m_arrRes[static_cast<UINT>(RES_TYPE::MESHDATA)].insert(make_pair(strName, pMeshData.Get()));
 
-	return pMeshData;
+    // meshdata Î•º Ïã§Ï†úÌååÏùºÎ°ú Ï†ÄÏû•
+    pMeshData->Save(strName);
+
+    return pMeshData;
 }
 
 void CResMgr::DeleteRes(RES_TYPE _type, const wstring& _strKey)
 {
-	map<wstring, Ptr<CRes>>::iterator iter = m_arrRes[(UINT)_type].find(_strKey);
+    map<wstring, Ptr<CRes>>::iterator iter = m_arrRes[static_cast<UINT>(_type)].find(_strKey);
 
-	assert(!(iter == m_arrRes[(UINT)_type].end()));
+    assert(!(iter == m_arrRes[static_cast<UINT>(_type)].end()));
 
-	m_arrRes[(UINT)_type].erase(iter);	
+    m_arrRes[static_cast<UINT>(_type)].erase(iter);
 
-	m_Changed = true;
+    m_Changed = true;
 }
 
 
 void CResMgr::AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName, UINT _iSlotNum, UINT _iSemanticIdx)
 {
-	D3D11_INPUT_ELEMENT_DESC LayoutDesc = {};
+    D3D11_INPUT_ELEMENT_DESC LayoutDesc = {};
 
-	if (0 == _iSlotNum)
-	{
-		LayoutDesc.AlignedByteOffset = m_iLayoutOffset_0;
-		LayoutDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		LayoutDesc.InstanceDataStepRate = 0;
-	}
-	else if (1 == _iSlotNum)
-	{
-		LayoutDesc.AlignedByteOffset = m_iLayoutOffset_1;
-		LayoutDesc.InputSlotClass = D3D11_INPUT_PER_INSTANCE_DATA;
-		LayoutDesc.InstanceDataStepRate = 1;
-	}
+    if (0 == _iSlotNum)
+    {
+        LayoutDesc.AlignedByteOffset    = m_iLayoutOffset_0;
+        LayoutDesc.InputSlotClass       = D3D11_INPUT_PER_VERTEX_DATA;
+        LayoutDesc.InstanceDataStepRate = 0;
+    }
+    else if (1 == _iSlotNum)
+    {
+        LayoutDesc.AlignedByteOffset    = m_iLayoutOffset_1;
+        LayoutDesc.InputSlotClass       = D3D11_INPUT_PER_INSTANCE_DATA;
+        LayoutDesc.InstanceDataStepRate = 1;
+    }
 
-	LayoutDesc.Format = _eFormat;
-	LayoutDesc.InputSlot = _iSlotNum;
-	LayoutDesc.SemanticName = _strSemanticName;
-	LayoutDesc.SemanticIndex = _iSemanticIdx;
+    LayoutDesc.Format        = _eFormat;
+    LayoutDesc.InputSlot     = _iSlotNum;
+    LayoutDesc.SemanticName  = _strSemanticName;
+    LayoutDesc.SemanticIndex = _iSemanticIdx;
 
-	m_vecLayoutInfo.push_back(LayoutDesc);
+    m_vecLayoutInfo.push_back(LayoutDesc);
 
 
-	// Offset ¡ı∞°
-	if (0 == _iSlotNum)
-		m_iLayoutOffset_0 += GetSizeofFormat(_eFormat);
-	else if (1 == _iSlotNum)
-		m_iLayoutOffset_1 += GetSizeofFormat(_eFormat);
+    // Offset Ï¶ùÍ∞Ä
+    if (0 == _iSlotNum)
+        m_iLayoutOffset_0 += GetSizeofFormat(_eFormat);
+    else if (1 == _iSlotNum)
+        m_iLayoutOffset_1 += GetSizeofFormat(_eFormat);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CKnightSpinAttackCombo :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CKnightSpinAttackCombo);
 
-public:
     CKnightSpinAttackCombo();
-    ~CKnightSpinAttackCombo();
+    virtual ~CKnightSpinAttackCombo() override;
 };
-

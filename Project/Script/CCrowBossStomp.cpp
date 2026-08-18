@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossStomp.h"
 #include "CCrowBossScript.h"
 #include "CLevelSaveLoadInScript.h"
@@ -7,58 +7,56 @@
 
 void CCrowBossStomp::Enter()
 {
-	GetOwner()->Animator3D()->Play(10, false);
+    GetOwner()->Animator3D()->Play(10, false);
 
-	if(m_Dir.Length())
-		m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
+    if (m_Dir.Length())
+        m_Dir = GetOwner()->GetScript<CCrowBossScript>()->GetMonsterToPlayerDir();
 
-	if(!m_fDistance)
-		m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
+    if (!m_fDistance)
+        m_fDistance = GetOwner()->GetScript<CCrowBossScript>()->GetPlayerDistance();
 
-	m_fTime = 0.f;
-	m_bCameraShake = false;
+    m_fTime        = 0.f;
+    m_bCameraShake = false;
 }
 
 void CCrowBossStomp::tick()
 {
-	// Camera Shake
-	m_fTime += DT;
-	float fRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
+    // Camera Shake
+    m_fTime      += DT;
+    float fRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
 
-	if (!m_bCameraShake && fRatio >= 0.8f)
-	{
-		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.1f);
-		m_bCameraShake = true;
-	}
+    if (!m_bCameraShake && fRatio >= 0.8f)
+    {
+        CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.1f);
+        m_bCameraShake = true;
+    }
 
-	// °ø°İ Ãæµ¹Ã¼ ÇÁ¸®Æé
-	CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.2f);
+    // ê³µê²© ì¶©ëŒì²´ í”„ë¦¬í©
+    CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 0.2f);
 
-	MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
-	MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
+    MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+    MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
 
-	// ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı½Ã°£µ¿¾È ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡±îÁö µµ´ŞÇÏ±â À§ÇÑ Velocity.
-	Vec3 Velocity = m_Dir * (m_fDistance / (float)GetOwner()->Animator3D()->GetCurClipTimeLength());
-	Velocity *= DT;
+    // ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒì‹œê°„ë™ì•ˆ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ê¹Œì§€ ë„ë‹¬í•˜ê¸° ìœ„í•œ Velocity.
+    Vec3 Velocity = m_Dir * (m_fDistance / static_cast<float>(GetOwner()->Animator3D()->GetCurClipTimeLength()));
+    Velocity      *= DT;
 
-	GetOwner()->Rigidbody()->AddVelocity(Velocity);
+    GetOwner()->Rigidbody()->AddVelocity(Velocity);
 
-	// ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ³¡³­ °æ¿ì.
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"RightSpin");
-	}
+    // ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚œ ê²½ìš°.
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"RightSpin");
 }
 
 void CCrowBossStomp::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
+    GetOwner()->Rigidbody()->ClearForce();
 }
 
 CCrowBossStomp::CCrowBossStomp() :
-	m_fDistance(0.f)
-	, m_fTime(0.f)
-	, m_bCameraShake(false)
+    m_fDistance(0.f)
+  , m_fTime(0.f)
+  , m_bCameraShake(false)
 {
 }
 

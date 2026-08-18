@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCrowBossCutScene.h"
 #include "CCrowBossScript.h"
 #include "CGameCameraScript.h"
@@ -8,50 +8,48 @@
 
 void CCrowBossCutScene::Enter()
 {
-	GetOwner()->Animator3D()->Play(1, false);
+    GetOwner()->Animator3D()->Play(1, false);
 
-	// TargetÀ» Owner·Î ¹Ù²Ù°í, MainCamÀ» CutScene ¸ðµå·Î º¯°æ.
-	CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetTarget(GetOwner());
-	CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(true);
-	
-	m_fTime = 0.f;
-	m_bCameraShake = false;
+    // Targetì„ Ownerë¡œ ë°”ê¾¸ê³ , MainCamì„ CutScene ëª¨ë“œë¡œ ë³€ê²½.
+    CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetTarget(GetOwner());
+    CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(true);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Scream.ogg", 1, 0.1f);
+    m_fTime        = 0.f;
+    m_bCameraShake = false;
+
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\CrowBoss\\OldCrow_Scream.ogg", 1, 0.1f);
 }
 
 void CCrowBossCutScene::tick()
 {
-	// Camera Shake
-	m_fTime += DT;
+    // Camera Shake
+    m_fTime += DT;
 
-	float fRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
+    float fRatio = m_fTime / GetOwner()->Animator3D()->GetCurClipTimeLength();
 
-	if (!m_bCameraShake && fRatio >= 0.5f)
-	{
-		CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.5f);
-		m_bCameraShake = true;
-	}
+    if (!m_bCameraShake && fRatio >= 0.5f)
+    {
+        CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->CameraShake(10.f, 800.f, 0.5f);
+        m_bCameraShake = true;
+    }
 
 
-	if (GetOwner()->Animator3D()->IsFinish())
-	{
-		ChangeState(L"RightSpin");
-	}
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"RightSpin");
 }
 
 void CCrowBossCutScene::Exit()
 {
-	// TargetÀ» ´Ù½Ã Player·Î º¯°æÇÏ°í, MainCamÀ» ÀÏ¹Ý ¸ðµå·Î º¯°æ.
-	CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetTargetPlayer();
-	CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(false);
+    // Targetì„ ë‹¤ì‹œ Playerë¡œ ë³€ê²½í•˜ê³ , MainCamì„ ì¼ë°˜ ëª¨ë“œë¡œ ë³€ê²½.
+    CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetTargetPlayer();
+    CRenderMgr::GetInst()->GetMainCam()->GetOwner()->GetScript<CGameCameraScript>()->SetCutSceneView(false);
 }
 
 CCrowBossCutScene::CCrowBossCutScene() :
-	m_fTime(0.f),
-	m_bCameraShake(false)
+    m_fTime(0.f),
+    m_bCameraShake(false)
 {
 }
 

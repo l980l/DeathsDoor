@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CLurkerAttack.h"
 #include "CLurkerScript.h"
 #include "CLevelSaveLoadInScript.h"
@@ -6,58 +6,58 @@
 
 void CLurkerAttack::Enter()
 {
-	GetOwner()->Animator3D()->Play(5, false);
+    GetOwner()->Animator3D()->Play(5, false);
 
-	// ∞¯∞› πÊ«‚¿∫ √≥¿Ωø°∏∏ ¡ˆ¡§«ÿæﬂ «‘. 
-	m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
-	GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
+    // Í≥µÍ≤© Î∞©Ìñ•ÏùÄ Ï≤òÏùåÏóêÎßå ÏßÄÏ†ïÌï¥Ïïº Ìï®. 
+    m_Dir = GetOwner()->GetScript<CLurkerScript>()->GetMonsterToPlayerDir();
+    GetOwner()->Rigidbody()->SetVelocityLimit(300.f);
 
-	// ∞¯∞› ¡˜¿¸ø°¥¬ π´¡∂∞« «√∑π¿ÃæÓ∏¶ πŸ∂Û∫∏µµ∑œ. 
-	GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
-	float fDir = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CLurkerScript>()->GetPlayerPos());
-	Vec3 CurDir = GetOwner()->Transform()->GetRelativeRot();
-	GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
+    // Í≥µÍ≤© ÏßÅÏ†ÑÏóêÎäî Î¨¥Ï°∞Í±¥ ÌîåÎ†àÏù¥Ïñ¥Î•º Î∞îÎùºÎ≥¥ÎèÑÎ°ù. 
+    GetOwner()->GetScript<CLurkerScript>()->SetStarePlayer(false);
+    float fDir   = GetDir(GetOwner()->Transform()->GetWorldPos(), GetOwner()->GetScript<CLurkerScript>()->GetPlayerPos());
+    Vec3  CurDir = GetOwner()->Transform()->GetRelativeRot();
+    GetOwner()->Transform()->SetRelativeRot(CurDir.x, fDir, 0.f);
 
-	// Sound
-	CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
-	Ptr<CSound> pSound = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerAttack1.ogg", 1, 0.1f);
+    // Sound
+    CSoundScript* soundscript = CLevelMgr::GetInst()->FindObjectByName(L"SoundUI")->GetScript<CSoundScript>();
+    Ptr<CSound>   pSound      = soundscript->AddSound(L"Sound\\Monster\\Lurker\\LurkerAttack1.ogg", 1, 0.1f);
 }
 
 void CLurkerAttack::tick()
 {
-	float AnimLength = (float)GetOwner()->Animator3D()->GetCurClipTimeLength();
-	m_fTime += DT;
-	float CurRatio = m_fTime / AnimLength;
+    float AnimLength = static_cast<float>(GetOwner()->Animator3D()->GetCurClipTimeLength());
+    m_fTime          += DT;
+    float CurRatio   = m_fTime / AnimLength;
 
-	// «ˆ¿Á ¿Áª˝¡ﬂ¿Œ æ÷¥œ∏ﬁ¿Ãº«¿Ã æÓ¥¿¡§µµ ¡¯«‡ µ» ∞ÊøÏ «√∑π¿ÃæÓ∑Œ µπ¡¯. ±◊µ⁄∑Œ º”µµ∞° ¥ŸΩ√ ¡ŸæÓµÈæÓº≠ ¡¶¿⁄∏Æø° ∏ÿ√Áæﬂ «‘.
-	if (CurRatio >= 0.5f)
-	{
-		Vec3 Velocity = m_Dir;
-		float fSpeed = GetOwnerScript()->GetStat().Speed;
-		Velocity *= fSpeed * 30.f * DT;
+    // ÌòÑÏû¨ Ïû¨ÏÉùÏ§ëÏù∏ Ïï†ÎãàÎ©îÏù¥ÏÖòÏù¥ Ïñ¥ÎäêÏ†ïÎèÑ ÏßÑÌñâ Îêú Í≤ΩÏö∞ ÌîåÎ†àÏù¥Ïñ¥Î°ú ÎèåÏßÑ. Í∑∏Îí§Î°ú ÏÜçÎèÑÍ∞Ä Îã§Ïãú Ï§ÑÏñ¥Îì§Ïñ¥ÏÑú Ï†úÏûêÎ¶¨Ïóê Î©àÏ∂∞Ïïº Ìï®.
+    if (CurRatio >= 0.5f)
+    {
+        Vec3  Velocity = m_Dir;
+        float fSpeed   = GetOwnerScript()->GetStat().Speed;
+        Velocity       *= fSpeed * 30.f * DT;
 
-		GetOwner()->Rigidbody()->AddVelocity(Velocity);
+        GetOwner()->Rigidbody()->AddVelocity(Velocity);
 
-		// ∞¯∞› √Êµπ√º «¡∏Æ∆È
-		CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", (int)LAYER::MONSTERPROJECTILE, GetOwner()->Transform()->GetWorldPos(), 0.f);
+        // Í≥µÍ≤© Ï∂©ÎèåÏ≤¥ ÌîÑÎ¶¨Ìé©
+        CGameObject* MonsterAtack = CLevelSaveLoadInScript::SpawnandReturnPrefab(L"prefab\\MonsterAttack.prefab", static_cast<int>(LAYER::MONSTERPROJECTILE), GetOwner()->Transform()->GetWorldPos(), 0.f);
 
-		MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
-		MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
-	}
+        MonsterAtack->Collider3D()->SetOffsetPos(GetOwner()->Collider3D()->GetOffsetPos());
+        MonsterAtack->Collider3D()->SetOffsetScale(GetOwner()->Collider3D()->GetOffsetScale());
+    }
 
-	// æ÷¥œ∏ﬁ¿Ãº«¿Ã ≥°≥™∏È Notify∑Œ ¥ŸΩ√ ∫Ø∞Ê.
-	if (GetOwner()->Animator3D()->IsFinish())
-		ChangeState(L"Notify");
+    // Ïï†ÎãàÎ©îÏù¥ÏÖòÏù¥ ÎÅùÎÇòÎ©¥ NotifyÎ°ú Îã§Ïãú Î≥ÄÍ≤Ω.
+    if (GetOwner()->Animator3D()->IsFinish())
+        ChangeState(L"Notify");
 }
 
 void CLurkerAttack::Exit()
 {
-	GetOwner()->Rigidbody()->ClearForce();
-	m_fTime = 0.f;
+    GetOwner()->Rigidbody()->ClearForce();
+    m_fTime = 0.f;
 }
 
 CLurkerAttack::CLurkerAttack() :
-	m_fTime(0.f)
+    m_fTime(0.f)
 {
 }
 

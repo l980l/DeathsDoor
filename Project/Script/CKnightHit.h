@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CKnightHit :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CKnightHit);
 
-public:
     CKnightHit();
-    ~CKnightHit();
+    virtual ~CKnightHit() override;
 };
-

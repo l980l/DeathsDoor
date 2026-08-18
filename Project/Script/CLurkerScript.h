@@ -1,34 +1,31 @@
-#pragma once
+ï»¿#pragma once
 #include "CMonsterScript.h"
 
 class CLurkerScript :
     public CMonsterScript
 {
-private:
-    Vec3    m_vPlayerPos;
-    Vec3    m_vMonsterToPlayerDir;
-    float   m_fPlayerDistance;
-    float   m_fBackStepRange;      // Ãß°İ ¹üÀ§. 
-    float   m_fAttackRange;     // °ø°İ ¹üÀ§. 
-    bool    m_bStarePlayer;
-    float   m_fPrevHP;          // ÀÌÀü HP. HP°¡ ÁÙ¾úÀ» ¶§, µ¥¹ÌÁö »ç¿îµå¸¦ Àç»ıÇÏ±â À§ÇØ »ç¿ë.
+    Vec3  m_vPlayerPos;
+    Vec3  m_vMonsterToPlayerDir;
+    float m_fPlayerDistance;
+    float m_fBackStepRange; // ì¶”ê²© ë²”ìœ„. 
+    float m_fAttackRange;   // ê³µê²© ë²”ìœ„. 
+    bool  m_bStarePlayer;
+    float m_fPrevHP; // ì´ì „ HP. HPê°€ ì¤„ì—ˆì„ ë•Œ, ë°ë¯¸ì§€ ì‚¬ìš´ë“œë¥¼ ì¬ìƒí•˜ê¸° ìœ„í•´ ì‚¬ìš©.
 
 public:
-    Vec3 GetPlayerPos() { return m_vPlayerPos; }
-    Vec3 GetMonsterToPlayerDir() { return m_vMonsterToPlayerDir; }
-    float GetPlayerDistance() { return m_fPlayerDistance; }
+    Vec3  GetPlayerPos() const { return m_vPlayerPos; }
+    Vec3  GetMonsterToPlayerDir() const { return m_vMonsterToPlayerDir; }
+    float GetPlayerDistance() const { return m_fPlayerDistance; }
 
-    float GetBackStepRange() { return m_fBackStepRange; }
-    float GetAttackRange() { return m_fAttackRange; }
+    float GetBackStepRange() const { return m_fBackStepRange; }
+    float GetAttackRange() const { return m_fAttackRange; }
 
-    bool GetStarePlayer() { return m_bStarePlayer; }
+    bool GetStarePlayer() const { return m_bStarePlayer; }
     void SetStarePlayer(bool _bStarePlayer) { m_bStarePlayer = _bStarePlayer; }
 
-public:
     virtual void begin() override;
     virtual void tick() override;
 
-public:
     virtual void BeginOverlap(CCollider3D* _Other) override;
     virtual void OnOverlap(CCollider3D* _Other) override;
     virtual void EndOverlap(CCollider3D* _Other) override;
@@ -38,8 +35,7 @@ public:
 
     CLONE(CLurkerScript);
 
-public:
     CLurkerScript();
     CLurkerScript(const CLurkerScript& _Other);
-    ~CLurkerScript();
+    virtual ~CLurkerScript() override;
 };

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CComputeShader.h"
 
 
@@ -7,32 +7,35 @@ class CStructuredBuffer;
 class CRaycastShader :
     public CComputeShader
 {
-private:
-    // ÁöÇüÀÇ ³ôÀÌ Á¤º¸
-    Ptr<CTexture>       m_pHeightMap;
+    // ì§€í˜•ì˜ ë†’ì´ ì •ë³´
+    Ptr<CTexture> m_pHeightMap;
 
-    // ÁöÇü ¸é °³¼ö
-    UINT                m_iXFace;
-    UINT                m_iZFace;
+    // ì§€í˜• ë©´ ê°œìˆ˜
+    UINT m_iXFace;
+    UINT m_iZFace;
 
-    // Ä«¸Ş¶ó Ray Á¤º¸
-    tRay                m_ray;
+    // ì¹´ë©”ë¼ Ray ì •ë³´
+    tRay m_ray;
 
-    // ±³Á¡À§Ä¡ Ãâ·Â ¹öÆÛ
+    // êµì ìœ„ì¹˜ ì¶œë ¥ ë²„í¼
     CStructuredBuffer* m_pOutput;
 
 public:
-    void SetFaceCount(UINT _x, UINT _z) { m_iXFace = _x; m_iZFace = _z; }
+    void SetFaceCount(UINT _x, UINT _z)
+    {
+        m_iXFace = _x;
+        m_iZFace = _z;
+    }
+
     void SetCameraRay(const tRay& _ray) { m_ray = _ray; }
     void SetOuputBuffer(CStructuredBuffer* _pOutputBuffer) { m_pOutput = _pOutputBuffer; }
     void SetHeightMap(Ptr<CTexture> _ptex) { m_pHeightMap = _ptex; }
 
 protected:
-    virtual void UpdateData();
-    virtual void Clear();
+    virtual void UpdateData() override;
+    virtual void Clear() override;
 
 public:
     CRaycastShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
-    ~CRaycastShader();
+    virtual ~CRaycastShader() override;
 };
-

@@ -19,7 +19,5 @@ int Light2DUI::render_update()
         return FALSE;
 
 
-
-
     return TRUE;
 }

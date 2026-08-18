@@ -1,5 +1,6 @@
 #pragma once
 #include "CState.h"
+
 class CCrowBossBatBullet :
     public CState
 {
@@ -10,8 +11,6 @@ public:
 
     CLONE(CCrowBossBatBullet);
 
-public:
     CCrowBossBatBullet();
-    ~CCrowBossBatBullet();
+    virtual ~CCrowBossBatBullet() override;
 };
-

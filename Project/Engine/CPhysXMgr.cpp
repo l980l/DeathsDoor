@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPhysXMgr.h"
 #include "components.h"
 #include "CTimeMgr.h"
@@ -15,12 +15,10 @@ CPhysXMgr::CPhysXMgr()
 CPhysXMgr::~CPhysXMgr()
 {
     // Cleanup
-    if(m_Dispatcher != nullptr)
+    if (m_Dispatcher != nullptr)
         m_Dispatcher->release();
     if (m_Scene != nullptr)
-    {
         m_Scene->release();
-    }
     if (m_Material != nullptr)
         m_Material->release();
     if (m_Physics != nullptr)
@@ -42,100 +40,100 @@ CPhysXMgr::~CPhysXMgr()
 void CPhysXMgr::init()
 {
     // Init PhysX
-    // Foundation init (¸Ş¸ğ¸® ÇÒ´ç, ¿À·ù º¸°í, µğ¹ö±× Ãâ·Â µîÀÇ ±â´ÉÀ» Á¦°ø)
+    // Foundation init (ë©”ëª¨ë¦¬ í• ë‹¹, ì˜¤ë¥˜ ë³´ê³ , ë””ë²„ê·¸ ì¶œë ¥ ë“±ì˜ ê¸°ëŠ¥ì„ ì œê³µ)
     m_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_DefaultAllocatorCallback, m_DefaultErrorCallback);
     if (!m_Foundation)
         MessageBoxA(nullptr, "Error", "PxCreateFoundation failed!", MB_OK);
 
     // PhysX Visual Debugger init
-    m_Pvd = PxCreatePvd(*m_Foundation);
-    m_Transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
-    m_Pvd->connect(*m_Transport, physx::PxPvdInstrumentationFlag::eALL);
+    m_Pvd       = PxCreatePvd(*m_Foundation);
+    m_Transport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+    m_Pvd->connect(*m_Transport, PxPvdInstrumentationFlag::eALL);
 
-    m_ToleranceScale.length = 100;   // typical length of an object;
-    m_ToleranceScale.speed = 981;    // typical speed of an object, gravity*1s is a reasonable choice;
+    m_ToleranceScale.length = 100; // typical length of an object;
+    m_ToleranceScale.speed  = 981; // typical speed of an object, gravity*1s is a reasonable choice;
 
-    // Physics init (PhysX ÁÖ¿ä ±â´ÉÀ» Á¦°øÇÏ´Â °´Ã¼·Î, ¹°¸® Àå¸é, ¹°Ã¼, ¹°Áú µîÀ» »ı¼ºÇÏ´Â ±â´ÉÀ» Á¦°ø)
+    // Physics init (PhysX ì£¼ìš” ê¸°ëŠ¥ì„ ì œê³µí•˜ëŠ” ê°ì²´ë¡œ, ë¬¼ë¦¬ ì¥ë©´, ë¬¼ì²´, ë¬¼ì§ˆ ë“±ì„ ìƒì„±í•˜ëŠ” ê¸°ëŠ¥ì„ ì œê³µ)
     m_Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_Foundation, m_ToleranceScale, true, m_Pvd);
     if (!m_Physics)
         MessageBoxA(nullptr, "Error", "PxCreatePhysics failed!", MB_OK);
 
-    // Physics °´Ã¼¿¡¼­ ÄíÅ· °´Ã¼ »ı¼º
-    // Mesh¸¦ °¡Á®¿À´Â °ÍÀ» cookÀÌ¶ó°í ÇÔ.
-    physx::PxCookingParams mParam(m_ToleranceScale);
-    mParam.meshWeldTolerance = 0.001f;
-    mParam.meshPreprocessParams = physx::PxMeshPreprocessingFlags(physx::PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH); // Disable mesh cleaning
-    m_Cooking = PxCreateCooking(PX_PHYSICS_VERSION, *m_Foundation, mParam);
+    // Physics ê°ì²´ì—ì„œ ì¿ í‚¹ ê°ì²´ ìƒì„±
+    // Meshë¥¼ ê°€ì ¸ì˜¤ëŠ” ê²ƒì„ cookì´ë¼ê³  í•¨.
+    PxCookingParams mParam(m_ToleranceScale);
+    mParam.meshWeldTolerance    = 0.001f;
+    mParam.meshPreprocessParams = PxMeshPreprocessingFlags(PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH); // Disable mesh cleaning
+    m_Cooking                   = PxCreateCooking(PX_PHYSICS_VERSION, *m_Foundation, mParam);
 
     // Create scene
-    physx::PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
-    sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-    m_Dispatcher = physx::PxDefaultCpuDispatcherCreate(2);
+    PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
+    sceneDesc.gravity       = PxVec3(0.0f, -9.81f, 0.0f);
+    m_Dispatcher            = PxDefaultCpuDispatcherCreate(2);
     sceneDesc.cpuDispatcher = m_Dispatcher;
-    sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
-    m_Scene = m_Physics->createScene(sceneDesc);
+    sceneDesc.filterShader  = PxDefaultSimulationFilterShader;
+    m_Scene                 = m_Physics->createScene(sceneDesc);
     m_Scene->setBounceThresholdVelocity(0.1f);
-    physx::PxPvdSceneClient* pvdClient = m_Scene->getScenePvdClient();
+    PxPvdSceneClient* pvdClient = m_Scene->getScenePvdClient();
     if (pvdClient)
     {
-        pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
-        pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
-        pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+        pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+        pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+        pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
     }
 
-    // Create material (¹°¸® °´Ã¼ Ç¥¸éÀÇ ¸¶Âû·Â, ¹İÅº·Â µî ¼³Á¤)
+    // Create material (ë¬¼ë¦¬ ê°ì²´ í‘œë©´ì˜ ë§ˆì°°ë ¥, ë°˜íƒ„ë ¥ ë“± ì„¤ì •)
     m_Material = m_Physics->createMaterial(10.f, 5.f, 0.f);
 }
 
-void CPhysXMgr::tick()
+void CPhysXMgr::tick() const
 {
     // Run simulation
-   m_Scene->simulate(DT);
-   if(m_Scene->fetchResults(true))
-   {
-       // °á°ú°ªÀ» °¡Á®¿Í Rigidbody¸¦ »ç¿ëÇÏ´Â objÀÇ À§Ä¡°ª¿¡ Àû¿ë½ÃÄÑÁÜ.
-       // ÇöÀç SceanÀÇ Áß·ÂÀÌ ¸Å¿ì ¾àÇÏ°Ô Àû¿ëµÇ¹Ç·Î Velocity 300±îÁö Áß·Â ´ë½Å ¾Æ·¡·Î ¹Ğ¾îÁÜ
-       for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
-       {
-           if (nullptr == m_vecDynamicActor[i])
-               continue;
-           PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
+    m_Scene->simulate(DT);
+    if (m_Scene->fetchResults(true))
+    {
+        // ê²°ê³¼ê°’ì„ ê°€ì ¸ì™€ Rigidbodyë¥¼ ì‚¬ìš©í•˜ëŠ” objì˜ ìœ„ì¹˜ê°’ì— ì ìš©ì‹œì¼œì¤Œ.
+        // í˜„ì¬ Sceanì˜ ì¤‘ë ¥ì´ ë§¤ìš° ì•½í•˜ê²Œ ì ìš©ë˜ë¯€ë¡œ Velocity 300ê¹Œì§€ ì¤‘ë ¥ ëŒ€ì‹  ì•„ë˜ë¡œ ë°€ì–´ì¤Œ
+        for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
+        {
+            if (nullptr == m_vecDynamicActor[i])
+                continue;
+            PxVec3 Velo = m_vecDynamicActor[i]->getLinearVelocity();
 
-           if (Velo.y > -300.f)
-               m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT * 200.f);
+            if (Velo.y > -300.f)
+                m_vecDynamicObject[i]->Rigidbody()->SetGravity(Velo.y - abs(Velo.y) * DT * 200.f);
 
-           PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
-           PxVec3 vVelocity = m_vecDynamicActor[i]->getLinearVelocity();
-           m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
-       };
-   }
+            PxTransform GlobalPose = m_vecDynamicActor[i]->getGlobalPose();
+            PxVec3      vVelocity  = m_vecDynamicActor[i]->getLinearVelocity();
+            m_vecDynamicObject[i]->Transform()->SetRelativePos(Vec3(GlobalPose.p.x, GlobalPose.p.y, GlobalPose.p.z));
+        }
+    }
 }
 
 void CPhysXMgr::finaltick()
 {
-    // ¸Å finaltick¸¶´Ù °¡Áö°í ÀÖ´Â µ¿Àû ¹°Ã¼µéÀÇ IsDead ¿©ºÎ¸¦ È®ÀÎÇÏ°í ¸Â´Ù¸é Scean¿¡¼­ »èÁ¦ÇÔ.
-    auto Objiter = m_vecDynamicObject.begin();
+    // ë§¤ finaltickë§ˆë‹¤ ê°€ì§€ê³  ìˆëŠ” ë™ì  ë¬¼ì²´ë“¤ì˜ IsDead ì—¬ë¶€ë¥¼ í™•ì¸í•˜ê³  ë§ë‹¤ë©´ Sceanì—ì„œ ì‚­ì œí•¨.
+    auto Objiter     = m_vecDynamicObject.begin();
     auto Objiter_end = m_vecDynamicObject.end();
     for (; Objiter != Objiter_end;)
     {
         CGameObject* obj = *Objiter;
-        if(obj->IsDead())
+        if (obj->IsDead())
         {
-            auto Dynamiciter = m_vecDynamicActor.begin();
+            auto Dynamiciter     = m_vecDynamicActor.begin();
             auto Dynamiciter_end = m_vecDynamicActor.end();
-            for (; Dynamiciter != Dynamiciter_end; )
+            for (; Dynamiciter != Dynamiciter_end;)
             {
-                physx::PxRigidDynamic*  actor = *Dynamiciter;
+                physx::PxRigidDynamic* actor = *Dynamiciter;
                 if (obj->Rigidbody()->GetRigidbody() == actor)
                 {
                     Dynamiciter = m_vecDynamicActor.erase(Dynamiciter);
                     m_Scene->removeActor(*actor);
-                    Dynamiciter_end = m_vecDynamicActor.end();          
+                    Dynamiciter_end = m_vecDynamicActor.end();
                     continue;
                 }
                 ++Dynamiciter;
             }
-            Objiter = m_vecDynamicObject.erase(Objiter);
+            Objiter     = m_vecDynamicObject.erase(Objiter);
             Objiter_end = m_vecDynamicObject.end();
             continue;
         }
@@ -145,7 +143,7 @@ void CPhysXMgr::finaltick()
 
 physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometry& _Geometry, CGameObject* _Object, float _fYOffset, const PxVec3& _Velocity)
 {
-    // µ¿Àû ¹°Ã¼ Ãß°¡
+    // ë™ì  ë¬¼ì²´ ì¶”ê°€
     if (nullptr == _Object)
         assert(nullptr);
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
@@ -153,7 +151,7 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
     physx::PxRigidDynamic* dynamic = PxCreateDynamic(*m_Physics, SpawnPos, _Geometry, *m_Material, 10.f);
     m_Scene->addActor(*dynamic);
     m_vecDynamicActor.push_back(dynamic);
-    // ObjÀÇ Rigidbody¿¡ Á¤º¸ ¼¼ÆÃ
+    // Objì˜ Rigidbodyì— ì •ë³´ ì„¸íŒ…
     _Object->Rigidbody()->SetSpawnPos(_vSpawnPos);
     PxGeometryType::Enum type = _Geometry.getType();
     _Object->Rigidbody()->SetShapeType(_Geometry.getType());
@@ -164,7 +162,7 @@ physx::PxRigidDynamic* CPhysXMgr::CreateDynamic(Vec3 _vSpawnPos, const PxGeometr
 physx::PxRigidDynamic* CPhysXMgr::CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object, Vec3 _vVelocity)
 {
     const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
-    const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    const PxVec3&        Velocity    = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
     _Object->Rigidbody()->SetRigidScale(_vCubeScale);
     return CreateDynamic(_vSpawnPos, BoxGeometry, _Object, 0);
 }
@@ -172,9 +170,9 @@ physx::PxRigidDynamic* CPhysXMgr::CreateCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, 
 physx::PxRigidDynamic* CPhysXMgr::CreateCapsule(Vec3 _vSpawnPos, float _fRadius, float _fHeight, CGameObject* _Object, Vec3 _vVelocity)
 {
     const PxCapsuleGeometry& CapsuleGeometry = PxCapsuleGeometry(_fRadius, _fHeight);
-    const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
-    Vec3 vCapsuleSclae = Vec3(_fRadius);
-    vCapsuleSclae.y = _fHeight;
+    const PxVec3&            Velocity        = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    Vec3                     vCapsuleSclae   = Vec3(_fRadius);
+    vCapsuleSclae.y                          = _fHeight;
     _Object->Rigidbody()->SetRigidScale(vCapsuleSclae);
     return CreateDynamic(_vSpawnPos, CapsuleGeometry, _Object, 0);
 }
@@ -182,80 +180,75 @@ physx::PxRigidDynamic* CPhysXMgr::CreateCapsule(Vec3 _vSpawnPos, float _fRadius,
 physx::PxRigidDynamic* CPhysXMgr::CreateSphere(Vec3 _vSpawnPos, float _fRadius, CGameObject* _Object, Vec3 _vVelocity)
 {
     const PxSphereGeometry& SphereGeometry = PxSphereGeometry(_fRadius);
-    const PxVec3& Velocity = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
+    const PxVec3&           Velocity       = PxVec3(_vVelocity.x, _vVelocity.y, _vVelocity.z);
     _Object->Rigidbody()->SetRigidScale(Vec3(_fRadius));
     return CreateDynamic(_vSpawnPos, SphereGeometry, _Object, 0);
 }
 
-physx::PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object)
+PxRigidStatic* CPhysXMgr::ConvertStatic(Vec3 _vSpawnPos, CGameObject* _Object)
 {
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
-    // MeshÀÇ Á¤Á¡ Á¤º¸¸¦ ³Ö¾îÁÜ
-    Ptr<CMesh> pMesh = _Object->GetRenderComponent()->GetMesh();
-    PxTriangleMeshDesc  meshDesc;
-    meshDesc.points.count = pMesh->GetVtxCount();
-    meshDesc.points.stride = sizeof(Vtx);
-    meshDesc.points.data = pMesh->GetVtxSysMem();
-    // MeshÀÇ Idx ¹öÆÛ Á¤º¸¸¦ ³Ö¾îÁÜ
-    meshDesc.triangles.count = pMesh->GetIdxInfo(0).iIdxCount / 3;;
+    Ptr<CMesh>         pMesh    = _Object->GetRenderComponent()->GetMesh();
+    PxTriangleMeshDesc meshDesc;
+    meshDesc.points.count     = pMesh->GetVtxCount();
+    meshDesc.points.stride    = sizeof(Vtx);
+    meshDesc.points.data      = pMesh->GetVtxSysMem();
+    meshDesc.triangles.count  = pMesh->GetIdxInfo(0).iIdxCount / 3;
     meshDesc.triangles.stride = 3 * sizeof(UINT);
-    meshDesc.triangles.data = pMesh->GetIdxInfo(0).pIdxSysMem;
+    meshDesc.triangles.data   = pMesh->GetIdxInfo(0).pIdxSysMem;
 
-    // Physx¿¡¼­´Â Mesh¸¦ »ı¼ºÇÏ´Â °ÍÀ» CookingÀÌ¶ó°í ÇÔ.
-    // Mesh»ı¼ºÀ» À§ÇÑ write ¹öÆÛ ¹× °á°ú°ªÀ» ¹Ş¾Æ³»´Â °´Ã¼ »ı¼º
-    PxDefaultMemoryOutputStream  writeBuffer;
-    PxTriangleMeshCookingResult::Enum  result;
-    bool  state = m_Cooking->cookTriangleMesh(meshDesc, writeBuffer, &result);
-    // ½ÇÆĞÇÑ´Ù¸é null ¹İÈ¯
+    // Physxì—ì„œëŠ” Meshë¥¼ ìƒì„±í•˜ëŠ” ê²ƒì„ Cookingì´ë¼ê³  í•¨.
+    // Meshìƒì„±ì„ ìœ„í•œ write ë²„í¼ ë° ê²°ê³¼ê°’ì„ ë°›ì•„ë‚´ëŠ” ê°ì²´ ìƒì„±
+    PxDefaultMemoryOutputStream       writeBuffer;
+    PxTriangleMeshCookingResult::Enum result;
+    const bool                        state = m_Cooking->cookTriangleMesh(meshDesc, writeBuffer, &result);
+    // ì‹¤íŒ¨í•œë‹¤ë©´ null ë°˜í™˜
     if (!state)
         assert(NULL);
     PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 
-    // ¹Ş¾Æ¿Â Mesh Á¤º¸¸¦ ´ãÀº ¹öÆÛ·Î Á¤Á¡Æ÷ÀÎÆ®¸¦ 3°³ »ç¿ëÇÏ´Â TriangleMesh¸¦ »ı¼º
-    PxTriangleMesh* tMesh = m_Physics->createTriangleMesh(readBuffer);
+    PxTriangleMesh*        tMesh = m_Physics->createTriangleMesh(readBuffer);
     PxTriangleMeshGeometry meshGeometry(tMesh);
-    PxShape* meshShape = m_Physics->createShape(meshGeometry, *m_Material);
+    PxShape*               meshShape = m_Physics->createShape(meshGeometry, *m_Material);
 
-    // Mesh Á¤º¸¿Í MtrlÀ» ÅëÇØ Àü´Ş¹ŞÀº Mesh ¸ğ¾ç ShapeÀ» »ı¼ºÇØ Actor¸¦ »ı¼ºÇØ ÀÔÇôÁÜ.
     PxRigidStatic* pActor = m_Physics->createRigidStatic(SpawnPos);
     pActor->attachShape(*meshShape);
-    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());// ¾À¿¡ ÇØ´ç ¾×ÅÍ Ãß°¡
-    // Scean¿¡ Actor µî·Ï
+    pActor->setName(string(_Object->GetName().begin(), _Object->GetName().end()).c_str());
+
     m_Scene->addActor(*pActor);
     m_vecStaticActor.push_back(pActor);
     meshShape->release();
     tMesh->release();
 
     return pActor;
-
 }
 
-physx::PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object)
+PxRigidStatic* CPhysXMgr::CreateStaticCube(Vec3 _vSpawnPos, Vec3 _vCubeScale, CGameObject* _Object)
 {
-    // Á¤Àû ¹°Ã¼ Ãß°¡
+    // ì •ì  ë¬¼ì²´ ì¶”ê°€
     if (nullptr == _Object)
         assert(nullptr);
     const PxBoxGeometry& BoxGeometry = PxBoxGeometry(_vCubeScale.x, _vCubeScale.y, _vCubeScale.z);
 
     const PxTransform& SpawnPos = PxTransform(_vSpawnPos.x, _vSpawnPos.y, _vSpawnPos.z);
-    physx::PxRigidStatic* Static = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
+    PxRigidStatic*     Static   = PxCreateStatic(*m_Physics, SpawnPos, BoxGeometry, *m_Material);
     m_Scene->addActor(*Static);
     m_vecStaticActor.push_back(Static);
 
     return Static;
 }
 
-void CPhysXMgr::SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos)
+void CPhysXMgr::SetRigidPos(physx::PxRigidDynamic* _pDynamic, Vec3 _vPos) const
 {
     const PxTransform& Transform = PxTransform(_vPos.x, _vPos.y, _vPos.z);
     _pDynamic->setGlobalPose(Transform);
 }
 
-void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
+void CPhysXMgr::ReleaseStatic(PxRigidStatic* _pStatic)
 {
-    // Áß°£¿¡ »èÁ¦ÇÒ ÇÊ¿ä°¡ ÀÖ´Â Map ¿ä¼Ò¿¡ ´ëÇØ »èÁ¦ÇÒ ¼ö ÀÖ´Â Á¤Àû ¹°Ã¼ »èÁ¦ ±â´É
+    // ì¤‘ê°„ì— ì‚­ì œí•  í•„ìš”ê°€ ìˆëŠ” Map ìš”ì†Œì— ëŒ€í•´ ì‚­ì œí•  ìˆ˜ ìˆëŠ” ì •ì  ë¬¼ì²´ ì‚­ì œ ê¸°ëŠ¥
 
-    vector< PxRigidStatic*>::iterator iter = m_vecStaticActor.begin();
+    vector<PxRigidStatic*>::iterator iter = m_vecStaticActor.begin();
     for (; iter != m_vecStaticActor.end(); ++iter)
     {
         PxRigidStatic* State = *iter;
@@ -266,8 +259,8 @@ void CPhysXMgr::ReleaseStatic(physx::PxRigidStatic* _pStatic)
             return;
         }
     }
-    // ¾Æ¹«°Íµµ »èÁ¦ÇÏÁö ¸øÇß´Ù¸é assert
-   // assert(nullptr);
+    // ì•„ë¬´ê²ƒë„ ì‚­ì œí•˜ì§€ ëª»í–ˆë‹¤ë©´ assert
+    assert(nullptr);
 }
 
 void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _pObject)
@@ -275,9 +268,9 @@ void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _p
     if (m_vecDynamicObject.empty() && m_vecDynamicActor.empty())
         return;
 
-    vector<CGameObject*>::iterator Objiter = m_vecDynamicObject.begin();
+    vector<CGameObject*>::iterator Objiter     = m_vecDynamicObject.begin();
     vector<CGameObject*>::iterator Objiter_end = m_vecDynamicObject.end();
-    int a = 0;
+    int                            a           = 0;
     for (; Objiter != Objiter_end; ++Objiter)
     {
         CGameObject* Obj = *Objiter;
@@ -291,7 +284,7 @@ void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _p
     if (0 == a)
         assert(nullptr);
 
-    vector<physx::PxRigidDynamic*>::iterator Dynamiciter = m_vecDynamicActor.begin();
+    vector<physx::PxRigidDynamic*>::iterator Dynamiciter     = m_vecDynamicActor.begin();
     vector<physx::PxRigidDynamic*>::iterator Dynamiciter_end = m_vecDynamicActor.end();
     for (; Dynamiciter != Dynamiciter_end; ++Dynamiciter)
     {
@@ -303,14 +296,14 @@ void CPhysXMgr::ReleaseDynamic(physx::PxRigidDynamic* _pDynamic, CGameObject* _p
             return;
         }
     }
-    // ¾Æ¹«°Íµµ »èÁ¦ÇÏÁö ¸øÇß´Ù¸é assert
+    // ì•„ë¬´ê²ƒë„ ì‚­ì œí•˜ì§€ ëª»í–ˆë‹¤ë©´ assert
     assert(nullptr);
 }
 
 PxRigidStatic* CPhysXMgr::CreatePlane(Vec4 _Plane)
 {
-    // Æò¸éÀÇ ¹æÁ¤½ÄÀ» ÀÌ¿ëÇÑ ÀüÃ¼ ¸Ê¿¡ Àû¿ëµÇ´Â Æò¸é »ı¼º
-    physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*m_Physics, physx::PxPlane(_Plane.x, _Plane.y, _Plane.z, _Plane.w), *m_Material);
+    // í‰ë©´ì˜ ë°©ì •ì‹ì„ ì´ìš©í•œ ì „ì²´ ë§µì— ì ìš©ë˜ëŠ” í‰ë©´ ìƒì„±
+    PxRigidStatic* groundPlane = PxCreatePlane(*m_Physics, PxPlane(_Plane.x, _Plane.y, _Plane.z, _Plane.w), *m_Material);
     m_vecStaticActor.push_back(groundPlane);
     m_Scene->addActor(*groundPlane);
     return groundPlane;
@@ -320,30 +313,26 @@ void CPhysXMgr::AddDynamicActor(CRigidbody* _pRigidbody)
 {
     m_vecDynamicObject.push_back(_pRigidbody->GetOwner());
     m_vecDynamicActor.push_back(_pRigidbody->m_PxRigidbody);
-    m_Scene->addActor(*(_pRigidbody->m_PxRigidbody));
+    m_Scene->addActor(*_pRigidbody->m_PxRigidbody);
 }
 
 void CPhysXMgr::Clear()
 {
-    // Level ÃÊ±âÈ­¿¡ È£ÃâµÉ ÀüÃ¼ ÇÇÁ÷½º ÃÊ±âÈ­   
+    // Level ì´ˆê¸°í™”ì— í˜¸ì¶œë  ì „ì²´ í”¼ì§ìŠ¤ ì´ˆê¸°í™”   
 
-    if(!m_vecDynamicActor.empty())
-    {
+    if (!m_vecDynamicActor.empty())
         for (size_t i = 0; i < m_vecDynamicActor.size(); ++i)
         {
             if (nullptr != m_vecDynamicActor[i])
                 m_Scene->removeActor(*m_vecDynamicActor[i]);
         }
-    }
 
     if (!m_vecStaticActor.empty())
-    {
         for (size_t i = 0; i < m_vecStaticActor.size(); ++i)
         {
             if (nullptr != m_vecStaticActor[i])
                 m_Scene->removeActor(*m_vecStaticActor[i]);
         }
-    }
 
     m_vecDynamicActor.clear();
     m_vecStaticActor.clear();
@@ -352,15 +341,15 @@ void CPhysXMgr::Clear()
 
 void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
 {
-    // ·¹º§ Å¸ÀÔ¿¡ ¸Â´Â ÇÇÁ÷½º ¸Ê ·Îµù
-    Ptr<CMeshData> pMeshData = nullptr; 
+    // ë ˆë²¨ íƒ€ì…ì— ë§ëŠ” í”¼ì§ìŠ¤ ë§µ ë¡œë”©
+    Ptr<CMeshData> pMeshData = nullptr;
     switch (_tType)
     {
     case LEVEL_TYPE::CASTLE_FIELD:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Simple.fbx");
         break;
     case LEVEL_TYPE::CASTLE_BOSS:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_SIMPLE.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Castle_Boss_Simple.fbx");
         break;
     case LEVEL_TYPE::FOREST_FIELD:
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Forest_Simple.fbx");
@@ -369,7 +358,7 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Ice_Simple.fbx");
         break;
     case LEVEL_TYPE::HALL:
-        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Hall_SIMPLE.fbx");
+        pMeshData = CResMgr::GetInst()->LoadFBX(L"fbx\\PhysXmap\\Hall_Simple.fbx");
         break;
     case LEVEL_TYPE::ICE_BOSS:
         CreatePlane(Vec4(0.f, 1.f, 0.f, 0.f));
@@ -379,7 +368,7 @@ void CPhysXMgr::ChangeLevel(LEVEL_TYPE _tType)
         return;
     }
 
-    // Ice_Boss MapÀº fbx¸¦ »ç¿ëÇÏÁö ¾Ê°í PlaneÀ» ±ò±â ¶§¹®¿¡ MeshData ¹× pMapÀ» °Çµé ÇÊ¿ä°¡ ¾øÀ½.
+    // Ice_Boss Mapì€ fbxë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šê³  Planeì„ ê¹”ê¸° ë•Œë¬¸ì— MeshData ë° pMapì„ ê±´ë“¤ í•„ìš”ê°€ ì—†ìŒ.
     if (LEVEL_TYPE::ICE_BOSS != _tType)
     {
         CGameObject* pMap = pMeshData->Instantiate();
